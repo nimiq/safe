@@ -6,7 +6,7 @@ Features:
 
 Development:
 - Browser: open index.xhtml
-- Build: `xslt index.xhtml > index.html`
+- Build: `xsltproc index.xhtml > index.html`
 
 ## Todo
 - advanced features:
