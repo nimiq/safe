@@ -1,0 +1,18 @@
+<x>
+    <h3>Hi, I am an x-ui-element!</h3> 
+    I have children, too:
+    <x-ui-element-2></x-ui-element-2>
+    <style>
+    x-ui-element:after {
+        content: '----';
+    }
+    </style>
+    <script>
+    // <![CDATA[
+    console.log('x-ui-element');
+    if (window.innerHeight > 2) {
+        console.log('works! with < and & ')
+    }
+    // ]]>
+    </script>
+</x>
