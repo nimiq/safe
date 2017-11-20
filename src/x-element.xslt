@@ -4,7 +4,7 @@
     <x:template match="processing-instruction('xml-stylesheet')">
         <x:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;&#xd;</x:text>
     </x:template>
-    <!-- Hack to fix paths to be relative. Usage: document('some-file.xml', $rootPath) -->
+    <!-- Hack to fix paths of imports to be relative. Usage: document('some-import.xml', $rootPath) -->
     <x:variable name="rootPath" select="app"></x:variable>
     <!-- App Template - the starting point -->
     <x:template match="app">
@@ -12,12 +12,18 @@
         <x:variable name="pass1Result">
             <x:apply-templates select="node()|@*" />
         </x:variable>
-        <!-- Filter DOM, Script, Style -->
         <x:element name="html">
+            <!-- Filter Head -->
+            <head>
+                <x:copy-of select="ext:node-set($pass1Result)/x-head/node()"/>
+            </head>
+            <!-- Filter DOMs -->
             <x:apply-templates select="ext:node-set($pass1Result)" mode="passDOMs" />
+            <!-- Filter Scripts -->
             <x:element name="script">
                 <x:apply-templates select="ext:node-set($pass1Result)" mode="passScripts" />
             </x:element>
+            <!-- Filter Styles -->
             <x:element name="style">
                 <x:apply-templates select="ext:node-set($pass1Result)" mode="passStyles" />
             </x:element>
@@ -52,12 +58,14 @@
         </x:variable>
         <x:apply-templates mode="passScripts2" select="ext:node-set($passScriptsResult)" />
     </x:template>
+    <!-- Script filter pass 1 -->
     <x:template mode="passScripts1" match="node()|@*">
         <x:apply-templates mode="passScripts1" select="node()|@*" />
     </x:template>
     <x:template mode="passScripts1" match="script">
         <x:copy-of select="."></x:copy-of>
     </x:template>
+    <!-- Script filter pass 2 -->
     <x:key name="myKey" match="script/node()" use="." />
     <x:template mode="passScripts2" match="tmp">
         <x:for-each select="script/node()[generate-id() = generate-id(key('myKey',.)[1])]">
@@ -75,12 +83,14 @@
         </x:variable>
         <x:apply-templates mode="passStyles2" select="ext:node-set($passStylesResult)" />
     </x:template>
+    <!-- Style filter pass 1 -->
     <x:template mode="passStyles1" match="node()|@*">
         <x:apply-templates mode="passStyles1" select="node()|@*" />
     </x:template>
     <x:template mode="passStyles1" match="style">
         <x:copy-of select="."></x:copy-of>
     </x:template>
+    <!-- Style filter pass 2 -->
     <x:key name="myKey" match="style/node()" use="." />
     <x:template mode="passStyles2" match="tmp">
         <x:for-each select="style/node()[generate-id() = generate-id(key('myKey',.)[1])]">
