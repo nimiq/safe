@@ -1,6 +1,13 @@
 <x-ui-element-2>
-    <script>
-    console.log('ui-element-2')
-    </script>
     <b>Hi, I am an x-ui-element-2!</b>
+    <script>
+    // <![CDATA[
+    console.log('ui-element-2');
+    // some intentionally heavy js computation to test first paint
+    // while (true) {
+    //     if (Math.random() < 0.000001) break;
+    // };
+    console.log('Heavy work done!')
+    // ]]>
+    </script>
 </x-ui-element-2>

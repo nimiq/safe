@@ -1,10 +1,11 @@
 # x-element
-A webapp framework designed for simplicity. Lightweight, fast and standards-compliant. 
+A frontend framework designed for simplicity.
 
 Features:
-- client-side HTML preprocessing via xslt
-	- recursively stamps xhtml templates
-	- if an element is used multiple times its scripts and styles are imported only once
+- client-side templating by pre-processing html via xslt
+	- recursive xhtml templates
+		- fetched automatically from /elements folder
+	- if an element is used multiple times, its scripts and styles are imported only once
 
 Development:
 - Browser: open index.xhtml
@@ -13,10 +14,11 @@ Development:
 ## Todo
 - refactor filters for style and script in single template with param
 - advanced features:
-	- define clear app and element structure
-	- automatically prefix css classes with element-name 
-	- automatically set children() in XElement instances
-	- sublime template for elements
+	- automatically prefix css classes with element-name for css scoping
+	- automatically parse children() in XElement.js instances
 	- import arbitrary cdata'd files
-	- filter for html5 `<template>` tags? 
+	- add filter for html5 `<template>` tags? 
 	- allow imports with absolute path
+	- clean up example code, define clear app and element structure
+		- sublime template for app/view/element boilerplate
+	- write simple docs
