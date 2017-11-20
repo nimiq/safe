@@ -14,18 +14,18 @@
         </x:variable>
         <x:element name="html">
             <!-- Filter Head -->
-            <head>
-                <x:copy-of select="ext:node-set($pass1Result)/x-head/node()"/>
-            </head>
+            <x:element name="head">
+                <x:copy-of select="ext:node-set($pass1Result)/x-head/node()" />
+                <!-- Filter Styles -->
+                <x:element name="style">
+                    <x:apply-templates select="ext:node-set($pass1Result)" mode="passStyles" />
+                </x:element>
+            </x:element>
             <!-- Filter DOMs -->
             <x:apply-templates select="ext:node-set($pass1Result)" mode="passDOMs" />
             <!-- Filter Scripts -->
             <x:element name="script">
                 <x:apply-templates select="ext:node-set($pass1Result)" mode="passScripts" />
-            </x:element>
-            <!-- Filter Styles -->
-            <x:element name="style">
-                <x:apply-templates select="ext:node-set($pass1Result)" mode="passStyles" />
             </x:element>
         </x:element>
     </x:template>
@@ -49,12 +49,11 @@
     </x:template>
     <x:template mode="passDOMs" match="script"></x:template>
     <x:template mode="passDOMs" match="style"></x:template>
+    <x:template mode="passDOMs" match="x-head"></x:template>
     <!-- Script filter -->
     <x:template mode="passScripts" match="/">
         <x:variable name="passScriptsResult">
-            <tmp>
-                <x:apply-templates mode="passScripts1" select="node()|@*" />
-            </tmp>
+            <x:apply-templates mode="passScripts1" select="node()|@*" />
         </x:variable>
         <x:apply-templates mode="passScripts2" select="ext:node-set($passScriptsResult)" />
     </x:template>
@@ -67,7 +66,7 @@
     </x:template>
     <!-- Script filter pass 2 -->
     <x:key name="myKey" match="script/node()" use="." />
-    <x:template mode="passScripts2" match="tmp">
+    <x:template mode="passScripts2" match="/">
         <x:for-each select="script/node()[generate-id() = generate-id(key('myKey',.)[1])]">
             <x:value select="'/* script*/'"></x:value>
             <x:copy-of select="." />
@@ -77,9 +76,7 @@
     <!-- Style filter -->
     <x:template mode="passStyles" match="/">
         <x:variable name="passStylesResult">
-            <tmp>
-                <x:apply-templates mode="passStyles1" select="node()|@*" />
-            </tmp>
+            <x:apply-templates mode="passStyles1" select="node()|@*" />
         </x:variable>
         <x:apply-templates mode="passStyles2" select="ext:node-set($passStylesResult)" />
     </x:template>
@@ -92,7 +89,7 @@
     </x:template>
     <!-- Style filter pass 2 -->
     <x:key name="myKey" match="style/node()" use="." />
-    <x:template mode="passStyles2" match="tmp">
+    <x:template mode="passStyles2" match="/">
         <x:for-each select="style/node()[generate-id() = generate-id(key('myKey',.)[1])]">
             <x:value select="'/* style*/'"></x:value>
             <x:copy-of select="." />
