@@ -35,10 +35,10 @@ class XElement {
     }
 
     /* Public API */
-
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
-
     fire(eventType, detail) { this.$el.dispatchEvent(new CustomEvent(eventType, { detail: detail })) } // Fire DOM-Event
 
-    onCreate() { console.log(this.__tagName) }
+    onCreate() {}
+    onShow() {}
+    onHide() {}
 }
