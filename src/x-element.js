@@ -36,7 +36,7 @@ class XElement {
 
     /* Public API */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
-    fire(eventType, detail) { this.$el.dispatchEvent(new CustomEvent(eventType, { detail: detail })) } // Fire DOM-Event
+    fire(eventType, detail) { this.$el.dispatchEvent(new CustomEvent(eventType, { detail: detail || null })) } // Fire DOM-Event
 
     onCreate() {}
     onShow() {}
