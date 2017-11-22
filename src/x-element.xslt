@@ -1,9 +1,9 @@
 <x:stylesheet version="1.0" xmlns:x="http://www.w3.org/1999/XSL/Transform" xmlns:ext="http://exslt.org/common">
-    <!-- Hack to produce html5 doctype (See: https://stackoverflow.com/questions/3387127/set-html5-doctype-with-xslt) -->
+    <!-- Set doctype to HTML5 (See: https://stackoverflow.com/questions/3387127/set-html5-doctype-with-xslt) -->
     <x:output method="html" encoding="utf-8" indent="yes" doctype-system="about:legacy-compat"/>
-    <!-- Hack to remove stylesheet ref from output  -->
+    <!-- Remove stylesheet ref from output (See: https://stackoverflow.com/questions/28634556/xslt-remove-sources-stylesheet) -->
     <x:template match="processing-instruction('xml-stylesheet')"></x:template>
-    <!-- Hack to fix paths of imports to be relative. Usage: document('some-import.xml', $rootPath) -->
+    <!-- Hack to fix paths of imports to be relative to /index.xhtml; Usage: document('some-import.xml', $rootPath) -->
     <x:variable name="rootPath" select="app"></x:variable>
     <!-- App Template - the starting point -->
     <x:template match="app">
@@ -12,7 +12,7 @@
             <x:apply-templates select="node()|@*" />
         </x:variable>
         <x:element name="html">
-            <!-- Filter Head -->
+            <!-- Filter head tag -->
             <x:element name="head">
                 <x:copy-of select="ext:node-set($pass1Result)/x-head/node()" />
                 <!-- Filter for Styles -->
