@@ -19,6 +19,7 @@ class XApp extends XElement {
         const stateCased = state[0].toUpperCase() + state.substring(1);
         const viewName = '$view' + stateCased;
         if (this[viewName] instanceof XElement) {
+            document.activeElement.blur();
             if (this.$currView) this.$currView.onHide();
             this.$currView = this[viewName];
             this.$currView.onShow();
