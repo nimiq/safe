@@ -1,5 +1,9 @@
 class XApp extends XElement {
 
+    get __tagName() {
+        return 'x-app';
+    }
+
     onCreate() {
         window.addEventListener('popstate', () => this._setState());
         this._setState();
