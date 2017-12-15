@@ -8,14 +8,14 @@ class XElement {
     }
 
     __bindDOM(parent) {
-        if (parent instanceof XElement) this.$el = parent.$(this.__tagName);
+        if (parent instanceof XElement) this.$el = parent.$(this.__tagName); // query in parent for tag name
         else this.$el = document.querySelector(this.__tagName);
     }
 
     __createChildren() { // Create all children recursively 
         if (!this.children) return;
         this.children().forEach(child => { // bind all this.$myChildElement = new MyChildElement(this);
-            if (typeof child === 'string') this.__bindFromSelector(selector);
+            if (typeof child === 'string') this.__bindFromSelector(child);
             else this[child.__toChildName()] = new child(this);
         })
     }
@@ -30,7 +30,7 @@ class XElement {
         else return 'x-' + name; // All other elements are prefixed with "x-" 
     }
 
-    static __bindFromSelector(selector) {
+    __bindFromSelector(selector) {
         this['$' + selector] = this.$(selector);
     }
 
