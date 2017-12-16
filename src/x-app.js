@@ -1,7 +1,7 @@
 class XApp extends XElement {
 
     get __tagName() {
-        return 'x-app';
+        return 'body';
     }
 
     onCreate() {
