@@ -13,7 +13,7 @@ class XApp extends XElement {
         const fragment = decodeURIComponent(location.hash.substr(1))
         const path = fragment.split('/');
         const state = path[0];
-        if (state === '') return location = this.defaultLocation();
+        if (state === '') return location = this.defaultLocation;
         this._stateChanged(state, path);
     }
 
