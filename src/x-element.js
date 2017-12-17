@@ -9,7 +9,7 @@ class XElement {
 
     __bindDOM(root) {
         if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in parent for tag name
-        else if (root instanceof Element) this.$el = root;
+        else if (root instanceof Element || root instanceof DocumentFragment) this.$el = root;
         else this.$el = document.querySelector(this.__tagName);
     }
 
@@ -37,7 +37,7 @@ class XElement {
     static __fromTemplate(name) {
         const template = document.getElementById(name); // query for <template id="x-my-element">
         if (!template) return;
-        return template.cloneNode();
+        return document.importNode(template.content, true);
     }
 
     /* Public API */
