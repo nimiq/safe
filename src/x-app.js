@@ -6,6 +6,7 @@ class XApp extends XElement {
 
     onCreate() {
         window.addEventListener('popstate', () => this._parseUriFragment());
+        this._bindListeners();
         this._parseUriFragment();
     }
 
@@ -14,17 +15,24 @@ class XApp extends XElement {
         const path = fragment.split('/');
         const state = path[0];
         if (state === '') return location = this.defaultLocation;
-        this._stateChanged(state, path);
+        this._onStateChanged(state, path);
     }
 
-    _stateChanged(state, path) {
+    _onStateChanged(state, path) {
         document.body.className = 'state-' + state;
         const stateCased = state[0].toUpperCase() + state.substring(1);
         const viewName = '$view' + stateCased;
         if (!(this[viewName] instanceof XElement)) return;
         document.activeElement.blur();
-        if (this.$currView) this.$currView.onHide();
+        if (this.$currView && this.$currView.onHide) this.$currView.onHide();
         this.$currView = this[viewName];
-        this.$currView.onShow();
+        if (this.$currView.onShow) this.$currView.onShow();
+    }
+
+    _bindListeners() {
+        const listeners = this.listeners();
+        for (const key in listeners) {
+            this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
+        }
     }
 }
