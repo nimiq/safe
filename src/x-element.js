@@ -8,9 +8,11 @@ class XElement {
     }
 
     __bindDOM(root) {
-        if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in parent for tag name
-        else if (root instanceof Element || root instanceof DocumentFragment) this.$el = root;
-        else this.$el = document.querySelector(this.__tagName);
+        this.$el = XElement.__fromTemplate(this.__tagName); // try to find a template
+        if (this.$el) root.$el.appendChild(this.$el) // if template found bind content to parent 
+        else if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
+        else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
+        else this.$el = document.querySelector(this.__tagName); // query in document for tag name
     }
 
     __createChildren() { // Create all children recursively 
@@ -37,26 +39,31 @@ class XElement {
     static __fromTemplate(name) {
         const template = document.getElementById(name); // query for <template id="x-my-element">
         if (!template) return;
-        return document.importNode(template.content, true);
+        if (template.nodeName !== 'TEMPLATE') return;
+        const element = document.createElement(name);
+        const content = document.importNode(template.content, true);
+        element.appendChild(content);
+        return element;
     }
 
     /* Public API */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
-    fire(eventType, detail) { this.$el.dispatchEvent(new CustomEvent(eventType, { detail: detail || null })) } // Fire DOM-Event
-    addEventListener(type, listener) { return this.$el.addEventListener(type, listener) }
+
+    fire(eventType, detail = null) { // Fire DOM-Event
+        const params = { detail: detail, bubbles: true }
+        this.$el.dispatchEvent(new CustomEvent(eventType, params))
+    }
+
+    addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 
     add(element) {
         if (!(element instanceof XElement)) return;
         this.$el.appendChild(element.$el);
     }
 
-    onCreate() {}
-    onShow() {}
-    onHide() {}
-
     static createElement() {
         const name = this.__toTagName(this.name);
-        const element = this.__fromTemplate(name) || document.createElement(this.__toTagName(this.name));
+        const element = this.__fromTemplate(name) || document.createElement(name);
         return new this(element);
     }
 }
