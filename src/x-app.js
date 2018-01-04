@@ -30,6 +30,7 @@ class XApp extends XElement {
     }
 
     _bindListeners() {
+        if(!this.listeners) return;
         const listeners = this.listeners();
         for (const key in listeners) {
             this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
