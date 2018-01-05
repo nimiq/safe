@@ -33,6 +33,7 @@ class XElement {
     static __toTagName(name) {
         name = name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
         if (name.startsWith('view-')) return name; // Views aren't prefixed
+        if (name.startsWith('x-')) return name; // XConstructorName isn't prefixed
         else return 'x-' + name; // All other elements are prefixed with "x-" 
     }
 
