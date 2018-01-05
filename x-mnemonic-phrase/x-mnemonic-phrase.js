@@ -9,7 +9,7 @@ class XMnemonicPhrase extends XElement {
         const words = phrase.split(' ');
         words.forEach(word => {
             const $el = document.createElement('span');
-            $el.textContent = word;
+            $el.innerHTML = word + '<i>&nbsp;</i>';
             this.$el.appendChild($el);
         });
     }
