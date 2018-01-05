@@ -1,0 +1,33 @@
+x-slider {
+    width: 100%;
+    padding: 8px 5%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+x-slide-container {
+    display: flex;
+    box-sizing: border-box;
+}
+
+x-slide-container.animate {
+    transition: transform 0.8s ease-in-out;
+}
+
+x-slide {
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+    min-height: 10em;
+    flex: 1;
+    width: 100%;
+    max-width: 350px;
+    opacity: 0;
+    margin-right: 8px;
+    transition: opacity 0.8s ease-in-out;
+}
+
+x-slide.active {
+    opacity: 1;
+}
