@@ -1,0 +1,65 @@
+x-mnemonic-validate {
+    width: 90%;
+    max-width: 350px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+    /* background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC'); */
+    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+    line-height: 32px;
+}
+
+x-mnemonic-validate > p,
+x-mnemonic-validate > button {
+    flex: 1 0 100%;
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    transition: background-color 0.5s ease;
+}
+
+x-mnemonic-validate > p {
+    font-size: 18px;
+    font-weight: 200;
+    margin-top: 0.5em;
+}
+
+x-mnemonic-validate > div {
+    margin-top: -1em;
+    flex: 0 0 33%;
+}
+
+x-mnemonic-validate > div > input {
+    width: 90% !important;
+    box-sizing: border-box;
+    padding: 0.5em;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+x-mnemonic-validate > button.shake {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+    50% { color: red; }
+}
+
+input[type="text"] {
+    background: rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+input[type="text"]:focus {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}

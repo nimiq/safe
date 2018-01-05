@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mnemonic Validate</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <x-mnemonic-phrase></x-mnemonic-phrase>
+    <h1>Validate your Passphrase</h1>
+    <x-mnemonic-validate>
+        <p>Please input the following words:</p>
+        <div>
+            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
+            <input type="text" x-mnemonic-validate-word />
+        </div>
+        <div>
+            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
+            <input type="text" x-mnemonic-validate-word />
+        </div>
+        <div>
+            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
+            <input type="text" x-mnemonic-validate-word />
+        </div>
+        <button>Validate</button>
+    </x-mnemonic-validate>
+    <br />
+    <a>Change validation words</a>
+
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="/x-element/src/x-element.js"></script>
+    <link rel="stylesheet" href="../../fast-font/fast-font.css">
+    <link rel="stylesheet" href="../../theme/theme.css">
+    <link rel="stylesheet" href="../../inputs/inputs.css">
+
+    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
+    <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
+
+    <script src="../x-mnemonic-validate.js"></script>
+    <link rel="stylesheet" href="../x-mnemonic-validate.css">
+
+    <script>
+        const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+        const $mnemonicPhrase = new XMnemonicPhrase();
+        $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+
+        const $mnemonicValidate = new XMnemonicValidate();
+        $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+
+        document.querySelector('a').addEventListener('click', () => {
+            $mnemonicValidate.updateRequiredWords();
+        });
+
+        $mnemonicValidate.addEventListener('invalid', () => {
+            console.log('Wrong mnemonic validation words!');
+        });
+
+        $mnemonicValidate.addEventListener('validated', () => {
+            console.log('Great! That is correct.');
+        });
+    </script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-background);
+        }
+        h1 {
+            font-weight: 200;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+        }
+        a:hover {
+            border-bottom: 1px solid white;
+        }
+    </style>
+</body>
+
+</html>
