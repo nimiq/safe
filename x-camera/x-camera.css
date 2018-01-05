@@ -1,0 +1,53 @@
+x-camera {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    display: flex;
+    pointer-events: none;
+    background: #333;
+    transition: all 500ms;
+    transform-origin: right bottom;
+    z-index: -1;
+    justify-content: center;
+}
+
+x-camera video {
+    /* min-width: 100%; */
+    max-height: 100%;
+    object-fit: cover;
+    /* height: 100%; */
+    display: block;
+}
+
+x-camera canvas {
+    display: none;
+}
+
+/* Overlay */
+
+x-camera:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('data:image/svg+xml,<svg width="2048" height="2048" xmlns="http://www.w3.org/2000/svg"><path fill-opacity=".5" d="M0 0h2048v2048H0V0zm1141.7 1027.5c1.2-2.2 1.2-5 0-7.2l-55.6-96.7c-1-2.2-3.3-3.6-6-3.6H969c-2.6 0-5 1.4-6.3 3.6l-55.5 96.7c-1.4 2.3-1.4 5 0 7.2l55.4 96.7c1.3 2.3 3.7 3.6 6.3 3.6h111c2.5 0 5-1.3 6.2-3.6l55.7-96.7z" fill-rule="evenodd"/></svg>');
+    background-position: center;
+    animation: scaleDown 400ms infinite alternate ease-in-out;
+    z-index: 1;
+}
+
+@keyframes scaleDown {
+    0% {
+        transform: scale(1.1);
+    }
+}
+
+/* hack to flip the camera on desktop; less confusion for the user to position the phone */
+@media (min-width: 800px) {
+    video {
+         transform: scale(-1, 1); 
+    }
+}

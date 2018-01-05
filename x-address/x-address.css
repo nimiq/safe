@@ -1,0 +1,15 @@
+x-address {
+    font-size: 13px;
+    -webkit-user-select: text;
+    user-select: all;
+    min-width: 340px;
+    width: 100%;
+    font-weight: 800;
+}
+
+@media (max-width: 340px) {
+    x-address {
+        font-size: 11px;
+        font-weight: 800;
+    }
+}

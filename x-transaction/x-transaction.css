@@ -1,0 +1,25 @@
+x-transaction {
+    width: 100%;
+    padding: 0 16px;
+    box-sizing: border-box;
+    display: flex;
+}
+
+x-transaction x-identicon {
+    width: 64px;
+    display: block;
+}
+
+x-transaction x-address {
+    font-size: 10px;
+}
+
+x-transaction h1{
+	font-size: 13px;
+	line-height: 13px;
+	font-weight: bold;
+}
+
+x-transaction x-value{
+	
+}

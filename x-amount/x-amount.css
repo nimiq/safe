@@ -1,0 +1,86 @@
+x-amount,
+x-amount-input {
+    text-align: center;
+    padding: 16px 0;
+    transition: all 500ms;
+    box-sizing: border-box;
+}
+
+x-currency-1 {
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 27px;
+    display: block;
+    position: relative;
+}
+
+x-currency-2 {
+    padding-bottom: 0;
+    font-size: 15px;
+    font-weight: 700;
+    opacity: 0.6;
+}
+
+
+x-amount-input input {
+    font-weight: 300;
+}
+
+
+
+/* ≈ Character */
+
+x-currency-2:before {
+    content: '\2248';
+    padding-right: 3px;
+    margin-left: -12px;
+}
+
+
+
+
+
+
+/* Currency Symbols */
+
+x-currency-1:after,
+x-currency-2:after {
+    padding-left: 4px;
+    letter-spacing: 0.08em;
+    margin-right: -24px;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+x-currency-1:after {
+    content: 'NIM';
+}
+
+x-currency-2:after {
+    content: 'USD';
+}
+
+x-amount-input x-currency-1:after {
+    position: absolute;
+    right: -32px;
+    bottom: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+/* Empty State */
+
+x-currency-1:empty:before,
+x-currency-2:empty:before {
+    content: '0';
+}
+
+
+/* Disabled State */
+
+x-amount-input input[disabled] {
+    opacity: 1;
+}
