@@ -1,3 +1,0 @@
-class PrivateData extends XElement{
-	
-}
