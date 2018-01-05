@@ -15,21 +15,21 @@
     <link rel="stylesheet" href="../../fast-font/fast-font.css">
     <link rel="stylesheet" href="../../theme/theme.css">
     <script>
-    const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
-    const $mnemonicPhrase = new XMnemonicPhrase();
-    $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+        const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+        const $mnemonicPhrase = new XMnemonicPhrase();
+        $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
     </script>
     <style>
-    html,
-    body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: var(--primary-background);
-    }
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-background);
+        }
     </style>
 </body>
 
