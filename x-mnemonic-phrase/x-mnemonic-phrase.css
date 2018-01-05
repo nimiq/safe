@@ -13,6 +13,8 @@ x-mnemonic-phrase,
     flex-wrap: wrap;
     font-size: 15px;
     line-height: 32px;
+    -webkit-user-select: text;
+    user-select: all; /* doesn't work on safari */
 }
 
 textarea.mnemonic-phrase {

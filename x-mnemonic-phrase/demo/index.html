@@ -8,17 +8,20 @@
 
 <body>
     <x-mnemonic-phrase></x-mnemonic-phrase>
+
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="/x-element/src/x-element.js"></script>
     <script src="../x-mnemonic-phrase.js"></script>
     <link rel="stylesheet" href="../x-mnemonic-phrase.css">
     <link rel="stylesheet" href="../../fast-font/fast-font.css">
     <link rel="stylesheet" href="../../theme/theme.css">
+
     <script>
         const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
         const $mnemonicPhrase = new XMnemonicPhrase();
         $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
     </script>
+
     <style>
         html,
         body {
