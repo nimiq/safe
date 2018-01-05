@@ -10,7 +10,16 @@
     <x-mnemonic-phrase></x-mnemonic-phrase>
     <h1>Validate your Passphrase</h1>
     <x-mnemonic-validate>
-        <p>Please input the following words:</p>
+        <x-slider>
+            <x-slide-container>
+                <x-slide></x-slide>
+                <x-slide></x-slide>
+                <x-slide></x-slide>
+            </x-slide-container>
+        </x-slider>
+
+
+        <!--<p>Please input the following words:</p>
         <div>
             <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
             <input type="text" x-mnemonic-validate-word />
@@ -22,11 +31,11 @@
         <div>
             <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
             <input type="text" x-mnemonic-validate-word />
-        </div>
-        <button>Validate</button>
+        </div>-->
     </x-mnemonic-validate>
     <br />
-    <a>Change validation words</a>
+    <a prev><-</a>
+    <a next>-></a>
 
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="/x-element/src/x-element.js"></script>
@@ -37,6 +46,9 @@
     <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
     <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
 
+    <script src="../../x-slider/x-slider.js"></script>
+    <link rel="stylesheet" href="../../x-slider/x-slider.css">
+
     <script src="../x-mnemonic-validate.js"></script>
     <link rel="stylesheet" href="../x-mnemonic-validate.css">
 
@@ -46,10 +58,15 @@
         $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
         const $mnemonicValidate = new XMnemonicValidate();
+        $mnemonicValidate.$button = document.querySelector('button');
         $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
-        document.querySelector('a').addEventListener('click', () => {
-            $mnemonicValidate.updateRequiredWords();
+        document.querySelector('a[prev]').addEventListener('click', () => {
+            $mnemonicValidate.$slider.prev();
+        });
+
+        document.querySelector('a[next]').addEventListener('click', () => {
+            $mnemonicValidate.$slider.next();
         });
 
         $mnemonicValidate.addEventListener('invalid', () => {
