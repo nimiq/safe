@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Slider</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <h1>Slider</h1>
+    <x-slider>
+        <x-slide-container>
+            <x-slide><h1>1</h1></x-slide>
+            <x-slide><h1>2</h1></x-slide>
+            <x-slide><h1>3</h1></x-slide>
+        </x-slide-container>
+    </x-slider>
+    <span><a prev><-</a> &nbsp; <a next>-></a></span>
+
+    <script src="/x-element/src/x-element.js"></script>
+    <link rel="stylesheet" href="../../fast-font/fast-font.css">
+    <link rel="stylesheet" href="../../theme/theme.css">
+
+    <script src="../../x-slider/x-slider.js"></script>
+    <link rel="stylesheet" href="../../x-slider/x-slider.css">
+
+    <script>
+        const $slider = new XSlider();
+
+        document.querySelector('a[prev]').addEventListener('click', () => {
+            $slider.prev();
+        });
+
+        document.querySelector('a[next]').addEventListener('click', () => {
+            $slider.next();
+        });
+    </script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-background);
+        }
+        h1 {
+            font-weight: 200;
+        }
+        a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+        }
+        a:hover {
+            border-bottom: 1px solid white;
+        }
+        x-slide {
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+        }
+    </style>
+</body>
+</html>

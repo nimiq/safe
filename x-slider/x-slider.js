@@ -9,9 +9,9 @@ class XSlider extends XElement {
 
         this._index = 0;
 
-        window.setTimeout(function() {
+        window.setTimeout(() => {
             this.jumpTo(this._index);
-        }.bind(this), 0);
+        }, 0);
     }
 
     next() {
@@ -50,12 +50,12 @@ class XSlider extends XElement {
     }
 
     _onResize() {
-        if(!this._resizing) {
-            this._resizing = true;
-            window.requestAnimationFrame(function() {
-                this.jumpTo(this._index);
-                this._resizing = false;
-            }.bind(this));
-        }
+        if(this._resizing) return;
+        this._resizing = true;
+
+        window.requestAnimationFrame(() => {
+            this.jumpTo(this._index);
+            this._resizing = false;
+        });
     }
 }
