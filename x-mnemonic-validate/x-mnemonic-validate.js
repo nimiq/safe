@@ -74,17 +74,15 @@ class XMnemonicValidate extends XElement {
 
     _onButtonPressed($button) {
         if(!this._isValidWord(this.requiredWords[this._activeSlide], $button.textContent)) {
-            console.log('wrong');
             this._shake($button);
             setTimeout(() => this.reset(), 1000);
             return;
         }
 
-        console.log('right');
         this._correct($button);
 
         if(this._activeSlide === 2) this.fire('validated');
-        else setTimeout(() => this._next(), 1000);
+        else setTimeout(() => this._next(), 500);
     }
 
     _slideHtml(wordIndex, words) {

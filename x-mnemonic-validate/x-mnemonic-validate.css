@@ -9,38 +9,38 @@ x-mnemonic-validate {
     line-height: 32px;
 }
 
-x-mnemonic-validate > p {
+x-mnemonic-validate p {
     flex: 1 0 100%;
     margin: auto;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    transition: background-color 0.5s ease;
-}
-
-x-mnemonic-validate > p {
     font-size: 18px;
     font-weight: 200;
-    margin-top: 0.5em;
+    line-height: 1.5;
+    padding: 0 1em;
+    margin-bottom: 1.5em;
 }
 
-x-mnemonic-validate > div {
-    margin-top: -1em;
-    flex: 0 0 33%;
+x-mnemonic-validate span {
+    font-size: 64px;
+    line-height: 32px;
+    margin-left: 4px;
 }
 
-x-mnemonic-validate > div > input {
-    width: 90% !important;
-    box-sizing: border-box;
-    padding: 0.5em;
-    font-family: inherit;
-    font-size: inherit;
+x-mnemonic-validate button.correct {
+    transition: background-color 0.41s linear, color 0.41s linear;
+    background-color: greenyellow;
+    color: darkgreen;
+    border-color: greenyellow;
 }
 
-input[type="text"] {
-    background: rgba(255, 255, 255, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+x-mnemonic-validate button.shake {
+    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
 }
 
-input[type="text"]:focus {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+    50% { color: red; }
 }
