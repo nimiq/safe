@@ -42,6 +42,8 @@ x-mnemonic-validate button.correct {
 x-mnemonic-validate button.shake {
     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     transform: translate3d(0, 0, 0);
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 2px 4px;
 }
 
 @keyframes shake {

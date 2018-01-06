@@ -18,34 +18,39 @@ class XMnemonicValidate extends XElement {
 
     set mnemonic(mnemonic) {
         this._mnemonic = mnemonic.split(/\s+/g);
-        this.reset();
+        this.init();
     }
 
-    reset(instantly) {
+    init() {
         this._activeSlide = 0;
         this._generateIndices();
-        this._setSlideContent(this._activeSlide);
-        this._showActiveSlide(instantly);
-    }
-
-    _next() {
-        this._activeSlide++;
         this._setSlideContent(this._activeSlide);
         this._showActiveSlide();
     }
 
+    resetSlide() {
+        this._generateIndex(this._activeSlide);
+        this._setSlideContent(this._activeSlide);
+    }
+
+    _next() {
+        this._setSlideContent(++this._activeSlide);
+        this._showActiveSlide();
+    }
+
     _onSlideEvent(valid) {
-        if(!valid) setTimeout(() => this.reset(), 1000);
+        if(!valid) setTimeout(() => this.resetSlide(), 820);
         else if(this._activeSlide === 2) this.fire('validated');
         else setTimeout(() => this._next(), 500);
     }
 
     _generateIndices() {
-        this.requiredWords = [
-            Math.floor(Math.random() * 8),
-            Math.floor(Math.random() * 8) + 8,
-            Math.floor(Math.random() * 8) + 16,
-        ];
+        this.requiredWords = Array(3);
+        [0, 1, 2].forEach(index => this._generateIndex(index));
+    }
+
+    _generateIndex(slideIndex){
+        this.requiredWords[slideIndex] = Math.floor(Math.random() * 8) + slideIndex * 8;
     }
 
     _setSlideContent(slideIndex) {
@@ -70,9 +75,8 @@ class XMnemonicValidate extends XElement {
         return Object.keys(words).sort();
     }
 
-    _showActiveSlide(instantly) {
-        if (instantly) this.$xSlider.jumpTo(this._activeSlide);
-        else this.$xSlider.slideTo(this._activeSlide);
+    _showActiveSlide() {
+        this.$xSlider.slideTo(this._activeSlide);
     }
 }
 
@@ -95,6 +99,7 @@ class XMnemonicValidateSlide extends XElement {
 
     set wordlist(wordlist) {
         wordlist.forEach((word, index) => this.$buttons[index].textContent = word);
+        this.$buttons.forEach(button => button.removeAttribute('disabled'));
     }
 
     set targetIndex(index) {
@@ -107,6 +112,8 @@ class XMnemonicValidateSlide extends XElement {
     }
 
     _onButtonPressed($button) {
+        this.$buttons.forEach(button => button.setAttribute('disabled', 'disabled'));
+
         if (this.targetWord !== $button.textContent) {
             this._shake($button);
             this.fire('x-mnemonic-validate-slide', false);
