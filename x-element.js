@@ -28,11 +28,11 @@ class XElement {
     }
 
     get __tagName() { // The tagName of this DOM-Element
-        let name = this.constructor.name;
-        name = name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
-        if (name.startsWith('view-')) return name; // Views aren't prefixed
-        if (name.startsWith('x-')) return name; // XConstructorName isn't prefixed
-        else return 'x-' + name; // All other elements are prefixed with "x-" 
+        return XElement.__toTagName(this.constructor.name);
+    }
+
+    static __toTagName(name) {
+        return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
 
     __fromHTML() {
@@ -40,17 +40,19 @@ class XElement {
     }
 
     /* Public API */
+    static createElement() {
+        const name = this.__toTagName(this.name);
+        const element = document.createElement(name);
+        return new this(element);
+    }
+
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
+    clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) }
+    addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 
     fire(eventType, detail = null) { // Fire DOM-Event
         const params = { detail: detail, bubbles: true }
         this.$el.dispatchEvent(new CustomEvent(eventType, params))
     }
-
-    clear() {
-        while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild);
-    }
-
-    addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 }
