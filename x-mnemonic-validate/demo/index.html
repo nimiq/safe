@@ -12,6 +12,7 @@
     <x-mnemonic-validate>
         <x-slider slides="4"></x-slider>
     </x-mnemonic-validate>
+    <a>-></a>
 
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="/x-element/x-element.js"></script>
@@ -42,6 +43,8 @@
         $mnemonicValidate.addEventListener('validated', () => {
             console.log('Event "validated" fired');
         });
+
+        document.querySelector('a').addEventListener('click', () => $mnemonicValidate._next());
     </script>
 
     <style>
