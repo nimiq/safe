@@ -57,3 +57,13 @@ x-mnemonic-validate x-slide:last-child {
     flex-direction: column;
     justify-content: center;
 }
+
+
+x-wordlist{
+    display: block;
+    height: 180px;
+}
+
+x-mnemonic-validate x-indicator x-dot:last-child {
+    display: none;
+}
