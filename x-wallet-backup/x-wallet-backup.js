@@ -1,12 +1,24 @@
-class WalletBackup extends XElement {
+class XWalletBackup extends XElement {
     onCreate() {
-        this.$canvas = document.querySelector('canvas');
-        this.$a = document.querySelector('a');
+        this.$img = this.$('img');
+        this.$a = this.$('a');
     }
 
-    paint(address, privateKey) {
-        const image = new WalletBackup(this.$canvas, address, privateKey);
-        setTimeout(e => this.$a.href = image.toDataUrl(), 1000);
-        $a.download = address + '.png';
+    backup(address, privateKey) {
+        const backup = new WalletBackup(address, privateKey);
+        setTimeout(e => {
+            backup.toObjectUrl().then(url => {
+                this.$img.src = url
+                // if (typeof a.download === 'undefined') return;
+                this.$a.href = url;
+                this.$a.download = backup.filename();
+            });
+        }, 1000);
+    }
+
+    html() {
+        return `
+    		<a><img></a>
+    	`
     }
 }
