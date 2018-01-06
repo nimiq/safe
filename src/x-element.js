@@ -13,6 +13,7 @@ class XElement {
         else if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
+        if (this.html) this.__fromHTML(); // use html if it is set
     }
 
     __createChildren() { // Create all children recursively 
@@ -37,6 +38,12 @@ class XElement {
         else return 'x-' + name; // All other elements are prefixed with "x-" 
     }
 
+    __fromHTML() {
+        // const element = document.createElement(this.__tagName);
+        // element.innerHTML = this.html();
+        this.$el.innerHTML = this.html();
+    }
+
     static __fromTemplate(name) {
         const template = document.getElementById(name); // query for <template id="x-my-element">
         if (!template) return;
@@ -53,6 +60,10 @@ class XElement {
     fire(eventType, detail = null) { // Fire DOM-Event
         const params = { detail: detail, bubbles: true }
         this.$el.dispatchEvent(new CustomEvent(eventType, params))
+    }
+
+    clear() {
+        while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild);
     }
 
     addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
