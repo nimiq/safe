@@ -8,8 +8,7 @@ class XElement {
     }
 
     __bindDOM(root) {
-        if (this.$el) root.$el.appendChild(this.$el) // if template found bind content to parent 
-        else if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
+        if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         if (this.html) this.__fromHTML(); // use html if it is set
@@ -23,14 +22,13 @@ class XElement {
     }
 
     static __toChildName() {
-        return '$' + this.name[0].toLowerCase() + this.name.substring(1); // AnyConstructorName -> $anyConstructorName
+        let name = this.name;
+        if (name.match(/^X[A-Z][a-z]*/)) name = name.substring(1); // replace XAnyConstructorName -> AnyConstructorName
+        return '$' + name[0].toLowerCase() + name.substring(1); // AnyConstructorName -> $anyConstructorName
     }
 
     get __tagName() { // The tagName of this DOM-Element
-        return XElement.__toTagName(this.constructor.name);
-    }
-
-    static __toTagName(name) {
+        let name = this.constructor.name;
         name = name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
         if (name.startsWith('view-')) return name; // Views aren't prefixed
         if (name.startsWith('x-')) return name; // XConstructorName isn't prefixed
