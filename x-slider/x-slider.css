@@ -19,10 +19,10 @@ x-slide {
     border-radius: 8px;
     padding: 24px 16px;
     box-sizing: border-box;
-    min-height: 10em;
+    min-height: 320px;
     flex: 1;
     width: 100%;
-    max-width: 350px;
+    max-width: 354px;
     opacity: 0;
     margin-right: 8px;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
