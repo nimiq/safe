@@ -8,7 +8,6 @@ class XElement {
     }
 
     __bindDOM(root) {
-        this.$el = XElement.__fromTemplate(this.__tagName); // try to find a template
         if (this.$el) root.$el.appendChild(this.$el) // if template found bind content to parent 
         else if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
@@ -39,19 +38,7 @@ class XElement {
     }
 
     __fromHTML() {
-        // const element = document.createElement(this.__tagName);
-        // element.innerHTML = this.html();
         this.$el.innerHTML = this.html();
-    }
-
-    static __fromTemplate(name) {
-        const template = document.getElementById(name); // query for <template id="x-my-element">
-        if (!template) return;
-        if (template.nodeName !== 'TEMPLATE') return;
-        const element = document.createElement(name);
-        const content = document.importNode(template.content, true);
-        element.appendChild(content);
-        return element;
     }
 
     /* Public API */
@@ -68,10 +55,4 @@ class XElement {
     }
 
     addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
-
-    static createElement() {
-        const name = this.__toTagName(this.name);
-        const element = this.__fromTemplate(name) || document.createElement(name);
-        return new this(element);
-    }
 }
