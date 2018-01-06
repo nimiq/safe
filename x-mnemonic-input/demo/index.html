@@ -4,6 +4,49 @@
 <head>
     <title>Mnemonic Input</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="/x-element/x-element.js"></script>
+    <link rel="stylesheet" href="../../fast-font/fast-font.css">
+    <link rel="stylesheet" href="../../theme/theme.css">
+    <link rel="stylesheet" href="../../inputs/inputs.css">
+    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
+    <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
+    <script src="../x-mnemonic-input.js"></script>
+    <link rel="stylesheet" href="../x-mnemonic-input.css">
+    <style>
+    html,
+    body {
+        min-height: 100%;
+        width: 100%;
+        color: white;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--primary-background);
+    }
+
+    h1 {
+        font-weight: 200;
+    }
+
+    p {
+        text-align: center;
+    }
+
+    code {
+        font-family: monospace;
+        font-size: 15px;
+        border: 1px solid white;
+        padding: 2px 6px;
+        border-radius: 5px;
+    }
+
+    #privateKey {
+        margin-top: 2em;
+    }
+    </style>
 </head>
 
 <body>
@@ -12,64 +55,21 @@
     <p>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</p>
     <x-mnemonic-input></x-mnemonic-input>
     <p>
-        Your private key:<br />
+        Your private key:
+        <br />
         <span id="privateKey">-</span>
     </p>
-
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
-    <script src="/x-element/x-element.js"></script>
-    <link rel="stylesheet" href="../../fast-font/fast-font.css">
-    <link rel="stylesheet" href="../../theme/theme.css">
-    <link rel="stylesheet" href="../../inputs/inputs.css">
-
-    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
-    <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
-
-    <script src="../x-mnemonic-input.js"></script>
-    <link rel="stylesheet" href="../x-mnemonic-input.css">
-
     <script>
-        const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
-        const $mnemonicPhrase = new XMnemonicPhrase();
-        $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+    const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+    const $mnemonicPhrase = new XMnemonicPhrase();
+    $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
-        const $mnemonicInput = new XMnemonicInput();
+    const $mnemonicInput = new XMnemonicInput();
 
-        $mnemonicInput.addEventListener('recovered', e => {
-            document.querySelector('#privateKey').textContent = e.detail;
-        });
+    $mnemonicInput.addEventListener('recovered', e => {
+        document.querySelector('#privateKey').textContent = e.detail;
+    });
     </script>
-
-    <style>
-        html,
-        body {
-            min-height: 100%;
-            width: 100%;
-            color: white;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: var(--primary-background);
-        }
-        h1 {
-            font-weight: 200;
-        }
-        p {
-            text-align: center;
-        }
-        code {
-            font-family: monospace;
-            font-size: 15px;
-            border: 1px solid white;
-            padding: 2px 6px;
-            border-radius: 5px;
-        }
-        #privateKey {
-            margin-top: 2em;
-        }
-    </style>
 </body>
 
 </html>
