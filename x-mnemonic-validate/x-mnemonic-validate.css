@@ -31,6 +31,10 @@ x-mnemonic-validate x-target-index::before {
     font-size: 52px;
 }
 
+x-mnemonic-validate button {
+    margin: 4px;
+}
+
 x-mnemonic-validate button.correct {
     background-color: var(--success-color);
     border-color: var(--success-color);
