@@ -40,6 +40,7 @@ x-pin-label {
     width: 100%;
     font-size: 18px;
     margin-bottom: 12px;
+    text-align:  center;
 }
 
 x-pin-label:empty:before {
