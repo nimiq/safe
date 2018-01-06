@@ -9,6 +9,7 @@
 <body>
     <x-mnemonic-phrase></x-mnemonic-phrase>
     <h1>Recover your Private Key</h1>
+    <p>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</p>
     <x-mnemonic-input></x-mnemonic-input>
     <p>
         Your private key:<br />
@@ -57,6 +58,13 @@
         }
         p {
             text-align: center;
+        }
+        code {
+            font-family: monospace;
+            font-size: 15px;
+            border: 1px solid white;
+            padding: 2px 6px;
+            border-radius: 5px;
         }
         #privateKey {
             margin-top: 2em;
