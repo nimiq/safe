@@ -3,10 +3,6 @@
 
 <head>
     <title></title>
-</head>
-
-<body>
-    <x-wallet-backup></x-wallet-backup>
     <script src="/x-element/x-element.js"></script>
     <script src="../x-wallet-backup.js"></script>
     <script src="/robohash/dist/robohash.min.js"></script>
@@ -15,12 +11,6 @@
     <script src="/qr-encoder/qr-encoder.min.js"></script>
     <script src="/wallet-backup/wallet-backup.js"></script>
     <link rel="stylesheet" type="text/css" href="../../fast-font/fast-font.css">
-    <script>
-    const address = 'NQ11 CM1M 9LFL 8K8E G3FD AQNF 1J3Q DJXR E735';
-    const privateKey = 'bc6af0c1b72e0a98439769b8570650ae86f6b3f4261b41900ec373e169449139bc6af0c1b72e0a98439769b8570650ae86f6b3f4261b41900ec373e169449139';
-    const $walletBackup = new XWalletBackup();
-    $walletBackup.backup(address,privateKey);
-    </script>
     <style type="text/css">
     html,
     body {
@@ -28,6 +18,16 @@
         width: 100%;
     }
     </style>
+</head>
+
+<body>
+    <x-wallet-backup></x-wallet-backup>
+    <script>
+    const address = 'NQ11 CM1M 9LFL 8K8E G3FD AQNF 1J3Q DJXR E735';
+    const privateKey = 'bc6af0c1b72e0a98439769b8570650ae86f6b3f4261b41900ec373e169449139bc6af0c1b72e0a98439769b8570650ae86f6b3f4261b41900ec373e169449139';
+    const $walletBackup = new XWalletBackup();
+    $walletBackup.backup(address, privateKey);
+    </script>
 </body>
 
 </html>

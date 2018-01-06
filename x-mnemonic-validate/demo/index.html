@@ -4,6 +4,48 @@
 <head>
     <title>Mnemonic Validate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../../fast-font/fast-font.css" rel="stylesheet">
+    <link href="../../theme/theme.css" rel="stylesheet">
+    <link href="../../inputs/inputs.css" rel="stylesheet">
+    <script src="/x-element/x-element.js"></script>
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
+    <link href="../../x-mnemonic-phrase/x-mnemonic-phrase.css" rel="stylesheet">
+    <script src="../../x-slider/x-slider.js"></script>
+    <link href="../../x-slider/x-slider.css" rel="stylesheet">
+    <script src="../../x-success-mark/x-success-mark.js"></script>
+    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
+    <script src="../x-mnemonic-validate.js"></script>
+    <link href="../x-mnemonic-validate.css" rel="stylesheet">
+    <style>
+    html,
+    body {
+        min-height: 100%;
+        width: 100%;
+        color: white;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: var(--primary-background);
+    }
+
+    h1 {
+        font-weight: 200;
+    }
+
+    a {
+        color: white;
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        cursor: pointer;
+    }
+
+    a:hover {
+        border-bottom: 1px solid white;
+    }
+    </style>
 </head>
 
 <body>
@@ -11,65 +53,20 @@
     <h1>Validate your Passphrase</h1>
     <x-mnemonic-validate></x-mnemonic-validate>
     <a>-></a>
-
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
-    <script src="/x-element/x-element.js"></script>
-    <link rel="stylesheet" href="../../fast-font/fast-font.css">
-    <link rel="stylesheet" href="../../theme/theme.css">
-    <link rel="stylesheet" href="../../inputs/inputs.css">
-
-    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
-    <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
-
-    <script src="../../x-slider/x-slider.js"></script>
-    <link rel="stylesheet" href="../../x-slider/x-slider.css">
-
-    <script src="../../x-success-mark/x-success-mark.js"></script>
-    <link rel="stylesheet" href="../../x-success-mark/x-success-mark.css">
-
-    <script src="../x-mnemonic-validate.js"></script>
-    <link rel="stylesheet" href="../x-mnemonic-validate.css">
-
     <script>
-        const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
-        const $mnemonicPhrase = new XMnemonicPhrase();
-        $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+    const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+    const $mnemonicPhrase = new XMnemonicPhrase();
+    $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
-        const $mnemonicValidate = new XMnemonicValidate();
-        $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+    const $mnemonicValidate = new XMnemonicValidate();
+    $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
-        $mnemonicValidate.addEventListener('validated', () => {
-            console.log('Event "validated" fired');
-        });
+    $mnemonicValidate.addEventListener('validated', () => {
+        console.log('Event "validated" fired');
+    });
 
-        document.querySelector('a').addEventListener('click', () => $mnemonicValidate._next());
+    document.querySelector('a').addEventListener('click', () => $mnemonicValidate._next());
     </script>
-
-    <style>
-        html,
-        body {
-            min-height: 100%;
-            width: 100%;
-            color: white;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: var(--primary-background);
-        }
-        h1 {
-            font-weight: 200;
-        }
-        a {
-            color: white;
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            cursor: pointer;
-        }
-        a:hover {
-            border-bottom: 1px solid white;
-        }
-    </style>
 </body>
+
 </html>
