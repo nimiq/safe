@@ -1,3 +1,0 @@
-rm -rf dist
-mkdir dist
-xsltproc index.xhtml > dist/index.html

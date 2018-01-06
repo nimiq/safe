@@ -69,11 +69,6 @@ class XElement {
 
     addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 
-    add(element) {
-        if (!(element instanceof XElement)) return;
-        this.$el.appendChild(element.$el);
-    }
-
     static createElement() {
         const name = this.__toTagName(this.name);
         const element = this.__fromTemplate(name) || document.createElement(name);
