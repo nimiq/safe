@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mnemonic Input</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+    <x-mnemonic-phrase></x-mnemonic-phrase>
+    <h1>Recover your Private Key</h1>
+    <x-mnemonic-input></x-mnemonic-input>
+    <p>
+        Your private key:<br />
+        <span id="privateKey">-</span>
+    </p>
+
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="/x-element/x-element.js"></script>
+    <link rel="stylesheet" href="../../fast-font/fast-font.css">
+    <link rel="stylesheet" href="../../theme/theme.css">
+    <link rel="stylesheet" href="../../inputs/inputs.css">
+
+    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
+    <link rel="stylesheet" href="../../x-mnemonic-phrase/x-mnemonic-phrase.css">
+
+    <script src="../x-mnemonic-input.js"></script>
+    <link rel="stylesheet" href="../x-mnemonic-input.css">
+
+    <script>
+        const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+        const $mnemonicPhrase = new XMnemonicPhrase();
+        $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+
+        const $mnemonicInput = new XMnemonicInput();
+
+        $mnemonicInput.addEventListener('recovered', e => {
+            document.querySelector('#privateKey').textContent = e.detail;
+        });
+    </script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            color: white;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: var(--primary-background);
+        }
+        h1 {
+            font-weight: 200;
+        }
+        p {
+            text-align: center;
+        }
+        #privateKey {
+            margin-top: 2em;
+        }
+    </style>
+</body>
+
+</html>

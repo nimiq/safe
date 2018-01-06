@@ -1,0 +1,41 @@
+x-mnemonic-input {
+    width: 90%;
+    max-width: 350px;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid white;
+    border-radius: 8px;
+    color: white;
+    /* background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC'); */
+    text-align: center;
+    font-size: 15px;
+    line-height: 32px;
+}
+
+x-mnemonic-input > form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+x-mnemonic-input x-word-input {
+    flex: 1 0 20%;
+    margin: 2px;
+}
+
+x-mnemonic-input input[type="text"] {
+    background-color: rgba(255, 2555, 255, 0.1);
+    width: 100%;
+    min-width: 4.5em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    font-family: inherit;
+    line-height: 2;
+    font-size: 15px;
+}
+
+x-mnemonic-input input[type="text"]:focus {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+x-mnemonic-input input[type="text"].complete {
+    border-bottom-color: var(--success-color);
+}
