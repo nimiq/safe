@@ -83,6 +83,10 @@ class XMnemonicValidate extends XElement {
     _showActiveSlide() {
         this.$xSlider.slideTo(this._activeSlide);
     }
+
+    html(){
+        return `<x-slider slides="4"></x-slider>`
+    }
 }
 
 class XMnemonicValidateSlide extends XElement {
