@@ -21,11 +21,9 @@ x-currency-2 {
     opacity: 0.6;
 }
 
-
 x-amount-input input {
     font-weight: 300;
 }
-
 
 
 /* ≈ Character */
@@ -35,11 +33,6 @@ x-currency-2:before {
     padding-right: 3px;
     margin-left: -12px;
 }
-
-
-
-
-
 
 /* Currency Symbols */
 
@@ -67,9 +60,6 @@ x-amount-input x-currency-1:after {
     margin: 0;
     padding: 0;
 }
-
-
-
 
 /* Empty State */
 

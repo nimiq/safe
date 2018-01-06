@@ -23,8 +23,8 @@ class XAmount extends XElement {
 class XAmountInput extends XAmount {
     onCreate() {
         this.$input = this.$('input');
-        this.$input.addEventListener('change', (e) => this._valueChanged());
-        this.$input.addEventListener('keyup', (e) => this._valueChanged(e));
+        this.$input.addEventListener('change', e => this._valueChanged());
+        this.$input.addEventListener('keyup', e => this._valueChanged(e));
         if (window.innerWidth > 420) return;
         this.$input.setAttribute('disabled', '1');
     }
