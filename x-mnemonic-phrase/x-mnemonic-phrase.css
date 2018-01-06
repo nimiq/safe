@@ -27,8 +27,3 @@ textarea.mnemonic-phrase {
 x-mnemonic-phrase > span {
     flex: 0 0 25%;
 }
-
-x-mnemonic-phrase > span > i {
-    display: inline-block;
-    width: 0;
-}
