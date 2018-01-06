@@ -59,3 +59,6 @@ class XWalletBackupImport extends XElement {
         `
     }
 }
+
+// Todo: file input should work on iOS
+// Todo: handle qr scan error

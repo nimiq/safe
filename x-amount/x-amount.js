@@ -1,9 +1,9 @@
-class Amount extends XElement {
+class XAmount extends XElement {
 
     set value(value) {
         value = Number(value);
-        this._currency1 = Amount.format(value, 3);
-        this._currency2 = Amount.format(value * 17.1, 2);
+        this._currency1 = XAmount.format(value, 3);
+        this._currency2 = XAmount.format(value * 17.1, 2);
     }
 
     set _currency1(value) {
@@ -20,7 +20,7 @@ class Amount extends XElement {
     }
 }
 
-class AmountInput extends Amount {
+class XAmountInput extends XAmount {
     onCreate() {
         this.$input = this.$('input');
         this.$input.addEventListener('change', (e) => this._valueChanged());

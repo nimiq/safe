@@ -7,7 +7,7 @@ class XMnemonicValidate extends XElement {
     onCreate() {
         this.$slides = [0, 1, 2].map(index => {
             const slide = new XMnemonicValidateSlide(this.$slider.slides[index]);
-            slide.addEventListener('x-mnemonic-validate-slide', (e) => this._onSlideEvent(e.detail));
+            slide.addEventListener('x-mnemonic-validate-slide', e => this._onSlideEvent(e.detail));
             return slide;
         });
 

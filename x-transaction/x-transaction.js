@@ -1,5 +1,5 @@
 class Transaction extends XElement {
-    children() { return [Identicon] }
+    children() { return [XIdenticon] }
     onCreate() {
         this.tx = {
             address: 'NQ95 I32O SA47 1KHL R1FV MP0O SVNI 73BS IJQT',

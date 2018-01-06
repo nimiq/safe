@@ -1,4 +1,4 @@
-class Pinpad extends XElement {
+class XPinpad extends XElement {
 
     onCreate() {
         this.$pin = this.$('x-pin');
@@ -87,5 +87,5 @@ class Pinpad extends XElement {
     }
 }
 
-// Todo: allow keyboard input on desktop
-// Todo: increase waiting time exponentially after three failed attempts
+// todo: allow keyboard input on desktop
+// todo: increase waiting time exponentially after three failed attempts

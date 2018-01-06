@@ -1,7 +1,7 @@
-class Numpad extends XElement {
+class XNumpad extends XElement {
 
     onCreate() {
-        this.addEventListener('click', (e) => this._handleKey(e.target.textContent));
+        this.addEventListener('click', e => this._handleKey(e.target.textContent));
     }
 
     _handleKey(key) {

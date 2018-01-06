@@ -19,7 +19,9 @@ x-wallet-backup-import h1:before {
 }
 
 x-wallet-backup-import input {
-    display: none;
+    opacity: 0;
+    position: absolute;
+    top: -10000px;
 }
 
 x-wallet-backup-backdrop {

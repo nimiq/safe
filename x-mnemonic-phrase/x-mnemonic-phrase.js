@@ -2,7 +2,7 @@ class XMnemonicPhrase extends XElement {
     set privateKey(privateKey) {
         const phrase = MnemonicPhrase.keyToMnemonic(privateKey);
         const words = phrase.split(/\s+/g);
-
+        
         // Clear existing words
         this.clear();
 
