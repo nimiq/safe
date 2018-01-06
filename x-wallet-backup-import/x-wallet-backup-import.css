@@ -1,4 +1,4 @@
-x-wallet-backup-import{
+x-wallet-backup-backdrop{
 	display: none;
 	position: fixed;
 	top: 0;
@@ -12,10 +12,10 @@ x-wallet-backup-import{
 	font-size: 24px;
 }
 
-x-wallet-backup-import:before{
+x-wallet-backup-backdrop:before{
 	content: 'Drop wallet file to import';
 }
 
-x-wallet-backup-import[active]{
+x-wallet-backup-backdrop[active]{
 	display: flex;
 }
