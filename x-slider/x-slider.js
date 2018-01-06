@@ -1,19 +1,19 @@
 class XSlider extends XElement {
     onCreate() {
-        this.$slideContainer = this.$('x-slide-container');
-        this.$slides = this.$el.querySelectorAll('x-slide');
-
-        this.$slideContainer.style.width = this.$slides.length * 100 + '%';
+        this.$slideContainer = this._prepareSlides();
+        this.$slides = this.$slideContainer.childNodes;
+        this.$indicators = this._prepareIndicators();
 
         window.addEventListener('resize', this._onResize.bind(this));
 
         this._index = 0;
-
-        this.$indicators = this._prepareIndicators();
-
         window.setTimeout(() => {
             this.jumpTo(this._index);
         }, 0);
+    }
+
+    get slides() {
+        return this.$slides;
     }
 
     next() {
@@ -53,9 +53,21 @@ class XSlider extends XElement {
         this.$indicators[this._index].setAttribute('on', 'on');
     }
 
+    _prepareSlides() {
+        const $container = document.createElement('x-slide-container');
+        for(let i = 0; i < this.$el.getAttribute('slides'); i++) {
+            $container.appendChild(document.createElement('x-slide'));
+        }
+        $container.style.width = this.$el.getAttribute('slides') * 100 + '%';
+        this.$el.appendChild($container);
+        return $container;
+    }
+
     _prepareIndicators() {
         const $indicator = document.createElement('x-indicator');
-        for(let i = 0; i < this.$slides.length; i++) $indicator.appendChild(document.createElement('x-dot'));
+        for(let i = 0; i < this.$slides.length; i++) {
+            $indicator.appendChild(document.createElement('x-dot'));
+        }
         this.$el.appendChild($indicator);
         return $indicator.childNodes;
     }
