@@ -35,7 +35,14 @@ button[disabled],
     pointer-events: none;
 }
 
-
+button.small,
+[button].small {
+    font-size: 13px;
+    width: auto;
+    padding: 0 15px;
+    height: 40px;
+    line-height: 40px;
+}
 
 /* Text Inputs */
 

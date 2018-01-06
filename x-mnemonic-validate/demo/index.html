@@ -17,25 +17,7 @@
                 <x-slide></x-slide>
             </x-slide-container>
         </x-slider>
-
-
-        <!--<p>Please input the following words:</p>
-        <div>
-            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
-            <input type="text" x-mnemonic-validate-word />
-        </div>
-        <div>
-            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
-            <input type="text" x-mnemonic-validate-word />
-        </div>
-        <div>
-            <x-mnemonic-validate-index></x-mnemonic-validate-index>. word
-            <input type="text" x-mnemonic-validate-word />
-        </div>-->
     </x-mnemonic-validate>
-    <br />
-    <a prev><-</a>
-    <a next>-></a>
 
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="/x-element/src/x-element.js"></script>
@@ -58,20 +40,8 @@
         $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
 
         const $mnemonicValidate = new XMnemonicValidate();
-        $mnemonicValidate.$button = document.querySelector('button');
         $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
-
-        document.querySelector('a[prev]').addEventListener('click', () => {
-            $mnemonicValidate.$slider.prev();
-        });
-
-        document.querySelector('a[next]').addEventListener('click', () => {
-            $mnemonicValidate.$slider.next();
-        });
-
-        $mnemonicValidate.addEventListener('invalid', () => {
-            console.log('Wrong mnemonic validation words!');
-        });
+        $mnemonicValidate.reset();
 
         $mnemonicValidate.addEventListener('validated', () => {
             console.log('Great! That is correct.');
@@ -102,6 +72,9 @@
         }
         a:hover {
             border-bottom: 1px solid white;
+        }
+        x-mnemonic-validate button {
+            margin: 4px;
         }
     </style>
 </body>
