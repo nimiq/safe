@@ -1,5 +1,6 @@
 class XWalletBackupImport extends XElement {
     onCreate() {
+        this.$fileInput = this.$('input');
         this._bindHandlers();
     }
 
@@ -10,15 +11,27 @@ class XWalletBackupImport extends XElement {
 
         dropZone.addEventListener('dragexit', e => this._onDragEnd(e), false);
         dropZone.addEventListener('dragend', e => this._onDragEnd(e), false);
+
+        this.addEventListener('click', e => this._openFileInput());
+        this.$fileInput.addEventListener('change', e => this._onFileSelected(e));
+    }
+
+    _openFileInput() {
+        this.$fileInput.click();
+    }
+
+    _onFileSelected(e) {
+        this._onFileDrop(e);
+        this.$fileInput.value = null;
     }
 
     async _onFileDrop(event) {
         this._stopPropagation(event);
         this._onDragEnd();
         // Get files
-        const files = event.dataTransfer.files;
+        const files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
         const file = files[0];
-        
+
         const decoded = await QrScannerLib.scanImage(file);
         this.fire('x-wallet-import', decoded);
     }
@@ -38,10 +51,11 @@ class XWalletBackupImport extends XElement {
         this.$el.removeAttribute('active');
     }
 
-    html(){
+    html() {
         return `
-        <h1>Drop file</h1>
+        <h1></h1>
         <x-wallet-backup-backdrop></x-wallet-backup-backdrop>
+        <input type="file">
         `
     }
 }

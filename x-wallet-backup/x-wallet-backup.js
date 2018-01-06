@@ -17,8 +17,6 @@ class XWalletBackup extends XElement {
     }
 
     html() {
-        return `
-    		<a><img></a>
-    	`
+        return `<a><img></a>`
     }
 }

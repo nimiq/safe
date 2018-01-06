@@ -3,26 +3,31 @@
 
 <head>
     <title></title>
-</head>
-
-<body>
-    <x-wallet-backup-import></x-wallet-backup-import>
+    <link rel="stylesheet" type="text/css" href="../x-wallet-backup-import.css">
+    <link rel="stylesheet" type="text/css" href="../../fast-font/fast-font.css">
+    <link rel="stylesheet" type="text/css" href="../../theme/theme.css">
     <script src="/x-element/x-element.js"></script>
     <script src="/qr-scanner/src/qr-scanner-lib.js"></script>
     <script src="../x-wallet-backup-import.js"></script>
-    <link rel="stylesheet" type="text/css" href="../x-wallet-backup-import.css">
-    <link rel="stylesheet" type="text/css" href="../../fast-font/fast-font.css">
-    <script>
-    const $walletImport = new XWalletBackupImport();
-    $walletImport.addEventListener('x-wallet-import', e => alert(e.detail));
-    </script>
     <style type="text/css">
     html,
     body {
         height: 100vh;
         width: 100%;
+        background: var(--primary-background);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     </style>
+</head>
+
+<body>
+    <x-wallet-backup-import></x-wallet-backup-import>
+    <script>
+    const $walletImport = new XWalletBackupImport();
+    $walletImport.addEventListener('x-wallet-import', e => alert(e.detail));
+    </script>
 </body>
 
 </html>
