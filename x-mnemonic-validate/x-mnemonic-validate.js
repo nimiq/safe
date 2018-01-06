@@ -126,7 +126,7 @@ class XMnemonicValidateSlide extends XElement {
 
     set wordlist(wordlist) {
         wordlist.forEach((word, index) => this.$words[index].textContent = word);
-    }
+    } 
 
     set targetIndex(index) {
         this.$targetIndex.textContent = index;
