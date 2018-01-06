@@ -19,6 +19,7 @@ class XWalletBackupImport extends XElement {
         const files = event.dataTransfer.files;
         const file = files[0];
         this.fire('x-wallet-import', file);
+        // TODO: call qr-scanner
     }
 
     _onDragOver(event) {
