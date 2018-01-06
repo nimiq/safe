@@ -5,11 +5,13 @@ class XMnemonicValidate extends XElement {
     }
 
     onCreate() {
-        this.$slides = Array.prototype.map.call(this.$xSlider.slides, slide => {
-            slide = new XMnemonicValidateSlide(slide);
+        this.$slides = [0, 1, 2].map(index => {
+            const slide = new XMnemonicValidateSlide(this.$xSlider.slides[index]);
             slide.addEventListener('x-mnemonic-validate-slide', (e) => this._onSlideEvent(e.detail));
             return slide;
         });
+
+        this.$slides[3] = new XMnemonicValidateSuccessSlide(this.$xSlider.slides[3]);
     }
 
     set privateKey(privateKey) {
@@ -34,14 +36,17 @@ class XMnemonicValidate extends XElement {
     }
 
     _next() {
-        this._setSlideContent(++this._activeSlide);
+        if(++this._activeSlide < 3) this._setSlideContent(this._activeSlide);
+        else setTimeout(() => this.$slides[3].startAnimation(), 300);
         this._showActiveSlide();
     }
 
     _onSlideEvent(valid) {
         if(!valid) setTimeout(() => this.resetSlide(), 820);
-        else if(this._activeSlide === 2) this.fire('validated');
-        else setTimeout(() => this._next(), 500);
+        else {
+            if(this._activeSlide === 2) this.fire('validated');
+            setTimeout(() => this._next(), 500);
+        }
     }
 
     _generateIndices() {
@@ -79,8 +84,6 @@ class XMnemonicValidate extends XElement {
         this.$xSlider.slideTo(this._activeSlide);
     }
 }
-
-
 
 class XMnemonicValidateSlide extends XElement {
 
@@ -132,6 +135,7 @@ class XMnemonicValidateSlide extends XElement {
     _correct($el) {
         $el.classList.add('correct');
     }
+
     html() {
         return `
             <p>Please select the following word from your phrase:</p>
@@ -145,7 +149,23 @@ class XMnemonicValidateSlide extends XElement {
                 <button class="small"></button>
                 <button class="small"></button>
                 <button class="small"></button>
-            </x-wordlist>
-        `
+            </x-wordlist>`;
+    }
+}
+
+class XMnemonicValidateSuccessSlide extends XElement {
+
+    children() {
+        return [XSuccessMark];
+    }
+
+    startAnimation() {
+        this.$xSuccessMark.animate();
+    }
+
+    html() {
+        return `
+            <x-success-mark></x-success-mark>
+            <h1>Validated</h1>`;
     }
 }

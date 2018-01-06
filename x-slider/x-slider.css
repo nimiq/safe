@@ -17,7 +17,7 @@ x-slide-container.animate {
 x-slide {
     border: 1px solid white;
     border-radius: 8px;
-    padding: 8px;
+    padding: 24px 16px;
     box-sizing: border-box;
     min-height: 10em;
     flex: 1;
