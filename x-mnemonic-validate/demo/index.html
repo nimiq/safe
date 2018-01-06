@@ -41,7 +41,6 @@
 
         const $mnemonicValidate = new XMnemonicValidate();
         $mnemonicValidate.privateKey = MnemonicPhrase._arrayToHex(randomKey);
-        $mnemonicValidate.reset();
 
         $mnemonicValidate.addEventListener('validated', () => {
             console.log('Event "validated" fired');

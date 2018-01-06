@@ -1,16 +1,15 @@
 class XMnemonicValidate extends XElement {
+
+    children() {
+        return [XSlider];
+    }
+
     onCreate() {
-        this.$slider = new XSlider();
-        this.addEventListener('click', e => this._onClick(e));
-
-        // this.reset();
-
-
-        this.$slide1 = new XMnemonicValidateSlide(this.$('#slide1'));
-        this.$slide2 = new XMnemonicValidateSlide(this.$('#slide2'));
-        this.$slide3 = new XMnemonicValidateSlide(this.$('#slide3'));
-
-        this.addEventListener('x-mnemonic-word', e => this._onWordSelected(e))
+        this.$slides = Array.prototype.map.call(this.$xSlider.slides, slide => {
+            slide = new XMnemonicValidateSlide(slide);
+            slide.addEventListener('x-mnemonic-validate-slide', (e) => this._onSlideEvent(e.detail));
+            return slide;
+        });
     }
 
     set privateKey(privateKey) {
@@ -19,6 +18,7 @@ class XMnemonicValidate extends XElement {
 
     set mnemonic(mnemonic) {
         this._mnemonic = mnemonic.split(/\s+/g);
+        this.reset();
     }
 
     reset(instantly) {
@@ -28,9 +28,16 @@ class XMnemonicValidate extends XElement {
         this._showActiveSlide(instantly);
     }
 
-    _onClick(e) {
-        if (e.target.localName !== 'button') return;
-        this._onButtonPressed(e.target);
+    _next() {
+        this._activeSlide++;
+        this._setSlideContent(this._activeSlide);
+        this._showActiveSlide();
+    }
+
+    _onSlideEvent(valid) {
+        if(!valid) setTimeout(() => this.reset(), 1000);
+        else if(this._activeSlide === 2) this.fire('validated');
+        else setTimeout(() => this._next(), 500);
     }
 
     _generateIndices() {
@@ -39,6 +46,14 @@ class XMnemonicValidate extends XElement {
             Math.floor(Math.random() * 8) + 8,
             Math.floor(Math.random() * 8) + 16,
         ];
+    }
+
+    _setSlideContent(slideIndex) {
+        this.$slides[slideIndex].set(
+            this._generateWords(this.requiredWords[slideIndex]), // wordlist
+            this.requiredWords[slideIndex] + 1, // targetIndex
+            this._mnemonic[this.requiredWords[slideIndex]] // targetWord
+        );
     }
 
     _generateWords(wordIndex) {
@@ -55,51 +70,51 @@ class XMnemonicValidate extends XElement {
         return Object.keys(words).sort();
     }
 
-    _setSlideContent(slideIndex) {
-        const words = this._generateWords(this.requiredWords[slideIndex]);
-        this.$slider.$slides[slideIndex].innerHTML = this._slideHtml(this.requiredWords[slideIndex], words);
-    }
-
     _showActiveSlide(instantly) {
-        if (instantly) this.$slider.jumpTo(this._activeSlide);
-        else this.$slider.slideTo(this._activeSlide);
+        if (instantly) this.$xSlider.jumpTo(this._activeSlide);
+        else this.$xSlider.slideTo(this._activeSlide);
+    }
+}
+
+
+
+class XMnemonicValidateSlide extends XElement {
+
+    onCreate() {
+        this.$buttons = this.$$('button');
+        this.$targetIndex = this.$('x-target-index');
+        this.addEventListener('click', e => this._onClick(e));
     }
 
-    _next() {
-        this._activeSlide++;
-        this._setSlideContent(this._activeSlide);
-        this._showActiveSlide();
+    set(wordlist, targetIndex, targetWord) {
+        this.$buttons.forEach(button => button.classList.remove('correct'));
+        this.wordlist = wordlist;
+        this.targetIndex = targetIndex;
+        this.targetWord = targetWord;
     }
 
-    _isValidWord(wordIndex, word) {
-        if (!this._mnemonic) throw new Error('Mnemonic to validate against is not set');
+    set wordlist(wordlist) {
+        wordlist.forEach((word, index) => this.$buttons[index].textContent = word);
+    }
 
-        if (word !== this._mnemonic[wordIndex]) return false;
+    set targetIndex(index) {
+        this.$targetIndex.textContent = index;
+    }
 
-        return true;
+    _onClick(e) {
+        if (e.target.localName !== 'button') return;
+        this._onButtonPressed(e.target);
     }
 
     _onButtonPressed($button) {
-        if (!this._isValidWord(this.requiredWords[this._activeSlide], $button.textContent)) {
+        if (this.targetWord !== $button.textContent) {
             this._shake($button);
-            setTimeout(() => this.reset(), 1000);
+            this.fire('x-mnemonic-validate-slide', false);
             return;
         }
 
         this._correct($button);
-
-        if (this._activeSlide === 2) this.fire('validated');
-        else setTimeout(() => this._next(), 500);
-    }
-
-    _slideHtml(wordIndex, words) {
-        return `
-            <p>Please select the following word from your phrase:</p>
-            <p>#<span>${wordIndex + 1}</span></p>
-            <x-wordlist>
-                ${ words.map(word => `<button class="small">${word}</button>`).join('') }
-            </x-wordlist>
-        `;
+        this.fire('x-mnemonic-validate-slide', true);
     }
 
     _shake($el) {
@@ -110,50 +125,19 @@ class XMnemonicValidate extends XElement {
     _correct($el) {
         $el.classList.add('correct');
     }
-}
-
-
-
-
-
-class XMnemonicValidateSlide extends XElement {
-
-    onCreate() {
-        this.$words = this.$$('x-word');
-        this.$targetIndex = this.$('x-target-index');
-        this.addEventListener('click', e => this._onClick(e))
-    }
-
-    set wordlist(wordlist) {
-        wordlist.forEach((word, index) => this.$words[index].textContent = word);
-    } 
-
-    set targetIndex(index) {
-        this.$targetIndex.textContent = index;
-    }
-
-    _onClick(e) {
-        if (e.target.localName !== 'button') return;
-        const word = e.target.textContent;
-        this.fire('x-mnemonic-word', {
-            slide: this,
-            word: word
-        });
-    }
-
     html() {
         return `
             <p>Please select the following word from your phrase:</p>
             <x-target-index></x-target-index>
             <x-wordlist>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
-                <x-word></x-word>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
             </x-wordlist>
         `
     }

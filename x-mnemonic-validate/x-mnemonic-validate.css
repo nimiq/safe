@@ -9,7 +9,8 @@ x-mnemonic-validate {
     line-height: 32px;
 }
 
-x-mnemonic-validate p {
+x-mnemonic-validate p,
+x-mnemonic-validate x-target-index {
     flex: 1 0 100%;
     margin: auto;
     font-size: 18px;
@@ -19,10 +20,16 @@ x-mnemonic-validate p {
     margin-bottom: 1.5em;
 }
 
-x-mnemonic-validate span {
+x-mnemonic-validate x-target-index {
+    display: block;
     font-size: 64px;
     line-height: 32px;
-    margin-left: 4px;
+    margin-bottom: 42px;
+}
+
+x-mnemonic-validate x-target-index::before {
+    content: '#';
+    font-size: 52px;
 }
 
 x-mnemonic-validate button.correct {
