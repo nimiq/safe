@@ -6,12 +6,12 @@ class XMnemonicValidate extends XElement {
 
     onCreate() {
         this.$slides = [0, 1, 2].map(index => {
-            const slide = new XMnemonicValidateSlide(this.$xSlider.slides[index]);
+            const slide = new XMnemonicValidateSlide(this.$slider.slides[index]);
             slide.addEventListener('x-mnemonic-validate-slide', (e) => this._onSlideEvent(e.detail));
             return slide;
         });
 
-        this.$slides[3] = new XMnemonicValidateSuccessSlide(this.$xSlider.slides[3]);
+        this.$slides[3] = new XMnemonicValidateSuccessSlide(this.$slider.slides[3]);
     }
 
     set privateKey(privateKey) {
@@ -81,7 +81,7 @@ class XMnemonicValidate extends XElement {
     }
 
     _showActiveSlide() {
-        this.$xSlider.slideTo(this._activeSlide);
+        this.$slider.slideTo(this._activeSlide);
     }
 
     html(){
@@ -164,7 +164,7 @@ class XMnemonicValidateSuccessSlide extends XElement {
     }
 
     startAnimation() {
-        this.$xSuccessMark.animate();
+        this.$successMark.animate();
     }
 
     html() {
