@@ -33,16 +33,17 @@ x-mnemonic-validate x-target-index::before {
 }
 
 x-mnemonic-validate button.correct {
-    transition: background-color 0.41s linear, color 0.41s linear;
     background-color: var(--success-color);
-    color: rgba(0,0,0,0.7);
     border-color: var(--success-color);
+    color: rgba(0,0,0,0.7);
 }
 
 x-mnemonic-validate button.shake {
     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     transform: translate3d(0, 0, 0);
-    background-color: white;
+    background-color: var(--error-color);
+    border-color: var(--error-color);
+    color: rgba(0,0,0,0.7);
     box-shadow: rgba(0, 0, 0, 0.5) 0 2px 4px;
 }
 
@@ -51,5 +52,4 @@ x-mnemonic-validate button.shake {
     20%, 80% { transform: translate3d(2px, 0, 0); }
     30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
     40%, 60% { transform: translate3d(4px, 0, 0); }
-    50% { color: red; }
 }
