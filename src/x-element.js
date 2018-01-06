@@ -56,6 +56,7 @@ class XElement {
 
     /* Public API */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
+    $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
 
     fire(eventType, detail = null) { // Fire DOM-Event
         const params = { detail: detail, bubbles: true }
