@@ -34,3 +34,28 @@ x-slide.active {
     opacity: 1;
     transform: scale(1);
 }
+
+x-indicator {
+    margin: auto;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 16px;
+}
+
+x-indicator x-dot {
+    display: block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid white;
+    margin: 0 3px;
+    transition: background-color 0.5s ease-in-out;
+    will-change: background-color;
+}
+
+x-indicator x-dot[on] {
+    background: white;
+}

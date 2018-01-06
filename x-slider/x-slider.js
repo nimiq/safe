@@ -9,6 +9,8 @@ class XSlider extends XElement {
 
         this._index = 0;
 
+        this.$indicators = this._prepareIndicators();
+
         window.setTimeout(() => {
             this.jumpTo(this._index);
         }, 0);
@@ -45,8 +47,17 @@ class XSlider extends XElement {
         this.$slideContainer.style.transform = 'translate3d(' + offset + 'px, 0, 0)';
 
         this.$slides[this._index].classList.remove('active');
+        this.$indicators[this._index].removeAttribute('on');
         this._index = index;
         this.$slides[this._index].classList.add('active');
+        this.$indicators[this._index].setAttribute('on', 'on');
+    }
+
+    _prepareIndicators() {
+        const $indicator = document.createElement('x-indicator');
+        for(let i = 0; i < this.$slides.length; i++) $indicator.appendChild(document.createElement('x-dot'));
+        this.$el.appendChild($indicator);
+        return $indicator.childNodes;
     }
 
     _onResize() {
