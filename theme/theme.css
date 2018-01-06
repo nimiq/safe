@@ -1,4 +1,5 @@
 :root {
     --primary-color: #536DFE;
     --primary-background: linear-gradient(#536DFE, #a553fe);
+    --success-color: #64FFDA;	/* teal-200 */		
 }

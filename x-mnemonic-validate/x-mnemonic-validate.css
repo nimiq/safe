@@ -34,9 +34,9 @@ x-mnemonic-validate x-target-index::before {
 
 x-mnemonic-validate button.correct {
     transition: background-color 0.41s linear, color 0.41s linear;
-    background-color: greenyellow;
-    color: darkgreen;
-    border-color: greenyellow;
+    background-color: var(--success-color);
+    color: rgba(0,0,0,0.7);
+    border-color: var(--success-color);
 }
 
 x-mnemonic-validate button.shake {
