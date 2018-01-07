@@ -2,7 +2,7 @@ class XMnemonicInput extends XElement {
 
     onCreate() {
         const $body = document.querySelector('body')
-        $body.insertBefore(document.createTextNode('v3'), $body.firstChild);
+        $body.insertBefore(document.createTextNode('v4'), $body.firstChild);
 
         this.$datalist = document.createElement('datalist');
         this.$datalist.setAttribute('id', 'x-mnemonic-wordlist');
