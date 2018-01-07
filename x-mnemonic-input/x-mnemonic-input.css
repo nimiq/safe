@@ -51,3 +51,44 @@ x-mnemonic-input input[type="text"].invalid {
 datalist {
     display: none;
 }
+
+.autocomplete-suggestions {
+    text-align: left;
+    cursor: default;
+    border: 1px solid #ccc;
+    border-top: 0;
+    background: #fff;
+    box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+
+    /* core styles should not be changed */
+    position: absolute;
+    display: none;
+    z-index: 9999;
+    max-height: 254px;
+    overflow: hidden;
+    /* overflow-y: auto; */
+    box-sizing: border-box;
+}
+.autocomplete-suggestion {
+    position: relative;
+    padding: 0 .1em;
+    line-height: 2.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* font-size: 1.02em; */
+    color: var(--secondary-text-color);
+    color: black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.autocomplete-suggestion:last-child {
+    border-bottom: none;
+}
+.autocomplete-suggestion b {
+    font-weight: normal;
+    color: var(--primary-color);
+    color: black;
+}
+.autocomplete-suggestion.selected {
+    background: #f0f0f0;
+}
