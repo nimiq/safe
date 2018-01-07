@@ -18,6 +18,12 @@ class XAmount extends XElement {
         decimals = Math.pow(10, decimals);
         return Math.round(number * decimals) / decimals;
     }
+
+    html(){
+        return `
+        <x-currency-1></x-currency-1>
+        <x-currency-2></x-currency-2>`
+    }
 }
 
 class XAmountInput extends XAmount {
@@ -50,5 +56,13 @@ class XAmountInput extends XAmount {
 
     get value() {
         return this.$input.value;
+    }
+
+    html(){
+        return `
+            <x-currency-1>
+                <input placeholder="00.00" type="number">
+            </x-currency-1>
+            <x-currency-2></x-currency-2>`
     }
 }
