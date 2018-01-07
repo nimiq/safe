@@ -81,7 +81,11 @@ class XMnemonicInputField extends XElement {
     }
 
     _onInput(e) {
-        const value = this.$input.value;
+        let value = this.$input.value;
+        if (value.toLowerCase() !== value) {
+            this.$input.value = value.toLowerCase();
+            value = this.$input.value;
+        }
         if (this._value === value) return;
         this._complete = false;
         this.$input.classList.remove('complete');
