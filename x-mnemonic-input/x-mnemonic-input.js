@@ -1,8 +1,14 @@
 class XMnemonicInput extends XElement {
 
+    children() {
+        return [XSuccessMark];
+    }
+
     onCreate() {
+        // For making sure that nimiq.github.io loaded pages have the correct javascript for testing
+        // Must be removed when this element is finished
         const $body = document.querySelector('body')
-        $body.insertBefore(document.createTextNode('v5'), $body.firstChild);
+        $body.insertBefore(document.createTextNode('v6'), $body.firstChild);
 
         this.$fields = [];
         this.$form = document.createElement('form');
@@ -63,11 +69,27 @@ class XMnemonicInput extends XElement {
         }
         catch(e) {
             console.log(e.message);
+            this._animateError();
         }
     }
 
     _animateSuccess() {
-        //
+        this.$el.classList.add('recovered');
+        setTimeout(() => this.$successMark.animate(), 300);
+        // setTimeout(() => this.$form.style.display = 'none', 500);
+    }
+
+    _animateError() {
+        this.$el.classList.add('shake');
+        setTimeout(() => this.$el.classList.remove('shake'), 820);
+    }
+
+    html() {
+        return `
+            <div class="x-mnemonic-input-success">
+                <x-success-mark></x-success-mark>
+                <h1>Validated</h1>
+            </div>`;
     }
 }
 
