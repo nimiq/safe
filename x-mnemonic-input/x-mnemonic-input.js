@@ -39,9 +39,11 @@ class XMnemonicInput extends XElement {
     }
 
     _onFieldComplete(e) {
-        if (e.detail[0].$input === document.activeElement && !e.detail[1]) {
+        const completedField = e.detail[0];
+        const wasCompletedByTab = e.detail[1];
+        if (completedField.$input === document.activeElement && !wasCompletedByTab) {
             // Find active field
-            const index = Array.prototype.indexOf.call(this.$fields, e.detail[0]);
+            const index = Array.prototype.indexOf.call(this.$fields, completedField);
             if (index < this.$fields.length - 1)
                 // Set focus to next field
                 this.$fields[index + 1].$input.focus();
@@ -51,7 +53,7 @@ class XMnemonicInput extends XElement {
     }
 
     _checkPhraseComplete() {
-        const check = this.$fields.find(field => !field._complete);
+        const check = this.$fields.find(field => !field.complete);
         if (typeof check !== 'undefined') return;
         const mnemonic = this.$fields.map(field => field.$input.value).join(' ');
         try {
@@ -99,22 +101,22 @@ class XMnemonicInputField extends XElement {
         });
     }
 
+    validateValue(byTab) {
+        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(this.$input.value);
+        if (index < 0) {
+            this.$input.classList.add('invalid');
+            return;
+        }
+
+        this.complete = true;
+        this.fire('complete', [this, !!byTab]);
+        this.$input.classList.add('complete');
+    }
+
     _onKeyDown(e) {
         // console.log('_onKeyDown', e.keyCode, e.type);
-        const value = this.$input.value;
         if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur' || e.type === 'input') {
-            if (value.length >= 3) {
-                const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(value);
-                if (index > -1) {
-                    this._complete = true;
-                    this.fire('complete', [this, e.keyCode === 9 /* tab */ ]);
-                    this.$input.classList.add('complete');
-                }
-                else {
-                    this.$input.classList.add('invalid');
-                }
-            }
-
+            if (this.$input.value.length >= 3) this.validateValue(e.keyCode === 9 /* tab */);
             if (e.keyCode === 32 /* space */ ) e.preventDefault();
         }
     }
@@ -138,7 +140,7 @@ class XMnemonicInputField extends XElement {
 
         if (this._value === value) return;
 
-        this._complete = false;
+        this.complete = false;
         this.$input.classList.remove('complete');
         this.$input.classList.remove('invalid'); // Multiple classes in remove() are not supported by IE
         this._value = value;
@@ -146,7 +148,7 @@ class XMnemonicInputField extends XElement {
 
     _onBlur(e) {
         // console.log('_onBlur');
-        if (this._complete) return;
+        if (this.complete) return;
         this._onKeyDown(e);
     }
 
