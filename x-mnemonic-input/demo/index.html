@@ -11,8 +11,8 @@
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
     <link href="../../x-mnemonic-phrase/x-mnemonic-phrase.css" rel="stylesheet">
-    <script src="../auto-complete.min.js"></script>
-    <link href="../auto-complete.css" rel="stylesheet">
+    <script src="../../x-success-mark/x-success-mark.js"></script>
+    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
     <script src="../x-mnemonic-input.js"></script>
     <link href="../x-mnemonic-input.css" rel="stylesheet">
     <style>
@@ -35,6 +35,7 @@
 
     p {
         text-align: center;
+        line-height: 2;
     }
 
     code {
@@ -43,6 +44,10 @@
         border: 1px solid white;
         padding: 2px 6px;
         border-radius: 5px;
+    }
+
+    div {
+        margin-top: 1em;
     }
 
     #privateKey {
@@ -56,6 +61,10 @@
     <h1>Recover your Private Key</h1>
     <p>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</p>
     <x-mnemonic-input></x-mnemonic-input>
+    <div>
+        <button id="fill-correctly" class="small">Fill correclty</button>
+        <button id="fill-randomly" class="small">Fill randomly</button>
+    </div>
     <p>
         Your private key:
         <br />
@@ -63,13 +72,37 @@
     </p>
     <script>
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+    const hexKey = MnemonicPhrase._arrayToHex(randomKey);
+    const mnemonic = MnemonicPhrase.keyToMnemonic(hexKey);
+
     const $mnemonicPhrase = new XMnemonicPhrase();
-    $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+    $mnemonicPhrase.privateKey = hexKey;
 
     const $mnemonicInput = new XMnemonicInput();
 
     $mnemonicInput.addEventListener('recovered', e => {
         document.querySelector('#privateKey').textContent = e.detail;
+    });
+
+    function putWord(el, word, index) {
+        setTimeout(() => {
+            el.$input.value = word;
+            el.validateValue(true);
+        }, index * 50);
+    }
+
+    document.querySelector('#fill-correctly').addEventListener('click', () => {
+        $mnemonicInput.$fields.forEach((field, index) => {
+            putWord(field, mnemonic.split(' ')[index], index);
+        });
+        document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
+    });
+
+    document.querySelector('#fill-randomly').addEventListener('click', () => {
+        $mnemonicInput.$fields.forEach((field, index) => {
+            putWord(field, MnemonicPhrase.DEFAULT_WORDLIST[Math.floor(Math.random() * 2048)], index);
+        });
+        document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
     });
     </script>
 </body>

@@ -33,6 +33,8 @@ x-mnemonic-validate x-target-index::before {
 
 x-mnemonic-validate button {
     margin: 4px;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
 }
 
 x-mnemonic-validate button.correct {
@@ -43,7 +45,6 @@ x-mnemonic-validate button.correct {
 
 x-mnemonic-validate button.shake {
     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
-    transform: translate3d(0, 0, 0);
     background-color: var(--error-color);
     border-color: var(--error-color);
     color: var(--secondary-text-color);
