@@ -39,3 +39,7 @@ x-mnemonic-input input[type="text"]:focus {
 x-mnemonic-input input[type="text"].complete {
     border-bottom-color: var(--success-color);
 }
+
+x-mnemonic-input input[type="text"].invalid {
+    border-bottom-color: var(--error-color);
+}

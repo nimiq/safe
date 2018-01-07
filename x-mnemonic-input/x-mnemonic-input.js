@@ -3,6 +3,7 @@ class XMnemonicInput extends XElement {
     onCreate() {
         this.$fields = [];
         this.$form = document.createElement('form');
+        this.$form.setAttribute('autocomplete', 'off');
         for (let i = 0; i < 24; i++) {
             const field = XMnemonicInputField.createElement();
             this.$form.appendChild(field.$el);
@@ -31,8 +32,18 @@ class XMnemonicInput extends XElement {
         const check = this.$fields.find(field => !field._complete);
         if (typeof check !== 'undefined') return;
         const mnemonic = this.$fields.map(field => field.$input.value).join(' ');
-        const privateKey = MnemonicPhrase.mnemonicToKey(mnemonic);
-        this.fire('recovered', privateKey);
+        try {
+            const privateKey = MnemonicPhrase.mnemonicToKey(mnemonic);
+            this.fire('recovered', privateKey);
+            this._animateSuccess();
+        }
+        catch(e) {
+            console.log(e.message);
+        }
+    }
+
+    _animateSuccess() {
+        //
     }
 }
 
@@ -56,6 +67,9 @@ class XMnemonicInputField extends XElement {
                     this.fire('complete', [this, e.keyCode === 9 /* tab */ ]);
                     this.$input.classList.add('complete');
                 }
+                else {
+                    this.$input.classList.add('invalid');
+                }
                 // else {
                 //     this._complete = false;
                 //     this.$input.classList.remove('complete');
@@ -71,6 +85,7 @@ class XMnemonicInputField extends XElement {
         if (this._value === value) return;
         this._complete = false;
         this.$input.classList.remove('complete');
+        this.$input.classList.remove('invalid'); // Multiple classes in remove() are not supported by IE
         this._value = value;
     }
 
@@ -80,6 +95,6 @@ class XMnemonicInputField extends XElement {
     }
 
     html() {
-        return `<input type="text" autocomplete="off">`
+        return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
     }
 }
