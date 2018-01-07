@@ -1,6 +1,18 @@
 class XMnemonicInput extends XElement {
 
     onCreate() {
+        const $body = document.querySelector('body')
+        $body.insertBefore(document.createTextNode('v3'), $body.firstChild);
+
+        this.$datalist = document.createElement('datalist');
+        this.$datalist.setAttribute('id', 'x-mnemonic-wordlist');
+        for( let i = 0; i < MnemonicPhrase.DEFAULT_WORDLIST.length; i++) {
+            const option = document.createElement('option');
+            option.textContent = MnemonicPhrase.DEFAULT_WORDLIST[i];
+            this.$datalist.appendChild(option);
+        }
+        this.$el.appendChild(this.$datalist);
+
         this.$fields = [];
         this.$form = document.createElement('form');
         this.$form.setAttribute('autocomplete', 'off');
@@ -58,8 +70,9 @@ class XMnemonicInputField extends XElement {
     }
 
     _onKeyDown(e) {
+        console.log('_onKeyDown', e.keyCode, e.type);
         const value = this.$input.value;
-        if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur') {
+        if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur' || e.type === 'input') {
             if (value.length >= 3) {
                 const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(value);
                 if (index > -1) {
@@ -70,10 +83,6 @@ class XMnemonicInputField extends XElement {
                 else {
                     this.$input.classList.add('invalid');
                 }
-                // else {
-                //     this._complete = false;
-                //     this.$input.classList.remove('complete');
-                // }
             }
 
             if (e.keyCode === 32 /* space */ ) e.preventDefault();
@@ -81,12 +90,25 @@ class XMnemonicInputField extends XElement {
     }
 
     _onInput(e) {
+        console.log('_onInput', e.data);
+
+        if(typeof e.data === 'undefined') { // No key pressed, but autocomplete selected
+            this._onKeyDown(e);
+            return;
+        }
+
         let value = this.$input.value;
+
         if (value.toLowerCase() !== value) {
             this.$input.value = value.toLowerCase();
             value = this.$input.value;
         }
+
+        if(value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
+        else this.$input.removeAttribute('list');
+
         if (this._value === value) return;
+
         this._complete = false;
         this.$input.classList.remove('complete');
         this.$input.classList.remove('invalid'); // Multiple classes in remove() are not supported by IE
@@ -94,6 +116,7 @@ class XMnemonicInputField extends XElement {
     }
 
     _onBlur(e) {
+        console.log('_onBlur');
         if (this._complete) return;
         this._onKeyDown(e);
     }

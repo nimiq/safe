@@ -36,10 +36,18 @@ x-mnemonic-input input[type="text"]:focus {
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
+x-mnemonic-input input[type="text"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
 x-mnemonic-input input[type="text"].complete {
     border-bottom-color: var(--success-color);
 }
 
 x-mnemonic-input input[type="text"].invalid {
     border-bottom-color: var(--error-color);
+}
+
+datalist {
+    display: none;
 }
