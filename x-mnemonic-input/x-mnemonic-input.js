@@ -2,16 +2,16 @@ class XMnemonicInput extends XElement {
 
     onCreate() {
         const $body = document.querySelector('body')
-        $body.insertBefore(document.createTextNode('v4'), $body.firstChild);
+        $body.insertBefore(document.createTextNode('v5'), $body.firstChild);
 
-        this.$datalist = document.createElement('datalist');
-        this.$datalist.setAttribute('id', 'x-mnemonic-wordlist');
-        for( let i = 0; i < MnemonicPhrase.DEFAULT_WORDLIST.length; i++) {
-            const option = document.createElement('option');
-            option.textContent = MnemonicPhrase.DEFAULT_WORDLIST[i];
-            this.$datalist.appendChild(option);
-        }
-        this.$el.appendChild(this.$datalist);
+        // this.$datalist = document.createElement('datalist');
+        // this.$datalist.setAttribute('id', 'x-mnemonic-wordlist');
+        // for( let i = 0; i < MnemonicPhrase.DEFAULT_WORDLIST.length; i++) {
+        //     const option = document.createElement('option');
+        //     option.textContent = MnemonicPhrase.DEFAULT_WORDLIST[i];
+        //     this.$datalist.appendChild(option);
+        // }
+        // this.$el.appendChild(this.$datalist);
 
         this.$fields = [];
         this.$form = document.createElement('form');
@@ -62,6 +62,22 @@ class XMnemonicInput extends XElement {
 class XMnemonicInputField extends XElement {
     onCreate() {
         this.$input = this.$('input');
+
+        this.autocomplete = new autoComplete({
+            selector: this.$input,
+            source: (term, response) => {
+                const list = MnemonicPhrase.DEFAULT_WORDLIST.filter(word => {
+                    return word.slice(0, term.length) === term;
+                });
+                response(list);
+            },
+            minChars: 3,
+            delay: 0,
+            onSelect: () => {
+                this._onKeyDown({type: 'input'});
+            }
+        });
+
         this.$input.addEventListener('keydown', e => this._onKeyDown(e));
         this.$input.addEventListener('input', e => this._onInput(e));
         this.$input.addEventListener('blur', e => this._onBlur(e));
@@ -70,7 +86,7 @@ class XMnemonicInputField extends XElement {
     }
 
     _onKeyDown(e) {
-        console.log('_onKeyDown', e.keyCode, e.type);
+        // console.log('_onKeyDown', e.keyCode, e.type);
         const value = this.$input.value;
         if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur' || e.type === 'input') {
             if (value.length >= 3) {
@@ -90,8 +106,7 @@ class XMnemonicInputField extends XElement {
     }
 
     _onInput(e) {
-        console.log('_onInput', e.data);
-
+        // console.log('_onInput', e.data);
         if(typeof e.data === 'undefined') { // No key pressed, but autocomplete selected
             this._onKeyDown(e);
             return;
@@ -104,8 +119,8 @@ class XMnemonicInputField extends XElement {
             value = this.$input.value;
         }
 
-        if(value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
-        else this.$input.removeAttribute('list');
+        // if(value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
+        // else this.$input.removeAttribute('list');
 
         if (this._value === value) return;
 
@@ -116,7 +131,7 @@ class XMnemonicInputField extends XElement {
     }
 
     _onBlur(e) {
-        console.log('_onBlur');
+        // console.log('_onBlur');
         if (this._complete) return;
         this._onKeyDown(e);
     }
