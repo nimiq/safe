@@ -69,14 +69,24 @@ x-mnemonic-input input[type="text"].invalid {
     border-bottom-color: var(--error-color);
 }
 
-x-mnemonic-input .x-mnemonic-input-success {
+x-mnemonic-input-success {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     opacity: 0;
+    display:  flex;
+    flex-direction:  column;
+    align-items: center;
+    justify-content:  center;
+    pointer-events: none;
     transform: scale(0.5);
     transition: transform 0.8s ease, opacity 0.5s ease;
     will-change: transform, opacity;
 }
 
-x-mnemonic-input.recovered .x-mnemonic-input-success {
+.recovered x-mnemonic-input-success {
     opacity: 1;
     transform: scale(1);
 }
