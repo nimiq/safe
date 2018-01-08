@@ -19,27 +19,27 @@ class XMnemonicInput extends XElement {
         }
         this.$el.appendChild(this.$form);
 
-        if(this._hasDatalistSupport()) this._createDatalist();
+        if (this._hasDatalistSupport()) this._createDatalist();
         else this.$fields.forEach(field => field.setupAutocomplete());
 
-        this.addEventListener('complete', e => this._onFieldComplete(e));
+        this.addEventListener('x-complete', e => this._onFieldComplete(e));
 
         this.$fields[0].$input.focus();
     }
 
     _hasDatalistSupport() {
-    	return !!( 'list' in document.createElement( 'input' ) ) &&
-    		   !!( document.createElement( 'datalist' ) && window.HTMLDataListElement );
+        return !!('list' in document.createElement('input')) &&
+            !!(document.createElement('datalist') && window.HTMLDataListElement);
     }
 
     _createDatalist() {
         const datalist = document.createElement('datalist');
         datalist.setAttribute('id', 'x-mnemonic-wordlist');
-        for( let i = 0; i < MnemonicPhrase.DEFAULT_WORDLIST.length; i++) {
+        MnemonicPhrase.DEFAULT_WORDLIST.forEach(word => {
             const option = document.createElement('option');
-            option.textContent = MnemonicPhrase.DEFAULT_WORDLIST[i];
+            option.textContent = word;
             datalist.appendChild(option);
-        }
+        });
         this.$el.appendChild(datalist);
     }
 
@@ -65,8 +65,7 @@ class XMnemonicInput extends XElement {
             const privateKey = MnemonicPhrase.mnemonicToKey(mnemonic);
             this.fire('recovered', privateKey);
             this._animateSuccess();
-        }
-        catch(e) {
+        } catch (e) {
             console.log(e.message);
             this._animateError();
         }
@@ -75,7 +74,6 @@ class XMnemonicInput extends XElement {
     _animateSuccess() {
         this.$el.classList.add('recovered');
         setTimeout(() => this.$successMark.animate(), 300);
-        // setTimeout(() => this.$form.style.display = 'none', 500);
     }
 
     _animateError() {
@@ -131,21 +129,19 @@ class XMnemonicInputField extends XElement {
         }
 
         this.complete = true;
-        this.fire('complete', [this, !!byTab]);
+        this.fire('x-complete', [this, !!byTab]);
         this.$input.classList.add('complete');
     }
 
     _onKeyDown(e) {
-        // console.log('_onKeyDown', e.keyCode, e.type);
         if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur' || e.type === 'input') {
-            if (this.$input.value.length >= 3) this.validateValue(e.keyCode === 9 /* tab */);
+            if (this.$input.value.length >= 3) this.validateValue(e.keyCode === 9 /* tab */ );
             if (e.keyCode === 32 /* space */ ) e.preventDefault();
         }
     }
 
     _onInput(e) {
-        // console.log('_onInput', e.data);
-        if(typeof e.data === 'undefined') { // No key pressed, but autocomplete selected
+        if (typeof e.data === 'undefined') { // No key pressed, but autocomplete selected
             this._onKeyDown(e);
             return;
         }
@@ -157,7 +153,7 @@ class XMnemonicInputField extends XElement {
             value = this.$input.value;
         }
 
-        if(value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
+        if (value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
         else this.$input.removeAttribute('list');
 
         if (this._value === value) return;
@@ -169,7 +165,6 @@ class XMnemonicInputField extends XElement {
     }
 
     _onBlur(e) {
-        // console.log('_onBlur');
         if (this.complete) return;
         this._onKeyDown(e);
     }
