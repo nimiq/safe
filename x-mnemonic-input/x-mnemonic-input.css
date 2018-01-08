@@ -46,11 +46,11 @@ x-mnemonic-input-field {
 x-mnemonic-input input[type="text"] {
     background-color: rgba(255, 255, 255, 0.1);
     width: 100%;
-    min-width: 4.5em;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     font-family: inherit;
     line-height: 2;
     font-size: 15px;
+    padding: 0;
 }
 
 x-mnemonic-input input[type="text"]:focus {
