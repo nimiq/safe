@@ -5,11 +5,6 @@ class XMnemonicInput extends XElement {
     }
 
     onCreate() {
-        // For making sure that nimiq.github.io loaded pages have the correct javascript for testing
-        // Must be removed when this element is finished
-        const $body = document.querySelector('body')
-        $body.insertBefore(document.createTextNode('v6'), $body.firstChild);
-
         this.$fields = [];
         this.$form = this.$('form');
         for (let i = 0; i < 24; i++) {
@@ -86,7 +81,7 @@ class XMnemonicInput extends XElement {
             <form autocomplete="off"></form>
             <x-mnemonic-input-success>
                 <x-success-mark></x-success-mark>
-                <h1>Validated</h1>
+                <h1>Recovered</h1>
             <x-mnemonic-input-success>`;
     }
 }
