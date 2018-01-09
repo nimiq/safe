@@ -108,9 +108,9 @@ class XMnemonicInputField extends XElement {
             },
             minChars: 3,
             delay: 0,
-            onSelect: () => {
+            onSelect: (e) => {
                 // Emulate the event from selecting a datalist item
-                const e = { type: 'input' };
+                e = { type: 'input', keyCode: e.keyCode };
                 this._onKeyDown(e);
             }
         });
