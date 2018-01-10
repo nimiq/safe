@@ -32,7 +32,7 @@ class XWalletBackupImport extends XElement {
         const files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
         const file = files[0];
 
-        const decoded = await QrScannerLib.scanImage(file);
+        const decoded = await QrScanner.scanImage(file);
         this.fire('x-wallet-import', decoded);
     }
 
@@ -53,10 +53,10 @@ class XWalletBackupImport extends XElement {
 
     html() {
         return `
-        <h1></h1>
-        <x-wallet-backup-backdrop></x-wallet-backup-backdrop>
-        <input type="file">
-        `
+                <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
+                <h1>Drop a File</h1>
+                <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
+                <input type="file">`
     }
 }
 
