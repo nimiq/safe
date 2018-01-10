@@ -30,10 +30,17 @@ class XApp extends XElement {
     }
 
     _bindListeners() {
-        if(!this.listeners) return;
+        if (!this.listeners) return;
         const listeners = this.listeners();
         for (const key in listeners) {
             this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
         }
+    }
+}
+
+class XView extends XElement {
+    constructor(root) {
+        super(root);
+        this.$el.id = this.__tagName.replace('view-','')
     }
 }
