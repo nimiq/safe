@@ -11,14 +11,16 @@ class XElement {
         if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
-        if (this.html) this.__fromHTML(); // use html if it is set
+        if (this.$el.innerHTML.trim() === '' && this.html) this.__fromHtml(); // use html if it is not set yet
     }
 
     __createChildren() { // Create all children recursively 
         if (!this.children) return;
-        this.children().forEach(child => { // bind all this.$myChildElement = new MyChildElement(this);
-            this[child.__toChildName()] = new child(this);
-        })
+        this.children().forEach(child => this.__createChild(child))
+    }
+
+    __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
+        this[child.__toChildName()] = new child(this);
     }
 
     static __toChildName() {
@@ -35,7 +37,7 @@ class XElement {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
 
-    __fromHTML() {
+    __fromHtml() {
         this.$el.innerHTML = this.html();
     }
 
@@ -48,11 +50,11 @@ class XElement {
 
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
-    clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) }
+    clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
     addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 
-    fire(eventType, detail = null) { // Fire DOM-Event
-        const params = { detail: detail, bubbles: true }
+    fire(eventType, detail = null, bubbles = false) { // Fire DOM-Event
+        const params = { detail: detail, bubbles: bubbles }
         this.$el.dispatchEvent(new CustomEvent(eventType, params))
     }
 }

@@ -10,6 +10,13 @@ class XApp extends XElement {
         this._parseUriFragment();
     }
 
+    __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
+        const $child = new child(this);
+        this[child.__toChildName()] = $child;
+        if (!$child.__tagName.startsWith('view-')) return
+        $child.$el.id = $child.__tagName.replace('view-', '');
+    }
+
     _parseUriFragment() {
         const fragment = decodeURIComponent(location.hash.substr(1))
         const path = fragment.split('/');
@@ -35,12 +42,5 @@ class XApp extends XElement {
         for (const key in listeners) {
             this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
         }
-    }
-}
-
-class XView extends XElement {
-    constructor(root) {
-        super(root);
-        this.$el.id = this.__tagName.replace('view-','')
     }
 }
