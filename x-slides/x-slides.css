@@ -1,4 +1,4 @@
-x-slider {
+x-slides {
     width: 100%;
     padding: 8px 5%;
     box-sizing: border-box;
@@ -14,7 +14,7 @@ x-slide-container.animate {
     transition: transform 0.8s ease-in-out;
 }
 
-x-slide {
+x-slide-container > * {     /* slides are the children of x-slide-container */ 
     border: 1px solid white;
     border-radius: 8px;
     padding: 24px 16px;
@@ -30,7 +30,7 @@ x-slide {
     will-change: opacity, transform;
 }
 
-x-slide.active {
+x-slide-container > *.active {
     opacity: 1;
     transform: scale(1);
 }

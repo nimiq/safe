@@ -1,17 +1,13 @@
 class XMnemonicValidate extends XElement {
 
     children() {
-        return [XSlider];
+        return [XSlides, [XMnemonicValidateSlide], XMnemonicValidateSuccessSlide];
     }
 
     onCreate() {
-        this.$slides = [0, 1, 2].map(index => {
-            const slide = new XMnemonicValidateSlide(this.$slider.slides[index]);
+        this.$mnemonicValidateSlides.forEach(slide => {
             slide.addEventListener('x-mnemonic-validate-slide', e => this._onSlideEvent(e.detail));
-            return slide;
         });
-
-        this.$slides[3] = new XMnemonicValidateSuccessSlide(this.$slider.slides[3]);
     }
 
     set privateKey(privateKey) {
@@ -36,30 +32,30 @@ class XMnemonicValidate extends XElement {
     }
 
     _next() {
-        if(++this._activeSlide < 3) this._setSlideContent(this._activeSlide);
-        else setTimeout(() => this.$slides[3].startAnimation(), 300);
+        this._activeSlide += 1;
+        if (this._activeSlide < 3) this._setSlideContent(this._activeSlide);
+        else setTimeout(() => this.$mnemonicValidateSuccessSlide.startAnimation(), 300);
         this._showActiveSlide();
     }
 
     _onSlideEvent(valid) {
-        if(!valid) setTimeout(() => this.resetSlide(), 820);
+        if (!valid) setTimeout(() => this.resetSlide(), 820);
         else {
-            if(this._activeSlide === 2) this.fire('validated');
+            if (this._activeSlide === 2) this.fire('validated');
             setTimeout(() => this._next(), 500);
         }
     }
 
     _generateIndices() {
-        this.requiredWords = Array(3);
-        [0, 1, 2].forEach(index => this._generateIndex(index));
+        this.requiredWords = [0, 1, 2].map(this._generateIndex);
     }
 
-    _generateIndex(slideIndex){
-        this.requiredWords[slideIndex] = Math.floor(Math.random() * 8) + slideIndex * 8;
+    _generateIndex(index) {
+        return Math.floor(Math.random() * 8) + index * 8;
     }
 
     _setSlideContent(slideIndex) {
-        this.$slides[slideIndex].set(
+        this.$mnemonicValidateSlides[slideIndex].set(
             this._generateWords(this.requiredWords[slideIndex]), // wordlist
             this.requiredWords[slideIndex] + 1, // targetIndex
             this._mnemonic[this.requiredWords[slideIndex]] // targetWord
@@ -81,11 +77,18 @@ class XMnemonicValidate extends XElement {
     }
 
     _showActiveSlide() {
-        this.$slider.slideTo(this._activeSlide);
+        this.$slides.slideTo(this._activeSlide);
     }
 
-    html(){
-        return `<x-slider slides="4"></x-slider>`
+    html() {
+        return `
+            <x-slides>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-mnemonic-validate-success-slide></x-mnemonic-validate-success-slide>
+            </x-slides>
+            `
     }
 }
 

@@ -2,13 +2,13 @@
 <html>
 
 <head>
-    <title>Slider</title>
+    <title>Slides</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <script src="/x-element/x-element.js"></script>
     <link rel="stylesheet" href="../../fast-font/fast-font.css">
     <link rel="stylesheet" href="../../theme/theme.css">
-    <script src="../../x-slider/x-slider.js"></script>
-    <link rel="stylesheet" href="../../x-slider/x-slider.css">
+    <script src="../../x-slides/x-slides.js"></script>
+    <link rel="stylesheet" href="../../x-slides/x-slides.css">
     <style>
     html,
     body {
@@ -38,7 +38,7 @@
         border-bottom: 1px solid white;
     }
 
-    x-slide {
+    my-slide {
         min-height: 350px;
         display: flex;
         align-items: center;
@@ -49,27 +49,28 @@
 </head>
 
 <body>
-    <h1>Slider</h1>
-    <x-slider>
-        <x-slide-container>
-            <x-slide>
-                <h1>1</h1></x-slide>
-            <x-slide>
-                <h1>2</h1></x-slide>
-            <x-slide>
-                <h1>3</h1></x-slide>
-        </x-slide-container>
-    </x-slider>
+    <h1>Slides</h1>
+    <x-slides>
+        <my-slide>
+            <h1>1</h1>
+        </my-slide>
+        <my-slide>
+            <h1>2</h1>
+        </my-slide>
+        <my-slide>
+            <h1>3</h1>
+        </my-slide>
+    </x-slides>
     <span><a prev><-</a> &nbsp; <a next>-></a></span>
     <script>
-    const $slider = new XSlider();
+    const $slides = new XSlides();
 
     document.querySelector('a[prev]').addEventListener('click', () => {
-        $slider.prev();
+        $slides.prev();
     });
 
     document.querySelector('a[next]').addEventListener('click', () => {
-        $slider.next();
+        $slides.next();
     });
     </script>
 </body>

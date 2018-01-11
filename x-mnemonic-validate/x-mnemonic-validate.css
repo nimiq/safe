@@ -57,7 +57,7 @@ x-mnemonic-validate button.shake {
     40%, 60% { transform: translate3d(4px, 0, 0); }
 }
 
-x-mnemonic-validate x-slide:last-child {
+x-mnemonic-validate-success-slide {
     display: flex;
     flex-direction: column;
     justify-content: center;

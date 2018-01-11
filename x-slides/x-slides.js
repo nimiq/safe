@@ -1,4 +1,4 @@
-class XSlider extends XElement {
+class XSlides extends XElement {
     onCreate() {
         this.$slideContainer = this._prepareSlides();
         this.$slides = this.$slideContainer.childNodes;
@@ -54,31 +54,37 @@ class XSlider extends XElement {
     }
 
     _prepareSlides() {
-        const $container = document.createElement('x-slide-container');
-        for(let i = 0; i < this.$el.getAttribute('slides'); i++) {
-            $container.appendChild(document.createElement('x-slide'));
-        }
-        $container.style.width = this.$el.getAttribute('slides') * 100 + '%';
-        this.$el.appendChild($container);
+        const $container = this.$('x-slide-container');
+        $container.childNodes.forEach(child => {
+            if (child instanceof Text && child.textContent.trim() == '') child.remove();
+        })
+        const slidesCount = $container.childElementCount;
+        $container.style.width = slidesCount * 100 + '%';
         return $container;
     }
 
     _prepareIndicators() {
-        const $indicator = document.createElement('x-indicator');
-        for(let i = 0; i < this.$slides.length; i++) {
+        const $indicator = this.$('x-indicator');
+        for (let i = 0; i < this.$slides.length; i++) {
             $indicator.appendChild(document.createElement('x-dot'));
         }
-        this.$el.appendChild($indicator);
         return $indicator.childNodes;
     }
 
     _onResize() {
-        if(this._resizing) return;
+        if (this._resizing) return;
         this._resizing = true;
 
         window.requestAnimationFrame(() => {
             this.jumpTo(this._index);
             this._resizing = false;
         });
+    }
+
+    html() {
+        return `
+            <x-slide-container content></x-slide-container>
+            <x-indicator></x-indicator>
+        `
     }
 }
