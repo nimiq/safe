@@ -29,16 +29,16 @@ class XElement {
         return '$' + name[0].toLowerCase() + name.substring(1); // AnyConstructorName -> $anyConstructorName
     }
 
+    __fromHtml() {
+        this.$el.innerHTML = this.html();
+    }
+
     get __tagName() { // The tagName of this DOM-Element
         return XElement.__toTagName(this.constructor.name);
     }
 
     static __toTagName(name) {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
-    }
-
-    __fromHtml() {
-        this.$el.innerHTML = this.html();
     }
 
     /* Public API */

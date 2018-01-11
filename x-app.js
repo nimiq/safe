@@ -5,19 +5,27 @@ class XApp extends XElement {
     get defaultLocation() { return '#home' }
 
     onCreate() {
-        window.addEventListener('popstate', () => this._parseUriFragment());
+        window.addEventListener('popstate', () => this._onFragmentChanged());
         this._bindListeners();
-        this._parseUriFragment();
+        this._onFragmentChanged();
     }
 
-    __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
+    __createChild(child) { 
         const $child = new child(this);
         this[child.__toChildName()] = $child;
         if (!$child.__tagName.startsWith('view-')) return
         $child.$el.id = $child.__tagName.replace('view-', '');
     }
 
-    _parseUriFragment() {
+    _bindListeners() {
+        if (!this.listeners) return;
+        const listeners = this.listeners();
+        for (const key in listeners) {
+            this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
+        }
+    }
+
+    _onFragmentChanged() {
         const fragment = decodeURIComponent(location.hash.substr(1))
         const path = fragment.split('/');
         const state = path[0];
@@ -36,11 +44,4 @@ class XApp extends XElement {
         if (this.$currView.onShow) this.$currView.onShow();
     }
 
-    _bindListeners() {
-        if (!this.listeners) return;
-        const listeners = this.listeners();
-        for (const key in listeners) {
-            this.addEventListener(key, e => this[listeners[key]](e.detail !== undefined ? e.detail : e));
-        }
-    }
 }
