@@ -11,7 +11,7 @@ class XElement {
         if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
-        if (this.$el.innerHTML.trim() === '' && this.html) this.__fromHtml();
+        this.__fromHtml();
     }
 
     __createChildren() { // Create all children recursively 
@@ -39,7 +39,15 @@ class XElement {
     }
 
     __fromHtml() {
-        this.$el.innerHTML = this.html();
+        if (!this.html) return;
+        const html = this.html().trim();
+        const currentContent = this.$el.innerHTML.trim();
+        this.$el.innerHTML = html;
+        if (currentContent === '') return;
+        const $content = this.$('[content]');
+        if (!$content) return;
+        $content.innerHTML = currentContent;
+        $content.removeAttribute('content');
     }
 
     get __tagName() { // The tagName of this DOM-Element
