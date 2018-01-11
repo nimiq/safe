@@ -39,6 +39,7 @@ class XMnemonicInput extends XElement {
     }
 
     _onFieldComplete(e) {
+        e.stopPropagation();
         const completedField = e.detail[0];
         const wasCompletedByTab = e.detail[1];
         if (completedField.$input === document.activeElement && !wasCompletedByTab) {
@@ -124,7 +125,7 @@ class XMnemonicInputField extends XElement {
         }
 
         this.complete = true;
-        this.fire('x-complete', [this, !!byTab]);
+        this.fire('x-complete', [this, !!byTab], true);
         this.$input.classList.add('complete');
     }
 
