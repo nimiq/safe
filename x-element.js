@@ -11,7 +11,7 @@ class XElement {
         if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
-        if (this.$el.innerHTML.trim() === '' && this.html) this.__fromHtml(); // use html if it is not set yet
+        if (this.$el.innerHTML.trim() === '' && this.html) this.__fromHtml();
     }
 
     __createChildren() { // Create all children recursively 
@@ -20,7 +20,16 @@ class XElement {
     }
 
     __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
+        if (child instanceof Array) return this.__createArrayOfChild(child[0])
         this[child.__toChildName()] = new child(this);
+    }
+
+    __createArrayOfChild(child) {
+        const name = child.__toChildName() + 's';
+        const tagName = XElement.__toTagName(child.name);
+        const children = this.$$(tagName);
+        this[name] = []
+        children.forEach(c => this[name].push(new child(c)))
     }
 
     static __toChildName() {
