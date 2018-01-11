@@ -27,7 +27,7 @@ class XMnemonicValidate extends XElement {
     }
 
     resetSlide() {
-        this._generateIndex(this._activeSlide);
+        this.requiredWords[this._activeSlide] = this._generateIndex(this._activeSlide);
         this._setSlideContent(this._activeSlide);
     }
 
