@@ -61,11 +61,14 @@ class XWalletBackupImport extends XElement {
     html() {
         return `
                 <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
-                <h1>Drop a File</h1>
+                <h2>Drop a Backup File</h2>
                 <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
                 <input type="file">`
     }
 }
 
+// Todo: x-wallet-backup-import should look similar to a x-wallet-backup. create svg with same dimesions and layout, a hexagon + qr pictogram 
 // Todo: file input should work on iOS
-// Todo: handle qr scan error
+// Todo: handle qr scan error. handle "no backup qr"-error. ui-feedback. x-toast?
+// Todo: debug backdrop
+// Todo: style backdrop
