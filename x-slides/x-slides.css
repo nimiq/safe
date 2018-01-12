@@ -56,3 +56,10 @@ x-indicator x-dot {
 x-indicator x-dot[on] {
     background: white;
 }
+
+x-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

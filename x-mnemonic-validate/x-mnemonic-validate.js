@@ -1,7 +1,7 @@
 class XMnemonicValidate extends XElement {
 
     children() {
-        return [XSlides, [XMnemonicValidateSlide], XMnemonicValidateSuccessSlide];
+        return [XSlides, [XMnemonicValidateSlide], XSuccessMark];
     }
 
     onCreate() {
@@ -34,7 +34,7 @@ class XMnemonicValidate extends XElement {
     _next() {
         this._activeSlide += 1;
         if (this._activeSlide < 3) this._setSlideContent(this._activeSlide);
-        else setTimeout(() => this.$mnemonicValidateSuccessSlide.startAnimation(), 300);
+        else setTimeout(() => this.$successMark.animate(), 300);
         this._showActiveSlide();
     }
 
@@ -86,7 +86,10 @@ class XMnemonicValidate extends XElement {
                 <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
                 <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
                 <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-mnemonic-validate-success-slide></x-mnemonic-validate-success-slide>
+                <x-slide>
+                    <x-success-mark></x-success-mark>
+                    <h2>Phrase Validated</h2>
+                </x-slide>
             </x-slides>
             `
     }
@@ -157,22 +160,5 @@ class XMnemonicValidateSlide extends XElement {
                 <button class="small"></button>
                 <button class="small"></button>
             </x-wordlist>`;
-    }
-}
-
-class XMnemonicValidateSuccessSlide extends XElement {
-
-    children() {
-        return [XSuccessMark];
-    }
-
-    startAnimation() {
-        this.$successMark.animate();
-    }
-
-    html() {
-        return `
-            <x-success-mark></x-success-mark>
-            <h2>Validated</h2>`;
     }
 }
