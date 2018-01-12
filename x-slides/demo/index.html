@@ -65,13 +65,8 @@
     <script>
     const $slides = new XSlides();
 
-    document.querySelector('a[prev]').addEventListener('click', () => {
-        $slides.prev();
-    });
-
-    document.querySelector('a[next]').addEventListener('click', () => {
-        $slides.next();
-    });
+    document.querySelector('a[prev]').addEventListener('click', () => $slides.prev());
+    document.querySelector('a[next]').addEventListener('click', () => $slides.next());
     </script>
 </body>
 
