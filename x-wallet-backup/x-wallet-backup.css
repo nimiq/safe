@@ -2,6 +2,7 @@ x-wallet-backup{
 	height: 420px;
 	position:  relative;
 	display: block;
+	text-align: center;
 }
 
 x-wallet-backup img {

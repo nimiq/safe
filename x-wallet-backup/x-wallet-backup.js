@@ -20,3 +20,5 @@ class XWalletBackup extends XElement {
         return `<a><img></a>`
     }
 }
+
+// Todo: fix the ugly hack with setTimeout

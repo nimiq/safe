@@ -7,8 +7,8 @@
     <link href="../../fast-font/fast-font.css" rel="stylesheet">
     <link href="../../theme/theme.css" rel="stylesheet">
     <link href="../../inputs/inputs.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
     <link href="../../app-layout/app-layout.css" rel="stylesheet">
+    <link href="../../typography/typography.css" rel="stylesheet">
     <link href="../view-backup-file.css" rel="stylesheet">
     <link href="../../x-wallet-backup/x-wallet-backup.css" rel="stylesheet">
     <script src="/robohash/dist/robohash.min.js"></script>
@@ -17,20 +17,13 @@
     <script src="/qr-encoder/qr-encoder.min.js"></script>
     <script src="/wallet-backup/wallet-backup.js"></script>
     <script src="/x-element/x-element.js"></script>
+    <script src="../../x-slides/x-slides.js"></script>
+    <link href="../../x-slides/x-slides.css" rel="stylesheet">
+    <link href="../../x-loading-animation/x-loading-animation.css" rel="stylesheet">
+    <script src="../../x-pinpad/x-pinpad.js"></script>
+    <link href="../../x-pinpad/x-pinpad.css" rel="stylesheet">
     <script src="../../x-wallet-backup/x-wallet-backup.js"></script>
     <script src="../view-backup-file.js"></script>
-    <style>
-    html,
-    body {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: var(--primary-background);
-    }
-    </style>
 </head>
 
 <body>
@@ -38,10 +31,18 @@
         <view-backup-file></view-backup-file>
     </main>
     <script>
-    const address = 'NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64';
-    const privateKey = 'b15560371ce744c3931327205160a68ac46e2cb19bf09ddbd33bfc0292be32ad';
     const $view = new ViewBackupFile();
-    $view.backup(address, privateKey);
+    document.addEventListener('x-export-pin', e => _onPinExport(e));
+
+    function _onPinExport(e) {
+        setTimeout(e => _setRawBackup(), 3000);
+    }
+
+    function _setRawBackup() {
+        const address = 'NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64';
+        const privateKey = 'b15560371ce744c3931327205160a68ac46e2cb19bf09ddbd33bfc0292be32ad';
+        $view.backup(address, privateKey);
+    }
     </script>
 </body>
 

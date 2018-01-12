@@ -44,6 +44,5 @@ class ViewBackupFileImport extends XElement {
     }
 }
 
-// Todo: unlock wallet after import. call a api mock api in demo. views should not depend on api
-// Todo: warn user that importing a different account deletes the current account
+// Todo: warn user upfront that importing a different account deletes the current account
 // Todo: [low priority] support multiple accounts at once
