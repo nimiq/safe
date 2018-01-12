@@ -35,6 +35,11 @@ class ViewBackupFile extends XElement {
         setTimeout(() => this.reset(), 500);
     }
 
+    backup(address, privateKey) {
+        this.$walletBackup.backup(address, privateKey);
+        setTimeout(() => this.$slides.next(), 1000);     // Todo: remove this hack (depends on XWalletBackup)
+    }
+
     html() {
         return `
             <h1>Backup your Recovery File</h1>
@@ -51,10 +56,6 @@ class ViewBackupFile extends XElement {
             <a href="#seed-validate" button>Validate</a>`
     }
 
-    backup(address, privateKey) {
-        this.$walletBackup.backup(address, privateKey);
-        setTimeout(() => this.$slides.next(), 1000);     // Todo: remove this hack (depends on XWalletBackup)
-    }
 }
 
 // Todo: start encryption in background right before user re-enters the pin for confirmation
