@@ -1,0 +1,54 @@
+h1,
+.h1 {
+    font-size: 40px;
+    line-height: 48px;
+    font-weight: 300;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 0 16px;
+    text-align:  center;
+}
+
+h1+h2 {
+    font-size: 13px;
+    padding-bottom: 24px;
+    font-weight: 500;
+}
+
+h2,
+.h2 {
+    font-size: 36px;
+    font-weight: 500;
+}
+
+h1,
+h2,
+p {
+    margin: 0;
+}
+
+
+p {
+    text-align: center;
+    line-height: 19px;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+p a {
+    text-decoration: underline;
+}
+
+
+a[secondary] {
+    margin-bottom: 48px;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+[button] {
+    /* margin-top: 80px; */
+}
