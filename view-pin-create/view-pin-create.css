@@ -1,0 +1,68 @@
+view-pin-create {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 800ms, opacity 500ms;
+    z-index: 2;
+}
+
+view-pin-create:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -48px;
+    bottom: 0;
+    background: rgba(15, 1, 47, 0.70);
+    z-index: -1;
+}
+
+body:not(.state-pin-create) view-pin-create {
+    transform: translateY(150vh);
+    pointer-events: none;
+    display: none;
+}
+
+.state-pin-create x-blur-container {
+    filter: blur(10px);
+}
+
+.state-pin-create view-home {
+    opacity: 1;
+}
+
+
+view-pin-create x-pin-label:before,
+view-pin-create.unlocking x-pin-label:before {
+    content: 'Enter your Passcode';
+}
+
+view-pin-create[verify] x-pin-label:before {
+    content: 'Verify your Passcode';
+    animation: verify-pin 1000ms;
+}
+
+
+@keyframes verify-pin{
+    30%{
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    40%{
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
