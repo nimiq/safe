@@ -70,7 +70,7 @@ class XElement {
     clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
     addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
 
-    fire(eventType, detail = null, bubbles = false) { // Fire DOM-Event
+    fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
         const params = { detail: detail, bubbles: bubbles }
         this.$el.dispatchEvent(new CustomEvent(eventType, params))
     }
