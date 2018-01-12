@@ -143,6 +143,6 @@ x-mnemonic-input-field {
 @keyframes x-mnemonic-input-field {
     0% {
         opacity: 0;
-        transform: translate(-64px, -32px);
+        transform: translate(32px, 16px);
     }
 }
