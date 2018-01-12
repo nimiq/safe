@@ -1,6 +1,5 @@
 x-slides {
     width: 100%;
-    padding: 8px 5%;
     box-sizing: border-box;
     overflow-x: hidden;
 }
@@ -15,7 +14,6 @@ x-slide-container.animate {
 }
 
 x-slide-container > * {     /* slides are the children of x-slide-container */
-    padding: 24px 16px;
     box-sizing: border-box;
     min-height: 320px;
     flex: 1;
@@ -29,7 +27,7 @@ x-slide-container > * {     /* slides are the children of x-slide-container */
     user-select: none;
 }
 
-x-slide-container > *.active {
+x-slide-container > .active {
     opacity: 1;
     transform: scale(1);
 }

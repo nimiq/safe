@@ -37,12 +37,11 @@ class XSlides extends XElement {
     _showSlide(index) {
         index = Math.max(Math.min(index, this.$slides.length - 1), 0);
 
-        const padding = this.$el.offsetWidth * 0.05;
         const center = this.$el.offsetWidth / 2;
         const slideWidth = this.$slides[0].offsetWidth;
         const base = center - slideWidth / 2;
 
-        const offset = base - index * slideWidth - padding - index * 8;
+        const offset = base - index * slideWidth - index * 8;
 
         this.$slideContainer.style.transform = 'translate3d(' + offset + 'px, 0, 0)';
 
