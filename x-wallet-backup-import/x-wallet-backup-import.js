@@ -40,7 +40,7 @@ class XWalletBackupImport extends XElement {
         qrPosition.height = qrPosition.size - qrPosition.padding;
 
         const decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
-        this.fire('x-wallet-import', decoded);
+        this.fire('x-backup-import', decoded);
     }
 
     _onDragOver(event) {

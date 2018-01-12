@@ -47,3 +47,7 @@
 @keyframes fill {
     100% { box-shadow: inset 0px 0px 0px 30px var(--success-color); }
 }
+
+x-success-mark + h2{
+    padding-top: 8px;
+}
