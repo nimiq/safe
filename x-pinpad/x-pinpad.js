@@ -39,7 +39,7 @@ class XPinpad extends XElement {
         this.fire('x-pin', this._pin);
     }
 
-    onIncorrectPin() {
+    onPinIncorrect() {
         this.$el.classList.remove('unlocking');
         this.$el.classList.add('shake');
         setTimeout(() => this.reset(), 500);

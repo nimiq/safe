@@ -19,8 +19,8 @@ class ViewBackupFileImport extends XElement {
         this.fire('x-encrypted-wallet', result);
     }
 
-    onIncorrectPin() {
-        this.$pinpad.onIncorrectPin();
+    onPinIncorrect() {
+        this.$pinpad.onPinIncorrect();
     }
 
     onSuccess() {

@@ -31,7 +31,7 @@ class ViewBackupFile extends XElement {
     }
 
     _onPinIncorrect(pin) {
-        this.$pinpads[1].onIncorrectPin();
+        this.$pinpads[1].onPinIncorrect();
         setTimeout(() => this.reset(), 500);
     }
 

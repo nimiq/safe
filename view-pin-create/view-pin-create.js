@@ -34,7 +34,7 @@ class ViewPinCreate extends XElement {
     }
 
     _verified(pin) {
-        if (this._pin !== pin) return this.$pinpad.onIncorrectPin();
+        if (this._pin !== pin) return this.$pinpad.onPinIncorrect();
         this._encrypt();
         return true;
     }
