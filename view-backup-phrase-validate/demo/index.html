@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../../fast-font/fast-font.css" rel="stylesheet">
+    <link href="../../typography/typography.css" rel="stylesheet">
+    <link href="../../theme/theme.css" rel="stylesheet">
+    <link href="../../inputs/inputs.css" rel="stylesheet">
+    <link href="../../app-layout/app-layout.css" rel="stylesheet">
+    <script src="/x-element/x-element.js"></script>
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="../../x-success-mark/x-success-mark.js"></script>
+    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
+    <script src="../../x-slides/x-slides.js"></script>
+    <link href="../../x-slides/x-slides.css" rel="stylesheet">
+    <script src="../../x-mnemonic-validate/x-mnemonic-validate.js"></script>
+    <link href="../../x-mnemonic-validate/x-mnemonic-validate.css" rel="stylesheet">
+    <script src="../view-backup-phrase-validate.js"></script>
+    <link href="../view-backup-phrase-validate.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+    	<view-backup-phrase-validate></view-backup-phrase-validate>
+    </main>
+    <script>
+    const $view = new ViewBackupPhraseValidate();
+
+    const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+    $view.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+
+    $view.addEventListener('x-validated', () => {
+        console.log('Event "validated" fired');
+    });
+    </script>
+</body>
+
+</html>
