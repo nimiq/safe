@@ -133,3 +133,16 @@ datalist {
 .autocomplete-suggestion.selected {
     background: #f0f0f0;
 }
+
+/*Animation*/
+x-mnemonic-input-field {
+    animation: x-mnemonic-input-field 300ms;
+    animation-fill-mode: backwards;
+}
+
+@keyframes x-mnemonic-input-field {
+    0% {
+        opacity: 0;
+        transform: translate(-64px, -32px);
+    }
+}

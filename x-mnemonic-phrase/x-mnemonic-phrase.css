@@ -15,7 +15,8 @@ x-mnemonic-phrase,
     line-height: 32px;
     -webkit-user-select: none;
     -moz-user-select: none;
-    user-select: none; /* doesn't work on safari */
+    user-select: none;
+    /* doesn't work on safari */
 }
 
 textarea.mnemonic-phrase {
@@ -24,6 +25,15 @@ textarea.mnemonic-phrase {
     overflow: hidden;
 }
 
-x-mnemonic-phrase > span {
+x-mnemonic-phrase>span {
     flex: 0 0 25%;
+    animation: x-mnemonic-phrase 300ms;
+    animation-fill-mode: backwards;
+}
+
+@keyframes x-mnemonic-phrase {
+    0% {
+        opacity: 0;
+        transform: translate(-64px, -32px);
+    }
 }

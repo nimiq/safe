@@ -9,6 +9,7 @@ class XMnemonicInput extends XElement {
         this.$form = this.$('form');
         for (let i = 0; i < 24; i++) {
             const field = XMnemonicInputField.createElement();
+            field.$el.style.animationDelay = (60 * i) + 'ms';
             this.$form.appendChild(field.$el);
             this.$fields.push(field);
         }
@@ -82,7 +83,7 @@ class XMnemonicInput extends XElement {
             <form autocomplete="off"></form>
             <x-mnemonic-input-success>
                 <x-success-mark></x-success-mark>
-                <h1>Recovered</h1>
+                <h2>Wallet Recovered</h2>
             <x-mnemonic-input-success>`;
     }
 }
