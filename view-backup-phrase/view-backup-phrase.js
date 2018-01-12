@@ -12,3 +12,5 @@ class ViewBackupPhrase extends XElement {
         this.$mnemonicPhrase.privateKey = privateKey;
     }
 }
+
+// Todo: add warning. make user confirm he understands that everybody who sees the phrase has full control over the account's funds. screenshots are not safe.

@@ -173,6 +173,6 @@ class XMnemonicValidateSuccessSlide extends XElement {
     html() {
         return `
             <x-success-mark></x-success-mark>
-            <h1>Validated</h1>`;
+            <h2>Validated</h2>`;
     }
 }

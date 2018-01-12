@@ -1,7 +1,7 @@
 h1,
 .h1 {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: 28px;
+    /* line-height: 48px; */
     font-weight: 300;
     max-width: 100%;
     box-sizing: border-box;
@@ -10,15 +10,15 @@ h1,
 }
 
 h1+h2 {
-    font-size: 13px;
+    font-size: 14px;
     padding-bottom: 24px;
     font-weight: 500;
 }
 
 h2,
 .h2 {
-    font-size: 36px;
-    font-weight: 500;
+    font-size: 24px;
+    font-weight: 300;
 }
 
 h1,
@@ -50,5 +50,5 @@ a[secondary] {
 }
 
 [button] {
-    /* margin-top: 80px; */
+    margin-top: 80px;
 }

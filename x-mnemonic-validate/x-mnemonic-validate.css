@@ -8,22 +8,16 @@ x-mnemonic-validate {
     line-height: 32px;
 }
 
-x-mnemonic-validate p,
-x-mnemonic-validate x-target-index {
-    flex: 1 0 100%;
-    margin: auto;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 1.5;
-    padding: 0 1em;
-    margin-bottom: 1.5em;
+x-mnemonic-validate p{
+    margin-bottom: 32px;
 }
 
 x-mnemonic-validate x-target-index {
     display: block;
     font-size: 64px;
-    line-height: 32px;
+    line-height: 80px;
     margin-bottom: 42px;
+    font-weight: 200;
 }
 
 x-mnemonic-validate x-target-index::before {

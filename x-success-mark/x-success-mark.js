@@ -12,3 +12,6 @@ class XSuccessMark extends XElement {
             </svg>`;
     }
 }
+
+
+// Todo: Outline should be a hexagon :)
