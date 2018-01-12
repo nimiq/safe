@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../../fast-font/fast-font.css" rel="stylesheet">
+    <link href="../../typography/typography.css" rel="stylesheet">
+    <link href="../../theme/theme.css" rel="stylesheet">
+    <link href="../../inputs/inputs.css" rel="stylesheet">
+    <link href="../../app-layout/app-layout.css" rel="stylesheet">
+    <script src="/x-element/x-element.js"></script>
+    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
+    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
+    <link href="../../x-mnemonic-phrase/x-mnemonic-phrase.css" rel="stylesheet">
+    <script src="../view-backup-phrase.js"></script>
+    <link href="../view-backup-phrase.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+    	<view-backup-phrase></view-backup-phrase>
+    </main>
+    <script>
+    const $view = new ViewBackupPhrase();
+
+    const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
+    $view.privateKey = MnemonicPhrase._arrayToHex(randomKey);
+    </script>
+</body>
+
+</html>
