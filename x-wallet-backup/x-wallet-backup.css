@@ -1,0 +1,10 @@
+x-wallet-backup{
+	height: 420px;
+	position:  relative;
+	display: block;
+}
+
+x-wallet-backup img {
+	height: 100%;
+	border-radius: 12px;
+}
