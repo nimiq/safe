@@ -11,9 +11,16 @@
     <link href="../../app-layout/app-layout.css" rel="stylesheet">
     <script src="/qr-scanner/src/qr-scanner.js"></script>
     <script src="/x-element/x-element.js"></script>
+    <link href="../../x-slides/x-slides.css" rel="stylesheet">
+    <script src="../../x-slides/x-slides.js"></script>
+    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
+    <script src="../../x-success-mark/x-success-mark.js"></script>
+    <link href="../../x-pinpad/x-pinpad.css" rel="stylesheet">
+    <script src="../../x-pinpad/x-pinpad.js"></script>
     <link href="../../x-wallet-backup-import/x-wallet-backup-import.css" rel="stylesheet">
+    <script src="/wallet-backup/wallet-backup.js"></script>
     <script src="../../x-wallet-backup-import/x-wallet-backup-import.js"></script>
-    <link href="../view-backup-file-import.css" rel="stylesheet">
+    <!-- <link href="../view-backup-file-import.css" rel="stylesheet"> -->
     <script src="../view-backup-file-import.js"></script>
     <style>
     html,
@@ -35,7 +42,16 @@
     </main>
     <script>
     const $view = new ViewBackupFileImport();
-    $view.addEventListener('x-wallet-import', e => alert('Wallet Imported: ' + e.detail));
+    document.body.addEventListener('x-encrypted-wallet', e => {
+        const wallet = e.detail;
+        setTimeout(() => {
+            if (wallet.pin === '111111') {
+                $view.onSuccess();
+            } else {
+                $view.onIncorrectPin();
+            }
+        }, 3000);
+    });
     </script>
 </body>
 
