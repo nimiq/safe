@@ -56,7 +56,6 @@
 </head>
 
 <body>
-    <x-mnemonic-phrase></x-mnemonic-phrase>
     <h1>Recover your Private Key</h1>
     <p>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</p>
     <x-mnemonic-input></x-mnemonic-input>
@@ -73,9 +72,6 @@
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const hexKey = MnemonicPhrase._arrayToHex(randomKey);
     const mnemonic = MnemonicPhrase.keyToMnemonic(hexKey);
-
-    const $mnemonicPhrase = new XMnemonicPhrase();
-    $mnemonicPhrase.privateKey = hexKey;
 
     const $mnemonicInput = new XMnemonicInput();
 
