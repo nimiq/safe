@@ -3,7 +3,6 @@ x-mnemonic-input {
     max-width: 350px;
     padding: 8px;
     box-sizing: border-box;
-    border-radius: 8px;
     color: white;
     text-align: center;
     font-size: 15px;
@@ -12,26 +11,49 @@ x-mnemonic-input {
     will-change: transform;
 }
 
+
+
 x-mnemonic-input.shake {
     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     border-color: var(--error-color);
 }
 
 @keyframes shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0);
+    }
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0);
+    }
 }
 
-x-mnemonic-input > form {
+x-mnemonic-input>form {
     display: flex;
     flex-wrap: wrap;
     transition: transform 0.8s ease, opacity 0.5s ease;
     will-change: transform, opacity;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC');
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    padding: 8px;
 }
 
-x-mnemonic-input.recovered > form {
+x-mnemonic-input.recovered {
+    background: none;
+}
+
+x-mnemonic-input.recovered>form {
     transform: scale(0);
     opacity: 0;
 }
@@ -74,10 +96,10 @@ x-mnemonic-input-success {
     right: 0;
     bottom: 0;
     opacity: 0;
-    display:  flex;
-    flex-direction:  column;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content:  center;
+    justify-content: center;
     pointer-events: none;
     transform: scale(0.5);
     transition: transform 0.8s ease, opacity 0.5s ease;
@@ -99,7 +121,7 @@ datalist {
     border: 1px solid #ccc;
     border-top: 0;
     background: #fff;
-    box-shadow: -1px 1px 3px rgba(0,0,0,.1);
+    box-shadow: -1px 1px 3px rgba(0, 0, 0, .1);
 
     /* core styles should not be changed */
     position: absolute;
@@ -110,6 +132,7 @@ datalist {
     /* overflow-y: auto; */
     box-sizing: border-box;
 }
+
 .autocomplete-suggestion {
     position: relative;
     padding: 0 .1em;
@@ -122,19 +145,26 @@ datalist {
     color: black;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
+
 .autocomplete-suggestion:last-child {
     border-bottom: none;
 }
+
 .autocomplete-suggestion b {
     font-weight: normal;
     color: var(--primary-color);
     color: black;
 }
+
 .autocomplete-suggestion.selected {
     background: #f0f0f0;
 }
 
+
+
+
 /*Animation*/
+
 x-mnemonic-input-field {
     animation: x-mnemonic-input-field 300ms;
     animation-fill-mode: backwards;

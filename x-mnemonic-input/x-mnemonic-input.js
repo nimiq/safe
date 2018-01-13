@@ -83,7 +83,7 @@ class XMnemonicInput extends XElement {
             <form autocomplete="off"></form>
             <x-mnemonic-input-success>
                 <x-success-mark></x-success-mark>
-                <h2>Wallet Recovered</h2>
+                <h2>Account Recovered</h2>
             <x-mnemonic-input-success>`;
     }
 }

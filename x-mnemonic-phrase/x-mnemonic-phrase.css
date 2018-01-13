@@ -1,5 +1,4 @@
-x-mnemonic-phrase,
-.mnemonic-phrase {
+x-mnemonic-phrase {
     width: 90%;
     max-width: 350px;
     padding: 16px 8px;
@@ -8,7 +7,6 @@ x-mnemonic-phrase,
     border: 1px solid white;
     border-radius: 8px;
     color: white;
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC');
     text-align: center;
     display: flex;
     flex-wrap: wrap;
@@ -19,12 +17,8 @@ x-mnemonic-phrase,
     user-select: none;
     /* doesn't work on safari */
     position:  relative;
-}
-
-textarea.mnemonic-phrase {
-    outline: none;
-    height: 200px;
-    overflow: hidden;
+    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC');
+    background-color: rgba(0,0,0,0.4);
 }
 
 x-mnemonic-phrase>span {

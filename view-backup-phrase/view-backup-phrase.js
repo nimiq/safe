@@ -2,11 +2,7 @@ class ViewBackupPhrase extends XElement {
     children() { return [XSlides, XMnemonicPhrase, XPrivacyAgent] }
 
     onCreate() {
-        this.addEventListener('x-surrounding-checked', e => this._onSurrondingChecked())
-    }
-
-    _onSurrondingChecked(){
-        this.$slides.next();
+        this.addEventListener('x-surrounding-checked', e => this.$slides.next())
     }
 
     set privateKey(privateKey) {
