@@ -74,10 +74,10 @@ x-delete {
 /* Wrong Attempt Animation */
 
 .shake x-pin-label{
-    animation: shake 500ms;
+    animation: shake-pinpad 500ms;
 }
 
-@keyframes shake {
+@keyframes shake-pinpad {
     0% {
         transform: translateX(0);
     }

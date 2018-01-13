@@ -7,3 +7,25 @@
     --secondary-text-color: rgba(0, 0, 0, 0.7);
     --secondary-cta-color: rgba(255, 255, 255, 0.7);
 }
+
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    20% {
+        transform: translateX(16px);
+    }
+    40% {
+        transform: translateX(-16px);
+    }
+    60% {
+        transform: translateX(12px);
+    }
+    80% {
+        transform: translateX(-12px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
