@@ -19,7 +19,7 @@ class ViewBackupPhrase extends XElement {
                 </x-slide>
                 <x-slide>
                     <x-mnemonic-phrase></x-mnemonic-phrase>
-                    <a href="#seed-validate" button>Validate</a>
+                    <a href="#backup-phrase-validate" button>Validate</a>
                 </x-slide>
             </x-slides>
             `;

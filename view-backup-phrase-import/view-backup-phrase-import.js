@@ -1,8 +1,12 @@
 class ViewBackupPhraseImport extends XElement {
     children() { return [XSlides, XMnemonicInput, XPrivacyAgent] }
-    
     onCreate() {
-        this.addEventListener('x-surrounding-checked', e => this.$slides.next())
+        this.addEventListener('x-surrounding-checked', e => this._onSurrondingChecked())
+    }
+
+    _onSurrondingChecked() {
+        this.$slides.next();
+        this.$mnemonicInput.animateEntry();
     }
 
     html() {

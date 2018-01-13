@@ -165,7 +165,7 @@ datalist {
 
 /*Animation*/
 
-x-mnemonic-input-field {
+.entry x-mnemonic-input-field{
     animation: x-mnemonic-input-field 300ms;
     animation-fill-mode: backwards;
 }
