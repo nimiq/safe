@@ -2,7 +2,7 @@ x-mnemonic-phrase {
     width: 90%;
     max-width: 350px;
     padding: 16px 8px;
-    margin-top: 8px;
+    margin-top: 24px;
     box-sizing: border-box;
     border: 1px solid white;
     border-radius: 8px;
@@ -16,13 +16,16 @@ x-mnemonic-phrase {
     -moz-user-select: none;
     user-select: none;
     /* doesn't work on safari */
-    position:  relative;
+    position: relative;
     background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC');
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 x-mnemonic-phrase>span {
     flex: 0 0 25%;
+}
+
+x-mnemonic-phrase.entry > span{
     animation: x-mnemonic-phrase 300ms;
     animation-fill-mode: backwards;
 }
@@ -34,7 +37,7 @@ x-mnemonic-phrase>span {
     }
 }
 
-x-mnemonic-phrase:before{
+x-mnemonic-phrase:before {
     content: 'Passphrase';
     display: block;
     position: absolute;
@@ -50,9 +53,10 @@ x-mnemonic-phrase:before{
     background-size: 14px;
     background-position: 9px center;
     background-repeat: no-repeat;
-    background-color:  black;
+    background-color: black;
     padding-left: 16px;
 }
 
-
-
+x-mnemonic-phrase [button] {
+     margin-top: 80px; 
+}

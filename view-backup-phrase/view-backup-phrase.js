@@ -2,7 +2,16 @@ class ViewBackupPhrase extends XElement {
     children() { return [XSlides, XMnemonicPhrase, XPrivacyAgent] }
 
     onCreate() {
-        this.addEventListener('x-surrounding-checked', e => this.$slides.next())
+        this.addEventListener('x-surrounding-checked', e => this._onSurroundingChecked())
+    }
+
+    _onSurroundingChecked() {
+        this.$slides.next();
+        this.$mnemonicPhrase.animateEntry();
+    }
+
+    _animateButton() {
+        this.$('[button]').classList.add('fade-in');
     }
 
     set privateKey(privateKey) {
@@ -19,6 +28,7 @@ class ViewBackupPhrase extends XElement {
                 </x-slide>
                 <x-slide>
                     <x-mnemonic-phrase></x-mnemonic-phrase>
+                    <x-grow></x-grow>
                     <a href="#backup-phrase-validate" button>Validate</a>
                 </x-slide>
             </x-slides>
@@ -27,3 +37,5 @@ class ViewBackupPhrase extends XElement {
 }
 
 // Todo: add warning. make user confirms he understands that everybody who sees the phrase has full control over the account's funds. screenshots are not safe.
+// Todo: add a seperate file for animations and implement "fade-in". the framework animations.css might be a blueprint. 
+// Todo: add `.animate($el,animationName)` to `XElement` which automatically removes the class `animationName` after the animation fininished

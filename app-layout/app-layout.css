@@ -12,6 +12,11 @@ body {
     background: #EEEEEE;
 }
 
+x-grow, [x-grow] {
+    flex-grow: 1;
+}
+
+
 
 
 
@@ -45,3 +50,16 @@ main>* {
     transform-origin: center;
 }
 
+[x-responsive] {
+    padding: 24px 16px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 420px) {
+    [x-responsive] {
+        padding: 88px;
+        width: 100%;
+        max-width: 800px;
+        max-height: 600px;
+    }
+}

@@ -1,19 +1,37 @@
 nimiq-logo {
-    width: 104px;
+    width: 264px;
     height: 30px;
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMjgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIyLjQ2IDBIOS41NGEzIDMgMCAwIDAtMi42IDEuNTFsLTYuMjkgMTFhMyAzIDAgMCAwIDAgMi45OGw2LjI5IDExQTMgMyAwIDAgMCA5LjU0IDI4aDEyLjkyYTMgMyAwIDAgMCAyLjYtMS41MWw2LjI5LTExYTMgMyAwIDAgMCAwLTIuOThsLTYuMjktMTFBMyAzIDAgMCAwIDIyLjQ2IDB6TTE3LjUgMjJ2M0gxNXYtMi42Yy0xLjUgMC0zLjMtLjgtNC41LTJsMS43LTIuNGMxLjMgMSAyLjQgMS41IDMuNiAxLjUgMS40IDAgMi0uNiAyLTEuNyAwLTIuNi02LjctMi42LTYuNy03IDAtMi42IDItNC4zIDQtNC44VjMuMmgzdjIuNmMxLjguMiAzIDEgNCAyTDIwIDEwYy0xLTEtMS43LTEuMy0yLjgtMS4zLTEuMiAwLTIgLjUtMiAxLjYgMCAyLjQgNyAyLjIgNyA3IDAgMi40LTEuNSA0LjMtNCA0LjhsLS43LS4xeiIgZmlsbD0iI0Y2QUUyRCIvPjwvc3ZnPg==');
-    /*background-image: url('data:image/svg+xml,<svg viewBox="0 0 164 144" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 1px rgba(0,0,0,0.3))"><g fill="none" fill-rule="evenodd" ><path fill="#FFF" d="M45 4h65v121H45z"/><path d="M108.07 0H44.4a11 11 0 0 0-9.55 5.54l-31 54.25a11 11 0 0 0 0 10.92l31 54.25a11 11 0 0 0 9.55 5.54h63.67a11 11 0 0 0 9.55-5.54l31-54.25a11 11 0 0 0 0-10.92l-31-54.25A11 11 0 0 0 108.07 0zM83.22 102.54v13.98H71.57V104.4c-6.99 0-15.38-3.73-20.97-9.32l7.92-11.19c6.06 4.66 11.19 7 16.78 7 6.53 0 9.32-2.8 9.32-7.93 0-12.12-31.23-12.12-31.23-32.62 0-12.12 7.46-20.05 18.65-22.38V14.91h11.65v12.12c7.46.93 13.05 4.66 17.71 9.32l-9.32 10.26c-3.73-4.66-7.46-6.06-12.59-6.06-5.59 0-9.32 2.33-9.32 7.46.94 11.18 32.63 10.25 32.63 32.62 0 11.19-7 20.04-18.64 22.37l-.94-.46z" fill="#F6AE2D" fill-rule="nonzero"/></g></svg>');*/
-    background-repeat: no-repeat;
     display: block;
-}
-
-
-nimiq-logo:before {
-    content: 'NIMIQ';
+    text-transform: uppercase;
     letter-spacing: 0.12em;
     line-height: 28px;
-    margin-left: 42px;
     color: white;
     font-size: 17px;
     font-weight: 500;
+    padding-left: 40px;
+    background-image: url('data:image/svg+xml,<svg width="499" height="440" xmlns="http://www.w3.org/2000/svg"><path d="M389.33 20.73C382.65 9.28 366.48 0 353.24 0h-208c-13.26 0-29.4 9.28-36.09 20.73L5.33 198.87c-6.68 11.45-6.68 30.02 0 41.47l103.82 178.14c6.68 11.45 22.85 20.74 36.09 20.74h208c13.26 0 29.4-9.28 36.09-20.74l103.82-178.14c6.68-11.45 6.68-30.01 0-41.47L389.33 20.73zM272.6 347.45v41.1h-38.74v-39.53c-23.53-2.82-51.45-13.02-70.28-30.12l25.57-39.06c20.4 15.06 37.96 22.9 57.1 22.9 22.43 0 32.31-9.1 32.31-27.29 0-40.63-105.4-39.84-105.4-111.06 0-38.74 23.2-65.57 60.7-73.1V50.51h38.74v40c25.57 3.6 43.92 16.16 59.45 32.47l-29.49 33.26c-14.43-13.02-26.66-19.77-43.45-19.77-19.13 0-29.49 7.53-29.49 25.26 0 37.49 105.41 34.35 105.41 109.96-.15 37.8-21.33 67.13-62.43 75.76z" fill="#FFC107" fill-rule="evenodd"/></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+nimiq-logo:empty:after {
+    content: 'NIMIQ';
+}
+
+nimiq-logo[large] {
+    width: 100%;
+    min-width: 300px;
+    background-size: 104px;
+    background-position: center top;
+    font-weight: 800;
+    color: rgba(255,255,255, 0.5);
+    text-align: center;
+    padding-top: 104px;
+    padding-left: 0;
+    /* margin-top:  16px; */
+    margin-bottom: 24px;
+}
+
+nimiq-logo[large]:empty:after {
+    content: 'Welcome To Nimiq';
 }

@@ -1,9 +1,11 @@
 :root {
     --primary-color: #536DFE;
     --primary-background: linear-gradient(#536DFE, #a553fe);
-    --success-color: #64FFDA; /* teal-a200 */
-    --error-color: #FF8A80; /* red-a100 */
-    --warning-color: red; 
+    /* teal-a200 */
+    --success-color: #64FFDA;
+    /* red-a100 */
+    --error-color: #FF8A80;
+    --warning-color: red;
     --secondary-text-color: rgba(0, 0, 0, 0.7);
     --secondary-cta-color: rgba(255, 255, 255, 0.7);
 }
@@ -11,21 +13,30 @@
 
 @keyframes shake {
     0% {
-        transform: translateX(0);
+        transform: none
     }
-    20% {
-        transform: translateX(16px);
+
+    15% {
+        transform: translate3d(-21%,0,0) rotate(-5deg)
     }
-    40% {
-        transform: translateX(-16px);
+
+    30% {
+        transform: translate3d(13%,0,0) rotate(3deg)
     }
+
+    45% {
+        transform: translate3d(-8%,0,0) rotate(-3deg)
+    }
+
     60% {
-        transform: translateX(12px);
+        transform: translate3d(5%,0,0) rotate(2deg)
     }
-    80% {
-        transform: translateX(-12px);
+
+    75% {
+        transform: translate3d(-3%,0,0) rotate(-1deg)
     }
-    100% {
-        transform: translateX(0);
+
+    to {
+        transform: none
     }
 }

@@ -8,10 +8,17 @@ class XMnemonicPhrase extends XElement {
 
         words.forEach((word, index) => {
             const $span = document.createElement('span');
-            $span.style.animationDelay = (64 * index) + 'ms';
+            $span.style.animationDelay = (700 + 64 * index) + 'ms';
 
             $span.textContent = word;
             this.$el.appendChild($span);
         });
+    }
+
+    animateEntry() {
+        this.$el.classList.add('entry');
+        setTimeout(() => {
+            this.$el.classList.remove('entry')
+        }, 2300);
     }
 }

@@ -64,7 +64,6 @@ input[type="password"]::placeholder,
 input[type="number"]::placeholder,
 input[type="number"]::-webkit-input-placeholder {
     color: rgba(255, 255, 255, 0.3);
-    /*line-height: 90px;*/
     text-align: center;
     display: block;
 }
@@ -85,7 +84,6 @@ input[type="text"].small:placeholder-shown {
 input[type="number"] {
     font-size: 56px;
     padding-bottom: 0;
-    /* pointer-events: none; */
 }
 
 input[type="number"]::-webkit-input-placeholder {
