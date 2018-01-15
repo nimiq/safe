@@ -27,13 +27,21 @@ class MyApp extends XApp {
     ]
   }
 
-  // optional; a list of listeners that will be attached to the x-elements in your app automatically
+  // optional; a list of methods that will be called for the particular events.
   listeners() {
     return {
-      // see "Creating your own x-elements" for details on this
-      'x-my-element': '_myElementChanged',
+      // the left side is the name of the event and the right side is the callback method
+      // note that the method names are strings here, not references
+      'x-my-event': '_myEvent',
+      ...
     }
   }
+
+  // this is the listener and will be called automatically, see above
+  _myEvent() {
+    // do something special when my-event gets triggered/fired, e.g. update other x-elements accordingly.
+  }
+
 }
 
 // and then start your app once everything is loaded.
@@ -58,7 +66,7 @@ class ViewHome extends XElement {
 
 *Note:* The class name of each view needs to start with `View`.
 
-As a view is an `XElement` you can use [all the features of x-elements](#creating-your-own-x-elements) like listeners and more here.
+As a view is an `XElement` you can use [all the features of x-elements](#creating-your-own-x-elements) here.
 
 ## Using views
 
@@ -84,22 +92,6 @@ class XMyElement extends XElement { // extend XElement of course
       XSomeOtherElement,
       // ... add all child x-elements here
     ]
-  }
-
-  // optional; a list of listeners that will be attached to the child x-elements (see above)
-  // and their children as well
-  listeners() {
-    return {
-      // the left side is the name of the x-element and the right side the callback method
-      // note that the method names are strings here, not references
-      'x-my-element': '_myElementChanged',
-      ...
-    }
-  }
-
-  // this is the listener and will be called automatically, see above
-  _myElementChanged() {
-    // do something special when <x-my-element> changes, e.g. update another x-element accordingly.
   }
 
   // optional; instead of putting all the x-elements in your page,
