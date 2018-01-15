@@ -58,7 +58,7 @@ class ViewHome extends XElement {
 
 *Note:* The class name of each view needs to start with `View`.
 
-As a view is an `XElement` you can use all the [features of x-elements](#creating-your-own-elements) like listeners and more here.
+As a view is an `XElement` you can use [all the features of x-elements](#creating-your-own-x-elements) like listeners and more here.
 
 ## Using views
 
@@ -106,11 +106,11 @@ class XMyElement extends XElement { // extend XElement of course
   // you can return a kind of template here, or even generate it with a script
   html(){
     // note the <section content> element here, it will be filled with the HTML content of your
-    // x-element inside of the HTML page. Details below.
+    // x-element inside of the HTML page; details below
     return `
-    <x-header>
+    <x-some-other-element>
       <a href="#about">About page</a>
-    </x-header>
+    </x-some-other-element>
     <section content/>
     <section>
       footer
@@ -136,9 +136,9 @@ So the result from the previous two code examples will be:
 ```html
 <body>
   <x-my-element>
-    <x-header>
+    <x-some-other-element>
       <a href="#about">About page</a>
-    </x-header>
+    </x-some-other-element>
     <section/>
       <div>some HTML content</div>
     </section>
@@ -152,7 +152,7 @@ So the result from the previous two code examples will be:
 *Note:* The `content` marker will be removed once the HTML has been inserted (cf. example above).
 
 ## X-element API
-Each x-element comes with the fundamental functionality you need: creating an element, finding elements, and handling events.
+Each x-element comes with the fundamental functionality: creating an element, finding elements, and handling events.
 
 Method                           | Parameters   | Return               | Description
 ---------------------------------|--------------|----------------------|-----------------------
