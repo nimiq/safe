@@ -12,6 +12,7 @@ class XElement {
         else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.__fromHtml();
+        this.__bindStyles(this.styles);
     }
 
     __createChildren() { // Create all children recursively 
@@ -58,20 +59,35 @@ class XElement {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
 
-    /* Public API */
     static createElement() {
         const name = this.__toTagName(this.name);
         const element = document.createElement(name);
         return new this(element);
     }
 
+    /* DOM Manipulation */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
     clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
-    addEventListener(type, listener) { return this.$el.addEventListener(type, listener, false) }
+
+    /* Events */
+    addEventListener(type, callback) { return this.$el.addEventListener(type, callback, false) }
 
     fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
         const params = { detail: detail, bubbles: bubbles }
         this.$el.dispatchEvent(new CustomEvent(eventType, params))
     }
+
+    /* Style Manipulation */
+    addStyle(styleClass) { this.$el.classList.add(styleClass) }
+
+    removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
+
+    __bindStyles(styles) {
+        if (super.styles) super.__bindStyles(super.styles);   // Bind styles of all parent types recursively 
+        if (!styles) return;
+        styles().forEach(style => this.addStyle(style));
+    }
+
+   
 }
