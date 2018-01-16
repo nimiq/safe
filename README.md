@@ -50,10 +50,10 @@ window.addEventListener('load', () => window.app = new MyApp());
 
 ## Creating views
 
-You'll set up each view as a x-element like this:
+You'll set up each view as a x-view like this:
 
 ```javascript
-class ViewHome extends XElement {
+class ViewHome extends XView {
   // optional; a list of x-elements being used in your view
   children() { return [XOneElement, XAnotherElement] }
 

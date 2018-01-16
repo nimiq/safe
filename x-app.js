@@ -5,16 +5,10 @@ class XApp extends XElement {
     get defaultLocation() { return '#home' }
 
     onCreate() {
+        window.app = this;
         window.addEventListener('popstate', () => this._onFragmentChanged());
         this._bindListeners();
         this._onFragmentChanged();
-    }
-
-    __createChild(child) { 
-        const $child = new child(this);
-        this[child.__toChildName()] = $child;
-        if (!$child.__tagName.startsWith('view-')) return
-        $child.$el.id = $child.__tagName.replace('view-', '');
     }
 
     _bindListeners() {
@@ -37,11 +31,9 @@ class XApp extends XElement {
         document.body.className = 'state-' + state;
         const stateCased = state[0].toUpperCase() + state.substring(1);
         const viewName = '$view' + stateCased;
-        if (!(this[viewName] instanceof XElement)) return;
-        document.activeElement.blur();
-        if (this.$currView && this.$currView.onHide) this.$currView.onHide();
+        if (!(this[viewName] instanceof XView)) return;
+        if (this.$currView) this.$currView._onHide();
         this.$currView = this[viewName];
-        if (this.$currView.onShow) this.$currView.onShow();
+        this.$currView._onShow();
     }
-
 }

@@ -94,7 +94,7 @@ class XElement {
         $el = $el || this.$el;
         $el.classList.add(className);
         const listener1 = $el.addEventListener('transitionend', e => remove, false);
-        const listener1 = $el.addEventListener('animationend', e => remove, false);
+        const listener2 = $el.addEventListener('animationend', e => remove, false);
         const remove = () => {
             $el.removeEventListener(listener1);
             $el.removeEventListener(listener2);
