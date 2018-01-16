@@ -5,19 +5,21 @@
     <title>Mnemonic Input</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="../../fast-font/fast-font.css" rel="stylesheet">
+    <link href="../../typography/typography.css" rel="stylesheet">
     <link href="../../theme/theme.css" rel="stylesheet">
     <link href="../../inputs/inputs.css" rel="stylesheet">
     <script src="/x-element/x-element.js"></script>
     <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <script src="../../x-success-mark/x-success-mark.js"></script>
     <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
+    <link href="../../x-mnemonic-phrase/x-recovery-phrase.css" rel="stylesheet">
     <script src="../autocomplete.js"></script>
     <script src="../x-mnemonic-input.js"></script>
     <link href="../x-mnemonic-input.css" rel="stylesheet">
     <style>
     html,
     body {
-        min-height: 100%;
+        height: 100%;
         width: 100%;
         color: white;
         margin: 0;
@@ -26,10 +28,6 @@
         justify-content: center;
         align-items: center;
         background: var(--primary-background);
-    }
-
-    h1 {
-        font-weight: 200;
     }
 
     p {
@@ -57,7 +55,7 @@
 
 <body>
     <h1>Recover your Private Key</h1>
-    <p>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</p>
+    <h2>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</h2>
     <x-mnemonic-input></x-mnemonic-input>
     <div class="button-row">
         <button id="fill-correctly" class="small">Fill correctly</button>

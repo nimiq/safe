@@ -7,7 +7,8 @@ button,
     text-transform: uppercase;
     letter-spacing: 0.12em;
     height: 56px;
-    max-width: 320px;
+    width: 100%;
+    max-width: 400px;
     border-radius: 28px;
     padding: 0 24px;
     vertical-align: middle;
@@ -22,7 +23,6 @@ button,
     outline: none;
     border: none;
     line-height: 53px;
-    width: calc(100% - 32px);
     border: 1px solid white;
 }
 

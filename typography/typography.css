@@ -15,10 +15,10 @@ h1,
 
 h1+h2 {
     font-size: 15px;
-    padding-bottom: 24px;
     font-weight: 400;
     text-align: center;
     margin-top: 4px;
+    padding: 0 16px 24px;
 }
 
 h2,

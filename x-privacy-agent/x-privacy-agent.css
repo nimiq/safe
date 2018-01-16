@@ -3,6 +3,7 @@ x-privacy-agent {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 16px;
 }
 
 x-privacy-agent h1 {
@@ -29,7 +30,6 @@ x-privacy-agent-container {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: calc(100% - 32px);
     box-sizing: border-box;
     background: white;
     padding: 24px 16px;

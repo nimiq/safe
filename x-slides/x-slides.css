@@ -18,13 +18,14 @@ x-slide-container > * {     /* slides are the children of x-slide-container */
     min-height: 320px;
     flex: 1;
     width: 100%;
-    max-width: 354px;
+    max-width: 400px;
     opacity: 0;
     margin-right: 8px;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
     transform: scale(0.9);
     will-change: opacity, transform;
     user-select: none;
+    padding: 16px 0;
 }
 
 x-slide-container > .active {

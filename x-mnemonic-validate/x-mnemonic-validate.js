@@ -26,6 +26,10 @@ class XMnemonicValidate extends XElement {
         this._showActiveSlide();
     }
 
+    reset(){
+        this.mnemonic = this._mnemonic;
+    }
+
     resetSlide() {
         this.requiredWords[this._activeSlide] = this._generateIndex(this._activeSlide);
         this._setSlideContent(this._activeSlide);
@@ -41,9 +45,13 @@ class XMnemonicValidate extends XElement {
     _onSlideEvent(valid) {
         if (!valid) setTimeout(() => this.resetSlide(), 820);
         else {
-            if (this._activeSlide === 2) this.fire('validated');
+            if (this._activeSlide === 2) this._success();
             setTimeout(() => this._next(), 500);
         }
+    }
+
+    _success() {
+        setTimeout(e => this.fire('x-phrase-validated'), 2000);
     }
 
     _generateIndices() {
@@ -162,3 +170,5 @@ class XMnemonicValidateSlide extends XElement {
             </x-wordlist>`;
     }
 }
+
+// Todo: on wrong attempt: shake and show correct one as correct
