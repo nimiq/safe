@@ -1,5 +1,5 @@
 class XPinpad extends XElement {
-
+    styles() { return ['center'] }
     onCreate() {
         this.$pin = this.$('x-pin');
         this.$dots = this.$pin.querySelectorAll('x-dot');

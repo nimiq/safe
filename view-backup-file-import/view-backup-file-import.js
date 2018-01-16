@@ -1,4 +1,4 @@
-class ViewBackupFileImport extends XElement {
+class ViewBackupFileImport extends XView {
     children() { return [XSlides, XWalletBackupImport, XPinpad, XSuccessMark] }
     onCreate() {
         this.addEventListener('x-backup-import', e => this._onWalletImport(e));

@@ -1,7 +1,16 @@
 class XMnemonicInput extends XElement {
 
-    children() {
-        return [XSuccessMark];
+    children() { return [XSuccessMark] }
+
+    styles() { return ['x-recovery-phrase'] }
+
+    html() {
+        return `
+            <form autocomplete="off"></form>
+            <x-mnemonic-input-success>
+                <x-success-mark></x-success-mark>
+                <h2>Account Recovered</h2>
+            <x-mnemonic-input-success>`;
     }
 
     onCreate() {
@@ -84,24 +93,23 @@ class XMnemonicInput extends XElement {
     }
 
     animateEntry() {
-        this.$el.classList.add('entry');
+        this.$el.classList.add('x-entry');
         setTimeout(() => {
             this.focus();
-            this.$el.classList.remove('entry')
+            this.$el.classList.remove('x-entry')
         }, 2000);
     }
 
-    html() {
-        return `
-            <form autocomplete="off"></form>
-            <x-mnemonic-input-success>
-                <x-success-mark></x-success-mark>
-                <h2>Account Recovered</h2>
-            <x-mnemonic-input-success>`;
-    }
+
 }
 
 class XMnemonicInputField extends XElement {
+    
+    styles() { return ['x-word'] }
+    html() {
+        return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
+    }
+
     onCreate() {
         this.$input = this.$('input');
 
@@ -177,9 +185,5 @@ class XMnemonicInputField extends XElement {
     _onBlur(e) {
         if (this.complete) return;
         this._onKeyDown(e);
-    }
-
-    html() {
-        return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
     }
 }

@@ -1,4 +1,7 @@
 class XMnemonicPhrase extends XElement {
+
+    styles() { return ['x-recovery-phrase'] }
+
     set privateKey(privateKey) {
         const phrase = MnemonicPhrase.keyToMnemonic(privateKey);
         const words = phrase.split(/\s+/g);
@@ -8,6 +11,7 @@ class XMnemonicPhrase extends XElement {
 
         words.forEach((word, index) => {
             const $span = document.createElement('span');
+            $span.className = 'x-word';
             $span.style.animationDelay = (700 + 64 * index) + 'ms';
 
             $span.textContent = word;
@@ -16,9 +20,9 @@ class XMnemonicPhrase extends XElement {
     }
 
     animateEntry() {
-        this.$el.classList.add('entry');
+        this.$el.classList.add('x-entry');
         setTimeout(() => {
-            this.$el.classList.remove('entry')
+            this.$el.classList.remove('x-entry')
         }, 2300);
     }
 }

@@ -1,0 +1,31 @@
+.x-view {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 24px 16px;
+    /* Animations */
+    transition: transform 500ms, opacity 300ms;
+    will-change: transform, opacity;
+    transform-origin: center;
+}
+
+@media (min-width: 420px) {
+    .x-view {
+        padding: 32px 88px;
+        width: 100%;
+        max-width: 800px;
+        max-height: 672px;
+    }
+}
+
+@media (min-width: 1280px) and (min-height: 800px) {
+      .x-view {
+        width: 100%;
+        max-width: 1028px;
+        max-height: 672px;
+    }
+}

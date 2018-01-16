@@ -1,4 +1,4 @@
-class ViewBackupPhrase extends XElement {
+class ViewBackupPhrase extends XView {
     children() { return [XSlides, XMnemonicPhrase, XPrivacyAgent] }
 
     onCreate() {

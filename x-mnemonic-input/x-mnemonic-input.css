@@ -1,17 +1,9 @@
 x-mnemonic-input {
-    width: 90%;
-    max-width: 350px;
-    padding: 8px;
-    box-sizing: border-box;
-    color: white;
     text-align: center;
-    font-size: 15px;
     line-height: 32px;
     transform: translate3d(0, 0, 0);
     will-change: transform;
 }
-
-
 
 x-mnemonic-input.shake {
     animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
@@ -23,14 +15,15 @@ x-mnemonic-input>form {
     flex-wrap: wrap;
     transition: transform 0.8s ease, opacity 0.5s ease;
     will-change: transform, opacity;
-    background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAJElEQVQYV2NkwAT/GdHE/jMwMDAiC4IFQIpggnABmCCKAEgQAABOBQUaykC8AAAAAElFTkSuQmCC');
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 8px;
-    padding: 8px;
 }
 
 x-mnemonic-input.recovered {
     background: none;
+    border: none;
+}
+
+x-mnemonic-input.recovered:before {
+    opacity: 0;
 }
 
 x-mnemonic-input.recovered>form {
@@ -44,13 +37,14 @@ x-mnemonic-input-field {
 }
 
 x-mnemonic-input input[type="text"] {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.05);
     width: 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     font-family: inherit;
     line-height: 2;
     font-size: 15px;
-    padding: 0;
+    padding: 0px;
+    border-radius: 2px;
 }
 
 x-mnemonic-input input[type="text"]:focus {
@@ -84,6 +78,7 @@ x-mnemonic-input-success {
     transform: scale(0.5);
     transition: transform 0.8s ease, opacity 0.5s ease;
     will-change: transform, opacity;
+    transition-delay: 300ms;
 }
 
 .recovered x-mnemonic-input-success {
@@ -138,21 +133,4 @@ datalist {
 
 .autocomplete-suggestion.selected {
     background: #f0f0f0;
-}
-
-
-
-
-/*Animation*/
-
-.entry x-mnemonic-input-field{
-    animation: x-mnemonic-input-field 300ms;
-    animation-fill-mode: backwards;
-}
-
-@keyframes x-mnemonic-input-field {
-    0% {
-        opacity: 0;
-        transform: translate(32px, 16px);
-    }
 }

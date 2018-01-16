@@ -1,4 +1,4 @@
-class ViewPermission extends XElement {
+class ViewPermission extends XView {
     html() {
         return `
 			<h1>Identicon Scanner</h1>

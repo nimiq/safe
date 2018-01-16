@@ -1,4 +1,4 @@
-class ViewBackupFile extends XElement {
+class ViewBackupFile extends XView {
     children() { return [XSlides, [XPinpad], XWalletBackup] }
 
     onCreate() {
@@ -53,7 +53,8 @@ class ViewBackupFile extends XElement {
                 </x-slide>
                 <x-wallet-backup></x-wallet-backup>
             </x-slides>
-            <a href="#seed-validate" button>Validate</a>`
+            
+            `
     }
 
 }

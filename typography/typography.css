@@ -1,4 +1,4 @@
-body{
+body {
     font-size: 15px;
 }
 
@@ -9,16 +9,15 @@ h1,
     font-weight: 300;
     max-width: 100%;
     box-sizing: border-box;
-    padding: 0 16px;
-    text-align:  center;
+    text-align: center;
+    padding: 0;
 }
 
 h1+h2 {
     font-size: 15px;
     font-weight: 400;
     text-align: center;
-    margin-top: 4px;
-    padding: 0 16px 24px;
+    padding: 4px 0 24px;
 }
 
 h2,
@@ -54,10 +53,23 @@ a[secondary] {
     font-weight: 800;
 }
 
-a[secondary] + [button]{
+a[secondary]+[button] {
     margin-top: 40px;
 }
 
-li{
+li {
     line-height: 24px;
+}
+
+@media (max-width: 320px) {
+    h1 {
+        font-size: 24px;
+    }
+
+    h2 {}
+
+    h1+h2 {
+        font-size: 13px;
+        padding-bottom: 8px;
+    }
 }

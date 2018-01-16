@@ -1,4 +1,4 @@
-class ViewBackupPhraseValidate extends XElement {
+class ViewBackupPhraseValidate extends XView {
     children() { return [XMnemonicValidate] }
 
     html() {

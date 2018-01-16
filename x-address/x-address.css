@@ -5,6 +5,13 @@ x-address {
     font-weight: 800;
     -webkit-user-select: text;
     user-select: all;
+    white-space: nowrap;
+}
+
+@media (max-width: 375px) {
+    x-address {
+        font-size: 12px;
+    }
 }
 
 @media (max-width: 340px) {

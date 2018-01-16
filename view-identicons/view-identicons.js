@@ -1,4 +1,4 @@
-class ViewIdenticons extends XElement {
+class ViewIdenticons extends XView {
 
     onCreate() {
         this.$container = this.$('x-container');

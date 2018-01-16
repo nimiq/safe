@@ -44,13 +44,6 @@ x-mnemonic-validate button.shake {
     color: var(--secondary-text-color);
 }
 
-x-mnemonic-validate-success-slide {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-
 x-wordlist{
     display: block;
     height: 180px;

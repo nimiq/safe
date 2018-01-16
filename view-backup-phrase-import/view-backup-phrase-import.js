@@ -1,4 +1,4 @@
-class ViewBackupPhraseImport extends XElement {
+class ViewBackupPhraseImport extends XView {
     children() { return [XSlides, XMnemonicInput, XPrivacyAgent] }
     onCreate() {
         this.addEventListener('x-surrounding-checked', e => this._onSurrondingChecked())

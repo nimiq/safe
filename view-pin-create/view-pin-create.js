@@ -1,4 +1,4 @@
-class ViewPinCreate extends XElement {
+class ViewPinCreate extends XView {
     children() { return [XPinpad] }
 
     onApiReady(api) {
