@@ -1,4 +1,11 @@
 class XSlides extends XElement {
+    html() {
+        return `
+            <x-slide-container content></x-slide-container>
+            <x-indicator></x-indicator>
+        `
+    }
+
     onCreate() {
         this.$slideContainer = this._prepareSlides();
         this.$slides = this.$slideContainer.childNodes;
@@ -78,12 +85,5 @@ class XSlides extends XElement {
             this.jumpTo(this._index);
             this._resizing = false;
         });
-    }
-
-    html() {
-        return `
-            <x-slide-container content></x-slide-container>
-            <x-indicator></x-indicator>
-        `
     }
 }

@@ -1,14 +1,4 @@
 class ViewBackupPhraseImport extends XView {
-    children() { return [XSlides, XMnemonicInput, XPrivacyAgent] }
-    onCreate() {
-        this.addEventListener('x-surrounding-checked', e => this._onSurrondingChecked())
-    }
-
-    _onSurrondingChecked() {
-        this.$slides.next();
-        this.$mnemonicInput.animateEntry();
-    }
-
     html() {
         return `
 			<h1>Enter Recovery Phrase</h1>
@@ -18,5 +8,16 @@ class ViewBackupPhraseImport extends XView {
 				<x-mnemonic-input></x-mnemonic-input>
 			</x-slides>
 		`
+    }
+    
+    children() { return [XSlides, XMnemonicInput, XPrivacyAgent] }
+    
+    onCreate() {
+        this.addEventListener('x-surrounding-checked', e => this._onSurrondingChecked())
+    }
+
+    _onSurrondingChecked() {
+        this.$slides.next();
+        this.$mnemonicInput.animateEntry();
     }
 }

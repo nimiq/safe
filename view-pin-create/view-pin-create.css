@@ -1,16 +1,4 @@
 view-pin-create {
-    display: flex;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    color: white;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-align: center;
-    transition: transform 800ms, opacity 500ms;
     z-index: 2;
 }
 

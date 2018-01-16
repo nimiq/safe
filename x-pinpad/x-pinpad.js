@@ -1,5 +1,31 @@
 class XPinpad extends XElement {
     styles() { return ['center'] }
+    html() {
+        return `
+            <x-pin-label></x-pin-label>
+            <x-pin>
+                <x-dot></x-dot>
+                <x-dot></x-dot>
+                <x-dot></x-dot>
+                <x-dot></x-dot>
+                <x-dot></x-dot>
+                <x-dot></x-dot>
+            </x-pin>
+            <x-pinpad-container>
+                <button>1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>6</button>
+                <button>7</button>
+                <button>8</button>
+                <button>9</button>
+                <button>0</button>
+            </x-pinpad-container>
+            <x-delete></x-delete>`
+    }
+
     onCreate() {
         this.$pin = this.$('x-pin');
         this.$dots = this.$pin.querySelectorAll('x-dot');
@@ -60,32 +86,6 @@ class XPinpad extends XElement {
                 e.removeAttribute('on');
             }
         })
-    }
-
-    html() {
-        return `
-            <x-pin-label></x-pin-label>
-            <x-pin>
-                <x-dot></x-dot>
-                <x-dot></x-dot>
-                <x-dot></x-dot>
-                <x-dot></x-dot>
-                <x-dot></x-dot>
-                <x-dot></x-dot>
-            </x-pin>
-            <x-pinpad-container>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>0</button>
-            </x-pinpad-container>
-            <x-delete></x-delete>`
     }
 }
 

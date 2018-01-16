@@ -1,5 +1,21 @@
 class ViewBackupFileImport extends XView {
+    html() {
+        return `
+		<h1>Import Backup File</h1>
+		<h2>Select a backup file to import an account</h2>
+        <x-slides>
+        	<x-wallet-backup-import></x-wallet-backup-import>
+        	<x-pinpad></x-pinpad>
+        	<x-slide>
+        		<x-success-mark></x-success-mark>
+            	<h2>Account Imported</h2>
+        	</x-slide>
+        </x-slides>
+        `;
+    }
+    
     children() { return [XSlides, XWalletBackupImport, XPinpad, XSuccessMark] }
+
     onCreate() {
         this.addEventListener('x-backup-import', e => this._onWalletImport(e));
         this.addEventListener('x-pin', e => this._onPinEntered(e));
@@ -26,21 +42,6 @@ class ViewBackupFileImport extends XView {
     onSuccess() {
         this.$slides.next();
         this.$successMark.animate();
-    }
-
-    html() {
-        return `
-		<h1>Import Backup File</h1>
-		<h2>Select a backup file to import an account</h2>
-        <x-slides>
-        	<x-wallet-backup-import></x-wallet-backup-import>
-        	<x-pinpad></x-pinpad>
-        	<x-slide>
-        		<x-success-mark></x-success-mark>
-            	<h2>Account Imported</h2>
-        	</x-slide>
-        </x-slides>
-        `;
     }
 }
 

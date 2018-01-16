@@ -1,4 +1,20 @@
 class ViewBackupPhrase extends XView {
+    html() {
+        return `
+            <h1>Backup your Recovery Phrase</h1>
+            <h2>Write down the following 24 words to recover your account later</h2>
+            <x-slides>
+                <x-slide>
+                    <x-privacy-agent></x-privacy-agent>
+                </x-slide>
+                <x-slide>
+                    <x-mnemonic-phrase></x-mnemonic-phrase>
+                    <x-grow></x-grow>
+                    <a href="#backup-phrase-validate" button>Validate</a>
+                </x-slide>
+            </x-slides>
+            `;
+    }
     children() { return [XSlides, XMnemonicPhrase, XPrivacyAgent] }
 
     onCreate() {
@@ -16,23 +32,6 @@ class ViewBackupPhrase extends XView {
 
     set privateKey(privateKey) {
         this.$mnemonicPhrase.privateKey = privateKey;
-    }
-
-    html() {
-        return `
-            <h1>Backup your Recovery Phrase</h1>
-            <h2>Write down the following 24 words to recover your account later</h2>
-            <x-slides>
-                <x-slide>
-                    <x-privacy-agent></x-privacy-agent>
-                </x-slide>
-                <x-slide>
-                    <x-mnemonic-phrase></x-mnemonic-phrase>
-                    <x-grow></x-grow>
-                    <a href="#backup-phrase-validate" button>Validate</a>
-                </x-slide>
-            </x-slides>
-            `;
     }
 }
 

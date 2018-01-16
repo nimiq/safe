@@ -1,9 +1,4 @@
 class XPrivacyAgent extends XElement {
-
-    onCreate() {
-        this.$('button').addEventListener('click', e => this.fire('x-surrounding-checked'));
-    }
-
     html() {
         return `
 			<x-privacy-agent-container>
@@ -24,5 +19,8 @@ class XPrivacyAgent extends XElement {
 			</x-privacy-agent-container>
 			<button>No One Is Around</button>
 		`
+    }
+    onCreate() {
+        this.$('button').addEventListener('click', e => this.fire('x-surrounding-checked'));
     }
 }

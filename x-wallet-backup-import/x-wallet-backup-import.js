@@ -1,4 +1,12 @@
 class XWalletBackupImport extends XElement {
+    html() {
+        return `
+            <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
+            <h2>Drop a Backup File</h2>
+            <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
+            <input type="file">`
+    }
+    
     onCreate() {
         this.$fileInput = this.$('input');
         this._bindHandlers();
@@ -56,14 +64,6 @@ class XWalletBackupImport extends XElement {
 
     _onDragEnd() {
         this.$el.removeAttribute('active');
-    }
-
-    html() {
-        return `
-                <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
-                <h2>Drop a Backup File</h2>
-                <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
-                <input type="file">`
     }
 }
 

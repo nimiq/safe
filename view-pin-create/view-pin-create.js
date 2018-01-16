@@ -1,5 +1,14 @@
 class ViewPinCreate extends XView {
+    html() {
+        return `
+        <h1>Create a Passcode</h1>
+        <h2>A passcode protects your funds and is used to unlock your Wallet</h2>
+        <x-pinpad></x-pinpad>`
+    }    
+
     children() { return [XPinpad] }
+    
+    styles() { return ['fit'] }
 
     onApiReady(api) {
         this._api = api;
@@ -47,12 +56,5 @@ class ViewPinCreate extends XView {
 
     _success() {
 
-    }
-
-    html(){
-        return `
-        <h1>Create a Passcode</h1>
-        <h2>A passcode protects your funds and is used to unlock your Wallet</h2>
-        <x-pinpad></x-pinpad>`
     }
 }

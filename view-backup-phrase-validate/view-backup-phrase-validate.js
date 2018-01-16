@@ -1,12 +1,12 @@
 class ViewBackupPhraseValidate extends XView {
-    children() { return [XMnemonicValidate] }
 
     html() {
         return `
-			<h1>Validate Recovery Phrase</h1>
-			<x-mnemonic-validate></x-mnemonic-validate>
-		`
+            <h1>Validate Recovery Phrase</h1>
+            <x-mnemonic-validate></x-mnemonic-validate>
+        `
     }
+    children() { return [XMnemonicValidate] }
 
     set privateKey(privateKey) {
         this.$mnemonicValidate.privateKey = privateKey

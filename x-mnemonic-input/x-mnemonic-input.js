@@ -1,9 +1,4 @@
 class XMnemonicInput extends XElement {
-
-    children() { return [XSuccessMark] }
-
-    styles() { return ['x-recovery-phrase'] }
-
     html() {
         return `
             <form autocomplete="off"></form>
@@ -12,6 +7,9 @@ class XMnemonicInput extends XElement {
                 <h2>Account Recovered</h2>
             <x-mnemonic-input-success>`;
     }
+    children() { return [XSuccessMark] }
+
+    styles() { return ['x-recovery-phrase'] }
 
     onCreate() {
         this.$fields = [];
@@ -104,11 +102,10 @@ class XMnemonicInput extends XElement {
 }
 
 class XMnemonicInputField extends XElement {
-    
-    styles() { return ['x-word'] }
     html() {
         return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
     }
+    styles() { return ['x-word'] }
 
     onCreate() {
         this.$input = this.$('input');

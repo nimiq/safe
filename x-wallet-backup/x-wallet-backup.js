@@ -1,4 +1,8 @@
 class XWalletBackup extends XElement {
+    html() {
+        return `<a><img></a>`
+    }
+
     onCreate() {
         this.$img = this.$('img');
         this.$a = this.$('a');
@@ -14,10 +18,6 @@ class XWalletBackup extends XElement {
                 this.$a.download = backup.filename();
             });
         }, 1000);
-    }
-
-    html() {
-        return `<a><img></a>`
     }
 }
 

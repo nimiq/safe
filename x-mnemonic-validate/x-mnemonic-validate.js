@@ -1,4 +1,17 @@
 class XMnemonicValidate extends XElement {
+    html() {
+        return `
+            <x-slides>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
+                <x-slide>
+                    <x-success-mark></x-success-mark>
+                    <h2>Phrase Validated</h2>
+                </x-slide>
+            </x-slides>
+            `
+    }
 
     children() {
         return [XSlides, [XMnemonicValidateSlide], XSuccessMark];
@@ -87,24 +100,25 @@ class XMnemonicValidate extends XElement {
     _showActiveSlide() {
         this.$slides.slideTo(this._activeSlide);
     }
-
-    html() {
-        return `
-            <x-slides>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-slide>
-                    <x-success-mark></x-success-mark>
-                    <h2>Phrase Validated</h2>
-                </x-slide>
-            </x-slides>
-            `
-    }
 }
 
 class XMnemonicValidateSlide extends XElement {
-
+    html() {
+        return `
+            <p>Please select the following word from your phrase:</p>
+            <x-target-index></x-target-index>
+            <x-wordlist>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+                <button class="small"></button>
+            </x-wordlist>`;
+    }
+    
     onCreate() {
         this.$buttons = this.$$('button');
         this.$targetIndex = this.$('x-target-index');
@@ -152,22 +166,6 @@ class XMnemonicValidateSlide extends XElement {
 
     _correct($el) {
         $el.classList.add('correct');
-    }
-
-    html() {
-        return `
-            <p>Please select the following word from your phrase:</p>
-            <x-target-index></x-target-index>
-            <x-wordlist>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-                <button class="small"></button>
-            </x-wordlist>`;
     }
 }
 

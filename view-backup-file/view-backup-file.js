@@ -1,4 +1,20 @@
 class ViewBackupFile extends XView {
+    html() {
+        return `
+            <h1>Backup your Recovery File</h1>
+            <h2>Download your Recovery File to later recover your account</h2>
+            <x-slides>
+                <x-pinpad></x-pinpad>
+                <x-pinpad></x-pinpad>
+                <x-slide>
+                    <x-loading-animation></x-loading-animation>
+                    <h2>Encrypting Wallet...</h2>
+                </x-slide>
+                <x-wallet-backup></x-wallet-backup>
+            </x-slides>
+            `
+    }
+    
     children() { return [XSlides, [XPinpad], XWalletBackup] }
 
     onCreate() {
@@ -37,26 +53,8 @@ class ViewBackupFile extends XView {
 
     backup(address, privateKey) {
         this.$walletBackup.backup(address, privateKey);
-        setTimeout(() => this.$slides.next(), 1000);     // Todo: remove this hack (depends on XWalletBackup)
+        setTimeout(() => this.$slides.next(), 1000); // Todo: remove this hack (depends on XWalletBackup)
     }
-
-    html() {
-        return `
-            <h1>Backup your Recovery File</h1>
-            <h2>Download your Recovery File to later recover your account</h2>
-            <x-slides>
-                <x-pinpad></x-pinpad>
-                <x-pinpad></x-pinpad>
-                <x-slide>
-                    <x-loading-animation></x-loading-animation>
-                    <h2>Encrypting Wallet...</h2>
-                </x-slide>
-                <x-wallet-backup></x-wallet-backup>
-            </x-slides>
-            
-            `
-    }
-
 }
 
 // Todo: start encryption in background right before user re-enters the pin for confirmation

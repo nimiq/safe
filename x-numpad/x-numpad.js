@@ -1,4 +1,19 @@
 class XNumpad extends XElement {
+    html() {
+        return `
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button>.</button>
+            <button>0</button>
+            <button>&lt;</button>`
+    }
 
     onCreate() {
         this.addEventListener('click', e => this._handleKey(e.target.textContent));
@@ -54,22 +69,6 @@ class XNumpad extends XElement {
     set value(value) {
         this._value = value;
         this.fire('x-change', value);
-    }
-
-    html(){
-        return `
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>.</button>
-            <button>0</button>
-            <button>&lt;</button>`
     }
 }
 

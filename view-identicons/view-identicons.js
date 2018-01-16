@@ -1,5 +1,18 @@
 class ViewIdenticons extends XView {
 
+    html(){
+        return `
+            <x-header>
+                <a href="#welcome" icon-back></a>
+                <h1>Choose Avatar</h1>
+            </x-header>
+            <x-container></x-container>
+            <x-address></x-address>
+            <x-backdrop></x-backdrop>
+            <a secondary>Generate More</a>
+            <a button>Confirm</a>`
+    }
+    
     onCreate() {
         this.$container = this.$('x-container');
         this.$address = this.$('x-address');
@@ -65,18 +78,5 @@ class ViewIdenticons extends XView {
     _onConfirm(e) {
         this.fire('x-keypair', this._selectedKeyPair)
         e.stopPropagation();
-    }
-
-    html(){
-        return `
-            <x-header>
-                <a href="#welcome" icon-back></a>
-                <h1>Choose Avatar</h1>
-            </x-header>
-            <x-container></x-container>
-            <x-address></x-address>
-            <x-backdrop></x-backdrop>
-            <a secondary>Generate More</a>
-            <a button>Confirm</a>`
     }
 }
