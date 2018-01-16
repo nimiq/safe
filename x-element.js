@@ -84,10 +84,21 @@ class XElement {
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
 
     __bindStyles(styles) {
-        if (super.styles) super.__bindStyles(super.styles);   // Bind styles of all parent types recursively 
+        if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively 
         if (!styles) return;
         styles().forEach(style => this.addStyle(style));
     }
 
-   
+    /* Animations */
+    animate(className, $el) {
+        $el = $el || this.$el;
+        $el.classList.add(className);
+        const listener1 = $el.addEventListener('transitionend', e => remove, false);
+        const listener1 = $el.addEventListener('animationend', e => remove, false);
+        const remove = () => {
+            $el.removeEventListener(listener1);
+            $el.removeEventListener(listener2);
+            $el.classList.remove(className);
+        }
+    }
 }
