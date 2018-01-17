@@ -17,11 +17,11 @@ class XElement {
 
     __createChildren() { // Create all children recursively 
         if (!this.children) return;
-        this.children().forEach(child => this.__createChild(child))
+        this.children().forEach(child => this.__createChild(child));
     }
 
     __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
-        if (child instanceof Array) return this.__createArrayOfChild(child[0])
+        if (child instanceof Array) return this.__createArrayOfChild(child[0]);
         this[child.__toChildName()] = new child(this);
     }
 
@@ -29,8 +29,8 @@ class XElement {
         const name = child.__toChildName() + 's';
         const tagName = XElement.__toTagName(child.name);
         const children = this.$$(tagName);
-        this[name] = []
-        children.forEach(c => this[name].push(new child(c)))
+        this[name] = [];
+        children.forEach(c => this[name].push(new child(c)));
     }
 
     static __toChildName() {
@@ -71,11 +71,11 @@ class XElement {
     clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
 
     /* Events */
-    addEventListener(type, callback) { return this.$el.addEventListener(type, callback, false) }
+    addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
 
     fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
-        const params = { detail: detail, bubbles: bubbles }
-        this.$el.dispatchEvent(new CustomEvent(eventType, params))
+        const params = { detail: detail, bubbles: bubbles };
+        this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
 
     /* Style Manipulation */
@@ -93,12 +93,12 @@ class XElement {
     animate(className, $el) {
         $el = $el || this.$el;
         $el.classList.add(className);
-        const listener1 = $el.addEventListener('transitionend', e => remove, false);
-        const listener2 = $el.addEventListener('animationend', e => remove, false);
-        const remove = () => {
-            $el.removeEventListener(listener1);
-            $el.removeEventListener(listener2);
+        const listener = () => {
+            $el.removeEventListener('transitionend', listener);
+            $el.removeEventListener('animationend', listener);
             $el.classList.remove(className);
-        }
+        };
+        $el.addEventListener('transitionend', listener, false);
+        $el.addEventListener('animationend', listener, false);
     }
 }
