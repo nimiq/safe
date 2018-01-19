@@ -38,7 +38,7 @@ class XPinpad extends XElement {
         this._pin = '';
         this._setMaskedPin();
         this.$el.classList.remove('unlocking');
-        this.$el.classList.remove('shake');
+        this.$el.classList.remove('shake-pinpad');
         this._unlocking = false;
     }
 
@@ -67,7 +67,7 @@ class XPinpad extends XElement {
 
     onPinIncorrect() {
         this.$el.classList.remove('unlocking');
-        this.$el.classList.add('shake');
+        this.$el.classList.add('shake-pinpad');
         setTimeout(() => this.reset(), 500);
     }
 

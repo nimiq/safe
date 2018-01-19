@@ -184,3 +184,5 @@ class XMnemonicInputField extends XElement {
         this._onKeyDown(e);
     }
 }
+
+// Todo: Use animate method for shake animation

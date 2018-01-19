@@ -170,3 +170,4 @@ class XMnemonicValidateSlide extends XElement {
 }
 
 // Todo: on wrong attempt: shake and show correct one as correct
+// Todo: use animate method for shake animation

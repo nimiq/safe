@@ -65,7 +65,7 @@ x-delete {
 
 /* Wrong Attempt Animation */
 
-.shake x-pin-label{
+.shake-pinpad x-pin-label{
     animation: shake-pinpad 500ms;
 }
 
