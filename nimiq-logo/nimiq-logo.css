@@ -20,8 +20,6 @@ nimiq-logo:empty:after {
 
 nimiq-logo[large] {
     width: 100%;
-    min-width: 300px;
-    background-size: 104px;
     background-position: center top;
     font-weight: 800;
     color: rgba(255,255,255, 0.5);
@@ -30,6 +28,7 @@ nimiq-logo[large] {
     padding-left: 0;
     /* margin-top:  16px; */
     margin-bottom: 24px;
+    background-size: 104px;
 }
 
 nimiq-logo[large]:empty:after {

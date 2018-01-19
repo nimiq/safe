@@ -64,7 +64,7 @@ class XMnemonicValidate extends XElement {
     }
 
     _success() {
-        setTimeout(e => this.fire('x-phrase-validated'), 2000);
+        setTimeout(e => this.fire('x-phrase-validated'), 2500);
     }
 
     _generateIndices() {

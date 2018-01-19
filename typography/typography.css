@@ -59,6 +59,7 @@ a[secondary]+[button] {
 
 li {
     line-height: 24px;
+    text-align: left;
 }
 
 @media (max-width: 320px) {
