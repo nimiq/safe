@@ -90,15 +90,28 @@ class XElement {
     }
 
     /* Animations */
-    animate(className, $el) {
+    animate(className, $el, animationDuration) {
         $el = $el || this.$el;
-        $el.classList.add(className);
         const listener = () => {
             $el.removeEventListener('transitionend', listener);
             $el.removeEventListener('animationend', listener);
-            $el.classList.remove(className);
+            $el.removeEventListener('animationcancel', listener);
+            this.stopAnimation(className, $el);
         };
         $el.addEventListener('transitionend', listener, false);
         $el.addEventListener('animationend', listener, false);
+        $el.addEventListener('animationcancel', listener, false); // unfortunately still has bad browser support
+        if (animationDuration) {
+            $el.style.animationDuration = animationDuration + 's';
+            $el.style.transition = 'all ' + animationDuration + 's';
+        }
+        $el.classList.add(className);
+    }
+
+    stopAnimation(className, $el) {
+        $el = $el || this.$el;
+        $el.style.animationDuration = '';
+        $el.style.transition = '';
+        $el.classList.remove(className);
     }
 }
