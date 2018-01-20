@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-pages</title>
+    <link href="../../fast-font/fast-font.css" rel="stylesheet">
+    <link href="../../theme/theme.css" rel="stylesheet">
+    <link href="../../animations/animations.css" rel="stylesheet">
+    <script src="/x-element/x-element.js"></script>
+    <script src="../x-pages.js"></script>
+    <link href="../x-pages.css" rel="stylesheet">
+    <style type="text/css">
+        body {
+            background: var(--primary-background);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        x-pages {
+            width: 300px;
+            height: 300px;
+            color: white;
+            font-size: 32px;
+            margin: 32px;
+        }
+
+        x-pages > * {
+            padding: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            border: 1px solid white;
+        }
+    </style>
+</head>
+
+<body>
+<x-pages default="page-one" animation="fade">
+    <div page="page-one" animation="move-grow-fade-left">1</div>
+    <div page="page-two" animation="move-grow-fade-right">2</div>
+    <div page="page-three">3</div>
+    <x-fancy-page page="page-four" animation-show="shrink-in" animation-hide="shake">4</x-fancy-page>
+</x-pages>
+
+<select>
+    <option value="page-one">Page One</option>
+    <option value="page-two">Page Two</option>
+    <option value="page-three">Page Three</option>
+    <option value="page-four">Page Four</option>
+</select>
+<script>
+    class XFancyPage extends XElement {
+        onShow() {
+            console.log('Page four shown.');
+        }
+
+        onHide() {
+            console.log('Page four hidden.');
+        }
+    }
+
+    new XFancyPage();
+    const $pages = new XPages();
+
+    document.querySelector('select').addEventListener('change', event => $pages.selected = event.target.value);
+</script>
+</body>
+
+</html>
