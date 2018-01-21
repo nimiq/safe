@@ -15,10 +15,11 @@ x-pages > [page] {
 /* default animation styles */
 x-pages > [page][class*="-in"] {
     animation-duration: 0.5s;
-/*    animation-timing-function: ease-in; */
+    animation-timing-function: ease-in; 
+    z-index: 1;
 }
 
 x-pages > [page][class*="-out"] {
-    animation-duration: 0.2s;
-/*    animation-timing-function: ease; */
+    animation-duration: 0.4s;
+    animation-timing-function: ease; 
 }
