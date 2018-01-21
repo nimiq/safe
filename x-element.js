@@ -103,7 +103,7 @@ class XElement {
         $el.addEventListener('animationcancel', listener, false); // unfortunately still has bad browser support
         if (animationDuration) {
             $el.style.animationDuration = animationDuration + 's';
-            $el.style.transition = 'all ' + animationDuration + 's';
+            $el.style.transitionDuration = animationDuration + 's';
         }
         $el.classList.add(className);
     }
@@ -111,7 +111,7 @@ class XElement {
     stopAnimation(className, $el) {
         $el = $el || this.$el;
         $el.style.animationDuration = '';
-        $el.style.transition = '';
+        $el.style.transitionDuration = '';
         $el.classList.remove(className);
     }
 }
