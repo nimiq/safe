@@ -1,8 +1,8 @@
 class XAmount extends XElement {
     html(){
         return `
-        <x-currency-1></x-currency-1>
-        <x-currency-2></x-currency-2>`
+            <x-currency-1></x-currency-1>
+            <x-currency-2></x-currency-2>`
     }
 
     set value(value) {

@@ -6,6 +6,7 @@ x-address {
     -webkit-user-select: text;
     user-select: all;
     white-space: nowrap;
+    max-width:  400px;
 }
 
 @media (max-width: 375px) {

@@ -4,13 +4,15 @@ class ViewIdenticons extends XView {
         return `
             <x-header>
                 <a href="#welcome" icon-back></a>
-                <h1>Choose Avatar</h1>
+                <h1>Choose Your Avatar</h1>
             </x-header>
             <x-container></x-container>
-            <x-address></x-address>
-            <x-backdrop></x-backdrop>
             <a secondary>Generate More</a>
-            <a button>Confirm</a>`
+            <x-backdrop class="center">
+                <x-address></x-address>
+                <a button>Confirm</a>
+            </x-backdrop>
+            `
     }
     
     onCreate() {

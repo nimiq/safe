@@ -18,7 +18,7 @@ button,
     color: var(--primary-color);
     cursor: pointer;
     user-select: none;
-    box-shadow: rgba(0, 0, 0, 0.5) 0 2px 4px;
+    box-shadow: rgba(0, 0, 0, 0.5) 1px 2px 3px;
     box-sizing: border-box;
     outline: none;
     border: none;
