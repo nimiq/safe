@@ -1,4 +1,4 @@
-import XView from '/x-element/x-view.js';
+import XView from '/libraries/x-element/x-view.js';
 import XSlides from '../x-slides/x-slides.js';
 import XMnemonicInput from '../x-mnemonic-input/x-mnemonic-input.js';
 import XPrivacyAgent from '../x-privacy-agent/x-privacy-agent.js';

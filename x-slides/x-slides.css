@@ -1,9 +1,10 @@
-@import "../nimiq-style/nimiq-style.css";
+@import "/libraries/nimiq-style/nimiq-style.css";
 
 x-slides {
     width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    max-width: 368px;
 }
 
 x-slide-container {

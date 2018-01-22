@@ -1,4 +1,4 @@
-import XView from '/x-element/x-view.js';
+import XView from '/libraries/x-element/x-view.js';
 
 export default class ViewPermission extends XView {
     html() {

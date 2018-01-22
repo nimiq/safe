@@ -1,4 +1,4 @@
-import XView from '/x-element/x-view.js';
+import XView from '/libraries/x-element/x-view.js';
 import XPinpad from '../x-pinpad/x-pinpad.js';
 
 export default class ViewPinCreate extends XView {

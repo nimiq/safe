@@ -1,7 +1,8 @@
-@import '../nimiq-style/nimiq-style.css';
+@import '/libraries/nimiq-style/nimiq-style.css';
 @import '../x-slides/x-slides.css';
 @import '../x-pinpad/x-pinpad.css';
 @import '../x-wallet-backup/x-wallet-backup.css';
+@import '../x-loading-animation/x-loading-animation.css';
 
 
 view-backup-file [button]{

@@ -1,4 +1,4 @@
-@import '../nimiq-style/nimiq-style.css';
+@import '/libraries/nimiq-style/nimiq-style.css';
 
 .state-loading view-loading {
     opacity: 1;

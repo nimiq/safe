@@ -1,5 +1,5 @@
-import XElement from '/x-element/x-element.js';
-import MnemonicPhrase from '/mnemonic-phrase/mnemonic-phrase.js';
+import XElement from '/libraries/x-element/x-element.js';
+import MnemonicPhrase from '/libraries/mnemonic-phrase/mnemonic-phrase.min.js';
 
 export default class XMnemonicPhrase extends XElement {
 

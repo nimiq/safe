@@ -1,7 +1,7 @@
-import XView from '/x-element/x-view.js';
+import XView from '../../libraries/x-element/x-view.js';
 import XSlides from '../x-slides/x-slides.js';
 import XPinpad from '../x-pinpad/x-pinpad.js';
-import WalletBackup from '/wallet-backup/wallet-backup.js';
+import XWalletBackup from '../x-wallet-backup/x-wallet-backup.js';
 
 export default class ViewBackupFile extends XView {
     html() {

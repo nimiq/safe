@@ -1,4 +1,4 @@
-import XView from '/x-element/x-view.js';
+import XView from '/libraries/x-element/x-view.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 
 export default class ViewIdenticons extends XView {

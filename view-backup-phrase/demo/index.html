@@ -12,6 +12,8 @@
     </main>
     <script type="module">
     import ViewBackupPhrase from '../view-backup-phrase.js'; 
+    import MnemonicPhrase from '/libraries/mnemonic-phrase/mnemonic-phrase.min.js';
+
     const $view = new ViewBackupPhrase();
 
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
