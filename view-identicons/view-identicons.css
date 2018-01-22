@@ -64,7 +64,7 @@ view-identicons [button] {
     will-change: transform;
     transition-delay: 300ms;
     position: absolute;
-    bottom: 40px;
+    top: calc( 50% + 256px);
     pointer-events: none;
 }
 
@@ -115,7 +115,7 @@ view-identicons[selected] x-address {
     opacity: 1;
     z-index: 2;
     transform: translate(0, 56px);
-    margin-top: 16px;
+    margin-top: 32px;
 }
 
 view-identicons[selected] x-backdrop {
