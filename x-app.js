@@ -31,7 +31,7 @@ export default class XApp extends XElement {
 
     _onStateChanged(state, path) {
         document.body.className = 'state-' + state;
-        const stateCased = state[0].toUpperCase() + state.substring(1);
+        const stateCased = XElement.camelize(state.replace(/-/g,' '))
         const viewName = '$view' + stateCased;
         if (!(this[viewName] instanceof XView)) return;
         if (this.$currView) this.$currView._onHide();

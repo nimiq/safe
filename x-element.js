@@ -33,6 +33,13 @@ export default class XElement {
         children.forEach(c => this[name].push(new child(c)));
     }
 
+    static camelize(str) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+            if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+            return match.toUpperCase();
+        });
+    }
+
     static __toChildName() {
         let name = this.name;
         if (name.match(/^X[A-Z][a-z]*/)) name = name.substring(1); // replace XAnyConstructorName -> AnyConstructorName
