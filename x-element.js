@@ -1,4 +1,4 @@
-class XElement {
+export default class XElement {
     /* Private API */
     constructor(root) {
         this.__bindDOM(root);

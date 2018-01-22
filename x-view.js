@@ -1,4 +1,5 @@
-class XView extends XElement {
+import XElement from './x-element.js';
+export default class XView extends XElement {
 
     styles() { return ['x-view'] }
 

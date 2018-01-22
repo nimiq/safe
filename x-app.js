@@ -1,4 +1,5 @@
-class XApp extends XElement {
+import XElement from './x-element.js';
+export default class XApp extends XElement {
 
     get __tagName() { return 'body' }
 
