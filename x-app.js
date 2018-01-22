@@ -1,4 +1,5 @@
 import XElement from './x-element.js';
+import XView from './x-view.js';
 export default class XApp extends XElement {
 
     get __tagName() { return 'body' }
