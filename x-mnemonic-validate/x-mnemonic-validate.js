@@ -1,7 +1,7 @@
 import XElement from '/library/x-element/x-element.js';
 import XSlides from '../x-slides/x-slides.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
-import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.min.js';
+import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.es6.min.js';
 
 export default class XMnemonicValidate extends XElement {
     html() {
@@ -123,7 +123,7 @@ class XMnemonicValidateSlide extends XElement {
                 <button class="small"></button>
             </x-wordlist>`;
     }
-    
+
     onCreate() {
         this.$buttons = this.$$('button');
         this.$targetIndex = this.$('x-target-index');
