@@ -4,7 +4,6 @@
 <head>
     <title>Mnemonic Phrase</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
     <link href="../x-mnemonic-phrase.css" rel="stylesheet">
     <style>
     html,
@@ -24,7 +23,7 @@
     <x-mnemonic-phrase></x-mnemonic-phrase>
     <script type="module">
     import XMnemonicPhrase from '../x-mnemonic-phrase.js';
-    import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.min.js';
+    import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.es6.min.js';
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const $mnemonicPhrase = new XMnemonicPhrase();
     $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
