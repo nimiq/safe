@@ -1,4 +1,4 @@
-@import '../fast-font/fast-font.css';
+@import '/library/nimiq-style/typography.css';
 nimiq-logo {
     width: 264px;
     height: 30px;

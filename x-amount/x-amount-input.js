@@ -1,6 +1,6 @@
 import XAmount from './x-amount.js';
 
-class XAmountInput extends XAmount {
+export default class XAmountInput extends XAmount {
     html(){
         return `
             <x-currency-1>
