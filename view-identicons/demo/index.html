@@ -9,10 +9,15 @@
 <body>
     <main>
         <view-identicons></view-identicons>
+        <x-nimiq-api></x-nimiq-api>
     </main>
+    <script src="https://cdn.nimiq.com/core/nimiq.js" async></script>
     <script type="module">
     import ViewIdenticons from '../view-identicons.js';
+    import XNimiqApi from '../../x-nimiq-api/x-nimiq-api.js';
     const $view = new ViewIdenticons();
+    const $api = new XNimiqApi();
+    $api.addEventListener('x-api-ready', event => $view.onApiReady(event.detail));
     </script>
 </body>
 
