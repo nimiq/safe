@@ -1,4 +1,9 @@
-class ViewBackupFile extends XView {
+import XView from '/x-element/x-view.js';
+import XSlides from '../x-slides/x-slides.js';
+import XPinpad from '../x-pinpad/x-pinpad.js';
+import WalletBackup from '/wallet-backup/wallet-backup.js';
+
+export default class ViewBackupFile extends XView {
     html() {
         return `
             <h1>Backup your Recovery File</h1>
@@ -14,7 +19,7 @@ class ViewBackupFile extends XView {
             </x-slides>
             `
     }
-    
+
     children() { return [XSlides, [XPinpad], XWalletBackup] }
 
     onCreate() {

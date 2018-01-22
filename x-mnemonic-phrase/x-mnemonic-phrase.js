@@ -1,4 +1,7 @@
-class XMnemonicPhrase extends XElement {
+import XElement from '/x-element/x-element.js';
+import MnemonicPhrase from '/mnemonic-phrase/mnemonic-phrase.js';
+
+export default class XMnemonicPhrase extends XElement {
 
     styles() { return ['x-recovery-phrase'] }
 

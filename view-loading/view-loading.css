@@ -1,3 +1,5 @@
+@import '../nimiq-style/nimiq-style.css';
+
 .state-loading view-loading {
     opacity: 1;
     background: var(--primary-background);

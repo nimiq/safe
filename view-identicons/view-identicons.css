@@ -1,3 +1,5 @@
+@import '../nimiq-style/nimiq-style.css';
+
 view-identicons {
     box-sizing: border-box;
     -webkit-user-select: none;

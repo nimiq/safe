@@ -1,3 +1,6 @@
+@import '../nimiq-style/nimiq-style.css';
+@import '../x-mnemonic-phrase/x-recovery-phrase.css';
+
 x-mnemonic-input {
     text-align: center;
     line-height: 32px;

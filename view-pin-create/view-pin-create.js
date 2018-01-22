@@ -1,4 +1,7 @@
-class ViewPinCreate extends XView {
+import XView from '/x-element/x-view.js';
+import XPinpad from '../x-pinpad/x-pinpad.js';
+
+export default class ViewPinCreate extends XView {
     html() {
         return `
         <h1>Create a Passcode</h1>

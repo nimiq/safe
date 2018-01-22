@@ -4,19 +4,6 @@
 <head>
     <title>Mnemonic Validate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../inputs/inputs.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
-    <script src="../../x-mnemonic-phrase/x-mnemonic-phrase.js"></script>
-    <link href="../../x-mnemonic-phrase/x-mnemonic-phrase.css" rel="stylesheet">
-    <script src="../../x-slides/x-slides.js"></script>
-    <link href="../../x-slides/x-slides.css" rel="stylesheet">
-    <script src="../../x-success-mark/x-success-mark.js"></script>
-    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
-    <script src="../x-mnemonic-validate.js"></script>
     <link href="../x-mnemonic-validate.css" rel="stylesheet">
     <style>
     html,
@@ -54,7 +41,8 @@
     <h1>Validate your Passphrase</h1>
     <x-mnemonic-validate></x-mnemonic-validate>
     <a>-></a>
-    <script>
+    <script type="module">
+    import XMnemonicPhrase from '../x-mnemonic-validate.js';
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const $mnemonicPhrase = new XMnemonicPhrase();
     $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
@@ -68,7 +56,6 @@
 
     document.querySelector('a').addEventListener('click', () => $mnemonicValidate._next());
     </script>
-    <link href="../../animations/animations.css" rel="stylesheet">
 </body>
 
 </html>

@@ -1,4 +1,8 @@
-class XMnemonicValidate extends XElement {
+import XElement from '/x-element/x-element.js';
+import XSlides from '../x-slides/x-slides.js';
+import XSuccessMark from '../x-success-mark/x-success-mark.js';
+
+export default class XMnemonicValidate extends XElement {
     html() {
         return `
             <x-slides>

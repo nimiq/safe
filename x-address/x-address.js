@@ -1,4 +1,6 @@
-class XAddress extends XElement {
+import XElement from '/x-element/x-element.js';
+
+export default class XAddress extends XElement {
     onCreate() {
         this.addEventListener('click', e => this._onCopy())
     }

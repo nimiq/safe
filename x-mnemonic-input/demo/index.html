@@ -4,17 +4,7 @@
 <head>
     <title>Mnemonic Input</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../inputs/inputs.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
-    <script src="../../x-success-mark/x-success-mark.js"></script>
-    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
-    <link href="../../x-mnemonic-phrase/x-recovery-phrase.css" rel="stylesheet">
-    <script src="../autocomplete.js"></script>
-    <script src="../x-mnemonic-input.js"></script>
+    <!-- <script src="../autocomplete.js"></script> -->
     <link href="../x-mnemonic-input.css" rel="stylesheet">
     <style>
     html,
@@ -66,7 +56,9 @@
         <br />
         <span id="privateKey">-</span>
     </p>
-    <script>
+    <script type="module">
+    import XMnemonicInput from '../x-mnemonic-input.js';
+
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const hexKey = MnemonicPhrase._arrayToHex(randomKey);
     const mnemonic = MnemonicPhrase.keyToMnemonic(hexKey);
@@ -98,7 +90,6 @@
         document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
     });
     </script>
-    <link href="../../animations/animations.css" rel="stylesheet">
 </body>
 
 </html>

@@ -4,33 +4,15 @@
 <head>
     <title>view-backup-file-import</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../inputs/inputs.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
-    <link href="../../app-layout/app-layout.css" rel="stylesheet">
-    <script src="/qr-scanner/src/qr-scanner.js"></script>
-    <script src="/x-element/x-element.js"></script>
-    <script src="/x-element/x-view.js"></script>
-    <link href="../../x-view/x-view.css" rel="stylesheet">
-    <link href="../../x-slides/x-slides.css" rel="stylesheet">
-    <script src="../../x-slides/x-slides.js"></script>
-    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
-    <script src="../../x-success-mark/x-success-mark.js"></script>
-    <link href="../../x-pinpad/x-pinpad.css" rel="stylesheet">
-    <script src="../../x-pinpad/x-pinpad.js"></script>
-    <link href="../../x-wallet-backup-import/x-wallet-backup-import.css" rel="stylesheet">
-    <script src="/wallet-backup/wallet-backup.js"></script>
-    <script src="../../x-wallet-backup-import/x-wallet-backup-import.js"></script>
-    <!-- <link href="../view-backup-file-import.css" rel="stylesheet"> -->
-    <script src="../view-backup-file-import.js"></script>
+    <link href="../view-backup-file-import.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
         <view-backup-file-import></view-backup-file-import>
     </main>
-    <script>
+    <script type="module">
+    import ViewBackupFileImport from '../view-backup-file-import.js';
     const $view = new ViewBackupFileImport();
     document.body.addEventListener('x-encrypted-wallet', e => {
         const wallet = e.detail;

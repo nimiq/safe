@@ -3,34 +3,15 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../inputs/inputs.css" rel="stylesheet">
-    <link href="../../app-layout/app-layout.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
-    <script src="/x-element/x-view.js"></script>
-    <link href="../../x-view/x-view.css" rel="stylesheet">
-    <script src="/mnemonic-phrase/mnemonic-phrase.min.js"></script>
-    <script src="../../x-success-mark/x-success-mark.js"></script>
-    <link href="../../x-success-mark/x-success-mark.css" rel="stylesheet">
-    <script src="../../x-privacy-agent/x-privacy-agent.js"></script>
-    <link href="../../x-privacy-agent/x-privacy-agent.css" rel="stylesheet">
-    <script src="../../x-slides/x-slides.js"></script>
-    <link href="../../x-slides/x-slides.css" rel="stylesheet">
-    <script src="../../x-mnemonic-input/autocomplete.js"></script>
-    <script src="../../x-mnemonic-input/x-mnemonic-input.js"></script>
-    <link href="../../x-mnemonic-phrase/x-recovery-phrase.css" rel="stylesheet">
-    <link href="../../x-mnemonic-input/x-mnemonic-input.css" rel="stylesheet">
-    <script src="../view-backup-phrase-import.js"></script>
-    <!-- <link href="../view-backup-phrase-import.css" rel="stylesheet"> -->
+    <link href="../view-backup-phrase-import.css" rel="stylesheet">
 </head>
 
 <body>
     <main>
         <view-backup-phrase-import></view-backup-phrase-import>
     </main>
-    <script>
+    <script type="module">
+    import ViewBackupPhraseImport from '../view-backup-phrase-import.js';
     const $view = new ViewBackupPhraseImport();
 
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));

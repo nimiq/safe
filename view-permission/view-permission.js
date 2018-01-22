@@ -1,4 +1,6 @@
-class ViewPermission extends XView {
+import XView from '/x-element/x-view.js';
+
+export default class ViewPermission extends XView {
     html() {
         return `
 			<h1>Identicon Scanner</h1>

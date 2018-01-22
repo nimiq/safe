@@ -3,16 +3,6 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../typography/typography.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../inputs/inputs.css" rel="stylesheet">
-    <link href="../../app-layout/app-layout.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
-    <script src="/x-element/x-view.js"></script>
-    <script src="../../x-pinpad/x-pinpad.js"></script>
-    <link href="../../x-pinpad/x-pinpad.css" rel="stylesheet">
-    <script src="../view-pin-create.js"></script>
     <link href="../view-pin-create.css" rel="stylesheet">
 </head>
 
@@ -20,7 +10,8 @@
     <main>
         <view-pin-create></view-pin-create>
     </main>
-    <script>
+    <script type="module">
+    import ViewPinCreate from '../view-pin-create.js';
     const $view = new ViewPinCreate();
     </script>
 </body>

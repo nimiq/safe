@@ -1,3 +1,5 @@
+@import '../nimiq-style/nimiq-style.css';
+
 view-pin-create {
     z-index: 2;
 }

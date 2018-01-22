@@ -1,3 +1,6 @@
+@import '../nimiq-style/nimiq-style.css';
+@import 'x-recovery-phrase.css';
+
 x-mnemonic-phrase {
     text-align: center;
     display: flex;

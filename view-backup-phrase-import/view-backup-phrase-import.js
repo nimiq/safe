@@ -1,4 +1,9 @@
-class ViewBackupPhraseImport extends XView {
+import XView from '/x-element/x-view.js';
+import XSlides from '../x-slides/x-slides.js';
+import XMnemonicInput from '../x-mnemonic-input/x-mnemonic-input.js';
+import XPrivacyAgent from '../x-privacy-agent/x-privacy-agent.js';
+
+export default class ViewBackupPhraseImport extends XView {
     html() {
         return `
 			<h1>Enter Recovery Phrase</h1>

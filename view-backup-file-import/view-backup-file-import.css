@@ -1,9 +1,4 @@
 @import '../nimiq-style/nimiq-style.css';
 @import '../x-slides/x-slides.css';
 @import '../x-pinpad/x-pinpad.css';
-@import '../x-wallet-backup/x-wallet-backup.css';
-
-
-view-backup-file [button]{
-	opacity: 0;
-}
+@import '../libraries/wallet-backup/wallet-backup.css';

@@ -1,4 +1,6 @@
-class XAmount extends XElement {
+import XElement from '/x-element/x-element.js';
+
+export default class XAmount extends XElement {
     html(){
         return `
             <x-currency-1></x-currency-1>
