@@ -1,3 +1,5 @@
+@import "../nimiq-style/nimiq-style.css";
+
 x-wallet-backup{
 	height: 420px;
 	position:  relative;

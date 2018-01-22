@@ -3,11 +3,7 @@
 
 <head>
     <title>x-pinpad</title>
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
     <link href="../x-pinpad.css" rel="stylesheet">
-    <script src="../x-pinpad.js"></script>
     <style type="text/css">
     body {
         background: var(--primary-background);
@@ -20,8 +16,9 @@
 
 <body>
     <x-pinpad></x-pinpad>
-    <script>
-    const $pinpad = new XPinpad();
+    <script type="module">
+        import XPinpad from "../x-pinpad.js";
+        const $pinpad = new XPinpad();
     </script>
 </body>
 

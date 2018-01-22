@@ -1,4 +1,6 @@
-class XPrivacyAgent extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XPrivacyAgent extends XElement {
     html() {
         return `
 			<x-privacy-agent-container>

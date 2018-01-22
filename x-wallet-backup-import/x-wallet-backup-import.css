@@ -1,3 +1,5 @@
+@import "../nimiq-style/nimiq-style.css";
+
 x-wallet-backup-import {
     display: flex;
     width: 320px;

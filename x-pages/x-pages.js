@@ -1,4 +1,6 @@
-class XPages extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XPages extends XElement {
     onCreate() {
         this._pages = {};
         this._displayNoneHandlers = {};

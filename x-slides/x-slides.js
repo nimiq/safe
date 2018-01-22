@@ -1,4 +1,6 @@
-class XSlides extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XSlides extends XElement {
     html() {
         return `
             <x-slide-container content></x-slide-container>

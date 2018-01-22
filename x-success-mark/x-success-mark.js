@@ -1,4 +1,6 @@
-class XSuccessMark extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XSuccessMark extends XElement {
     html() {
         return `
             <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
@@ -8,9 +10,11 @@ class XSuccessMark extends XElement {
     }
 
     animate() {
-        this.$el.classList.add('animate');
+        this.$el.classList.add('animate-success-mark');
     }
 }
 
 
 // Todo: Outline should be a hexagon :)
+// Todo: Use XElement.prototype.animate and resolve name clash of animate method
+// Todo: rename the animations in x-success-mark.css with a namespace

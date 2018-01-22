@@ -1,4 +1,6 @@
-class XPinpad extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XPinpad extends XElement {
     styles() { return ['center'] }
     html() {
         return `

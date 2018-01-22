@@ -3,13 +3,7 @@
 
 <head>
     <title></title>
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet" type="text/css">
-    <script src="/x-element/x-element.js"></script>
-    <script src="/qr-scanner/qr-scanner.min.js"></script>
-    <script src="/wallet-backup/wallet-backup.js"></script>
     <link href="../x-wallet-backup-import.css" rel="stylesheet">
-    <script src="../x-wallet-backup-import.js"></script>
     <style>
     html,
     body {
@@ -25,9 +19,10 @@
 
 <body>
     <x-wallet-backup-import></x-wallet-backup-import>
-    <script>
-    const $walletImport = new XWalletBackupImport();
-    $walletImport.addEventListener('x-wallet-import', e => alert(e.detail));
+    <script type="module">
+        import XWalletBackupImport from '../x-wallet-backup-import.js';
+        const $walletImport = new XWalletBackupImport();
+        $walletImport.addEventListener('x-wallet-import', e => alert(e.detail));
     </script>
 </body>
 

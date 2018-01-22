@@ -1,4 +1,7 @@
-class Transaction extends XElement {
+import XElement from "/x-element/x-element.js";
+import XIdenticon from "../x-identicon/x-identicon.js";
+
+export default class Transaction extends XElement {
     children() { return [XIdenticon] }
     onCreate() {
         this.tx = {

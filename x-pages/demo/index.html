@@ -4,11 +4,6 @@
 <head>
     <title>x-pages</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <link href="../../animations/animations.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
-    <script src="../x-pages.js"></script>
     <link href="../x-pages.css" rel="stylesheet">
     <style type="text/css">
     body {
@@ -60,21 +55,22 @@
         <option value="page-three">Page Three</option>
         <option value="page-four">Page Four</option>
     </select>
-    <script>
-    class XFancyPage extends XElement {
-        onShow() {
-            console.log('Page four shown.');
+    <script type="module">
+        import XPages from "../x-pages.js";
+        class XFancyPage extends XElement {
+            onShow() {
+                console.log('Page four shown.');
+            }
+
+            onHide() {
+                console.log('Page four hidden.');
+            }
         }
 
-        onHide() {
-            console.log('Page four hidden.');
-        }
-    }
+        new XFancyPage();
+        const $pages = new XPages();
 
-    new XFancyPage();
-    const $pages = new XPages();
-
-    document.querySelector('select').addEventListener('change', event => $pages.selected = event.target.value);
+        document.querySelector('select').addEventListener('change', event => $pages.selected = event.target.value);
     </script>
 </body>
 

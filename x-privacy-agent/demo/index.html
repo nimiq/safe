@@ -4,11 +4,7 @@
 <head>
     <title>x-pinpad</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../../fast-font/fast-font.css" rel="stylesheet">
-    <link href="../../theme/theme.css" rel="stylesheet">
-    <script src="/x-element/x-element.js"></script>
     <link href="../x-privacy-agent.css" rel="stylesheet">
-    <script src="../x-privacy-agent.js"></script>
     <style type="text/css">
     body {
         background: var(--primary-background);
@@ -21,8 +17,9 @@
 
 <body>
     <x-privacy-agent></x-privacy-agent>
-    <script>
-    const $privacyAgent = new XPrivacyAgent();
+    <script type="module">
+        import XPrivacyAgent from "../x-privacy-agent.js";
+        const $privacyAgent = new XPrivacyAgent();
     </script>
 </body>
 

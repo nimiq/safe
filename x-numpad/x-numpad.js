@@ -1,4 +1,6 @@
-class XNumpad extends XElement {
+import XElement from "/x-element/x-element.js";
+
+export default class XNumpad extends XElement {
     html() {
         return `
             <button>1</button>

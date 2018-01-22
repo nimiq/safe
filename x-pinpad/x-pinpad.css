@@ -1,3 +1,5 @@
+@import "../nimiq-style/nimiq-style.css";
+
 x-pinpad-container {
     width: 300px;
     display: block;

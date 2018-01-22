@@ -4,11 +4,7 @@
 <head>
     <title>Slides</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <script src="/x-element/x-element.js"></script>
-    <link rel="stylesheet" href="../../fast-font/fast-font.css">
-    <link rel="stylesheet" href="../../theme/theme.css">
-    <script src="../../x-slides/x-slides.js"></script>
-    <link rel="stylesheet" href="../../x-slides/x-slides.css">
+    <link rel="stylesheet" href="../x-slides.css">
     <style>
     html,
     body {
@@ -62,11 +58,12 @@
         </my-slide>
     </x-slides>
     <span><a prev><-</a> &nbsp; <a next>-></a></span>
-    <script>
-    const $slides = new XSlides();
+    <script type="module">
+        import XSlides from "../x-slides.js";
+        const $slides = new XSlides();
 
-    document.querySelector('a[prev]').addEventListener('click', () => $slides.prev());
-    document.querySelector('a[next]').addEventListener('click', () => $slides.next());
+        document.querySelector('a[prev]').addEventListener('click', () => $slides.prev());
+        document.querySelector('a[next]').addEventListener('click', () => $slides.next());
     </script>
 </body>
 

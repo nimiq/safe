@@ -1,4 +1,7 @@
-class XWalletBackup extends XElement {
+import XElement from "/x-element/x-element.js";
+import WalletBackup from "/wallet-backup/wallet-backup.js";
+
+export default class XWalletBackup extends XElement {
 
     html() {
         return `<a><img></a>`
