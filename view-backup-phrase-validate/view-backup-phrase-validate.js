@@ -1,4 +1,4 @@
-import XView from '/libraries/x-element/x-view.js';
+import XView from '/library/x-element/x-view.js';
 import XMnemonicValidate from '../x-mnemonic-validate/x-mnemonic-validate.js';
 
 export default class ViewBackupPhraseValidate extends XView {

@@ -1,6 +1,6 @@
-import XElement from "/libraries/x-element/x-element.js";
-import QrScanner from "/libraries/qr-scanner/qr-scanner.min.js";
-import WalletBackup from "/libraries/wallet-backup/wallet-backup.js";
+import XElement from "/library/x-element/x-element.js";
+import QrScanner from "/library/qr-scanner/qr-scanner.min.js";
+import WalletBackup from "/library/wallet-backup/wallet-backup.js";
 
 export default class XWalletBackupImport extends XElement {
     html() {

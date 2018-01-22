@@ -1,4 +1,4 @@
-import XElement from '/libraries/x-element/x-element.js';
+import XElement from '/library/x-element/x-element.js';
 
 export default class XAmount extends XElement {
     html(){

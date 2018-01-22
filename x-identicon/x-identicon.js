@@ -1,5 +1,5 @@
-import XElement from '/libraries/x-element/x-element.js';
-import Identicon from '/libraries/identicon/src/identicon.js';
+import XElement from '/library/x-element/x-element.js';
+import Identicon from '/library/identicon/src/identicon.js';
 
 export default class XIdenticon extends XElement {
     set address(address) {

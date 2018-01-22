@@ -1,4 +1,4 @@
-@import "/libraries/nimiq-style/nimiq-style.css";
+@import "/library/nimiq-style/nimiq-style.css";
 
 x-wallet-backup-import {
     display: flex;

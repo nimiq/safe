@@ -1,7 +1,7 @@
-import XElement from '/libraries/x-element/x-element.js';
+import XElement from '/library/x-element/x-element.js';
 import XSlides from '../x-slides/x-slides.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
-import MnemonicPhrase from '/libraries/mnemonic-phrase/mnemonic-phrase.min.js';
+import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.min.js';
 
 export default class XMnemonicValidate extends XElement {
     html() {

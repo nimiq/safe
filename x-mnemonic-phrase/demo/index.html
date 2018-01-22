@@ -24,7 +24,7 @@
     <x-mnemonic-phrase></x-mnemonic-phrase>
     <script type="module">
     import XMnemonicPhrase from '../x-mnemonic-phrase.js';
-    import MnemonicPhrase from '/libraries/mnemonic-phrase/mnemonic-phrase.min.js';
+    import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.min.js';
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const $mnemonicPhrase = new XMnemonicPhrase();
     $mnemonicPhrase.privateKey = MnemonicPhrase._arrayToHex(randomKey);
