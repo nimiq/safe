@@ -20,8 +20,8 @@ export default class XView extends XElement {
 
     _onHide() {
         document.activeElement.blur();
-        this.removeStyle('x-show');
         this.animateExit();
+        this.removeStyle('x-show');
         if (this.onHide) this.onHide();
     }
 

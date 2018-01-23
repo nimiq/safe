@@ -100,25 +100,17 @@ export default class XElement {
     animate(className, $el, animationDuration) {
         $el = $el || this.$el;
         const listener = () => {
-            $el.removeEventListener('transitionend', listener);
             $el.removeEventListener('animationend', listener);
-            $el.removeEventListener('animationcancel', listener);
             this.stopAnimation(className, $el);
         };
-        $el.addEventListener('transitionend', listener, false);
         $el.addEventListener('animationend', listener, false);
-        $el.addEventListener('animationcancel', listener, false); // unfortunately still has bad browser support
-        if (animationDuration) {
-            $el.style.animationDuration = animationDuration + 's';
-            $el.style.transitionDuration = animationDuration + 's';
-        }
+        if (animationDuration) $el.style.animationDuration = animationDuration + 's';
         $el.classList.add(className);
     }
 
     stopAnimation(className, $el) {
         $el = $el || this.$el;
         $el.style.animationDuration = '';
-        $el.style.transitionDuration = '';
         $el.classList.remove(className);
     }
 }
