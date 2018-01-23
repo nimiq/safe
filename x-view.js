@@ -1,5 +1,9 @@
 import XElement from './x-element.js';
 export default class XView extends XElement {
+    constructor(root){
+        super(root);
+        if(!root) this._onShow(); // if this is the root element we call show ourselves
+    }
 
     styles() { return ['x-view'] }
 
