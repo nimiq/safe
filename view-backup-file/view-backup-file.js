@@ -28,19 +28,23 @@ export default class ViewBackupFile extends XView {
     children() { return [XSlides, XWalletBackup] }
 
     onCreate() {
-        this.$('button').addEventListener('click', e => this.__onPasswordEntered(e.detail))
+        this.$input = this.$('input[type="password"]');
+        this.$('button').addEventListener('click', e => this._onPasswordEntered())
+    }
+
+    onShow() {
+        this.reset();
     }
 
     reset() {
-        this._pin = '';
-        this.$pinpads[0].reset();
-        this.$pinpads[1].reset();
+        this.$input.value = '';
+        this.$input.focus();
         this.$slides.slideTo(0);
     }
 
-    __onPasswordEntered(pin) {
-        this._pin = pin;
-        this.fire('x-export-pin', pin);
+    _onPasswordEntered() {
+        const password = this.$input.value;
+        this.fire('x-encrypt-backup', password);
         this.$slides.next();
     }
 

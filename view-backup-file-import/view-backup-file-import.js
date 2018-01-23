@@ -38,21 +38,24 @@ export default class ViewBackupFileImport extends XView {
         this.$('button').addEventListener('click', e => this._onPasswordEntered(e));
     }
 
+    onShow() {
+        this.$slides.jumpTo(0);
+    }
+
     _onWalletImport(e) {
         e.stopPropagation();
         this._encryptedKey = e.detail;
         this.$slides.next();
-        //this._api.decrypt(encryptedPrivateKey);
     }
 
     _onPasswordEntered(e) {
         const password = this.$input.value;
         const result = { password: password, encryptedKey: this._encryptedKey }
-        this.fire('x-encrypted-wallet', result);
+        this.fire('x-decrypt-backup', result);
         this.$slides.next();
     }
 
-    onPinIncorrect() {
+    onPasswordIncorrect() {
         this.$slides.prev();
         this.animate('shake', this.$input);
     }

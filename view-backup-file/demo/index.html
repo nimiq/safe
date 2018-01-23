@@ -14,12 +14,10 @@
     <script type="module">
     import ViewBackupFile from '../view-backup-file.js';
     const $view = new ViewBackupFile();
-    document.addEventListener('x-export-pin', e => _onPinExport(e));
+    document.addEventListener('x-encrypt-backup', e => _onEncryptBackup(e));
     document.addEventListener('x-file-backup-complete', e => console.log('export complete!'));
 
-    function _onPinExport(e) {
-        setTimeout(e => _setRawBackup(), 3000);
-    }
+    function _onEncryptBackup(e) { setTimeout(e => _setRawBackup(), 2000)}
 
     function _setRawBackup() {
         const address = 'NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64';

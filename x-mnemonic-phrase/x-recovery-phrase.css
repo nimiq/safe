@@ -36,7 +36,6 @@
 .x-recovery-phrase .x-word {
     flex: 1 0 20%;
     margin: 2px;
-    /* line-height: 36px; */
 }
 
 .x-recovery-phrase.x-entry .x-word {

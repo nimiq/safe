@@ -14,7 +14,7 @@
     <script type="module">
     import ViewBackupFileImport from '../view-backup-file-import.js';
     const $view = new ViewBackupFileImport();
-    document.body.addEventListener('x-encrypted-wallet', e => {
+    document.body.addEventListener('x-decrypt-backup', e => {
         const wallet = e.detail;
         setTimeout(() => {
             if (wallet.password === '111111') {

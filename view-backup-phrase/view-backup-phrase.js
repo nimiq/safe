@@ -7,12 +7,13 @@ export default class ViewBackupPhrase extends XView {
     html() {
         return `
             <h1>Backup your Recovery Phrase</h1>
-            <h2>Write down the following 24 words to recover your account later</h2>
             <x-slides>
                 <x-slide>
+                    <h2 secondary>First make sure your enviroment is safe.</h2>
                     <x-privacy-agent></x-privacy-agent>
                 </x-slide>
                 <x-slide>
+                    <h2 secondary>Write down the following 24 words to recover your account later</h2>
                     <x-mnemonic-phrase></x-mnemonic-phrase>
                     <x-grow></x-grow>
                     <a href="#backup-phrase-validate" button>Validate</a>
@@ -36,6 +37,7 @@ export default class ViewBackupPhrase extends XView {
     }
 
     set privateKey(privateKey) {
+        this.$slides.jumpTo(0);
         this.$mnemonicPhrase.privateKey = privateKey;
     }
 }

@@ -23,9 +23,9 @@ export default class XMnemonicPhrase extends XElement {
     }
 
     animateEntry() {
-        this.$el.classList.add('x-entry');
+        this.addStyle('x-entry');
         setTimeout(() => {
-            this.$el.classList.remove('x-entry')
+            this.removeStyle('x-entry')
         }, 2300);
     }
 }
