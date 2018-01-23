@@ -51,6 +51,8 @@ x-mnemonic-validate button.shake {
 x-wordlist{
     display: block;
     height: 180px;
+    max-width:  368px;
+    margin: 0 auto;
 }
 
 x-mnemonic-validate x-indicator x-dot:last-child {

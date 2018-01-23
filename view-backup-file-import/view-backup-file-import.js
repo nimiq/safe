@@ -45,7 +45,8 @@ export default class ViewBackupFileImport extends XView {
     _onWalletImport(e) {
         e.stopPropagation();
         this._encryptedKey = e.detail;
-        this.$slides.next();
+        this.$slides.next()
+            .then(e => this.$input.focus());
     }
 
     _onPasswordEntered(e) {

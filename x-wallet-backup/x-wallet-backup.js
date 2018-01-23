@@ -4,17 +4,31 @@ import WalletBackup from "/library/wallet-backup/wallet-backup.js";
 export default class XWalletBackup extends XElement {
 
     html() {
-        return `<a><img></a>`
+        return `<a x-grow><img></a>`
     }
 
     onCreate() {
         this.$img = this.$('img');
         this.$a = this.$('a');
-        this.$a.addEventListener('click', e => this._onBackedup())
+        if (!this._canDeviceDownload) this.$a.target = '_blank';
+        this.$a.addEventListener('touchstart', e => this._onDownload())
+        this.$a.addEventListener('mousedown', e => this._onDownload())
     }
 
-    _onBackedup(){
-        this.fire('x-file-backup-complete');
+    _onDownload() {
+        this.listenOnce('blur', e => this._onWindowBlur(), window);
+    }
+
+    _onWindowBlur() {
+        this.listenOnce('focus', e => this._onWindowRefocus(), window);
+    }
+
+    _onWindowRefocus() {
+        this.fire('x-wallet-backup-complete');
+    }
+
+    _canDeviceDownload() {
+        return !(typeof this.$a.download === 'undefined');
     }
 
     backup(address, privateKey) {
@@ -22,7 +36,6 @@ export default class XWalletBackup extends XElement {
         setTimeout(e => {
             backup.toObjectUrl().then(url => {
                 this.$img.src = url
-                // if (typeof a.download === 'undefined') return;
                 this.$a.href = url;
                 this.$a.download = backup.filename();
             });
@@ -30,7 +43,8 @@ export default class XWalletBackup extends XElement {
     }
 }
 
-// Todo: fix the ugly hack with setTimeout
+// Todo: fix the ugly hack with setTimeout in WalletBackup
 // Todo: animate file to make clickablity more obvious
-// Todo: use window.onBlur and window.onFocus to detect if user downloaded the file
-// Todo: Fallback for iOS: long tap > "save image" (deactivate short tap) (feedback for "long" tap?)
+// Todo: make our "download detecting hack" work on iOS
+// Todo: make our "download detecting hack" work on Safari (in general: what if the file downloads immediately and no dialog opens?)
+// Todo: Fallback for iOS: long tap > "save image" (deactivate short tap) (visual feedback for "long" tap)

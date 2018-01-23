@@ -1,11 +1,14 @@
 @import '/library/nimiq-style/nimiq-style.css';
 @import '../x-mnemonic-phrase/x-recovery-phrase.css';
+@import '../x-success-mark/x-success-mark.css';
 
 x-mnemonic-input {
     text-align: center;
     line-height: 32px;
     transform: translate3d(0, 0, 0);
     will-change: transform;
+    /* display: flex !important; */
+    flex-direction: column;
 }
 
 x-mnemonic-input.shake {

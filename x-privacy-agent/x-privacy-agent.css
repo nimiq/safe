@@ -4,8 +4,10 @@ x-privacy-agent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 0 16px;
+    width: 368px;
+    flex-grow: 1;
+    height: 100%;
+    margin-top:  16px;
 }
 
 x-privacy-agent h1 {

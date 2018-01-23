@@ -4,11 +4,15 @@ x-slides {
     width: 100%;
     box-sizing: border-box;
     overflow-x: hidden;
+    flex-grow: 1;
+    display: flex;
+    flex-direction:  column;
 }
 
 x-slide-container {
     display: flex;
     box-sizing: border-box;
+    flex-grow: 1;
 }
 
 x-slide-container.animate {
@@ -20,7 +24,7 @@ x-slide-container > * {     /* slides are the children of x-slide-container */
     min-height: 320px;
     flex: 1;
     width: 100%;
-    max-width: 368px;
+    /* max-width: 368px; */
     opacity: 0;
     margin-right: 8px;
     transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
@@ -42,7 +46,7 @@ x-indicator {
     display: flex;
     justify-content: center;
     box-sizing: border-box;
-    padding: 16px;
+    padding: 16px 16px 0;
 }
 
 x-indicator x-dot {

@@ -26,16 +26,19 @@ export default class XSlides extends XElement {
     }
 
     next() {
-        this.slideTo(this._index + 1);
+        return this.slideTo(this._index + 1);
     }
 
     prev() {
-        this.slideTo(this._index - 1);
+        return this.slideTo(this._index - 1);
     }
 
     slideTo(index) {
-        this.$slideContainer.classList.add('animate');
-        this._showSlide(index);
+        return new Promise(resolve => {
+            this.$slideContainer.classList.add('animate');
+            this._showSlide(index);
+            setTimeout(resolve, 500);
+        })
     }
 
     jumpTo(index) {

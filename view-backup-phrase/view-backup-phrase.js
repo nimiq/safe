@@ -11,6 +11,7 @@ export default class ViewBackupPhrase extends XView {
                 <x-slide>
                     <h2 secondary>First make sure your enviroment is safe.</h2>
                     <x-privacy-agent></x-privacy-agent>
+                    <x-grow></x-grow>
                 </x-slide>
                 <x-slide>
                     <h2 secondary>Write down the following 24 words to recover your account later</h2>

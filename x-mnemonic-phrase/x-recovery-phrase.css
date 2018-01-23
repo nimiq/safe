@@ -44,7 +44,7 @@
 }
 
 @keyframes x-recovery-phrase {
-    0% {
+    from {
         opacity: 0;
         transform: translate(32px, 16px);
     }
