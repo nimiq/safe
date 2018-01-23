@@ -1,4 +1,5 @@
 @import '/library/nimiq-style/nimiq-style.css';
+@import '../x-toast/x-toast.css';
 
 x-address {
     min-width: 340px;
@@ -8,7 +9,8 @@ x-address {
     -webkit-user-select: text;
     user-select: all;
     white-space: nowrap;
-    max-width:  400px;
+    max-width: 400px;
+    cursor: pointer;
 }
 
 @media (max-width: 375px) {
