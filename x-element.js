@@ -85,12 +85,12 @@ export default class XElement {
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
 
-    listenOnce(type, listener, $el) {
-        const wrapper = e => {
-            $el.removeEventListener(type, wrapper);
-            listener(e);
+    listenOnce(type, callback, $el) {
+        const listener = e => {
+            $el.removeEventListener(type, listener);
+            callback(e);
         }
-        $el.addEventListener(type, wrapper, false);
+        $el.addEventListener(type, listener, false);
     }
 
     /* Style Manipulation */
@@ -105,10 +105,9 @@ export default class XElement {
     }
 
     /* Animations */
-    animate(className, $el, animationDuration) {
+    animate(className, $el) {
         return new Promise(resolve => {
             $el = $el || this.$el;
-            if (animationDuration) $el.style.animationDuration = animationDuration + 's';
             this.listenOnce('animationend', e => {
                 this.stopAnimation(className, $el);
                 resolve();
@@ -119,7 +118,6 @@ export default class XElement {
 
     stopAnimation(className, $el) {
         $el = $el || this.$el;
-        $el.style.animationDuration = '';
         $el.classList.remove(className);
     }
 }
