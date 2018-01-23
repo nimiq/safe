@@ -125,6 +125,7 @@ class XMnemonicInputField extends XElement {
         this.autocomplete = new autoComplete({
             selector: this.$input,
             source: (term, response) => {
+                term = term.toLowerCase();
                 const list = MnemonicPhrase.DEFAULT_WORDLIST.filter(word => {
                     return word.slice(0, term.length) === term;
                 });
@@ -141,7 +142,7 @@ class XMnemonicInputField extends XElement {
     }
 
     validateValue(byTab) {
-        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(this.$input.value);
+        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(this.$input.value.toLowerCase());
         if (index < 0) {
             this.$input.classList.add('invalid');
             return;
@@ -165,12 +166,7 @@ class XMnemonicInputField extends XElement {
             return;
         }
 
-        let value = this.$input.value;
-
-        if (value.toLowerCase() !== value) {
-            this.$input.value = value.toLowerCase();
-            value = this.$input.value;
-        }
+        const value = this.$input.value;
 
         if (value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
         else this.$input.removeAttribute('list');
