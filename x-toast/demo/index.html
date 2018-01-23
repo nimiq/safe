@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wallet Backup Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <button>Show Toast</button>
+        <x-toast></x-toast>
+    </main>
+    <script type="module">
+        import XToast from "../x-toast.js";
+        const message = 'This is a x-toast!';
+        const $toast = new XToast();
+        document.querySelector('button').addEventListener('click', e => $toast.show( message ));
+    </script>
+</body>
+
+</html>
