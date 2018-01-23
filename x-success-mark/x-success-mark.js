@@ -17,5 +17,3 @@ export default class XSuccessMark extends XElement {
 
 
 // Todo: Outline should be a hexagon :)
-// Todo: Use XElement.prototype.animate and resolve name clash of animate method
-// Todo: rename the animations in x-success-mark.css with a namespace
