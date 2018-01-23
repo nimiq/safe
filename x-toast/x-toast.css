@@ -1,12 +1,13 @@
 @import '/library/nimiq-style/nimiq-style.css';
 
-x-toast-container{
+x-toast-container {
     position: fixed;
-    bottom: 0px;
+    top: 0px;
     width: 100%;
-    height: 0;
     display: flex;
     justify-content: center;
+    z-index: 3;
+    transform: translateY(-110%);
 }
 
 x-toast-popup {
@@ -17,38 +18,39 @@ x-toast-popup {
     border-radius: 3px;
     animation-fill-mode: backwards;
     box-shadow: var(--box-shadow);
+    margin: 24px;
 }
 
 .x-toast-show {
-    animation: x-toast-show 5s;
+    animation: x-toast-show 3s;
 }
 
 @keyframes x-toast-show {
     from {
+        transform: translateY(-110%);
         opacity: 0;
     }
 
     5% {
         opacity: 1;
-        transform: translateY(-80px);
+        transform: none;
     }
 
     95% {
         opacity: 1;
-        transform: translateY(-80px);
+        transform: none;
     }
 
     100% {
+        transform: translateY(-110%);
         opacity: 0;
     }
 }
 
-@media (max-width: 400px) {
-    x-toast-container {
-        justify-content: left;
-    }
-
-    x-toast-popup{
-        margin: 16px;
+@media (max-width: 420px) {
+    x-toast-popup {
+        margin: 0px;
+        width: 100%;
+        border-radius: 0;
     }
 }

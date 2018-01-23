@@ -3,7 +3,7 @@ import XElement from '/library/x-element/x-element.js';
 export default class XToast extends XElement {
 
     constructor() {
-        super(document.createElement('x-toast'));
+        super(document.createElement('x-toast'));  // create a proxy in parent XElement. The actual toast is a XToastContainer attached to the document's body.
     }
 
     onCreate() {
@@ -24,6 +24,8 @@ class XToastContainer extends XElement {
     show(message) {
         const $popup = this.$('x-toast-popup')
         $popup.textContent = message;
-        this.animate('x-toast-show', $popup);
+        this.animate('x-toast-show');
     }
 }
+
+// Inspired by: https://material.io/guidelines/components/snackbars-toasts.html#snackbars-toasts-specs
