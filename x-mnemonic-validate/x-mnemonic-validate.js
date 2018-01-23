@@ -33,6 +33,7 @@ export default class XMnemonicValidate extends XElement {
     }
 
     set mnemonic(mnemonic) {
+        if(!mnemonic) return;
         this._mnemonic = mnemonic.split(/\s+/g);
         this.init();
     }
@@ -45,7 +46,8 @@ export default class XMnemonicValidate extends XElement {
     }
 
     reset(){
-        this.mnemonic = this._mnemonic;
+        if(!this._mnemonic) return;
+        this.mnemonic = this._mnemonic.join(' ');
     }
 
     resetSlide() {

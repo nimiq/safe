@@ -15,6 +15,7 @@
     import ViewBackupFile from '../view-backup-file.js';
     const $view = new ViewBackupFile();
     document.addEventListener('x-export-pin', e => _onPinExport(e));
+    document.addEventListener('x-file-backup-complete', e => console.log('export complete!'));
 
     function _onPinExport(e) {
         setTimeout(e => _setRawBackup(), 3000);

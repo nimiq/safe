@@ -1,4 +1,5 @@
 @import '/library/nimiq-style/nimiq-style.css';
 @import '../x-slides/x-slides.css';
-@import '../x-pinpad/x-pinpad.css';
+@import '../x-success-mark/x-success-mark.css';
 @import '../x-wallet-backup-import/x-wallet-backup-import.css';
+@import '../x-loading-animation/x-loading-animation.css';

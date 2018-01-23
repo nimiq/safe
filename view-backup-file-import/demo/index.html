@@ -17,7 +17,7 @@
     document.body.addEventListener('x-encrypted-wallet', e => {
         const wallet = e.detail;
         setTimeout(() => {
-            if (wallet.pin === '111111') {
+            if (wallet.password === '111111') {
                 $view.onSuccess();
             } else {
                 $view.onPinIncorrect();

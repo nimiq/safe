@@ -1,30 +1,34 @@
 import XView from '../../library/x-element/x-view.js';
 import XSlides from '../x-slides/x-slides.js';
-import XPinpad from '../x-pinpad/x-pinpad.js';
 import XWalletBackup from '../x-wallet-backup/x-wallet-backup.js';
 
 export default class ViewBackupFile extends XView {
     html() {
         return `
             <h1>Backup your Recovery File</h1>
-            <h2>Download your Recovery File to later recover your account</h2>
             <x-slides>
-                <x-pinpad></x-pinpad>
-                <x-pinpad></x-pinpad>
+                <x-slide>
+                    <h2 secondary>Create a password to encrypt your backup file</h2>
+                    <input type="password" placeholder="Enter a Password">
+                    <x-grow></x-grow>
+                    <button>Next</button>
+                </x-slide>
                 <x-slide>
                     <x-loading-animation></x-loading-animation>
-                    <h2>Encrypting Wallet...</h2>
+                    <h2>Encrypting Backup</h2>
                 </x-slide>
-                <x-wallet-backup></x-wallet-backup>
+                <x-slide>
+                    <h2 secondary>Download your Recovery File to later recover your account</h2>
+                    <x-wallet-backup></x-wallet-backup>
+                </x-slide>
             </x-slides>
             `
     }
 
-    children() { return [XSlides, [XPinpad], XWalletBackup] }
+    children() { return [XSlides, XWalletBackup] }
 
     onCreate() {
-        this.$pinpads[0].addEventListener('x-pin', e => this._onPinEntered(e.detail))
-        this.$pinpads[1].addEventListener('x-pin', e => this._onPinRentered(e.detail))
+        this.$('button').addEventListener('click', e => this.__onPasswordEntered(e.detail))
     }
 
     reset() {
@@ -34,26 +38,10 @@ export default class ViewBackupFile extends XView {
         this.$slides.slideTo(0);
     }
 
-    _onPinEntered(pin) {
+    __onPasswordEntered(pin) {
         this._pin = pin;
-        this.$slides.next();
-    }
-
-    _onPinRentered(pin) {
-        if (this._pin === pin)
-            this._onPinCorrect();
-        else
-            this._onPinIncorrect();
-    }
-
-    _onPinCorrect(pin) {
-        this.$slides.next();
         this.fire('x-export-pin', pin);
-    }
-
-    _onPinIncorrect(pin) {
-        this.$pinpads[1].onPinIncorrect();
-        setTimeout(() => this.reset(), 500);
+        this.$slides.next();
     }
 
     backup(address, privateKey) {
