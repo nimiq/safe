@@ -3,18 +3,18 @@ import XElement from "/library/x-element/x-element.js";
 export default class XNumpad extends XElement {
     html() {
         return `
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>.</button>
-            <button>0</button>
-            <button>&lt;</button>`
+            <x-numpad-key>1</x-numpad-key>
+            <x-numpad-key>2</x-numpad-key>
+            <x-numpad-key>3</x-numpad-key>
+            <x-numpad-key>4</x-numpad-key>
+            <x-numpad-key>5</x-numpad-key>
+            <x-numpad-key>6</x-numpad-key>
+            <x-numpad-key>7</x-numpad-key>
+            <x-numpad-key>8</x-numpad-key>
+            <x-numpad-key>9</x-numpad-key>
+            <x-numpad-key>.</x-numpad-key>
+            <x-numpad-key>0</x-numpad-key>
+            <x-numpad-key>&lt;</x-numpad-key>`
     }
 
     onCreate() {
