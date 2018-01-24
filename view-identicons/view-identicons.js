@@ -25,16 +25,17 @@ export default class ViewIdenticons extends XView {
     }
 
     onShow() {
+        if (this._generated) return;
         this._generateIdenticons();
     }
 
     onHide() {
-        this._clearIdenticons();
+        setTimeout(_ => this._clearIdenticons(), 1000); // We wait to clear our dom to not disturb other animations
     }
 
     onApiReady(api) {
         this._api = api;
-        if (this._generated) return;
+        if (this._generated || !this.visible) return;
         this._generateIdenticons();
     }
 
@@ -73,6 +74,7 @@ export default class ViewIdenticons extends XView {
     }
 
     _clearIdenticons() {
+        this._generated = false;
         this._clearSelection()
         this.$container.innerHTML = '';
         this.$el.removeAttribute('active');
