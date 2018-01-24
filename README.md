@@ -4,7 +4,21 @@ An ultra lightweight JavaScript frontend framework for Progressive Web Apps.
 
 # Using x-elements
 
-X-elements are custom tags that become part of your HTML markup and expose special features and functionality, like little widgets but also complex layouts and user interface elements. You can create x-elements or reuse x-elements of others. The markup is just like regular HTML tags, but to make sure HTML tags are not named the same, x-elements usually have an "x" in front of it (recommended, not required). So you're going to write plain HTML markup and hide all the extra functionality in a package associated with that x-element. This approach makes your app super modular, and modules are reusable in other apps, plus, code and markup are separated (also known as [separation of concerns](https://en.wikipedia.org/wiki/Separation_of_concerns), a fundamental paradigm for developing software and user interfaces, but you can also put it all together. Up to you.).
+X-elements are custom tags that become part of your HTML markup and expose special features and functionality, like little widgets but also complex layouts and user interface elements. You can create x-elements or reuse x-elements of others. The markup is just like regular HTML tags, but to make sure HTML tags are not named the same, x-elements usually have an "x" in front of it (recommended, not required). So you're going to write plain HTML markup and hide all the extra functionality in a package associated with that x-element. This approach makes your app super modular, and modules are reusable in other apps, plus.
+
+## x-element API
+Each x-element comes with the fundamental functionality: creating an element, finding elements, and handling events.
+
+Method                           | Parameters   | Return               | Description
+---------------------------------|--------------|----------------------|-----------------------
+createElement                    | none         | DOM element          | Creates and returns a DOM element for this x-element. The DOM element needs to be added to the DOM. Usually the x-app will take care of this.
+$(selector)                      | CSS selector | DOM element          | First DOM element within this x-element's children that matches the CSS selector
+$$(selector)                     | CSS selector | List of DOM elements | A list of all DOM elements with this x-element matching the given CSS selector
+clear                            | none         | nothing              | Removes all the DOM elements within this x-element, effecively clearing it.
+addEventListener(type, callback) | name/type of event and callback | nothing | Links the callback method to the given event type, thus calling the callback whenever the respective event is triggered on this element.
+fire(type, detail=null, bubbles=true) | type of event, additional information, bubble mode enabled | nothing | Fires (i.e. sends out) a new event of the given type starting from this element. The detail will be attached to the event object, so any callback method can see and use this information. When bubbling mode is on, the event will be passed on to the parent element if not handled by event listeners of this element (see [MDN's page on events for an in-depth explanation with examples](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)).
+
+
 
 ## Getting started with x-app
 To start using x-elements in your page, you'll need to add an x-app to it. X-app will initialize all x-elements and will take care of different views in your app. You can imagine a view as a page of your app, for example a home page, an about page, and so on, but x-app will take care of showing the right view without reloading the page (also known as a "single page application").
@@ -142,18 +156,6 @@ So the result from the previous two code examples will be:
 ```
 
 *Note:* The `content` marker will be removed once the HTML has been inserted (cf. example above).
-
-## X-element API
-Each x-element comes with the fundamental functionality: creating an element, finding elements, and handling events.
-
-Method                           | Parameters   | Return               | Description
----------------------------------|--------------|----------------------|-----------------------
-createElement                    | none         | DOM element          | Creates and returns a DOM element for this x-element. The DOM element needs to be added to the DOM. Usually the x-app will take care of this.
-$(selector)                      | CSS selector | DOM element          | First DOM element within this x-element's children that matches the CSS selector
-$$(selector)                     | CSS selector | List of DOM elements | A list of all DOM elements with this x-element matching the given CSS selector
-clear                            | none         | nothing              | Removes all the DOM elements within this x-element, effecively clearing it.
-addEventListener(type, callback) | name/type of event and callback | nothing | Links the callback method to the given event type, thus calling the callback whenever the respective event is triggered on this element.
-fire(type, detail=null, bubbles=true) | type of event, additional information, bubble mode enabled | nothing | Fires (i.e. sends out) a new event of the given type starting from this element. The detail will be attached to the event object, so any callback method can see and use this information. When bubbling mode is on, the event will be passed on to the parent element if not handled by event listeners of this element (see [MDN's page on events for an in-depth explanation with examples](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)).
 
 # More
 
