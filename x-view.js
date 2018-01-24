@@ -18,10 +18,12 @@ export default class XView extends XElement {
     }
 
     _show() {
+        this._visible = true;
         if (this.onShow) this.onShow();
     }
 
     _onHide() {
+        this._visible = false;
         document.activeElement.blur();
         this.removeStyle('x-show');
         this.animateExit().then(e => this._hide());
@@ -38,4 +40,6 @@ export default class XView extends XElement {
     animateExit() {
         return this.animate('x-exit-animation');
     }
+
+    get visible() { return this._visible }
 }
