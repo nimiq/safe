@@ -5,10 +5,8 @@
 x-mnemonic-input {
     text-align: center;
     line-height: 32px;
-    transform: translate3d(0, 0, 0);
     will-change: transform;
-    /* display: flex !important; */
-    flex-direction: column;
+    display: block;
 }
 
 x-mnemonic-input.shake {
@@ -110,7 +108,6 @@ datalist {
     z-index: 9999;
     max-height: 254px;
     overflow: hidden;
-    /* overflow-y: auto; */
     box-sizing: border-box;
 }
 
@@ -121,7 +118,6 @@ datalist {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    /* font-size: 1.02em; */
     color: var(--secondary-text-color);
     color: black;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);

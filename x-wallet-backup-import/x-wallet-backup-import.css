@@ -11,6 +11,7 @@ x-wallet-backup-import {
     cursor: pointer;
     flex-direction: column;
     justify-content: center;
+    flex-grow: 1;
 }
 
 x-wallet-backup-import-icon {

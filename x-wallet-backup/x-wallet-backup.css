@@ -1,7 +1,7 @@
 @import "/library/nimiq-style/nimiq-style.css";
 
 x-wallet-backup{
-	height: 420px;
+	height: 80%;
 	position:  relative;
 	display: block;
 	text-align: center;
@@ -13,7 +13,7 @@ x-wallet-backup img {
 	border-radius: 12px;
 	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 	transition: transform 300ms;
-	flex-grow:  1;
+	/*flex-grow:  1;*/
 }
 
 x-wallet-backup:hover img{

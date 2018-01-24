@@ -4,7 +4,7 @@ import WalletBackup from "/library/wallet-backup/wallet-backup.js";
 export default class XWalletBackup extends XElement {
 
     html() {
-        return `<a x-grow><img></a>`
+        return `<a><img></a>`
     }
 
     onCreate() {

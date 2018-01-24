@@ -4,7 +4,8 @@ x-privacy-agent {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 368px;
+    width: 100%;
+    max-width: 368px;
     flex-grow: 1;
     height: 100%;
     margin-top:  16px;
