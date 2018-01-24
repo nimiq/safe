@@ -17,10 +17,10 @@ export default class XPrivacyAgent extends XElement {
 				  </g>
 				</svg>
 				<h1>Are you being watched?</h1>
-				<p>Now is the perfect time to asses your surroundings. Nearby windows? Hidden cameras? Shoulder spies? Anyone with your backup phrase can access or spend your Nimiq.</p>
+				<p>Now is the perfect time to asses your surroundings. Nearby windows? Hidden cameras? Shoulder spies?<br><b>Anyone with the following information can steal all your funds!</b></p>
 			</x-privacy-agent-container>
 			<x-grow></x-grow>
-			<button>No One Is Around</button>
+			<button>I am safe</button>
 		`
     }
     onCreate() {

@@ -53,3 +53,5 @@ x-wallet-backup-backdrop {
 [active] x-wallet-backup-backdrop {
     display: flex;
 }
+
+/*background: url('data:image/svg+xml,<svg width="400" height="647" xmlns="http://www.w3.org/2000/svg"><g fill-rule="evenodd"><rect fill-opacity=".3" width="400" height="647" rx="16.49"/><rect fill-opacity=".3" x="123.03" y="447.07" width="153.95" height="153.86" rx="16.49"/><path d="M271.96 136.36l43.45 75.21a32.98 32.98 0 0 1 0 33l-43.4 75.16a32.98 32.98 0 0 1-28.56 16.5l-86.87-.03a32.98 32.98 0 0 1-28.55-16.48L84.58 244.5a32.98 32.98 0 0 1 0-33l43.4-75.16a32.98 32.98 0 0 1 28.56-16.49l86.87.02a32.98 32.98 0 0 1 28.55 16.49zM37.02 393.18h325.95v14.26H37.02zm96.89-360.05h132.18v14.26H133.91z" fill-opacity=".3"/></g></svg>');*/

@@ -9,6 +9,7 @@ x-wallet-backup{
 
 x-wallet-backup img {
 	width: 100%;
+	max-width:  260px;
 	border-radius: 12px;
 	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 	transition: transform 300ms;
