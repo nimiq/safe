@@ -3,13 +3,10 @@ import XIdenticon from '../x-identicon/x-identicon.js';
 
 export default class ViewIdenticons extends XView {
 
-    html(){
+    html() {
         return `
-            <x-header>
-                <a href="#welcome" icon-back></a>
-                <h1>Choose Your Avatar</h1>
-                <h2>Your Avatar will be unique to your Account. You can not change it later.</h2>
-            </x-header>
+            <h1>Choose Your Avatar</h1>
+            <h2>Your Avatar will be unique to your Account. You can not change it later.</h2>
             <x-container></x-container>
             <a secondary>Generate More</a>
             <x-backdrop class="center">
@@ -18,7 +15,7 @@ export default class ViewIdenticons extends XView {
             </x-backdrop>
             `
     }
-    
+
     onCreate() {
         this.$container = this.$('x-container');
         this.$address = this.$('x-address');
