@@ -21,6 +21,7 @@ export default class ViewBackupFile extends XView {
                 <x-slide>
                     <h2 secondary>Download your Recovery File to later recover your account</h2>
                     <x-wallet-backup></x-wallet-backup>
+                    <x-grow></x-grow>
                 </x-slide>
                 <x-slide>
                     <x-success-mark></x-success-mark>

@@ -33,7 +33,7 @@ export default class XMnemonicValidate extends XElement {
     }
 
     set mnemonic(mnemonic) {
-        if(!mnemonic) return;
+        if (!mnemonic) return;
         this._mnemonic = mnemonic.split(/\s+/g);
         this.init();
     }
@@ -45,8 +45,8 @@ export default class XMnemonicValidate extends XElement {
         this._showActiveSlide();
     }
 
-    reset(){
-        if(!this._mnemonic) return;
+    reset() {
+        if (!this._mnemonic) return;
         this.mnemonic = this._mnemonic.join(' ');
     }
 
@@ -125,6 +125,8 @@ class XMnemonicValidateSlide extends XElement {
                 <button class="small"></button>
             </x-wordlist>`;
     }
+
+    styles() { return ['x-grow'] }
 
     onCreate() {
         this.$buttons = this.$$('button');

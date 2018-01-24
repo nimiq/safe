@@ -1,11 +1,10 @@
 @import "/library/nimiq-style/nimiq-style.css";
 
 x-wallet-backup{
-	height: 80%;
+	height: 70%;
 	position:  relative;
 	display: block;
 	text-align: center;
-	flex-grow:  1;
 }
 
 x-wallet-backup img {

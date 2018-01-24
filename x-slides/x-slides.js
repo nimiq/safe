@@ -9,16 +9,11 @@ export default class XSlides extends XElement {
     }
 
     onCreate() {
-        this.$slideContainer = this._prepareSlides();
-        this.$slides = this.$slideContainer.childNodes;
-        this.$indicators = this._prepareIndicators();
-
-        window.addEventListener('resize', this._onResize.bind(this));
-
         this._index = 0;
-        window.setTimeout(() => {
-            this.jumpTo(this._index);
-        }, 0);
+        this._prepareSlides();
+        this._prepareIndicators();
+        window.addEventListener('resize', e => this._onResize(e));
+        requestAnimationFrame(e => this.jumpTo(this._index));
     }
 
     get slides() {
@@ -35,27 +30,23 @@ export default class XSlides extends XElement {
 
     slideTo(index) {
         return new Promise(resolve => {
-            this.$slideContainer.classList.add('animate');
+            this.$slideContainer.classList.add('x-animate-slide');
             this._showSlide(index);
-            setTimeout(resolve, 500);
+            setTimeout(resolve, 600);
         })
     }
 
     jumpTo(index) {
-        this.$slideContainer.classList.remove('animate');
+        this.$slideContainer.classList.remove('x-animate-slide');
         this._showSlide(index);
     }
 
     _showSlide(index) {
         index = Math.max(Math.min(index, this.$slides.length - 1), 0);
+        const width = this.$el.offsetWidth;
+        const offset = (-width) * index;
 
-        const center = this.$el.offsetWidth / 2;
-        const slideWidth = this.$slides[0].offsetWidth;
-        const base = center - slideWidth / 2;
-
-        const offset = base - index * slideWidth - index * 8;
-
-        this.$slideContainer.style.transform = 'translate3d(' + offset + 'px, 0, 0)';
+        this.$slideContainer.style.transform = 'translateX(' + offset + 'px)';
 
         this.$slides[this._index].classList.remove('active');
         this.$indicators[this._index].removeAttribute('on');
@@ -65,13 +56,18 @@ export default class XSlides extends XElement {
     }
 
     _prepareSlides() {
-        const $container = this.$('x-slide-container');
-        $container.childNodes.forEach(child => {
-            if (child instanceof Text && child.textContent.trim() == '') child.remove();
-        })
-        const slidesCount = $container.childElementCount;
-        $container.style.width = slidesCount * 100 + '%';
-        return $container;
+        this.$slideContainer = this.$('x-slide-container');
+        this.$slides = this.$slideContainer.childNodes;
+        // delete all children that are empty text nodes
+        this.$slides.forEach(child => { if (child instanceof Text && child.textContent.trim() == '') child.remove() })
+        this._setSlideWidth()
+    }
+
+    _setSlideWidth() {
+        const slidesCount = this.$slideContainer.childElementCount;
+        const width = this.$el.offsetWidth;
+        this.$slideContainer.style.width = slidesCount * width + 'px';
+        this.$slides.forEach(slide => slide.style.width = width + 'px');
     }
 
     _prepareIndicators() {
@@ -79,7 +75,7 @@ export default class XSlides extends XElement {
         for (let i = 0; i < this.$slides.length; i++) {
             $indicator.appendChild(document.createElement('x-dot'));
         }
-        return $indicator.childNodes;
+        this.$indicators = $indicator.childNodes;
     }
 
     _onResize() {
@@ -87,6 +83,7 @@ export default class XSlides extends XElement {
         this._resizing = true;
 
         window.requestAnimationFrame(() => {
+            this._setSlideWidth()
             this.jumpTo(this._index);
             this._resizing = false;
         });

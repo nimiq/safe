@@ -10,6 +10,7 @@ x-mnemonic-validate {
     flex-wrap: wrap;
     font-size: 15px;
     line-height: 32px;
+    flex-grow: 1;
 }
 
 x-mnemonic-validate p{
