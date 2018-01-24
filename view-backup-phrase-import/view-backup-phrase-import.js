@@ -30,7 +30,7 @@ export default class ViewBackupPhraseImport extends XView {
 
     _onSurrondingChecked() {
         this.$slides.next()
-            .then(e => this.$mnemonicInput.animateEntry());
+        this.$mnemonicInput.animateEntry();
     }
 }
 

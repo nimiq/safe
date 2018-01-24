@@ -20,7 +20,7 @@ export default class XMnemonicInput extends XElement {
         this.$form = this.$('form');
         for (let i = 0; i < 24; i++) {
             const field = XMnemonicInputField.createElement();
-            field.$el.style.animationDelay = (500 + 60 * i) + 'ms';
+            field.$el.style.animationDelay = (700 + 60 * i) + 'ms';
             field.$input.placeholder = 'word #' + (i + 1);
             this.$form.appendChild(field.$el);
             this.$fields.push(field);
@@ -98,7 +98,7 @@ export default class XMnemonicInput extends XElement {
         setTimeout(() => {
             this.focus();
             this.$el.classList.remove('x-entry')
-        }, 2000);
+        }, 3000);
     }
 
 

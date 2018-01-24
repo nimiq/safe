@@ -44,5 +44,3 @@ export default class ViewBackupPhrase extends XView {
 }
 
 // Todo: add warning. make user confirms he understands that everybody who sees the phrase has full control over the account's funds. screenshots are not safe.
-// Todo: add a seperate file for animations and implement "fade-in". the framework animations.css might be a blueprint. 
-// Todo: add `.animate($el,animationName)` to `XElement` which automatically removes the class `animationName` after the animation fininished
