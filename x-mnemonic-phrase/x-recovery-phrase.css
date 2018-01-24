@@ -10,6 +10,7 @@
     border: 1px solid white;
     border-radius: 8px;
     color: white;
+    height: 250px;
 }
 
 .x-recovery-phrase:before {
@@ -36,6 +37,7 @@
 .x-recovery-phrase .x-word {
     flex: 1 0 20%;
     margin: 2px;
+    position: relative;
 }
 
 .x-recovery-phrase.x-entry .x-word {

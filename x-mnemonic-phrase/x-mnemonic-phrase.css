@@ -10,4 +10,40 @@ x-mnemonic-phrase {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+    counter-reset: x-word;
+}
+
+x-mnemonic-phrase .x-word:before {
+    counter-increment: x-word;
+    content: counter(x-word);
+    position: absolute;
+    opacity: 0;
+    border-radius: 3px;
+    width: 72px;
+    line-height: 24px;
+    padding: 4px;
+    box-sizing: border-box;
+    background: rgba(0, 0, 0, 0.9);
+    display: block;
+    left: calc(50% - 36px);
+    animation-delay: inherit;
+    animation-duration: 2000ms;
+}
+
+x-mnemonic-phrase.x-entry .x-word:before {
+    animation-name: fadeOut;
+}
+
+@keyframes fadeOut {
+	from{
+		opacity: 1;
+	}
+	80%{
+		opacity: 1;
+		transform: translateY(0);
+	}
+    to {
+        opacity: 0;
+		transform: translateY(16px);
+    }
 }

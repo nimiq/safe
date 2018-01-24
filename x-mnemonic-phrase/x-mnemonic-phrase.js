@@ -15,6 +15,7 @@ export default class XMnemonicPhrase extends XElement {
         words.forEach((word, index) => {
             const $span = document.createElement('span');
             $span.className = 'x-word';
+            $span.title = 'word #' + (index + 1);
             $span.style.animationDelay = (700 + 64 * index) + 'ms';
 
             $span.textContent = word;
@@ -26,6 +27,6 @@ export default class XMnemonicPhrase extends XElement {
         this.addStyle('x-entry');
         setTimeout(() => {
             this.removeStyle('x-entry')
-        }, 2300);
+        }, 4000);
     }
 }
