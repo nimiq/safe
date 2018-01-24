@@ -47,9 +47,10 @@
     <h1>Recover your Private Key</h1>
     <h2>Press <code>Space</code> or <code>Tab</code> at the end of a word to jump to the next field.</h2>
     <x-mnemonic-input></x-mnemonic-input>
-    <div class="button-row">
-        <button id="fill-correctly" class="small">Fill correctly</button>
-        <button id="fill-randomly" class="small">Fill randomly</button>
+    <div class="button-row" style="text-align: center;">
+        <button id="fill-correctly" class="small fill">Fill correctly</button>
+        <button id="fill-randomly" class="small fill">Fill randomly</button>
+        <br><button id="reset-fields" class="small reset" style="margin-top: 0.5em;">Reset</button>
     </div>
     <p>
         Your private key:
@@ -73,9 +74,18 @@
     function putWord(el, word, index) {
         setTimeout(() => {
             el.$input.value = word;
+            el._value = word;
             el.validateValue(true);
         }, index * 50);
     }
+
+    document.querySelector('#reset-fields').addEventListener('click', () => {
+        $mnemonicInput.$fields.forEach((field, index) => {
+            field.$input.value = '';
+            field._onInput({data: 'not undefined'});
+        });
+        document.querySelectorAll('button.fill').forEach(button => button.removeAttribute('disabled'));
+    });
 
     document.querySelector('#fill-correctly').addEventListener('click', () => {
         $mnemonicInput.$fields.forEach((field, index) => {
@@ -88,7 +98,7 @@
         $mnemonicInput.$fields.forEach((field, index) => {
             putWord(field, MnemonicPhrase.DEFAULT_WORDLIST[Math.floor(Math.random() * 2048)], index);
         });
-        document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
+        document.querySelectorAll('button.fill').forEach(button => button.setAttribute('disabled', 'disabled'));
     });
     </script>
 </body>
