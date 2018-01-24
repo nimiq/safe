@@ -16,6 +16,7 @@ export default class ViewBackupPhraseImport extends XView {
                 <x-slide>
                     <h2 secondary>Enter the 24 words of your backup phrase to recover your account</h2>
                     <x-mnemonic-input></x-mnemonic-input>
+                    <x-grow></x-grow>
                 </x-slide>
             </x-slides>
         `
@@ -28,8 +29,8 @@ export default class ViewBackupPhraseImport extends XView {
     }
 
     _onSurrondingChecked() {
-        this.$slides.next();
-        this.$mnemonicInput.animateEntry();
+        this.$slides.next()
+            .then(e => this.$mnemonicInput.animateEntry());
     }
 }
 

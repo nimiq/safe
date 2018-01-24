@@ -60,8 +60,8 @@ export default class ViewBackupFile extends XView {
     }
 
     _onWalletBackupComplete() {
-        this.$slides.next();
-        this.$successMark.animate()
+        this.$slides.next()
+            .then(e => this.$successMark.animate())
             .then(e => this.fire('x-file-backup-complete'));
     }
 }

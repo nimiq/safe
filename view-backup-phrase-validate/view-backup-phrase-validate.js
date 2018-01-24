@@ -15,7 +15,7 @@ export default class ViewBackupPhraseValidate extends XView {
         this.$mnemonicValidate.privateKey = privateKey
     }
 
-    onShow(){
+    onHide(){
         this.$mnemonicValidate.reset();
     }
 }
