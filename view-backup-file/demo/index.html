@@ -17,7 +17,7 @@
     document.addEventListener('x-encrypt-backup', e => _onEncryptBackup(e));
     document.addEventListener('x-file-backup-complete', e => console.log('export complete!'));
 
-    function _onEncryptBackup(e) { setTimeout(e => _setRawBackup(), 1000)}
+    function _onEncryptBackup(e) { setTimeout(e => _setRawBackup(), 200)}
 
     function _setRawBackup() {
         const address = 'NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64';
