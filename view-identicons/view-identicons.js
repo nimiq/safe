@@ -8,6 +8,7 @@ export default class ViewIdenticons extends XView {
             <x-header>
                 <a href="#welcome" icon-back></a>
                 <h1>Choose Your Avatar</h1>
+                <h2>Your Avatar will be unique to your Account. You can not change it later.</h2>
             </x-header>
             <x-container></x-container>
             <a secondary>Generate More</a>

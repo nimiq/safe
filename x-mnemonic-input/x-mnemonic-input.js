@@ -32,7 +32,6 @@ export default class XMnemonicInput extends XElement {
 
         this.addEventListener('x-complete', e => this._onFieldComplete(e));
 
-        this.$fields[0].$input.focus();
     }
 
     _hasDatalistSupport() {
