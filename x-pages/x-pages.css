@@ -2,6 +2,7 @@
 
 x-pages {
     position: relative;
+    display: block;
 }
 
 x-pages > [page] {
@@ -11,17 +12,17 @@ x-pages > [page] {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-/*    animation-timing-function: ease-in; */
+    /*    animation-timing-function: ease-in; */
 }
 
 /* default animation styles */
 x-pages > [page][class*="-in"] {
     animation-duration: 0.5s;
-    animation-timing-function: ease-in; 
+    animation-timing-function: ease-in;
     z-index: 1;
 }
 
 x-pages > [page][class*="-out"] {
     animation-duration: 0.4s;
-    animation-timing-function: ease; 
+    animation-timing-function: ease;
 }

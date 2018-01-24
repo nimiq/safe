@@ -18,16 +18,7 @@ export default class XPages extends XElement {
     }
 
     set selected(pageId) {
-        if (!(pageId in this._pages)) {
-            pageId = this.default;
-        }
-        if (pageId === this._selected) {
-            return;
-        }
-        this._hide(this._selected);
-        this._show(pageId);
-        this._selected = pageId;
-        this.$el.setAttribute('selected', pageId);
+        this.select(pageId);
     }
 
     get selected() {
@@ -37,6 +28,19 @@ export default class XPages extends XElement {
     get default() {
         let firstPage;
         return this.$el.getAttribute('default') || ((firstPage = this.$('[page]'))? firstPage.getAttribute('page') : '');
+    }
+
+    select(pageId, animate=true) {
+        if (!(pageId in this._pages)) {
+            pageId = this.default;
+        }
+        if (pageId === this._selected) {
+            return;
+        }
+        this._hide(this._selected, animate);
+        this._show(pageId, animate);
+        this._selected = pageId;
+        this.$el.setAttribute('selected', pageId);
     }
 
     _show(pageId, animate=true) {
