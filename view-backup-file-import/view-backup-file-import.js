@@ -2,6 +2,7 @@ import XView from '/library/x-element/x-view.js';
 import XSlides from '../x-slides/x-slides.js';
 import XWalletBackupImport from '../x-wallet-backup-import/x-wallet-backup-import.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
+import XPasswordInput from '../x-password-input/x-password-input.js';
 
 export default class ViewBackupFileImport extends XView {
     html() {
@@ -14,7 +15,7 @@ export default class ViewBackupFileImport extends XView {
             </x-slide>
             <x-slide>
                 <h2 secondary>Enter the password to unlock this backup</h2>
-                <input type="password" placeholder="Enter your Password">
+                <x-password-input></x-password-input>
                 <x-grow></x-grow>
                 <button>Unlock</button>
             </x-slide>
@@ -30,40 +31,40 @@ export default class ViewBackupFileImport extends XView {
         `;
     }
 
-    children() { return [XSlides, XWalletBackupImport, XSuccessMark] }
+    children() { return [XSlides, XWalletBackupImport, XSuccessMark, XPasswordInput] }
 
     onCreate() {
-        this.$input = this.$('input[type="password"]');
         this.addEventListener('x-backup-import', e => this._onWalletImport(e));
         this.$('button').addEventListener('click', e => this._onPasswordEntered(e));
+        this.addEventListener('x-password-entered', e => this._onPasswordEntered());
     }
 
     onShow() {
         this.$slides.jumpTo(0);
     }
 
-    _onWalletImport(e) {
+    async _onWalletImport(e) {
         e.stopPropagation();
         this._encryptedKey = e.detail;
-        this.$slides.next()
-            .then(e => this.$input.focus());
+        await this.$slides.next()
+        this.$passwordInput.focus();
     }
 
     _onPasswordEntered(e) {
-        const password = this.$input.value;
+        const password = this.$passwordInput.value;
         const result = { password: password, encryptedKey: this._encryptedKey }
         this.fire('x-decrypt-backup', result);
         this.$slides.next();
     }
 
-    onPasswordIncorrect() {
-        this.$slides.prev();
-        this.animate('shake', this.$input);
+    async onPasswordIncorrect() {
+        await this.$slides.prev();
+        this.$passwordInput.onWrong();
     }
 
-    onSuccess() {
-        this.$slides.next();
-        this.$successMark.animate();
+    async onSuccess() {
+        await this.$slides.next();
+        await this.$successMark.animate();
     }
 }
 
