@@ -109,7 +109,7 @@ export default class XPages extends XElement {
     }
 }
 
-// Todo: check whether alternating DOM writes / reads in _hide and _show can be better avoided
+// Todo: check whether alternating DOM writes & reads in _hide and _show can be better avoided
 
 /*
 
