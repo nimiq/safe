@@ -43,4 +43,4 @@ export default class ViewBackupPhrase extends XView {
     }
 }
 
-// Todo: add warning. make user confirms he understands that everybody who sees the phrase has full control over the account's funds. screenshots are not safe.
+// Todo: [low priority] add warning "screenshots are not safe" ?

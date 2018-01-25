@@ -20,4 +20,4 @@ export default class ViewBackupPhraseValidate extends XView {
     }
 }
 
-// Todo: Add back button
+// Todo: [high priority] Add back button (where is the back button in default views?)

@@ -85,3 +85,7 @@ export default class ViewIdenticons extends XView {
         e.stopPropagation();
     }
 }
+
+// Todo: show loading screen while waiting for api to start
+// Todo: refactor api such that addresses can be generated before full api is loaded
+// Todo: [low priority] remove hack for overlay and find a general solution

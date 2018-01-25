@@ -34,4 +34,3 @@ export default class ViewBackupPhraseImport extends XView {
     }
 }
 
-// Todo: Debug x-mnemonic-input to work in x-slide
