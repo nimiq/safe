@@ -35,10 +35,6 @@ export default class XInput extends XElement {
         this.fire(this.__tagName, this.value);
     }
 
-    _validate(value) {
-        return true;
-    }
-
     focus() {
         requestAnimationFrame(_ => this.$input.focus());
     }
@@ -47,6 +43,8 @@ export default class XInput extends XElement {
         await this.animate('shake');
         this.value = '';
     }
+    
+    _validate() { return true; }
 
     get _autosubmit() { return false; }
 }

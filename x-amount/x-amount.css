@@ -42,7 +42,7 @@ x-currency-1:after,
 x-currency-2:after {
     padding-left: 4px;
     letter-spacing: 0.08em;
-    margin-right: -24px;
+    margin-right: -32px;
     font-size: 15px;
     font-weight: 700;
 }

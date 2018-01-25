@@ -70,7 +70,7 @@ export default class XNumpad extends XElement {
 
     set value(value) {
         this._value = value;
-        this.fire('x-change', value);
+        this.fire('x-numpad-value', value);
     }
 }
 
