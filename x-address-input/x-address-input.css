@@ -1,0 +1,17 @@
+@import '../x-address/x-address.css';
+
+x-address-input form {
+    width: 100%;
+    min-width: 320px;
+}
+
+x-address-input input[type="text"] {
+    font-size: inherit;
+    width: 100%;
+    line-height: 32px;
+    transition: opacity 300ms;
+    font-weight: inherit;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    /*padding-left: 40px;*/
+    box-sizing: border-box;
+}

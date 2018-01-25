@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-address-input demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-address-input.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <x-address-input></x-address-input>
+    </main>
+    <script type="module">
+        import XAddressInput from "../x-address-input.js";
+        const $input = new XAddressInput();
+        $input.addEventListener('x-address-input', e => console.log(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>
