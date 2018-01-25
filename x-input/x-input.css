@@ -3,3 +3,9 @@
 .x-input{
 	width: 100%;
 }
+
+.x-input.shake input,
+.x-input.shake input,
+.x-input.shake input{
+    border-bottom: 1px solid var(--error-color);
+}
