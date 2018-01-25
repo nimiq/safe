@@ -4,6 +4,7 @@
 <head>
     <title>Mnemonic Validate</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../../x-mnemonic-phrase/x-mnemonic-phrase.css" rel="stylesheet">
     <link href="../x-mnemonic-validate.css" rel="stylesheet">
     <style>
     html,
@@ -17,6 +18,9 @@
         justify-content: center;
         align-items: center;
         background: var(--primary-background);
+    }
+    body > * {
+        flex-grow: 0;
     }
 
     h1 {
@@ -38,7 +42,7 @@
 
 <body>
     <x-mnemonic-phrase></x-mnemonic-phrase>
-    <h1>Validate your Passphrase</h1>
+    <h1 style="margin-top: 1em;">Validate your Passphrase</h1>
     <x-mnemonic-validate></x-mnemonic-validate>
     <a>-></a>
     <script type="module">
