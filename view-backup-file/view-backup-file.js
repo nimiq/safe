@@ -67,8 +67,8 @@ export default class ViewBackupFile extends XView {
     }
 
     backup(address, privateKey) {
-        this.$walletBackup.backup(address, privateKey);
-        setTimeout(() => this.$slides.next(), 1000); 
+        await this.$walletBackup.backup(address, privateKey);
+        this.$slides.next();
     }
 
     async _onWalletBackupComplete() {
@@ -77,5 +77,3 @@ export default class ViewBackupFile extends XView {
         this.fire('x-file-backup-complete');
     }
 }
-
-// Todo: remove the setTimeout hack (depends on XWalletBackup)

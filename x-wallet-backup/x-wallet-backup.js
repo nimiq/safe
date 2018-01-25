@@ -47,11 +47,11 @@ export default class XWalletBackup extends XElement {
         return !(typeof this.$a.download === 'undefined');
     }
 
-    backup(address, privateKey) {
+    async backup(address, privateKey) {
         const backup = new WalletBackup(address, privateKey);
         const filename = backup.filename();
-        const callback = e => backup.toObjectUrl().then(url => this._initDownload(url, filename));
-        setTimeout(callback, 1000);
+        const url = await backup.toObjectUrl();
+        this._initDownload(url, filename);
     }
 }
 

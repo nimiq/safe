@@ -83,7 +83,7 @@ export default class XWalletBackupImport extends XElement {
     }
 }
 
-// Todo: x-wallet-backup-import should look similar to a x-wallet-backup. create svg with same dimesions and layout, a hexagon + qr pictogram 
+// Todo: x-wallet-backup-import should look similar to a x-wallet-backup. create svg with same dimensions and layout, a hexagon + qr pictogram 
 // Todo: debug backdrop
 // Todo: style backdrop
 // Todo: remove handlers on hide
