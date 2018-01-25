@@ -55,24 +55,9 @@ x-currency-2:after {
     content: 'USD';
 }
 
-x-amount-input x-currency-1:after {
-    position: absolute;
-    right: -32px;
-    bottom: 6px;
-    margin: 0;
-    padding: 0;
-}
-
 /* Empty State */
 
 x-currency-1:empty:before,
 x-currency-2:empty:before {
     content: '0';
-}
-
-
-/* Disabled State */
-
-x-amount-input input[disabled] {
-    opacity: 1;
 }

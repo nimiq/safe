@@ -1,0 +1,18 @@
+@import '../x-input/x-input.css';
+@import '../x-amount/x-amount.css';
+
+
+x-amount-input x-currency-1:after {
+    position: absolute;
+    right: -32px;
+    bottom: 6px;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* Disabled State */
+
+x-amount-input input[disabled] {
+    opacity: 1;
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-amount-input demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-amount-input.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <x-amount-input></x-amount-input>
+    </main>
+    <script type="module">
+        import XAmountInput from "../x-amount-input.js";
+        const $input = new XAmountInput();
+        $input.addEventListener('x-amount-input', e => console.log(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>
