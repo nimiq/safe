@@ -17,7 +17,7 @@ export default class ViewBackupFileImport extends XView {
                 <h2 secondary>Enter the password to unlock this backup</h2>
                 <x-password-input></x-password-input>
                 <x-grow></x-grow>
-                <button>Unlock</button>
+                <button disabled="yes">Unlock</button>
             </x-slide>
             <x-slide>
                 <x-loading-animation></x-loading-animation>
@@ -35,8 +35,17 @@ export default class ViewBackupFileImport extends XView {
 
     onCreate() {
         this.addEventListener('x-backup-import', e => this._onWalletImport(e));
-        this.$('button').addEventListener('click', e => this._onPasswordEntered(e));
-        this.addEventListener('x-password-entered', e => this._onPasswordEntered());
+        this.$button = this.$('button');
+        this.$button.addEventListener('click', e => this._onPasswordInput(e));
+        this.addEventListener('x-password-input', e => this._onPasswordInput());
+        this.addEventListener('x-password-input-valid', e => this._validityChanged(e.detail));
+    }
+
+    _validityChanged(valid) {
+        if (valid) 
+            this.$button.removeAttribute('disabled');
+        else 
+            this.$button.setAttribute('disabled', true);
     }
 
     onShow() {
@@ -50,7 +59,7 @@ export default class ViewBackupFileImport extends XView {
         this.$passwordInput.focus();
     }
 
-    _onPasswordEntered(e) {
+    _onPasswordInput() {
         const password = this.$passwordInput.value;
         const result = { password: password, encryptedKey: this._encryptedKey }
         this.fire('x-decrypt-backup', result);
@@ -60,6 +69,7 @@ export default class ViewBackupFileImport extends XView {
     async onPasswordIncorrect() {
         await this.$slides.prev();
         this.$passwordInput.onWrong();
+        this.$button.setAttribute('disabled', true);
     }
 
     async onSuccess() {

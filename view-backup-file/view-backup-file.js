@@ -13,7 +13,7 @@ export default class ViewBackupFile extends XView {
                     <h2 secondary>Create a password to encrypt your backup file. Make sure you memorize it well because there is no way to recover it.</h2>
                     <x-password-input></x-password-input>
                     <x-grow></x-grow>
-                    <button>Next</button>
+                    <button disabled="1">Next</button>
                 </x-slide>
                 <x-slide>
                     <x-loading-animation></x-loading-animation>
@@ -35,9 +35,19 @@ export default class ViewBackupFile extends XView {
     children() { return [XSlides, XWalletBackup, XSuccessMark, XPasswordInput] }
 
     onCreate() {
-        this.$('button').addEventListener('click', e => this._onPasswordEntered());
+        this.$button = this.$('button');
+        this.$button.addEventListener('click', e => this._onPasswordInput());
         this.addEventListener('x-wallet-backup-complete', e => this._onWalletBackupComplete());
-        this.addEventListener('x-password-entered', e => this._onPasswordEntered());
+        this.addEventListener('x-password-input', e => this._onPasswordInput());
+        this.addEventListener('x-password-input-valid', e => this._validityChanged(e.detail));
+    }
+
+    _validityChanged(valid) {
+        if (valid) {
+            this.$button.removeAttribute('disabled');
+        } else {
+            this.$button.setAttribute('disabled', true);
+        }
     }
 
     onShow() {
@@ -50,7 +60,7 @@ export default class ViewBackupFile extends XView {
         this.$passwordInput.focus();
     }
 
-    _onPasswordEntered() {
+    _onPasswordInput() {
         const password = this.$passwordInput.value;
         this.fire('x-encrypt-backup', password);
         this.$slides.next();
@@ -58,7 +68,7 @@ export default class ViewBackupFile extends XView {
 
     backup(address, privateKey) {
         this.$walletBackup.backup(address, privateKey);
-        setTimeout(() => this.$slides.next(), 1000); // Todo: remove this hack (depends on XWalletBackup)
+        setTimeout(() => this.$slides.next(), 1000); 
     }
 
     async _onWalletBackupComplete() {
@@ -67,3 +77,5 @@ export default class ViewBackupFile extends XView {
         this.fire('x-file-backup-complete');
     }
 }
+
+// Todo: remove the setTimeout hack (depends on XWalletBackup)

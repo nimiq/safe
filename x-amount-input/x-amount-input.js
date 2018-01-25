@@ -35,17 +35,11 @@ export default class XAmountInput extends XInput {
 
     _onValueChanged() {
         this._currency2 = this.value;
-        this._notifyValidity();
-        if (this.$numpad.value !== this.value) this.$numpad.value = this.value;
-    }
-
-    _notifyValidity() {
-        const isValid = this._validate();
-        this.fire('x-amount-input-valid', isValid);
+        this.$numpad.value = this.value;
     }
 
     _validate() {
-        return this.value > 0; // Todo: validate if value is <= balance 
+        return this.value > 0; 
     }
 
     set _currency2(value) {
@@ -53,7 +47,7 @@ export default class XAmountInput extends XInput {
     }
 
     get _isMobile() {
-        return window.innerWidth < 420; // Todo: refactor this into a library for mobile-detection
+        return window.innerWidth < 420; 
     }
 
     focus() {
@@ -71,3 +65,6 @@ export default class XAmountInput extends XInput {
         this._onValueChanged();
     }
 }
+
+// Todo: validate if value is <= balance 
+// Todo: refactor `_isMobile` into an own library for mobile-detection and make it more sophisticated (regex ?)

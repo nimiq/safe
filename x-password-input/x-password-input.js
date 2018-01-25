@@ -9,7 +9,7 @@ export default class XPasswordInput extends XInput {
     }
 
     _validate(value) {
-        return true;
+        return value && value.length > 7;
     }
 }
 

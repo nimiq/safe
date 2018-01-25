@@ -5,8 +5,8 @@ export default class XInput extends XElement {
 
     onCreate() {
         this.$input = this.$('input');
-        this.$input.addEventListener('input', e => this._onValueChanged(e));
-        this.$input.addEventListener('keyup', e => this._onValueChanged(e));
+        this.$input.addEventListener('input', e => this.__onValueChanged(e));
+        this.$input.addEventListener('keyup', e => this.__onValueChanged(e));
         this.$form = this.$('form');
         if (this.$form) this.$form.addEventListener('submit', e => this._onSubmit(e));
     }
@@ -25,12 +25,14 @@ export default class XInput extends XElement {
         this._submit();
     }
 
-    _onValueChanged() {
+    __onValueChanged() {
         if (this._autosubmit) this._submit();
+        this._notifyValidity();
+        if (this._onValueChanged) this._onValueChanged();
     }
 
     _submit() {
-        if (!this._validate()) return;
+        if (!this._validate(this.value)) return;
         this.$input.blur();
         this.fire(this.__tagName, this.value);
     }
@@ -43,10 +45,15 @@ export default class XInput extends XElement {
         await this.animate('shake');
         this.value = '';
     }
-    
+
     _validate() { return true; }
 
     get _autosubmit() { return false; }
+
+    _notifyValidity() {
+        const isValid = this._validate(this.value);
+        this.fire(this.__tagName + '-valid', isValid);
+    }
 }
 
 // Note: If you override a setter you need to override the getter, too.

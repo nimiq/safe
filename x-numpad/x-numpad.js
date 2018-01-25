@@ -18,11 +18,11 @@ export default class XNumpad extends XElement {
     }
 
     onCreate() {
-        this.addEventListener('click', e => this._handleKey(e.target.textContent));
+        this.addEventListener('click', e => this._onKeyPressed(e));
     }
 
-    _handleKey(key) {
-        console.log(key);
+    _onKeyPressed(e) {
+        const key = e.target.textContent;
         switch (key) {
             case '<':
                 this._remove();
@@ -33,7 +33,6 @@ export default class XNumpad extends XElement {
             default:
                 this._add(Number(key));
         }
-
     }
 
     _add(digit) {
@@ -69,6 +68,7 @@ export default class XNumpad extends XElement {
     }
 
     set value(value) {
+        if (this._value === value) return;
         this._value = value;
         this.fire('x-numpad-value', value);
     }
