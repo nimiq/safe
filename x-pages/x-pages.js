@@ -4,17 +4,15 @@ export default class XPages extends XElement {
     onCreate() {
         this._pages = {};
         this._displayNoneHandlers = {};
-        this._bindAttributeObserver();
-
         this._selected = this.$el.getAttribute('selected') || this.default;
-        Array.prototype.forEach.call(this.$$('[page]'), page => {
-            const pageId = page.getAttribute('page');
-            this._pages[pageId] = page;
-            if (pageId !== this._selected) {
-                this._hide(pageId, false);
-            }
-        });
+        this.$$('[page]').forEach(page => this._initPage(page));
         this._show(this._selected, false);
+    }
+
+    _initPage(page) {
+        const pageId = page.getAttribute('page');
+        this._pages[pageId] = page;
+        if (pageId !== this._selected) this._hide(pageId, false);
     }
 
     set selected(pageId) {
@@ -26,50 +24,59 @@ export default class XPages extends XElement {
     }
 
     get default() {
-        let firstPage;
-        return this.$el.getAttribute('default') || ((firstPage = this.$('[page]'))? firstPage.getAttribute('page') : '');
+        const defaultPage = this.$el.getAttribute('default');
+        if (defaultPage) return defaultPage;
+        const firstPage = this.$('[page]');
+        if (firstPage) return firstPage.getAttribute('page');
     }
 
-    select(pageId, animate=true) {
-        if (!(pageId in this._pages)) {
-            pageId = this.default;
-        }
-        if (pageId === this._selected) {
-            return;
-        }
-        this._hide(this._selected, animate);
-        this._show(pageId, animate);
-        this._selected = pageId;
-        this.$el.setAttribute('selected', pageId);
+    select(pageId, animate = true) {
+        if (!(pageId in this._pages)) pageId = this.default; // if pageId doesn't exist we use default page
+        if (pageId === this._selected) return; // state didn't change. nothing to do
+        this._hide(this._selected, animate); // hide previous
+        this._show(pageId, animate); // show next 
     }
 
-    _show(pageId, animate=true) {
+    _show(pageId, animate = true) {
         const page = this._pages[pageId];
         this._removeDisplayNoneHandler(pageId);
         page.style.display = '';
-        this.stopAnimation(this._animationToUse(page, 'hide'), page);
-        if (animate) {
-            page.offsetWidth; // style update to remove previous animation before new one starts
-            this.animate(this._animationToUse(page, 'show'), page);
-        }
-        if (page.state && page.state.onShow) {
-            page.state.onShow();
-        }
+        this._stopAnimatePage(page, 'hide');
+        if (animate) this._animatePage(page, 'show');
+        this._triggerShow(page);
+        this._selected = pageId; // update selected
+        this.$el.setAttribute('selected', pageId); // reflect state to attribute 
     }
 
-    _hide(pageId, animate=true) {
+    _hide(pageId, animate = true) {
         const page = this._pages[pageId];
-        this.stopAnimation(this._animationToUse(page, 'show'), page);
+        this._stopAnimatePage(page, 'show');
         if (animate) {
-            page.offsetWidth; // style update to remove previous animation before new one starts
-            this.animate(this._animationToUse(page, 'hide'), page);
+            this._animatePage(page, 'hide');
             this._bindDisplayNoneHandler(pageId);
         } else {
             page.style.display = 'none';
         }
-        if (page.state && page.state.onHide) {
-            page.state.onHide();
-        }
+        this._triggerHide(page);
+    }
+
+    _triggerShow(page) {
+        if (!page.state || !page.state.onShow) return;
+        page.state.onShow();
+    }
+
+    _triggerHide(page) {
+        if (!page.state || !page.state.onHide) return;
+        page.state.onHide();
+    }
+
+    _animatePage(page, animation) {
+        page.offsetWidth; // style update to remove previous animation before new one starts
+        this.animate(this._animationToUse(page, animation), page)
+    }
+
+    _stopAnimatePage(page, animation) {
+        this.stopAnimate(this._animationToUse(page, animation), page)
     }
 
     _bindDisplayNoneHandler(pageId) {
@@ -87,35 +94,31 @@ export default class XPages extends XElement {
         this._displayNoneHandlers[pageId] = null;
     }
 
-    _animationToUse(page, change='show') {
-        return page.getAttribute('animation-'+change)
-            || this._toDirectedAnimation(page.getAttribute('animation'), change)
-            || this.$el.getAttribute('animation-'+change)
-            || this._toDirectedAnimation(this.$el.getAttribute('animation'), change)
-            || this._toDirectedAnimation('fade', change);
+    _animationToUse(page, change = 'show') {
+        return page.getAttribute('animation-' + change) ||
+            this._toDirectedAnimation(page.getAttribute('animation'), change) ||
+            this.$el.getAttribute('animation-' + change) ||
+            this._toDirectedAnimation(this.$el.getAttribute('animation'), change) ||
+            this._toDirectedAnimation('fade', change);
     }
 
-    _toDirectedAnimation(animation, change='show') {
-        if (!animation) {
-            return null;
-        }
-        const suffix = change==='show'? '-in' : '-out';
+    _toDirectedAnimation(animation, change = 'show') {
+        if (!animation) return null;
+        const suffix = change === 'show' ? '-in' : '-out';
         return animation + suffix;
-    }
-
-    _bindAttributeObserver() {
-        const observer = new MutationObserver(mutations => {
-            for(const mutation of mutations) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'selected') {
-                    this.selected = this.$el.getAttribute('selected');
-                }
-            }
-        });
-        observer.observe(this.$el, {
-            attributes: true,
-            attributeFilter: ['selected']
-        });
     }
 }
 
 // Todo: check whether alternating DOM writes / reads in _hide and _show can be better avoided
+
+/*
+
+Page States
+    - invisible (default)
+    - visible 
+    - entry 
+    - entry-reverse 
+    - exit
+    - exit-reverse
+
+*/

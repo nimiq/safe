@@ -47,7 +47,7 @@
         <div page="page-one" animation="move-grow-fade-left">1</div>
         <div page="page-two" animation="move-grow-fade-right">2</div>
         <div page="page-three">3</div>
-        <x-fancy-page page="page-four" animation-show="shrink-in" animation-hide="shake">4</x-fancy-page>
+        <x-stateful-page-demo page="page-four" animation-show="shrink-in" animation-hide="shake">4</x-stateful-page-demo>
     </x-pages>
     <select>
         <option value="page-one">Page One</option>
@@ -58,7 +58,7 @@
     <script type="module">
         import XPages from "../x-pages.js";
         import XElement from "../../../library/x-element/x-element.js";
-        class XFancyPage extends XElement {
+        class XStatefulPageDemo extends XElement {
             onShow() {
                 console.log('Page four shown.');
             }
@@ -68,7 +68,7 @@
             }
         }
 
-        new XFancyPage();
+        new XStatefulPageDemo();
         const $pages = new XPages();
 
         document.querySelector('select').addEventListener('change', event => $pages.selected = event.target.value);
