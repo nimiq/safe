@@ -1,17 +1,21 @@
 import XElement from "/library/x-element/x-element.js";
 import QrScanner from "/library/qr-scanner/qr-scanner.min.js";
 import WalletBackup from "/library/wallet-backup/wallet-backup.js";
+import XToast from "../x-toast/x-toast.js";
 
 export default class XWalletBackupImport extends XElement {
     html() {
         return `
             <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
             <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
-            <input type="file" accept="image/png">`
+            <input type="file" accept="image/*">`
     }
-    
+
+    children() { return [XToast] }
+
     onCreate() {
         this.$fileInput = this.$('input');
+        this.$importIcon = this.$('x-wallet-backup-import-icon');
         this._bindHandlers();
     }
 
@@ -50,8 +54,12 @@ export default class XWalletBackupImport extends XElement {
         qrPosition.width = qrPosition.size - qrPosition.padding;
         qrPosition.height = qrPosition.size - qrPosition.padding;
 
-        const decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
-        this.fire('x-backup-import', decoded);
+        try {
+            const decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
+            this.fire('x-backup-import', decoded);
+        } catch (e) {
+            this._onQrError();
+        }
     }
 
     _onDragOver(event) {
@@ -68,10 +76,14 @@ export default class XWalletBackupImport extends XElement {
     _onDragEnd() {
         this.$el.removeAttribute('active');
     }
+
+    _onQrError() {
+        this.animate('shake', this.$importIcon);
+        this.$toast.show('Couldn\'t read Backup File');
+    }
 }
 
 // Todo: x-wallet-backup-import should look similar to a x-wallet-backup. create svg with same dimesions and layout, a hexagon + qr pictogram 
-// Todo: file input should work on iOS
-// Todo: handle qr scan error. handle "no backup qr"-error. ui-feedback. x-toast?
 // Todo: debug backdrop
 // Todo: style backdrop
+// Todo: remove handlers on hide
