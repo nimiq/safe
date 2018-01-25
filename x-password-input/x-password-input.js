@@ -8,16 +8,10 @@ export default class XPasswordInput extends XInput {
         `;
     }
 
-    onValue() {
-        this.fire('x-password-entered');
-    }
-
     _validate(value) {
         return true;
     }
 }
 
-
-
-// Todo: add strength indicator
+// Todo: add strength indicator and validator
 // Todo: Can we hack that the "save this password" dialog occurs before navigating to a different page?

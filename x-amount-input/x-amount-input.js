@@ -26,17 +26,17 @@ export default class XAmountInput extends XInput {
         this.$currency2.textContent = NanoApi.formatValueInDollar(value);
     }
 
-    focus() {
-        if (this._suppressKeyboard) return;
-        super.focus();
-    }
-
     get _suppressKeyboard() {
         return window.innerWidth < 420; // Todo: refactor this into a library for mobile-detection
     }
 
     _validate() {
         return this.value > 0;    // Todo: validate if value is correct 
+    }
+
+    focus() {
+        if (this._suppressKeyboard) return;
+        super.focus();
     }
 
     set value(value) {

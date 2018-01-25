@@ -5,6 +5,7 @@
     <title>x-password-input demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="../x-password-input.css" rel="stylesheet">
+    <link href="../../x-toast/x-toast.css" rel="stylesheet">
 </head>
 
 <body>
@@ -14,7 +15,9 @@
     <script type="module">
         import XPasswordInput from "../x-password-input.js";
         const $input = new XPasswordInput();
-        $input.addEventListener('x-password-input', e => console.log(`${e.type}: ${e.detail}`));
+        import XToast from "../../x-toast/x-toast.js";
+        const $toast = new XToast();
+        $input.addEventListener('x-password-input', e => $toast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 

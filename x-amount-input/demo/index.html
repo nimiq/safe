@@ -5,6 +5,7 @@
     <title>x-amount-input demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="../x-amount-input.css" rel="stylesheet">
+    <link href="../../x-toast/x-toast.css" rel="stylesheet">
 </head>
 
 <body>
@@ -14,7 +15,9 @@
     <script type="module">
         import XAmountInput from "../x-amount-input.js";
         const $input = new XAmountInput();
-        $input.addEventListener('x-amount-input', e => console.log(`${e.type}: ${e.detail}`));
+        import XToast from "../../x-toast/x-toast.js";
+        const $toast = new XToast();
+        $input.addEventListener('x-amount-input', e => $toast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 
