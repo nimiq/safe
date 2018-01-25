@@ -1,46 +1,23 @@
-import XElement from '/library/x-element/x-element.js';
-
-export default class XPasswordInput extends XElement {
+import XInput from '../x-input/x-input.js';
+export default class XPasswordInput extends XInput {
     html() {
         return `
-			<form action="/">
-				<input type="password" placeholder="Enter Password">
-			</form>
-		`;
+            <form action="/">
+                <input type="password" placeholder="Enter Password">
+            </form>
+        `;
     }
 
-    onCreate() {
-        this.$input = this.$('input');
-        this.$('form').addEventListener('submit', e => this._onSubmit(e));
-    }
-
-    get value() {
-        this.$input.value;
-    }
-
-    set value(value) {
-        this.$input.value = value;
-    }
-
-    _onSubmit(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this._onPasswordEntered();
-    }
-
-    _onPasswordEntered() {
-    	this.$input.blur();
+    onValue() {
         this.fire('x-password-entered');
     }
 
-    focus() {
-        this.$input.focus();
-    }
-
-    async onWrong(){
-    	await this.animate('shake');
-    	this.value = '';
+    _validate(value) {
+        return true;
     }
 }
 
+
+
 // Todo: add strength indicator
+// Todo: Can we hack that the "save this password" dialog occurs before navigating to a different page?
