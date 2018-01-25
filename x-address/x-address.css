@@ -1,7 +1,7 @@
 @import '/library/nimiq-style/nimiq-style.css';
 @import '../x-toast/x-toast.css';
 
-.x-address{
+x-address, .x-address{
     width: 100%;
     min-width: 320px;
     max-width: 400px;
@@ -13,14 +13,14 @@
 }
 
 @media (max-width: 375px) {
-    .x-address {
+    x-address, .x-address {
         font-size: 12px;
         padding: 8px 4px;
     }
 }
 
 @media (max-width: 340px) {
-    .x-address {
+    x-address, .x-address {
         font-size: 11px;
     }
 }
