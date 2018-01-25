@@ -109,14 +109,14 @@ export default class XElement {
         return new Promise(resolve => {
             $el = $el || this.$el;
             this.listenOnce('animationend', e => {
-                this.stopAnimation(className, $el);
+                this.stopAnimate(className, $el);
                 resolve();
             }, $el);
             $el.classList.add(className);
         })
     }
 
-    stopAnimation(className, $el) {
+    stopAnimate(className, $el) {
         $el = $el || this.$el;
         $el.classList.remove(className);
     }
