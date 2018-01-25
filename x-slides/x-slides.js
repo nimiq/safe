@@ -58,9 +58,16 @@ export default class XSlides extends XElement {
     _prepareSlides() {
         this.$slideContainer = this.$('x-slide-container');
         this.$slides = this.$slideContainer.childNodes;
+        this._cleanupDom();
+        this._setSlideWidth();
+    }
+
+    _cleanupDom(slides){
         // delete all children that are empty text nodes
-        this.$slides.forEach(child => { if (child instanceof Text && child.textContent.trim() == '') child.remove() })
-        this._setSlideWidth()
+        const filter = node => {
+            if (node instanceof Text && node.textContent.trim() == '') node.remove();
+        }
+        this.$slides.forEach(filter);
     }
 
     _setSlideWidth() {
@@ -81,11 +88,12 @@ export default class XSlides extends XElement {
     _onResize() {
         if (this._resizing) return;
         this._resizing = true;
+        window.requestAnimationFrame(e => this._resize());
+    }
 
-        window.requestAnimationFrame(() => {
-            this._setSlideWidth()
-            this.jumpTo(this._index);
-            this._resizing = false;
-        });
+    _resize() {
+        this._setSlideWidth()
+        this.jumpTo(this._index);
+        this._resizing = false;
     }
 }
