@@ -66,7 +66,7 @@ export default class ViewBackupFile extends XView {
         this.$slides.next();
     }
 
-    backup(address, privateKey) {
+    async backup(address, privateKey) {
         await this.$walletBackup.backup(address, privateKey);
         this.$slides.next();
     }
