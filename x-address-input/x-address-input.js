@@ -5,6 +5,7 @@ export default class XAddressInput extends XInput {
     html() {
         return `
             <form action="/">
+                <a icon-paste></a>
                 <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
             </form>
         `
@@ -19,4 +20,8 @@ export default class XAddressInput extends XInput {
     }
 }
 
-// Todo auto-capitalize inputs
+// Todo: [Daniel] auto-capitalize inputs
+// Todo: [Daniel] Assist users who type instead of paste the address:
+    // 1. Error if value doesn't start with NQ
+    // 2. Error if char not in range 
+    // ... 

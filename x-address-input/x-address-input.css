@@ -1,17 +1,35 @@
 @import '../x-address/x-address.css';
 
+x-address-input.x-address{
+    max-width: 100%;
+    padding: 0;
+}
+
 x-address-input form {
     width: 100%;
     min-width: 320px;
+    position: relative;
+    padding-top: 5px;
 }
 
 x-address-input input[type="text"] {
     font-size: inherit;
     width: 100%;
+    max-width: 100%;
     line-height: 32px;
     transition: opacity 300ms;
     font-weight: inherit;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    /*padding-left: 40px;*/
+    padding-left: 40px;
     box-sizing: border-box;
+    text-align: left;
+}
+
+x-address-input [icon-paste]{
+    position: absolute;
+}
+
+x-address-input input[type="text"]::placeholder,
+x-address-input input[type="text"]::-webkit-input-placeholder {
+    text-align: left;
 }

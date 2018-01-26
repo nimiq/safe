@@ -14,10 +14,9 @@
     </main>
     <script type="module">
         import XAddressInput from "../x-address-input.js";
-        const $input = new XAddressInput();
         import XToast from "../../x-toast/x-toast.js";
-        const $toast = new XToast();
-        $input.addEventListener('x-address-input', e => $toast.show(`${e.type}: ${e.detail}`));
+        const $input = new XAddressInput();
+        $input.addEventListener('x-address-input', e => XToast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 
