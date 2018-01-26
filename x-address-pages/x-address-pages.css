@@ -43,6 +43,10 @@ x-address-scanner-page x-address-input input:not(:focus) {
     cursor: pointer;
 }
 
+x-address-scanner-page x-address-input.x-address{
+    max-width: 100%;
+}
+
 
 
 x-address-fallback-page a[secondary] {

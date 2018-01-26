@@ -15,7 +15,6 @@ x-address-input form {
 x-address-input input[type="text"] {
     font-size: inherit;
     width: 100%;
-    max-width: 100%;
     line-height: 32px;
     transition: opacity 300ms;
     font-weight: inherit;
@@ -32,4 +31,5 @@ x-address-input [icon-paste]{
 x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
+    font-weight: normal;
 }

@@ -22,8 +22,8 @@ export default class XAddressPages extends XElement {
     onCreate() {
         this._checkCameraStatus();
         this.addEventListener('x-address-page-selected', e => this._onSelectPage(e));
-        this.addEventListener('x-address-pages-camera-success', e => this._onCameraSuccess());
-        this.addEventListener('x-address-pages-camera-error', e => this._onCameraFail());
+        this.addEventListener('x-address-scanner-success', e => this._onCameraSuccess());
+        this.addEventListener('x-address-scanner-error', e => this._onCameraError());
 
         this.addEventListener('x-address-input', e => this._onAddressInput(e));
         this.addEventListener('x-address-file-input', e => this._onAddressInput(e));
@@ -71,7 +71,7 @@ export default class XAddressPages extends XElement {
         ScannerSettingsStorage.useCamera = true;
     }
 
-    _onCameraFail() {
+    _onCameraError() {
         ScannerSettingsStorage.useCamera = false;
         this.$pages.select('fallback');
         this.$toast.show('Failed to start scanner. Make sure nimiq.com is allowed to access your camera.');
