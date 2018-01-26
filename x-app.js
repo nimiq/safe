@@ -37,10 +37,10 @@ export default class XApp extends XElement {
         if (!(this[viewName] instanceof XView)) return;
         if (this.$currView) this.$currView._onHide();
         this.$currView = this[viewName];
-        this.$currView._onShow();
+        this.$currView._onShow(state, path);
     }
 
-    onStateChange(state) { return true; }
+    onStateChange(state) { return true; /* abstract method*/ }
 
     static launch() { window.addEventListener('load', () => new this()); }
 }

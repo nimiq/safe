@@ -12,14 +12,14 @@ export default class XView extends XElement {
         // this.$el.id = this.__tagName.replace('view-', '');
     }
 
-    _onShow() {
+    _onShow(state, path) {
         this.addStyle('x-show');
-        this.animateEntry().then(e => this._show());
+        this.animateEntry().then(e => this._show(state, path));
     }
 
-    _show() {
+    _show(state, path) {
         this._visible = true;
-        if (this.onShow) this.onShow();
+        if (this.onShow) this.onShow(state, path);
     }
 
     _onHide() {
