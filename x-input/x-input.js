@@ -42,7 +42,7 @@ export default class XInput extends XElement {
         requestAnimationFrame(_ => this.$input.focus());
     }
 
-    async onWrong() {
+    async _onInvalid() {
         await this.animate('shake');
         this.value = '';
     }

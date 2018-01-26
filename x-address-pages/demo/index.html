@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Nimiq Address Pages</title>
+    <meta name="viewport" content="target-densitydpi=device-dpi,user-scalable=0,minimum-scale=1,maximum-scale=1,initial-scale=1">
+
+    <link href="../x-address-pages.css" rel="stylesheet">
+    <link href="/elements/x-toast/x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+       <div class="x-view" style="opacity: 1">
+           <x-address-pages></x-address-pages>
+       </div>
+    </main>
+
+    <script type="module">
+        import XAddressPages from "../x-address-pages.js";
+        import XToast from "/elements/x-toast/x-toast.js";
+        const $pages = new XAddressPages();
+        
+        const onAddressScanned = e => XToast.show(`address-scanned: ${e.detail}`);
+        $pages.addEventListener('x-address-scanned', onAddressScanned);
+    </script>
+</body>
+
+</html>
