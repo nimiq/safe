@@ -14,7 +14,7 @@ export default class XAddressIntroPage extends XAddressPage {
     onCreate() {
         super.onCreate();
         this.$background = this.$('[background]');
-        this.$('[use-fallback-button]').addEventListener('click', e => this.fire('x-address-page-selected', 'fallback'));
+        this.$('[use-fallback-button]').addEventListener('click', e => this.fire('x-address-page-select', 'fallback'));
         requestAnimationFrame(e => this._positionBackground())
     }
 

@@ -21,7 +21,7 @@ export default class XAddressPages extends XElement {
 
     onCreate() {
         this._checkCameraStatus();
-        this.addEventListener('x-address-page-selected', e => this._onSelectPage(e));
+        this.addEventListener('x-address-page-select', e => this._onPageSelect(e));
         this.addEventListener('x-address-scanner-success', e => this._onCameraSuccess());
         this.addEventListener('x-address-scanner-error', e => this._onCameraError());
 
@@ -52,7 +52,7 @@ export default class XAddressPages extends XElement {
             this.$pages.select('fallback', false);
     }
 
-    _onSelectPage(event) {
+    _onPageSelect(event) {
         const page = event.detail;
         this.$pages.select(page);
         if (page === 'fallback') {

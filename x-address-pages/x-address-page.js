@@ -9,7 +9,7 @@ export default class XAddressPage extends XElement {
         this.$addressInput = this.$('x-address-input');
         this.$button = this.$('[enable-camera-button]');
         if(!this.$button) return;
-        this.$button.addEventListener('click', () => this.fire('x-address-page-selected', 'scanner'));
+        this.$button.addEventListener('click', () => this.fire('x-address-page-select', 'scanner'));
     }
 
     set active(active) {
