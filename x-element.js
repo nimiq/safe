@@ -3,7 +3,7 @@ export default class XElement {
     constructor(root) {
         this.__bindDOM(root);
         this.__createChildren();
-        this.$el.state = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
+        this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
         if (this.onCreate) this.onCreate();
     }
 
