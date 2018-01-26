@@ -1,7 +1,7 @@
 @import '../x-address/x-address.css';
 
 x-address-input.x-address{
-    max-width: 100%;
+    max-width: 540px;
     padding: 0;
 }
 

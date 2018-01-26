@@ -22,6 +22,7 @@ export default class XAddressPages extends XElement {
     onCreate() {
         this._checkCameraStatus();
         this.addEventListener('x-address-page-select', e => this._onPageSelect(e));
+        
         this.addEventListener('x-address-scanner-success', e => this._onCameraSuccess());
         this.addEventListener('x-address-scanner-error', e => this._onCameraError());
 
@@ -54,16 +55,16 @@ export default class XAddressPages extends XElement {
 
     _onPageSelect(event) {
         const page = event.detail;
-        this.$pages.select(page);
         if (page === 'fallback') {
+            this.$pages.select(page);
             ScannerSettingsStorage.useCamera = false;
         } else if (page === 'scanner') {
-            ScannerSettingsStorage.useCamera = true;
-            this.$addressScannerPage.active = true;
+            this.$addressScannerPage.startScanner();
         }
     }
 
     _onCameraSuccess() {
+        this.$pages.select('scanner');
         ScannerSettingsStorage.useCamera = true;
     }
 
