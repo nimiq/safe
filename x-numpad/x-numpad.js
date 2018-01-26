@@ -73,5 +73,3 @@ export default class XNumpad extends XElement {
         this.fire('x-numpad-value', value);
     }
 }
-
-// Todo: Fix bugs when entering 0.123 and deleting

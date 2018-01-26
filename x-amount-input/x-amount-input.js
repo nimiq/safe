@@ -66,5 +66,7 @@ export default class XAmountInput extends XInput {
     }
 }
 
-// Todo: validate if value is <= balance 
-// Todo: refactor `_isMobile` into an own library for mobile-detection and make it more sophisticated (regex ?)
+// Todo: [Daniel] Fix bugs when entering 0.123 and deleting
+// Todo: [low] [Daniel] Visual feeback when entering " 0. "
+// Todo: [low] validate if value is <= balance 
+// Todo: [low] refactor `_isMobile` into an own library for mobile-detection and make it more sophisticated (regex ?)
