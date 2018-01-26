@@ -18,20 +18,18 @@ export default class XMnemonicInput extends XElement {
     onCreate() {
         this.$fields = [];
         this.$form = this.$('form');
-        for (let i = 0; i < 24; i++) {
-            const field = XMnemonicInputField.createElement();
-            field.$el.style.animationDelay = (700 + 60 * i) + 'ms';
-            field.$input.placeholder = 'word #' + (i + 1);
-            this.$form.appendChild(field.$el);
-            this.$fields.push(field);
-        }
-        this.$el.appendChild(this.$form);
-
+        for (let i = 0; i < 24; i++) this._createField(i);
         if (this._hasDatalistSupport()) this._createDatalist();
         else this.$fields.forEach(field => field.setupAutocomplete());
-
         this.addEventListener('x-complete', e => this._onFieldComplete(e));
+    }
 
+    _createField(index) {
+        const field = XMnemonicInputField.createElement();
+        field.$el.style.animationDelay = (700 + 60 * index) + 'ms';
+        field.$input.placeholder = 'word #' + (index + 1);
+        this.$form.appendChild(field.$el);
+        this.$fields.push(field);
     }
 
     _hasDatalistSupport() {
@@ -185,4 +183,4 @@ class XMnemonicInputField extends XElement {
 }
 
 // Todo: Use animate method for shake animation
-// Todo: Use x-input to simplify XMnemonicInputField? 
+// Todo: Use x-input to simplify XMnemonicInputField?
