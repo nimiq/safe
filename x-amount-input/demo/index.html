@@ -14,10 +14,9 @@
     </main>
     <script type="module">
         import XAmountInput from "../x-amount-input.js";
-        const $input = new XAmountInput();
         import XToast from "../../x-toast/x-toast.js";
-        const $toast = new XToast();
-        $input.addEventListener('x-amount-input', e => $toast.show(`${e.type}: ${e.detail}`));
+        const $input = new XAmountInput();
+        $input.addEventListener('x-amount-input', e => XToast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 
