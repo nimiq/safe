@@ -11,7 +11,7 @@ x-address-pages > x-pages {
     height: 100%;
 }
 
-.x-address-page {
+x-address-pages > x-pages > * {
     display: flex;
     flex-direction: column;
     align-items: center;

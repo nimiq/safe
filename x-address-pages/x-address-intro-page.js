@@ -1,20 +1,20 @@
-import XAddressPage from './x-address-page.js';
-
-export default class XAddressIntroPage extends XAddressPage {
+import XElement from '/library/x-element/x-element.js';
+export default class XAddressIntroPage extends XElement {
     html() {
         return `
             <div background class="move-bottom-in"></div>
             <h1>Address Scanner</h1>
             <h2>Use your camera to scan addresses</h2>
             <x-grow></x-grow>
-            <button enable-camera-button>Enable camera</button>
-            <a secondary use-fallback-button>Continue without camera</a>`;
+            <button use-camera>Enable camera</button>
+            <a secondary use-fallback>Continue without camera</a>`;
     }
 
     onCreate() {
-        super.onCreate();
         this.$background = this.$('[background]');
-        this.$('[use-fallback-button]').addEventListener('click', e => this.fire('x-address-page-select', 'fallback'));
+        
+        this.$('[use-camera]').addEventListener('click', e => this.fire('x-address-page-select', 'scanner'));
+        this.$('[use-fallback]').addEventListener('click', e => this.fire('x-address-page-select', 'fallback'));
         requestAnimationFrame(e => this._positionBackground())
     }
 
