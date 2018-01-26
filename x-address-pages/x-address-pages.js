@@ -41,11 +41,7 @@ export default class XAddressPages extends XElement {
         this.$addressFallbackPage.active = active;
         this.$addressScannerPage.active = active && ScannerSettingsStorage.useCamera;
     }
-
-    setGrayscaleWeights(red, green, blue) {
-        this.$addressScannerPage.setGrayscaleWeights(red, green, blue);
-    }
-
+    
     _checkCameraStatus() {
         const isFirstUse = ScannerSettingsStorage.isFirstUse;
         if (isFirstUse) return this.$pages.select('intro', false);
@@ -80,7 +76,7 @@ export default class XAddressPages extends XElement {
 
 class ScannerSettingsStorage {
 
-    static get KEY_USE_CAMERA() { return 'x-address-scanner-use-camera' }
+    static get KEY_USE_CAMERA() { return 'x-scanner-use-camera' }
 
     static get isFirstUse() {
         const value = localStorage[this.KEY_USE_CAMERA];
