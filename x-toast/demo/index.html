@@ -15,8 +15,7 @@
     <script type="module">
         import XToast from "../x-toast.js";
         const message = 'This is a x-toast!';
-        const $toast = new XToast();
-        document.querySelector('button').addEventListener('click', e => $toast.show( message ));
+        document.querySelector('button').addEventListener('click', e => XToast.show( message ));
     </script>
 </body>
 
