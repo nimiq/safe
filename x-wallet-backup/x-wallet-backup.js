@@ -55,7 +55,6 @@ export default class XWalletBackup extends XElement {
     }
 }
 
-// Todo: fix the ugly hack with setTimeout in WalletBackup
 // Todo: animate file to make clickablity more obvious
 // Todo: [Daniel] Fallback for iOS: long tap > "save image" (visual feedback for "long" tap)
 // Todo: [Daniel] make our "download detecting hack" work on iOS

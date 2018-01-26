@@ -16,4 +16,4 @@ export default class XSuccessMark extends XElement {
 }
 
 
-// Todo: Outline should be a hexagon :)
+// Todo: [low] Outline should be a hexagon :)

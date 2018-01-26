@@ -182,5 +182,5 @@ class XMnemonicInputField extends XElement {
     }
 }
 
-// Todo: Use animate method for shake animation
-// Todo: Use x-input to simplify XMnemonicInputField?
+// Todo: [Soeren] Use animate method for shake animation
+// Todo: [Soeren] Use x-input to simplify XMnemonicInputField?
