@@ -35,6 +35,7 @@ export default class XDownloadableImage extends XElement {
         this.$longTouchIndicator = this.$('[long-touch-indicator]');
         this._onWindowBlur = this._onWindowBlur.bind(this);
         this.$a.addEventListener('mousedown', e => this._onDownloadStart());
+        this.$a.addEventListener('mouseup', e => this._onMouseUp());
         this.$a.addEventListener('touchstart', e => this._onTouchStart());
         this.$a.addEventListener('touchend', e => this._onTouchEnd());
     }
@@ -102,6 +103,12 @@ export default class XDownloadableImage extends XElement {
         this._onDownloadCancel();
     }
 
+    _onMouseUp() {
+        if (!this._isDesktopSafari()) return;
+        // desktop safari directly downloads the image without opening a dialog
+        this._onDownloadEnd();
+    }
+
     _onDownloadStart() {
         window.addEventListener('blur', this._onWindowBlur);
     }
@@ -135,8 +142,13 @@ export default class XDownloadableImage extends XElement {
         if (this._indicatorHideTimeout !== null) return;
         this._indicatorHideTimeout = setTimeout(() => this.$longTouchIndicator.style.display = 'none', 300);
     }
+
+    _isDesktopSafari() {
+        // see https://stackoverflow.com/a/23522755
+        return /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !/mobile/i.test(navigator.userAgent);
+    }
 }
 // Todo: animate file to make clickablity more obvious
-// Todo: [Daniel] make our "download detecting hack" work on iOS
-// Todo: [Daniel] make our "download detecting hack" work on Safari (in general: what if the file downloads immediately and no dialog opens?)
+// Todo: [Daniel] make our "download detecting hack" work on Safari and improve on iOS (in general: what if the file downloads immediately and no dialog opens?) -  we could use e.g. Service Workers as soon as they are supported by Safari
+// Todo: [Daniel] download detection also not working on Chrome Android
 // Todo: [low] no support for fallback download of data URl images on iOS currently. This support could be added by rendering to a canvas and retrieving an object url
