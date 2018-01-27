@@ -32,12 +32,16 @@ export default class XPasswordSetter extends XElement {
     }
 
     _onPasswordUpdate(value) {
-      this.$passwordIndicator.setPassword(value)
-      this.fire(this.__tagName + '-valid', this._isGoodPassword(value));
+      const strength = this._getPasswordStrength(value);
+      this.$passwordIndicator.setStrength(strength);
+      this.fire(this.__tagName + '-valid', strength === 3);
     }
 
-    _isGoodPassword(password) {
-      return password.length > 7;
+    _getPasswordStrength(password) {
+      if (password.length === 0) return 0;
+      if (password.length < 5) return 1;
+      if (password.length < 10) return 2;
+      return 3;
     }
 }
 

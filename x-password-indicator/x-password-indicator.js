@@ -3,12 +3,27 @@ import XElement from "../../library/x-element/x-element.js";
 export default class XPasswordIndicator extends XElement {
     html() {
         return `
-            <meter max="30" id="password-strength-meter"></meter>
+            <div class="label">Strength:</div>
+            <meter max="100" low="10" optimum="100"></meter>
         `;
     }
 
-    setPassword(password) {
-      const strength = password.length;
-      this.$("meter").setAttribute("value", strength);
+    //styles() { return ['x-password-indicator'] }
+
+    setStrength(strength) { // 0 for none, 1 for bad, 2 for ok, 3 for good
+      this.$("meter").setAttribute("value", this._getMeterValue(strength));
+    }
+
+    _getMeterValue(strength) {
+      switch(strength) {
+        case 0:
+          return 0;
+        case 1:
+          return 10;
+        case 2:
+          return 70;
+        case 3:
+          return 100;
+      }
     }
 }
