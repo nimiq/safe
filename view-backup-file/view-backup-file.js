@@ -55,13 +55,13 @@ export default class ViewBackupFile extends XView {
     }
 
     async reset() {
-        this.$passwordInput.value = '';
+        this.$passwordSetter.value = '';
         await this.$slides.slideTo(0);
-        this.$passwordInput.focus();
+        this.$passwordSetter.focus();
     }
 
     _onPasswordInput() {
-        const password = this.$passwordInput.value;
+        const password = this.$passwordSetter.value;
         this.fire('x-encrypt-backup', password);
         this.$slides.next();
     }
