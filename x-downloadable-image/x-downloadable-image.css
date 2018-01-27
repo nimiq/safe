@@ -21,13 +21,12 @@ x-downloadable-image img {
 x-downloadable-image [long-touch-indicator] {
     width: 128px;
     height: 128px;
-    position: absolute;
-    left: calc(50% - 64px);
-    top: calc(50% - 64px);
+    position: fixed;
     pointer-events: none;
     transition: opacity .3s;
     opacity: 0;
     display: none;
+    stroke: var(--success-color);
 }
 
 [long-touch-indicator].animate {
@@ -37,5 +36,7 @@ x-downloadable-image [long-touch-indicator] {
 @keyframes long-touch-indicator-animation {
     from {
         stroke-dashoffset: 100.5;
+        stroke: #F6AE2D;
+        opacity: 0;
     }
 }

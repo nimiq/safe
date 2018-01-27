@@ -7,7 +7,7 @@ export default class XDownloadableImage extends XElement {
     }
 
     static get DOWNLOAD_DURATION() {
-        return 1200;
+        return 1500;
     }
 
     html() {
@@ -22,7 +22,7 @@ export default class XDownloadableImage extends XElement {
                     </defs>
                     <path fill-rule="evenodd" d="M16 4.29h32l16 27.71l-16 27.71h-32l-16 -27.71zM20.62 12.29h22.76l11.38 19.71l-11.38 19.71h-22.76l-11.38 -19.71z" fill="#FFFFFF" opacity="0.2"/>
                     <g clip-path="url(#hexClip)">
-                        <circle id="circle" cx="32" cy="32" r="16" fill="none" stroke-width="32" stroke="#F6AE2D" stroke-dasharray="100.53 100.53" transform="rotate(-120 32 32)"/>
+                        <circle id="circle" cx="32" cy="32" r="16" fill="none" stroke-width="32" stroke-dasharray="100.53 100.53" transform="rotate(-120 32 32)"/>
                     </g>
                 </svg>
             </a>`;
@@ -40,7 +40,7 @@ export default class XDownloadableImage extends XElement {
         this.$longTouchIndicator = this.$('[long-touch-indicator]');
         this._onWindowBlur = this._onWindowBlur.bind(this);
         this.$a.addEventListener('mousedown', e => this._onMouseDown()); // also gets triggered after touchstart
-        this.$a.addEventListener('touchstart', e => this._onTouchStart());
+        this.$a.addEventListener('touchstart', e => this._onTouchStart(e));
         this.$a.addEventListener('touchend', e => this._onTouchEnd());
     }
 
@@ -84,10 +84,11 @@ export default class XDownloadableImage extends XElement {
         this._onDownloadStart();
     }
 
-    _onTouchStart() {
+    _onTouchStart(event) {
         if (this._supportsNativeDownload()) return;
         // if no native download is supported, show a hint to download by long tap
-        this._showLongTouchIndicator();
+        const touch = event.touches[0];
+        this._showLongTouchIndicator(touch.clientX - 64, touch.clientY - 160);
         this._longTouchStart = Date.now();
         clearTimeout(this._longTouchTimeout);
         this._longTouchTimeout = setTimeout(() => this._onLongTouch(), XDownloadableImage.LONG_TOUCH_DURATION);
@@ -130,13 +131,14 @@ export default class XDownloadableImage extends XElement {
         clearTimeout(this._blurTimeout);
     }
 
-    _showLongTouchIndicator() {
+    _showLongTouchIndicator(x, y) {
         clearTimeout(this._indicatorHideTimeout);
         this._indicatorHideTimeout = null;
+        this.$longTouchIndicator.style.left = x + 'px';
+        this.$longTouchIndicator.style.top = y + 'px';
         this.$longTouchIndicator.style.display = 'block';
         this.stopAnimate('animate', this.$longTouchIndicator);
         this.$longTouchIndicator.style.opacity = 1;
-        this.$longTouchIndicator.offsetWidth; // style update
         this.animate('animate', this.$longTouchIndicator);
     }
 
