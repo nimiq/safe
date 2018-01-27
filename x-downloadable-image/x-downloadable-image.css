@@ -21,7 +21,7 @@ x-downloadable-image img {
 x-downloadable-image [long-touch-indicator] {
     width: 128px;
     height: 128px;
-    position: fixed;
+    position: absolute;
     pointer-events: none;
     transition: opacity .3s;
     opacity: 0;

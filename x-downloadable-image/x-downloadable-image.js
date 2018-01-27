@@ -88,7 +88,8 @@ export default class XDownloadableImage extends XElement {
         if (this._supportsNativeDownload()) return;
         // if no native download is supported, show a hint to download by long tap
         const touch = event.touches[0];
-        this._showLongTouchIndicator(touch.clientX - 64, touch.clientY - 160);
+        const clientRect = this.$el.getBoundingClientRect();
+        this._showLongTouchIndicator(touch.pageX - clientRect.left - 64, touch.pageY - clientRect.top - 160);
         this._longTouchStart = Date.now();
         clearTimeout(this._longTouchTimeout);
         this._longTouchTimeout = setTimeout(() => this._onLongTouch(), XDownloadableImage.LONG_TOUCH_DURATION);
