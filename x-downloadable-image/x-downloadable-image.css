@@ -2,6 +2,7 @@
 
 x-downloadable-image {
     display: inline-block;
+    line-height: 0;
 }
 
 x-downloadable-image a {

@@ -30,8 +30,8 @@ export default class XDownloadableImage extends XElement {
         this._longTouchStart = 0;
         this._longTouchTimeout = null;
         this._indicatorHideTimeout = null;
-        this.$img = this.$('img');
         this.$a = this.$('a');
+        this.$img = this.$('img');
         this.$longTouchIndicator = this.$('[long-touch-indicator]');
         this._onWindowBlur = this._onWindowBlur.bind(this);
         this.$a.addEventListener('mousedown', e => this._onDownloadStart());
@@ -139,3 +139,4 @@ export default class XDownloadableImage extends XElement {
 // Todo: animate file to make clickablity more obvious
 // Todo: [Daniel] make our "download detecting hack" work on iOS
 // Todo: [Daniel] make our "download detecting hack" work on Safari (in general: what if the file downloads immediately and no dialog opens?)
+// Todo: [low] no support for fallback download of data URl images on iOS currently. This support could be added by rendering to a canvas and retrieving an object url
