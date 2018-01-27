@@ -28,6 +28,7 @@ export default class XDownloadableImage extends XElement {
         this._src = null;
         this._filename = 'image';
         this._longTouchStart = 0;
+        this._longTouchTimeout = null;
         this._indicatorHideTimeout = null;
         this.$img = this.$('img');
         this.$a = this.$('a');
@@ -74,23 +75,25 @@ export default class XDownloadableImage extends XElement {
     }
 
     _onTouchStart() {
-        this._longTouchStart = Date.now();
         this._onDownloadStart();
         if (this._supportsNativeDownload()) return;
         this._showLongTouchIndicator();
+        this._longTouchStart = Date.now();
+        clearTimeout(this._longTouchTimeout);
+        this._longTouchTimeout = setTimeout(() => this._onLongTouch(), XDownloadableImage.LONG_TOUCH_DURATION);
     }
 
     _onTouchEnd() {
         if (this._supportsNativeDownload()) return;
         this._hideLongTouchIndicator();
-        if (Date.now() - this._longTouchStart > XDownloadableImage.LONG_TOUCH_DURATION) {
-            this._onLongTouch();
-        } else {
-            this._onLongTouchCancel();
-        }
+        clearTimeout(this._longTouchTimeout);
+        if (Date.now() - this._longTouchStart > XDownloadableImage.LONG_TOUCH_DURATION) return;
+        this._onLongTouchCancel();
     }
 
     _onLongTouch() {
+        this._hideLongTouchIndicator();
+        XToast.show('Click on "Save Image"');
         this._onDownloadEnd();
     }
 
@@ -122,15 +125,15 @@ export default class XDownloadableImage extends XElement {
         this._indicatorHideTimeout = null;
         this.$longTouchIndicator.style.display = 'block';
         this.stopAnimate('animate', this.$longTouchIndicator);
-        this.$longTouchIndicator.offsetWidth; // style update
         this.$longTouchIndicator.style.opacity = 1;
+        this.$longTouchIndicator.offsetWidth; // style update
         this.animate('animate', this.$longTouchIndicator);
     }
 
     _hideLongTouchIndicator() {
         this.$longTouchIndicator.style.opacity = 0;
         if (this._indicatorHideTimeout !== null) return;
-        this._indicatorHideTimeout = setTimeout(() => this.$longTouchIndicator.style.display = 'none', 200);
+        this._indicatorHideTimeout = setTimeout(() => this.$longTouchIndicator.style.display = 'none', 300);
     }
 }
 // Todo: animate file to make clickablity more obvious
