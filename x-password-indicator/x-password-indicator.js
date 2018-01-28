@@ -8,8 +8,6 @@ export default class XPasswordIndicator extends XElement {
         `;
     }
 
-    //styles() { return ['x-password-indicator'] }
-
     setStrength(strength) { // 0 for none, 1 for bad, 2 for ok, 3 for good
       this.$('meter').setAttribute('value', this._getMeterValue(strength));
     }

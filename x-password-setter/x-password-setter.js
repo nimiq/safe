@@ -9,6 +9,8 @@ export default class XPasswordSetter extends XElement {
         `;
     }
 
+    styles() { return ['center'] }
+
     children() {
       return [XPasswordInput, XPasswordIndicator];
     }
@@ -43,6 +45,4 @@ export default class XPasswordSetter extends XElement {
     }
 }
 
-
-// Todo: add strength indicator and validator
 // Todo: Can we hack that the "save this password" dialog occurs before navigating to a different page?

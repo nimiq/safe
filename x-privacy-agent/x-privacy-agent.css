@@ -12,7 +12,7 @@ x-privacy-agent {
 }
 
 x-privacy-agent h1 {
-    color: var(--warning-color);
+    color: var(--error-color);
     padding: 16px 0;
     font-weight: 500;
     font-size: 24px;
