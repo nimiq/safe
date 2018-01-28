@@ -63,33 +63,34 @@
 
     const randomKey = window.crypto.getRandomValues(new Uint8Array(32));
     const hexKey = MnemonicPhrase._arrayToHex(randomKey);
-    const mnemonic = MnemonicPhrase.keyToMnemonic(hexKey);
+    const mnemonic = MnemonicPhrase.keyToMnemonic(hexKey).split(' ');
 
     const $mnemonicInput = new XMnemonicInput();
 
-    $mnemonicInput.addEventListener('recovered', e => {
+    $mnemonicInput.addEventListener('x-mnemonic-input', e => {
         document.querySelector('#privateKey').textContent = e.detail;
+        document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
     });
 
-    function putWord(el, word, index) {
+    function putWord(field, word, index) {
         setTimeout(() => {
-            el.$input.value = word;
-            el._value = word;
-            el.validateValue(true);
+            field.$input.value = word;
+            field._value = word;
+            field.__onValueChanged({type: 'blur'});
         }, index * 50);
     }
 
     document.querySelector('#reset-fields').addEventListener('click', () => {
         $mnemonicInput.$fields.forEach((field, index) => {
             field.$input.value = '';
-            field._onInput({data: 'not undefined'});
+            field.__onValueChanged({type: 'blur'});
         });
         document.querySelectorAll('button.fill').forEach(button => button.removeAttribute('disabled'));
     });
 
     document.querySelector('#fill-correctly').addEventListener('click', () => {
         $mnemonicInput.$fields.forEach((field, index) => {
-            putWord(field, mnemonic.split(' ')[index], index);
+            putWord(field, mnemonic[index], index);
         });
         document.querySelectorAll('button').forEach(button => button.setAttribute('disabled', 'disabled'));
     });

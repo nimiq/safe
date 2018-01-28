@@ -5,8 +5,6 @@
   box-sizing: border-box;
 }
 
-.x-input.shake input,
-.x-input.shake input,
-.x-input.shake input{
-    border-bottom: 1px solid var(--error-color);
+.x-input.shake input {
+    border-bottom: 1px solid var(--error-color) !important;
 }

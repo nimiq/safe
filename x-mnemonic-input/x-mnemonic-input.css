@@ -1,5 +1,6 @@
 @import '/library/nimiq-style/nimiq-style.css';
 @import '../x-mnemonic-phrase/x-recovery-phrase.css';
+@import '../x-input/x-input.css';
 @import '../x-success-mark/x-success-mark.css';
 
 x-mnemonic-input {
@@ -10,7 +11,6 @@ x-mnemonic-input {
 }
 
 x-mnemonic-input.shake {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
     border-color: var(--error-color);
 }
 
@@ -59,12 +59,8 @@ x-mnemonic-input input[type="text"]::-webkit-calendar-picker-indicator {
     display: none;
 }
 
-x-mnemonic-input input[type="text"].complete {
+x-mnemonic-input-field.complete input[type="text"] {
     border-bottom-color: var(--success-color);
-}
-
-x-mnemonic-input input[type="text"].invalid {
-    border-bottom-color: var(--error-color);
 }
 
 x-mnemonic-input-success {
@@ -134,5 +130,5 @@ datalist {
 }
 
 .autocomplete-suggestion.selected {
-    background: #f0f0f0;
+    background: #cce5ff;
 }

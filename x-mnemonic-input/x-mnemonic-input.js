@@ -1,6 +1,8 @@
 import XElement from '/library/x-element/x-element.js';
 import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.es6.min.js';
+import XInput from '../x-input/x-input.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
+import AutoComplete from './auto-complete.js';
 
 export default class XMnemonicInput extends XElement {
     html() {
@@ -19,22 +21,24 @@ export default class XMnemonicInput extends XElement {
         this.$fields = [];
         this.$form = this.$('form');
         for (let i = 0; i < 24; i++) this._createField(i);
-        if (this._hasDatalistSupport()) this._createDatalist();
+        this._datalistSupport = this._hasDatalistSupport();
+        if (this._datalistSupport) this._createDatalist();
         else this.$fields.forEach(field => field.setupAutocomplete());
-        this.addEventListener('x-complete', e => this._onFieldComplete(e));
+        this.addEventListener('x-mnemonic-input-field-valid', e => this._onFieldComplete(e));
+        this._mnemonic = '';
     }
 
     _createField(index) {
         const field = XMnemonicInputField.createElement();
-        field.$el.style.animationDelay = (700 + 60 * index) + 'ms';
+        // field.$el.style.animationDelay = (700 + 60 * index) + 'ms';
         field.$input.placeholder = 'word #' + (index + 1);
         this.$form.appendChild(field.$el);
         this.$fields.push(field);
     }
 
     _hasDatalistSupport() {
-        return !!('list' in document.createElement('input')) &&
-            !!(document.createElement('datalist') && window.HTMLDataListElement);
+        return !!('list' in document.createElement('input'))
+            && !!(document.createElement('datalist') && window.HTMLDataListElement);
     }
 
     _createDatalist() {
@@ -49,27 +53,35 @@ export default class XMnemonicInput extends XElement {
     }
 
     _onFieldComplete(e) {
-        e.stopPropagation();
-        const completedField = e.detail[0];
-        const wasCompletedByTab = e.detail[1];
-        if (completedField.$input === document.activeElement && !wasCompletedByTab) {
-            // Find active field
-            const index = Array.prototype.indexOf.call(this.$fields, completedField);
-            if (index < this.$fields.length - 1)
-                // Set focus to next field
-                this.$fields[index + 1].$input.focus();
-        }
+        const isValid = e.detail || false;
+        if(!isValid) return;
 
-        this._checkPhraseComplete();
+        const el = e.target;
+        setTimeout(_ => {
+            // Test if the element that fired the event is still the focused element
+            if (el.querySelector('input') === document.activeElement) {
+                // Find active field
+                const field = this.$fields.find(field => field.$el === el);
+                const index = Array.prototype.indexOf.call(this.$fields, field);
+                if (index < this.$fields.length - 1)
+                    // Set focus to next field
+                    this.$fields[index + 1].focus();
+                else this.$fields[index].$input.blur();
+            }
+
+            this._checkPhraseComplete();
+        }, this._datalistSupport ? 0 : 40);
     }
 
     _checkPhraseComplete() {
         const check = this.$fields.find(field => !field.complete);
         if (typeof check !== 'undefined') return;
         const mnemonic = this.$fields.map(field => field.$input.value).join(' ');
+        if(mnemonic === this._mnemonic) return;
+        this._mnemonic = mnemonic;
         try {
-            const privateKey = MnemonicPhrase.mnemonicToKey(mnemonic);
-            this.fire('recovered', privateKey);
+            const privateKey = MnemonicPhrase.mnemonicToKey(this._mnemonic);
+            this.fire(this.__tagName, privateKey);
             this._animateSuccess();
         } catch (e) {
             console.log(e.message);
@@ -83,8 +95,7 @@ export default class XMnemonicInput extends XElement {
     }
 
     _animateError() {
-        this.$el.classList.add('shake');
-        setTimeout(() => this.$el.classList.remove('shake'), 820);
+        this.animate('shake');
     }
 
     focus() {
@@ -98,28 +109,34 @@ export default class XMnemonicInput extends XElement {
             this.$el.classList.remove('x-entry')
         }, 3000);
     }
-
-
 }
 
-class XMnemonicInputField extends XElement {
+class XMnemonicInputField extends XInput {
     html() {
         return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
     }
-    styles() { return ['x-word'] }
+    styles() { return ['x-input'] }
 
     onCreate() {
-        this.$input = this.$('input');
+        super.onCreate();
+        this.$input.addEventListener('keydown', e => this.__onValueChanged(e));
+        this.$input.addEventListener('blur', e => this.__onValueChanged(e));
 
-        this.$input.addEventListener('keydown', e => this._onKeyDown(e));
-        this.$input.addEventListener('input', e => this._onInput(e));
-        this.$input.addEventListener('blur', e => this._onBlur(e));
+        this.addEventListener(this.__tagName + '-valid', e => this._onValidEvent(e.detail));
+    }
 
-        this._value = '';
+    __onValueChanged(e) {
+        if (!['keydown', 'input', 'blur'].includes(e.type)) return;
+        if (e.keyCode === 32 /* space */ ) e.preventDefault();
+        const triggerKeyCodes = [32 /* space */, 9 /* tab */, 13 /* enter */];
+        if (triggerKeyCodes.includes(e.keyCode) || e.type === 'blur' || (e.type === 'input' && typeof e.data === 'undefined')) {
+            if (this.value.length >= 3) this._notifyValidity();
+        }
+        this._onValueChanged();
     }
 
     setupAutocomplete() {
-        this.autocomplete = new autoComplete({
+        this.autocomplete = new AutoComplete({
             selector: this.$input,
             source: (term, response) => {
                 term = term.toLowerCase();
@@ -129,58 +146,30 @@ class XMnemonicInputField extends XElement {
                 response(list);
             },
             minChars: 3,
-            delay: 0,
-            onSelect: (e) => {
-                // Emulate the event from selecting a datalist item
-                e = { type: 'input', keyCode: e.keyCode };
-                this._onKeyDown(e);
-            }
+            delay: 0
         });
     }
 
-    validateValue(byTab) {
-        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(this.$input.value.toLowerCase());
-        if (index < 0) {
-            this.$input.classList.add('invalid');
-            return;
-        }
-
-        this.complete = true;
-        this.fire('x-complete', [this, !!byTab], true);
-        this.$input.classList.add('complete');
+    _validate(value) {
+        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(value.toLowerCase());
+        return index > -1;
     }
 
-    _onKeyDown(e) {
-        if (e.keyCode === 32 /* space */ || e.keyCode === 9 /* tab */ || e.type === 'blur' || e.type === 'input') {
-            if (this.$input.value.length >= 3) this.validateValue(e.keyCode === 9 /* tab */ );
-            if (e.keyCode === 32 /* space */ ) e.preventDefault();
-        }
+    _onValidEvent(isValid) {
+        this.complete = isValid;
+        if(isValid) this.$el.classList.add('complete');
+        else this._onInvalid();
     }
 
-    _onInput(e) {
-        if (typeof e.data === 'undefined') { // No key pressed, but autocomplete selected
-            this._onKeyDown(e);
-            return;
-        }
-
-        const value = this.$input.value;
+    _onValueChanged() {
+        const value = this.value;
+        if (this._value === value) return;
 
         if (value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
         else this.$input.removeAttribute('list');
 
-        if (this._value === value) return;
-
         this.complete = false;
-        this.$input.classList.remove('complete');
-        this.$input.classList.remove('invalid'); // Multiple classes in remove() are not supported by IE
+        this.$el.classList.remove('complete');
         this._value = value;
     }
-
-    _onBlur(e) {
-        if (this.complete) return;
-        this._onKeyDown(e);
-    }
 }
-
-// Todo: [Soeren] Use animate method for shake animation
-// Todo: [Soeren] Use x-input to simplify XMnemonicInputField?
