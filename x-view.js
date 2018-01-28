@@ -7,11 +7,6 @@ export default class XView extends XElement {
 
     styles() { return ['x-view'] }
 
-    __fromHtml() {
-        super.__fromHtml();
-        // this.$el.id = this.__tagName.replace('view-', '');
-    }
-
     _onShow(state, path) {
         this.addStyle('x-show');
         this.animateEntry().then(e => this._show(state, path));
