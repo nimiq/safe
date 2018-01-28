@@ -7,7 +7,7 @@ export default class XAmountInput extends XInput {
         return `
             <form>
                 <x-currency-1>
-                    <input placeholder="0.00" type="number">
+                    <input placeholder="0.00" type="number" min="0">
                 </x-currency-1>
                 <x-currency-2></x-currency-2>
             </form>
@@ -19,6 +19,8 @@ export default class XAmountInput extends XInput {
     onCreate() {
         super.onCreate();
         this.$currency2 = this.$('x-currency-2');
+        this._previousValue = '';
+        this.maxDecimals = 2;
         if (!this._isMobile) return;
         this._initScreenKeyboard();
     }
@@ -31,26 +33,30 @@ export default class XAmountInput extends XInput {
         return Number(this.$input.value);
     }
 
+    set maxDecimals(maxDecimals) {
+        this.$numpad.maxDecimals = maxDecimals;
+        this.$input.step = 1 / Math.pow(10, maxDecimals); /* also has an influence on this._validate() */
+    }
+
     _initScreenKeyboard() {
         this.$input.setAttribute('disabled', '1');
         this.$input.setAttribute('type', 'text'); // to be able to set the string "0."
-        this.$numpad.maxDecimals = 5;
         this.$numpad.addEventListener('x-numpad-value', e => this._onNumpadValue(e));
     }
 
     /** @overwrites */
     _onValueChanged() {
+        if (!this._validate()) {
+            this.value = this._previousValue;
+            return;
+        }
+        this._previousValue = this.value;
         this._currency2 = this.value;
         if (this.$input.value === '') {
             this.$numpad.clear();
         } else {
             this.$numpad.value = this.value;
         }
-    }
-
-    /** @overwrites */
-    _validate() {
-        return this.value > 0; 
     }
 
     set _currency2(value) {
@@ -77,5 +83,3 @@ export default class XAmountInput extends XInput {
 
 // Todo: [low] validate if value is <= balance 
 // Todo: [low] refactor `_isMobile` into an own library for mobile-detection and make it more sophisticated (regex ?)
-// Todo: it's possible to enter 0.4.4.4.4.4
-// Todo: maxDecimals setter

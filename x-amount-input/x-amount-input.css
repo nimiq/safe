@@ -23,6 +23,7 @@ x-amount-input input:after {
 
 x-amount-input input[disabled] {
     opacity: 1;
+    cursor: default;
 }
 
 x-amount-input form {

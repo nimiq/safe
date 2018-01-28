@@ -30,8 +30,10 @@ export default class XInput extends XElement {
     __onValueChanged() {
         if (this._autosubmit) this._submit();
         this._notifyValidity();
-        if (this._onValueChanged) this._onValueChanged();
+        this._onValueChanged();
     }
+
+    _onValueChanged() {}
 
     _submit() {
         if (!this._validate(this.value)) return;
@@ -48,7 +50,7 @@ export default class XInput extends XElement {
         this.value = '';
     }
 
-    _validate() { return true; }
+    _validate() { return this.$input.checkValidity(); }
 
     get _autosubmit() { return false; }
 

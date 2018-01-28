@@ -18,7 +18,7 @@ export default class XNumpad extends XElement {
     }
 
     onCreate() {
-        this._maxDecimals = 5;
+        this._maxDecimals = 2;
         this.$dot = this.$('[dot]');
         this.addEventListener('click', e => this._onKeyPressed(e));
         this.clear();
@@ -45,6 +45,7 @@ export default class XNumpad extends XElement {
     }
 
     set value(value) {
+        if (value < 0) throw Error('Only non-negative numbers supported');
         if (value === this.value) return;
         const string = String(value);
         const parts = string.split('.');
