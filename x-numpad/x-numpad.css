@@ -24,13 +24,11 @@ x-numpad>* {
     line-height: 48px;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
     pointer-events: all;
-}
-
-x-numpad > [dot] {
     transition: opacity 0.7s;
 }
 
-x-numpad > [dot].hidden {
-    opacity: 0;
+x-numpad.max-decimals-reached > *:not([delete]),
+x-numpad.has-dot > [dot] {
+    opacity: 0.3;
     pointer-events: none;
 }

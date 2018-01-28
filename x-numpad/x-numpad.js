@@ -14,7 +14,7 @@ export default class XNumpad extends XElement {
             <span>9</span>
             <span dot>.</span>
             <span>0</span>
-            <span>&lt;</span>`
+            <span delete>&lt;</span>`
     }
 
     onCreate() {
@@ -51,13 +51,14 @@ export default class XNumpad extends XElement {
         const parts = string.split('.');
         this._hasDot = parts.length > 1;
         this._integerDigits = parts[0];
-        this._decimalDigits = this._hasDot? parts[1].substr(0, this._maxDecimals) : '';
+        this._decimalDigits = this._hasDot? parts[1] : '';
         this._onValueChanged();
     }
 
     set maxDecimals(maxDecimals) {
         this._maxDecimals = maxDecimals;
-        this._decimalDigits = this._decimalDigits.substr(0, maxDecimals);
+        this._checkMaxDecimals();
+        this._onValueChanged();
     }
 
     _onKeyPressed(e) {
@@ -80,7 +81,7 @@ export default class XNumpad extends XElement {
     _input(digit) {
         if (!this._hasDot) {
             this._inputIntegerDigit(digit);
-        } else if (this._decimalDigits.length < this._maxDecimals) {
+        } else {
             this._decimalDigits += digit;
         }
     }
@@ -112,21 +113,33 @@ export default class XNumpad extends XElement {
 
     _addDot() {
         this._hasDot = true;
-        this.$dot.classList.add('hidden');
+        this.$el.classList.add('has-dot');
         if (this._integerDigits !== '') return;
         this._integerDigits = '0';
     }
 
     _removeDot() {
         this._hasDot = false;
-        this.$dot.classList.remove('hidden');
+        this.$el.classList.remove('has-dot');
     }
 
     _onValueChanged() {
+        this._checkMaxDecimals();
         const stringValue = this.stringValue;
         this.fire('x-numpad-value', {
             value: parseFloat(stringValue) || 0,
             stringValue
         });
+    }
+
+    _checkMaxDecimals() {
+        if (this._decimalDigits.length > this._maxDecimals) {
+            this._decimalDigits = this._decimalDigits.substr(0, this._maxDecimals);
+        }
+        if (this._decimalDigits.length === this._maxDecimals) {
+            this.$el.classList.add('max-decimals-reached');
+        } else {
+            this.$el.classList.remove('max-decimals-reached');
+        }
     }
 }
