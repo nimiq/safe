@@ -1,4 +1,4 @@
-import XElement from "../../library/x-element/x-element.js";
+import XElement from '../../library/x-element/x-element.js';
 
 export default class XPasswordIndicator extends XElement {
     html() {
@@ -11,7 +11,7 @@ export default class XPasswordIndicator extends XElement {
     //styles() { return ['x-password-indicator'] }
 
     setStrength(strength) { // 0 for none, 1 for bad, 2 for ok, 3 for good
-      this.$("meter").setAttribute("value", this._getMeterValue(strength));
+      this.$('meter').setAttribute('value', this._getMeterValue(strength));
     }
 
     _getMeterValue(strength) {
