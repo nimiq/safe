@@ -42,10 +42,9 @@ export default class XPages extends XElement {
         this._removeDisplayNoneHandler(pageId);
         page.style.display = '';
         this._stopAnimatePage(page, 'hide');
-        if (animate) this._animatePage(page, 'show');
-        this._triggerShow(page);
         this._selected = pageId; // update selected
         this.$el.setAttribute('selected', pageId); // reflect state to attribute 
+        if (animate) this._animatePage(page, 'show');
     }
 
     _hide(pageId, animate = true) {
@@ -57,22 +56,11 @@ export default class XPages extends XElement {
         } else {
             page.style.display = 'none';
         }
-        this._triggerHide(page);
-    }
-
-    _triggerShow(page) {
-        if (!page.state || !page.state.onShow) return;
-        page.state.onShow();
-    }
-
-    _triggerHide(page) {
-        if (!page.state || !page.state.onHide) return;
-        page.state.onHide();
     }
 
     _animatePage(page, animation) {
         page.offsetWidth; // style update to remove previous animation before new one starts
-        this.animate(this._animationToUse(page, animation), page)
+        return this.animate(this._animationToUse(page, animation), page)
     }
 
     _stopAnimatePage(page, animation) {
