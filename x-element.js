@@ -15,7 +15,7 @@ export default class XElement {
         this.__bindStyles(this.styles);
     }
 
-    __createChildren() { // Create all children recursively 
+    __createChildren() { // Create all children recursively
         if (!this.children) return;
         this.children().forEach(child => this.__createChild(child));
     }
@@ -99,7 +99,7 @@ export default class XElement {
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
 
     __bindStyles(styles) {
-        if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively 
+        if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively
         if (!styles) return;
         styles().forEach(style => this.addStyle(style));
     }
@@ -108,6 +108,7 @@ export default class XElement {
     animate(className, $el) {
         return new Promise(resolve => {
             $el = $el || this.$el;
+            // 'animiationend' is a native DOM event that fires upon CSS animation completion
             this.listenOnce('animationend', e => {
                 this.stopAnimate(className, $el);
                 resolve();
