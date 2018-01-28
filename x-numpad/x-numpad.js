@@ -112,6 +112,8 @@ export default class XNumpad extends XElement {
     _addDot() {
         this._hasDot = true;
         this.$dot.classList.add('hidden');
+        if (this._integerDigits !== '') return;
+        this._integerDigits = '0';
     }
 
     _removeDot() {
@@ -127,5 +129,3 @@ export default class XNumpad extends XElement {
         });
     }
 }
-
-// Todo: when starting with a ".", set integerDigits to '0'
