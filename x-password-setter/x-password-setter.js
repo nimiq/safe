@@ -4,10 +4,8 @@ import XElement from '../../library/x-element/x-element.js';
 export default class XPasswordSetter extends XElement {
     html() {
         return `
-            <form action="/">
-                <x-password-input></x-password-input>
-                <x-password-indicator></x-password-indicator>
-            </form>
+            <x-password-input></x-password-input>
+            <x-password-indicator></x-password-indicator>
         `;
     }
 
