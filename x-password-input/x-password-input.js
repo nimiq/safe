@@ -4,13 +4,9 @@ export default class XPasswordInput extends XInput {
     html() {
         return `
             <form action="/">
-                <input type="password" placeholder="Enter Password">
+                <input type="password" placeholder="Enter Password" required minlength="7">
             </form>
         `;
-    }
-
-    _validate(value) {
-        return value && value.length > 7;
     }
 
     _onValueChanged() {
