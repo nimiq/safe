@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-numpad-demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-numpad.css" rel="stylesheet">
+    <link href="/library/nimiq-style/nimiq-style.css" rel="stylesheet">
+</head>
+
+<body>
+<main>
+    <div>
+        <h1>&nbsp;</h1>
+        <hr>
+        <x-numpad></x-numpad>
+    </div>
+</main>
+<script type="module">
+    import XNumpad from '../x-numpad.js';
+
+    const $numpad = new XNumpad();
+    const $value = document.querySelector('h1');
+    $numpad.addEventListener('x-numpad-value', event => $value.textContent = event.detail.stringValue);
+</script>
+</body>
+
+</html>

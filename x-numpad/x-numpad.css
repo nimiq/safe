@@ -4,6 +4,9 @@ x-numpad {
     padding-bottom: 16px;
     text-align: center;
     touch-action: manipulation;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 x-numpad>* {
@@ -20,6 +23,14 @@ x-numpad>* {
     font-size: 32px;
     line-height: 48px;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0.3);
-    -webkit-user-select: none;
-    user-select: none;
+    pointer-events: all;
+}
+
+x-numpad > [dot] {
+    transition: opacity 0.7s;
+}
+
+x-numpad > [dot].hidden {
+    opacity: 0;
+    pointer-events: none;
 }

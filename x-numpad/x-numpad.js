@@ -3,73 +3,129 @@ import XElement from "/library/x-element/x-element.js";
 export default class XNumpad extends XElement {
     html() {
         return `
-            <x-numpad-key>1</x-numpad-key>
-            <x-numpad-key>2</x-numpad-key>
-            <x-numpad-key>3</x-numpad-key>
-            <x-numpad-key>4</x-numpad-key>
-            <x-numpad-key>5</x-numpad-key>
-            <x-numpad-key>6</x-numpad-key>
-            <x-numpad-key>7</x-numpad-key>
-            <x-numpad-key>8</x-numpad-key>
-            <x-numpad-key>9</x-numpad-key>
-            <x-numpad-key>.</x-numpad-key>
-            <x-numpad-key>0</x-numpad-key>
-            <x-numpad-key>&lt;</x-numpad-key>`
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>7</span>
+            <span>8</span>
+            <span>9</span>
+            <span dot>.</span>
+            <span>0</span>
+            <span>&lt;</span>`
     }
 
     onCreate() {
+        this._maxDecimals = 5;
+        this.$dot = this.$('[dot]');
         this.addEventListener('click', e => this._onKeyPressed(e));
+        this.clear();
+    }
+
+    clear() {
+        this._integerDigits = '';
+        this._decimalDigits = '';
+        this._hasDot = false;
+        this._onValueChanged();
+    }
+
+    get stringValue() {
+        let string = this._integerDigits;
+        if (this._hasDot) {
+            string = string || '0';
+            string += '.' + this._decimalDigits;
+        }
+        return string;
+    }
+
+    get value() {
+        return parseFloat(this.stringValue);
+    }
+
+    set value(value) {
+        if (value === this.value) return;
+        const string = String(value);
+        const parts = string.split('.');
+        this._hasDot = parts.length > 1;
+        this._integerDigits = parts[0];
+        this._decimalDigits = this._hasDot? parts[1].substr(0, this._maxDecimals) : '';
+        this._onValueChanged();
+    }
+
+    set maxDecimals(maxDecimals) {
+        this._maxDecimals = maxDecimals;
+        this._decimalDigits = this._decimalDigits.substr(0, maxDecimals);
     }
 
     _onKeyPressed(e) {
-        const key = e.target.textContent;
-        switch (key) {
+        const key = e.target;
+        if (key === this.$el) return; // did not tap on a key but the numpad itself
+        const keyValue = key.textContent;
+        switch (keyValue) {
             case '<':
                 this._remove();
-                return;
+                break;
             case '.':
-                this._dot();
-                return;
+                this._addDot();
+                break;
             default:
-                this._add(Number(key));
+                this._input(keyValue);
+        }
+        this._onValueChanged();
+    }
+
+    _input(digit) {
+        if (!this._hasDot) {
+            this._inputIntegerDigit(digit);
+        } else if (this._decimalDigits.length < this._maxDecimals) {
+            this._decimalDigits += digit;
         }
     }
 
-    _add(digit) {
-        if (this._decimalIndex) {
-            this.value = this.value + digit / this._decimalIndex;
-            this._decimalIndex *= 10;
+    _inputIntegerDigit(digit) {
+        if (this._integerDigits === '0') {
+            // avoid leading zeros
+            this._integerDigits = digit;
         } else {
-            this.value = this.value * 10 + digit;
+            this._integerDigits += digit;
         }
     }
 
     _remove() {
-        if (this._decimalIndex) {
-            this._decimalIndex /= 10;
-            if (this._decimalIndex == 10) this._removeDot();
-            else this.value = Math.floor(this.value * (this._decimalIndex / 10)) / (this._decimalIndex / 10);
+        if (!this._hasDot) {
+            this._integerDigits = this._removeLastDigit(this._integerDigits);
         } else {
-            this.value = Math.floor(this.value / 10);
+            if (this._decimalDigits !== '') {
+                this._decimalDigits = this._removeLastDigit(this._decimalDigits);
+            } else {
+                this._removeDot();
+            }
         }
     }
 
-    _dot() {
-        this._decimalIndex = 10;
+    _removeLastDigit(digits) {
+        return digits.substr(0, digits.length - 1);
+    }
+
+    _addDot() {
+        this._hasDot = true;
+        this.$dot.classList.add('hidden');
     }
 
     _removeDot() {
-        this._decimalIndex = 0;
-        this.value = Math.round(this.value);
+        this._hasDot = false;
+        this.$dot.classList.remove('hidden');
     }
 
-    get value() {
-        return this._value || 0;
-    }
-
-    set value(value) {
-        if (this._value === value) return;
-        this._value = value;
-        this.fire('x-numpad-value', value);
+    _onValueChanged() {
+        const stringValue = this.stringValue;
+        this.fire('x-numpad-value', {
+            value: parseFloat(stringValue) || 0,
+            stringValue
+        });
     }
 }
+
+// Todo: when starting with a ".", set integerDigits to '0'
