@@ -33,6 +33,8 @@ export default class XPinpad extends XElement {
         this.$dots = this.$pin.querySelectorAll('x-dot');
         this.addEventListener('click', e => this._onClick(e));
         this.$('x-delete').addEventListener('click', e => this._onDelete());
+        this._attempts = 0;
+        this._waitingTime = 50;
         this.reset();
     }
 
@@ -70,7 +72,12 @@ export default class XPinpad extends XElement {
     onPinIncorrect() {
         this.$el.classList.remove('unlocking');
         this.$el.classList.add('shake-pinpad');
-        setTimeout(() => this.reset(), 500);
+        this._attempts++;
+        if (this._attempts === 3) {
+          this._waitingTime *= this._waitingTime;
+          this._attempts = 0;
+        }
+        setTimeout(() => this.reset(), this._waitingTime);
     }
 
     _onDelete() {
@@ -92,4 +99,3 @@ export default class XPinpad extends XElement {
 }
 
 // todo: allow keyboard input on desktop
-// todo: increase waiting time exponentially after three failed attempts
