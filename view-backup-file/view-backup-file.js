@@ -2,7 +2,7 @@ import XView from '../../library/x-element/x-view.js';
 import XSlides from '../x-slides/x-slides.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
 import XWalletBackup from '../x-wallet-backup/x-wallet-backup.js';
-import XPasswordInput from '../x-password-input/x-password-input.js';
+import XPasswordSetter from '../x-password-setter/x-password-setter.js';
 
 export default class ViewBackupFile extends XView {
     html() {
@@ -11,7 +11,7 @@ export default class ViewBackupFile extends XView {
             <x-slides>
                 <x-slide>
                     <h2 secondary>Create a password to encrypt your backup file. Make sure you memorize it well because there is no way to recover it.</h2>
-                    <x-password-input></x-password-input>
+                    <x-password-setter></x-password-setter>
                     <x-grow></x-grow>
                     <button disabled="1">Next</button>
                 </x-slide>
@@ -32,14 +32,14 @@ export default class ViewBackupFile extends XView {
             `
     }
 
-    children() { return [XSlides, XWalletBackup, XSuccessMark, XPasswordInput] }
+    children() { return [XSlides, XWalletBackup, XSuccessMark, XPasswordSetter] }
 
     onCreate() {
         this.$button = this.$('button');
         this.$button.addEventListener('click', e => this._onPasswordInput());
         this.addEventListener('x-wallet-backup-complete', e => this._onWalletBackupComplete());
-        this.addEventListener('x-password-input', e => this._onPasswordInput());
-        this.addEventListener('x-password-input-valid', e => this._validityChanged(e.detail));
+        this.addEventListener('x-password-setter', e => this._onPasswordInput());
+        this.addEventListener('x-password-setter-valid', e => this._validityChanged(e.detail));
     }
 
     _validityChanged(valid) {
@@ -55,13 +55,13 @@ export default class ViewBackupFile extends XView {
     }
 
     async reset() {
-        this.$passwordInput.value = '';
+        this.$passwordSetter.value = '';
         await this.$slides.slideTo(0);
-        this.$passwordInput.focus();
+        this.$passwordSetter.focus();
     }
 
     _onPasswordInput() {
-        const password = this.$passwordInput.value;
+        const password = this.$passwordSetter.value;
         this.fire('x-encrypt-backup', password);
         this.$slides.next();
     }

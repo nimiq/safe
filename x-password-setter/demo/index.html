@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-password-setter demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-password-setter.css" rel="stylesheet">
+    <link href="../../x-toast/x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <x-password-setter></x-password-setter>
+    </main>
+    <script type="module">
+        import XPasswordSetter from "../x-password-setter.js";
+        const $setter = new XPasswordSetter();
+        import XToast from "../../x-toast/x-toast.js";
+        const $toast = new XToast();
+        $setter.addEventListener('x-password-setter', e => $toast.show(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>
