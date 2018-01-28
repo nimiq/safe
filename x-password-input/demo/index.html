@@ -14,10 +14,9 @@
     </main>
     <script type="module">
         import XPasswordInput from "../x-password-input.js";
-        const $input = new XPasswordInput();
         import XToast from "../../x-toast/x-toast.js";
-        const $toast = new XToast();
-        $input.addEventListener('x-password-input', e => $toast.show(`${e.type}: ${e.detail}`));
+        const $input = new XPasswordInput();
+        $input.addEventListener('x-password-input', e => XToast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 
