@@ -2,7 +2,6 @@
 @import '../x-address/x-address.css';
 
 view-identicons {
-    box-sizing: border-box;
     -webkit-user-select: none;
     user-select: none;
     padding-bottom: 16px;
@@ -81,6 +80,7 @@ view-identicons x-backdrop {
     opacity: 0;
     transition: opacity;
     will-change: opacity;
+    box-sizing: content-box;
 }
 
 
