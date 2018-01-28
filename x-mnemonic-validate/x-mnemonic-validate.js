@@ -136,17 +136,18 @@ class XMnemonicValidateSlide extends XElement {
 
     set(wordlist, targetIndex, targetWord) {
         this.$buttons.forEach(button => button.classList.remove('correct'));
-        this.wordlist = wordlist;
-        this.targetIndex = targetIndex;
-        this.targetWord = targetWord;
+        this.setWordlist(wordlist);
+        this.setTargetIndex(targetIndex);
+        this._targetWord = targetWord;
     }
 
-    set wordlist(wordlist) {
+    setWordlist(wordlist) {
+        this._wordlist = wordlist;
         wordlist.forEach((word, index) => this.$buttons[index].textContent = word);
         this.$buttons.forEach(button => button.removeAttribute('disabled'));
     }
 
-    set targetIndex(index) {
+    setTargetIndex(index) {
         this.$targetIndex.textContent = index;
     }
 
@@ -158,8 +159,9 @@ class XMnemonicValidateSlide extends XElement {
     _onButtonPressed($button) {
         this.$buttons.forEach(button => button.setAttribute('disabled', 'disabled'));
 
-        if (this.targetWord !== $button.textContent) {
+        if ($button.textContent !== this._targetWord) {
             this._shake($button);
+            this._correct(this.$buttons[this._wordlist.indexOf(this._targetWord)]);
             this.fire('x-mnemonic-validate-slide', false);
             return;
         }
@@ -178,5 +180,4 @@ class XMnemonicValidateSlide extends XElement {
     }
 }
 
-// Todo: [Soeren] on wrong attempt: shake and show correct one as correct
 // Todo: [Soeren] cleanup animations: use animate api and promises
