@@ -91,11 +91,11 @@ export default class XMnemonicValidate extends XElement {
     }
 
     _generateWords(wordIndex) {
-        let words = {};
+        const words = {};
 
         words[this._mnemonic[wordIndex]] = wordIndex;
 
-        // Select 8 unique words from the mnemonic phrase
+        // Select 7 additional unique words from the mnemonic phrase
         while (Object.keys(words).length < 8) {
             const index = Math.floor(Math.random() * 24);
             words[this._mnemonic[index]] = index;
@@ -135,7 +135,8 @@ class XMnemonicValidateSlide extends XElement {
     }
 
     set(wordlist, targetIndex, targetWord) {
-        this.$buttons.forEach(button => button.classList.remove('correct'));
+        this.$$('.correct').forEach(button => button.classList.remove('correct'));
+        this.$$('.wrong').forEach(button => button.classList.remove('wrong'));
         this.setWordlist(wordlist);
         this.setTargetIndex(targetIndex);
         this._targetWord = targetWord;
@@ -160,22 +161,23 @@ class XMnemonicValidateSlide extends XElement {
         this.$buttons.forEach(button => button.setAttribute('disabled', 'disabled'));
 
         if ($button.textContent !== this._targetWord) {
-            this._shake($button);
-            this._correct(this.$buttons[this._wordlist.indexOf(this._targetWord)]);
+            this._showAsWrong($button);
+            const correctButtonIndex = this._wordlist.indexOf(this._targetWord);
+            this._showAsCorrect(this.$buttons[correctButtonIndex]);
             this.fire('x-mnemonic-validate-slide', false);
             return;
         }
 
-        this._correct($button);
+        this._showAsCorrect($button);
         this.fire('x-mnemonic-validate-slide', true);
     }
 
-    _shake($el) {
-        $el.classList.add('shake');
-        setTimeout(() => $el.classList.remove('shake'), 820);
+    _showAsWrong($el) {
+        $el.classList.add('wrong');
+        this.animate('shake', $el);
     }
 
-    _correct($el) {
+    _showAsCorrect($el) {
         $el.classList.add('correct');
     }
 }

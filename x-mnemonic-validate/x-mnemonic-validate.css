@@ -42,17 +42,16 @@ x-mnemonic-validate button.correct {
     color: var(--secondary-text-color);
 }
 
-x-mnemonic-validate button.shake {
-    animation: shake 0.82s cubic-bezier(.36, .07, .19, .97) both;
+x-mnemonic-validate button.wrong {
     background-color: var(--error-color);
     border-color: var(--error-color);
-    color: var(--secondary-text-color);
+    color: var(--secondary-cta-color);
 }
 
-x-wordlist{
+x-wordlist {
     display: block;
     height: 180px;
-    max-width:  368px;
+    max-width: 368px;
     margin: 0 auto;
 }
 
