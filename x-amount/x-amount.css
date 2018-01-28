@@ -9,7 +9,7 @@ x-amount-input {
 }
 
 x-currency-1 {
-    font-size: 56px;
+    font-size: 48px;
     font-weight: 300;
     line-height: 27px;
     display: block;
@@ -49,6 +49,7 @@ x-currency-2:after {
 
 x-currency-1:after {
     content: 'NIM';
+    /* position: absolute; */
 }
 
 x-currency-2:after {

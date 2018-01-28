@@ -20,15 +20,15 @@ export default class XAddressPages extends XElement {
     }
 
     onCreate() {
-        this._checkCameraStatus();
         this.addEventListener('x-address-page-select', e => this._onPageSelect(e));
-        
+
         this.addEventListener('x-address-scanner-success', e => this._onCameraSuccess());
         this.addEventListener('x-address-scanner-error', e => this._onCameraError());
 
         this.addEventListener('x-address-input', e => this._onAddressInput(e));
         this.addEventListener('x-address-file-input', e => this._onAddressInput(e));
         this.addEventListener('x-address-scan', e => this._onAddressInput(e));
+        requestAnimationFrame(e => this._checkCameraStatus());
     }
 
     _onAddressInput(e) {
@@ -38,39 +38,39 @@ export default class XAddressPages extends XElement {
     }
 
     set active(active) {
-        this.$addressIntroPage.active = active;
-        this.$addressFallbackPage.active = active;
-        this.$addressScannerPage.active = active && ScannerSettingsStorage.useCamera;
+        this.$addressScannerPage.active = active && ScannerSettingsStorage.useScanner;
     }
-    
+
     _checkCameraStatus() {
         const isFirstUse = ScannerSettingsStorage.isFirstUse;
-        if (isFirstUse) return this.$pages.select('intro', false);
-        const useCamera = ScannerSettingsStorage.useCamera;
-        if (useCamera)
-            this.$pages.select('scanner', false);
+        if (isFirstUse) return this._select('intro');
+        const useScanner = ScannerSettingsStorage.useScanner;
+        if (useScanner)
+            this._select('scanner');
         else
-            this.$pages.select('fallback', false);
+            this._select('fallback');
     }
+
+    _select(page) {
+        this.fire('x-address-page-select', page);
+    }
+
 
     _onPageSelect(event) {
         const page = event.detail;
-        if (page === 'fallback') {
-            this.$pages.select(page);
-            ScannerSettingsStorage.useCamera = false;
-        } else if (page === 'scanner') {
-            this.$addressScannerPage.startScanner();
-        }
+        if (page === 'scanner') return this.$addressScannerPage.startScanner();
+        this.$pages.select(page);
     }
+
 
     _onCameraSuccess() {
         this.$pages.select('scanner');
-        ScannerSettingsStorage.useCamera = true;
+        ScannerSettingsStorage.useScanner = true;
     }
 
     _onCameraError() {
-        ScannerSettingsStorage.useCamera = false;
         this.$pages.select('fallback');
+        ScannerSettingsStorage.useScanner = false;
         this.$toast.show('Failed to start scanner. Make sure nimiq.com is allowed to access your camera.');
     }
 }
@@ -84,12 +84,12 @@ class ScannerSettingsStorage {
         return value === undefined || value === null;
     }
 
-    static set useCamera(useCamera) {
-        const value = useCamera ? 'yes' : 'no'; // Hack: localstorage can't store booleans
+    static set useScanner(useScanner) {
+        const value = useScanner ? 'yes' : 'no'; // Hack: localstorage can't store booleans
         localStorage[this.KEY_USE_CAMERA] = value;
     }
 
-    static get useCamera() {
+    static get useScanner() {
         return localStorage[this.KEY_USE_CAMERA] === 'yes';
     }
 }

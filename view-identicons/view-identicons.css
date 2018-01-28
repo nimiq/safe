@@ -2,7 +2,6 @@
 @import '../x-address/x-address.css';
 
 view-identicons {
-    box-sizing: border-box;
     -webkit-user-select: none;
     user-select: none;
     padding-bottom: 16px;
@@ -74,13 +73,15 @@ view-identicons [button] {
 
 view-identicons x-backdrop {
     content: '';
-    position: absolute;
+    position: fixed;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.8);
     z-index: 1;
     pointer-events: none;
     opacity: 0;
     transition: opacity;
     will-change: opacity;
+    box-sizing: content-box;
 }
 
 
@@ -124,7 +125,7 @@ view-identicons[selected] x-address {
 view-identicons[selected] x-backdrop {
     pointer-events: all;
     opacity: 1;
-    border: 100vmax solid rgb(21, 20, 51);
+    /* border: 100vmax solid rgb(21, 20, 51); */
 }
 
 view-identicons x-identicon[selected] {

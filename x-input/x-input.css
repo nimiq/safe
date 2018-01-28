@@ -1,7 +1,8 @@
 @import '/library/nimiq-style/nimiq-style.css';
 
 .x-input{
-	width: 100%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .x-input.shake input,
