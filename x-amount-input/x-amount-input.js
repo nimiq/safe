@@ -7,12 +7,11 @@ export default class XAmountInput extends XInput {
         return `
             <form>
                 <x-currency-1>
-                    <input placeholder="00.00" type="number">
+                    <input placeholder="0.00" type="number">
                 </x-currency-1>
                 <x-currency-2></x-currency-2>
             </form>
-            <x-numpad></x-numpad>
-            `;
+            <x-numpad></x-numpad>`;
     }
 
     children() { return [XNumpad] }
@@ -25,25 +24,41 @@ export default class XAmountInput extends XInput {
     }
 
     set value(value) {
-        super.value = NanoApi.formatValue(value);
-        this._currency2 = value;
+        super.value = NanoApi.formatValue(value, 5); // triggers _onValueChanged
     }
 
     get value() {
         return Number(this.$input.value);
     }
 
-    _onValueChanged() {
-        this._currency2 = this.value;
-        this.$numpad.value = this.value;
+    _initScreenKeyboard() {
+        this.$input.setAttribute('disabled', '1');
+        this.$input.setAttribute('type', 'text'); // to be able to set the string "0."
+        this.$numpad.maxDecimals = 5;
+        this.$numpad.addEventListener('x-numpad-value', e => this._onNumpadValue(e));
     }
 
+    /** @overwrites */
+    _onValueChanged() {
+        this._currency2 = this.value;
+        if (this.$input.value === '') {
+            this.$numpad.clear();
+        } else {
+            this.$numpad.value = this.value;
+        }
+    }
+
+    /** @overwrites */
     _validate() {
         return this.value > 0; 
     }
 
     set _currency2(value) {
-        this.$currency2.textContent = NanoApi.formatValueInDollar(value);
+        if (value === 0) {
+            this.$currency2.textContent = '';
+        } else {
+            this.$currency2.textContent = NanoApi.formatValueInDollar(value);
+        }
     }
 
     get _isMobile() {
@@ -51,22 +66,16 @@ export default class XAmountInput extends XInput {
     }
 
     focus() {
-        if (this._isMobile) return;
+        if (this.$input.hasAttribute('disabled')) return;
         super.focus();
     }
 
-    _initScreenKeyboard() {
-        this.$input.setAttribute('disabled', '1');
-        this.$numpad.addEventListener('x-numpad-value', e => this._onNumpadValue(e.detail));
-    }
-
-    _onNumpadValue(value) {
-        this.value = value;
-        this._onValueChanged();
+    _onNumpadValue(event) {
+        super.value = event.detail.stringValue; // also triggers _onValueChanged
     }
 }
 
-// Todo: [Daniel] Fix bugs when entering 0.123 and deleting
-// Todo: [low] [Daniel] Visual feeback when entering " 0. "
 // Todo: [low] validate if value is <= balance 
 // Todo: [low] refactor `_isMobile` into an own library for mobile-detection and make it more sophisticated (regex ?)
+// Todo: it's possible to enter 0.4.4.4.4.4
+// Todo: maxDecimals setter

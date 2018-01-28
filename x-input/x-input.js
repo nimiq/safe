@@ -16,8 +16,9 @@ export default class XInput extends XElement {
     }
 
     set value(value) {
+        const oldValue = this.$input.value;
         this.$input.value = value;
-        this.__onValueChanged();
+        if (value !== oldValue) this.__onValueChanged();
     }
 
     _onSubmit(e) {
