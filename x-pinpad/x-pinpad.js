@@ -35,7 +35,8 @@ export default class XPinpad extends XElement {
         this.$('x-delete').addEventListener('click', e => this._onDelete());
         this._attempts = 0;
         this._waitingTime = 50;
-        this.reset();
+        this._handleKeyboardInput = this.__handleKeyboardInput.bind(this)
+        this.open();
     }
 
     reset() {
@@ -46,8 +47,29 @@ export default class XPinpad extends XElement {
         this._unlocking = false;
     }
 
+    open() {
+        this.reset();
+        window.addEventListener('keypress', this._handleKeyboardInput);
+    }
+
+    close() {
+        window.removeEventListener('keypress', this._handleKeyboardInput);
+        this.reset();
+    }
+
     get unlocking() {
         return this._unlocking;
+    }
+
+    __handleKeyboardInput (e) {
+        const inputCharString = e.key;
+        const inputNumber = parseInt(inputCharString);
+        if(isNaN(inputNumber)){
+            e.preventDefault(); //stop character from entering input
+        }
+        else {
+          this._onKeyPressed(inputNumber); 
+        }
     }
 
     _onClick(e) {

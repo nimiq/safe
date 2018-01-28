@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-pinpad</title>
+    <link href="../x-pinpad.css" rel="stylesheet">
+    <style type="text/css">
+    body {
+        background: var(--primary-background);
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+    </style>
+</head>
+
+<body>
+    <x-pinpad></x-pinpad>
+    <script type="module">
+        import XPinpad from "../x-pinpad.js";
+        const $pinpad = new XPinpad();
+        addEventListener('x-pin', e => $pinpad.close());
+    </script>
+</body>
+
+</html>

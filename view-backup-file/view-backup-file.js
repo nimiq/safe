@@ -77,3 +77,5 @@ export default class ViewBackupFile extends XView {
         this.fire('x-file-backup-complete');
     }
 }
+
+// Todo: [Max] Fix box sizing on next button
