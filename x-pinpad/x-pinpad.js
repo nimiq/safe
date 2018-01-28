@@ -119,5 +119,3 @@ export default class XPinpad extends XElement {
         })
     }
 }
-
-// todo: allow keyboard input on desktop
