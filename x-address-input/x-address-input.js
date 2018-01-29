@@ -1,7 +1,7 @@
 import XInput from '../x-input/x-input.js';
 import NanoApi from '/library/nano-api/nano-api.js';
-import XPasteHandler from '../x-paste-handler/x-paste-handler.js';
-import XKeyboardHandler from '../x-keyboard-handler/x-keyboard-handler.js';
+import PasteHandler from '/library/nimiq-utils/paste-handler/paste-handler.js';
+import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
 
 export default class XAddressInput extends XInput {
     html() {
@@ -24,8 +24,8 @@ export default class XAddressInput extends XInput {
 
     onCreate() {
         const $input = this.$('input');
-        XPasteHandler.setDefaultTarget($input, this._sanitize);
-        XKeyboardHandler.setDefaultTarget($input, this._sanitize);
+        PasteHandler.setDefaultTarget($input, this._sanitize);
+        KeyboardHandler.setDefaultTarget($input, this._sanitize);
     }
 
     _sanitize(input) {
@@ -43,3 +43,4 @@ export default class XAddressInput extends XInput {
 }
 
 // Todo: [Max] change paste icon (to material person?)
+// Todo: [Max] optimize mobile view
