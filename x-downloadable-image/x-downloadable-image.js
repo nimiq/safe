@@ -7,25 +7,29 @@ export default class XDownloadableImage extends XElement {
     }
 
     static get DOWNLOAD_DURATION() {
+        return 7000;
+    }
+
+    static get DOWNLOAD_DURATION_DESKTOP_SAFARI() {
         return 1500;
     }
 
     html() {
         return `
             <a>
-                <img>
-                <svg long-touch-indicator xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-                    <defs>
-                        <clipPath id="hexClip">
-                            <path clip-rule="evenodd" d="M16 4.29h32l16 27.71l-16 27.71h-32l-16 -27.71zM20.62 12.29h22.76l11.38 19.71l-11.38 19.71h-22.76l-11.38 -19.71z"/>
-                        </clipPath>
-                    </defs>
-                    <path fill-rule="evenodd" d="M16 4.29h32l16 27.71l-16 27.71h-32l-16 -27.71zM20.62 12.29h22.76l11.38 19.71l-11.38 19.71h-22.76l-11.38 -19.71z" fill="#FFFFFF" opacity="0.2"/>
-                    <g clip-path="url(#hexClip)">
-                        <circle id="circle" cx="32" cy="32" r="16" fill="none" stroke-width="32" stroke-dasharray="100.53 100.53" transform="rotate(-120 32 32)"/>
-                    </g>
-                </svg>
-            </a>`;
+                <img draggable="false">
+            </a>
+            <svg long-touch-indicator xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+                <defs>
+                    <clipPath id="hexClip">
+                        <path clip-rule="evenodd" d="M16 4.29h32l16 27.71l-16 27.71h-32l-16 -27.71zM20.62 12.29h22.76l11.38 19.71l-11.38 19.71h-22.76l-11.38 -19.71z"/>
+                    </clipPath>
+                </defs>
+                <path fill-rule="evenodd" d="M16 4.29h32l16 27.71l-16 27.71h-32l-16 -27.71zM20.62 12.29h22.76l11.38 19.71l-11.38 19.71h-22.76l-11.38 -19.71z" fill="#FFFFFF" opacity="0.2"/>
+                <g clip-path="url(#hexClip)">
+                    <circle id="circle" cx="32" cy="32" r="16" fill="none" stroke-width="32" stroke-dasharray="100.53 100.53" transform="rotate(-120 32 32)"/>
+                </g>
+            </svg>`;
     }
 
     onCreate() {
@@ -39,9 +43,9 @@ export default class XDownloadableImage extends XElement {
         this.$img = this.$('img');
         this.$longTouchIndicator = this.$('[long-touch-indicator]');
         this._onWindowBlur = this._onWindowBlur.bind(this);
-        this.$a.addEventListener('mousedown', e => this._onMouseDown()); // also gets triggered after touchstart
-        this.$a.addEventListener('touchstart', e => this._onTouchStart(e));
-        this.$a.addEventListener('touchend', e => this._onTouchEnd());
+        this.addEventListener('mousedown', e => this._onMouseDown()); // also gets triggered after touchstart
+        this.addEventListener('touchstart', e => this._onTouchStart());
+        this.addEventListener('touchend', e => this._onTouchEnd());
     }
 
     children() {
@@ -69,10 +73,17 @@ export default class XDownloadableImage extends XElement {
     _setupNativeDownload() {
         this.$a.href = this._src;
         this.$a.download = this._filename;
+        if (!this.$longTouchIndicator) return;
+        this.$el.removeChild(this.$longTouchIndicator);
+        this.$longTouchIndicator = null;
     }
 
-    _setupFallbackDownload() { // Hack to make image downloadable on iOS via long tap
-        this.$a.href = 'javascript:void(0);';
+    _setupFallbackDownload() {
+        // Make image downloadable on iOS via long tap. Move img out of <a> tag to not show unnecessary context options.
+        this.$el.insertBefore(this.$img, this.$longTouchIndicator);
+        if (!this.$a) return;
+        this.$el.removeChild(this.$a);
+        this.$a = null;
     }
 
     _supportsNativeDownload() { // Detect if browser supports native `download` attribute
@@ -84,12 +95,10 @@ export default class XDownloadableImage extends XElement {
         this._onDownloadStart();
     }
 
-    _onTouchStart(event) {
+    _onTouchStart() {
         if (this._supportsNativeDownload()) return;
         // if no native download is supported, show a hint to download by long tap
-        const touch = event.touches[0];
-        const clientRect = this.$el.getBoundingClientRect();
-        this._showLongTouchIndicator(touch.pageX - clientRect.left - 64, touch.pageY - clientRect.top - 160);
+        this._showLongTouchIndicator();
         this._longTouchStart = Date.now();
         clearTimeout(this._longTouchTimeout);
         this._longTouchTimeout = setTimeout(() => this._onLongTouch(), XDownloadableImage.LONG_TOUCH_DURATION);
@@ -117,7 +126,7 @@ export default class XDownloadableImage extends XElement {
         // some browsers open a download dialog and blur the window focus, which we use as a hint for a download
         window.addEventListener('blur', this._onWindowBlur);
         // otherwise consider the download as successful after some time
-        this._blurTimeout = setTimeout(() => this._onDownloadEnd(), XDownloadableImage.DOWNLOAD_DURATION);
+        this._blurTimeout = setTimeout(() => this._onDownloadEnd(), this._determineDownloadDuration());
     }
 
     _onDownloadEnd() {
@@ -132,11 +141,9 @@ export default class XDownloadableImage extends XElement {
         clearTimeout(this._blurTimeout);
     }
 
-    _showLongTouchIndicator(x, y) {
+    _showLongTouchIndicator() {
         clearTimeout(this._indicatorHideTimeout);
         this._indicatorHideTimeout = null;
-        this.$longTouchIndicator.style.left = x + 'px';
-        this.$longTouchIndicator.style.top = y + 'px';
         this.$longTouchIndicator.style.display = 'block';
         this.stopAnimate('animate', this.$longTouchIndicator);
         this.$longTouchIndicator.style.opacity = 1;
@@ -148,6 +155,20 @@ export default class XDownloadableImage extends XElement {
         if (this._indicatorHideTimeout !== null) return;
         this._indicatorHideTimeout = setTimeout(() => this.$longTouchIndicator.style.display = 'none', 300);
     }
+
+    _determineDownloadDuration() {
+        if (this._isDesktopSafari()) {
+            return XDownloadableImage.DOWNLOAD_DURATION_DESKTOP_SAFARI;
+        } else {
+            return XDownloadableImage.DOWNLOAD_DURATION;
+        }
+    }
+
+    _isDesktopSafari() {
+        // see https://stackoverflow.com/a/23522755
+        return /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !/mobile/i.test(navigator.userAgent);
+    }
 }
-// Todo: animate file to make clickablity more obvious
+// Todo: animate file to make clickability more obvious
 // Todo: [low] no support for fallback download of data URl images on iOS currently. This support could be added by rendering to a canvas and retrieving an object url
+// Todo: move browser detection to its own library

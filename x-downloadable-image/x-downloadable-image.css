@@ -1,13 +1,10 @@
 @import '../x-toast/x-toast.css';
 
-x-downloadable-image {
+x-downloadable-image,
+x-downloadable-image a {
     display: inline-block;
     line-height: 0;
-}
-
-x-downloadable-image a {
     position: relative;
-    display: block;
     width: 100%;
     height: 100%;
     -webkit-tap-highlight-color: transparent;
@@ -16,12 +13,15 @@ x-downloadable-image a {
 x-downloadable-image img {
     width: 100%;
     height: 100%;
+    cursor: pointer;
 }
 
 x-downloadable-image [long-touch-indicator] {
-    width: 128px;
-    height: 128px;
+    width: 96px;
+    height: 96px;
     position: absolute;
+    left: calc(50% - 48px);
+    top: -112px;
     pointer-events: none;
     transition: opacity .3s;
     opacity: 0;
@@ -37,6 +37,5 @@ x-downloadable-image [long-touch-indicator] {
     from {
         stroke-dashoffset: 100.5;
         stroke: #F6AE2D;
-        opacity: 0;
     }
 }
