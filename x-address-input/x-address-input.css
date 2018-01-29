@@ -19,8 +19,7 @@ x-address-input input[type="text"] {
     transition: opacity 300ms;
     font-weight: inherit;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    padding-left: 40px;
-    box-sizing: border-box;
+    padding-left: 50px;
     text-align: left;
 }
 
@@ -32,4 +31,10 @@ x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
     font-weight: normal;
+}
+
+x-address-input .prefix {
+  position: absolute;
+  left: 30px;
+  line-height: 32px;
 }
