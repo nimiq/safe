@@ -30,17 +30,20 @@ export default class XAddressInput extends XInput {
 
     _sanitize(input) {
         let sanitizedInput = input.toUpperCase()
-                                    .replace(/I/g, '1')
-                                    .replace(/O/g, '0')
-                                    .replace(/Z/g, '2');
+            .replace(/I/g, '1')
+            .replace(/O/g, '0')
+            .replace(/Z/g, '2');
 
-        if (sanitizedInput.length === 36 && sanitizedInput.substr(0,2) == 'NQ')
-          sanitizedInput = sanitizedInput.substr(2, 34);
+        if (sanitizedInput.length === 36 && sanitizedInput.substr(0, 2) == 'NQ')
+            sanitizedInput = sanitizedInput.substr(2, 34);
 
         sanitizedInput = sanitizedInput.replace(/[^\w]|_| /g, '');
         return sanitizedInput;
     }
 }
 
-// Todo: [Max] change paste icon (to material person?)
-// Todo: [Max] fix mobile view of x-address-pages
+// Todo: [Max] [high] bug: writes "ENTER" when pressing enter / submit doesn't work
+// Todo: [Max] x-address-input event should fire automatically when address is correct. (debug x-input automsubmit?) 
+// Todo: [Max] change paste icon (to material person)
+// Todo: [Max] [low] automatically add white spaces after typing 4 chars (NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64)
+// Todo: [Max] [low] use :before and :empty for 'NQ' prefix
