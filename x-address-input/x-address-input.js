@@ -6,8 +6,8 @@ import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-hand
 export default class XAddressInput extends XInput {
     html() {
         return `
+                <i icon-person></i>
             <form action="/">
-                <a icon-paste></a>
                 <span class="prefix">nq</span>
                 <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
             </form>
@@ -50,6 +50,6 @@ export default class XAddressInput extends XInput {
     }
 }
 
-// Todo: [Max] change paste icon (to material person)
 // Todo: [Max] [low] automatically add white spaces after typing 4 chars (NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64)
-// Todo: [Max] [low] use :before and :empty for 'NQ' prefix
+// Todo: [Max] fix safari layout
+// Todo: Do we really want a pointer cursor for the recipient symbol?
