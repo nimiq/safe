@@ -17,6 +17,7 @@ x-downloadable-image img {
     width: 100%;
     height: 100%;
     cursor: pointer;
+    animation: grow 0.7s, fade 0.7s;
 }
 
 x-downloadable-image [long-touch-indicator] {

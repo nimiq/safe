@@ -166,6 +166,4 @@ export default class XDownloadableImage extends XElement {
         return /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !/mobile/i.test(navigator.userAgent);
     }
 }
-// Todo: animate file to make clickability more obvious
-// Todo: [low] no support for fallback download of data URl images on iOS currently. This support could be added by rendering to a canvas and retrieving an object url
 // Todo: move browser detection to its own library
