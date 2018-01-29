@@ -1,9 +1,0 @@
-view-error:before {
-    content: 'An Error occured';
-    font-size: 40px;
-    transition: transform 500ms;
-}
-
-body:not(.state-error) view-error:before {
-    transform: translateY(40px);
-}
