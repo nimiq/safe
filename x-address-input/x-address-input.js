@@ -6,8 +6,8 @@ import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-hand
 export default class XAddressInput extends XInput {
     html() {
         return `
-                <i icon-person></i>
             <form action="/">
+                <span icon-person></span>
                 <span class="prefix">nq</span>
                 <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
             </form>
