@@ -1,5 +1,6 @@
-import XElement from "/library/x-element/x-element.js";
-import XToast from "../x-toast/x-toast.js";
+import XElement from '/library/x-element/x-element.js';
+import XToast from '../x-toast/x-toast.js';
+import BrowserDetection from '/library/nimiq-utils/browser-detection/browser-detection.js';
 
 export default class XDownloadableImage extends XElement {
     static get LONG_TOUCH_DURATION() {
@@ -154,16 +155,10 @@ export default class XDownloadableImage extends XElement {
     }
 
     _determineDownloadDuration() {
-        if (this._isDesktopSafari()) {
+        if (BrowserDetection.isDesktopSafari()) {
             return XDownloadableImage.DOWNLOAD_DURATION_DESKTOP_SAFARI;
         } else {
             return XDownloadableImage.DOWNLOAD_DURATION;
         }
     }
-
-    _isDesktopSafari() {
-        // see https://stackoverflow.com/a/23522755
-        return /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !/mobile/i.test(navigator.userAgent);
-    }
 }
-// Todo: move browser detection to its own library
