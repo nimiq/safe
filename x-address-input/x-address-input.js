@@ -43,4 +43,4 @@ export default class XAddressInput extends XInput {
 }
 
 // Todo: [Max] change paste icon (to material person?)
-// Todo: [Max] optimize mobile view
+// Todo: [Max] fix mobile view of x-address-pages
