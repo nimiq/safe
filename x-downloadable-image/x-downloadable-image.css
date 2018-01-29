@@ -1,9 +1,12 @@
 @import '../x-toast/x-toast.css';
 
-x-downloadable-image,
-x-downloadable-image a {
+x-downloadable-image {
     display: inline-block;
     line-height: 0;
+}
+
+x-downloadable-image a {
+    display: block;
     position: relative;
     width: 100%;
     height: 100%;

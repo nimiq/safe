@@ -79,11 +79,8 @@ export default class XDownloadableImage extends XElement {
     }
 
     _setupFallbackDownload() {
-        // Make image downloadable on iOS via long tap. Move img out of <a> tag to not show unnecessary context options.
-        this.$el.insertBefore(this.$img, this.$longTouchIndicator);
-        if (!this.$a) return;
-        this.$el.removeChild(this.$a);
-        this.$a = null;
+        // Hack to make image downloadable on iOS via long tap.
+        this.$a.href = 'javascript:void(0);';
     }
 
     _supportsNativeDownload() { // Detect if browser supports native `download` attribute
