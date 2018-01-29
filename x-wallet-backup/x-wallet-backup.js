@@ -19,8 +19,7 @@ export default class XWalletBackup extends XElement {
     async backup(address, privateKey) {
         const backup = new WalletBackup(address, privateKey);
         const filename = backup.filename();
-        const url = await backup.toObjectUrl();
-        this.$downloadableImage.src = url;
+        this.$downloadableImage.src = await backup.toDataUrl();
         this.$downloadableImage.filename = filename;
     }
 

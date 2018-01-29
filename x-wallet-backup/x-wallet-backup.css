@@ -11,12 +11,16 @@ x-wallet-backup{
 x-wallet-backup x-downloadable-image {
 	width: 100%;
 	max-width:  260px;
-	border-radius: 12px;
-	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 	transition: transform 300ms;
 	/*flex-grow:  1;*/
 }
 
 x-wallet-backup:hover x-downloadable-image {
 	transform:scale(1.02);
+}
+
+x-wallet-backup x-downloadable-image img {
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
