@@ -3,6 +3,7 @@
 x-address-input.x-address{
     max-width: 540px;
     padding: 0;
+    text-transform: uppercase;
 }
 
 x-address-input form {
@@ -19,9 +20,9 @@ x-address-input input[type="text"] {
     transition: opacity 300ms;
     font-weight: inherit;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    padding-left: 40px;
-    box-sizing: border-box;
+    padding-left: 52px;
     text-align: left;
+    text-transform: uppercase;
 }
 
 x-address-input [icon-paste]{
@@ -32,4 +33,12 @@ x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
     font-weight: normal;
+    text-transform: none;
+    padding-left: 10px;
+}
+
+x-address-input .prefix {
+  position: absolute;
+  left: 30px;
+  line-height: 34px;
 }
