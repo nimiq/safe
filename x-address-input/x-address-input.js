@@ -1,5 +1,7 @@
 import XInput from '../x-input/x-input.js';
 import NanoApi from '/library/nano-api/nano-api.js';
+import XPasteHandler from '../x-paste-handler/x-paste-handler.js';
+import XKeyboardHandler from '../x-keyboard-handler/x-keyboard-handler.js';
 
 export default class XAddressInput extends XInput {
     html() {
@@ -19,10 +21,25 @@ export default class XAddressInput extends XInput {
     _validate() {
         return NanoApi.validateAddress(this.value);
     }
+
+    onCreate() {
+        const $input = this.$('input');
+        XPasteHandler.setDefaultTarget($input, this._sanitize);
+        XKeyboardHandler.setDefaultTarget($input, this._sanitize);
+    }
+
+    _sanitize(input) {
+        let sanitizedInput = input.toUpperCase()
+                                    .replace(/I/g, '1')
+                                    .replace(/O/g, '0')
+                                    .replace(/Z/g, '2');
+
+        if (sanitizedInput.length === 36 && sanitizedInput.substr(0,2) == 'NQ')
+          sanitizedInput = sanitizedInput.substr(2, 34);
+
+        sanitizedInput = sanitizedInput.replace(/[^\w]|_| /g, '');
+        return sanitizedInput;
+    }
 }
 
-// Todo: [Daniel] auto-capitalize inputs
-// Todo: [Daniel] Assist users who type instead of paste the address:
-    // 1. Error if value doesn't start with NQ
-    // 2. Error if char not in range 
-    // ... 
+// Todo: [Max] change paste icon (to material person?)
