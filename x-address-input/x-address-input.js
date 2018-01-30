@@ -2,6 +2,7 @@ import XInput from '../x-input/x-input.js';
 import NanoApi from '/library/nano-api/nano-api.js';
 import PasteHandler from '/library/nimiq-utils/paste-handler/paste-handler.js';
 import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
+import CaretPosition from '/library/nimiq-utils/caret-position/caret-position.js';
 
 export default class XAddressInput extends XInput {
     html() {
@@ -29,24 +30,29 @@ export default class XAddressInput extends XInput {
     onCreate() {
         super.onCreate();
         const $input = this.$('input');
-        PasteHandler.setDefaultTarget($input, this._sanitize);
-        KeyboardHandler.setDefaultTarget($input, this._sanitize);
+        PasteHandler.setDefaultTarget($input);
+        KeyboardHandler.setDefaultTarget($input);
     }
 
-    _sanitize(input) {
-        let sanitizedInput = input.toUpperCase()
+    __onValueChanged() {
+        let cursorPosition = this.$input.selectionStart;
+        
+        let sanitized = this.$input.value.toUpperCase()
             .replace(/I/g, '1')
             .replace(/O/g, '0')
             .replace(/Z/g, '2');
 
-        sanitizedInput = sanitizedInput.replace(/[^\w]|_| /g, '');
+        sanitized = sanitized.replace(/[^\w]|_| /g, '');
 
-        if (sanitizedInput.length === 36 && sanitizedInput.substr(0, 2) == 'NQ')
-            sanitizedInput = sanitizedInput.substr(2, 34);
+        if (sanitized.length === 36 && sanitized.substr(0, 2) == 'NQ') {
+            sanitized = sanitized.substr(2, 34);
+            cursorPosition -= 2;
+        }
 
         // const chars = sanitizedInput.split('');
 
-        return sanitizedInput;
+        this.$input.value = sanitized;
+        CaretPosition.setCaretPosition(this.$input, cursorPosition);
     }
 }
 
