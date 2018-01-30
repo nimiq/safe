@@ -11,4 +11,6 @@ export default class ScreenNoPasswordWarning extends XScreen {
           <button secondary>Take me back</button>
         `
     }
+
+    get route() { return ['no-password']; }
 }
