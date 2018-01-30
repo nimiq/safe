@@ -9,7 +9,7 @@ export default class XPasswordSetter extends XElement {
         `;
     }
 
-    styles() { return ['center'] }
+    // styles() { return ['center'] }
 
     children() {
       return [XPasswordInput, XPasswordIndicator];
