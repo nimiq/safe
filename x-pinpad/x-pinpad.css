@@ -4,6 +4,7 @@ x-pinpad-container {
     width: 300px;
     display: block;
     touch-action: manipulation;
+    user-select: none;
 }
 
 x-pinpad-container button {
