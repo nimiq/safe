@@ -5,7 +5,7 @@ x-indicator {
     display: flex;
     justify-content: center;
     box-sizing: border-box;
-    padding: 8px 16px 0;
+    padding: 24px 16px 0;
     min-height: 16px;
 }
 

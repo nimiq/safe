@@ -5,8 +5,7 @@ export default class ScreenNoPasswordWarning extends XScreen {
           <span icon-warning></span>
           <h2>WARNING:</h2>
           <h2>NOT FOR REAL USE</h2>
-          <h2 secondary>Your account is totally unsafe and should just be used for checking out this app.
-          Don't put any money here! It will be lost easily.</h2>
+          <h2 secondary>This account is totally unsafe. Don't put any money here or you will loose it!</h2>
           <button>I understand</button>
           <a secondary>Take me back</button>
         `
