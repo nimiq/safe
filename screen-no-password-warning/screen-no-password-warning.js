@@ -23,6 +23,6 @@ export default class ScreenNoPasswordWarning extends XScreen {
     _onConfirm() {
         const password = '';
         this.fire('x-encrypt-backup', password);
-        this.goTo('encrypt');
+        this.goTo('loading');
     }
 }
