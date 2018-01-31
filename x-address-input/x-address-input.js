@@ -3,6 +3,9 @@ import NanoApi from '/library/nano-api/nano-api.js';
 import PasteHandler from '/library/nimiq-utils/paste-handler/paste-handler.js';
 import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
 import CaretPosition from '/library/nimiq-utils/caret-position/caret-position.js';
+import * as InputFormat from '/library/nimiq-utils/input-format/index.js'
+import { onChange } from '../../library/nimiq-utils/input-format/source/input control';
+
 
 export default class XAddressInput extends XInput {
     html() {
@@ -21,7 +24,7 @@ export default class XAddressInput extends XInput {
 
     get value() { return 'NQ' + this.$input.value; }
 
-    set value(input) { super.value = input; }
+    set value(value) { this.$input.value = value; }
 
     _validate() {
         return NanoApi.validateAddress(this.value);
@@ -29,95 +32,36 @@ export default class XAddressInput extends XInput {
 
     onCreate() {
         super.onCreate();
-        this.$input.addEventListener('paste', async e => await this.__onPaste(e));
+        const onChange = e => { this._submit(); };
+        this.$input.addEventListener('paste', e => InputFormat.onPaste(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$input.addEventListener('input', e => InputFormat.onChange(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
         PasteHandler.setDefaultTarget(this.$input);
         KeyboardHandler.setDefaultTarget(this.$input);
         this.oldInput = '';
     }
 
-    _countSpaces(string) {
-        return string.split('').filter(c => c === ' ').length;
-    }
-
-    _sanitize(input) {
-        return input.toUpperCase()
-            .replace(/I/g, '1')
-            .replace(/O/g, '0')
-            .replace(/Z/g, '2')
-            .replace(/[^\w]|_| /g, '');
-    }
-
-    _addSpaces(input, offset) {
-        const chars = input.split('');
-        
-        let withSpaces = '';
-        chars.forEach((c,i) => {
-            if ((i + offset) % 4 === 0) withSpaces += ' ';
-            withSpaces += c;
-        });
-
-        return withSpaces;
-    }
-
-    async __onPaste(e) {
-        // Cut off leading NQ if address has full length (otherwise it could be an NQNQ... address)
-        let newValue = this._sanitize(this.$input.value);
-        if (newValue.length === 36 && newValue.substr(0, 2) === 'NQ') {
-            const cutoffNQ = newValue.substr(2, 42);
-            newValue = this._addSpaces(cutoffNQ, 2);
+    _format(address) {
+        let value = address;
+        // remove leading NQ
+        if (address.substr(0, 2) === 'NQ') {
+            value = address.substr(2);
         }
-        this.value = newValue;
+        const template = 'xx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx';
+        return InputFormat.templateFormatter(template)(value);
     }
+   
+    // Accept 0-9, a-Z. Convert to upper case and replace some letters by similar looking numbers.
+    _parseAddressChars(character, value) {
+        const prunedCharacter = character.toUpperCase()
+            .replace('I', '1')
+            .replace('O', '0')
+            .replace('Z', '2')
+            .replace(/[^\w]|_| /, '');
 
-    __onKeypress(e) {
-        let cursorPosition = this.$input.selectionStart;
-
-        let leftPart = this.$input.value.substr(0, cursorPosition);
-        let rightPart = this.$input.value.substr(cursorPosition)
-
-        leftPart = this._sanitize(leftPart);
-        rightPart = this._sanitize(rightPart);
-
-        if (e.keyCode === 13) return; // Enter
-
-        if (e.keyCode === 8 || e.keyCode === 46) {
-            // backspace / delete
-            // if user deleted a space, delete char before / after instead
-            const spacesOld = this._countSpaces(this.oldInput);
-            const spacesBeforeSanitize = this._countSpaces(this.$input.value);
-            const spaceWasJustDeleted = spacesBeforeSanitize === spacesOld - 1;
-            if (spaceWasJustDeleted) {
-                if (e.keyCode === 8) leftPart = leftPart.substr(0, cursorPosition - 1);
-                if (e.keyCode === 46) rightPart = rightPart.substr(1);
-            }
+        if (prunedCharacter !== '') {
+            return prunedCharacter;
         }
-
-        // Add space after 2,6,10,14 chars (leading nq not included)
-        const offset = leftPart.length % 4 + 2;
-        leftPart = this._addSpaces(leftPart, 2);
-        rightPart = this._addSpaces(rightPart, offset);
-
-        // merge again
-        let newValue = leftPart + rightPart;
-        cursorPosition = leftPart.length;
-        
-        // Cut off leading NQ if address has full length (otherwise it could be an NQNQ... address)
-        let newValueNoSpaces = this._sanitize(newValue);
-        if (newValueNoSpaces.length === 36 && newValueNoSpaces.substr(0, 2) === 'NQ') {
-            const cutoffNQ = newValueNoSpaces.substr(2, 42);
-            newValue = this._addSpaces(cutoffNQ, 2);
-            cursorPosition -= 3;
-        }
-
-        this.value = newValue;
-        CaretPosition.setCaretPosition(this.$input, cursorPosition);
-        this.oldInput = this.$input.value;
     }
 }
-
-// Todo: [Max] [low] capture backspace when input value is marked
-// Todo: [Max] Bug: Not accepted chars move the cursor to the right
-// Todo: Only numbers for x-password-input
-// Todo: Recactor NQ-pruning into value setter?
-// Todo: [Max] Bug: @
-// Todo: [Max] Bug: pasting when selected

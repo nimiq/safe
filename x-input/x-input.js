@@ -37,6 +37,8 @@ export default class XInput extends XElement {
 
     __onKeyup(e) {}
 
+    __onKeypress(e) {}
+
     _onValueChanged() {}
 
     _submit() {
