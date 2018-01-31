@@ -29,31 +29,95 @@ export default class XAddressInput extends XInput {
 
     onCreate() {
         super.onCreate();
-        const $input = this.$('input');
-        PasteHandler.setDefaultTarget($input);
-        KeyboardHandler.setDefaultTarget($input);
+        this.$input.addEventListener('paste', async e => await this.__onPaste(e));
+        PasteHandler.setDefaultTarget(this.$input);
+        KeyboardHandler.setDefaultTarget(this.$input);
+        this.oldInput = '';
     }
 
-    __onValueChanged() {
-        let cursorPosition = this.$input.selectionStart;
-        
-        let sanitized = this.$input.value.toUpperCase()
+    _countSpaces(string) {
+        return string.split('').filter(c => c === ' ').length;
+    }
+
+    _sanitize(input) {
+        return input.toUpperCase()
             .replace(/I/g, '1')
             .replace(/O/g, '0')
-            .replace(/Z/g, '2');
+            .replace(/Z/g, '2')
+            .replace(/[^\w]|_| /g, '');
+    }
 
-        sanitized = sanitized.replace(/[^\w]|_| /g, '');
+    _addSpaces(input, offset) {
+        const chars = input.split('');
+        
+        let withSpaces = '';
+        chars.forEach((c,i) => {
+            if ((i + offset) % 4 === 0) withSpaces += ' ';
+            withSpaces += c;
+        });
 
-        if (sanitized.length === 36 && sanitized.substr(0, 2) == 'NQ') {
-            sanitized = sanitized.substr(2, 34);
-            cursorPosition -= 2;
+        return withSpaces;
+    }
+
+    async __onPaste(e) {
+        // Cut off leading NQ if address has full length (otherwise it could be an NQNQ... address)
+        let newValue = this._sanitize(this.$input.value);
+        if (newValue.length === 36 && newValue.substr(0, 2) === 'NQ') {
+            const cutoffNQ = newValue.substr(2, 42);
+            newValue = this._addSpaces(cutoffNQ, 2);
+        }
+        this.value = newValue;
+    }
+
+    __onKeypress(e) {
+        let cursorPosition = this.$input.selectionStart;
+
+        let leftPart = this.$input.value.substr(0, cursorPosition);
+        let rightPart = this.$input.value.substr(cursorPosition)
+
+        leftPart = this._sanitize(leftPart);
+        rightPart = this._sanitize(rightPart);
+
+        if (e.keyCode === 13) return; // Enter
+
+        if (e.keyCode === 8 || e.keyCode === 46) {
+            // backspace / delete
+            // if user deleted a space, delete char before / after instead
+            const spacesOld = this._countSpaces(this.oldInput);
+            const spacesBeforeSanitize = this._countSpaces(this.$input.value);
+            const spaceWasJustDeleted = spacesBeforeSanitize === spacesOld - 1;
+            if (spaceWasJustDeleted) {
+                if (e.keyCode === 8) leftPart = leftPart.substr(0, cursorPosition - 1);
+                if (e.keyCode === 46) rightPart = rightPart.substr(1);
+            }
         }
 
-        // const chars = sanitizedInput.split('');
+        // Add space after 2,6,10,14 chars (leading nq not included)
+        const offset = leftPart.length % 4 + 2;
+        leftPart = this._addSpaces(leftPart, 2);
+        rightPart = this._addSpaces(rightPart, offset);
 
-        this.$input.value = sanitized;
+        // merge again
+        let newValue = leftPart + rightPart;
+        cursorPosition = leftPart.length;
+        
+        // Cut off leading NQ if address has full length (otherwise it could be an NQNQ... address)
+        let newValueNoSpaces = this._sanitize(newValue);
+        if (newValueNoSpaces.length === 36 && newValueNoSpaces.substr(0, 2) === 'NQ') {
+            const cutoffNQ = newValueNoSpaces.substr(2, 42);
+            newValue = this._addSpaces(cutoffNQ, 2);
+            cursorPosition -= 3;
+        }
+
+        this.value = newValue;
         CaretPosition.setCaretPosition(this.$input, cursorPosition);
+        this.oldInput = this.$input.value;
     }
 }
 
-// Todo: [Max] [low] automatically add white spaces after typing 4 chars (NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64)
+// Todo: [Max] [low] capture backspace when input value is marked
+// Todo: [Max] Bug: Not accepted chars move the cursor to the right
+// Todo: Only numbers for x-password-input
+// Todo: Recactor NQ-pruning into value setter?
+// Todo: [Max] Bug: @
+// Todo: [Max] Bug: pasting when selected

@@ -27,7 +27,7 @@ x-address-input input[type="text"] {
     text-transform: uppercase;
 }
 
-x-address-input [icon-person]{
+x-address-input [icon-person] {
     position: absolute;
 }
 

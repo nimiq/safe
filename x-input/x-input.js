@@ -5,8 +5,8 @@ export default class XInput extends XElement {
 
     onCreate() {
         this.$input = this.$('input');
-        this.$input.addEventListener('input', e => this.__onValueChanged(e));
-        this.$input.addEventListener('keyup', e => this.__onValueChanged(e));
+        this.$input.addEventListener('input', e => this.__onInput(e)); // Note: this doens't work with checkbox or radio button
+        this.$input.addEventListener('keypress', e => this.__onKeypress(e));
         this.$form = this.$('form');
         if (this.$form) this.$form.addEventListener('submit', e => this._onSubmit(e));
     }
@@ -27,11 +27,15 @@ export default class XInput extends XElement {
         this._submit();
     }
 
-    __onValueChanged() {
+    __onValueChanged(e) {
         if (this._autosubmit) this._submit();
+        this._onValueChanged(e);
         this._notifyValidity();
-        this._onValueChanged();
     }
+
+    __onInput(e) {}
+
+    __onKeyup(e) {}
 
     _onValueChanged() {}
 
