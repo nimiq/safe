@@ -183,3 +183,4 @@ class XMnemonicValidateSlide extends XElement {
 }
 
 // Todo: [Soeren] cleanup animations: use animate api and promises
+// Todo: Refactor to use screens instead of slides
