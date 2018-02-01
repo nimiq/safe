@@ -11,8 +11,8 @@ export default class XAddressInput extends XInput {
         return `
             <form action="/">
                 <span icon-person></span>
-                <span class="prefix">nq</span>
                 <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
+                <span class="prefix">nq</span>
             </form>
         `
     }
