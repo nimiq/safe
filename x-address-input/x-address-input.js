@@ -65,5 +65,3 @@ export default class XAddressInput extends XInput {
         }
     }
 }
-
-// Todo: [Max] Bug: Icons not working in Firefox

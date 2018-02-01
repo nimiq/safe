@@ -13,5 +13,3 @@ export default class XPasswordInput extends XInput {
       this.fire(this.__tagName + '-change', this.value);
     }
 }
-
-// Todo: [Max] remove ugly red box when focusing in Firefox
