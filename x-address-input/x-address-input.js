@@ -2,9 +2,8 @@ import XInput from '../x-input/x-input.js';
 import NanoApi from '/library/nano-api/nano-api.js';
 import PasteHandler from '/library/nimiq-utils/paste-handler/paste-handler.js';
 import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
-import CaretPosition from '/library/nimiq-utils/caret-position/caret-position.js';
 import * as InputFormat from '/library/nimiq-utils/input-format/index.js'
-import { onChange } from '../../library/nimiq-utils/input-format/source/input-control';
+import { onChange } from '../../library/nimiq-utils/input-format/source/input-control.js';
 
 
 export default class XAddressInput extends XInput {
