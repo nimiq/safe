@@ -16,6 +16,7 @@
         import XAddressInput from "../x-address-input.js";
         import XToast from "../../x-toast/x-toast.js";
         const $input = new XAddressInput();
+        $input._onEntry();
         $input.addEventListener('x-address-input', e => XToast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>

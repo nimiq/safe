@@ -36,9 +36,12 @@ export default class XAddressInput extends XInput {
         this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('input', e => InputFormat.onChange(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.oldInput = '';
+    }
+
+    _onEntry() {
         PasteHandler.setDefaultTarget(this.$input);
         KeyboardHandler.setDefaultTarget(this.$input);
-        this.oldInput = '';
     }
 
     _format(address) {

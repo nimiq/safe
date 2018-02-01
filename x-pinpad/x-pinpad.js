@@ -1,4 +1,5 @@
-import XElement from "/library/x-element/x-element.js";
+import XElement from '/library/x-element/x-element.js';
+import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
 
 export default class XPinpad extends XElement {
     styles() { return ['center'] }
@@ -36,7 +37,6 @@ export default class XPinpad extends XElement {
         this._attempts = 0;
         this._waitingTime = 50;
         this._handleKeyboardInput = this.__handleKeyboardInput.bind(this)
-        this.open();
     }
 
     reset() {
@@ -49,11 +49,11 @@ export default class XPinpad extends XElement {
 
     open() {
         this.reset();
-        window.addEventListener('keypress', this._handleKeyboardInput);
+        KeyboardHandler.setGlobalListener(this._handleKeyboardInput);
     }
 
     close() {
-        window.removeEventListener('keypress', this._handleKeyboardInput);
+        KeyboardHandler.removeGlobalListener();
         this.reset();
     }
 

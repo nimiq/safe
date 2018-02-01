@@ -19,6 +19,7 @@
     <script type="module">
         import XPinpad from "../x-pinpad.js";
         const $pinpad = new XPinpad();
+        $pinpad.open();
         // simulate success
         addEventListener('x-pin', e => $pinpad.close());
     </script>
