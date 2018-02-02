@@ -1,15 +1,15 @@
 export default class XElement {
     /* Private API */
-    constructor(root) {
-        this.__bindDOM(root);
+    constructor(parent) {
+        this.__bindDOM(parent);
         this.__createChildren();
         this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
         if (this.onCreate) this.onCreate();
     }
 
-    __bindDOM(root) {
-        if (root instanceof XElement) this.$el = root.$(this.__tagName); // query in root for tag name
-        else if (root instanceof Element) this.$el = root; // The root is this DOM-Element
+    __bindDOM(parent) {
+        if (parent instanceof XElement) this.$el = parent.$(this.__tagName); // query in parent for tag name
+        else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.__fromHtml();
         this.__bindStyles(this.styles);
