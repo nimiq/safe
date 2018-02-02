@@ -25,11 +25,11 @@ nimiq-logo[large] {
     font-weight: 800;
     color: rgba(255,255,255, 0.5);
     text-align: center;
-    padding-top: 104px;
+    padding-top: 96px;
     padding-left: 0;
-    /* margin-top:  16px; */
-    margin-bottom: 24px;
-    background-size: 104px;
+    margin-top: 48px;
+    margin-bottom: 56px;
+    background-size: 88px;
 }
 
 nimiq-logo[large]:empty:after {
