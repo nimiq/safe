@@ -1,32 +1,32 @@
 import XElement from '/library/x-element/x-element.js';
-import XSlides from '../x-slides/x-slides.js';
-import XSuccessMark from '../x-success-mark/x-success-mark.js';
+import ScreenSuccess from '../screen-success/screen-success.js'
 import MnemonicPhrase from '/library/mnemonic-phrase/mnemonic-phrase.es6.min.js';
 
 export default class XMnemonicValidate extends XElement {
     html() {
         return `
             <x-slides>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-mnemonic-validate-slide></x-mnemonic-validate-slide>
-                <x-slide>
-                    <x-success-mark></x-success-mark>
-                    <h2>Phrase Validated</h2>
-                </x-slide>
+                <screen-1></screen-1>
+                <screen-2></screen-2>
+                <screen-3></screen-3>
+                <screen-success>
+                    Phrase validated
+                </screen-success>
             </x-slides>
             `
     }
 
     children() {
-        return [XSlides, [XMnemonicValidateSlide], XSuccessMark];
+        return [ScreenSuccess, Screen1, Screen2, Screen3];
     }
 
-    onCreate() {
-        this.$mnemonicValidateSlides.forEach(slide => {
+    _getDefaultScreen() { return this._childScreens['screen1']; }
+
+    /*onCreate() {
+        this.children.forEach(slide => {
             slide.addEventListener('x-mnemonic-validate-slide', e => this._onSlideEvent(e.detail));
         });
-    }
+    }*/
 
     set privateKey(privateKey) {
         this.mnemonic = MnemonicPhrase.keyToMnemonic(privateKey);
@@ -109,7 +109,7 @@ export default class XMnemonicValidate extends XElement {
     }
 }
 
-class XMnemonicValidateSlide extends XElement {
+class ScreenMnemonicValidate extends XElement {
     html() {
         return `
             <p>Please select the following word from your phrase:</p>
@@ -182,4 +182,14 @@ class XMnemonicValidateSlide extends XElement {
     }
 }
 
-// Todo: Refactor to use screens instead of slides
+class Screen1 extends ScreenMnemonicValidate {
+    get route() { return '1'; }
+}
+
+class Screen2 extends ScreenMnemonicValidate {
+    get route() { return '2'; }
+}
+
+class Screen3 extends ScreenMnemonicValidate {
+    get route() { return '3'; }
+}

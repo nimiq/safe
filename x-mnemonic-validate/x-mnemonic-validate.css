@@ -1,6 +1,5 @@
 @import '/library/nimiq-style/nimiq-style.css';
 @import '../x-success-mark/x-success-mark.css';
-@import '../x-slides/x-slides.css';
 
 x-mnemonic-validate {
     width: 100%;
