@@ -9,20 +9,18 @@
 </head>
 
 <body>
-<main>
     <div>
         <h1>&nbsp;</h1>
         <hr>
         <x-numpad></x-numpad>
     </div>
-</main>
-<script type="module">
-    import XNumpad from '../x-numpad.js';
+    <script type="module">
+        import XNumpad from '../x-numpad.js';
 
-    const $numpad = new XNumpad();
-    const $value = document.querySelector('h1');
-    $numpad.addEventListener('x-numpad-value', event => $value.textContent = event.detail.stringValue);
-</script>
+        const $numpad = new XNumpad();
+        const $value = document.querySelector('h1');
+        $numpad.addEventListener('x-numpad-value', event => $value.textContent = event.detail.stringValue);
+    </script>
 </body>
 
 </html>

@@ -8,14 +8,12 @@
 </head>
 
 <body>
-    <main>
-        <button>Show Toast</button>
-        <x-toast></x-toast>
-    </main>
+    <button>Show Toast</button>
+    <x-toast></x-toast>
     <script type="module">
         import XToast from "../x-toast.js";
         const message = 'This is a x-toast!';
-        document.querySelector('button').addEventListener('click', e => XToast.show( message ));
+        document.querySelector('button').addEventListener('click', e => XToast.show(message));
     </script>
 </body>
 
