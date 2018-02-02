@@ -46,11 +46,11 @@ export default class XInput extends XElement {
     _submit() {
         if (!this._validate(this.value)) return;
         this.$input.blur();
-        this.fire(this.__tagName, this.value);
+        requestAnimationFrame(_ => this.fire(this.__tagName, this.value)); // Hack to hide keyboard on iOS even after paste 
     }
 
     focus() {
-        requestAnimationFrame(_ => this.$input.focus());
+        requestAnimationFrame(_ => this.$input.focus()); 
     }
 
     async _onInvalid() {
