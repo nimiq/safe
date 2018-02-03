@@ -17,18 +17,16 @@ x-downloadable-image img {
     width: 100%;
     height: 100%;
     cursor: pointer;
-    animation: grow 0.7s, fade 0.7s;
+    animation: grow 0.6s, fade 0.3s;
 }
 
 x-downloadable-image [long-touch-indicator] {
     width: 96px;
     height: 96px;
     position: absolute;
+    top: 80px;
     left: calc(50% - 48px);
-    top: -112px;
     pointer-events: none;
-    transition: opacity .3s;
-    opacity: 0;
     display: none;
     stroke: var(--success-color);
 }

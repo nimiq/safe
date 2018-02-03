@@ -4,7 +4,7 @@ import BrowserDetection from '/library/nimiq-utils/browser-detection/browser-det
 
 export default class XDownloadableImage extends XElement {
     static get LONG_TOUCH_DURATION() {
-        return 750;
+        return 800;
     }
 
     static get DOWNLOAD_DURATION() {
@@ -112,7 +112,7 @@ export default class XDownloadableImage extends XElement {
 
     _onLongTouch() {
         this._hideLongTouchIndicator();
-        XToast.show('Click on "Save Image"');
+        setTimeout(e => XToast.show('Click on "Save Image"'), 1200);
         this._onDownloadStart();
     }
 
@@ -140,18 +140,13 @@ export default class XDownloadableImage extends XElement {
     }
 
     _showLongTouchIndicator() {
-        clearTimeout(this._indicatorHideTimeout);
-        this._indicatorHideTimeout = null;
         this.$longTouchIndicator.style.display = 'block';
         this.stopAnimate('animate', this.$longTouchIndicator);
-        this.$longTouchIndicator.style.opacity = 1;
         this.animate('animate', this.$longTouchIndicator);
     }
 
     _hideLongTouchIndicator() {
-        this.$longTouchIndicator.style.opacity = 0;
-        if (this._indicatorHideTimeout !== null) return;
-        this._indicatorHideTimeout = setTimeout(() => this.$longTouchIndicator.style.display = 'none', 300);
+        this.$longTouchIndicator.style.display = 'none';
     }
 
     _determineDownloadDuration() {
