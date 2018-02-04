@@ -13,7 +13,7 @@ class ActivationToolsWrapper extends ActivationTools {
         this._element = element;
     }
 
-    onInitialized() {
-        this._element.fire('x-api-ready', this);
+    onDashboardDataResult(response) {
+        this._element.fire('x-api-dashboard-data', response);
     }
 }
