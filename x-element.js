@@ -1,12 +1,21 @@
 export default class XElement {
-    /* Private API */
+    /**
+     * Creates an instance of XElement.
+     * @param {any} parent 
+     * @memberof XElement
+     */
     constructor(parent) {
         this.__bindDOM(parent);
         this.__createChildren();
         this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
         if (this.onCreate) this.onCreate();
     }
-
+    /**
+     * 
+     * 
+     * @param {any} parent 
+     * @memberof XElement
+     */
     __bindDOM(parent) {
         if (parent instanceof XElement) this.$el = parent.$(this.__tagName); // query in parent for tag name
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
@@ -14,17 +23,33 @@ export default class XElement {
         this.__fromHtml();
         this.__bindStyles(this.styles);
     }
-
+    /**
+     * 
+     * 
+     * @returns 
+     * @memberof XElement
+     */
     __createChildren() { // Create all children recursively
         if (!this.children) return;
         this.children().forEach(child => this.__createChild(child));
     }
-
+    /**
+     * 
+     * 
+     * @param {any} child 
+     * @returns 
+     * @memberof XElement
+     */
     __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
         if (child instanceof Array) return this.__createArrayOfChild(child[0]);
         this[child.__toChildName()] = new child(this);
     }
-
+    /**
+     * 
+     * 
+     * @param {any} child 
+     * @memberof XElement
+     */
     __createArrayOfChild(child) {
         const name = child.__toChildName() + 's';
         const tagName = XElement.__toTagName(child.name);
@@ -32,20 +57,38 @@ export default class XElement {
         this[name] = [];
         children.forEach(c => this[name].push(new child(c)));
     }
-
+    /**
+     * 
+     * 
+     * @static
+     * @param {any} str 
+     * @returns 
+     * @memberof XElement
+     */
     static camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
             if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
             return match.toUpperCase();
         });
     }
-
+    /**
+     * 
+     * 
+     * @static
+     * @returns 
+     * @memberof XElement
+     */
     static __toChildName() {
         let name = this.name;
         if (name.match(/^X[A-Z][a-z]*/)) name = name.substring(1); // replace XAnyConstructorName -> AnyConstructorName
         return '$' + name[0].toLowerCase() + name.substring(1); // AnyConstructorName -> $anyConstructorName
     }
-
+    /**
+     * 
+     * 
+     * @returns 
+     * @memberof XElement
+     */
     __fromHtml() {
         if (!this.html) return;
         const html = this.html().trim();
@@ -57,34 +100,90 @@ export default class XElement {
         $content.innerHTML = currentContent;
         $content.removeAttribute('content');
     }
-
+    /**
+     * 
+     * 
+     * @readonly
+     * @memberof XElement
+     */
     get __tagName() { // The tagName of this DOM-Element
         return XElement.__toTagName(this.constructor.name);
     }
-
+    /**
+     * 
+     * 
+     * @static
+     * @param {any} name 
+     * @returns 
+     * @memberof XElement
+     */
     static __toTagName(name) {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
-
+    /**
+     * 
+     * 
+     * @static
+     * @returns 
+     * @memberof XElement
+     */
     static createElement() {
         const name = this.__toTagName(this.name);
         const element = document.createElement(name);
         return new this(element);
     }
 
-    /* DOM Manipulation */
+    /**
+     * 
+     * 
+     * @param {any} selector 
+     * @returns 
+     * @memberof XElement
+     */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
+    /**
+     * 
+     * 
+     * @param {any} selector 
+     * @returns 
+     * @memberof XElement
+     */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
+    /**
+     * 
+     * 
+     * @memberof XElement
+     */
     clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
 
-    /* Events */
+    /**
+     * 
+     * 
+     * @param {any} type 
+     * @param {any} callback 
+     * @memberof XElement
+     */
     addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
-
+    /**
+     * 
+     * 
+     * @param {any} eventType 
+     * @param {any} [detail=null] 
+     * @param {boolean} [bubbles=true] 
+     * @memberof XElement
+     */
     fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
         const params = { detail: detail, bubbles: bubbles };
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
-
+    /**
+     * 
+     * 
+     * @param {any} type 
+     * @param {any} callback 
+     * @param {any} $el 
+     * @memberof XElement
+     */
     listenOnce(type, callback, $el) {
         const listener = e => {
             $el.removeEventListener(type, listener);
@@ -93,18 +192,41 @@ export default class XElement {
         $el.addEventListener(type, listener, false);
     }
 
-    /* Style Manipulation */
+    /**
+     * 
+     * 
+     * @param {any} styleClass 
+     * @memberof XElement
+     */
     addStyle(styleClass) { this.$el.classList.add(styleClass) }
-
+    /**
+     * 
+     * 
+     * @param {any} styleClass 
+     * @memberof XElement
+     */
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
-
+    /**
+     * 
+     * 
+     * @param {any} styles 
+     * @returns 
+     * @memberof XElement
+     */
     __bindStyles(styles) {
         if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively
         if (!styles) return;
         styles().forEach(style => this.addStyle(style));
     }
 
-    /* Animations */
+    /**
+     * 
+     * 
+     * @param {any} className 
+     * @param {any} $el 
+     * @returns 
+     * @memberof XElement
+     */
     animate(className, $el) {
         return new Promise(resolve => {
             $el = $el || this.$el;
@@ -117,7 +239,13 @@ export default class XElement {
             $el.classList.add(className);
         })
     }
-
+    /**
+     * 
+     * 
+     * @param {any} className 
+     * @param {any} $el 
+     * @memberof XElement
+     */
     stopAnimate(className, $el) {
         $el = $el || this.$el;
         $el.classList.remove(className);
