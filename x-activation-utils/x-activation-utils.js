@@ -14,6 +14,14 @@ class ActivationToolsWrapper extends ActivationUtils {
     }
 
     onDashboardDataResult(response) {
-        this._element.fire('x-api-dashboard-data', response);
+        this._element.fire('x-activation-dashboard-data', response);
+    }
+
+    onIsValidToken(response) {
+        this._element.fire('x-activation-valid-token', response);
+    }
+
+    onWalletCreated(response) {
+        this._element.fire('x-activation-wallet-created', response);
     }
 }
