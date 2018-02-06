@@ -24,4 +24,8 @@ class ActivationToolsWrapper extends ActivationUtils {
     onWalletCreated(response) {
         this._element.fire('x-activation-wallet-created', response);
     }
+    
+    onActivateAddress(response) {
+        this._element.fire('x-activation-activate-address', response);
+    }
 }
