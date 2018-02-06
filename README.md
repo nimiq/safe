@@ -4,7 +4,7 @@ An ultra lightweight JavaScript frontend framework for Progressive Web Apps.
 
 # Using x-elements
 
-X-elements are custom tags that become part of your HTML markup and expose special features and functionality, like little widgets but also complex layouts and user interface elements. You can create x-elements or reuse x-elements of others. The markup is just like regular HTML tags, but to make sure HTML tags are not named the same, x-elements usually have an "x" in front of it (recommended, not required). So you're going to write plain HTML markup and hide all the extra functionality in a package associated with that x-element. This approach makes your app super modular, and modules are reusable in other apps, plus.
+X-elements are custom tags that become part of your HTML markup and expose special features and functionality, like little widgets but also complex layouts and user interface elements. You can create x-elements or reuse x-elements of others. The markup is just like regular HTML tags, but to make sure HTML tags are not named the same, x-elements usually have an "x" in front of it (recommended, not required). So you're going to write plain HTML markup and hide all the extra functionality in a package associated with that x-element. This approach makes your app super modular, and modules are reusable in other apps.
 
 ## x-element API
 Each x-element comes with the fundamental functionality: creating an element, finding elements, and handling events.
@@ -18,75 +18,6 @@ clear                            | none         | nothing              | Removes
 addEventListener(type, callback) | name/type of event and callback | nothing | Links the callback method to the given event type, thus calling the callback whenever the respective event is triggered on this element.
 fire(type, detail=null, bubbles=true) | type of event, additional information, bubble mode enabled | nothing | Fires (i.e. sends out) a new event of the given type starting from this element. The detail will be attached to the event object, so any callback method can see and use this information. When bubbling mode is on, the event will be passed on to the parent element if not handled by event listeners of this element (see [MDN's page on events for an in-depth explanation with examples](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)).
 
-
-
-## Getting started with x-app
-To start using x-elements in your page, you'll need to add an x-app to it. X-app will initialize all x-elements and will take care of different views in your app. You can imagine a view as a page of your app, for example a home page, an about page, and so on, but x-app will take care of showing the right view without reloading the page (also known as a "single page application").
-
-A basic setup looks like this:
-
-```javascript
-class MyApp extends XApp {
-  onCreate() {
-    super.onCreate(); // let x-app do all it's magic first
-    // do something when your app is ready
-  }
-
-  // A list of all the views in your app
-  children() {
-    return [
-      ViewHome,
-      ViewAbout,
-      // add all the other views you want to use in your app
-    ]
-  }
-
-  // optional; a list of methods that will be called for the particular events.
-  listeners() {
-    return {
-      // the left side is the name of the event and the right side is the callback method
-      // note that the method names are strings here, not references
-      'x-my-event': '_myEvent',
-      ...
-    }
-  }
-
-  // this is the listener and will be called automatically, see above
-  _myEvent() {
-    // do something special when my-event gets triggered/fired, e.g. update other x-elements accordingly.
-  }
-
-}
-
-// and then start your app once everything is loaded.
-window.addEventListener('load', () => window.app = new MyApp());
-```
-
-## Creating views
-
-You'll set up each view as a x-view like this:
-
-```javascript
-class ViewHome extends XView {
-  // optional; a list of x-elements being used in your view
-  children() { return [XOneElement, XAnotherElement] }
-
-  // optional; called whenever this view will become visible
-  onShow() { ... }
-
-  // optional; called whenever the app moves to another view
-  onHide() { ... }
-```
-
-*Note:* The class name of each view needs to start with `View`.
-
-As a view is an `XElement` you can use [all the features of x-elements](#creating-your-own-x-elements) here.
-
-## Using views
-
-Each view is a location in your app. You can put links in your app to jump from one view to another by the simple convention that `ViewHome` will be `#home` and `ViewAbout` will be `#about` and so on. All views you add to the list in your app's `children()` method will be available.
-
-X-app expects you to have at least a `ViewHome` and will always go to `#home` by default.
 
 # Creating your own x-elements
 
