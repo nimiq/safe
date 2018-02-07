@@ -32,4 +32,12 @@ class ActivationToolsWrapper extends ActivationUtils {
     onActivateAddress(response) {
         this._element.fire('x-activation-activate-address', response);
     }
+
+    onKycSuccess(response) {
+        this._element.fire('x-activation-post-success', response);
+    }
+
+    onKycError() {
+        this._element.fire('x-activation-post-error');
+    }
 }
