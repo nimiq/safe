@@ -234,19 +234,25 @@ export default class XElement {
      * 
      * @param {string} className
      * @param {Element | string} $el
-     * @returns 
+     * @param {() => void} afterStartCallback
+     * @param {() => void} beforeEndCallback
+     * @returns
      * @memberof XElement
      */
-    animate(className, $el) {
+    animate(className, $el, afterStartCallback, beforeEndCallback) {
+        const $screen = this;
+
         return new Promise(resolve => {
             $el = $el || this.$el;
             // 'animiationend' is a native DOM event that fires upon CSS animation completion
             this.listenOnce('animationend', e => {
                 if (e.target !== $el) return;
+                if (beforeEndCallback) beforeEndCallback();
                 this.stopAnimate(className, $el);
                 resolve();
             }, $el);
             $el.classList.add(className);
+            if (afterStartCallback) afterStartCallback();
         })
     }
     /**
