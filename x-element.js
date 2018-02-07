@@ -1,7 +1,7 @@
 export default class XElement {
     /**
      * Creates an instance of XElement.
-     * @param {any} parent 
+     * @param {XElement | Element | null} parent
      * @memberof XElement
      */
     constructor(parent) {
@@ -10,10 +10,11 @@ export default class XElement {
         this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
         if (this.onCreate) this.onCreate();
     }
+
     /**
      * 
      * 
-     * @param {any} parent 
+     * @param {XElement | Element | null} parent
      * @memberof XElement
      */
     __bindDOM(parent) {
@@ -23,6 +24,7 @@ export default class XElement {
         this.__fromHtml();
         this.__bindStyles(this.styles);
     }
+
     /**
      * 
      * 
@@ -33,21 +35,23 @@ export default class XElement {
         if (!this.children) return;
         this.children().forEach(child => this.__createChild(child));
     }
+
     /**
      * 
      * 
-     * @param {any} child 
-     * @returns 
+     * @param {XElement | XElement[]} child
+     * @returns {void}
      * @memberof XElement
      */
     __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
         if (child instanceof Array) return this.__createArrayOfChild(child[0]);
         this[child.__toChildName()] = new child(this);
     }
+
     /**
      * 
      * 
-     * @param {any} child 
+     * @param {XElement} child
      * @memberof XElement
      */
     __createArrayOfChild(child) {
@@ -61,21 +65,22 @@ export default class XElement {
      * 
      * 
      * @static
-     * @param {any} str 
-     * @returns 
+     * @param {string} str
+     * @returns {string}
      * @memberof XElement
      */
     static camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
-            if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
+        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => {
+            if (+match === 0) return '';// or if (/\s+/.test(match)) for white spaces
             return match.toUpperCase();
         });
     }
+
     /**
      * 
      * 
      * @static
-     * @returns 
+     * @returns {string}
      * @memberof XElement
      */
     static __toChildName() {
@@ -83,6 +88,7 @@ export default class XElement {
         if (name.match(/^X[A-Z][a-z]*/)) name = name.substring(1); // replace XAnyConstructorName -> AnyConstructorName
         return '$' + name[0].toLowerCase() + name.substring(1); // AnyConstructorName -> $anyConstructorName
     }
+
     /**
      * 
      * 
@@ -100,6 +106,7 @@ export default class XElement {
         $content.innerHTML = currentContent;
         $content.removeAttribute('content');
     }
+
     /**
      * 
      * 
@@ -109,17 +116,19 @@ export default class XElement {
     get __tagName() { // The tagName of this DOM-Element
         return XElement.__toTagName(this.constructor.name);
     }
+
     /**
      * 
      * 
      * @static
-     * @param {any} name 
+     * @param {string} name
      * @returns 
      * @memberof XElement
      */
     static __toTagName(name) {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
+
     /**
      * 
      * 
@@ -136,16 +145,17 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} selector 
-     * @returns 
+     * @param {string} selector
+     * @returns {Element}
      * @memberof XElement
      */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
+
     /**
      * 
      * 
-     * @param {any} selector 
-     * @returns 
+     * @param {string} selector
+     * @returns {Element[]}
      * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
@@ -167,7 +177,7 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} eventType 
+     * @param {string} eventType
      * @param {any} [detail=null] 
      * @param {boolean} [bubbles=true] 
      * @memberof XElement
@@ -179,9 +189,9 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} type 
-     * @param {any} callback 
-     * @param {any} $el 
+     * @param {string} type
+     * @param {function} callback
+     * @param {Element} $el
      * @memberof XElement
      */
     listenOnce(type, callback, $el) {
@@ -195,21 +205,21 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} styleClass 
+     * @param {string} styleClass
      * @memberof XElement
      */
     addStyle(styleClass) { this.$el.classList.add(styleClass) }
     /**
      * 
      * 
-     * @param {any} styleClass 
+     * @param {string} styleClass
      * @memberof XElement
      */
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
     /**
      * 
      * 
-     * @param {any} styles 
+     * @param {() => string[]} styles
      * @returns 
      * @memberof XElement
      */
@@ -222,8 +232,8 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} className 
-     * @param {any} $el 
+     * @param {string} className
+     * @param {Element | string} $el
      * @returns 
      * @memberof XElement
      */
@@ -242,12 +252,21 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} className 
-     * @param {any} $el 
+     * @param {string} className
+     * @param {Element | string} $el
      * @memberof XElement
      */
     stopAnimate(className, $el) {
         $el = $el || this.$el;
         $el.classList.remove(className);
+    }
+
+    types() {
+        /** @type{() => (typeof XElement)[]} */
+        this.children = null;
+        /** @type {string} */
+        this.name = null;
+        /** @types {() => string[]} */
+        this.styles = null;
     }
 }
