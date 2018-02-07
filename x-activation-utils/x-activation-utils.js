@@ -17,6 +17,10 @@ class ActivationToolsWrapper extends ActivationUtils {
         this._element.fire('x-activation-dashboard-data', response);
     }
 
+    onDashboardTokenError() {
+        this._element.fire('x-activation-dashboard-token-error');
+    }
+
     onIsValidToken(response) {
         this._element.fire('x-activation-valid-token', response);
     }
