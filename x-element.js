@@ -169,8 +169,8 @@ export default class XElement {
     /**
      * 
      * 
-     * @param {any} type 
-     * @param {any} callback 
+     * @param {string} type
+     * @param {function} callback
      * @memberof XElement
      */
     addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
@@ -191,7 +191,7 @@ export default class XElement {
      * 
      * @param {string} type
      * @param {function} callback
-     * @param {Element} $el
+     * @param {Element | window} $el
      * @memberof XElement
      */
     listenOnce(type, callback, $el) {
@@ -276,3 +276,5 @@ export default class XElement {
         this.styles = null;
     }
 }
+
+// Todo: Bug/Pitfall: When instantiating a screen twice on a path down a screen tree (e.g. loading), it has to be declared as an array on the higher level.
