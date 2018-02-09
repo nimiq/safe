@@ -8,6 +8,11 @@ export default class XWalletBackup extends XElement {
         return `<x-downloadable-image></x-downloadable-image>`
     }
 
+    types() {
+        /** @type {XDownloadableImage} */
+        this.$downloadableImage = null;
+    }
+
     children() {
         return [XDownloadableImage];
     }

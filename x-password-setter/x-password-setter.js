@@ -11,6 +11,13 @@ export default class XPasswordSetter extends XElement {
 
     // styles() { return ['center'] }
 
+    types() {
+        /** @type {XPasswordInput} */
+        this.$passwordInput = null;
+        /*** @type {XPasswordIndicator} */
+        this.$passwordIndicator = null;
+    }
+
     children() {
       return [XPasswordInput, XPasswordIndicator];
     }
@@ -27,6 +34,7 @@ export default class XPasswordSetter extends XElement {
       return this.$passwordInput.value;
     }
 
+    /** @param {string} value */
     set value(value) {
       this.$passwordInput.value = value;
     }
@@ -37,6 +45,8 @@ export default class XPasswordSetter extends XElement {
       this.fire(this.__tagName + '-valid', strength === 3);
     }
 
+    /** @param {string} password
+     * @return {number} */
     _getPasswordStrength(password) {
       if (password.length === 0) return 0;
       if (password.length < 5) return 1;

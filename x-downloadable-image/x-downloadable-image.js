@@ -59,6 +59,7 @@ export default class XDownloadableImage extends XElement {
         this._setupDownload();
     }
 
+    /** @param {string} filename */
     set filename(filename) {
         this._filename = filename;
         this._setupDownload();
