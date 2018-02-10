@@ -1,4 +1,4 @@
-# x-element.js
+# x-element
 
 An ultra lightweight JavaScript frontend framework for Progressive Web Apps.
 
