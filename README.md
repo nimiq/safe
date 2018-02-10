@@ -2,7 +2,7 @@
 
 An ultra lightweight JavaScript frontend framework for Progressive Web Apps.
 
-# Using x-elements
+## Using x-elements
 
 X-elements are custom tags that become part of your HTML markup and expose special features and functionality, like little widgets but also complex layouts and user interface elements. You can create x-elements or reuse x-elements of others. The markup is just like regular HTML tags, but to make sure HTML tags are not named the same, x-elements usually have an "x" in front of it (recommended, not required). So you're going to write plain HTML markup and hide all the extra functionality in a package associated with that x-element. This approach makes your app super modular, and modules are reusable in other apps.
 
@@ -19,7 +19,7 @@ addEventListener(type, callback) | name/type of event and callback | nothing | L
 fire(type, detail=null, bubbles=true) | type of event, additional information, bubble mode enabled | nothing | Fires (i.e. sends out) a new event of the given type starting from this element. The detail will be attached to the event object, so any callback method can see and use this information. When bubbling mode is on, the event will be passed on to the parent element if not handled by event listeners of this element (see [MDN's page on events for an in-depth explanation with examples](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events)).
 
 
-# Creating your own x-elements
+## Creating your own x-elements
 
 X-Elements are defined by Javascript and then added to a web app as a tag following a simple camel-case to dash-case convention, that means your `XMyElement` class will become `<x-my-element/>` in your HTML. In the `XMyElement` class you can add all the functionality you need for your element while using also the [features of the underlying x-element](#x-element-api).
 
@@ -88,11 +88,11 @@ So the result from the previous two code examples will be:
 
 *Note:* The `content` marker will be removed once the HTML has been inserted (cf. example above).
 
-# More
+## More
 
-## Examples
+### Examples
 
 Check out the [Nimiq wallet app's source code](https://github.com/nimiq/wallet) app to see x-element in action and the [x-elements of the Nimiq ecosystem](https://github.com/nimiq/nimiq-elements) to get inspired.
 
-## License
+### License
 X-element is based on ES6 and licensed under the [MIT license](./LICENSE).
