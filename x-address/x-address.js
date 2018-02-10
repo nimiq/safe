@@ -1,5 +1,5 @@
-import XElement from '/library/x-element/x-element.js';
-import Clipboard from '/library/nimiq-utils/clipboard/clipboard.js';
+import XElement from '/libraries/x-element/x-element.js';
+import Clipboard from '/libraries/nimiq-utils/clipboard/clipboard.js';
 import XToast from '../x-toast/x-toast.js';
 
 export default class XAddress extends XElement {

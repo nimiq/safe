@@ -1,5 +1,5 @@
-import XElement from '/library/x-element/x-element.js';
-import NanoApi from '/library/nano-api/nano-api.js';
+import XElement from '/libraries/x-element/x-element.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XAmount extends XElement {
     html(){

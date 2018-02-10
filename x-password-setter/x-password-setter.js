@@ -1,6 +1,6 @@
 import XPasswordInput from '../x-password-input/x-password-input.js';
 import XPasswordIndicator from '../x-password-indicator/x-password-indicator.js';
-import XElement from '../../library/x-element/x-element.js';
+import XElement from '../../libraries/x-element/x-element.js';
 export default class XPasswordSetter extends XElement {
     html() {
         return `

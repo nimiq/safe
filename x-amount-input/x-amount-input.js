@@ -1,5 +1,5 @@
 import XInput from '../x-input/x-input.js';
-import NanoApi from '/library/nano-api/nano-api.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 import XNumpad from '../x-numpad/x-numpad.js';
 
 export default class XAmountInput extends XInput {

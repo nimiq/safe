@@ -1,5 +1,5 @@
-import XElement from '/library/x-element/x-element.js';
-import KeyboardHandler from '/library/nimiq-utils/keyboard-handler/keyboard-handler.js';
+import XElement from '/libraries/x-element/x-element.js';
+import KeyboardHandler from '/libraries/nimiq-utils/keyboard-handler/keyboard-handler.js';
 
 export default class XPinpad extends XElement {
     styles() { return ['center'] }

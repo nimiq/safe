@@ -1,5 +1,5 @@
-import XElement from "/library/x-element/x-element.js";
-import ActivationUtils from "/library/nimiq-utils/activation-utils/activation-utils.js";
+import XElement from "/libraries/x-element/x-element.js";
+import ActivationUtils from "/libraries/nimiq-utils/activation-utils/activation-utils.js";
 
 export default class XActivationUtils extends XElement {
     onCreate() {

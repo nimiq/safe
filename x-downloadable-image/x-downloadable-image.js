@@ -1,6 +1,6 @@
-import XElement from '/library/x-element/x-element.js';
+import XElement from '/libraries/x-element/x-element.js';
 import XToast from '../x-toast/x-toast.js';
-import BrowserDetection from '/library/nimiq-utils/browser-detection/browser-detection.js';
+import BrowserDetection from '/libraries/nimiq-utils/browser-detection/browser-detection.js';
 
 export default class XDownloadableImage extends XElement {
     static get LONG_TOUCH_DURATION() {

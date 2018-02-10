@@ -1,5 +1,5 @@
-import XElement from "/library/x-element/x-element.js";
-import WalletBackup from "/library/wallet-backup/wallet-backup.js";
+import XElement from "/libraries/x-element/x-element.js";
+import WalletBackup from "/libraries/wallet-backup/wallet-backup.js";
 import XDownloadableImage from "../x-downloadable-image/x-downloadable-image.js";
 
 export default class XWalletBackup extends XElement {

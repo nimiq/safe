@@ -1,4 +1,4 @@
-import XElement from "/library/x-element/x-element.js";
+import XElement from "/libraries/x-element/x-element.js";
 
 export default class XNumpad extends XElement {
     html() {
