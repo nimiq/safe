@@ -1,40 +1,39 @@
 .checkmark__circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 2;
-    stroke-miterlimit: 10;
+    stroke-dasharray: 498;
+    stroke-dashoffset: 498;
+    stroke-width: 6;
+    stroke-miterlimit: 30;
     stroke: var(--success-color);
-    fill: none;
+    /*fill: none;*/
 }
 
 .checkmark {
     width: 56px;
     height: 56px;
-    border-radius: 50%;
     display: block;
-    stroke-width: 2;
+    stroke-width: 6;
     stroke: var(--secondary-text-color);
-    stroke-miterlimit: 10;
+    stroke-miterlimit: 30;
     margin: 10% auto;
     box-shadow: inset 0px 0px 0px var(--success-color);
 }
 
 .checkmark__check {
     transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
+    stroke-dasharray: 144;
+    stroke-dashoffset: 144;
 }
 
 .animate-success-mark > .checkmark {
-    animation: x-success-markfill .4s ease-in-out .4s forwards, x-success-mark-scale .3s ease-in-out .9s both;
+    animation: /*x-success-markfill .4s ease-in-out .4s forwards, */x-success-mark-scale .3s ease-in-out .9s both;
 }
 
 .animate-success-mark > .checkmark > .checkmark__circle {
-    animation: x-animation-stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    animation: x-animation-stroke .6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
 }
 
 .animate-success-mark > .checkmark > .checkmark__check {
-    animation: x-animation-stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+    animation: x-animation-stroke .3s cubic-bezier(0.65, 0, 0.45, 1) .8s forwards;
 }
 
 @keyframes x-animation-stroke {
