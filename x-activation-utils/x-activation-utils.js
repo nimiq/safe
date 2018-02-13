@@ -37,7 +37,7 @@ class ActivationToolsWrapper extends ActivationUtils {
         this._element.fire('x-activation-post-success', response);
     }
 
-    onKycError() {
-        this._element.fire('x-activation-post-error');
+    onKycError(errorCode) {
+        this._element.fire('x-activation-post-error', errorCode);
     }
 }
