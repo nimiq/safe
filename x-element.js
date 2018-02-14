@@ -18,7 +18,7 @@ export default class XElement {
      * @memberof XElement
      */
     __bindDOM(parent) {
-        if (parent instanceof XElement) this.$el = parent.$(this.__tagName); // query in parent for tag name
+        if (parent instanceof XElement) this.$el = parent.$Managed(this.__tagName); // query in parent for tag name
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.__fromHtml();
@@ -57,19 +57,7 @@ export default class XElement {
     __createArrayOfChild(child) {
         const name = child.__toChildName() + 's';
         const tagName = XElement.__toTagName(child.name);
-
-        const childrenTagNames = this.children().map(x =>
-            XElement.__toTagName(x instanceof Array ? x[0].name : x.name)
-        );
-        const foundChildren = Array.from(this.$$(tagName))
-            .filter(x => {
-                while (x.parentNode !== this.$el) {
-                    x = x.parentNode;
-                    if (childrenTagNames.includes(x.tagName.toLowerCase())) return false;
-                }
-                return true;
-            });
-
+        const foundChildren = this.$$Managed(tagName);
         this[name] = [];
         foundChildren.forEach(c => this[name].push(new child(c)));
     }
@@ -171,6 +159,25 @@ export default class XElement {
      * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
+
+    $$Managed(selector) {
+        const childrenTagNames = this.children().map(x =>
+            XElement.__toTagName(x instanceof Array ? x[0].name : x.name)
+        );
+        return Array.from(this.$$(selector))
+            .filter(x => {
+                while (x.parentNode !== this.$el) {
+                    x = x.parentNode;
+                    if (childrenTagNames.includes(x.tagName.toLowerCase())) return false;
+                }
+                return true;
+            });
+    }
+
+    $Managed(selector) {
+        return this.$$Managed(selector)[0];
+    }
+
     /**
      * 
      * 
