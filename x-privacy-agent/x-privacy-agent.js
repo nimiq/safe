@@ -17,7 +17,7 @@ export default class XPrivacyAgent extends XElement {
 				  </g>
 				</svg>
 				<h1>Are you being watched?</h1>
-				<p>Now is the perfect time to asses your surroundings. Nearby windows? Hidden cameras? Shoulder spies?<br><b>Anyone with the following information can steal all your funds!</b></p>
+				<p>Now is the perfect time to assess your surroundings. Nearby windows? Hidden cameras? Shoulder spies?</p><p><strong>Anyone with the following information can steal all your funds!</strong></p>
 			</x-privacy-agent-container>
 			<x-grow></x-grow>
 			<button>I am safe</button>

@@ -8,10 +8,6 @@ export default class XDownloadableImage extends XElement {
     }
 
     static get DOWNLOAD_DURATION() {
-        return 7000;
-    }
-
-    static get DOWNLOAD_DURATION_DESKTOP_SAFARI() {
         return 1500;
     }
 
@@ -19,6 +15,8 @@ export default class XDownloadableImage extends XElement {
         return `
             <a>
                 <img draggable="false">
+                <p></p>
+                <button>Download</button>
             </a>
             <svg long-touch-indicator xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                 <defs>
@@ -30,7 +28,8 @@ export default class XDownloadableImage extends XElement {
                 <g clip-path="url(#hexClip)">
                     <circle id="circle" cx="32" cy="32" r="16" fill="none" stroke-width="32" stroke-dasharray="100.53 100.53" transform="rotate(-120 32 32)"/>
                 </g>
-            </svg>`;
+            </svg>
+            <p></p>`;
     }
 
     onCreate() {
@@ -42,9 +41,10 @@ export default class XDownloadableImage extends XElement {
         this._blurTimeout = null;
         this.$a = this.$('a');
         this.$img = this.$('img');
+        this.$p = this.$('p');
         this.$longTouchIndicator = this.$('[long-touch-indicator]');
         this._onWindowBlur = this._onWindowBlur.bind(this);
-        this.addEventListener('mousedown', e => this._onMouseDown()); // also gets triggered after touchstart
+        this.addEventListener('mousedown', e => this._onMouseDown(e)); // also gets triggered after touchstart
         this.addEventListener('touchstart', e => this._onTouchStart());
         this.addEventListener('touchend', e => this._onTouchEnd());
     }
@@ -89,9 +89,14 @@ export default class XDownloadableImage extends XElement {
         return typeof this.$a.download !== 'undefined';
     }
 
-    _onMouseDown() {
-        if (!this._supportsNativeDownload()) return;
-        this._onDownloadStart();
+    _onMouseDown(e) {
+        if(e.button === 0) { // primary button
+            if (!this._supportsNativeDownload()) return;
+            this._onDownloadStart();
+        }
+        else if(e.button === 2) { // secondary button
+            window.addEventListener('blur', this._onWindowBlur.bind(this));
+        }
     }
 
     _onTouchStart() {
@@ -123,9 +128,9 @@ export default class XDownloadableImage extends XElement {
 
     _onDownloadStart() {
         // some browsers open a download dialog and blur the window focus, which we use as a hint for a download
-        window.addEventListener('blur', this._onWindowBlur);
-        // otherwise consider the download as successful after some time
-        this._blurTimeout = setTimeout(() => this._onDownloadEnd(), this._determineDownloadDuration());
+        window.addEventListener('blur', this._onWindowBlur.bind(this));
+        // otherwise consider the download as successful if no blur event happens after DOWNLOAD_DURATION duration
+        this._blurTimeout = setTimeout(() => this._onDownloadEnd(), XDownloadableImage.DOWNLOAD_DURATION);
     }
 
     _onDownloadEnd() {
@@ -136,7 +141,7 @@ export default class XDownloadableImage extends XElement {
 
     _onWindowBlur() {
         // wait for the window to refocus when the browser download dialog closes
-        this.listenOnce('focus', e => this._onDownloadEnd(), window);
+        this.listenOnce('focus', e => this._onDownloadStart(), window);
         clearTimeout(this._blurTimeout);
     }
 
@@ -150,11 +155,4 @@ export default class XDownloadableImage extends XElement {
         this.$longTouchIndicator.style.display = 'none';
     }
 
-    _determineDownloadDuration() {
-        if (BrowserDetection.isDesktopSafari()) {
-            return XDownloadableImage.DOWNLOAD_DURATION_DESKTOP_SAFARI;
-        } else {
-            return XDownloadableImage.DOWNLOAD_DURATION;
-        }
-    }
 }
