@@ -15,7 +15,7 @@ export default class XDownloadableImage extends XElement {
         return `
             <a>
                 <img draggable="false">
-                <p></p>
+                <p>&nbsp;</p>
                 <button>Download</button>
             </a>
             <svg long-touch-indicator xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
@@ -95,7 +95,7 @@ export default class XDownloadableImage extends XElement {
             this._onDownloadStart();
         }
         else if(e.button === 2) { // secondary button
-            this.listenOnce('blur', this._onWindowBlur.bind(this), window);
+            window.addEventListener('blur', this._onWindowBlur);
         }
     }
 
@@ -128,8 +128,8 @@ export default class XDownloadableImage extends XElement {
 
     _onDownloadStart() {
         // some browsers open a download dialog and blur the window focus, which we use as a hint for a download
-        this.listenOnce('blur', this._onWindowBlur.bind(this), window);
-        // otherwise consider the download as successful if no blur event happens after DOWNLOAD_DURATION duration
+        window.addEventListener('blur', this._onWindowBlur);
+        // otherwise consider the download as successful after some time
         this._blurTimeout = setTimeout(() => this._onDownloadEnd(), XDownloadableImage.DOWNLOAD_DURATION);
     }
 
