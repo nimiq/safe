@@ -57,9 +57,21 @@ export default class XElement {
     __createArrayOfChild(child) {
         const name = child.__toChildName() + 's';
         const tagName = XElement.__toTagName(child.name);
-        const children = this.$$(tagName);
+
+        const childrenTagNames = this.children().map(x =>
+            XElement.__toTagName(x instanceof Array ? x[0].name : x.name)
+        );
+        const foundChildren = Array.from(this.$$(tagName))
+            .filter(x => {
+                while (x.parentNode !== this.$el) {
+                    x = x.parentNode;
+                    if (childrenTagNames.includes(x.tagName.toLowerCase())) return false;
+                }
+                return true;
+            });
+
         this[name] = [];
-        children.forEach(c => this[name].push(new child(c)));
+        foundChildren.forEach(c => this[name].push(new child(c)));
     }
     /**
      * 
@@ -155,7 +167,7 @@ export default class XElement {
      * 
      * 
      * @param {string} selector
-     * @returns {Element[]}
+     * @returns {NodeList}
      * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
