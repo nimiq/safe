@@ -49,10 +49,6 @@ export default class XWalletBackup extends XElement {
         const filename = backup.filename();
         this.$downloadableImage.src = await backup.toDataUrl();
         this.$downloadableImage.filename = filename;
-
-        // Clear private information
-        this._keyPair.privateKey = null;
-        this._keyPair = null;
     }
 
     async _importAndEncrypt(password) {
@@ -71,5 +67,11 @@ export default class XWalletBackup extends XElement {
         if (!this._keyPair) {
             throw Error('Not initialized');
         }
+    }
+
+    _onExit() {
+        // Clear private information
+        this._keyPair.privateKey = null;
+        this._keyPair = null;
     }
 }
