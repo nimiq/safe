@@ -95,7 +95,7 @@ export default class XDownloadableImage extends XElement {
             this._onDownloadStart();
         }
         else if(e.button === 2) { // secondary button
-            window.addEventListener('blur', this._onWindowBlur.bind(this));
+            this.listenOnce('blur', this._onWindowBlur.bind(this), window);
         }
     }
 
@@ -128,7 +128,7 @@ export default class XDownloadableImage extends XElement {
 
     _onDownloadStart() {
         // some browsers open a download dialog and blur the window focus, which we use as a hint for a download
-        window.addEventListener('blur', this._onWindowBlur.bind(this));
+        this.listenOnce('blur', this._onWindowBlur.bind(this), window);
         // otherwise consider the download as successful if no blur event happens after DOWNLOAD_DURATION duration
         this._blurTimeout = setTimeout(() => this._onDownloadEnd(), XDownloadableImage.DOWNLOAD_DURATION);
     }
@@ -141,7 +141,7 @@ export default class XDownloadableImage extends XElement {
 
     _onWindowBlur() {
         // wait for the window to refocus when the browser download dialog closes
-        this.listenOnce('focus', e => this._onDownloadStart(), window);
+        this.listenOnce('focus', e => this._onDownloadEnd(), window);
         clearTimeout(this._blurTimeout);
     }
 
