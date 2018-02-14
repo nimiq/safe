@@ -12,8 +12,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {XElement | Element | null} parent
      * @memberof XElement
      */
@@ -26,9 +26,9 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
-     * @returns 
+     *
+     *
+     * @returns
      * @memberof XElement
      */
     __createChildren() { // Create all children recursively
@@ -37,8 +37,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {XElement | XElement[]} child
      * @returns {void}
      * @memberof XElement
@@ -49,8 +49,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {XElement} child
      * @memberof XElement
      */
@@ -62,8 +62,8 @@ export default class XElement {
         foundChildren.forEach(c => this[name].push(new child(c)));
     }
     /**
-     * 
-     * 
+     *
+     *
      * @static
      * @param {string} str
      * @returns {string}
@@ -77,8 +77,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @static
      * @returns {string}
      * @memberof XElement
@@ -90,9 +90,9 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
-     * @returns 
+     *
+     *
+     * @returns
      * @memberof XElement
      */
     __fromHtml() {
@@ -108,8 +108,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @readonly
      * @memberof XElement
      */
@@ -118,11 +118,11 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @static
      * @param {string} name
-     * @returns 
+     * @returns
      * @memberof XElement
      */
     static __toTagName(name) {
@@ -130,10 +130,10 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @static
-     * @returns 
+     * @returns
      * @memberof XElement
      */
     static createElement() {
@@ -143,8 +143,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     * Find the first match of a selector within this element.
+     *
      * @param {string} selector
      * @returns {Element}
      * @memberof XElement
@@ -152,53 +152,68 @@ export default class XElement {
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
 
     /**
-     * 
-     * 
+     * Finds all matches of a selector within this element.
+     *
      * @param {string} selector
      * @returns {NodeList}
      * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
 
-    $$Managed(selector) {
-        const childrenTagNames = this.children().map(x =>
-            XElement.__toTagName(x instanceof Array ? x[0].name : x.name)
-        );
-        return Array.from(this.$$(selector))
-            .filter(x => {
-                while (x.parentNode !== this.$el) {
-                    x = x.parentNode;
-                    if (childrenTagNames.includes(x.tagName.toLowerCase())) return false;
-                }
-                return true;
-            });
-    }
-
+    /**
+     * Finds the first match within this element, that is not within another XElement child.
+     *
+     * @param {string} selector
+     * @returns {Element}
+     * @memberof XElement
+     */
     $Managed(selector) {
         return this.$$Managed(selector)[0];
     }
 
     /**
-     * 
-     * 
+     * Finds all matches within this element, that are not within other XElement children.
+     *
+     * @param {string} selector
+     * @returns {NodeList}
+     * @memberof XElement
+     */
+    $$Managed(selector) {
+        // Turn the list of children XElements into their tagNames
+        const childrenTagNames = this.children().map(child =>
+            XElement.__toTagName(child instanceof Array ? child[0].name : child.name)
+        );
+        // Filter all found matches that are not contained in other children XElements
+        return Array.from(this.$$(selector))
+            .filter(el => {
+                for(el = el.parentNode; el !== this.$el; el = el.parentNode) {
+                    if (childrenTagNames.includes(el.tagName.toLowerCase())) return false;
+                }
+                return true;
+            });
+    }
+
+    /**
+     *
+     *
      * @memberof XElement
      */
     clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} type
      * @param {function} callback
      * @memberof XElement
      */
     addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} eventType
-     * @param {any} [detail=null] 
-     * @param {boolean} [bubbles=true] 
+     * @param {any} [detail=null]
+     * @param {boolean} [bubbles=true]
      * @memberof XElement
      */
     fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
@@ -206,8 +221,8 @@ export default class XElement {
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} type
      * @param {function} callback
      * @param {Element | window} $el
@@ -222,24 +237,24 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} styleClass
      * @memberof XElement
      */
     addStyle(styleClass) { this.$el.classList.add(styleClass) }
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} styleClass
      * @memberof XElement
      */
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
     /**
-     * 
-     * 
+     *
+     *
      * @param {() => string[]} styles
-     * @returns 
+     * @returns
      * @memberof XElement
      */
     __bindStyles(styles) {
@@ -249,8 +264,8 @@ export default class XElement {
     }
 
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} className
      * @param {Element | string} $el
      * @param {() => void} afterStartCallback
@@ -275,8 +290,8 @@ export default class XElement {
         })
     }
     /**
-     * 
-     * 
+     *
+     *
      * @param {string} className
      * @param {Element | string} $el
      * @memberof XElement
