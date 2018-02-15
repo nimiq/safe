@@ -7,14 +7,14 @@ export default class XSuccessMark extends XElement {
             <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 168 168">
                 <radialGradient id="${uniqueId}" gradientUnits="userSpaceOnUse" gradientTransform="translate(-4, -4)">
                     <stop offset="1" stop-color="transparent">
-                        <animate dur=".4s" attributeName="offset" begin="indefinite" fill="freeze" from="1" to="0"
+                        <animate dur="0.4s" attributeName="offset" begin="indefinite" fill="freeze" from="1" to="0"
                         values="1;0"
                         keyTimes="0;1"
                         keySplines=".42 0 .58 1"
                         calcMode="spline" />
                     </stop>
                     <stop offset="1" stop-color="#64FFDA">
-                        <animate dur=".4s" attributeName="offset" begin="indefinite" fill="freeze" from="1" to="0"
+                        <animate dur="0.4s" attributeName="offset" begin="indefinite" fill="freeze" from="1" to="0"
                         values="1;0"
                         keyTimes="0;1"
                         keySplines=".42 0 .58 1"
