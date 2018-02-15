@@ -17,11 +17,14 @@
 <x-wallet-backup></x-wallet-backup>
 <script type="module">
     import XWalletBackup from "../x-wallet-backup.js";
-    const address = 'NQ52 R00E 3NKS DXH5 53U3 RK0V S7V4 LEH0 QV64';
-    const privateKey = 'b15560371ce744c3931327205160a68ac46e2cb19bf09ddbd33bfc0292be32ad';
+    import NanoApi from '/libraries/nano-api/nano-api.js';
+
     const $walletBackup = new XWalletBackup();
-    $walletBackup.backup(address, privateKey);
-    $walletBackup.addEventListener('x-wallet-backup-complete', console.log);
+    const api = NanoApi.getApi();
+    api.generateKeyPair().then(keyPair => {
+        $walletBackup.setKeyPair(keyPair);
+        $walletBackup.createBackup('');
+    });
 </script>
 </body>
 
