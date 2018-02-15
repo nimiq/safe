@@ -18,9 +18,10 @@ export default class XElement {
      * @memberof XElement
      */
     __bindDOM(parent) {
-        if (parent instanceof XElement) this.$el = parent.$Managed(this.__tagName); // query in parent for tag name
+        if (parent instanceof XElement) this.$el = parent.$(this.__tagName + ':not([x-initialized])'); // query in parent for tag name
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
+        this.$el.setAttribute('x-initialized', true);
         this.__fromHtml();
         this.__bindStyles(this.styles);
     }
@@ -57,7 +58,7 @@ export default class XElement {
     __createArrayOfChild(child) {
         const name = child.__toChildName() + 's';
         const tagName = XElement.__toTagName(child.name);
-        const foundChildren = this.$$Managed(tagName);
+        const foundChildren = this.$$(tagName + ':not([x-initialized])');
         this[name] = [];
         foundChildren.forEach(c => this[name].push(new child(c)));
     }
@@ -159,39 +160,6 @@ export default class XElement {
      * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
-
-    /**
-     * Finds the first match within this element, that is not within another XElement child.
-     *
-     * @param {string} selector
-     * @returns {Element}
-     * @memberof XElement
-     */
-    $Managed(selector) {
-        return this.$$Managed(selector)[0];
-    }
-
-    /**
-     * Finds all matches within this element, that are not within other XElement children.
-     *
-     * @param {string} selector
-     * @returns {NodeList}
-     * @memberof XElement
-     */
-    $$Managed(selector) {
-        // Turn the list of children XElements into their tagNames
-        const childrenTagNames = this.children().map(child =>
-            XElement.__toTagName(child instanceof Array ? child[0].name : child.name)
-        );
-        // Filter all found matches that are not contained in other children XElements
-        return Array.from(this.$$(selector))
-            .filter(el => {
-                for(el = el.parentNode; el !== this.$el; el = el.parentNode) {
-                    if (childrenTagNames.includes(el.tagName.toLowerCase())) return false;
-                }
-                return true;
-            });
-    }
 
     /**
      *
@@ -310,5 +278,3 @@ export default class XElement {
         this.styles = null;
     }
 }
-
-// Todo: Bug/Pitfall: When instantiating a screen twice on a path down a screen tree (e.g. loading), it has to be declared as an array on the higher level.
