@@ -7,6 +7,9 @@ export default class XWalletBackupImport extends XElement {
     html() {
         return `
             <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <button>Upload</button>
             <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
             <input type="file" accept="image/*">`
     }
@@ -83,7 +86,6 @@ export default class XWalletBackupImport extends XElement {
     }
 }
 
-// Todo: x-wallet-backup-import should look similar to a x-wallet-backup. create svg with same dimensions and layout, a hexagon + qr pictogram 
 // Todo: debug backdrop
 // Todo: style backdrop
 // Todo: remove handlers on hide
