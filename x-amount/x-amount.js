@@ -16,6 +16,6 @@ export default class XAmount extends XElement {
     set value(value) {
         value = Number(value);
         this.$currency1.textContent = NanoApi.formatValue(value, 3) || '';
-        this.$currency2.textContent = NanoApi.formatValueInDollar(value) || '';
+        // this.$currency2.textContent = NanoApi.formatValueInDollar(value) || '';
     }
 }
