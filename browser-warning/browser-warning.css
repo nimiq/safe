@@ -1,0 +1,20 @@
+@import '../x-screen/x-screen.css';
+
+noscript {
+    font-size: 32px;
+}
+
+body[browser-unsupported] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+body[browser-unsupported]::after {
+    content: 'Please update your browser.';
+    font-size: 32px;
+}
+
+body[browser-unsupported] > * {
+    display: none !important;
+}

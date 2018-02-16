@@ -1,0 +1,7 @@
+<noscript>
+    Please enable Javascript.
+    <style>
+        body > :not(noscript) {display: none !important;}
+    </style>
+</noscript>
+<script type="text/javascript" src="/elements/browser-warning/browser-warning.js" async></script>
