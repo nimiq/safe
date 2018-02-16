@@ -60,7 +60,7 @@ export default class XElement {
         const tagName = XElement.__toTagName(child.name);
         const foundChildren = this.$$(tagName + ':not([x-initialized])');
         this[name] = [];
-        foundChildren.forEach(c => this[name].push(new child(c)));
+        foundChildren.forEach(c => this[name].push(new child(this)));
     }
     /**
      *
