@@ -87,5 +87,4 @@ export default class XWalletBackupImport extends XElement {
 }
 
 // Todo: debug backdrop
-// Todo: style backdrop
 // Todo: remove handlers on hide
