@@ -45,3 +45,10 @@ x-privacy-agent-container {
     margin-bottom: 16px;
     box-shadow:  rgba(0, 0, 0, 0.5) 0 2px 4px;
 }
+
+@media (max-height: 600px) {
+    x-privacy-agent-container svg {
+        display: none;
+    }
+
+}

@@ -24,3 +24,11 @@ x-wallet-backup x-downloadable-image img {
 	overflow: hidden;
 	box-shadow: 1px 1px 3px rgba(0,0,0,0.5);
 }
+
+@media (max-height: 700px){
+	x-wallet-backup x-downloadable-image img {
+		max-height: 44vh;
+        width: unset;
+		height: unset;
+	}
+}
