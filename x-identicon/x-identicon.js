@@ -1,8 +1,8 @@
 import XElement from '/libraries/x-element/x-element.js';
-import Identicon from '/libraries/identicon/src/identicon.js';
+import Iqon from '/libraries/iqons/dist/iqons.min.js';
 
 export default class XIdenticon extends XElement {
     set address(address) {
-        Identicon.render(address, this.$el);
+        Iqon.render(address, this.$el);
     }
 }
