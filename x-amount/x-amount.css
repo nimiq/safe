@@ -62,3 +62,7 @@ x-currency-1:empty:before,
 x-currency-2:empty:before {
     content: '0';
 }
+
+x-currency-2 {
+    display: none;
+}
