@@ -8,6 +8,7 @@ export default class XElement {
         this.__bindDOM(parent);
         this.__createChildren();
         this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
+        // todo make private. Also, refactor it to be called after constructor by XAppScreen, so we can use constructors?
         if (this.onCreate) this.onCreate();
     }
 
