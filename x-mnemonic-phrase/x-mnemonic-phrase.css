@@ -13,6 +13,14 @@ x-mnemonic-phrase {
     counter-reset: x-word;
 }
 
+x-mnemonic-phrase .x-word {
+    margin: 3px;
+    display: flex;
+    flex-flow: column;
+    flex: 1 0 20%;
+    position: relative;
+}
+
 x-mnemonic-phrase .x-word:before {
     counter-increment: x-word;
     content: counter(x-word);
@@ -28,6 +36,12 @@ x-mnemonic-phrase .x-word:before {
     left: calc(50% - 36px);
     animation-delay: inherit;
     animation-duration: 2000ms;
+}
+
+x-mnemonic-phrase .x-index {
+    font-size: 10px;
+    color: #b8c1f7;
+    line-height: 0;
 }
 
 x-mnemonic-phrase.x-entry .x-word:before {

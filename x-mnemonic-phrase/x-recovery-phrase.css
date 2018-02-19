@@ -34,12 +34,6 @@
     transition: opacity 300ms;
 }
 
-.x-recovery-phrase .x-word {
-    flex: 1 0 20%;
-    margin: 2px;
-    position: relative;
-}
-
 .x-recovery-phrase.x-entry .x-word {
     animation: x-recovery-phrase 300ms;
     animation-fill-mode: backwards;

@@ -12,15 +12,12 @@ export default class XMnemonicPhrase extends XElement {
         // Clear existing words
         this.clear();
 
-        words.forEach((word, index) => {
-            const $span = document.createElement('span');
-            $span.className = 'x-word';
-            $span.title = 'word #' + (index + 1);
-            $span.style.animationDelay = (700 + 64 * index) + 'ms';
+        const html = words.map((word, index) => `<div class="x-word">
+            <span class="x-index">${index + 1}</span>
+            <span class="x-word-content" title="word # ${index + 1}">${word}</span>
+        </div>`).reduce((a,b) => a.concat(b));
 
-            $span.textContent = word;
-            this.$el.appendChild($span);
-        });
+        this.$el.innerHTML = html;
     }
 
     animateEntry() {
