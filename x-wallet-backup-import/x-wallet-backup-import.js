@@ -14,8 +14,6 @@ export default class XWalletBackupImport extends XElement {
             <input type="file" accept="image/*">`
     }
 
-    children() { return [XToast] }
-
     onCreate() {
         this.$fileInput = this.$('input');
         this.$importIcon = this.$('x-wallet-backup-import-icon');
@@ -82,7 +80,7 @@ export default class XWalletBackupImport extends XElement {
 
     _onQrError() {
         this.animate('shake', this.$importIcon);
-        this.$toast.show('Couldn\'t read Backup File');
+        XToast.show('Couldn\'t read Backup File');
     }
 }
 

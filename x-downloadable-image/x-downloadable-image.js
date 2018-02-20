@@ -1,6 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XToast from '../x-toast/x-toast.js';
-import BrowserDetection from '/libraries/nimiq-utils/browser-detection/browser-detection.js';
 
 export default class XDownloadableImage extends XElement {
     static get LONG_TOUCH_DURATION() {
@@ -47,10 +46,6 @@ export default class XDownloadableImage extends XElement {
         this.addEventListener('mousedown', e => this._onMouseDown(e)); // also gets triggered after touchstart
         this.addEventListener('touchstart', e => this._onTouchStart());
         this.addEventListener('touchend', e => this._onTouchEnd());
-    }
-
-    children() {
-        return [XToast];
     }
 
     set src(src) {
