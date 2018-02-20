@@ -4,7 +4,9 @@ import NanoApi from '/libraries/nano-api/nano-api.js';
 export default class XAmount extends XElement {
     html(){
         return `
-            <x-currency-1></x-currency-1>
+            <x-currency-1>
+                <x-loading-animation></x-loading-animation>
+            </x-currency-1>
             <x-currency-2></x-currency-2>`
     }
 
@@ -15,7 +17,7 @@ export default class XAmount extends XElement {
 
     set value(value) {
         value = Number(value);
-        this.$currency1.textContent = NanoApi.formatValue(value, 3) || '';
+        this.$currency1.textContent = (NanoApi.formatValue(value, 3) || '') + ' NIM';
         // this.$currency2.textContent = NanoApi.formatValueInDollar(value) || '';
     }
 }

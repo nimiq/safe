@@ -47,21 +47,7 @@ x-currency-2:after {
     font-weight: 700;
 }
 
-x-currency-1:after {
-    content: 'NIM';
-    /* position: absolute; */
-}
-
-x-currency-2:after {
-    content: 'USD';
-}
-
 /* Empty State */
-
-x-currency-1:empty:before,
-x-currency-2:empty:before {
-    content: '0';
-}
 
 x-currency-2 {
     display: none;
