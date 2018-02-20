@@ -248,12 +248,14 @@ export default class XElement {
         return new Promise(resolve => {
             $el = $el || this.$el;
             // 'animiationend' is a native DOM event that fires upon CSS animation completion
-            this.listenOnce('animationend', e => {
+            const listener = e => {
                 if (e.target !== $el) return;
                 if (beforeEndCallback) beforeEndCallback();
                 this.stopAnimate(className, $el);
+                this.$el.removeEventListener('animationend', listener);
                 resolve();
-            }, $el);
+            };
+            this.$el.addEventListener('animationend', listener);
             $el.classList.add(className);
             if (afterStartCallback) afterStartCallback();
         })
