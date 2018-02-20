@@ -9,6 +9,8 @@ export default class XMnemonicPhrase extends XElement {
         const phrase = MnemonicPhrase.keyToMnemonic(privateKey);
         const words = phrase.split(/\s+/g);
 
+        // TODO: [low] Reactive animation of each word via initial delay
+
         // Clear existing words
         this.clear();
 
@@ -17,6 +19,7 @@ export default class XMnemonicPhrase extends XElement {
             <span class="x-word-content" title="word # ${index + 1}">${word}</span>
         </div>`).reduce((a,b) => a.concat(b));
 
+        // TODO: [low] Replace by document.createElement to avoid risk of injection
         this.$el.innerHTML = html;
     }
 
