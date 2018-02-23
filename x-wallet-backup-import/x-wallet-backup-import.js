@@ -7,7 +7,6 @@ export default class XWalletBackupImport extends XElement {
     html() {
         return `
             <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
-            <p>&nbsp;</p>
             <button>Upload</button>
             <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
             <input type="file" accept="image/*">`

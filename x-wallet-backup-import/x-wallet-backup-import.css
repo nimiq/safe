@@ -26,10 +26,11 @@ x-wallet-backup-import-icon {
     transition: transform 300ms;
     opacity: 0.6;
     margin-bottom: 10px;
+    transform: scale(0.9);
 }
 
 x-wallet-backup-import:hover x-wallet-backup-import-icon {
-    transform: scale(1.1);
+    transform: scale(1);
 }
 
 x-wallet-backup-import input {
