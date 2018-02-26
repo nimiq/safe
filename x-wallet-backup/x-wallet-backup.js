@@ -38,7 +38,6 @@ export default class XWalletBackup extends XElement {
         let scanResult = null;
         let encryptedKey;
         do {
-            console.log('attempt');
             encryptedKey = await this._importAndEncrypt(password);
             backup = new WalletBackup(this._keyPair.address, encryptedKey);
             try {
