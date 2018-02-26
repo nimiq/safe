@@ -5,12 +5,13 @@ export default class XPasswordInput extends XInput {
         return `
             <form action="/">
                 <input class="password" type="password" placeholder="Enter Password" required minlength="10">
-                <span id="eye" icon-eye /> 
+                <span id="eye" icon-eye />
             </form>
         `;
     }
 
     onCreate() {
+        super.onCreate();
         this.$eye = this.$('#eye');
         this.$input = this.$('input');
         this.$eye.addEventListener('click', e => this._toggleVisibility());
