@@ -4,4 +4,5 @@
         body > :not(noscript) {display: none !important;}
     </style>
 </noscript>
+<!-- @asset(/elements/browser-warning/browser-warning.js) -->
 <script type="text/javascript" src="/elements/browser-warning/browser-warning.js" async></script>
