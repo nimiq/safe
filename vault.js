@@ -34,6 +34,10 @@ class Vault {
     _onBalanceChanged(obj) {
         console.log('Balance changed:', obj.address, obj.balance);
     }
+
+    getBalance(address) {
+        return this._network.getBalance(address);
+    }
 }
 
-new Vault();
+window.vault = new Vault();
