@@ -19,16 +19,20 @@ class Vault {
         this._networkListener = new EventListener();
         const { proxy: networkProxy } = await Boruca.proxy(this.$network.contentWindow, config.networkOrigin, this._networkListener.Receiver);
         this._network = networkProxy;
-        this._networkListener.on('consensus-established', this._onConsensusEstablished.bind(this));
-        this._networkListener.on('balance-changed', this._onBalanceChanged.bind(this));
+
+        this._networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+        this._networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+        this._networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
+        this._networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
+        this._networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
     }
 
     _onConsensusEstablished() {
         console.log('Consensus established');
     }
 
-    _onBalanceChanged(newBalance) {
-        console.log('New balance:', newBalance);
+    _onBalanceChanged(obj) {
+        console.log('Balance changed:', obj.address, obj.balance);
     }
 }
 
