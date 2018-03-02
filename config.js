@@ -1,11 +1,11 @@
 const localConfig = {
-    keystoreOrigin: 'http://localhost',
-    nanoApiOrigin: 'http://localhost'
+    keystoreOrigin: location.origin,
+    networkOrigin: location.origin
 }
 
 const liveConfig = {
     keystoreOrigin: 'https://secure.nimiq.com',
-    nanoApiOrigin: 'https://network.nimiq.com'
+    networkOrigin: 'https://network.nimiq.com'
 }
 
 export default localConfig;
