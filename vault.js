@@ -38,6 +38,10 @@ class Vault {
     getBalance(address) {
         return this._network.getBalance(address);
     }
+
+    relayTransaction(obj) {
+        return this._network.relayTransaction(obj);
+    }
 }
 
 window.vault = new Vault();
