@@ -8,13 +8,13 @@ class Vault {
     }
 
     async launch() {
-        this._keystore = await RPC.Client(this.$keystore.contentWindow);
+        this._keystore = await RPC.Client(this.$keystore.contentWindow, 'KeystoreApi');
         this._addresses = await this._keystore.getAddresses();
 
         console.log('Addresses:', this._addresses);
 
         this._networkListener = await EventClient.create(this.$network.contentWindow);
-        this._network = await RPC.Client(this.$network.contentWindow);
+        this._network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi');
 
         this._networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
         this._networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
