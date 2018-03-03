@@ -1,6 +1,4 @@
-import Boruca from '/libraries/boruca-messaging/src/boruca.js';
-import EventListener from '/libraries/boruca-messaging/src/event-listener.js';
-import config from './config.js';
+import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
 
 class Vault {
     constructor() {
@@ -10,15 +8,13 @@ class Vault {
     }
 
     async launch() {
-        const { proxy: keystoreProxy } = await Boruca.proxy(this.$keystore.contentWindow, config.keystoreOrigin);
-        this._keystore = keystoreProxy;
+        this._keystore = await RPC.Client(this.$keystore.contentWindow);
         this._addresses = await this._keystore.getAddresses();
 
         console.log('Addresses:', this._addresses);
 
-        this._networkListener = new EventListener();
-        const { proxy: networkProxy } = await Boruca.proxy(this.$network.contentWindow, config.networkOrigin, this._networkListener.Receiver);
-        this._network = networkProxy;
+        this._networkListener = await EventClient.create(this.$network.contentWindow);
+        this._network = await RPC.Client(this.$network.contentWindow);
 
         this._networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
         this._networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
