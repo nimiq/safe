@@ -39,6 +39,10 @@ class Vault {
         return this._network.getBalance(address);
     }
 
+    subscribeAddress(address) {
+        return this._network.subscribeAddress(address);
+    }
+
     relayTransaction(obj) {
         return this._network.relayTransaction(obj);
     }
