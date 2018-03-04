@@ -1,11 +1,15 @@
-const localConfig = {
-    keystoreOrigin: location.origin,
+const devConfig = {
+    keystoreSrc: '/libraries/keystore/keystore.html',
     networkOrigin: location.origin
 }
 
+const localConfig = {
+
+}
+
 const liveConfig = {
-    keystoreOrigin: 'https://secure.nimiq.com',
+    keystoreSrc: 'https://secure.nimiq.com',
     networkOrigin: 'https://network.nimiq.com'
 }
 
-export default localConfig;
+export default devConfig;

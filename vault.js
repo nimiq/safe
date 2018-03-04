@@ -1,14 +1,15 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
+import KeystoreClient from '/libraries/keystore-client/keystore-client.js';
+import config from './config.js';
 
 class Vault {
     constructor() {
-        this.$keystore = document.querySelector('#keystore');
         this.$network = document.querySelector('#network');
         this.launch();
     }
 
     async launch() {
-        this._keystore = await RPC.Client(this.$keystore.contentWindow, 'KeystoreApi');
+        this._keystore = await KeystoreClient.create(config.keystoreSrc);
         this._addresses = await this._keystore.getAddresses();
 
         console.log('Addresses:', this._addresses);
