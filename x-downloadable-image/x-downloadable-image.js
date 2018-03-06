@@ -15,7 +15,7 @@ export default class XDownloadableImage extends XElement {
             <a>
                 <img draggable="false">
                 <p>&nbsp;</p>
-                <button>Download</button>
+                <button>Save</button>
             </a>
             <svg long-touch-indicator xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
                 <defs>
