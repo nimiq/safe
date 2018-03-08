@@ -5,6 +5,7 @@ import config from './config.js';
 class Safe {
     constructor() {
         this.$network = document.querySelector('#network');
+        this.$network.src = config.networkSrc;
         this.launch();
     }
 
