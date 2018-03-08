@@ -9,6 +9,8 @@ class Safe {
     }
 
     async launch() {
+        const networkURL = new URL(config.networkSrc);
+
         return Promise.all([
             new Promise(async (res, err) => {
                 this.keyguard = await KeyguardClient.create(config.keyguardSrc);
@@ -17,11 +19,11 @@ class Safe {
                 res();
             }),
             new Promise(async (res, err) => {
-                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi);
+                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi', networkURL.origin);
                 res();
             }),
             new Promise(async (res, err) => {
-                this.networkListener = await EventClient.create(this.$network.contentWindow);
+                this.networkListener = await EventClient.create(this.$network.contentWindow, networkURL.origin);
                 this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
                 this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
                 this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
