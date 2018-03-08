@@ -9,8 +9,8 @@ class Vault {
     }
 
     async launch() {
-        this._keystore = await KeystoreClient.create(config.keystoreSrc);
-        this._addresses = await this._keystore.getAddresses();
+        this._keyguard = await KeystoreClient.create(config.keyguardSrc);
+        this._addresses = await this._keyguard.getAddresses();
 
         console.log('Addresses:', this._addresses);
 

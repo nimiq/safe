@@ -1,5 +1,5 @@
 const devConfig = {
-    keystoreSrc: '/libraries/keystore/keystore.html',
+    keyguardSrc: '/libraries/keystore/keystore.html',
     networkOrigin: location.origin
 }
 
