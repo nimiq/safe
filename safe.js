@@ -18,7 +18,7 @@ class Safe {
                 res();
             }),
             new Promise(async (res, err) => {
-                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi);
+                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi');
                 res();
             }),
             new Promise(async (res, err) => {
