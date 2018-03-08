@@ -1,15 +1,15 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
-import KeystoreClient from '/libraries/keystore-client/keystore-client.js';
+import KeyguardClient from '/libraries/keyguard-client/keyguard-client.js';
 import config from './config.js';
 
-class Vault {
+class Safe {
     constructor() {
         this.$network = document.querySelector('#network');
         this.launch();
     }
 
     async launch() {
-        this._keyguard = await KeystoreClient.create(config.keyguardSrc);
+        this._keyguard = await KeyguardClient.create(config.keyguardSrc);
         this._addresses = await this._keyguard.getAddresses();
 
         console.log('Addresses:', this._addresses);
@@ -49,4 +49,4 @@ class Vault {
     }
 }
 
-window.vault = new Vault();
+window.safe = new Safe();
