@@ -9,19 +9,27 @@ class Safe {
     }
 
     async launch() {
-        this._keyguard = await KeyguardClient.create(config.keyguardSrc);
-        this._addresses = await this._keyguard.getAddresses();
-
-        console.log('Addresses:', this._addresses);
-
-        this._networkListener = await EventClient.create(this.$network.contentWindow);
-        this._network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi');
-
-        this._networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
-        this._networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
-        this._networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
-        this._networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
-        this._networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
+        return Promise.all([
+            new Promise(async (res, err) => {
+                this.keyguard = await KeyguardClient.create(config.keyguardSrc);
+                this._accounts = await this.keyguard.getAccounts();
+                console.log('Addresses:', this._accounts);
+                res();
+            }),
+            new Promise(async (res, err) => {
+                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi);
+                res();
+            }),
+            new Promise(async (res, err) => {
+                this.networkListener = await EventClient.create(this.$network.contentWindow);
+                this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+                this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+                this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
+                this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
+                this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
+                res();
+            })
+        ]);
     }
 
     _onConsensusEstablished() {
@@ -33,19 +41,19 @@ class Safe {
     }
 
     getBalance(address) {
-        return this._network.getBalance(address);
+        return this.network.getBalance(address);
     }
 
     subscribeAddress(address) {
-        return this._network.subscribeAddress(address);
+        return this.network.subscribeAddress(address);
     }
 
     subscribeAndGetBalance(address) {
-        return this._network.subscribeAndGetBalance(address);
+        return this.network.subscribeAndGetBalance(address);
     }
 
     relayTransaction(obj) {
-        return this._network.relayTransaction(obj);
+        return this.network.relayTransaction(obj);
     }
 }
 
