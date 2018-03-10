@@ -1,0 +1,13 @@
+@import '/libraries/nimiq-style/nimiq-style.css';
+
+body {
+    background: var(--primary-background);
+}
+
+main {
+    background: white;
+    color: var(--primary-color);
+    margin: 5vh 5vw;
+    width: 90vw;
+    height: 90vh;
+}

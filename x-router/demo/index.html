@@ -3,17 +3,36 @@
     <head>
         <meta charset="utf-8">
         <title>X-Router Demo</title>
+        <link rel="stylesheet" href="../x-router.css">
+        <link rel="stylesheet" href="demo.css">
     </head>
     <body>
         <x-router>
             <x-route path="import">
+                <main>
+                import
+                </main>
             </x-route>
             <x-route path="backup">
+                <main>
+                backup
+                </main>
+            </x-route>
+            <x-route path="error">
+                <main>
+                error
+                </main>
+            </x-route>
+            <!-- root needs to be last for now, to be fixed -->
+            <x-route path="">
+                <main>
+                Root!
+                </main>
             </x-route>
         </x-router>
         <script type="module">
             import XRouter from '../x-router.js';
-            const xRouter = new XRouter();
+            const xRouter = window.xRouter = new XRouter();
         </script>
     </body>
 </html>
