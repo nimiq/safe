@@ -24,10 +24,10 @@ export default class XElement {
      * @param {XElement | Element | null} parent
      */
     __bindDOM(parent) {
-        if (parent instanceof XElement) this.$el = parent.$(this.__tagName + ':not([x-initialized])'); // query in parent for tag name
+        if (parent instanceof XElement) this.$el = parent.$(this.__tagName + ':not([data-x-initialized])'); // query in parent for tag name
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
-        this.$el.setAttribute('x-initialized', true);
+        this.$el.setAttribute('data-x-initialized', true);
         this.__fromHtml();
         this.__bindStyles(this.styles());
     }
@@ -84,10 +84,10 @@ export default class XElement {
         const currentContent = this.$el.innerHTML.trim();
         this.$el.innerHTML = html;
         if (currentContent === '') return;
-        const $content = this.$('[content]');
+        const $content = this.$('[data-x-content]');
         if (!$content) return;
         $content.innerHTML = currentContent;
-        $content.removeAttribute('content');
+        $content.removeAttribute('data-x-content');
     }
 
     /**
