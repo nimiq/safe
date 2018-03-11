@@ -1,8 +1,16 @@
-x-route {
+x-router {
+    position.absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+x-route, [x-route] {
     position: absolute;
     display: none;
 }
 
-x-route[class]:not([class=""]) {
+x-route[class]:not([class=""]), [x-route][class]:not([class=""]) {
     display: block;
 }

@@ -3,28 +3,31 @@ import Router from '/libraries/es6-router/src/index.js';
 
 export default class XRouter extends XElement {
 
-    //constructor(parent) { super(parent); }
+    constructor(parent) {
+        super(parent);
+        if (!XRouter.root) XRouter.root = window.xRouter = this;
+    }
 
     onCreate() {
         this.reverse = false;
         this.router = new Router({ debug: true, startListening: false });
-        //console.log(JSON.stringify(this.router.routes[0].route));
-        this.parseRoutes(this.$$('x-route'));
-        console.log(JSON.stringify(this.router.routes[0].route));
+
+        this.parseRoutes(this.$$('[x-route]'));
+        this.hookUpLinks(this.$$('a[x-href]'));
+
         this.router.listen();
+
         this.addEventListener('animationend', e => {
-            console.log('animationend');
             this._toggleInOut(this.previous, false, false);
             this._toggleInOut(this.current, false, false);
             this._setClass(this.current, 'in', true);
-            //this.reverse = false;
         });
     }
 
     parseRoutes(routeElements) {
         this.routes = {};
         for (const element of routeElements) {
-            const path = element.attributes.path.value.trim();
+            const path = element.attributes['x-route'].value.trim();
             if (!path || path === '' || path ==='/') { // root
                 this.routes._root = { path, element }
                 this.router.add(() => {
@@ -38,6 +41,14 @@ export default class XRouter extends XElement {
                     console.log('normal route', path);
                 });
             }
+        }
+    }
+
+    hookUpLinks(links) {
+        for (const link of links) {
+            const path = link.attributes['x-href'].value.trim();
+            link.href = `#${path}`;
+            link.addEventListener('click', e => this.goTo(path))
         }
     }
 
