@@ -4,19 +4,24 @@ export default class XElement {
      * @param {XElement | Element | null} parent
      * @memberof XElement
      */
-    constructor(parent) {
+    constructor(parent, ...args) {
+        /** @type{() => (typeof XElement)[]} */
+        this.children = null;
+        /** @type {string} */
+        this.name = null;
+        /** @types {() => string[]} */
+        this.styles = null;
+
         this.__bindDOM(parent);
         this.__createChildren();
         this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
+
         // todo make private. Also, refactor it to be called after constructor by XAppScreen, so we can use constructors?
-        if (this.onCreate) this.onCreate();
+        if (this.onCreate) this.onCreate(...args);
     }
 
     /**
-     *
-     *
      * @param {XElement | Element | null} parent
-     * @memberof XElement
      */
     __bindDOM(parent) {
         if (parent instanceof XElement) this.$el = parent.$(this.__tagName + ':not([x-initialized])'); // query in parent for tag name
@@ -28,10 +33,7 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @returns
-     * @memberof XElement
      */
     __createChildren() { // Create all children recursively
         if (!this.children) return;
@@ -39,11 +41,8 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @param {XElement | XElement[]} child
      * @returns {void}
-     * @memberof XElement
      */
     __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
         if (child instanceof Array) return this.__createArrayOfChild(child[0]);
@@ -51,10 +50,7 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @param {XElement} child
-     * @memberof XElement
      */
     __createArrayOfChild(child) {
         const name = child.__toChildName() + 's';
@@ -64,12 +60,9 @@ export default class XElement {
         foundChildren.forEach(c => this[name].push(new child(this)));
     }
     /**
-     *
-     *
      * @static
      * @param {string} str
      * @returns {string}
-     * @memberof XElement
      */
     static camelize(str) {
         return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => {
@@ -79,11 +72,8 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @static
      * @returns {string}
-     * @memberof XElement
      */
     static __toChildName() {
         let name = this.name;
@@ -92,10 +82,7 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @returns
-     * @memberof XElement
      */
     __fromHtml() {
         if (!this.html) return;
@@ -110,33 +97,24 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @readonly
-     * @memberof XElement
      */
     get __tagName() { // The tagName of this DOM-Element
         return XElement.__toTagName(this.constructor.name);
     }
 
     /**
-     *
-     *
      * @static
      * @param {string} name
      * @returns
-     * @memberof XElement
      */
     static __toTagName(name) {
         return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
     }
 
     /**
-     *
-     *
      * @static
      * @returns
-     * @memberof XElement
      */
     static createElement() {
         const name = this.__toTagName(this.name);
@@ -160,42 +138,33 @@ export default class XElement {
      * @returns {NodeList}
      * @memberof XElement
      */
-    $$(selector) { return this.$el.querySelectorAll(selector) } // QueryAll inside of this DOM-Element
+    $$(selector) { return this.$el.querySelectorAll(selector) }
 
     /**
-     *
-     *
-     * @memberof XElement
+     * Clear all DOM-Element children
      */
-    clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } // Clear all DOM-Element children
+    clear() { while (this.$el.firstChild) this.$el.removeChild(this.$el.firstChild) } //
 
     /**
-     *
-     *
      * @param {string} type
      * @param {function} callback
-     * @memberof XElement
      */
     addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
+
     /**
-     *
-     *
      * @param {string} eventType
      * @param {any} [detail=null]
      * @param {boolean} [bubbles=true]
-     * @memberof XElement
      */
     fire(eventType, detail = null, bubbles = true) { // Fire DOM-Event
         const params = { detail: detail, bubbles: bubbles };
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
+
     /**
-     *
-     *
      * @param {string} type
      * @param {function} callback
      * @param {Element | window} $el
-     * @memberof XElement
      */
     listenOnce(type, callback, $el) {
         const listener = e => {
@@ -206,25 +175,18 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @param {string} styleClass
-     * @memberof XElement
      */
     addStyle(styleClass) { this.$el.classList.add(styleClass) }
+
     /**
-     *
-     *
      * @param {string} styleClass
-     * @memberof XElement
      */
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
+
     /**
-     *
-     *
      * @param {() => string[]} styles
      * @returns
-     * @memberof XElement
      */
     __bindStyles(styles) {
         if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively
@@ -233,14 +195,11 @@ export default class XElement {
     }
 
     /**
-     *
-     *
      * @param {string} className
      * @param {Element | string} $el
      * @param {() => void} afterStartCallback
      * @param {() => void} beforeEndCallback
      * @returns
-     * @memberof XElement
      */
     animate(className, $el, afterStartCallback, beforeEndCallback) {
         const $screen = this;
@@ -260,24 +219,13 @@ export default class XElement {
             if (afterStartCallback) afterStartCallback();
         })
     }
+
     /**
-     *
-     *
      * @param {string} className
      * @param {Element | string} $el
-     * @memberof XElement
      */
     stopAnimate(className, $el) {
         $el = $el || this.$el;
         $el.classList.remove(className);
-    }
-
-    types() {
-        /** @type{() => (typeof XElement)[]} */
-        this.children = null;
-        /** @type {string} */
-        this.name = null;
-        /** @types {() => string[]} */
-        this.styles = null;
     }
 }
