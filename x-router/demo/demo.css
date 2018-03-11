@@ -5,9 +5,11 @@ body {
 }
 
 main {
-    background: white;
-    color: var(--primary-color);
     margin: 5vh 5vw;
     width: 90vw;
     height: 90vh;
+}
+
+a.next:before {
+    content: "\00BB ";
 }

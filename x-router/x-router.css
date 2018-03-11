@@ -1,24 +1,8 @@
 x-route {
-    /*position: absolute;
-    width: 100vw;
-    height: 100vh;*/
     position: absolute;
     display: none;
 }
 
-x-route.from-left-in, x-route.from-right-out {
+x-route[class]:not([class=""]) {
     display: block;
 }
-
-/*
-    left: -100vw;
-x-route.in, x-route.out {
-    transition: all 300ms;
-}
-x-route.in {
-    left: 0;
-}
-x-route.out {
-    left: 100vw;
-}
-*/
