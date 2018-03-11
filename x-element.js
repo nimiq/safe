@@ -15,8 +15,6 @@ export default class XElement {
 
     styles() { return []; }
 
-    html() { return ''; }
-
     /** @returns{(typeof XElement)[]} */
     children() { return []; }
 
@@ -80,7 +78,8 @@ export default class XElement {
      * @returns
      */
     __fromHtml() {
-        const html = this.html().trim();
+        if (!(this.html instanceof Function)) return;
+        const html = this.html().trim()
         const currentContent = this.$el.innerHTML.trim();
         this.$el.innerHTML = html;
         if (currentContent === '') return;
