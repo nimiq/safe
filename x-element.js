@@ -9,16 +9,13 @@ export default class XElement {
         this.children = null;
         /** @type {string} */
         this.name = null;
-        /** @types {() => string[]} */
-        this.styles = null;
-
         this.__bindDOM(parent);
         this.__createChildren();
-        this.$el.xDebug = this; // This DOM-Element gets a reference to this XElement (nice for debugging)
 
-        // todo make private. Also, refactor it to be called after constructor by XAppScreen, so we can use constructors?
-        if (this.onCreate) this.onCreate(...args);
+        if (this.onCreate) this.onCreate();
     }
+
+    get styles() { return []; }
 
     /**
      * @param {XElement | Element | null} parent
@@ -29,7 +26,7 @@ export default class XElement {
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('x-initialized', true);
         this.__fromHtml();
-        this.__bindStyles(this.styles);
+        this.__bindStyles();
     }
 
     /**
@@ -85,8 +82,7 @@ export default class XElement {
      * @returns
      */
     __fromHtml() {
-        if (!this.html) return;
-        const html = this.html().trim();
+        const html = this.html.trim();
         const currentContent = this.$el.innerHTML.trim();
         this.$el.innerHTML = html;
         if (currentContent === '') return;
@@ -188,10 +184,11 @@ export default class XElement {
      * @param {() => string[]} styles
      * @returns
      */
-    __bindStyles(styles) {
-        if (super.styles) super.__bindStyles(super.styles); // Bind styles of all parent types recursively
-        if (!styles) return;
-        styles().forEach(style => this.addStyle(style));
+    __bindStyles() {
+        // Bind styles of all parent types recursively
+        if (super) super.__bindStyles();
+
+        this.styles.forEach(style => this.addStyle(style));
     }
 
     /**
@@ -202,8 +199,6 @@ export default class XElement {
      * @returns
      */
     animate(className, $el, afterStartCallback, beforeEndCallback) {
-        const $screen = this;
-
         return new Promise(resolve => {
             $el = $el || this.$el;
             // 'animiationend' is a native DOM event that fires upon CSS animation completion
@@ -228,4 +223,5 @@ export default class XElement {
         $el = $el || this.$el;
         $el.classList.remove(className);
     }
+
 }
