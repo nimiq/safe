@@ -3,6 +3,7 @@ import KeyboardHandler from '/libraries/nimiq-utils/keyboard-handler/keyboard-ha
 
 export default class XPinpad extends XElement {
     styles() { return ['center'] }
+
     html() {
         return `
             <x-pin-label></x-pin-label>
