@@ -4,9 +4,7 @@ export default class XElement {
      * @param {XElement | Element | null} parent
      * @memberof XElement
      */
-    constructor(parent, ...args) {
-        /** @type{() => (typeof XElement)[]} */
-        this.children = null;
+    constructor(parent) {
         /** @type {string} */
         this.name = null;
         this.__bindDOM(parent);
@@ -15,7 +13,12 @@ export default class XElement {
         if (this.onCreate) this.onCreate();
     }
 
-    get styles() { return []; }
+    styles() { return []; }
+
+    html() { return ''; }
+
+    /** @returns{(typeof XElement)[]} */
+    children() { return []; }
 
     /**
      * @param {XElement | Element | null} parent
@@ -26,37 +29,32 @@ export default class XElement {
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('x-initialized', true);
         this.__fromHtml();
-        this.__bindStyles();
+        this.__bindStyles(this.styles());
     }
 
     /**
      * @returns
      */
     __createChildren() { // Create all children recursively
-        if (!this.children) return;
         this.children().forEach(child => this.__createChild(child));
-    }
-
-    /**
-     * @param {XElement | XElement[]} child
-     * @returns {void}
-     */
-    __createChild(child) { // bind all this.$myChildElement = new MyChildElement(this);
-        if (child instanceof Array) return this.__createArrayOfChild(child[0]);
-        this[child.__toChildName()] = new child(this);
     }
 
     /**
      * @param {XElement} child
      */
-    __createArrayOfChild(child) {
-        const name = child.__toChildName() + 's';
+    __createChild(child) {
+        const name = child.__toChildName();
         const tagName = XElement.__toTagName(child.name);
         const foundChildren = this.$$(tagName + ':not([x-initialized])');
+
         this[name] = [];
         foundChildren.forEach(c => this[name].push(new child(this)));
+
+        // if there is only one child of this kind, unwrap it from the array
+        if (this[name].length === 1) this[name] = this[name][0];
     }
-    /**
+
+    /*
      * @static
      * @param {string} str
      * @returns {string}
@@ -82,7 +80,7 @@ export default class XElement {
      * @returns
      */
     __fromHtml() {
-        const html = this.html.trim();
+        const html = this.html().trim();
         const currentContent = this.$el.innerHTML.trim();
         this.$el.innerHTML = html;
         if (currentContent === '') return;
@@ -123,7 +121,6 @@ export default class XElement {
      *
      * @param {string} selector
      * @returns {Element}
-     * @memberof XElement
      */
     $(selector) { return this.$el.querySelector(selector) } // Query inside of this DOM-Element
 
@@ -132,7 +129,6 @@ export default class XElement {
      *
      * @param {string} selector
      * @returns {NodeList}
-     * @memberof XElement
      */
     $$(selector) { return this.$el.querySelectorAll(selector) }
 
@@ -184,11 +180,9 @@ export default class XElement {
      * @param {() => string[]} styles
      * @returns
      */
-    __bindStyles() {
-        // Bind styles of all parent types recursively
-        if (super) super.__bindStyles();
-
-        this.styles.forEach(style => this.addStyle(style));
+    __bindStyles(styles) {
+        if (super.styles) super.__bindStyles(super.styles()); // Bind styles of all parent types recursively
+        styles.forEach(style => this.addStyle(style));
     }
 
     /**
