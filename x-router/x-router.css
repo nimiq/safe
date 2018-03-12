@@ -1,5 +1,5 @@
 x-router {
-    position.absolute;
+    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
@@ -12,5 +12,5 @@ x-route, [x-route] {
 }
 
 x-route[class]:not([class=""]), [x-route][class]:not([class=""]) {
-    display: block;
+    display: flex;
 }
