@@ -14,8 +14,11 @@ export default class XPasswordInput extends XInput {
         super.onCreate();
         this.$eye = this.$('#eye');
         this.$input = this.$('input');
-        this.$eye.addEventListener('click', e => this._toggleVisibility());
     }
+
+    listeners() { return {
+        'click #eye': e => this._toggleVisibility()
+    }}
 
     _onValueChanged() {
       this.fire(this.__tagName + '-change', this.value);
