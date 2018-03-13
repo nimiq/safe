@@ -4,10 +4,18 @@ import XElement from '../../libraries/x-element/x-element.js';
 
 export default class XPasswordSetter extends XElement {
     html() {
+        const buttonLabel = this.$el.getAttribute('buttonLabel') || 'Confirm';
+        const showIndicator = this.$el.getAttribute('showIndicator') === 'true';
+
         return `
             <x-password-input></x-password-input>
-            <x-password-indicator></x-password-indicator>
+            ${ showIndicator && `<x-password-indicator></x-password-indicator>` }
+            <button disabled="true">${buttonLabel}</button>
         `;
+    }
+
+    children() {
+        return [XPasswordInput, XPasswordIndicator];
     }
 
     types() {
@@ -15,33 +23,37 @@ export default class XPasswordSetter extends XElement {
         this.$passwordInput = null;
         /*** @type {XPasswordIndicator} */
         this.$passwordIndicator = null;
+        this.$button = this.$('button');
     }
 
-    children() {
-      return [XPasswordInput, XPasswordIndicator];
-    }
-
-    onCreate() {
-      this.addEventListener('x-password-input-change', e => this._onPasswordUpdate(e.detail));
+    listeners() {
+        return {
+            'x-password-input-change': '_onPasswordUpdate'
+        }
     }
 
     focus() {
-      this.$passwordInput.focus();
+        this.$passwordInput.focus();
     }
 
     get value() {
-      return this.$passwordInput.value;
+        return this.$passwordInput.value;
     }
 
     /** @param {string} value */
     set value(value) {
-      this.$passwordInput.value = value;
+        this.$passwordInput.value = value;
     }
 
     _onPasswordUpdate(value) {
-      const strength = this._getPasswordStrength(value);
-      this.$passwordIndicator.setStrength(strength);
-      this.fire(this.__tagName + '-valid', strength === 3);
+        const strength = this._getPasswordStrength(value);
+        this.$passwordIndicator.setStrength(strength);
+        if (strength >= 3) {
+            this.$button.setAttribute('disabled', 'false');
+            this.fire(this.__tagName + '-valid');
+        } else {
+            this.$button.setAttribute('disabled', 'true');
+        }
     }
 
     /** @param {string} password
@@ -54,5 +66,3 @@ export default class XPasswordSetter extends XElement {
       return 4;
     }
 }
-
-// Todo: Can we hack that the "save this password" dialog occurs before navigating to a different page?
