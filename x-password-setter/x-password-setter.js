@@ -14,6 +14,10 @@ export default class XPasswordSetter extends XElement {
         `;
     }
 
+    onCreate() {
+        this.$button = this.$('button');
+    }
+
     children() {
         return [XPasswordInput, XPasswordIndicator];
     }
@@ -23,7 +27,6 @@ export default class XPasswordSetter extends XElement {
         this.$passwordInput = null;
         /*** @type {XPasswordIndicator} */
         this.$passwordIndicator = null;
-        this.$button = this.$('button');
     }
 
     listeners() {
