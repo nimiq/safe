@@ -9,6 +9,7 @@ export default class XElement {
         this.name = null;
         this.__bindDOM(parent);
         this.__createChildren();
+        this.__bindListeners();
 
         if (this.onCreate) this.onCreate();
     }
@@ -50,6 +51,19 @@ export default class XElement {
 
         // if there is only one child of this kind, unwrap it from the array
         if (this[name].length === 1) this[name] = this[name][0];
+    }
+
+    __bindListeners() {
+        if (!(this.listeners instanceof Function)) return;
+        const listeners = this.listeners();
+        for (const key in listeners) {
+            this.addEventListener(key, e => {
+                const method = listeners[key];
+                const event = e.detail !== undefined ? e.detail : e;
+                if (method instanceof Function) method.apply(this, event);
+                else this[method](event);
+            });
+        }
     }
 
     /*
