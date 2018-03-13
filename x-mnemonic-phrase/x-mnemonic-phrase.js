@@ -19,7 +19,7 @@ export default class XMnemonicPhrase extends XElement {
             <span class="x-word-content" title="word # ${index + 1}">${word}</span>
         </div>`).reduce((a,b) => a.concat(b));
 
-        // TODO: [low] Replace by document.createElement to avoid risk of injection
+        // TODO: [low] Replace by document.createElement to avoid risk of injection. OR just activate CSP
         this.$el.innerHTML = html;
     }
 
