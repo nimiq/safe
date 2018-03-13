@@ -48,9 +48,10 @@ export default class XPasswordSetter extends XElement {
      * @return {number} */
     _getPasswordStrength(password) {
       if (password.length === 0) return 0;
-      if (password.length < 5) return 1;
+      if (password.length < 7) return 1;
       if (password.length < 10) return 2;
-      return 3;
+      if (password.length < 14) return 3;
+      return 4;
     }
 }
 

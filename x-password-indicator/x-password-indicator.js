@@ -4,7 +4,7 @@ export default class XPasswordIndicator extends XElement {
     html() {
         return `
             <div class="label">Strength:</div>
-            <meter max="100" low="10" optimum="100"></meter>
+            <meter max="130" low="10" optimum="100"></meter>
         `;
     }
 
@@ -22,6 +22,8 @@ export default class XPasswordIndicator extends XElement {
           return 70;
         case 3:
           return 100;
+        case 4:
+          return 130;
       }
     }
 }
