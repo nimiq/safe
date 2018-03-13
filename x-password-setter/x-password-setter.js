@@ -4,8 +4,8 @@ import XElement from '../../libraries/x-element/x-element.js';
 
 export default class XPasswordSetter extends XElement {
     html() {
-        const buttonLabel = this.$el.getAttribute('buttonLabel') || 'Confirm';
-        const showIndicator = this.$el.getAttribute('showIndicator') === 'true';
+        const buttonLabel = this.attribute('buttonLabel') || 'Confirm';
+        const showIndicator = this.attribute('showIndicator') === 'true';
 
         return `
             <x-password-input></x-password-input>
