@@ -36,9 +36,9 @@ export default class XRouter extends XElement {
                 });
             } else {
                 this.routes[path] = { path, element, regex: new RegExp(path) }
-                this.router.add(path, (param) => {
+                this.router.add(path, (params) => {
                     this._show(path);
-                    console.log('normal route', path, param);
+                    console.log('normal route', path, params);
                 });
             }
         }
