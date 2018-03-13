@@ -9,7 +9,7 @@ export default class XPasswordSetter extends XElement {
 
         return `
             <x-password-input></x-password-input>
-            ${ showIndicator && `<x-password-indicator></x-password-indicator>` }
+            ${ showIndicator ? `<x-password-indicator></x-password-indicator>` : '' }
             <button disabled="true">${buttonLabel}</button>
         `;
     }
