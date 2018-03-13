@@ -57,7 +57,11 @@ export default class XElement {
         if (!(this.listeners instanceof Function)) return;
         const listeners = this.listeners();
         for (const key in listeners) {
-            this.addEventListener(key, e => {
+            let event, selector;
+            if (key.includes(' ')) [ event, selector ] = key.split(' ');
+            else [ event, selector ] = [ key, undefined ];
+            const target = selector ? this.$(selector) : this;
+            target.addEventListener(key, e => {
                 const method = listeners[key];
                 const event = e.detail !== undefined ? e.detail : e;
                 if (method instanceof Function) method.apply(this, event);
