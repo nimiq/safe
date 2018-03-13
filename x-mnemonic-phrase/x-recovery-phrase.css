@@ -14,7 +14,7 @@
 }
 
 .x-recovery-phrase:before {
-    content: 'Recovery Phrase';
+    content: 'Recovery Words';
     display: block;
     position: absolute;
     left: 50%;
