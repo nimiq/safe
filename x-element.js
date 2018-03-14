@@ -31,6 +31,13 @@ export default class XElement {
         this.__bindStyles(this.styles());
     }
 
+    /* Get attributes from DOM element */
+    attributes() {
+        return [...this.$el.attributes]
+            .map(x => ({[x.name]: x.value}))
+            .reduce((a,b) => ({...a, ...b}), {});
+    }
+
     /**
      * @returns
      */
