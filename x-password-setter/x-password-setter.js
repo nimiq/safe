@@ -10,7 +10,7 @@ export default class XPasswordSetter extends XElement {
 
         return `
             <x-password-input></x-password-input>
-            ${ showIndicator === true ? `<x-password-indicator></x-password-indicator>` : '' }
+            ${ showIndicator === 'true' ? `<x-password-indicator></x-password-indicator>` : '' }
             <button disabled="true">${buttonLabel || 'Confirm'}</button>
         `;
     }
