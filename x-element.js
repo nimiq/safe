@@ -10,7 +10,7 @@ export default class XElement {
         this.__bindDOM(parent);
         this.__createChildren();
         this.__bindListeners();
-        this._properties = new Map();
+        this._properties = {};
 
         if (this.onCreate) this.onCreate();
     }
@@ -47,20 +47,30 @@ export default class XElement {
 
     /* Get properties as object map */
     get properties() {
-        const map = {};
-        for (const property of this._properties) {
-            map[XElement.camelize(property.name)] = property.value;
-        }
-        return map;
+        return this._properties;
     }
 
-     /* Set property and call onPropertyChanged if present */
+    /* Overwrite this to listen on property changes */
+    _onPropertiesChanged() { }
+
+    /* Set single property and call onPropertyChanged after, if present */
     setProperty(key, value) {
-        const result = this._properties.set(key, value);
-        if (this.onPropertyChanged === 'function') {
-            this.onPropertyChanged(key, value);
-        }
-        return result;
+        this._properties = {
+            ...this._properties,
+            [key]: value
+        };
+
+        this._onPropertiesChanged();
+    }
+
+    /* Set some propertes and call onPropertyChanged after, if present */
+    setProperties(properties) {
+        this._properties = {
+            ...this._properties,
+            ...properties
+        };
+
+        this._onPropertiesChanged();
     }
 
     /**
