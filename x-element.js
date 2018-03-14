@@ -32,9 +32,9 @@ export default class XElement {
     }
 
     /* Get attributes from DOM element */
-    attributes() {
+    get attributes() {
         return [...this.$el.attributes]
-            .map(x => ({[x.name]: x.value}))
+            .map(x => ({[XElement.camelize(x.name)]: x.value}))
             .reduce((a,b) => ({...a, ...b}), {});
     }
 
@@ -83,9 +83,8 @@ export default class XElement {
      * @returns {string}
      */
     static camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => {
-            if (+match === 0) return '';// or if (/\s+/.test(match)) for white spaces
-            return match.toUpperCase();
+        return str.replace(/[_.-](\w|$)/g, function (_,x) {
+            return x.toUpperCase();
         });
     }
 
