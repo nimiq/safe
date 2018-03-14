@@ -28,30 +28,39 @@ export default class XElement {
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('data-x-initialized', true);
+        this.$el.xDebug = this; // get easy access to x-element for debugging.
         this.__fromHtml();
         this.__bindStyles(this.styles());
     }
 
-    /* Get attributes from DOM element */
+    /* Get attributes from DOM element - for use with deconstructors */
     get attributes() {
-        return [...this.$el.attributes]
-            .map(x => ({[XElement.camelize(x.name)]: x.value}))
-            .reduce((a,b) => ({...a, ...b}), {});
+        const map = {};
+        for (const attribute of this.$el.attributes) {
+            map[XElement.camelize(attribute.name)] = attribute.value;
+        }
+        return map;
     }
 
-    /* Get attributes from DOM element */
+    // Get single attribute from DOM element
+    attribute(name) { return this.$el.getAttribute(name); }
+
+    /* Get properties as object map */
     get properties() {
-        return [...this._properties]
-            .map(x => ({[XElement.camelize(x.name)]: x.value}))
-            .reduce((a,b) => ({...a, ...b}), {});
+        const map = {};
+        for (const property of this._properties) {
+            map[XElement.camelize(property.name)] = property.value;
+        }
+        return map;
     }
 
+     /* Set property and call onPropertyChanged if present */
     setProperty(key, value) {
         const result = this._properties.set(key, value);
-            if (this.onPropertyChanged === 'function') {
-                this.onPropertyChanged(key, value);
-            }
-        return result
+        if (this.onPropertyChanged === 'function') {
+            this.onPropertyChanged(key, value);
+        }
+        return result;
     }
 
     /**
@@ -196,8 +205,6 @@ export default class XElement {
         const params = { detail: detail, bubbles: bubbles };
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
-
-    attribute(name) { return this.$el.getAttribute(name); }
 
     /**
      * @param {string} type
