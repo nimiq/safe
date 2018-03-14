@@ -31,6 +31,13 @@ export default class XElement {
         this.__bindStyles(this.styles());
     }
 
+    /* Get attributes from DOM element */
+    get attributes() {
+        return [...this.$el.attributes]
+            .map(x => ({[XElement.camelize(x.name)]: x.value}))
+            .reduce((a,b) => ({...a, ...b}), {});
+    }
+
     /**
      * @returns
      */
@@ -79,9 +86,8 @@ export default class XElement {
      * @returns {string}
      */
     static camelize(str) {
-        return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => {
-            if (+match === 0) return '';// or if (/\s+/.test(match)) for white spaces
-            return match.toUpperCase();
+        return str.replace(/[_.-](\w|$)/g, function (_,x) {
+            return x.toUpperCase();
         });
     }
 
@@ -130,9 +136,11 @@ export default class XElement {
      * @static
      * @returns
      */
-    static createElement() {
+    static createElement(attributes) {
         const name = this.__toTagName(this.name);
         const element = document.createElement(name);
+        [...attributes].forEach(([key, value]) => element.setAttribute(XElement.__toTagName(key), value));
+
         return new this(element);
     }
 
@@ -184,7 +192,7 @@ export default class XElement {
         const listener = e => {
             $el.removeEventListener(type, listener);
             callback(e);
-        }
+        };
         $el.addEventListener(type, listener, false);
     }
 
