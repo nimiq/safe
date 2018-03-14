@@ -27,6 +27,7 @@ export default class XElement {
         else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('data-x-initialized', true);
+        this.$el.xDebug = this; // get easy access to x-element for debugging.
         this.__fromHtml();
         this.__bindStyles(this.styles());
     }
@@ -34,7 +35,7 @@ export default class XElement {
     /* Get attributes from DOM element - for use with deconstructors */
     get attributes() {
 	const map = {};
-	for (const attribute of this.$el.attributes) { 
+	for (const attribute of this.$el.attributes) {
             map[XElement.camelize(attribute.name)] = attribute.value;
 	}
 	return map;
