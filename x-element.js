@@ -31,12 +31,17 @@ export default class XElement {
         this.__bindStyles(this.styles());
     }
 
-    /* Get attributes from DOM element */
+    /* Get attributes from DOM element - for use with deconstructors */
     get attributes() {
-        return [...this.$el.attributes]
-            .map(x => ({[XElement.camelize(x.name)]: x.value}))
-            .reduce((a,b) => ({...a, ...b}), {});
+	const map = {};
+	for (const attribute of this.$el.attributes) { 
+            map[XElement.camelize(attribute.name)] = attribute.value;
+	}
+	return map;
     }
+
+    // Get single attribute from DOM element
+    attribute(name) { return this.$el.getAttribute(name); }
 
     /**
      * @returns
@@ -180,8 +185,6 @@ export default class XElement {
         const params = { detail: detail, bubbles: bubbles };
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
-
-    attribute(name) { return this.$el.getAttribute(name); }
 
     /**
      * @param {string} type
