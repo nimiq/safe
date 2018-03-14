@@ -46,6 +46,8 @@ export default class XElement {
         const tagName = XElement.__toTagName(child.name);
         const foundChildren = this.$$(tagName + ':not([x-initialized])');
 
+        if (foundChildren.length < 1) return;
+
         this[name] = [];
         foundChildren.forEach(c => this[name].push(new child(this)));
 
@@ -57,14 +59,15 @@ export default class XElement {
         if (!(this.listeners instanceof Function)) return;
         const listeners = this.listeners();
         for (const key in listeners) {
+            if (!listeners[key]) continue;
             let event, selector;
             if (key.includes(' ')) [ event, selector ] = key.split(' ');
             else [ event, selector ] = [ key, undefined ];
             const target = selector ? this.$(selector) : this;
-            target.addEventListener(key, e => {
+            target.addEventListener(event, e => {
                 const method = listeners[key];
                 const event = e.detail !== undefined ? e.detail : e;
-                if (method instanceof Function) method.apply(this, event);
+                if (method instanceof Function) method.call(this, event);
                 else this[method](event);
             });
         }
@@ -169,6 +172,8 @@ export default class XElement {
         const params = { detail: detail, bubbles: bubbles };
         this.$el.dispatchEvent(new CustomEvent(eventType, params));
     }
+
+    attribute(name) { return this.$el.getAttribute(name); }
 
     /**
      * @param {string} type
