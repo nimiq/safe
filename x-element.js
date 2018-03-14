@@ -10,6 +10,7 @@ export default class XElement {
         this.__bindDOM(parent);
         this.__createChildren();
         this.__bindListeners();
+        this._properties = new Map();
 
         if (this.onCreate) this.onCreate();
     }
@@ -36,6 +37,21 @@ export default class XElement {
         return [...this.$el.attributes]
             .map(x => ({[XElement.camelize(x.name)]: x.value}))
             .reduce((a,b) => ({...a, ...b}), {});
+    }
+
+    /* Get attributes from DOM element */
+    get properties() {
+        return [...this._properties]
+            .map(x => ({[XElement.camelize(x.name)]: x.value}))
+            .reduce((a,b) => ({...a, ...b}), {});
+    }
+
+    setProperty(key, value) {
+        const result = this._properties.set(key, value);
+            if (this.onPropertyChanged === 'function') {
+                this.onPropertyChanged(key, value);
+            }
+        return result
     }
 
     /**
