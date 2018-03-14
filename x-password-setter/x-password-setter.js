@@ -10,7 +10,7 @@ export default class XPasswordSetter extends XElement {
         return `
             <x-password-input></x-password-input>
             ${ showIndicator ? `<x-password-indicator></x-password-indicator>` : '' }
-            <button disabled="true">${buttonLabel}</button>
+            <button${ showIndicator ? " disabled" : "" }>${buttonLabel}</button>
         `;
     }
 
@@ -31,7 +31,8 @@ export default class XPasswordSetter extends XElement {
 
     listeners() {
         return {
-            'x-password-input-change': '_onPasswordUpdate'
+            'x-password-input-change': !this.$passwordIndicator ? null : value => this._onPasswordUpdate(value),
+            'click button': e => this._onPasswordSubmit()
         }
     }
 
@@ -48,15 +49,14 @@ export default class XPasswordSetter extends XElement {
         this.$passwordInput.value = value;
     }
 
-    _onPasswordUpdate(value) {
-        const strength = this._getPasswordStrength(value);
+    _onPasswordUpdate(password) {
+        const strength = this._getPasswordStrength(password);
         this.$passwordIndicator.setStrength(strength);
-        if (strength >= 3) {
-            this.$button.setAttribute('disabled', 'false');
-            this.fire(this.__tagName + '-valid');
-        } else {
-            this.$button.setAttribute('disabled', 'true');
-        }
+        this.$button.setAttribute('disabled', strength < 3);
+    }
+
+    _onPasswordSubmit() {
+        this.fire(this.__tagName + '-submitted', this.value);
     }
 
     /** @param {string} password
