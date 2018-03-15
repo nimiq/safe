@@ -10,6 +10,7 @@ export default class XElement {
         this.__bindDOM(parent);
         this.__createChildren();
         this.__bindListeners();
+        this._properties = {};
 
         if (this.onCreate) this.onCreate();
     }
@@ -34,15 +35,43 @@ export default class XElement {
 
     /* Get attributes from DOM element - for use with deconstructors */
     get attributes() {
-	const map = {};
-	for (const attribute of this.$el.attributes) {
+        const map = {};
+        for (const attribute of this.$el.attributes) {
             map[XElement.camelize(attribute.name)] = attribute.value;
-	}
-	return map;
+        }
+        return map;
     }
 
     // Get single attribute from DOM element
     attribute(name) { return this.$el.getAttribute(name); }
+
+    /* Get properties as object map */
+    get properties() {
+        return this._properties;
+    }
+
+    /* Overwrite this to listen on property changes */
+    _onPropertiesChanged() { }
+
+    /* Set single property and call onPropertyChanged after, if present */
+    setProperty(key, value) {
+        this._properties = {
+            ...this._properties,
+            [key]: value
+        };
+
+        this._onPropertiesChanged();
+    }
+
+    /* Set some propertes and call onPropertyChanged after, if present */
+    setProperties(properties) {
+        this._properties = {
+            ...this._properties,
+            ...properties
+        };
+
+        this._onPropertiesChanged();
+    }
 
     /**
      * @returns
