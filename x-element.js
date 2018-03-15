@@ -168,7 +168,7 @@ export default class XElement {
      * @static
      * @returns
      */
-    static createElement(attributes) {
+    static createElement(attributes = []) {
         const name = this.__toTagName(this.name);
         const element = document.createElement(name);
         [...attributes].forEach(([key, value]) => element.setAttribute(XElement.__toTagName(key), value));
