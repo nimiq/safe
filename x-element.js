@@ -1,13 +1,13 @@
 export default class XElement {
     /**
      * Creates an instance of XElement.
-     * @param {XElement | Element | null} parent
+     * @param {Element | null} element
      * @memberof XElement
      */
-    constructor(parent) {
+    constructor(element) {
         /** @type {string} */
         this.name = null;
-        this.__bindDOM(parent);
+        this.__bindDOM(element);
         this.__createChildren();
         this.__bindListeners();
         this._properties = {};
@@ -21,11 +21,10 @@ export default class XElement {
     children() { return []; }
 
     /**
-     * @param {XElement | Element | null} parent
+     * @param {Element | null} element
      */
-    __bindDOM(parent) {
-        if (parent instanceof XElement) this.$el = parent.$(this.__tagName + ':not([data-x-initialized])'); // query in parent for tag name
-        else if (parent instanceof Element) this.$el = parent; // The parent is this DOM-Element
+    __bindDOM(element) {
+        if (element instanceof Element) this.$el = element;
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('data-x-initialized', true);
         this.$el.xDebug = this; // get easy access to x-element for debugging.
@@ -78,17 +77,17 @@ export default class XElement {
     }
 
     /**
-     * @param {XElement} child
+     * @param {(typeof XElement)} childClass
      */
-    __createChild(child) {
-        const name = child.__toChildName();
-        const tagName = XElement.__toTagName(child.name);
-        const foundChildren = this.$$(tagName + ':not([x-initialized])');
+    __createChild(childClass) {
+        const name = childClass.__toChildName();
+        const tagName = XElement.__toTagName(childClass.name);
+        const foundChildren = this.$$(tagName + ':not([data-x-initialized])');
 
         if (foundChildren.length < 1) return;
 
         this[name] = [];
-        foundChildren.forEach(c => this[name].push(new child(this)));
+        foundChildren.forEach(c => this[name].push(new childClass(c)));
 
         // if there is only one child of this kind, unwrap it from the array
         if (this[name].length === 1) this[name] = this[name][0];
@@ -169,7 +168,7 @@ export default class XElement {
      * @returns
      */
     static createElement(attributes = []) {
-        const name = this.__toTagName(this.name);
+        const name = XElement.__toTagName(this.name);
         const element = document.createElement(name);
         [...attributes].forEach(([key, value]) => element.setAttribute(XElement.__toTagName(key), value));
 
