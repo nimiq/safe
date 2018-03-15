@@ -117,10 +117,10 @@ class XMnemonicInputField extends XInput {
     }
     styles() { return ['x-input'] }
 
-    listener() { return {
+    listeners() { return {
         'keydown input': e => this.__onValueChanged(e),
         'blur input': e => this.__onValueChanged(e),
-        [`${ this.__tagName }-valid`]: e => this._onValidEvent(e.detail)
+        [`${ this.__tagName }-valid`]: valid => this._onValidEvent(valid)
     }}
 
     __onValueChanged(e) {
