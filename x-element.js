@@ -55,10 +55,7 @@ export default class XElement {
 
     /* Set single property and call onPropertyChanged after, if present */
     setProperty(key, value) {
-        this._properties = {
-            ...this._properties,
-            [key]: value
-        };
+        this._properties[key] = value;
 
         this._onPropertiesChanged();
     }
