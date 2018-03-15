@@ -5,6 +5,11 @@ x-identicons {
     -webkit-user-select: none;
     user-select: none;
     padding-bottom: 16px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100vh;
+    max-height: 600px;
 }
 
 x-identicons x-header {
@@ -35,7 +40,6 @@ x-identicons x-container {
     flex-grow: 1;
     justify-content: center;
     align-items: center;
-    margin-bottom:  64px;
 }
 
 x-identicons x-identicon:nth-child(1) {

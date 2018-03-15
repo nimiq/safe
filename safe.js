@@ -1,5 +1,6 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
 import KeyguardClient from '/libraries/keyguard-client/keyguard-client.js';
+import SafePolicy from '/libraries/keyguard/access-control/safe-policy.js';
 import config from './config.js';
 import XSafe from './elements/x-safe.js';
 import store from './store/store.js';
@@ -19,16 +20,21 @@ class Safe {
     async launch() {
         return Promise.all([
             new Promise(async (res, err) => {
-                this.keyguard = await KeyguardClient.create(config.keyguardSrc);
+                // launch keyguard client
+                this.keyguard = await KeyguardClient.create(config.keyguardSrc, new SafePolicy());
+
+
                 this._keys = await this.keyguard.get();
                 console.log('Keys:', this._keys);
                 res();
             }),
             new Promise(async (res, err) => {
+                // launch network rpc client
                 this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi');
                 res();
             }),
             new Promise(async (res, err) => {
+                // launch network event client
                 this.networkListener = await EventClient.create(this.$network.contentWindow);
                 this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
                 this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
@@ -66,3 +72,5 @@ class Safe {
 }
 
 window.safe = new Safe();
+
+// todo dispatch redux actions for incoming network events

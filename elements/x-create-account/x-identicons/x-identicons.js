@@ -29,14 +29,20 @@ export default class XIdenticons extends XElement {
         this.$container = this.$('x-container');
         this.$loading = this.$('#loading');
         this.$address = this.$('x-address');
-        this.$('.generate-more').addEventListener('click', e => this._generateIdenticons());
-        this.$('[button]').addEventListener('click', e => this._onConfirm(e));
-        this.$('x-backdrop').addEventListener('click', e => this._clearSelection());
+    }
+
+    listeners() {
+        return {
+            'click .generate-more': e => this._generateIdenticons(),
+            'click [button]': e => this._onConfirm(e),
+            'click x-backdrop': e => this._clearSelection()
+        }
     }
 
     // set actions from outside?? use store here?? dumb component?? singleton keyguard-client?
 
     onEntry() {
+        // todo let this be called from router
         return this._generateIdenticons();
     }
 
@@ -45,27 +51,27 @@ export default class XIdenticons extends XElement {
     }
 
     async _generateIdenticons() {
-        keyPairs.forEach(keyPair => this._generateIdenticon(keyPair));
+        const keyguard = await KeyguardClient.getApi();
+        const volatileKeys = await keyguard.createVolatile(7);
+        this.$container.textContent = '';
+        volatileKeys.forEach(keyPair => this._generateIdenticon(keyPair));
         setTimeout(e => this.$el.setAttribute('active', true), 100);
-        if(!this.$loading) return;
-        this.$container.removeChild(this.$loading);
-        this.$loading = null;
     }
 
-    _generateIdenticon(keyPair) {
+    _generateIdenticon(address) {
         const $identicon = XIdenticon.createElement();
         this.$container.appendChild($identicon.$el);
-        $identicon.address = keyPair.address;
-        $identicon.addEventListener('click', e => this._onIdenticonSelected(keyPair, $identicon));
+        $identicon.address = address;
+        $identicon.addEventListener('click', e => this._onIdenticonSelected(address, $identicon));
     }
 
-    _onIdenticonSelected(keyPair, $identicon) {
+    _onIdenticonSelected(address, $identicon) {
         this.$('x-identicon.returning') && this.$('x-identicon.returning').classList.remove('returning');
-        this._selectedKeyPair = keyPair;
+        this._selectedAddress = address;
         this._selectedIdenticon = $identicon;
         this.$el.setAttribute('selected', true);
         $identicon.$el.setAttribute('selected', true);
-        this.$address.textContent = keyPair.address;
+        this.$address.textContent = address;
     }
 
     _clearSelection() {
@@ -76,17 +82,9 @@ export default class XIdenticons extends XElement {
         this._selectedIdenticon.$el.removeAttribute('selected');
     }
 
-    _clearIdenticons() {
-        this._clearSelection()
-        while(this.$container.querySelector('x-identicon')) {
-            this.$container.removeChild(this.$container.querySelector('x-identicon'));
-        }
-        this.$el.removeAttribute('active');
-    }
-
-    _onConfirm(e) {
-        this.fire('x-keypair', this._selectedKeyPair)
-        e.stopPropagation();
+    async _onConfirm(e) {
+        const keyguard = await KeyguardClient.getApi();
+        await keyguard.persist(this._selectedAddress);
     }
 }
 
