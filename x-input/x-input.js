@@ -20,7 +20,7 @@ export default class XInput extends XElement {
     set value(value) {
         const oldValue = this.$input.value;
         this.$input.value = value;
-        if (value !== oldValue) this.__onValueChanged();
+        if (value !== oldValue) this._onValueChanged();
     }
 
     _onSubmit(e) {
@@ -46,11 +46,11 @@ export default class XInput extends XElement {
     _submit() {
         if (!this._validate(this.value)) return;
         this.$input.blur();
-        requestAnimationFrame(_ => this.fire(this.__tagName, this.value)); // Hack to hide keyboard on iOS even after paste 
+        requestAnimationFrame(_ => this.fire(this.__tagName, this.value)); // Hack to hide keyboard on iOS even after paste
     }
 
     focus() {
-        requestAnimationFrame(_ => this.$input.focus()); 
+        requestAnimationFrame(_ => this.$input.focus());
     }
 
     async _onInvalid() {

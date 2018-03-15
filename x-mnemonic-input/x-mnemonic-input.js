@@ -117,13 +117,11 @@ class XMnemonicInputField extends XInput {
     }
     styles() { return ['x-input'] }
 
-    onCreate() {
-        super.onCreate();
-        this.$input.addEventListener('keydown', e => this.__onValueChanged(e));
-        this.$input.addEventListener('blur', e => this.__onValueChanged(e));
-
-        this.addEventListener(this.__tagName + '-valid', e => this._onValidEvent(e.detail));
-    }
+    listener() { return {
+        'keydown input': e => this.__onValueChanged(e),
+        'blur input': e => this.__onValueChanged(e),
+        [`${ this.__tagName }-valid`]: e => this._onValidEvent(e.detail)
+    }}
 
     __onValueChanged(e) {
         if (!['keydown', 'input', 'blur'].includes(e.type)) return;
@@ -162,7 +160,7 @@ class XMnemonicInputField extends XInput {
     }
 
     _onValueChanged() {
-        const value = this.value;
+        const value = this.$input.value;
         if (this._value === value) return;
 
         if (value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
