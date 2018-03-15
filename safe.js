@@ -1,11 +1,18 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
 import KeyguardClient from '/libraries/keyguard-client/keyguard-client.js';
 import config from './config.js';
+import XSafe from './elements/x-safe.js';
+import store from './store/store.js';
 
 class Safe {
     constructor() {
         this.$network = document.querySelector('#network');
         this.$network.src = config.networkSrc;
+        const $appContainer = document.querySelector('#app');
+
+        // start UI
+        this._xApp = new XSafe($appContainer);
+
         this.launch();
     }
 
@@ -13,8 +20,8 @@ class Safe {
         return Promise.all([
             new Promise(async (res, err) => {
                 this.keyguard = await KeyguardClient.create(config.keyguardSrc);
-                this._accounts = await this.keyguard.getAccounts();
-                console.log('Addresses:', this._accounts);
+                this._keys = await this.keyguard.get();
+                console.log('Keys:', this._keys);
                 res();
             }),
             new Promise(async (res, err) => {
