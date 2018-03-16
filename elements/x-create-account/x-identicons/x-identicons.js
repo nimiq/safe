@@ -1,8 +1,9 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '/elements/x-identicon/x-identicon.js';
-import KeyguardClient from '/libraries/keyguard-client/keyguard-client.js';
+import keyguardPromise from '../../../keyguard.js';
 import reduxify from '/libraries/redux/src/redux-x-element.js';
 import store from '../../../store/store.js';
+import XRouter from '/elements/x-router/x-router.js';
 
 export default class XIdenticons extends XElement {
 
@@ -51,7 +52,7 @@ export default class XIdenticons extends XElement {
     }
 
     async _generateIdenticons() {
-        const keyguard = await KeyguardClient.getApi();
+        const keyguard = await keyguardPromise;
         const volatileKeys = await keyguard.createVolatile(7);
         this.$container.textContent = '';
         volatileKeys.forEach(keyPair => this._generateIdenticon(keyPair));
@@ -83,8 +84,12 @@ export default class XIdenticons extends XElement {
     }
 
     async _onConfirm(e) {
-        const keyguard = await KeyguardClient.getApi();
-        await keyguard.persist(this._selectedAddress);
+        const keyguard = await keyguardPromise;
+        if (await keyguard.persist(this._selectedAddress)) {
+            XRouter.root.goTo('success');
+        } else {
+            XRouter.root.goTo('error');
+        }
     }
 }
 

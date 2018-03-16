@@ -1,9 +1,8 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
-import KeyguardClient from '/libraries/keyguard-client/keyguard-client.js';
-import SafePolicy from '/libraries/keyguard/access-control/safe-policy.js';
 import config from './config.js';
 import XSafe from './elements/x-safe.js';
 import store from './store/store.js';
+import keyguardPromise from './keyguard.js';
 
 class Safe {
     constructor() {
@@ -21,9 +20,7 @@ class Safe {
         return Promise.all([
             new Promise(async (res, err) => {
                 // launch keyguard client
-                this.keyguard = await KeyguardClient.create(config.keyguardSrc, new SafePolicy());
-
-
+                this.keyguard = await keyguardPromise;
                 this._keys = await this.keyguard.get();
                 console.log('Keys:', this._keys);
                 res();
