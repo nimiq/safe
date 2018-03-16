@@ -93,16 +93,19 @@ export default class XRouter extends XElement {
     }
 
     _elementLoaded(path) {
-        new Promise((resolve, reject) => {
-            let count = 0;
+        return new Promise((resolve, reject) => {
+            let retryCount = 0;
+            const INTERVAL = 1;
+            const MAX_RETRY = 25;
             const check = () => {
-                if (count++ > 25) reject('timeout');
-                if (XElement.get(this.routes[path].element) || count > 25) {
+                if (retryCount++ > MAX_RETRY) reject('timeout');
+                if (XElement.get(this.routes[path].element) || count > MAX_RETRY) {
                     clearInterval(intervalId);
+                    console.log(`XRouter: finished waiting for DOM to load. Waited ${retryCount * INTERVAL}ms.`);
                     resolve();
                 }
             };
-            const intervalId = setInterval(check, 10);
+            const intervalId = setInterval(check, INTERVAL);
         });
     }
 
