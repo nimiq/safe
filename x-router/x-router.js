@@ -3,13 +3,11 @@ import Router from '/libraries/es6-router/src/index.js';
 
 export default class XRouter extends XElement {
 
-    constructor(parent) {
-        super(parent);
-        if (!XRouter.root) XRouter.root = window.xRouter = this;
-    }
-
     onCreate() {
         this.reverse = false;
+        this.routing = false;
+        this.first = true;
+        if (!XRouter.root) XRouter.root = window.xRouter = this;
         this.router = new Router({ debug: true, startListening: false });
 
         this.parseRoutes(this.$$('[x-route]'));
@@ -18,9 +16,14 @@ export default class XRouter extends XElement {
         this.router.listen();
 
         this.addEventListener('animationend', e => {
+            if (!this.routing) return;
+            this.routing = false;
             this._toggleInOut(this.previous, false, false);
+            this._setClass(this.previous, 'out', true);
             this._toggleInOut(this.current, false, false);
             this._setClass(this.current, 'in', true);
+            this._doCallback(this.previous, 'onExit');
+            this._doCallback(this.current, 'onAfterEntry');
         });
     }
 
@@ -37,8 +40,8 @@ export default class XRouter extends XElement {
             } else {
                 this.routes[path] = { path, element, regex: new RegExp(path) }
                 this.router.add(path, (params) => {
-                    this._show(path);
                     console.log('normal route', path, params);
+                    this._show(path);
                 });
             }
         }
@@ -62,12 +65,45 @@ export default class XRouter extends XElement {
         this.router.navigate(path);
     }
 
-    _show(path) {
-        if (path === this.current) return
-        this._setClass(this.current, 'in', false);
-        this._toggleInOut(this.current, false)
-        this._toggleInOut(path, true);
+    async _show(path) {
+        if (path === this.current) return;
+        if (this.first) {
+            // The navigation for the first page happens before all the children of x-router are initialized
+            // by x-element. So we wait a bit to make sure all initialization is done.
+            this.first = false;
+            await this._elementLoaded(path);
+        }
+        this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
+        this._toggleInOut(this.previous, false)
+        this._setClass(this.previous, 'in', false);
+        this._toggleInOut(this.current, true);
+        this._setClass(this.current, 'out', false);
+        this._doCallback(this.previous, 'onBeforeExit');
+        this._doCallback(this.current, 'onEntry');
+        this.routing = true;
+    }
+
+    _doCallback(path, name, args = []) {
+        if (!path) return;
+        const element = XElement.get(this.routes[path].element);
+        if (element && element[name] instanceof Function) {
+            element[name](...args);
+        }
+    }
+
+    _elementLoaded(path) {
+        new Promise((resolve, reject) => {
+            let count = 0;
+            const check = () => {
+                if (count++ > 25) reject('timeout');
+                if (XElement.get(this.routes[path].element) || count > 25) {
+                    clearInterval(intervalId);
+                    resolve();
+                }
+            };
+            const intervalId = setInterval(check, 10);
+        });
     }
 
     _toggleInOut(path, setIn, setOut = !setIn) {

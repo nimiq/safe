@@ -4,7 +4,10 @@ body {
     background: var(--primary-background);
 }
 
-main {
+x-test {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin: 5vh 5vw;
     width: 90vw;
     height: 90vh;

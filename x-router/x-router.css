@@ -2,6 +2,9 @@ x-route, [x-route] {
     display: none;
 }
 
-x-route[class]:not([class=""]), [x-route][class]:not([class=""]) {
+x-route[class*="from-"],
+x-route.in,
+[x-route][class*="from-"],
+[x-route].in {
     display: flex;
 }
