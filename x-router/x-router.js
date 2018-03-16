@@ -68,10 +68,10 @@ export default class XRouter extends XElement {
     async _show(path) {
         if (path === this.current) return;
         if (this.first) {
-            // The navigation for the first page happens before all the children of x-router are initialized
-            // by x-element. So we wait a bit to make sure all initialization is done.
+            // X-router is just an element of page, so the initialization of x-router happens before all the siblings
+            // are initialized by x-element. Thus, leaving the current process to make sure all initialization is done.
             this.first = false;
-            await this._elementLoaded(path);
+            setTimeout(_ => this._show(path), 1);
         }
         this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
@@ -90,23 +90,6 @@ export default class XRouter extends XElement {
         if (element && element[name] instanceof Function) {
             element[name](...args);
         }
-    }
-
-    _elementLoaded(path) {
-        return new Promise((resolve, reject) => {
-            let retryCount = 0;
-            const INTERVAL = 1;
-            const MAX_RETRY = 25;
-            const check = () => {
-                if (retryCount++ > MAX_RETRY) reject('timeout');
-                if (XElement.get(this.routes[path].element) || count > MAX_RETRY) {
-                    clearInterval(intervalId);
-                    console.log(`XRouter: finished waiting for DOM to load. Waited ${retryCount * INTERVAL}ms.`);
-                    resolve();
-                }
-            };
-            const intervalId = setInterval(check, INTERVAL);
-        });
     }
 
     _toggleInOut(path, setIn, setOut = !setIn) {
