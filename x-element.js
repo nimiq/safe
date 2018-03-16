@@ -29,6 +29,7 @@ export default class XElement {
         else this.$el = document.querySelector(this.__tagName); // query in document for tag name
         this.$el.setAttribute('data-x-initialized', true);
         this.$el.xDebug = this; // get easy access to x-element for debugging.
+        XElement.elementMap.set(this.$el, this);
         this.__fromHtml();
         this.__bindStyles(this.styles());
     }
@@ -278,4 +279,9 @@ export default class XElement {
         $el.classList.remove(className);
     }
 
+    static get(node) {
+        return XElement.elementMap.get(node);
+    }
 }
+
+XElement.elementMap = new Map();
