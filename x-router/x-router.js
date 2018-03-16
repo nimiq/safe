@@ -51,6 +51,7 @@ export default class XRouter extends XElement {
         for (const link of links) {
             const path = link.attributes['x-href'].value.trim();
             link.href = `#${path}`;
+            // do we need this? is the above line not enough?
             link.addEventListener('click', e => this.goTo(path))
         }
     }
