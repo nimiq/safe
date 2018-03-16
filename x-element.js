@@ -1,4 +1,10 @@
 export default class XElement {
+
+    static get elementMap() {
+        this._elementMap = this._elementMap || new Map();
+        return this._elementMap;
+    }
+
     /**
      * Creates an instance of XElement.
      * @param {Element | null} element
@@ -282,5 +288,3 @@ export default class XElement {
         return XElement.elementMap.get(node);
     }
 }
-
-XElement.elementMap = new Map();
