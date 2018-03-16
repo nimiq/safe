@@ -25,9 +25,9 @@ export default class XElement {
      */
     __bindDOM(element) {
         if (element instanceof Element) this.$el = element;
-        else this.$el = document.querySelector(this.__tagName); // query in document for tag name
+        else this.$el = document.querySelector(this.__tagName);
         this.$el.setAttribute('data-x-initialized', true);
-        this.$el.xDebug = this; // get easy access to x-element for debugging.
+        this.$el.xDebug = this; // get easy access to x-element for debugging. Not for production!
         XElement.elementMap.set(this.$el, this);
         this.__fromHtml();
         this.__bindStyles(this.styles());
