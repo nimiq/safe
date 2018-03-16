@@ -8,7 +8,7 @@ export const TypeKeys = {
 export function reducer(state, action) {
     if (state === undefined) {
         return {
-            volatileAccounts: new Map(),
+            volatileKeys: new Map(),
             toBePersisted: null
         }
     }
@@ -17,13 +17,13 @@ export function reducer(state, action) {
         case TypeKeys.ADD:
             return {
                 ...state,
-                volatileAccounts: new Map(state.volatileAccounts).set(action.account.userFriendlyAddress, action.account)
+                volatileKeys: new Map(state.volatileKeys).set(action.account.userFriendlyAddress, action.account)
             };
 
         case TypeKeys.CLEAR:
             return {
                 ...state,
-                volatileAccounts: new Map()
+                volatileKeys: new Map()
             };
 
         case TypeKeys.REQUEST_PERSIST:

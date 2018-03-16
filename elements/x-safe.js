@@ -1,6 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
-import XIdenticons from './x-create-account/x-identicons/x-identicons.js';
 import XSafeStart from './x-safe-start.js';
 
 export default class XSafe extends XElement {
@@ -21,7 +20,7 @@ export default class XSafe extends XElement {
     }
 
     children() {
-        return [ XRouter, XIdenticons, XSafeStart ];
+        return [ XRouter, XSafeStart ];
     }
 }
 
