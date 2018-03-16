@@ -30,12 +30,12 @@ export default class XIdenticons extends XElement {
         this.$container = this.$('x-container');
         this.$loading = this.$('#loading');
         this.$address = this.$('x-address');
+        this.$confirmButton = this.$('x-backdrop [button]');
     }
 
     listeners() {
         return {
             'click .generate-more': e => this._generateIdenticons(),
-            'click [button]': e => this._onConfirm(e),
             'click x-backdrop': e => this._clearSelection()
         }
     }
@@ -68,7 +68,7 @@ export default class XIdenticons extends XElement {
 
     _onIdenticonSelected(address, $identicon) {
         this.$('x-identicon.returning') && this.$('x-identicon.returning').classList.remove('returning');
-        this._selectedAddress = address;
+        this.$confirmButton.onclick = () => this._onConfirm(address);
         this._selectedIdenticon = $identicon;
         this.$el.setAttribute('selected', true);
         $identicon.$el.setAttribute('selected', true);
@@ -83,9 +83,9 @@ export default class XIdenticons extends XElement {
         this._selectedIdenticon.$el.removeAttribute('selected');
     }
 
-    async _onConfirm(e) {
+    async _onConfirm(address) {
         const keyguard = await keyguardPromise;
-        if (await keyguard.persist(this._selectedAddress)) {
+        if (await keyguard.persist(address)) {
             XRouter.root.goTo('success');
         } else {
             XRouter.root.goTo('error');
