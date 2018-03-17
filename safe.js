@@ -21,7 +21,7 @@ class Safe {
             new Promise(async (res, err) => {
                 // launch keyguard client
                 this.keyguard = await keyguardPromise;
-                this._keys = await this.keyguard.get();
+                this._keys = await this.keyguard.list();
                 console.log('Keys:', this._keys);
                 res();
             }),

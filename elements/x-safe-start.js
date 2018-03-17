@@ -1,6 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 
-export default class XSafe extends XElement {
+export default class XSafeStart extends XElement {
 
     html() {
         return `
