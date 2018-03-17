@@ -13,7 +13,7 @@
         import XRouter from '../x-router.js';
 
         class XTest extends XElement {
-            onCreate() { console.log('onCreate'); console.trace(); }
+            onCreate() { console.log('onCreate', this.parent); }
             onEntry() { console.log('onEntry'); console.trace(); }
             onAfterEntry() { console.log('onAfterEntry'); console.trace(); }
             onBeforeExit() { console.log('onBeforeExit'); console.trace(); }
