@@ -264,14 +264,14 @@ export default class XElement {
             // 'animiationend' is a native DOM event that fires upon CSS animation completion
             const listener = e => {
                 if (e.target !== $el) return;
-                if (beforeEndCallback) beforeEndCallback();
+                if (beforeEndCallback instanceof Function) beforeEndCallback();
                 this.stopAnimate(className, $el);
                 this.$el.removeEventListener('animationend', listener);
                 resolve();
             };
             this.$el.addEventListener('animationend', listener);
             $el.classList.add(className);
-            if (afterStartCallback) afterStartCallback();
+            if (afterStartCallback instanceof Function) afterStartCallback();
         })
     }
 
