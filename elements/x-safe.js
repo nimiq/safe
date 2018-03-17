@@ -34,8 +34,8 @@ export default class XSafe extends XElement {
 
     async _startCreate() {
         const keyguard = await keyguardPromise;
-        const newKey = keyguard.create();
-        console.log(`Got new key ${newKey}`);
+        const newKey = await keyguard.create();
+        console.log(`Got new key ${JSON.stringify(newKey)}`);
     }
 }
 
