@@ -1,15 +1,12 @@
-import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
-import config from './config.js';
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import store from './store/store.js';
 import { setAll } from './store/accounts.js';
 import keyguardPromise from './keyguard.js';
+import networkClient from './network-client.js';
 
 class Safe {
     constructor() {
-        this.$network = document.querySelector('#network');
-        this.$network.src = config.networkSrc;
         const $appContainer = document.querySelector('#app');
 
         // start UI
@@ -27,17 +24,18 @@ class Safe {
                 this.keyguard = await keyguardPromise;
                 const keys = await this.keyguard.list();
                 this.actions.setAll(keys);
+                this.actions.getAllBalances();
                 console.log('Keys:', keys);
                 res();
             }),
             new Promise(async (res, err) => {
                 // launch network rpc client
-                this.network = await RPC.Client(this.$network.contentWindow, 'NanoNetworkApi');
+                this.network = (await networkClient).rpcClient;
                 res();
             }),
             new Promise(async (res, err) => {
                 // launch network event client
-                this.networkListener = await EventClient.create(this.$network.contentWindow);
+                this.networkListener = (await networkClient).eventClient;
                 this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
                 this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
                 this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
@@ -53,13 +51,14 @@ class Safe {
     }
 
     _onBalanceChanged(obj) {
-        console.log('Balance changed:', obj.address, obj.balance);
+        this.actions.updateBalance(obj.address, obj.balance);
     }
 
     getBalance(address) {
         return this.network.getBalance(address);
     }
 
+    // todo: instant balanceChanged event for new subscribers
     subscribeAddress(address) {
         return this.network.subscribeAddress(address);
     }

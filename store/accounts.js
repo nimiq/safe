@@ -55,10 +55,15 @@ export function addSingle(account) {
 }
 
 export function setAll(accounts) {
+
     return {
         type: TypeKeys.SET_ALL,
         accounts
     }
+}
+
+export function getBalances(){
+
 }
 
 // todo properly design this store
