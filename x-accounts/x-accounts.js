@@ -73,7 +73,7 @@ export default class XAccounts extends XElement {
         const $account = XAccount.createElement();
 
         $account.label = account.label;
-        $account.address = account.address || account.number;
+        $account.address = account.address;
         $account.balance = account.balance;
         $account.secure = account.secure;
 
@@ -90,3 +90,12 @@ export default class XAccounts extends XElement {
         this.fire('x-accounts-import');
     }
 }
+
+
+/*  For accounts component:
+            const $identicon = reduxify(
+              store,
+               state => ({
+                    balance: state.accounts.entries.get(address).balance
+                })
+            )(XIdenticon).createElement();*/
