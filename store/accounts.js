@@ -1,41 +1,45 @@
 export const TypeKeys = {
-    ADD: 'accounts/add',
-    LOAD: 'accounts/load',
-    UPDATE_BALANCE: '/accounts/updateBalance'
-
+    ADD_SINGLE: 'accounts/add-single',
+    SET_ALL: 'accounts/set-all',
+    UPDATE_BALANCE: '/accounts/updateBalance',
+    SET_DEFAULT: 'accounts/set-default'
 };
 
 export function reducer(state, action) {
     if (state === undefined) {
         return {
-            volatileKeys: new Map(),
-            toBePersisted: null
+            entries: new Map(),
+            loading: false,
+            hasContent: false,
+            error: null
         }
     }
 
     switch (action.type) {
-        case TypeKeys.ADD:
+        case TypeKeys.ADD_SINGLE:
             return {
                 ...state,
-                volatileKeys: new Map(state.volatileKeys).set(action.account.userFriendlyAddress, action.account)
+                entries: new Map(state.entries)
+                    .set(action.account.address, action.account)
             };
 
-        case TypeKeys.CLEAR:
+        case TypeKeys.SET_ALL:
             return {
                 ...state,
-                volatileKeys: new Map()
+                // convert array to map with address as key
+                entries: new Map(action.accounts.map(x => [x.address, x]))
             };
 
-        case TypeKeys.REQUEST_PERSIST:
-            return {
-                ...state,
-                toBePersisted: action.accountNumber
-            };
+        case TypeKeys.UPDATE_BALANCE:
+            const oldEntry = state.entries.get(action.address);
 
-        case TypeKeys.CLEAR_PERSIST:
             return {
                 ...state,
-                toBePersisted: null
+                entries: new Map(state.entries)
+                    .set(action.address, {
+                        ...oldEntry,
+                        balance: action.balance
+                    })
             };
 
         default:
@@ -43,32 +47,19 @@ export function reducer(state, action) {
     }
 }
 
-export function addVolatile(account) {
+export function addSingle(account) {
     return {
         type: TypeKeys.ADD,
         account
     }
 }
 
-export function clearVolatile() {
+export function setAll(accounts) {
     return {
-        type: TypeKeys.CLEAR
+        type: TypeKeys.SET_ALL,
+        accounts
     }
 }
-
-export function requestPersist(accountNumber) {
-    return {
-        type: TypeKeys.REQUEST_PERSIST,
-        accountNumber
-    }
-}
-
-export function clearPersist() {
-    return {
-        type: TypeKeys.CLEAR_PERSIST,
-    }
-}
-
 
 // todo properly design this store
 // todo move to accounts component

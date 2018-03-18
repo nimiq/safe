@@ -1,7 +1,9 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
 import config from './config.js';
 import XSafe from './elements/x-safe.js';
+import { bindActionCreators } from '/libraries/redux/src/index.js';
 import store from './store/store.js';
+import { setAll } from './store/accounts.js';
 import keyguardPromise from './keyguard.js';
 
 class Safe {
@@ -13,6 +15,8 @@ class Safe {
         // start UI
         this._xApp = new XSafe($appContainer);
 
+        this.actions = bindActionCreators({ setAll }, store.dispatch);
+
         this.launch();
     }
 
@@ -21,9 +25,15 @@ class Safe {
             new Promise(async (res, err) => {
                 // launch keyguard client
                 this.keyguard = await keyguardPromise;
+<<<<<<< HEAD
                 this._keys = await this.keyguard.list();
                 console.log('Keys:', this._keys);
                 this._xApp.$accounts.accounts = this._keys;
+=======
+                const keys = await this.keyguard.list();
+                this.actions.setAll(keys);
+                console.log('Keys:', keys);
+>>>>>>> some account store design and use
                 res();
             }),
             new Promise(async (res, err) => {

@@ -3,8 +3,11 @@ import XRouter from '/elements/x-router/x-router.js';
 import XSafeStart from './x-safe-start.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import keyguardPromise from '../keyguard.js';
+import reduxify from '/libraries/redux/src/redux-x-element.js';
+import store from '../store/store.js'
+import { addSingle } from '../store/accounts.js';
 
-export default class XSafe extends XElement {
+class XSafe extends XElement {
 
     html() {
         return `
@@ -39,9 +42,12 @@ export default class XSafe extends XElement {
         const newKey = await keyguard.create();
         this.$accounts.addAccount(newKey);
         console.log('Got new key:', newKey);
+        // todo: create account access file
+        //this.actions.addSingle(newKey);
     }
 
     async _startImportFile() {
+        // todo: read account access file
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.importFromFile('12e1e112e12e12e12e12e21e');
         this.$accounts.addAccount(newKey);
@@ -52,11 +58,19 @@ export default class XSafe extends XElement {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.importFromWords();
         console.log(`Got new key ${JSON.stringify(newKey)}`);
+        // done
     }
 
     async _startExport() {
         const keyguard = await keyguardPromise;
         const encKey = await keyguard.exportKey('');
         console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
+        // todo: create account access file
     }
 }
+
+export default reduxify(
+    store,
+    null,
+    { addSingle }
+)(XSafe)
