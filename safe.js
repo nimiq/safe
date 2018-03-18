@@ -1,7 +1,7 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import store from './store/store.js';
-import { setAllKeys } from './store/accounts.js';
+import { updateBalance, setAllKeys } from './store/accounts.js';
 import keyguardPromise from './keyguard.js';
 import networkClient from './network-client.js';
 
@@ -12,7 +12,7 @@ class Safe {
         // start UI
         this._xApp = new XSafe($appContainer);
 
-        this.actions = bindActionCreators({ setAllKeys }, store.dispatch);
+        this.actions = bindActionCreators({ setAllKeys, updateBalance }, store.dispatch);
 
         this.launch();
     }
