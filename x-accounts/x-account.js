@@ -32,8 +32,10 @@ export default class XAccount extends XElement {
 
     _onPropertiesChanged(changes) {
         for (const prop in changes) {
-            // Update display
-            this[prop] = changes[prop];
+            if (changes[prop] !== undefined) {
+                // Update display
+                this[prop] = changes[prop];
+            }
         }
     }
 
