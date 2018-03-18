@@ -12,7 +12,9 @@ export default class XAccount extends XElement {
                 <x-address></x-address>
                 <div class="x-account-bottom">
                     <i class="hidden secure-icon" label="High security account"></i>
-                    <span class="x-account-balance"></span>
+                    <span class="x-account-balance">
+                        Loading
+                    </span>
                 </div>
             </div>
         `
@@ -24,6 +26,21 @@ export default class XAccount extends XElement {
         this.$balance = this.$('.x-account-balance');
         this.$secureIcon = this.$('.secure-icon');
         this.$el.addEventListener('click', e => this._onAccountSelected())
+        this._oldProperties = {};
+    }
+
+
+    _onPropertiesChanged() {
+        const props = this.properties;
+
+        for (const prop in props) {
+            if (this._oldProperties[prop] !== props[prop]) {
+                // Update display
+                this[prop] = props[prop];
+            }
+        }
+
+        this._oldProperties = this.properties;
     }
 
     // 'name' is a reserved property of XElement
@@ -41,8 +58,8 @@ export default class XAccount extends XElement {
         this.$balance.textContent = this._formatBalance(balance);
     }
 
-    set secure(secure) {
-        if (secure) this.$secureIcon.classList.remove('hidden');
+    set type(type) {
+        if (type === 'high') this.$secureIcon.classList.remove('hidden');
     }
 
     _onAccountSelected() {

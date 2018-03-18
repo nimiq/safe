@@ -1,5 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
+import reduxify from '/libraries/redux/src/redux-x-element.js';
+import store from '/apps/safe/store/store.js';
 
 export default class XAccounts extends XElement {
     html() {
@@ -27,25 +29,6 @@ export default class XAccounts extends XElement {
                 this._accounts.set(account.address, [account, this._createAccount(account)]);
                 continue;
             }
-
-            const [storedAccount, accountElement] = stored;
-
-            let hasChanged = false;
-            // Check if properties changed
-            for (const prop in account) {
-                if (storedAccount[prop] !== account[prop]) {
-                    // Update display
-                    accountElement[prop] = account[prop];
-                    // Update stored account
-                    storedAccount[prop] = account[prop];
-
-                    hasChanged = true;
-                }
-            }
-
-            if (hasChanged) {
-                this._accounts.set(account.address, [storedAccount, accountElement]);
-            }
         }
 
         // Remove unpassed accounts
@@ -70,12 +53,20 @@ export default class XAccounts extends XElement {
     }
 
     _createAccount(account) {
-        const $account = XAccount.createElement();
+        const $account = reduxify(
+            store,
+            state => {
+                const entry = state.accounts.entries.get(account.address);
+                return {
+                    balance: entry.balance,
+                    label: entry.label
+                };
+            }
+        )(XAccount).createElement();
 
-        $account.label = account.label;
-        $account.address = account.address;
-        $account.balance = account.balance;
-        $account.secure = account.secure;
+        $account.setProperties({
+            ...account
+        });
 
         this.$accountsList.appendChild($account.$el);
 
@@ -90,12 +81,3 @@ export default class XAccounts extends XElement {
         this.fire('x-accounts-import');
     }
 }
-
-
-/*  For accounts component:
-            const $identicon = reduxify(
-              store,
-               state => ({
-                    balance: state.accounts.entries.get(address).balance
-                })
-            )(XIdenticon).createElement();*/
