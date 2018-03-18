@@ -1,0 +1,127 @@
+@import '../x-address/x-address.css';
+
+x-accounts {
+    text-align: center;
+    width: 100%;
+}
+
+x-accounts button + button {
+    margin-left: 1em;
+}
+
+x-accounts-list {
+	display: flex;
+    width: 100%;
+    min-height: 177px; /* height of two XAccount elements */
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    flex-direction: column;
+}
+
+x-account {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: from-right 500ms;
+    cursor: pointer;
+}
+
+x-account:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+x-account:last-child {
+    border-bottom: 1px solid transparent;
+}
+
+x-account x-identicon {
+    width: 80px;
+    min-width: 50px;
+    height: 71px;
+    margin-right: 8px;
+}
+
+x-account x-identicon svg {
+    width: 100%;
+    height: 100%;
+}
+
+x-account .x-account-info {
+    text-align: left;
+    width: 100%;
+    max-width: calc(100% - 88px);
+}
+
+x-account .x-account-label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+x-account .x-account-bottom {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+}
+
+x-account .x-account-balance {
+    font-weight: bold;
+}
+
+x-account .x-address {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* max-width: calc(100% - 96px); */
+    pointer-events: none;
+    padding: 0;
+    min-width: auto;
+    font-weight: normal;
+}
+
+x-account .secure-icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAwIDEwMDAiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0zMjEuOCA0NTUuNWgzNTYuNFYzMjEuOGMwLTQ5LjItMTcuNC05MS4yLTUyLjItMTI2LTM0LjgtMzQuOC03Ni44LTUyLjItMTI2LTUyLjJzLTkxLjIgMTcuNC0xMjYgNTIuMmMtMzQuOCAzNC44LTUyLjIgNzYuOC01Mi4yIDEyNnYxMzMuN3ptNTc5LjEgNjYuOHY0MDAuOWMwIDE4LjYtNi41IDM0LjMtMTkuNSA0Ny4zUzg1Mi42IDk5MCA4MzQuMSA5OTBIMTY1LjljLTE4LjYgMC0zNC4zLTYuNS00Ny4zLTE5LjVzLTE5LjUtMjguOC0xOS41LTQ3LjNWNTIyLjNjMC0xOC42IDYuNS0zNC4zIDE5LjUtNDcuM3MyOC44LTE5LjUgNDcuMy0xOS41aDIyLjNWMzIxLjhjMC04NS40IDMwLjYtMTU4LjcgOTEuOS0yMTkuOUMzNDEuMyA0MC43IDQxNC43IDEwIDUwMCAxMGM4NS4zIDAgMTU4LjcgMzAuNiAyMTkuOSA5MS45IDYxLjMgNjEuMyA5MS45IDEzNC42IDkxLjkgMjE5Ljl2MTMzLjZoMjIuM2MxOC42IDAgMzQuMyA2LjUgNDcuMyAxOS41IDEzIDEzLjEgMTkuNSAyOC44IDE5LjUgNDcuNHoiLz48L3N2Zz4=');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+/* Responsiveness */
+@media (min-width: 480px) {
+    x-account {
+        justify-content: center;
+        padding: 8px 16px;
+    }
+
+    x-accounts {
+        width: 480px;
+    }
+}
+
+/* Empty Accounts List */
+x-accounts-list:empty{
+	display: flex;
+}
+
+x-accounts-list:empty:before {
+	display: flex;
+	flex-grow: 1;
+	content: 'Click below to add an account';
+	font-size: 20px;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
