@@ -1,2 +1,11 @@
 @import '/elements/x-router/x-router.css';
 @import '/elements/x-accounts/x-accounts.css';
+@import '/elements/x-toast/x-toast.css';
+
+x-safe-start {
+    flex-direction: column;
+}
+
+x-safe-start x-variant {
+    display: block;
+}

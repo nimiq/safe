@@ -2,7 +2,5 @@
 @import './elements/x-safe.css';
 
 iframe {
-    width: 0;
-    height: 0;
-    visibility: hidden;
+    display: none;
 }

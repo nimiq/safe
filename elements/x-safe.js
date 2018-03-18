@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
 import XSafeStart from './x-safe-start.js';
 import XAccounts from './x-accounts.js';
+import XToast from '/elements/x-toast/x-toast.js';
 import keyguardPromise from '../keyguard.js';
 import reduxify from '/libraries/redux/src/redux-x-element.js';
 import store from '../store/store.js'
@@ -32,6 +33,7 @@ class XSafe extends XElement {
         return {
             'x-accounts-create': () => this._startCreate(),
             'x-accounts-import': () => this._startImportFile(),
+            'x-accounts-selected': address => XToast.show('Selected account: ' + address),
             // 'click button#import-words': () => this._startImportWords(),
             // 'click button#export': () => this._startExport(),
         }
