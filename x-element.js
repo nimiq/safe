@@ -53,8 +53,8 @@ export default class XElement {
         }
 
         // remove listeners
-        for (const [key, { target, listener }] of this._boundListeners) {
-            target.removeEventListener(key, listener);
+        for (const [key, { target, event, listener }] of this._boundListeners) {
+            target.removeEventListener(event, listener);
         }
     }
 
@@ -142,7 +142,7 @@ export default class XElement {
             else [ event, selector ] = [ key, undefined ];
             const target = selector ? this.$(selector) : this;
 
-            this._boundListeners.set(key, { target, listener: e => {
+            this._boundListeners.set(key, { target, event, listener: e => {
                 const method = listeners[key];
                 const event = e.detail !== undefined ? e.detail : e;
                 if (method instanceof Function) method.call(this, event);
