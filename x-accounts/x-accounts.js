@@ -8,7 +8,10 @@ export default class XAccounts extends XElement {
         return `
             <button create class="small">&plus; Create</button>
             <button import class="small">&#8615; Import</button>
-            <x-accounts-list></x-accounts-list>
+            <x-accounts-list>
+                <x-loading-animation></x-loading-animation>
+                <h2>Loading accounts...</h2>
+            </x-accounts-list>
         `
     }
 
@@ -25,6 +28,10 @@ export default class XAccounts extends XElement {
     }
 
     _onPropertiesChanged(changes) {
+        if (this.$('x-loading-animation')) {
+            this.$accountsList.textContent = '';
+        }
+
         if (changes.accounts) {
             for (const [ address, account ] of changes.accounts) {
                 if (account === undefined) {

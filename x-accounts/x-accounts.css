@@ -1,4 +1,5 @@
 @import '../x-address/x-address.css';
+@import '/elements/x-loading-animation/x-loading-animation.css';
 
 x-accounts {
     text-align: center;
@@ -20,6 +21,11 @@ x-accounts-list {
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     flex-direction: column;
+}
+
+x-accounts-list x-loading-animation {
+    margin: 0 auto;
+    margin-top: 2em;
 }
 
 x-account {
