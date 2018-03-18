@@ -15,8 +15,13 @@ export default class XAccounts extends XElement {
     onCreate() {
         this._accounts = new Map();
         this.$accountsList = this.$('x-accounts-list');
-        this.$('button[create]').addEventListener('click', e => this._onCreateAccount());
-        this.$('button[import]').addEventListener('click', e => this._onImportAccount());
+    }
+
+    listeners() {
+        return {
+            'click button[create]': this._onCreateAccount,
+            'click button[import]': this._onImportAccount
+        }
     }
 
     _onPropertiesChanged(changes) {
