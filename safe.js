@@ -23,6 +23,7 @@ class Safe {
                 this.keyguard = await keyguardPromise;
                 this._keys = await this.keyguard.list();
                 console.log('Keys:', this._keys);
+                this._xApp.$accounts.accounts = this._keys;
                 res();
             }),
             new Promise(async (res, err) => {

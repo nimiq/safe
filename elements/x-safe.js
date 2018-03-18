@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
 import XSafeStart from './x-safe-start.js';
+import XAccounts from '/elements/x-accounts/x-accounts.js';
 import keyguardPromise from '../keyguard.js';
 
 export default class XSafe extends XElement {
@@ -16,38 +17,35 @@ export default class XSafe extends XElement {
                 <main x-route="vesting"> Vesting contracts</main>
                 <x-safe-start x-route="/"></x-safe-start>
             </x-router>
-            <x-accounts>
-                <button id="create">Create new account</button>
-                <button id="import-file">Import account from file</button>
-                <button id="import-words">Import account from words</button>
-                <button id="export">Export</button>
-            </x-accounts>
+            <x-accounts></x-accounts>
             `
     }
 
     children() {
-        return [ XRouter, XSafeStart ];
+        return [ XRouter, XSafeStart, XAccounts ];
     }
 
     listeners() {
         return {
-            'click button#create': () => this._startCreate(),
-            'click button#import-file': () => this._startImportFile(),
-            'click button#import-words': () => this._startImportWords(),
-            'click button#export': () => this._startExport(),
+            'x-accounts-create': () => this._startCreate(),
+            'x-accounts-import': () => this._startImportFile(),
+            // 'click button#import-words': () => this._startImportWords(),
+            // 'click button#export': () => this._startExport(),
         }
     }
 
     async _startCreate() {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.create();
+        this.$accounts.addAccount(newKey);
         console.log('Got new key:', newKey);
     }
 
     async _startImportFile() {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.importFromFile('12e1e112e12e12e12e12e21e');
-        console.log(`Got new key ${JSON.stringify(newKey)}`);
+        this.$accounts.addAccount(newKey);
+        console.log('Got new key:', newKey);
     }
 
     async _startImportWords() {
@@ -62,4 +60,3 @@ export default class XSafe extends XElement {
         console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
     }
 }
-
