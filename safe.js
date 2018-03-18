@@ -25,15 +25,9 @@ class Safe {
             new Promise(async (res, err) => {
                 // launch keyguard client
                 this.keyguard = await keyguardPromise;
-<<<<<<< HEAD
-                this._keys = await this.keyguard.list();
-                console.log('Keys:', this._keys);
-                this._xApp.$accounts.accounts = this._keys;
-=======
                 const keys = await this.keyguard.list();
                 this.actions.setAll(keys);
                 console.log('Keys:', keys);
->>>>>>> some account store design and use
                 res();
             }),
             new Promise(async (res, err) => {
