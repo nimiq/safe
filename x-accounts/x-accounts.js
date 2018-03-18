@@ -25,7 +25,7 @@ export default class XAccounts extends XElement {
 
             if (!stored) {
                 this._accounts.set(account.address, [account, this._createAccount(account)]);
-                return;
+                continue;
             }
 
             const [storedAccount, accountElement] = stored;
@@ -50,7 +50,7 @@ export default class XAccounts extends XElement {
 
         // Remove unpassed accounts
         const storedAddresses = [...this._accounts.keys()];
-        const passedAddresses = accounts.map(a => a.address);
+        const passedAddresses = [...accounts.keys()];
 
         const removedAddresses = storedAddresses.filter(address => !passedAddresses.includes(address));
 
