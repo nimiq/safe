@@ -1,3 +1,5 @@
+import { diff } from '/libraries/deep-object-diff/src/index.js'
+
 export default class XElement {
 
     static get elementMap() {
@@ -61,19 +63,32 @@ export default class XElement {
 
     /* Set single property and call onPropertyChanged after, if present */
     setProperty(key, value) {
-        this._properties[key] = value;
+        const oldProperty = this._properties[key];
 
-        this._onPropertiesChanged();
+        this._properties[key] = value;
+        const changes = {
+            key: diff(oldProperty, value)
+        };
+
+        if (Object.keys(changes).length > 0) {
+            this._onPropertiesChanged(changes);
+        }
     }
 
     /* Set some propertes and call onPropertyChanged after, if present */
     setProperties(properties) {
+        const oldProperties = this._properties;
+
         this._properties = {
             ...this._properties,
             ...properties
         };
 
-        this._onPropertiesChanged();
+        const changes = diff(oldProperties, this._properties);
+
+        if (Object.keys(changes).length > 0) {
+            this._onPropertiesChanged(changes);
+        }
     }
 
     /**
