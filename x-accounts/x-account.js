@@ -30,17 +30,11 @@ export default class XAccount extends XElement {
     }
 
 
-    _onPropertiesChanged() {
-        const props = this.properties;
-
-        for (const prop in props) {
-            if (this._oldProperties[prop] !== props[prop]) {
-                // Update display
-                this[prop] = props[prop];
-            }
+    _onPropertiesChanged(changes) {
+        for (const prop in changes) {
+            // Update display
+            this[prop] = changes[prop];
         }
-
-        this._oldProperties = this.properties;
     }
 
     // 'name' is a reserved property of XElement

@@ -19,37 +19,26 @@ export default class XAccounts extends XElement {
         this.$('button[import]').addEventListener('click', e => this._onImportAccount());
     }
 
-    _onPropertiesChanged() {
-        const { accounts } = this.properties;
-
-        for (const account of accounts.values()) {
-            const stored = this._accounts.get(account.address);
-
-            if (!stored) {
-                this._accounts.set(account.address, [account, this._createAccount(account)]);
-                continue;
+    _onPropertiesChanged(changes) {
+        if (changes.accounts) {
+            for (const [ address, account ] of changes.accounts) {
+                if (account === undefined) {
+                    // todo test!
+                    const { element } = this._accounts.get(address);
+                    element.destroy();
+                    this._accounts.delete(address);
+                } else {
+                    this.addAccount(account);
+                }
             }
         }
-
-        // Remove unpassed accounts
-        const storedAddresses = [...this._accounts.keys()];
-        const passedAddresses = [...accounts.keys()];
-
-        const removedAddresses = storedAddresses.filter(address => !passedAddresses.includes(address));
-
-        removedAddresses.forEach(address => {
-            const [storedAccount, accountElement] = this._accounts.get(address);
-            accountElement.$el.parentNode.removeChild(accountElement.$el);
-            this._accounts.delete(address);
-        });
     }
 
     /**
      * @param {object} account
      */
     addAccount(account) {
-        this._accounts.set(account.address, [account, this._createAccount(account)]);
-        // this.accounts = [...Array.from(this._accounts.values()).map(i => i[0]), account];
+        this._accounts.set(account.address, { account, element: this._createAccount(account)});
     }
 
     _createAccount(account) {
