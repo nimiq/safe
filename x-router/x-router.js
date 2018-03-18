@@ -6,14 +6,8 @@ export default class XRouter extends XElement {
     onCreate() {
         this.reverse = false;
         this.routing = false;
-        this.first = true;
         if (!XRouter.root) XRouter.root = window.xRouter = this;
         this.router = new Router({ debug: true, startListening: false });
-
-        this.parseRoutes(this.$$('[x-route]'));
-        this.hookUpLinks(this.$$('a[x-href]'));
-
-        this.router.listen();
 
         this.addEventListener('animationend', e => {
             if (!this.routing) return;
@@ -25,6 +19,17 @@ export default class XRouter extends XElement {
             this._doCallback(this.previous, 'onExit');
             this._doCallback(this.current, 'onAfterEntry');
         });
+
+        // X-router is just an element of page, so the initialization of x-router happens before all the siblings
+        // are initialized by x-element. Thus, leaving the current process to make sure all initialization is done.
+        setTimeout(e => this._initialize(), 1);
+    }
+
+    _initialize() {
+        this.parseRoutes(this.$$('[x-route]'));
+        this.hookUpLinks(this.$$('a[x-href]'));
+
+        this.router.listen();
     }
 
     parseRoutes(routeElements) {
@@ -67,12 +72,10 @@ export default class XRouter extends XElement {
 
     async _show(path) {
         if (path === this.current) return;
-        if (this.first) {
-            // X-router is just an element of page, so the initialization of x-router happens before all the siblings
-            // are initialized by x-element. Thus, leaving the current process to make sure all initialization is done.
-            this.first = false;
-            setTimeout(_ => this._show(path), 1);
-        }
+        // if (this.first) {
+        //     this.first = false;
+        //     setTimeout(_ => this._show(path), 10);
+        // }
         this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
         this._toggleInOut(this.previous, false)
