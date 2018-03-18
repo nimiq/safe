@@ -17,35 +17,40 @@ export default class XAccounts extends XElement {
         this.$('button[import]').addEventListener('click', e => this._onImportAccount());
     }
 
-    /**
-     * @param {array} accounts: Array of account objects
-     */
-    set accounts(accounts) {
+    _onPropertiesChanged() {
+        const { accounts } = this.properties;
 
-        accounts.forEach(account => {
-            const stored = this._accounts.get(account.address || account.number);
+        for (const account of accounts.values()) {
+            const stored = this._accounts.get(account.address);
 
             if (!stored) {
-                this._accounts.set(account.address || account.number, [account, this._createAccount(account)]);
+                this._accounts.set(account.address, [account, this._createAccount(account)]);
                 return;
             }
 
             const [storedAccount, accountElement] = stored;
 
+            let hasChanged = false;
             // Check if properties changed
-            for(const prop in account) {
+            for (const prop in account) {
                 if (storedAccount[prop] !== account[prop]) {
                     // Update display
                     accountElement[prop] = account[prop];
                     // Update stored account
                     storedAccount[prop] = account[prop];
+
+                    hasChanged = true;
                 }
             }
-        });
+
+            if (hasChanged) {
+                this._accounts.set(account.address, [storedAccount, accountElement]);
+            }
+        }
 
         // Remove unpassed accounts
-        const storedAddresses = Array.from(this._accounts.keys());
-        const passedAddresses = accounts.map(a => a.address || a.number);
+        const storedAddresses = [...this._accounts.keys()];
+        const passedAddresses = accounts.map(a => a.address);
 
         const removedAddresses = storedAddresses.filter(address => !passedAddresses.includes(address));
 
@@ -60,7 +65,7 @@ export default class XAccounts extends XElement {
      * @param {object} account
      */
     addAccount(account) {
-        this._accounts.set(account.address || account.number, [account, this._createAccount(account)]);
+        this._accounts.set(account.address, [account, this._createAccount(account)]);
         // this.accounts = [...Array.from(this._accounts.values()).map(i => i[0]), account];
     }
 
