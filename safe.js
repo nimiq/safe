@@ -1,7 +1,7 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import store from './store/store.js';
-import { setAll } from './store/accounts.js';
+import { setAllKeys } from './store/accounts.js';
 import keyguardPromise from './keyguard.js';
 import networkClient from './network-client.js';
 
@@ -12,7 +12,7 @@ class Safe {
         // start UI
         this._xApp = new XSafe($appContainer);
 
-        this.actions = bindActionCreators({ setAll }, store.dispatch);
+        this.actions = bindActionCreators({ setAllKeys }, store.dispatch);
 
         this.launch();
     }
@@ -23,9 +23,8 @@ class Safe {
                 // launch keyguard client
                 this.keyguard = await keyguardPromise;
                 const keys = await this.keyguard.list();
-                this.actions.setAll(keys);
-                this.actions.getAllBalances();
-                console.log('Keys:', keys);
+                // initialize accounts with keyguard data and load balances
+                this.actions.setAllKeys(keys);
                 res();
             }),
             new Promise(async (res, err) => {
@@ -54,17 +53,9 @@ class Safe {
         this.actions.updateBalance(obj.address, obj.balance);
     }
 
-    getBalance(address) {
-        return this.network.getBalance(address);
-    }
-
-    // todo: instant balanceChanged event for new subscribers
-    subscribeAddress(address) {
-        return this.network.subscribeAddress(address);
-    }
-
-    subscribeAndGetBalance(address) {
-        return this.network.subscribeAndGetBalance(address);
+    /** @param {string|string[]} address */
+    subscribe(address) {
+        return this.network.subscribe(address);
     }
 
     relayTransaction(obj) {
@@ -73,5 +64,3 @@ class Safe {
 }
 
 window.safe = new Safe();
-
-// todo dispatch redux actions for incoming network events

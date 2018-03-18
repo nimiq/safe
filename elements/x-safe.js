@@ -6,7 +6,7 @@ import XToast from '/elements/x-toast/x-toast.js';
 import keyguardPromise from '../keyguard.js';
 import reduxify from '/libraries/redux/src/redux-x-element.js';
 import store from '../store/store.js'
-import { addSingle } from '../store/accounts.js';
+import { addKey } from '../store/accounts.js';
 
 class XSafe extends XElement {
 
@@ -45,7 +45,7 @@ class XSafe extends XElement {
         this.$accounts.addAccount(newKey);
         console.log('Got new key:', newKey);
         // todo: create account access file
-        //this.actions.addSingle(newKey);
+        this.actions.addKey(newKey);
     }
 
     async _startImportFile() {
@@ -74,5 +74,5 @@ class XSafe extends XElement {
 export default reduxify(
     store,
     null,
-    { addSingle }
+    { addKey }
 )(XSafe)
