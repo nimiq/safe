@@ -117,11 +117,16 @@ class XMnemonicInputField extends XInput {
     }
     styles() { return ['x-input'] }
 
-    listeners() { return {
-        'keydown input': e => this.__onValueChanged(e),
-        'blur input': e => this.__onValueChanged(e),
-        [`${ this.__tagName }-valid`]: valid => this._onValidEvent(valid)
-    }}
+    onCreate() {
+        super.onCreate();
+
+        // We cannot use the XElement's listeners() functionality, because it would call the listeners with the event.detail,
+        // but in the mnemonic input we need the whole event with all its properties to decide how to handle it.
+        this.$input.addEventListener('keydown', e => this.__onValueChanged(e));
+        this.$input.addEventListener('blur', e => this.__onValueChanged(e));
+
+        this.addEventListener(this.__tagName + '-valid', e => this._onValidEvent(e.detail));
+    }
 
     __onValueChanged(e) {
         if (!['keydown', 'input', 'blur'].includes(e.type)) return;
