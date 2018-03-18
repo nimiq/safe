@@ -22,14 +22,17 @@ export function reducer(state, action) {
             return {
                 ...state,
                 entries: new Map(state.entries)
-                    .set(action.key.address, action.key)
+                    .set(action.key.address, {
+                        ...action.key,
+                        balance: undefined
+                    })
             };
 
         case TypeKeys.SET_ALL_KEYS:
             return {
                 ...state,
                 // convert array to map with address as key
-                entries: new Map(action.keys.map(x => [x.address, x]))
+                entries: new Map(action.keys.map(x => [x.address, { ...x, balance: undefined } ]))
             };
 
         case TypeKeys.UPDATE_BALANCE:
@@ -49,7 +52,7 @@ export function reducer(state, action) {
     }
 }
 
-export function addKey(key) {
+export function addAccount(key) {
     return async dispatch => {
         // when adding a new account, subscribe at network
         const { rpcClient } = await networkClient;
