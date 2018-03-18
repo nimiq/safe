@@ -15,10 +15,11 @@ export default class XElement {
     constructor(element) {
         /** @type {string} */
         this.name = null;
+        this._boundListeners = new Map();
+        this._properties = {};
         this.__bindDOM(element);
         this.__createChildren();
         this.__bindListeners();
-        this._properties = {};
 
         if (this.onCreate) this.onCreate();
     }
@@ -39,6 +40,22 @@ export default class XElement {
         XElement.elementMap.set(this.$el, this);
         this.__fromHtml();
         this.__bindStyles(this.styles());
+    }
+
+    destroy() {
+        this.$el.parentNode.removeChild(this.$el);
+
+        // destroy children
+        for (const property of Object.getOwnPropertyNames(this)) {
+           if (property.destroy) {
+               property.destroy();
+           }
+        }
+
+        // remove listeners
+        for (const [key, { target, listener }] of this._boundListeners) {
+            target.removeEventListener(key, listener);
+        }
     }
 
     /* Get attributes from DOM element - for use with deconstructors */
@@ -124,12 +141,15 @@ export default class XElement {
             if (key.includes(' ')) [ event, selector ] = key.split(' ');
             else [ event, selector ] = [ key, undefined ];
             const target = selector ? this.$(selector) : this;
-            target.addEventListener(event, e => {
+
+            this._boundListeners.set(key, { target, listener: e => {
                 const method = listeners[key];
                 const event = e.detail !== undefined ? e.detail : e;
                 if (method instanceof Function) method.call(this, event);
                 else this[method](event);
-            });
+            }});
+
+            target.addEventListener(event, this._boundListeners.get(key).listener);
         }
     }
 
