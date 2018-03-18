@@ -1,0 +1,81 @@
+@import '../x-address/x-address.css';
+@import '/elements/x-loading-animation/x-loading-animation.css';
+
+x-transactions {
+    width: 100%;
+    text-align: center;
+}
+
+x-transactions-list {
+	display: flex;
+    width: 100%;
+    flex-grow: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    flex-direction: column;
+}
+
+x-transactions-list x-loading-animation {
+    margin: 0 auto;
+    margin-top: 2em;
+}
+
+x-transaction {
+    display: table-row;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    animation: from-right 500ms;
+    cursor: pointer;
+}
+
+x-transaction:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+x-transaction:last-child {
+    border-bottom: 1px solid transparent;
+}
+
+x-transaction > * {
+    display: table-cell;
+}
+
+x-transaction x-identicon {
+    width: 80px;
+    min-width: 50px;
+    height: 71px;
+    margin-right: 8px;
+}
+
+x-transaction x-identicon svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Responsiveness */
+@media (min-width: 480px) {
+    x-transaction {
+        padding: 8px 16px;
+    }
+
+    x-transactions {
+        width: 480px;
+    }
+}
+
+/* Empty Accounts List */
+x-transactions-list:empty{
+	display: flex;
+}
+
+x-transactions-list:empty:before {
+	display: flex;
+	flex-grow: 1;
+	content: 'No transactions';
+	font-size: 20px;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
