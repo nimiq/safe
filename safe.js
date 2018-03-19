@@ -37,7 +37,9 @@ class Safe {
                 // launch network event client
                 this.networkListener = (await networkClient).eventClient;
                 this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+                this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
                 this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+                this.networkListener.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
                 this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
                 this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
                 this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
@@ -53,8 +55,16 @@ class Safe {
         this.actions.addTransactions(txs);
     }
 
+    _onConsensusSyncing() {
+        console.log('Consensus syncing');
+    }
+
     _onConsensusEstablished() {
         console.log('Consensus established');
+    }
+
+    _onConsensusLost() {
+        console.log('Consensus lost');
     }
 
     _onBalanceChanged(obj) {
