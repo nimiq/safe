@@ -1,6 +1,6 @@
 @import '/libraries/nimiq-style/nimiq-style.css';
 
-x-toast-container {
+x-toast {
     position: fixed;
     top: 0px;
     width: 100%;
@@ -10,7 +10,7 @@ x-toast-container {
     transform: translateY(-110%);
 }
 
-x-toast {
+x-toast [toast-content] {
     min-height: 20px;
     padding: 14px 24px;
     background: #333;
@@ -21,7 +21,7 @@ x-toast {
     margin: 24px;
 }
 
-.x-toast-show {
+x-toast.x-toast-show {
     animation: x-toast-show 3s;
 }
 
@@ -48,7 +48,7 @@ x-toast {
 }
 
 @media (max-width: 420px) {
-    x-toast {
+    x-toast [toast-content] {
         margin: 0px;
         width: 100%;
         border-radius: 0;

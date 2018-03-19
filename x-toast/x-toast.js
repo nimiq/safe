@@ -1,35 +1,23 @@
 import XElement from '/libraries/x-element/x-element.js';
+import XSingleton from '../x-singleton/x-singleton.js';
 
-export default class XToast extends XElement {
+export default class XToast extends XSingleton(XElement) {
 
-    constructor() {
-        super(document.createElement('proxy'));  // create a proxy in parent XElement. The actual toast is a XToastContainer attached to the document's body.
+    html() {
+        return '<div toast-content></div>';
+    }
+
+    onCreate() {
+        this.$toastContent = this.$('[toast-content]');
     }
 
     show(message) {
-        XToast.show(message);
-    }
-    
-    static _initContainer(){
-        const parent = document.body;
-        const $container = XToastContainer.createElement();
-        parent.appendChild($container.$el);
-        XToast.$toastContainer = $container;
+        this.$toastContent.textContent = message;
+        this.animate('x-toast-show');
     }
 
     static show(message){
-        if(!XToast.$toastContainer) this._initContainer();
-        this.$toastContainer.show(message);
-    }
-}
-
-class XToastContainer extends XElement {
-    html() { return `<x-toast></x-toast>` }
-
-    show(message) {
-        const $toast = this.$('x-toast');
-        $toast.textContent = message;
-        this.animate('x-toast-show');
+        XToast.instance.show(message);
     }
 }
 
