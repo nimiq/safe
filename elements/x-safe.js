@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
 import XSafeStart from './x-safe-start.js';
 import XAccounts from './x-accounts.js';
+import XTransactions from './x-transactions.js';
 import XToast from '/elements/x-toast/x-toast.js';
 import keyguardPromise from '../keyguard.js';
 import reduxify from '/libraries/redux/src/redux-x-element.js';
@@ -21,12 +22,17 @@ class XSafe extends XElement {
                 <main x-route="vesting"> Vesting contracts</main>
                 <x-safe-start x-route="/"></x-safe-start>
             </x-router>
+            <br><br>
+            <h2>Your Accounts</h2>
             <x-accounts></x-accounts>
+            <br><br>
+            <h2>Recent Transactions</h2>
+            <x-transactions></x-transactions>
             `
     }
 
     children() {
-        return [ XRouter, XSafeStart, XAccounts ];
+        return [ XRouter, XSafeStart, XAccounts, XTransactions ];
     }
 
     listeners() {

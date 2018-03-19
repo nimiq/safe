@@ -3,10 +3,12 @@ import { createLogger } from '/libraries/redux-logger/src/index.js';
 import thunk from '/libraries/redux/src/redux-thunk.js';
 import { reducer as accountReducer } from './accounts.js';
 import { reducer as networkReducer } from './network.js';
+import { reducer as transactionReducer } from './transactions.js';
 
 const reducers = {
     accounts: accountReducer,
-    network: networkReducer
+    network: networkReducer,
+    transactions: transactionReducer
 };
 
 const logger = createLogger({
