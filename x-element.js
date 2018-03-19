@@ -1,4 +1,4 @@
-import { diff } from '/libraries/deep-object-diff/src/index.js'
+import { diff, isObject } from '/libraries/deep-object-diff/src/index.js'
 
 export default class XElement {
 
@@ -86,8 +86,10 @@ export default class XElement {
         const oldProperty = this._properties[key];
         const delta = diff(oldProperty, value);
 
-        this._properties[key] = value;
-        this._onPropertiesChanged({ key: delta });
+        if (!isObject(delta) || Object.keys(delta).length > 0) {
+            this._properties[key] = value;
+            this._onPropertiesChanged({ [key]: delta });
+        }
     }
 
     /* Set some propertes and call onPropertyChanged after, if present */
