@@ -5,8 +5,10 @@ import XToast from '../x-toast/x-toast.js';
 export default class XAddress extends XElement {
     styles() { return ['x-address'] }
 
-    onCreate() {
-        this.addEventListener('click', e => this._onCopy())
+    listeners() {
+        return {
+            'click': this._onCopy
+        }
     }
 
     _onCopy() {

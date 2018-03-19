@@ -25,10 +25,13 @@ export default class XAccount extends XElement {
         this.$label = this.$('.x-account-label');
         this.$balance = this.$('.x-account-balance');
         this.$secureIcon = this.$('.secure-icon');
-        this.$el.addEventListener('click', e => this._onAccountSelected())
-        this._oldProperties = {};
     }
 
+    listeners() {
+        return {
+            'click': this._onAccountSelected
+        }
+    }
 
     _onPropertiesChanged(changes) {
         for (const prop in changes) {
@@ -59,7 +62,7 @@ export default class XAccount extends XElement {
     }
 
     _onAccountSelected() {
-        this.fire('x-accounts-selected', this._address);
+        this.fire('x-account-selected', this._address);
     }
 
     _formatBalance(value) {
