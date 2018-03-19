@@ -81,15 +81,10 @@ export default class XElement {
     /* Set single property and call onPropertyChanged after, if present */
     setProperty(key, value) {
         const oldProperty = this._properties[key];
+        const delta = diff(oldProperty, value);
 
         this._properties[key] = value;
-        const changes = {
-            key: diff(oldProperty, value)
-        };
-
-        if (Object.keys(changes).length > 0) {
-            this._onPropertiesChanged(changes);
-        }
+        this._onPropertiesChanged({ key: delta });
     }
 
     /* Set some propertes and call onPropertyChanged after, if present */
