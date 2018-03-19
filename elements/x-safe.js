@@ -82,3 +82,6 @@ export default reduxify(
     null,
     { addAccount }
 )(XSafe)
+
+
+// TODO catch errors in a top level error panel catching all previously uncaught exceptions > XApp?

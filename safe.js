@@ -62,11 +62,11 @@ class Safe {
     }
 
     _onTransactionPending(tx) {
-        this.actions.addPendingTransaction(tx);
+        this.actions.addTransactions([tx]);
     }
 
     _onTransactionMined(tx) {
-        //
+        this.actions.addTransactions([tx]);
     }
 
     /** @param {string|string[]} address */
@@ -80,3 +80,5 @@ class Safe {
 }
 
 window.safe = new Safe();
+
+// todo persist parts of state on unload
