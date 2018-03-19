@@ -28,11 +28,11 @@ export default class XAccounts extends XElement {
     }
 
     _onPropertiesChanged(changes) {
-        if (this.$('x-loading-animation')) {
-            this.$accountsList.textContent = '';
-        }
-
         if (changes.accounts) {
+            if (this.$('x-loading-animation')) {
+                this.$accountsList.textContent = '';
+            }
+
             for (const [ address, account ] of changes.accounts) {
                 if (account === undefined) {
                     // todo test!

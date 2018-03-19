@@ -19,11 +19,11 @@ export default class XTransactions extends XElement {
     }
 
     _onPropertiesChanged(changes) {
-        if (this.$('x-loading-animation')) {
-            this.$transactionsList.textContent = '';
-        }
-
         if (changes.transactions) {
+            if (this.$('x-loading-animation')) {
+                this.$transactionsList.textContent = '';
+            }
+
             for (const [hash, transaction] of changes.transactions) {
                 if (transaction === undefined) {
                     // todo test!
