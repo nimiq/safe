@@ -8,19 +8,19 @@ export default class XTransaction extends XElement {
         return `
             <x-identicon sender></x-identicon>
             <x-address sender></x-address>
-            <x-identicon receiver></x-identicon>
-            <x-address receiver></x-address>
+            <x-identicon recipient></x-identicon>
+            <x-address recipient></x-address>
             <span class="timestamp"></span>
             <span class="value"></span>
         `
     }
-    children() { return [[XIdenticon], [XAddress]] }
+    children() { return [XIdenticon, XAddress] }
 
     onCreate() {
-        this.$senderIdenticon = this.$('x-identicon[sender]');
-        this.$senderAddress = this.$('x-address[sender]');
-        this.$receiverIdenticon = this.$('x-identicon[receiver]');
-        this.$receiverAddress = this.$('x-address[receiver]');
+        this.$senderIdenticon = this.$identicon[0];
+        this.$senderAddress = this.$address[0];
+        this.$recipientIdenticon = this.$identicon[1];
+        this.$recipientAddress = this.$address[1];
 
         this.$timestamp = this.$('span.timestamp');
         this.$value = this.$('span.value');
@@ -42,21 +42,21 @@ export default class XTransaction extends XElement {
         this.$senderAddress.address = address;
     }
 
-    set receiver(address) {
-        this.$receiverIdenticon.address = address;
-        this.$receiverAddress.address = address;
-    }
-
-    set fee(fee) {
-        this.$fee.textContent = this._formatBalance(fee);
+    set recipient(address) {
+        this.$recipientIdenticon.address = address;
+        this.$recipientAddress.address = address;
     }
 
     set value(value) {
         this.$value.textContent = this._formatBalance(value);
     }
 
+    set fee(fee) {
+        // this.$fee.textContent = this._formatBalance(fee);
+    }
+
     set blockHeight(blockHeight) {
-        this.$blockHeight.textContent = blockHeight;
+        // this.$blockHeight.textContent = blockHeight;
     }
 
     set timestamp(timestamp) {
