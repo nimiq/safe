@@ -22,11 +22,12 @@ export default class XTransactions extends XElement {
 
         if (!hasContent) return;
 
-        if (this.$('x-loading-animation')) {
-            this.$transactionsList.textContent = '';
-        }
 
         if (changes.transactions) {
+            if (this.$('x-loading-animation') || this.$('x-no-content')) {
+                this.$transactionsList.textContent = '';
+            }
+
             for (const [hash, transaction] of changes.transactions) {
                 const $transaction = this._transactions.get(hash);
                 if (transaction === undefined) {
