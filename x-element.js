@@ -21,8 +21,11 @@ export default class XElement {
         this.__createChildren();
         this.__bindListeners();
 
-        if (this.onCreate) this.onCreate();
+        this.onCreate();
     }
+
+    // abstract method
+    onCreate() {}
 
     styles() { return []; }
 
@@ -103,9 +106,6 @@ export default class XElement {
         }
     }
 
-    /**
-     * @returns
-     */
     __createChildren() { // Create all children recursively
         this.children().forEach(child => this.__createChild(child));
     }
@@ -184,11 +184,15 @@ export default class XElement {
         $content.removeAttribute('data-x-content');
     }
 
+    static get tagName() {
+        return XElement.__toTagName(this.name);
+    }
+
     /**
      * @readonly
      */
     get __tagName() { // The tagName of this DOM-Element
-        return XElement.__toTagName(this.constructor.name);
+        return this.constructor.tagName;
     }
 
     /**
