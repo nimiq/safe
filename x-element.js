@@ -139,8 +139,11 @@ export default class XElement {
 
             this._boundListeners.set(key, { target, event, listener: e => {
                 const method = listeners[key];
-                const event = e.detail !== undefined ? e.detail : e;
-                if (method instanceof Function) method.call(this, event);
+                const event = e;
+                const detail = e.detail !== undefined ? e.detail : e;
+                // passing detail AND event to enable usecase where detail is set, but the event is required while at
+                // the same time being backwards compatible, i.e. "old" callback will just ignore the second parameter.
+                if (method instanceof Function) method.call(this, detail, event);
                 else this[method](event);
             }});
 
