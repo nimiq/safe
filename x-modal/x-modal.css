@@ -13,6 +13,8 @@ x-modal-container {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
 }
 
 x-modal-container:not(.display),

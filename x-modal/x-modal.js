@@ -4,7 +4,9 @@ import XSingleton from '../x-singleton/x-singleton.js';
 class XModalContainer extends XSingleton(XElement) {
     onCreate() {
         this._visibleModal = null;
+        this.$el.setAttribute('tabindex', '-1');
         this.$el.addEventListener('click', e => this._onBackdropClick(e));
+        this.$el.addEventListener('keydown', e => this._onEscape(e));
     }
 
     static show(modal) {
@@ -23,6 +25,7 @@ class XModalContainer extends XSingleton(XElement) {
         modalEl.offsetWidth; // style update
         this.$el.classList.add('visible');
         modalEl.classList.add('visible');
+        this.$el.focus();
         this._visibleModal = modal;
         if (modal._onShow) modal._onShow();
     }
@@ -49,9 +52,13 @@ class XModalContainer extends XSingleton(XElement) {
     }
 
     _onBackdropClick(e) {
-        if (e.target === this.$el) {
-            this._hide(this._visibleModal);
-        }
+        if (e.target !== this.$el) return;
+        this._hide(this._visibleModal);
+    }
+
+    _onEscape(e) {
+        if (e.keyCode !== 27) return; // other key than escape
+        this._hide(this._visibleModal);
     }
 }
 XModalContainer.ANIMATION_TIME = 700;
