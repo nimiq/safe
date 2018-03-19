@@ -189,11 +189,15 @@ export default class XElement {
         $content.removeAttribute('data-x-content');
     }
 
+    static get tagName() {
+        return XElement.__toTagName(this.name);
+    }
+
     /**
      * @readonly
      */
     get __tagName() { // The tagName of this DOM-Element
-        return XElement.__toTagName(this.constructor.name);
+        return this.constructor.tagName;
     }
 
     /**
