@@ -1,7 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
-import reduxify from '/libraries/redux/src/redux-x-element.js';
-import store from '/apps/safe/store/store.js';
 
 export default class XAccounts extends XElement {
     html() {
@@ -34,13 +32,14 @@ export default class XAccounts extends XElement {
             }
 
             for (const [ address, account ] of changes.accounts) {
+                const $account = this._accounts.get(address);
                 if (account === undefined) {
                     // todo test!
-                    const { element } = this._accounts.get(address);
-                    element.destroy();
+                    $account && $account.destroy();
                     this._accounts.delete(address);
                 } else {
-                    this.addAccount(account);
+                    if ($account) $account.setProperties(account);
+                    else this.addAccount(account);
                 }
             }
         }
@@ -50,20 +49,11 @@ export default class XAccounts extends XElement {
      * @param {object} account
      */
     addAccount(account) {
-        this._accounts.set(account.address, { account, element: this._createAccount(account)});
+        this._accounts.set(account.address, this._createAccount(account));
     }
 
     _createAccount(account) {
-        const $account = reduxify(
-            store,
-            state => {
-                const entry = state.accounts.entries.get(account.address);
-                return {
-                    balance: entry.balance,
-                    label: entry.label
-                };
-            }
-        )(XAccount).createElement();
+        const $account = XAccount.createElement();
 
         $account.setProperties({
             ...account
