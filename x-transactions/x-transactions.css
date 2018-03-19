@@ -65,15 +65,9 @@ x-transaction x-identicon svg {
     }
 }
 
-/* Empty Accounts List */
-x-transactions-list:empty {
-	display: flex;
-}
-
-x-transactions-list:empty:before {
+x-transactions-list x-no-content {
 	display: flex;
 	flex-grow: 1;
-	content: 'No transactions';
 	font-size: 20px;
 	align-items: center;
 	justify-content: center;

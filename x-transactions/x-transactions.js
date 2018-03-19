@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XTransaction from './x-transaction.js';
+import XNoContent from './x-no-content.js';
 
 export default class XTransactions extends XElement {
     html() {
@@ -17,7 +18,11 @@ export default class XTransactions extends XElement {
     }
 
     _onPropertiesChanged(changes) {
-        if (this.properties.hasContent && this.$('x-loading-animation')) {
+        const { hasContent, transactions } = this.properties;
+
+        if (!hasContent) return;
+
+        if (this.$('x-loading-animation')) {
             this.$transactionsList.textContent = '';
         }
 
@@ -33,6 +38,12 @@ export default class XTransactions extends XElement {
                     else this.addTransaction(transaction);
                 }
             }
+        }
+
+        if (transactions.size === 0) {
+            this.$transactionsList.textContent = '';
+            const $noContent = XNoContent.createElement();
+            this.$transactionsList.appendChild($noContent.$el);
         }
     }
 
