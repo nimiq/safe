@@ -47,8 +47,6 @@ class Safe {
             })
         ]);
 
-        console.log("requesting tx history");
-
         // Request transaction history
         const addresses = [...store.getState().accounts.entries.values()].map(account => account.address);
         const txs = await this.network.requestTransactionHistory(addresses);
