@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XAccount from './x-account.js';
+import { XAccount, XAccountModal } from './x-account.js';
 
 export default class XAccounts extends XElement {
     html() {
@@ -21,7 +21,8 @@ export default class XAccounts extends XElement {
     listeners() {
         return {
             'click button[create]': this._onCreateAccount,
-            'click button[import]': this._onImportAccount
+            'click button[import]': this._onImportAccount,
+            'x-account-selected': this._onAccountSelected
         }
     }
 
@@ -70,5 +71,10 @@ export default class XAccounts extends XElement {
 
     _onImportAccount() {
         this.fire('x-accounts-import');
+    }
+
+    _onAccountSelected(address) {
+        XAccountModal.instance.setProperties(this._accounts.get(address).properties);
+        XAccountModal.show();
     }
 }
