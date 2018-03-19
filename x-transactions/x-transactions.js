@@ -1,7 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XTransaction from './x-transaction.js';
-import reduxify from '/libraries/redux/src/redux-x-element.js';
-import store from '/apps/safe/store/store.js';
 
 export default class XTransactions extends XElement {
     html() {
@@ -25,13 +23,14 @@ export default class XTransactions extends XElement {
 
         if (changes.transactions) {
             for (const [hash, transaction] of changes.transactions) {
+                const $transaction = this._transactions.get(hash);
                 if (transaction === undefined) {
                     // todo test!
-                    const { element } = this._transactions.get(hash);
-                    element.destroy();
+                    $transaction && $transaction.destroy();
                     this._transactions.delete(hash);
                 } else {
-                    this.addTransaction(transaction);
+                    if ($transaction) $transaction.setProperties(transaction);
+                    else this.addTransaction(transaction);
                 }
             }
         }
@@ -41,20 +40,11 @@ export default class XTransactions extends XElement {
      * @param {object} tx
      */
     addTransaction(tx) {
-        this._transactions.set(tx.hash, { tx, element: this._createTransaction(tx)});
+        this._transactions.set(tx.hash, this._createTransaction(tx));
     }
 
     _createTransaction(tx) {
-        const $transaction = reduxify(
-            store,
-            state => {
-                const entry = state.transactions.entries.get(tx.hash);
-                return {
-                    blockHeight: entry.blockHeight,
-                    timestamp: entry.timestamp
-                };
-            }
-        )(XTransaction).createElement();
+        const $transaction = XTransaction.createElement();
 
         $transaction.setProperties({
             ...tx
