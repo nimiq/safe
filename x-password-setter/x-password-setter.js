@@ -2,7 +2,8 @@ import XPasswordInput from '../x-password-input/x-password-input.js';
 import XPasswordIndicator from '../x-password-indicator/x-password-indicator.js';
 import XElement from '../../libraries/x-element/x-element.js';
 
-
+// TODO [sven] make XPasswordSetter listen to state.isWrongPassphrase
+// TODO [sven] remove "password too short" hint when pressing return (only when used as password check w/t indicator)
 
 export default class XPasswordSetter extends XElement {
     html() {
