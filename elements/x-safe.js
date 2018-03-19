@@ -39,7 +39,7 @@ class XSafe extends XElement {
         return {
             'x-accounts-create': () => this._startCreate(),
             'x-accounts-import': () => this._startImportFile(),
-            'x-accounts-selected': address => XToast.show('Selected account: ' + address),
+            // 'x-account-selected': address => XRouter.root.goTo('account/' + address),
             // 'click button#import-words': () => this._startImportWords(),
             // 'click button#export': () => this._startExport(),
         }
