@@ -1,5 +1,4 @@
 import XElement from '/libraries/x-element/x-element.js';
-// import XLoadingAnimation from '/elements/x-loading-animation/x-loading-animation.js';
 
 export default class XLoader extends XElement {
 
@@ -16,6 +15,4 @@ export default class XLoader extends XElement {
     set label(label) {
         this.$('h2').innerText = label;
     }
-
-    // children() { return [ XLoadingAnimation ]; }
 }

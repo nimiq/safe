@@ -5,6 +5,12 @@ export default class XMnemonicPhrase extends XElement {
 
     styles() { return ['x-recovery-phrase'] }
 
+    _onPropertiesChanged(changes) {
+        if (changes.privateKey) {
+            this.privateKey = changes.privateKey;
+        }
+    }
+
     set privateKey(privateKey) {
         const phrase = MnemonicPhrase.keyToMnemonic(privateKey);
         const words = phrase.split(/\s+/g);
