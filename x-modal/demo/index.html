@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-modal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-modal.css" rel="stylesheet">
+</head>
+
+<body>
+<button id="modal-1-button">Show Modal 1</button>
+<button id="modal-2-button">Show Modal 2</button>
+<script type="module">
+    import XElement from "/libraries/x-element/x-element.js";
+    import XModal from "../x-modal.js";
+
+    class XDemoModal extends XModal(XElement) {
+        html() {
+            return `<h1 title></h1>
+                <button other-modal-button>Show Other Modal</button>
+                <button close-button>Close</button>`;
+        }
+
+        onCreate() {
+            super.onCreate();
+            this.$('[other-modal-button]').addEventListener('click', () => this._showOtherModal());
+            this.$('[close-button]').addEventListener('click', () => this.constructor.hide());
+        }
+
+        _onShow() {
+            console.log(`${this.__tagName} shown.`)
+        }
+
+        _onHide() {
+            console.log(`${this.__tagName} hidden.`)
+        }
+
+        _showOtherModal() {}
+    }
+
+    class XModal1 extends XDemoModal {
+        onCreate() {
+            super.onCreate();
+            this.$('[title]').textContent = `This is XModal1`;
+        }
+
+        _showOtherModal() {
+            XModal2.show('Opened from modal 1.');
+        }
+    }
+
+    class XModal2 extends XDemoModal {
+        onCreate() {
+            super.onCreate();
+            this.$('[title]').textContent = `This is XModal2`;
+        }
+
+        _showOtherModal() {
+            XModal1.show();
+        }
+
+        static show(message) {
+            this.instance.$('[title]').textContent = `This is XModal2: ${message}`;
+            super.show();
+        }
+    }
+
+    document.querySelector('#modal-1-button').addEventListener('click', e => XModal1.show());
+    document.querySelector('#modal-2-button').addEventListener('click', e => XModal2.show('Hello.'));
+</script>
+</body>
+
+</html>

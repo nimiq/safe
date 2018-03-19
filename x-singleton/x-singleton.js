@@ -13,7 +13,9 @@ const XSingleton = XElementBase => class extends XElementBase {
             this._instance = new this(element);
         } else {
             this._instance = this.createElement();
-            document.body.appendChild(this._instance.$el);
+            if (!this._instance.$el.parentNode) {
+                document.body.appendChild(this._instance.$el);
+            }
         }
         return this._instance;
     }
