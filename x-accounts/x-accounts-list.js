@@ -31,7 +31,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
         if (!hasContent) return;
 
         if (changes.accounts) {
-            if (this.$('x-loading-animation')) {
+            if (this.$('x-loading-animation') || this.$('x-no-content')) {
                 this.$el.textContent = ''; // remove loading animation
             }
 
