@@ -21,10 +21,24 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            transactions: state.transactions.entries,
+            transactions: XTransactions._getLabeledTransactions(state),
             hasContent: state.transactions.hasContent,
             error: state.transactions.error
         }
+    }
+
+    static _getLabeledTransactions(state) {
+        const txs = state.transactions.entries;
+        const accounts = state.accounts.entries;
+
+        txs.forEach(tx => {
+            const sender = accounts.get(tx.sender);
+            const recipient = accounts.get(tx.recipient);
+            tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 9) + '...';
+            tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 9) + '...';
+        });
+
+        return txs;
     }
 
     _onPropertiesChanged(changes) {
