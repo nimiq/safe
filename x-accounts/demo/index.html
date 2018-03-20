@@ -69,14 +69,13 @@
         }
     ];
 
-    // Prefill two accounts
-    $accounts.accounts = [demoAccounts.shift(), demoAccounts.shift()];
-
     const createAccount = () => {
         XToast.show('Clicked "Create Account"');
         const demoAccount = demoAccounts.shift();
-        if (demoAccount) $accounts.addAccount(demoAccount);
-    }
+        if (demoAccount) {
+            $accounts.addAccount(demoAccount);
+        }
+    };
 
     window.addEventListener('x-accounts-create', e => createAccount());
     window.addEventListener('x-accounts-selected', e => XToast.show('Selected Account: ' + e.detail));
