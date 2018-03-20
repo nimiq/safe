@@ -1,7 +1,8 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 
-export default class XAccountsList extends XElement {
+export default class XAccountsList extends MixinRedux(XElement) {
     html() {
         return `
             <x-loading-animation></x-loading-animation>
@@ -10,7 +11,17 @@ export default class XAccountsList extends XElement {
     }
 
     onCreate() {
+        super.onCreate();
         this._accountEntries = new Map();
+    }
+
+    static mapStateToProps(state) {
+        return {
+            accounts: state.accounts.entries,
+            hasContent: state.accounts.hasContent,
+            loading: state. accounts.loading,
+            error: state.accounts.error
+        };
     }
 
     _onPropertiesChanged(changes) {

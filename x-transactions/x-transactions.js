@@ -1,8 +1,9 @@
 import XElement from '/libraries/x-element/x-element.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTransaction from './x-transaction.js';
 import XNoContent from './x-no-content.js';
 
-export default class XTransactions extends XElement {
+export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
             <x-transactions-list>
@@ -13,8 +14,17 @@ export default class XTransactions extends XElement {
     }
 
     onCreate() {
+        super.onCreate();
         this._transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
+    }
+
+    static mapStateToProps(state) {
+        return {
+            transactions: state.transactions.entries,
+            hasContent: state.transactions.hasContent,
+            error: state.transactions.error
+        }
     }
 
     _onPropertiesChanged(changes) {
