@@ -1,6 +1,10 @@
 @import '/libraries/nimiq-style/nimiq-style.css';
 @import './elements/x-safe.css';
 
+#app {
+    width: 100%;
+}
+
 iframe {
     display: none;
 }

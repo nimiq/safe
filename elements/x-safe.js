@@ -13,26 +13,56 @@ class XSafe extends XElement {
 
     html() {
         return `
-            <x-router>
-                <main x-route="success">Success!</main>
-                <main x-route="error">Error</main>
-                <x-identicons x-route="new-account"></x-identicons>
-                <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
-                <main x-route="sign"> New Transaction</main>
-                <main x-route="vesting"> Vesting contracts</main>
-                <x-safe-start x-route="/"></x-safe-start>
-            </x-router>
-            <br><br>
-            <h2>Your Accounts</h2>
-            <x-accounts></x-accounts>
-            <br><br>
-            <h2>Recent Transactions</h2>
-            <x-transactions></x-transactions>
+            <header>
+                <div class="header-top">
+                    <div class="nimiq-app-name">
+                        <nimiq-logo>NIMIQ <strong>SAFE</strong></nimiq-logo>
+                    </div>
+                    <nav class="secondary-links">
+                        <a href="https://nimiq.com">Homepage</a>
+                        <a href="https://nimiq.com/explorer">Explorer</a>
+                    </nav>
+                </div>
+                <x-amount>Total Amount: #todo</x-amount>
+                <div class="header-bottom">
+                    <nav class="main">
+                        <a href="#dashboard">Dashboard</a>
+                        <a href="#transactions">Transactions</a>
+                        <a href="#settings">Settings</a>
+                    </nav>
+                    <nav class="actions">
+                        <a>Receive</a>
+                        <a>Send</a>
+                    </nav>
+                </div>
+            </header>
+            <section class="content">
+                <x-router>
+                    <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
+                    <main x-route="sign"> New Transaction</main>
+                    <main x-route="vesting"> Vesting contracts</main>
+                    <x-view-dashboard route="dashboard">
+                        <x-card>
+                            <h2>Recent Transactions</h2>
+                            <x-transactions></x-transactions>
+                        </x-card>
+                        <x-card style="max-width: 500px;">
+                            <h2>Your Accounts</h2>
+                            <x-accounts></x-accounts>
+                        </x-card>
+                    </x-view-dashboard>
+                    <x-view-transactions route="transactions"></x-view-transactions>
+                    <x-view-settings route="settings"></x-view-settings>
+                </x-router>
+            </section>
+            <footer>
+                &copy; 2017-2018 Nimiq Foundation
+            </footer>
             `
     }
 
     children() {
-        return [ XRouter, XSafeStart, XAccounts, XTransactions ];
+        return [ XRouter, XAccounts, XTransactions ];
     }
 
     listeners() {
