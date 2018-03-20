@@ -42,13 +42,14 @@ nimiq-logo {
 
 x-total-amount {
     display: block;
-    font-size: 2em;
+    font-size: 2.5em;
     margin: 0.5em auto;
 }
 
 x-total-amount .text {
     display: block;
-    font-size: 0.5em;
+    font-size: 15px;
+    text-transform: uppercase;
 }
 
 x-total-amount x-currency-nim {
