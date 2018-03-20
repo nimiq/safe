@@ -3,8 +3,9 @@
 @import '/elements/x-loading-animation/x-loading-animation.css';
 
 x-accounts {
-    text-align: center;
+    text-align: right;
     width: 100%;
+    display: block;
 }
 
 x-accounts button + button {
@@ -19,8 +20,8 @@ x-accounts-list {
     overflow-y: auto;
     overflow-x: hidden;
     margin-top: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
     flex-direction: column;
 }
 
@@ -29,17 +30,20 @@ x-accounts-list x-loading-animation {
     margin-top: 2em;
 }
 
+x-accounts-list h2 {
+    text-align: center;
+}
+
 x-account {
     display: flex;
-    align-items: center;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     animation: from-right 500ms;
     cursor: pointer;
 }
 
 x-account:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 x-account:last-child {
@@ -112,10 +116,6 @@ x-account .secure-icon {
         justify-content: center;
         padding: 8px 16px;
     }
-
-    x-accounts {
-        width: 480px;
-    }
 }
 
 /* Empty Accounts List */
@@ -141,7 +141,7 @@ x-accounts-list:empty:before {
     height: 0.4em;
     border-radius: 50%;
     /* background: white; */
-    box-shadow: 0.5em 0 white;
+    box-shadow: 0.5em 0 #212121;
     animation: dot-loader-animation 1s ease-in-out 0s infinite;
 }
 
@@ -168,7 +168,7 @@ x-accounts-list:empty:before {
 }
 
 @keyframes dot-loader-animation {
-    15% { box-shadow: 0.5em -0.2em white; }
-    30% { box-shadow: 0.5em 0.2em white; }
-    0%, 45%, 100% { box-shadow: 0.5em 0 white; }
+    15% { box-shadow: 0.5em -0.2em #212121; }
+    30% { box-shadow: 0.5em 0.2em #212121; }
+    0%, 45%, 100% { box-shadow: 0.5em 0 #212121; }
 }

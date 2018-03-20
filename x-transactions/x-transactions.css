@@ -2,19 +2,18 @@
 @import '/elements/x-loading-animation/x-loading-animation.css';
 
 x-transactions {
+    display: block;
     width: 100%;
     text-align: center;
 }
 
 x-transactions-list {
-	display: flex;
+    display: table;
     width: 100%;
-    flex-grow: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    flex-direction: column;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 x-transactions-list x-loading-animation {
@@ -25,13 +24,13 @@ x-transactions-list x-loading-animation {
 x-transaction {
     display: table-row;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     animation: from-right 500ms;
     cursor: pointer;
 }
 
 x-transaction:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
 }
 
 x-transaction:last-child {
@@ -58,10 +57,6 @@ x-transaction x-identicon svg {
 @media (min-width: 480px) {
     x-transaction {
         padding: 8px 16px;
-    }
-
-    x-transactions {
-        width: 480px;
     }
 }
 
