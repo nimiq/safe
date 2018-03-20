@@ -1,7 +1,9 @@
 import MixinModal from '../mixin-modal/mixin-modal.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XToast from '../x-toast/x-toast.js';
 import XAccount from './x-account.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+// todo, to be discussed: how to generalize this?
+import keyguardPromise from '/apps/safe/keyguard.js';
 
 export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
     html() {
@@ -34,9 +36,16 @@ export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
 
     listeners() {
         return {
-            'click button[export]': _ => XToast.show('Export account: ' + this._address),
+            'click button[export]': _ => this._onExport(this._address),
             'click button[rename]': _ => XToast.show('Rename account: ' + this._address),
             'click button[send]': _ => XToast.show('Send from account: ' + this._address)
         }
+    }
+
+    async _onExport(address) {
+        const keyguard = await keyguardPromise;
+        const encKey = await keyguard.exportKey(address);
+        console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
+        // todo: create account access file
     }
 }
