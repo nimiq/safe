@@ -43,15 +43,20 @@ class Safe {
                 this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
                 this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
                 this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
-                this.networkListener.on('nimiq-transaction-pending', this._onTransactionPending.bind(this));
-                this.networkListener.on('nimiq-transaction-mined', this._onTransactionMined.bind(this));
+                this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
+                this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
                 res();
             })
         ]);
 
         // Request transaction history
-        const addresses = [...store.getState().accounts.entries.values()].map(account => account.address);
+        const accounts = store.getState().accounts.entries;
+        const addresses = [...accounts.values()].map(account => account.address);
         const txs = await this.network.requestTransactionHistory(addresses);
+        for (const tx of txs) {
+            tx.senderLabel = accounts.get(tx.sender) ? accounts.get(tx.sender).label : tx.sender.slice(0, 9) + '...';
+            tx.recipientLabel = accounts.get(tx.recipient) ? accounts.get(tx.recipient).label : tx.recipient.slice(0, 9) + '...';
+        }
         this.actions.addTransactions(txs);
     }
 
@@ -71,11 +76,10 @@ class Safe {
         this.actions.updateBalance(obj.address, obj.balance);
     }
 
-    _onTransactionPending(tx) {
-        this.actions.addTransactions([tx]);
-    }
-
-    _onTransactionMined(tx) {
+    _onTransaction(tx) {
+        const accounts = store.getState().accounts.entries;
+        tx.senderLabel = accounts.get(tx.sender) ? accounts.get(tx.sender).label : tx.sender.slice(0, 9) + '...';
+        tx.recipientLabel = accounts.get(tx.recipient) ? accounts.get(tx.recipient).label : tx.recipient.slice(0, 9) + '...';
         this.actions.addTransactions([tx]);
     }
 
