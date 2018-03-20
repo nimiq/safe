@@ -44,6 +44,8 @@ x-account {
 
 x-account-modal x-account {
     cursor: auto;
+    animation: none;
+    margin-bottom: 1em;
 }
 
 x-account:hover {

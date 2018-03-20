@@ -14,7 +14,7 @@ const MixinRedux = XElementBase => class extends XElementBase {
 
         if (mapStateToProps) {
             this._unsubscribe = MixinRedux.store.subscribe(() => {
-                const properties = mapStateToProps(MixinRedux.store.getState());
+                const properties = mapStateToProps(MixinRedux.store.getState(), this.properties);
 
                 this.setProperties(properties);
             });

@@ -1,8 +1,9 @@
 import XModal from '../x-modal/x-modal.js';
 import XToast from '../x-toast/x-toast.js';
 import XAccount from './x-account.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 
-export default class XAccountModal extends XModal(XAccount) {
+export default class XAccountModal extends MixinRedux(XModal(XAccount)) {
     html() {
         return `
             <h2>Account Details</h2>
@@ -23,6 +24,12 @@ export default class XAccountModal extends XModal(XAccount) {
             <button rename class="secondary small">Rename</button>
             <button send class="small">Send from this account</button>
         `
+    }
+
+    static mapStateToProps(state, props) {
+        return {
+            ...state.accounts.entries.get(props.address)
+        };
     }
 
     listeners() {
