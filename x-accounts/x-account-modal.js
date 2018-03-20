@@ -8,23 +8,27 @@ import keyguardPromise from '/apps/safe/keyguard.js';
 export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
     html() {
         return `
-            <h2>Account Details</h2>
-            <x-account>
+            <div class="x-modal-header">
+                <h2>Account Details</h2>
+            </div>
+            <div class="x-modal-body">
                 <x-identicon></x-identicon>
-                <div class="x-account-info">
-                    <span class="x-account-label"></span>
-                    <x-address></x-address>
-                    <div class="x-account-bottom">
-                        <i class="hidden secure-icon" label="High security account"></i>
-                        <span class="x-account-balance">
-                            <span class="dot-loader"></span> NIM
-                        </span>
+                <x-address></x-address>
+                <x-account>
+                    <div class="x-account-info">
+                        <span class="x-account-label"></span>
+                        <div class="x-account-bottom">
+                            <i class="hidden secure-icon" title="High security account"></i>
+                            <span class="x-account-balance">
+                                <span class="dot-loader"></span> NIM
+                            </span>
+                        </div>
                     </div>
-                </div>
-            </x-account>
-            <button export class="secondary small">Export</button>
-            <button rename class="secondary small">Rename</button>
-            <button send class="small">Send from this account</button>
+                </x-account>
+                <button export class="secondary small">Export</button>
+                <button rename class="secondary small">Rename</button>
+                <button send class="small">Send from this account</button>
+            </div>
         `
     }
 

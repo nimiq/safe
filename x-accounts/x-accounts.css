@@ -42,6 +42,10 @@ x-account {
     cursor: pointer;
 }
 
+x-account-modal .x-modal-body {
+    text-align: center;
+}
+
 x-account-modal x-account {
     cursor: auto;
     animation: none;
@@ -60,13 +64,18 @@ x-account:last-child {
     border-bottom: 1px solid transparent;
 }
 
-x-account x-identicon,
-x-account-modal x-identicon {
+x-account x-identicon {
     /* display: block; */
     width: 80px;
     min-width: 50px;
     height: 71px;
     margin-right: 8px;
+}
+
+x-account-modal x-identicon {
+    display: block;
+    width: 160px;
+    margin: 0 auto;
 }
 
 x-account x-identicon svg,
@@ -105,8 +114,7 @@ x-account-modal .x-account-balance {
     font-weight: bold;
 }
 
-x-account .x-address,
-x-account-modal .x-address {
+x-account .x-address {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -119,7 +127,7 @@ x-account-modal .x-address {
 }
 
 x-account-modal .x-address {
-    pointer-events: auto;
+    margin: 1em auto;
 }
 
 x-account .secure-icon,
