@@ -11,7 +11,7 @@ export default class XAccount extends XElement {
                 <span class="x-account-label"></span>
                 <x-address></x-address>
                 <div class="x-account-bottom">
-                    <i class="hidden secure-icon" label="High security account"></i>
+                    <i class="hidden secure-icon" title="High security account"></i>
                     <span class="x-account-balance">
                         <span class="dot-loader"></span> NIM
                     </span>
