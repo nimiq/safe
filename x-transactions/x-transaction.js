@@ -10,7 +10,7 @@ export default class XTransaction extends XElement {
             <span class="label" sender></span>
             <x-identicon recipient></x-identicon>
             <span class="label" recipient></span>
-            <span class="timestamp" title=""></span>
+            <span class="timestamp" title="">pending...</span>
             <span class="value"></span>
         `
     }
