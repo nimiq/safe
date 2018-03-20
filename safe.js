@@ -1,8 +1,9 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import store from './store/store.js';
-import { updateBalance, setAllKeys } from './store/accounts.js';
-import { addTransactions } from './store/transactions.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import configureStore from './store/configure-store.js';
+import { updateBalance, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
+import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
 import keyguardPromise from './keyguard.js';
 import networkClient from './network-client.js';
 
@@ -10,10 +11,14 @@ class Safe {
     constructor() {
         const $appContainer = document.querySelector('#app');
 
+        // set redux store
+        this.store = configureStore();
+        MixinRedux.store = this.store;
+
         // start UI
         this._xApp = new XSafe($appContainer);
 
-        this.actions = bindActionCreators({ setAllKeys, updateBalance, addTransactions }, store.dispatch);
+        this.actions = bindActionCreators({ setAllKeys, updateBalance, addTransactions }, this.store.dispatch);
 
         this.launch();
     }
@@ -50,7 +55,7 @@ class Safe {
         ]);
 
         // Request transaction history
-        const accounts = store.getState().accounts.entries;
+        const accounts = this.store.getState().accounts.entries;
         const addresses = [...accounts.values()].map(account => account.address);
         const txs = await this.network.requestTransactionHistory(addresses);
         for (const tx of txs) {

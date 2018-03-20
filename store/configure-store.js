@@ -1,13 +1,11 @@
 import { createStore, applyMiddleware, compose, combineReducers } from '/libraries/redux/src/index.js';
 import { createLogger } from '/libraries/redux-logger/src/index.js';
 import thunk from '/libraries/redux/src/redux-thunk.js';
-import { reducer as accountReducer } from './accounts.js';
-import { reducer as networkReducer } from './network.js';
-import { reducer as transactionReducer } from './transactions.js';
+import { reducer as accountReducer } from '/elements/x-accounts/accounts-redux.js';
+import { reducer as transactionReducer } from '/elements/x-transactions/transactions-redux.js';
 
 const reducers = {
     accounts: accountReducer,
-    network: networkReducer,
     transactions: transactionReducer
 };
 

@@ -1,15 +1,12 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
-import XSafeStart from './x-safe-start.js';
-import XAccounts from './x-accounts.js';
-import XTransactions from './x-transactions.js';
-import XToast from '/elements/x-toast/x-toast.js';
+import XAccounts from '/elements/x-accounts/x-accounts.js';
+import XTransactions from '/elements/x-transactions/x-transactions.js';
 import keyguardPromise from '../keyguard.js';
-import reduxify from '/libraries/redux/src/redux-x-element.js';
-import store from '../store/store.js'
-import { addAccount } from '../store/accounts.js';
+import { addAccount } from '/elements/x-accounts/accounts-redux.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 
-class XSafe extends XElement {
+export default class XSafe extends MixinRedux(XElement) {
 
     html() {
         return `
@@ -65,6 +62,10 @@ class XSafe extends XElement {
         return [ XRouter, XAccounts, XTransactions ];
     }
 
+    static get actions() {
+        return { addAccount };
+    }
+
     listeners() {
         return {
             'x-accounts-create': () => this._startCreate(),
@@ -78,7 +79,6 @@ class XSafe extends XElement {
     async _startCreate() {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.create();
-        this.$accounts.addAccount(newKey);
         console.log('Got new key:', newKey);
         // todo: create account access file
         this.actions.addAccount(newKey);
@@ -88,7 +88,6 @@ class XSafe extends XElement {
         // todo: read account access file
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.importFromFile('12e1e112e12e12e12e12e21e');
-        this.$accounts.addAccount(newKey);
         console.log('Got new key:', newKey);
     }
 
@@ -106,12 +105,5 @@ class XSafe extends XElement {
         // todo: create account access file
     }
 }
-
-export default reduxify(
-    store,
-    null,
-    { addAccount }
-)(XSafe)
-
 
 // TODO catch errors in a top level error panel catching all previously uncaught exceptions > XApp?
