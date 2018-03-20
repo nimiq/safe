@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import { XAccount, XAccountModal } from './x-account.js';
+import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 
 export default class XAccounts extends XElement {
@@ -23,11 +23,6 @@ export default class XAccounts extends XElement {
         }
     }
 
-    _onPropertiesChanged(changes) {
-        // TODO best practice ?
-        this.$accountsList._onPropertiesChanged(changes);
-    }
-
     _onCreateAccount() {
         this.fire('x-accounts-create');
     }
@@ -36,8 +31,8 @@ export default class XAccounts extends XElement {
         this.fire('x-accounts-import');
     }
 
-    _onAccountSelected(address) {
-        XAccountModal.instance.setProperties(this.properties.get(address));
+    _onAccountSelected(account){
+        XAccountModal.instance.setProperties(account);
         XAccountModal.show();
     }
 }

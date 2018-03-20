@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import { XAccount } from './x-account.js';
+import XAccount from './x-account.js';
 
 export default class XAccountsList extends XElement {
     html() {
