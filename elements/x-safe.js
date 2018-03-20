@@ -23,7 +23,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-amount>Total Amount: #todo</x-amount>
                 <div class="header-bottom">
                     <nav class="main">
-                        <a href="#dashboard">Dashboard</a>
+                        <a href="#">Dashboard</a>
                         <a href="#transactions">Transactions</a>
                         <a href="#settings">Settings</a>
                     </nav>
@@ -38,7 +38,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
                     <main x-route="sign"> New Transaction</main>
                     <main x-route="vesting"> Vesting contracts</main>
-                    <x-view-dashboard x-route="dashboard">
+                    <x-view-dashboard x-route="">
                         <x-card>
                             <h2>Recent Transactions</h2>
                             <x-transactions></x-transactions>
