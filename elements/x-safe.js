@@ -38,7 +38,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
                     <main x-route="sign"> New Transaction</main>
                     <main x-route="vesting"> Vesting contracts</main>
-                    <x-view-dashboard route="dashboard">
+                    <x-view-dashboard x-route="dashboard">
                         <x-card>
                             <h2>Recent Transactions</h2>
                             <x-transactions></x-transactions>
@@ -48,8 +48,8 @@ export default class XSafe extends MixinRedux(XElement) {
                             <x-accounts></x-accounts>
                         </x-card>
                     </x-view-dashboard>
-                    <x-view-transactions route="transactions"></x-view-transactions>
-                    <x-view-settings route="settings"></x-view-settings>
+                    <x-view-transactions x-route="transactions"></x-view-transactions>
+                    <x-view-settings x-route="settings"></x-view-settings>
                 </x-router>
             </section>
             <footer>
@@ -96,13 +96,6 @@ export default class XSafe extends MixinRedux(XElement) {
         const newKey = await keyguard.importFromWords();
         console.log(`Got new key ${JSON.stringify(newKey)}`);
         // done
-    }
-
-    async _startExport() {
-        const keyguard = await keyguardPromise;
-        const encKey = await keyguard.exportKey('');
-        console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
-        // todo: create account access file
     }
 }
 
