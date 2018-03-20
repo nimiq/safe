@@ -40,9 +40,19 @@ nimiq-logo {
     float: right;
 }
 
-x-amount {
+x-total-amount {
     display: block;
     font-size: 2em;
+    margin: 0.5em auto;
+}
+
+x-total-amount .text {
+    display: block;
+    font-size: 0.5em;
+}
+
+x-total-amount x-currency-nim {
+    font-weight: bold;
 }
 
 .header-bottom {

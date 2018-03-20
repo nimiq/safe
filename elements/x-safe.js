@@ -5,6 +5,7 @@ import XTransactions from '/elements/x-transactions/x-transactions.js';
 import keyguardPromise from '../keyguard.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import XTotalAmount from './x-total-amount.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -20,7 +21,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <a href="https://nimiq.com/explorer">Explorer</a>
                     </nav>
                 </div>
-                <x-amount>Total Amount: #todo</x-amount>
+                <x-total-amount></x-total-amount>
                 <div class="header-bottom">
                     <nav class="main">
                         <a href="#">Dashboard</a>
@@ -59,7 +60,7 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XRouter, XAccounts, XTransactions ];
+        return [ XTotalAmount, XRouter, XAccounts, XTransactions ];
     }
 
     static get actions() {
