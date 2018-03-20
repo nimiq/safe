@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import XNoContent from './x-no-content.js';
 
 export default class XAccountsList extends MixinRedux(XElement) {
     html() {
@@ -25,18 +26,32 @@ export default class XAccountsList extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (!changes.accounts) return;
+        const { hasContent, accounts } = this.properties;
 
-        for (const [ address, account ] of changes.accounts) {
-            const $account = this._accountEntries.get(address);
-            if (account === undefined) {
-                // todo test!
-                $account && $account.destroy();
-                this._accountEntries.delete(address);
-            } else {
-                if ($account) $account.setProperties(account);
-                else this._addAccountEntry(account);
+        if (!hasContent) return;
+
+        if (changes.accounts) {
+            if (this.$('x-loading-animation')) {
+                this.$el.textContent = ''; // remove loading animation
             }
+
+            for (const [ address, account ] of changes.accounts) {
+                const $account = this._accountEntries.get(address);
+                if (account === undefined) {
+                    // todo test!
+                    $account && $account.destroy();
+                    this._accountEntries.delete(address);
+                } else {
+                    if ($account) $account.setProperties(account);
+                    else this._addAccountEntry(account);
+                }
+            }
+        }
+
+        if (accounts.size === 0) {
+            this.$el.textContent = '';
+            const $noContent = XNoContent.createElement();
+            this.$el.appendChild($noContent.$el);
         }
     }
 
@@ -46,9 +61,6 @@ export default class XAccountsList extends MixinRedux(XElement) {
     _addAccountEntry(account) {
         const accountEntry = this._createAccountEntry(account);
         this._accountEntries.set(account.address, accountEntry);
-        if (this.$('x-loading-animation')) {
-            this.$el.textContent = ''; // remove loading animation
-        }
         this.$el.appendChild(accountEntry.$el);
     }
 

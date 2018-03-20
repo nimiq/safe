@@ -21,6 +21,7 @@ export function reducer(state, action) {
         case TypeKeys.ADD_KEY:
             return {
                 ...state,
+                hasContent: true,
                 entries: new Map(state.entries)
                     .set(action.key.address, {
                         ...action.key,
@@ -31,6 +32,7 @@ export function reducer(state, action) {
         case TypeKeys.SET_ALL_KEYS:
             return {
                 ...state,
+                hasContent: true,
                 // convert array to map with address as key
                 entries: new Map(action.keys.map(x => [x.address, { ...x, balance: undefined } ]))
             };

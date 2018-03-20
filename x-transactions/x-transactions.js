@@ -46,7 +46,6 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         if (!hasContent) return;
 
-
         if (changes.transactions) {
             if (this.$('x-loading-animation') || this.$('x-no-content')) {
                 this.$transactionsList.textContent = '';

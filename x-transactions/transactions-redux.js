@@ -19,8 +19,8 @@ export function reducer(state, action) {
             action.transactions.forEach(tx => entries.set(tx.hash, tx));
             return {
                 ...state,
-                entries,
-                hasContent: true
+                hasContent: true,
+                entries
             };
 
         case TypeKeys.UPDATE_BLOCK:

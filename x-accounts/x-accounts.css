@@ -195,3 +195,12 @@ x-accounts-list:empty:before {
     30% { box-shadow: 0.5em 0.2em #212121; }
     0%, 45%, 100% { box-shadow: 0.5em 0 #212121; }
 }
+
+x-accounts-list x-no-content {
+	display: flex;
+	flex-grow: 1;
+	font-size: 20px;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
