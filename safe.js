@@ -58,10 +58,6 @@ class Safe {
         const accounts = this.store.getState().accounts.entries;
         const addresses = [...accounts.values()].map(account => account.address);
         const txs = await this.network.requestTransactionHistory(addresses);
-        for (const tx of txs) {
-            tx.senderLabel = accounts.get(tx.sender) ? accounts.get(tx.sender).label : tx.sender.slice(0, 9) + '...';
-            tx.recipientLabel = accounts.get(tx.recipient) ? accounts.get(tx.recipient).label : tx.recipient.slice(0, 9) + '...';
-        }
         this.actions.addTransactions(txs);
     }
 
@@ -82,9 +78,6 @@ class Safe {
     }
 
     _onTransaction(tx) {
-        const accounts = store.getState().accounts.entries;
-        tx.senderLabel = accounts.get(tx.sender) ? accounts.get(tx.sender).label : tx.sender.slice(0, 9) + '...';
-        tx.recipientLabel = accounts.get(tx.recipient) ? accounts.get(tx.recipient).label : tx.recipient.slice(0, 9) + '...';
         this.actions.addTransactions([tx]);
     }
 
