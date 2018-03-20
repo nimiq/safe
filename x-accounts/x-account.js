@@ -1,9 +1,10 @@
 import XElement from '/libraries/x-element/x-element.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
 
-export default class XAccount extends XElement {
+export default class XAccount extends MixinRedux(XElement) {
     html() {
         return `
             <x-identicon></x-identicon>
@@ -34,6 +35,12 @@ export default class XAccount extends XElement {
         }
     }
 
+    static mapStateToProps(state, props) {
+        return {
+            ...state.accounts.entries.get(props.address)
+        };
+    }
+
     _onPropertiesChanged(changes) {
         for (const prop in changes) {
             if (changes[prop] !== undefined) {
@@ -61,8 +68,16 @@ export default class XAccount extends XElement {
         if (type === 'high') this.$secureIcon.classList.remove('hidden');
     }
 
+    set account(account) {
+        this.setProperties(account);
+    }
+
+    get account() {
+        return this.properties;
+    }
+
     _onAccountSelected() {
-        this.fire('x-account-selected', this.properties);
+        this.fire('x-account-selected', this.account);
     }
 
     _formatBalance(value) {

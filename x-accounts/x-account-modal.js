@@ -1,11 +1,10 @@
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XToast from '../x-toast/x-toast.js';
 import XAccount from './x-account.js';
 // todo, to be discussed: how to generalize this?
 import keyguardPromise from '/apps/safe/keyguard.js';
 
-export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
+export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="x-modal-header">
@@ -30,12 +29,6 @@ export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
                 <button send class="small">Send from this account</button>
             </div>
         `
-    }
-
-    static mapStateToProps(state, props) {
-        return {
-            ...state.accounts.entries.get(props.address)
-        };
     }
 
     listeners() {

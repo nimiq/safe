@@ -41,9 +41,9 @@ export default class XAccountsList extends MixinRedux(XElement) {
                     // todo test!
                     $account && $account.destroy();
                     this._accountEntries.delete(address);
-                } else {
-                    if ($account) $account.setProperties(account);
-                    else this._addAccountEntry(account);
+                } else if (!$account) {
+                    // new entry
+                    this._addAccountEntry(account);
                 }
             }
         }
@@ -66,10 +66,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
 
     _createAccountEntry(account) {
         const $account = XAccount.createElement();
-
-        $account.setProperties({
-            ...account
-        });
+        $account.account = account;
 
         return $account;
     }
