@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import XModal from '../x-modal/x-modal.js';
+import XToast from '../x-toast/x-toast.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export class XAccount extends XElement {
@@ -75,16 +76,22 @@ export class XAccountModal extends XModal(XAccount) {
     html() {
         return `
             <h2>Account Details</h2>
-            <x-identicon></x-identicon>
-            <span class="x-account-label"></span>
-            <x-address></x-address>
-            <i class="hidden secure-icon" label="High security account"></i>
-            <span class="x-account-balance">
-                <span class="dot-loader"></span> NIM
-            </span>
-            <button export class="secondary">Export</button>
-            <button rename class="secondary">Rename</button>
-            <button send>Send from this account</button>
+            <x-account>
+                <x-identicon></x-identicon>
+                <div class="x-account-info">
+                    <span class="x-account-label"></span>
+                    <x-address></x-address>
+                    <div class="x-account-bottom">
+                        <i class="hidden secure-icon" label="High security account"></i>
+                        <span class="x-account-balance">
+                            <span class="dot-loader"></span> NIM
+                        </span>
+                    </div>
+                </div>
+            </x-account>
+            <button export class="secondary small">Export</button>
+            <button rename class="secondary small">Rename</button>
+            <button send class="small">Send from this account</button>
         `
     }
 

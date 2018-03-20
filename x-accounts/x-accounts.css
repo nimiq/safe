@@ -42,33 +42,46 @@ x-account {
     cursor: pointer;
 }
 
+x-account-modal x-account {
+    cursor: auto;
+}
+
 x-account:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+x-account-modal x-account:hover {
+    background-color: transparent;
 }
 
 x-account:last-child {
     border-bottom: 1px solid transparent;
 }
 
-x-account x-identicon {
+x-account x-identicon,
+x-account-modal x-identicon {
+    /* display: block; */
     width: 80px;
     min-width: 50px;
     height: 71px;
     margin-right: 8px;
 }
 
-x-account x-identicon svg {
+x-account x-identicon svg,
+x-account-modal x-identicon svg {
     width: 100%;
     height: 100%;
 }
 
-x-account .x-account-info {
+x-account .x-account-info,
+x-account-modal .x-account-info {
     text-align: left;
     width: 100%;
     max-width: calc(100% - 88px);
 }
 
-x-account .x-account-label {
+x-account .x-account-label,
+x-account-modal .x-account-label {
     display: block;
     text-align: left;
     font-weight: bold;
@@ -78,17 +91,20 @@ x-account .x-account-label {
     text-overflow: ellipsis;
 }
 
-x-account .x-account-bottom {
+x-account .x-account-bottom,
+x-account-modal .x-account-bottom {
     display: flex;
     justify-content: space-between;
     margin-top: 12px;
 }
 
-x-account .x-account-balance {
+x-account .x-account-balance,
+x-account-modal .x-account-balance {
     font-weight: bold;
 }
 
-x-account .x-address {
+x-account .x-address,
+x-account-modal .x-address {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -100,7 +116,12 @@ x-account .x-address {
     font-weight: normal;
 }
 
-x-account .secure-icon {
+x-account-modal .x-address {
+    pointer-events: auto;
+}
+
+x-account .secure-icon,
+x-account-modal .secure-icon {
     display: block;
     width: 1em;
     height: 1em;
