@@ -12,6 +12,10 @@ html, body {
     display: initial;
 }
 
+button.secondary {
+    color: #212121;
+}
+
 header {
     color: white;
     width: 100%;
