@@ -53,6 +53,10 @@ x-transaction x-identicon svg {
     height: 100%;
 }
 
+x-transaction .value {
+    text-align: right;
+}
+
 /* Responsiveness */
 @media (min-width: 480px) {
     x-transaction {

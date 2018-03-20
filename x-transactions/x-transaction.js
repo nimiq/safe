@@ -8,6 +8,7 @@ export default class XTransaction extends XElement {
         return `
             <x-identicon sender></x-identicon>
             <span class="label" sender></span>
+            <span>&#8674;</span>
             <x-identicon recipient></x-identicon>
             <span class="label" recipient></span>
             <span class="timestamp" title="">pending...</span>
@@ -26,6 +27,8 @@ export default class XTransaction extends XElement {
         this.$value = this.$('span.value');
 
         this.$el.addEventListener('click', e => this._onTransactionSelected());
+
+        this._timeagoUpdateInterval = null;
     }
 
     _onPropertiesChanged(changes) {
@@ -33,6 +36,10 @@ export default class XTransaction extends XElement {
             if (changes[prop] !== undefined) {
                 // Update display
                 this[prop] = changes[prop];
+
+                if (prop === 'timestamp' && !this._timeagoUpdateInterval) {
+                    this._timeagoUpdateInterval = setInterval(_ => this._updateTimeago(), 60 * 1000); // Update every minute
+                }
             }
         }
     }
@@ -81,5 +88,10 @@ export default class XTransaction extends XElement {
 
     _formatBalance(value) {
         return NanoApi.formatValue(value, 3) + ' NIM';
+    }
+
+    _updateTimeago() {
+        // Trigger timeago update
+        if (this.properties.timestamp) this.timestamp = this.properties.timestamp;
     }
 }
