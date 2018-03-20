@@ -1,9 +1,9 @@
-import XModal from '../x-modal/x-modal.js';
+import MixinModal from '../mixin-modal/mixin-modal.js';
 import XToast from '../x-toast/x-toast.js';
 import XAccount from './x-account.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 
-export default class XAccountModal extends MixinRedux(XModal(XAccount)) {
+export default class XAccountModal extends MixinRedux(MixinModal(XAccount)) {
     html() {
         return `
             <h2>Account Details</h2>

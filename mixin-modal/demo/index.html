@@ -2,9 +2,9 @@
 <html>
 
 <head>
-    <title>x-modal</title>
+    <title>mixin-modal</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <link href="../x-modal.css" rel="stylesheet">
+    <link href="../mixin-modal.css" rel="stylesheet">
 </head>
 
 <body>
@@ -12,9 +12,9 @@
 <button id="modal-2-button">Show Modal 2</button>
 <script type="module">
     import XElement from "/libraries/x-element/x-element.js";
-    import XModal from "../x-modal.js";
+    import MixinModal from "../mixin-modal.js";
 
-    class XDemoModal extends XModal(XElement) {
+    class XDemoModal extends MixinModal(XElement) {
         html() {
             return `<h1 title></h1>
                 <button other-modal-button>Show Other Modal</button>

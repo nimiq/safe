@@ -1,7 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XSingleton from '../x-singleton/x-singleton.js';
+import MixinSingleton from '../mixin-singleton/mixin-singleton.js';
 
-class XModalContainer extends XSingleton(XElement) {
+class XModalContainer extends MixinSingleton(XElement) {
     onCreate() {
         this._visibleModal = null;
         this.$el.setAttribute('tabindex', '-1');
@@ -64,16 +64,12 @@ class XModalContainer extends XSingleton(XElement) {
 XModalContainer.ANIMATION_TIME = 700;
 
 
-const XModal = XElementBase => class extends XSingleton(XElementBase) {
+const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     onCreate() {
         super.onCreate();
         if (this.$el.parentNode !== XModalContainer.instance.$el) {
             XModalContainer.instance.$el.appendChild(this.$el);
         }
-    }
-
-    styles() {
-        return [ ...super.styles(), 'x-modal'];
     }
 
     static show() {
@@ -84,4 +80,4 @@ const XModal = XElementBase => class extends XSingleton(XElementBase) {
         XModalContainer.hide(this.instance);
     }
 };
-export default XModal;
+export default MixinModal;

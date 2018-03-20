@@ -1,4 +1,4 @@
-const XSingleton = XElementBase => class extends XElementBase {
+const MixinSingleton = XElementBase => class extends XElementBase {
     onCreate() {
         if (this.constructor._instance) {
             throw Error('Singleton already has an instance.');
@@ -26,4 +26,4 @@ const XSingleton = XElementBase => class extends XElementBase {
         this._instance = null;
     }
 };
-export default XSingleton;
+export default MixinSingleton;

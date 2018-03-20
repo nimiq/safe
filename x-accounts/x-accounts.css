@@ -1,5 +1,5 @@
 @import '../x-address/x-address.css';
-@import '../x-modal/x-modal.css';
+@import '../mixin-modal/mixin-modal.css';
 @import '/elements/x-loading-animation/x-loading-animation.css';
 
 x-accounts {

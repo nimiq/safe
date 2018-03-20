@@ -28,13 +28,7 @@ x-modal-container > * {
     transform: translateY(100vh);
     transition: transform .7s;
     will-change: transform;
-}
 
-x-modal-container > .visible {
-    transform: translateY(0);
-}
-
-.x-modal {
     background: white;
     color: rgba(0,0,0,0.8);
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
@@ -42,4 +36,8 @@ x-modal-container > .visible {
         0 3px 3px -2px rgba(0, 0, 0, 0.4);
     padding: 32px;
     border-radius: 5px;
+}
+
+x-modal-container > .visible {
+    transform: translateY(0);
 }
