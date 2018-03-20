@@ -10,7 +10,7 @@ export default class XTransaction extends XElement {
             <span class="label" sender></span>
             <x-identicon recipient></x-identicon>
             <span class="label" recipient></span>
-            <span class="timestamp"></span>
+            <span class="timestamp" title=""></span>
             <span class="value"></span>
         `
     }
@@ -66,7 +66,9 @@ export default class XTransaction extends XElement {
     }
 
     set timestamp(timestamp) {
-        this.$timestamp.textContent = timestamp;
+        const time = moment.unix(timestamp);
+        this.$timestamp.textContent = time.fromNow();
+        this.$timestamp.setAttribute('title', time.toDate().toLocaleString());
     }
 
     set hash(hash) {
