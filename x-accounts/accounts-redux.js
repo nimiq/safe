@@ -1,6 +1,6 @@
 // todo, to be discussed: abstract the functionality we need here in a generic network store OR consider network-client
 // as generic solution, so network-client should move to libraries?
-import networkClient from '../../apps/safe/network-client.js';
+import networkClient from '/apps/safe/network-client.js';
 
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
