@@ -13,8 +13,8 @@ export default class XTotalAmount extends MixinRedux(XElement) {
     }
 
     onCreate(){
-        super.onCreate();
         this.$currencyNim = this.$('x-currency-nim');
+        super.onCreate();
     }
 
     static mapStateToProps(state) {
