@@ -19,9 +19,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
     static mapStateToProps(state) {
         return {
             accounts: state.accounts.entries,
-            hasContent: state.accounts.hasContent,
-            loading: state. accounts.loading,
-            error: state.accounts.error
+            hasContent: state.accounts.hasContent
         };
     }
 

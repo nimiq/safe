@@ -24,6 +24,7 @@ export default class XAccount extends MixinRedux(XElement) {
     children() { return [XIdenticon, XAddress] }
 
     onCreate() {
+        super.onCreate();
         this.$label = this.$('.x-account-label');
         this.$balance = this.$('.x-account-balance');
         this.$secureIcon = this.$('.secure-icon');

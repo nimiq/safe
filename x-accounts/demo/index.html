@@ -77,7 +77,10 @@
         XToast.show('Clicked "Create Account"');
         const demoAccount = demoAccounts.shift();
         if (demoAccount) {
-            state.accounts = new Map(state.accounts).set(demoAccount.address, demoAccount);
+            state = {
+                accounts: new Map(state.accounts).set(demoAccount.address, demoAccount),
+                hasContent: true
+            };
             $accounts.$accountsList.setProperties(state);
         }
     };
