@@ -3,6 +3,7 @@
 @import '/elements/x-transactions/x-transactions.css';
 @import '/elements/x-toast/x-toast.css';
 @import '/elements/x-amount/x-amount.css';
+@import '/elements/x-wallet-backup-import/x-wallet-backup-import.css';
 @import '/elements/nimiq-logo/nimiq-logo.css';
 
 html, body {

@@ -6,6 +6,7 @@ import keyguardPromise from '../keyguard.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
+import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -71,7 +72,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             'x-accounts-create': () => this._startCreate(),
             'x-accounts-import': () => this._startImportFile(),
-            // 'x-account-selected': address => XRouter.root.goTo('account/' + address),
+            'x-backup-import': this._importFile.bind(this)
             // 'click button#import-words': () => this._startImportWords(),
             // 'click button#export': () => this._startExport(),
         }
@@ -84,15 +85,24 @@ export default class XSafe extends MixinRedux(XElement) {
         this.actions.addAccount(newKey);
     }
 
-    async _startImportFile() {
-        // todo: read account access file
+    _startImportFile() {
+        console.log("_startImportFile");
+        XWalletBackupImportModal.instance.reset();
+        XWalletBackupImportModal.show();
+    }
+
+    /**
+     * @param {string} encryptedPrivKey Base64 encoded
+     */
+    async _importFile(encryptedPrivKey) {
         const keyguard = await keyguardPromise;
         try {
-            const newKey = await keyguard.importFromFile('AQiXpUJ/dnQNsWbKrWZ6S5aJ8XhLv4RlDSqjJewd1Lmq5/phnTSZ5SGFMFfyzr0ue1UhIuo4');
+            const newKey = await keyguard.importFromFile(encryptedPrivKey);
             this.actions.addAccount(newKey);
+            XWalletBackupImportModal.instance.success();
         } catch (e) {
             // todo how to show error to user?
-            console.log(e);
+            console.error(e);
         }
     }
 

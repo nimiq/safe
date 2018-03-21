@@ -6,6 +6,7 @@ import { updateBalance, setAllKeys } from '/elements/x-accounts/accounts-redux.j
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
 import keyguardPromise from './keyguard.js';
 import networkClient from './network-client.js';
+import MixinSingleton from '/elements/mixin-singleton/mixin-singleton.js';
 
 class Safe {
     constructor() {
@@ -14,6 +15,9 @@ class Safe {
         // set redux store
         this.store = configureStore();
         MixinRedux.store = this.store;
+
+        // set singleton app container
+        MixinSingleton.appContainer = $appContainer;
 
         // start UI
         this._xApp = new XSafe($appContainer);
