@@ -72,3 +72,24 @@ x-transactions-list x-no-content {
 	justify-content: center;
 	height: 100%;
 }
+
+x-transaction-modal center {
+    padding-bottom: 1em;
+}
+
+x-transaction-modal label {
+    display: inline-block;
+    width: 50%;
+}
+
+x-transaction-modal .blockHeight,
+x-transaction-modal .timestamp,
+x-transaction-modal .value,
+x-transaction-modal .fee {
+    display: inline-block;
+    text-align: right;
+}
+
+x-transaction-modal .hash {
+    font-family: monospace;
+}

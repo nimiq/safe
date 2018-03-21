@@ -10,18 +10,21 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 <h2>Transaction Detail</h2>
             </div>
             <div class="x-modal-body">
-                <x-identicon sender></x-identicon>
-                <div class="label" sender></div>
-                <x-address sender></x-address>
-                <div>&#8674;</div>
-                <x-identicon recipient></x-identicon>
-                <div class="label" recipient></div>
-                <x-address recipient></x-address>
-                <div class="blockHeight"></div>
-                <div class="timestamp" title="">pending...</div>
-                <div class="value"></div>
-                <div class="fee"></div>
-                <div class="hash"></div>
+                <center>
+                    <x-identicon sender></x-identicon>
+                    <div class="label" sender></div>
+                    <x-address sender></x-address>
+                    <div>&#8675;</div>
+                    <x-identicon recipient></x-identicon>
+                    <div class="label" recipient></div>
+                    <x-address recipient></x-address>
+                </center>
+
+                <label>Value:</label> <div class="value"></div>
+                <label>Time:</label> <div class="timestamp" title="">pending...</div>
+                <label>Block height:</label> <div class="blockHeight"></div>
+                <label>Fee:</label> <div class="fee"></div>
+                <label>Hash:</label> <div class="hash"></div>
             </div>
         `
     }
