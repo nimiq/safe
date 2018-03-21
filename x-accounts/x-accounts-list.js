@@ -12,8 +12,8 @@ export default class XAccountsList extends MixinRedux(XElement) {
     }
 
     onCreate() {
-        super.onCreate();
         this._accountEntries = new Map();
+        super.onCreate();
     }
 
     static mapStateToProps(state) {

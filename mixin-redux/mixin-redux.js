@@ -4,17 +4,23 @@ const MixinRedux = XElementBase => class extends XElementBase {
     onCreate() {
         super.onCreate();
 
-        if (!MixinRedux.store) return;
+        const store = MixinRedux.store;
+
+        if (!store) return;
 
         const { actions, mapStateToProps } = this.constructor;
 
         if (actions) {
-            this.actions = bindActionCreators(actions, MixinRedux.store.dispatch);
+            this.actions = bindActionCreators(actions, store.dispatch);
         }
 
         if (mapStateToProps) {
-            this._unsubscribe = MixinRedux.store.subscribe(() => {
-                const properties = mapStateToProps(MixinRedux.store.getState(), this.properties);
+            const initialProperties = mapStateToProps(store.getState(), this.properties);
+            this.setProperties(initialProperties);
+
+            // subscribe to state updates
+            this._unsubscribe = store.subscribe(() => {
+                const properties = mapStateToProps(store.getState(), this.properties);
 
                 this.setProperties(properties);
             });
