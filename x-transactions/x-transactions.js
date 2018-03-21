@@ -89,7 +89,8 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         $transaction.transaction = transaction;
 
-        this.$transactionsList.appendChild($transaction.$el);
+        // FIXME: Use `prepend` when Edge supports it
+        this.$transactionsList.insertBefore($transaction.$el, this.$transactionsList.firstChild || null);
 
         return $transaction;
     }
