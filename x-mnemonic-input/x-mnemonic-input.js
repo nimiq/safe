@@ -1,8 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MnemonicPhrase from '/libraries/mnemonic-phrase/mnemonic-phrase.min.js';
-import XInput from '../x-input/x-input.js';
 import XSuccessMark from '../x-success-mark/x-success-mark.js';
-import AutoComplete from './auto-complete.js';
+import XMnemonicInputField from './x-mnemonic-input-field.js';
 
 export default class XMnemonicInput extends XElement {
     html() {
@@ -13,6 +12,7 @@ export default class XMnemonicInput extends XElement {
                 <h2>Account Recovered</h2>
             <x-mnemonic-input-success>`;
     }
+
     children() { return [XSuccessMark] }
 
     styles() { return ['x-recovery-phrase'] }
@@ -77,10 +77,8 @@ export default class XMnemonicInput extends XElement {
         const check = this.$fields.find(field => !field.complete);
         if (typeof check !== 'undefined') return;
         const mnemonic = this.$fields.map(field => field.$input.value).join(' ');
-        if(mnemonic === this._mnemonic) return;
-        this._mnemonic = mnemonic;
         try {
-            const privateKey = MnemonicPhrase.mnemonicToKey(this._mnemonic);
+            const privateKey = MnemonicPhrase.mnemonicToKey(mnemonic);
             this.fire(this.__tagName, privateKey);
             this._animateSuccess();
         } catch (e) {
@@ -108,71 +106,5 @@ export default class XMnemonicInput extends XElement {
             this.focus();
             this.$el.classList.remove('x-entry')
         }, 3000);
-    }
-}
-
-class XMnemonicInputField extends XInput {
-    html() {
-        return `<input type="text" autocorrect="off" autocapitalize="none" spellcheck="false">`;
-    }
-    styles() { return ['x-input'] }
-
-    onCreate() {
-        super.onCreate();
-
-        // We cannot use the XElement's listeners() functionality, because it would call the listeners with the event.detail,
-        // but in the mnemonic input we need the whole event with all its properties to decide how to handle it.
-        this.$input.addEventListener('keydown', e => this.__onValueChanged(e));
-        this.$input.addEventListener('blur', e => this.__onValueChanged(e));
-
-        this.addEventListener(this.__tagName + '-valid', e => this._onValidEvent(e.detail));
-    }
-
-    __onValueChanged(e) {
-        if (!['keydown', 'input', 'blur'].includes(e.type)) return;
-        if (e.keyCode === 32 /* space */ ) e.preventDefault();
-        const triggerKeyCodes = [32 /* space */, 9 /* tab */, 13 /* enter */];
-        if (triggerKeyCodes.includes(e.keyCode) || e.type === 'blur' || (e.type === 'input' && typeof e.data === 'undefined')) {
-            if (this.value.length >= 3) this._notifyValidity();
-        }
-        this._onValueChanged();
-    }
-
-    setupAutocomplete() {
-        this.autocomplete = new AutoComplete({
-            selector: this.$input,
-            source: (term, response) => {
-                term = term.toLowerCase();
-                const list = MnemonicPhrase.DEFAULT_WORDLIST.filter(word => {
-                    return word.slice(0, term.length) === term;
-                });
-                response(list);
-            },
-            minChars: 3,
-            delay: 0
-        });
-    }
-
-    _validate(value) {
-        const index = MnemonicPhrase.DEFAULT_WORDLIST.indexOf(value.toLowerCase());
-        return index > -1;
-    }
-
-    _onValidEvent(isValid) {
-        this.complete = isValid;
-        if(isValid) this.$el.classList.add('complete');
-        else this._onInvalid();
-    }
-
-    _onValueChanged() {
-        const value = this.$input.value;
-        if (this._value === value) return;
-
-        if (value.length > 2) this.$input.setAttribute('list', 'x-mnemonic-wordlist');
-        else this.$input.removeAttribute('list');
-
-        this.complete = false;
-        this.$el.classList.remove('complete');
-        this._value = value;
     }
 }

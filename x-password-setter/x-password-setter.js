@@ -33,7 +33,7 @@ export default class XPasswordSetter extends XElement {
 
     types() {
         /** @type {XPasswordInput} */
-        this.$passwordInput = null;
+        this.$passwordInput = null
         /*** @type {XPasswordIndicator} */
         this.$passwordIndicator = null;
     }
