@@ -46,7 +46,7 @@ export default class XSafe extends MixinRedux(XElement) {
                             <h2>Recent Transactions</h2>
                             <x-transactions></x-transactions>
                         </x-card>
-                        <x-card style="max-width: 500px;">
+                        <x-card style="max-width: 512px;">
                             <h2>Your Accounts</h2>
                             <x-accounts></x-accounts>
                         </x-card>
