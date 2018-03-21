@@ -1,34 +1,47 @@
 import XElement from '/libraries/x-element/x-element.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
 
-export default class XTransaction extends XElement {
+export default class XTransaction extends MixinRedux(XElement) {
     html() {
         return `
             <x-identicon sender></x-identicon>
-            <span class="label" sender></span>
-            <span>&#8674;</span>
+            <div class="label" sender></div>
+            <div>&#8674;</div>
             <x-identicon recipient></x-identicon>
-            <span class="label" recipient></span>
-            <span class="timestamp" title="">pending...</span>
-            <span class="value"></span>
+            <div class="label" recipient></div>
+            <div class="timestamp" title="">pending...</div>
+            <div class="value"></div>
         `
     }
+
     children() { return [XIdenticon] }
 
     onCreate() {
+        super.onCreate();
         this.$senderIdenticon = this.$identicon[0];
-        this.$senderLabel = this.$('span.label[sender]');
+        this.$senderLabel = this.$('div.label[sender]');
         this.$recipientIdenticon = this.$identicon[1];
-        this.$recipientLabel = this.$('span.label[recipient]');
+        this.$recipientLabel = this.$('div.label[recipient]');
 
-        this.$timestamp = this.$('span.timestamp');
-        this.$value = this.$('span.value');
-
-        this.$el.addEventListener('click', e => this._onTransactionSelected());
+        this.$timestamp = this.$('div.timestamp');
+        this.$value = this.$('div.value');
 
         this._timeagoUpdateInterval = null;
+    }
+
+    listeners() {
+        return {
+            'click': this._onTransactionSelected
+        }
+    }
+
+    static mapStateToProps(state, props) {
+        return {
+            ...state.transactions.entries.get(props.hash)
+        };
     }
 
     _onPropertiesChanged(changes) {
@@ -82,8 +95,16 @@ export default class XTransaction extends XElement {
         this._hash = hash;
     }
 
+    set transaction(transaction) {
+        this.setProperties(transaction);
+    }
+
+    get transaction() {
+        return this.properties;
+    }
+
     _onTransactionSelected() {
-        //
+        this.fire('x-transaction-selected', this.transaction);
     }
 
     _formatBalance(value) {

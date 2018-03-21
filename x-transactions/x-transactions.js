@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTransaction from './x-transaction.js';
+import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
@@ -19,11 +20,16 @@ export default class XTransactions extends MixinRedux(XElement) {
         this.$transactionsList = this.$('x-transactions-list');
     }
 
+    listeners() {
+        return {
+            'x-transaction-selected': this._onTransactionSelected
+        }
+    }
+
     static mapStateToProps(state) {
         return {
             transactions: XTransactions._getLabeledTransactions(state),
-            hasContent: state.transactions.hasContent,
-            error: state.transactions.error
+            hasContent: state.transactions.hasContent
         }
     }
 
@@ -57,9 +63,9 @@ export default class XTransactions extends MixinRedux(XElement) {
                     // todo test!
                     $transaction && $transaction.destroy();
                     this._transactions.delete(hash);
-                } else {
-                    if ($transaction) $transaction.setProperties(transaction);
-                    else this.addTransaction(transaction);
+                } else if (!$transaction) {
+                    // new entry
+                    this.addTransaction(transaction);
                 }
             }
         }
@@ -78,15 +84,18 @@ export default class XTransactions extends MixinRedux(XElement) {
         this._transactions.set(tx.hash, this._createTransaction(tx));
     }
 
-    _createTransaction(tx) {
+    _createTransaction(transaction) {
         const $transaction = XTransaction.createElement();
 
-        $transaction.setProperties({
-            ...tx
-        });
+        $transaction.transaction = transaction;
 
         this.$transactionsList.appendChild($transaction.$el);
 
         return $transaction;
+    }
+
+    _onTransactionSelected(transaction){
+        XTransactionModal.instance.transaction = transaction;
+        XTransactionModal.show();
     }
 }

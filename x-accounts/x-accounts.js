@@ -33,7 +33,7 @@ export default class XAccounts extends XElement {
     }
 
     _onAccountSelected(account){
-        XAccountModal.instance.setProperties(account);
+        XAccountModal.instance.account = account;
         XAccountModal.show();
     }
 }
