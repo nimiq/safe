@@ -34,7 +34,7 @@ export default class XTotalAmount extends MixinRedux(XElement) {
             return;
         }
 
-        const value = [...accounts.values()].reduce((acc, account) => account.balance, 0);
+        const value = [...accounts.values()].reduce((acc, account) => acc + account.balance, 0);
 
         // Only update when all accounts have their balance loaded
         if (!isNaN(value)) this.value = value;
