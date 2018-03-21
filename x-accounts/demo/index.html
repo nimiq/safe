@@ -6,6 +6,7 @@
     <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
     <link href="/elements/x-toast/x-toast.css" rel="stylesheet">
     <link href="../x-accounts.css" rel="stylesheet">
+    <link href="../x-accounts-dropdown.css" rel="stylesheet">
 
     <style>
         body {
@@ -19,11 +20,15 @@
     <h2>This is the XAccounts Demo. Select an existing account, import yours or create a new one.</h2>
     <x-accounts></x-accounts>
 
+    <h2 style="margin-top:48px">XAccountsDropdown Demo</h2>
+    <x-accounts-dropdown></x-accounts-dropdown>
+
     <script type="module">
     import XAccounts from '../x-accounts.js';
+    import XAccountsDropdown from '../x-accounts-dropdown.js';
     import XToast from '../../x-toast/x-toast.js';
-    const $accounts = new XAccounts();
-    window.$accounts = $accounts;
+    window.$accounts = new XAccounts();
+    window.$accountsDropdown = new XAccountsDropdown();
     const demoAccounts = [
         {
             address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
@@ -70,8 +75,17 @@
     ];
 
     let state = {
-        accounts: new Map()
+        accounts: new Map(),
+        hasContent: false
     };
+
+    function updateStore(store) {
+        $accounts.$accountsList.setProperties(state);
+        $accountsDropdown.setProperties(state);
+        $accountsDropdown.$accountsList.setProperties(state);
+    }
+
+    updateStore(state);
 
     const createAccount = () => {
         XToast.show('Clicked "Create Account"');
@@ -81,13 +95,13 @@
                 accounts: new Map(state.accounts).set(demoAccount.address, demoAccount),
                 hasContent: true
             };
-            $accounts.$accountsList.setProperties(state);
+            updateStore(state);
         }
     };
 
     window.addEventListener('x-accounts-create', e => createAccount());
-    window.addEventListener('x-accounts-selected', e => XToast.show('Selected Account: ' + e.detail));
     window.addEventListener('x-accounts-import', e => XToast.show('Clicked "Import Account"'));
+    $accountsDropdown.addEventListener('x-account-selected', e => XToast.show('Selected Account: ' + e.detail.address));
     </script>
 </body>
 

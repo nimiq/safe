@@ -1,0 +1,82 @@
+@import 'x-accounts.css';
+
+x-accounts-dropdown {
+    cursor: pointer;
+    color: #212121;
+    background: white;
+    width: 484px;
+    height: 88px;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+x-accounts-dropdown.ready > [status-message],
+x-accounts-dropdown:not(.ready) > x-account {
+    display: none;
+}
+
+x-accounts-dropdown.ready > x-account {
+    padding-right: 64px;
+}
+
+x-accounts-dropdown.ready::before,
+x-accounts-dropdown.ready::after {
+    /* arrow icon on the right */
+    content: '';
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    height: 2px;
+    width: 13px;
+    background: #e2a62f;
+    pointer-events: none;
+}
+
+x-accounts-dropdown.ready::before {
+    transform: rotate(45deg);
+    right: 32px;
+}
+
+x-accounts-dropdown.ready::after {
+    transform: rotate(-45deg);
+}
+
+x-accounts-dropdown > * {
+    width: 100%;
+}
+
+x-accounts-dropdown > [status-message] {
+    margin: 20px;
+}
+
+x-accounts-dropdown > [dropdown-container] {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: none;
+    max-height: 0;
+    transition: max-height .5s;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+                0  6px 30px 5px rgba(0, 0, 0, 0.12),
+                0  8px 10px -5px rgba(0, 0, 0, 0.4);
+}
+
+x-accounts-dropdown x-accounts-list {
+    display: block;
+    min-height: 0;
+    max-height: 200px;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0;
+}
+
+x-accounts-dropdown x-account {
+    animation: none;
+}
