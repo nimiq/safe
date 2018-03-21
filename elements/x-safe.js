@@ -7,6 +7,7 @@ import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
 import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
+import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -49,6 +50,10 @@ export default class XSafe extends MixinRedux(XElement) {
                             <h2>Your Accounts</h2>
                             <x-accounts></x-accounts>
                         </x-card>
+                        <x-card style="max-width: 400px;">
+                            <h2>Network Status</h2>
+                            <x-network-indicator></x-network-indicator>
+                        </x-card>
                     </x-view-dashboard>
                     <x-view-transactions x-route="transactions"></x-view-transactions>
                     <x-view-settings x-route="settings"></x-view-settings>
@@ -61,7 +66,7 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XTotalAmount, XRouter, XAccounts, XTransactions ];
+        return [ XTotalAmount, XRouter, XAccounts, XTransactions, XNetworkIndicator ];
     }
 
     static get actions() {

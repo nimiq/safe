@@ -5,6 +5,7 @@
 @import '/elements/x-amount/x-amount.css';
 @import '/elements/x-wallet-backup-import/x-wallet-backup-import.css';
 @import '/elements/nimiq-logo/nimiq-logo.css';
+@import '/elements/x-network-indicator/x-network-indicator.css';
 
 html, body {
     overflow-x: hidden;

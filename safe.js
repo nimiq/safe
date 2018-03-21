@@ -4,6 +4,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import configureStore from './store/configure-store.js';
 import { updateBalance, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
+import { setConsensus, setHeight, setPeerCount } from '/elements/x-network-indicator/x-network-indicator-redux.js';
 import keyguardPromise from './keyguard.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/elements/mixin-singleton/mixin-singleton.js';
@@ -22,7 +23,14 @@ class Safe {
         // start UI
         this._xApp = new XSafe($appContainer);
 
-        this.actions = bindActionCreators({ setAllKeys, updateBalance, addTransactions }, this.store.dispatch);
+        this.actions = bindActionCreators({
+            setAllKeys,
+            updateBalance,
+            addTransactions,
+            setConsensus,
+            setHeight,
+            setPeerCount
+        }, this.store.dispatch);
 
         this.launch();
     }
@@ -54,6 +62,8 @@ class Safe {
                 this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
                 this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
                 this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
+                this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
+                this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
                 res();
             })
         ]);
@@ -67,14 +77,17 @@ class Safe {
 
     _onConsensusSyncing() {
         console.log('Consensus syncing');
+        this.actions.setConsensus('syncing');
     }
 
     _onConsensusEstablished() {
         console.log('Consensus established');
+        this.actions.setConsensus('established');
     }
 
     _onConsensusLost() {
         console.log('Consensus lost');
+        this.actions.setConsensus('lost');
     }
 
     _onBalanceChanged(obj) {
@@ -83,6 +96,14 @@ class Safe {
 
     _onTransaction(tx) {
         this.actions.addTransactions([tx]);
+    }
+
+    _onHeadChange(height) {
+        this.actions.setHeight(height);
+    }
+
+    _onPeerCountChanged(peerCount) {
+        this.actions.setPeerCount(peerCount);
     }
 
     /** @param {string|string[]} address */
