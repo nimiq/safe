@@ -7,7 +7,7 @@ export default class XWalletBackupImport extends XElement {
     html() {
         return `
             <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
-            <button>Import</button>
+            <button>Select file</button>
             <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
             <input type="file" accept="image/*">`
     }
@@ -15,7 +15,15 @@ export default class XWalletBackupImport extends XElement {
     onCreate() {
         this.$fileInput = this.$('input');
         this.$importIcon = this.$('x-wallet-backup-import-icon');
+        this.$button = this.$('button');
+        this._decoded = null;
         this._bindHandlers();
+
+        this._defaultStyle = {
+            backgroundImage: this.$importIcon.style.backgroundImage,
+            opacity: this.$importIcon.style.opacity,
+            textContent: this.$button.textContent
+        };
     }
 
     _bindHandlers() {
@@ -27,6 +35,7 @@ export default class XWalletBackupImport extends XElement {
         dropZone.addEventListener('dragend', e => this._onDragEnd(e), false);
 
         this.addEventListener('click', e => this._openFileInput());
+        this.$button.addEventListener('click', e => this._onButtonClicked(e));
         this.$fileInput.addEventListener('change', e => this._onFileSelected(e));
     }
 
@@ -54,11 +63,37 @@ export default class XWalletBackupImport extends XElement {
         qrPosition.height = qrPosition.size - qrPosition.padding;
 
         try {
-            const decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
-            this.fire('x-backup-import', decoded);
+            this._decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
+            this._setImage(file);
         } catch (e) {
             this._onQrError();
         }
+    }
+
+    _setImage(file) {
+        const url = URL.createObjectURL(file);
+        this.$importIcon.style.backgroundImage = `url(${url})`;
+        this.$importIcon.style.opacity = 1;
+        this.$button.textContent = 'Import';
+        requestAnimationFrame(_ => URL.revokeObjectURL(url));
+    }
+
+    _onButtonClicked(e) {
+        if (this._decoded) {
+            e.stopPropagation();
+            const decoded = this._decoded;
+            this._decoded = null;
+            this.fire('x-backup-import', decoded);
+            this.reset();
+        }
+    }
+
+    reset() {
+        // Reset element
+        this._decoded = null;
+        this.$importIcon.style.backgroundImage = this._defaultStyle.backgroundImage;
+        this.$importIcon.style.opacity = this._defaultStyle.opacity;
+        this.$button.textContent = this._defaultStyle.textContent;
     }
 
     _onDragOver(event) {

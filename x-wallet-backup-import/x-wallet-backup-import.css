@@ -1,4 +1,5 @@
 @import "../x-toast/x-toast.css";
+@import "../x-success-mark/x-success-mark.css";
 
 x-wallet-backup-import {
     display: flex;
