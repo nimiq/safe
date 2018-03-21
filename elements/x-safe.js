@@ -88,7 +88,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _startImportFile() {
         // todo: read account access file
         const keyguard = await keyguardPromise;
-        const newKey = await keyguard.importFromFile('12e1e112e12e12e12e12e21e');
+        const newKey = await keyguard.importFromFile('AQiXpUJ/dnQNsWbKrWZ6S5aJ8XhLv4RlDSqjJewd1Lmq5/phnTSZ5SGFMFfyzr0ue1UhIuo4');
         console.log('Got new key:', newKey);
     }
 
