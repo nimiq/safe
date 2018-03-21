@@ -28,11 +28,21 @@ export default class XSuccessMark extends XElement {
 
     onCreate() {
         this.$$animate = this.$$('animate');
+        this._hasAnimated = false;
     }
 
     animate() {
+        if (this._hasAnimated) this._reset();
+        this._hasAnimated = true;
+
         this.$el.classList.add('animate-success-mark');
         setTimeout(() => this.$$animate.forEach(el => el.beginElement()), 400);
         return new Promise(resolve => setTimeout(resolve, 1500))
+    }
+
+    _reset() {
+        this.$el.classList.remove('animate-success-mark');
+        this.$el.innerHTML = this.html();
+        this.onCreate();
     }
 }

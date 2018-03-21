@@ -14,7 +14,7 @@ const MixinSingleton = XElementBase => class extends XElementBase {
         } else {
             this._instance = this.createElement();
             if (!this._instance.$el.parentNode) {
-                document.body.appendChild(this._instance.$el);
+                (MixinSingleton.appContainer || document.body).appendChild(this._instance.$el);
             }
         }
         return this._instance;
