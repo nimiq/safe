@@ -19,12 +19,15 @@ export default class XTotalAmount extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            accounts: state.accounts.entries
+            accounts: state.accounts.entries,
+            hasContent: state.accounts.hasContent
         };
     }
 
     _onPropertiesChanged(changes) {
-        const { accounts } = this.properties;
+        const { hasContent, accounts } = this.properties;
+
+        if (!hasContent) return;
 
         if (accounts.size === 0) {
             this.value = 0;

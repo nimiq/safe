@@ -69,9 +69,6 @@ nav.actions {
     float: right;
 }
 
-section.content {
-}
-
 x-view-dashboard {
     display: block;
     padding: 1em 0.5em;
