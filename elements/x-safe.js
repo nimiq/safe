@@ -80,7 +80,6 @@ export default class XSafe extends MixinRedux(XElement) {
     async _startCreate() {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.create();
-        console.log('Got new key:', newKey);
         // todo: create account access file
         this.actions.addAccount(newKey);
     }
@@ -88,8 +87,13 @@ export default class XSafe extends MixinRedux(XElement) {
     async _startImportFile() {
         // todo: read account access file
         const keyguard = await keyguardPromise;
-        const newKey = await keyguard.importFromFile('AQiXpUJ/dnQNsWbKrWZ6S5aJ8XhLv4RlDSqjJewd1Lmq5/phnTSZ5SGFMFfyzr0ue1UhIuo4');
-        console.log('Got new key:', newKey);
+        try {
+            const newKey = await keyguard.importFromFile('AQiXpUJ/dnQNsWbKrWZ6S5aJ8XhLv4RlDSqjJewd1Lmq5/phnTSZ5SGFMFfyzr0ue1UhIuo4');
+            this.actions.addAccount(newKey);
+        } catch (e) {
+            // todo how to show error to user?
+            console.log(e);
+        }
     }
 
     async _startImportWords() {
