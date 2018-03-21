@@ -11,12 +11,13 @@
 
 <body>
     <x-password-setter></x-password-setter>
+    <x-toast></x-toast>
     <script type="module">
         import XPasswordSetter from "../x-password-setter.js";
         const $setter = new XPasswordSetter();
         import XToast from "../../x-toast/x-toast.js";
         const $toast = new XToast();
-        $setter.addEventListener('x-password-setter', e => $toast.show(`${e.type}: ${e.detail}`));
+        $setter.addEventListener('x-password-setter-submitted', e => $toast.show(`${e.type}: ${e.detail}`));
     </script>
 </body>
 
