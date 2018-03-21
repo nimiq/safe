@@ -33,6 +33,7 @@ export default class XWalletBackupImport extends XElement {
 
         dropZone.addEventListener('dragexit', e => this._onDragEnd(e), false);
         dropZone.addEventListener('dragend', e => this._onDragEnd(e), false);
+        // dropZone.addEventListener('dragleave', e => this._onDragEnd(e), false);
 
         this.addEventListener('click', e => this._openFileInput());
         this.$button.addEventListener('click', e => this._onButtonClicked(e));
@@ -91,6 +92,7 @@ export default class XWalletBackupImport extends XElement {
     reset() {
         // Reset element
         this._decoded = null;
+        this._onDragEnd();
         this.$importIcon.style.backgroundImage = this._defaultStyle.backgroundImage;
         this.$importIcon.style.opacity = this._defaultStyle.opacity;
         this.$button.textContent = this._defaultStyle.textContent;
