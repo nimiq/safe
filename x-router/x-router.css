@@ -7,4 +7,9 @@ x-route.in,
 [x-route][class*="from-"],
 [x-route].in {
     display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 960px;
+    align-items: flex-start;
+    margin: 0 auto;
 }
