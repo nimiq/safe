@@ -40,6 +40,7 @@ class Safe {
             new Promise(async (res, err) => {
                 // launch keyguard client
                 this.keyguard = await keyguardPromise;
+                window.keyguard = this.keyguard; // for debugging
                 const keys = await this.keyguard.list();
                 // initialize accounts with keyguard data and load balances
                 await this.actions.setAllKeys(keys);
@@ -48,6 +49,7 @@ class Safe {
             new Promise(async (res, err) => {
                 // launch network rpc client
                 this.network = (await networkClient).rpcClient;
+                window.network = this.network; // for debugging
                 res();
             }),
             new Promise(async (res, err) => {
