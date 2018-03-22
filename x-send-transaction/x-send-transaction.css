@@ -1,0 +1,35 @@
+@import "../x-accounts/x-accounts-dropdown.css";
+@import "../x-address-input/x-address-input.css";
+
+x-send-transaction h2 {
+    margin-bottom: 32px;
+}
+
+x-send-transaction h3 {
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+x-send-transaction input,
+x-send-transaction input::placeholder,
+x-send-transaction x-address-input {
+    font-size: 24px !important;
+    text-align: left !important;
+    font-weight: 300 !important;
+}
+
+x-send-transaction input[amount],
+x-send-transaction input[fee],
+x-send-transaction input[validity-start] {
+    width: 100%;
+    padding: 0 !important;
+}
+
+x-send-transaction x-address-input input {
+    padding-left: 70px !important;
+}
+
+x-send-transaction button {
+    margin-top: 48px;
+    max-width: none;
+}
