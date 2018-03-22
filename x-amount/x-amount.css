@@ -7,7 +7,7 @@ x-amount {
 }
 
 x-amount.incoming {
-    color: forestgreen;
+    color: #2e7d32;
 }
 
 x-amount.incoming .integers::before {
@@ -15,7 +15,7 @@ x-amount.incoming .integers::before {
 }
 
 x-amount.outgoing {
-    color: firebrick;
+    color: #d32f2f;
 }
 
 x-amount.outgoing .integers::before {
