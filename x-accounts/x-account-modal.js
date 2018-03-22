@@ -32,15 +32,22 @@ export default class XAccountModal extends MixinModal(XAccount) {
     listeners() {
         return {
             'click button[export]': _ => this._onExport(this._address),
-            'click button[rename]': _ => XToast.show('Rename account: ' + this._address),
+            'click button[rename]': _ => this._onRename(this._address),
             'click button[send]': _ => XToast.show('Send from account: ' + this._address)
         }
     }
 
     async _onExport(address) {
         const keyguard = await keyguardPromise;
-        const encKey = await keyguard.export(address);
+        const encKey = await keyguard.exportFile(address);
         console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
         // todo: create account access file
+    }
+
+    async _onRename(address) {
+        const keyguard = await keyguardPromise;
+        const newLabel = await keyguard.rename(address);
+        console.log(`New label ${newLabel}`);
+        // todo save new label, this.actions.setLabel(address, newLabel)
     }
 }

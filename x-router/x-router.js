@@ -109,3 +109,5 @@ export default class XRouter extends XElement {
         if (this.routes[path]) this.routes[path].element.classList.toggle(css, on);
     }
 }
+
+// Bug: app crashes when going to non-existing routes
