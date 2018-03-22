@@ -40,8 +40,9 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         return {
-            ...state.transactions.entries.get(props.hash)
-        };
+            ...state.transactions.entries.get(props.hash),
+            currentHeight: state.network.height
+        }
     }
 
     _onPropertiesChanged(changes) {
@@ -53,6 +54,20 @@ export default class XTransaction extends MixinRedux(XElement) {
                 if (prop === 'timestamp' && !this._timeagoUpdateInterval) {
                     this._timeagoUpdateInterval = setInterval(_ => this._updateTimeago(), 60 * 1000); // Update every minute
                 }
+
+                continue;
+            }
+
+            switch (prop) {
+                case 'timestamp':
+                    this.$timestamp.textContent = 'pending...';
+                    this.$timestamp.setAttribute('title', '');
+                    break;
+                case 'blockHeight':
+                    this.blockHeight = 0;
+                    break;
+                default:
+                    console.warn('Possible unhandled reset of property', prop);
             }
         }
     }
@@ -78,7 +93,7 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set fee(fee) {
-        // this.$fee.textContent = this._formatBalance(fee);
+        // this.$fee.textContent = fee + ' NIM';
     }
 
     set blockHeight(blockHeight) {
@@ -99,8 +114,12 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$amount.type = type;
     }
 
+    set currentHeight(height) {
+        // this._currentHeight = height;
+    }
+
     set transaction(transaction) {
-        this.setProperties(transaction);
+        this.setProperties(transaction, true);
     }
 
     get transaction() {
@@ -109,10 +128,6 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     _onTransactionSelected() {
         this.fire('x-transaction-selected', this.transaction);
-    }
-
-    _formatBalance(value) {
-        return NanoApi.formatValue(value, 3) + ' NIM';
     }
 
     _updateTimeago() {

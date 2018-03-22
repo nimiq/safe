@@ -84,6 +84,7 @@ x-transaction-modal label {
 }
 
 x-transaction-modal .blockHeight,
+x-transaction-modal .confirmations,
 x-transaction-modal .timestamp,
 x-transaction-modal x-amount,
 x-transaction-modal .fee {

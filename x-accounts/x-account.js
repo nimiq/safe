@@ -68,7 +68,7 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set account(account) {
-        this.setProperties(account);
+        this.setProperties(account, true);
     }
 
     get account() {

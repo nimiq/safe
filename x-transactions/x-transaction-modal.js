@@ -22,7 +22,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
                 <label>Value:</label> <x-amount></x-amount>
                 <label>Time:</label> <div class="timestamp" title="">pending...</div>
-                <label>Block height:</label> <div class="blockHeight"></div>
+                <label>Block height:</label> <div class="blockHeight"></div> <div class="confirmations"></div>
                 <label>Fee:</label> <div class="fee"></div>
                 <label>Hash:</label> <div class="hash"></div>
             </div>
@@ -36,6 +36,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
         this.$blockHeight = this.$('div.blockHeight');
+        this.$confirmations = this.$('div.confirmations');
         this.$fee = this.$('div.fee');
         this.$hash = this.$('div.hash');
     }
@@ -56,6 +57,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set blockHeight(blockHeight) {
         this.$blockHeight.textContent = `#${blockHeight}`;
+        this._calcConfirmations();
     }
 
     set timestamp(timestamp) {
@@ -65,5 +67,18 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set hash(hash) {
         this.$hash.textContent = hash;
+    }
+
+    set currentHeight(height) {
+        this._calcConfirmations();
+    }
+
+    _calcConfirmations() {
+        if (!this.properties.currentHeight || !this.properties.blockHeight) {
+            if (this.$confirmations) this.$confirmations.textContent = '';
+            return;
+        }
+        const confirmations = this.properties.currentHeight - this.properties.blockHeight;
+        this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
     }
 }

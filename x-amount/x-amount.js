@@ -20,6 +20,7 @@ export default class XAmount extends XElement {
     }
 
     set type(type) {
+        this.$el.classList.remove('incoming', 'outgoing', 'transfer');
         this.$el.classList.add(type);
     }
 

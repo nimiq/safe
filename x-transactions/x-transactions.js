@@ -97,7 +97,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         return $transaction;
     }
 
-    _onTransactionSelected(transaction){
+    _onTransactionSelected(transaction) {
         XTransactionModal.instance.transaction = transaction;
         XTransactionModal.show();
     }
