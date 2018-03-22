@@ -1,8 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
-import XAddress from '../x-address/x-address.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
 import XAmount from '../x-amount/x-amount.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
