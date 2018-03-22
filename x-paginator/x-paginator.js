@@ -53,7 +53,6 @@ export default class XPaginator extends MixinRedux(XElement) {
      * @returns {Array|Set|Map} Returns the same type that is items
      */
     static getPagedItems(items, page, itemsPerPage, backwards) {
-        console.log("items", items);
         const keys = items instanceof Map
             ? [...items.keys()]
             : items instanceof Set
@@ -79,7 +78,6 @@ export default class XPaginator extends MixinRedux(XElement) {
         // items instanceof Map
         const pagedItems = new Map();
         pagedKeys.forEach(key => pagedItems.set(key, items.get(key)));
-        console.log("pagedItems", pagedItems);
         return pagedItems;
     }
 
