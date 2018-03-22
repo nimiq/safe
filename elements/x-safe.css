@@ -45,17 +45,13 @@ nimiq-logo {
 x-total-amount {
     display: block;
     font-size: 2.5em;
-    margin: 0.5em auto;
+    margin: 0.5em auto 1em;
 }
 
 x-total-amount .text {
     display: block;
     font-size: 15px;
     text-transform: uppercase;
-}
-
-x-total-amount x-currency-nim {
-    font-weight: bold;
 }
 
 .header-bottom {
@@ -86,6 +82,10 @@ x-card {
     margin: 1em auto;
     background: white;
     box-shadow: 0px 20px 20px -20px grey;
+}
+
+x-card h2 {
+    margin-bottom: 0.5em;
 }
 
 footer {
