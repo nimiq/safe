@@ -6,8 +6,8 @@ export default class XAccounts extends XElement {
 
     html() {
         return `
-            <button create class="small">&plus; Create</button>
-            <button import class="small">&#8615; Import</button>
+            <button create class="small secondary">&plus; Create</button>
+            <button import class="small secondary">&#8615; Import</button>
             <x-accounts-list></x-accounts-list>
         `;
     }

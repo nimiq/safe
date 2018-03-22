@@ -5,10 +5,11 @@ import { setPage } from '/elements/x-transactions/transactions-redux.js';
 export default class XPaginator extends MixinRedux(XElement) {
     html() {
         return `
-            <button toStart class="small">&larrb;</button>
-            <button prev class="small">&lt;</button>
-            <button next class="small">&gt;</button>
-            <button toEnd class="small">&rarrb;</button>
+            <br>
+            <button toStart class="small secondary">&larrb;</button>
+            <button prev class="small secondary">&lt;</button>
+            <button next class="small secondary">&gt;</button>
+            <button toEnd class="small secondary">&rarrb;</button>
         `
     }
 

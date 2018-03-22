@@ -7,6 +7,7 @@ x-accounts {
     text-align: right;
     width: 100%;
     display: block;
+    margin-top: -2.8em;
 }
 
 x-accounts button + button {

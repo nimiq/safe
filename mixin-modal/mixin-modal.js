@@ -4,6 +4,7 @@ import MixinSingleton from '../mixin-singleton/mixin-singleton.js';
 class XModalContainer extends MixinSingleton(XElement) {
     onCreate() {
         this._visibleModal = null;
+        this.$el.classList.add('nimiq-dark');
         this.$el.setAttribute('tabindex', '-1');
         this.$el.addEventListener('click', e => this._onBackdropClick(e));
         this.$el.addEventListener('keydown', e => this._onEscape(e));
