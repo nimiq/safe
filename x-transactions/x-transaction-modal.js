@@ -20,7 +20,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <x-address recipient></x-address>
                 </center>
 
-                <label>Value:</label> <div class="value"></div>
+                <label>Value:</label> <x-amount></x-amount>
                 <label>Time:</label> <div class="timestamp" title="">pending...</div>
                 <label>Block height:</label> <div class="blockHeight"></div>
                 <label>Fee:</label> <div class="fee"></div>

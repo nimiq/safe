@@ -3,6 +3,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
+import XAmount from '../x-amount/x-amount.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
     html() {
@@ -13,11 +14,11 @@ export default class XTransaction extends MixinRedux(XElement) {
             <x-identicon recipient></x-identicon>
             <div class="label" recipient></div>
             <div class="timestamp" title="">pending...</div>
-            <div class="value"></div>
+            <x-amount></x-amount>
         `
     }
 
-    children() { return [XIdenticon] }
+    children() { return [ XIdenticon, XAmount ] }
 
     onCreate() {
         super.onCreate();
@@ -27,7 +28,6 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$recipientLabel = this.$('div.label[recipient]');
 
         this.$timestamp = this.$('div.timestamp');
-        this.$value = this.$('div.value');
 
         this._timeagoUpdateInterval = null;
     }
@@ -74,7 +74,7 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set value(value) {
-        this.$value.textContent = this._formatBalance(value);
+        this.$amount.value = value;
     }
 
     set fee(fee) {
