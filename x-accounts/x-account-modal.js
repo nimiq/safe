@@ -18,9 +18,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                         <span class="x-account-label"></span>
                         <div class="x-account-bottom">
                             <i class="hidden secure-icon" title="High security account"></i>
-                            <span class="x-account-balance">
-                                <span class="dot-loader"></span> NIM
-                            </span>
+                            <x-amount></x-amount>
                         </div>
                     </div>
                 </x-account>

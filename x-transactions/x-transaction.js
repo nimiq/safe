@@ -3,6 +3,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
+import XAmount from '../x-amount/x-amount.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
     html() {
@@ -13,11 +14,11 @@ export default class XTransaction extends MixinRedux(XElement) {
             <x-identicon recipient></x-identicon>
             <div class="label" recipient></div>
             <div class="timestamp" title="">pending...</div>
-            <div class="value"></div>
+            <x-amount></x-amount>
         `
     }
 
-    children() { return [XIdenticon] }
+    children() { return [ XIdenticon, XAmount ] }
 
     onCreate() {
         super.onCreate();
@@ -27,7 +28,6 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$recipientLabel = this.$('div.label[recipient]');
 
         this.$timestamp = this.$('div.timestamp');
-        this.$value = this.$('div.value');
 
         this._timeagoUpdateInterval = null;
     }
@@ -40,8 +40,9 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         return {
-            ...state.transactions.entries.get(props.hash)
-        };
+            ...state.transactions.entries.get(props.hash),
+            currentHeight: state.network.height
+        }
     }
 
     _onPropertiesChanged(changes) {
@@ -53,6 +54,20 @@ export default class XTransaction extends MixinRedux(XElement) {
                 if (prop === 'timestamp' && !this._timeagoUpdateInterval) {
                     this._timeagoUpdateInterval = setInterval(_ => this._updateTimeago(), 60 * 1000); // Update every minute
                 }
+
+                continue;
+            }
+
+            switch (prop) {
+                case 'timestamp':
+                    this.$timestamp.textContent = 'pending...';
+                    this.$timestamp.setAttribute('title', '');
+                    break;
+                case 'blockHeight':
+                    this.blockHeight = 0;
+                    break;
+                default:
+                    console.warn('Possible unhandled reset of property', prop);
             }
         }
     }
@@ -74,11 +89,11 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set value(value) {
-        this.$value.textContent = this._formatBalance(value);
+        this.$amount.value = value;
     }
 
     set fee(fee) {
-        // this.$fee.textContent = this._formatBalance(fee);
+        // this.$fee.textContent = fee + ' NIM';
     }
 
     set blockHeight(blockHeight) {
@@ -92,11 +107,19 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set hash(hash) {
-        this._hash = hash;
+        // this._hash = hash;
+    }
+
+    set type(type) {
+        this.$amount.type = type;
+    }
+
+    set currentHeight(height) {
+        // this._currentHeight = height;
     }
 
     set transaction(transaction) {
-        this.setProperties(transaction);
+        this.setProperties(transaction, true);
     }
 
     get transaction() {
@@ -105,10 +128,6 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     _onTransactionSelected() {
         this.fire('x-transaction-selected', this.transaction);
-    }
-
-    _formatBalance(value) {
-        return NanoApi.formatValue(value, 3) + ' NIM';
     }
 
     _updateTimeago() {

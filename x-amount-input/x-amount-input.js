@@ -21,7 +21,7 @@ export default class XAmountInput extends XInput {
         this.$currency2 = this.$('x-currency-2');
         this._previousValue = '';
         this.maxDecimals = 2;
-        if (!this._isMobile) return;
+        if (!this._isMobile || this.$el.hasAttribute('no-screen-keyboard')) return;
         this._initScreenKeyboard();
     }
 
@@ -51,7 +51,7 @@ export default class XAmountInput extends XInput {
             return;
         }
         this._previousValue = this.value;
-        this._currency2 = this.value;
+        //this._currency2 = this.value;
         if (this.$input.value === '') {
             this.$numpad.clear();
         } else {
@@ -59,6 +59,7 @@ export default class XAmountInput extends XInput {
         }
     }
 
+    /*
     set _currency2(value) {
         if (value === 0) {
             this.$currency2.textContent = '';
@@ -66,6 +67,7 @@ export default class XAmountInput extends XInput {
             this.$currency2.textContent = NanoApi.formatValueInDollar(value);
         }
     }
+    */
 
     get _isMobile() {
         return window.innerWidth < 420; 

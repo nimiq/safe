@@ -38,7 +38,7 @@ x-transaction:last-child {
 }
 
 x-transaction > * {
-    display: table-cell;
+    display: table-cell !important;
     vertical-align: middle;
 }
 
@@ -53,8 +53,9 @@ x-transaction x-identicon svg {
     height: 100%;
 }
 
-x-transaction .value {
+x-transaction x-amount {
     text-align: right;
+    font-size: 1.4em;
 }
 
 /* Responsiveness */
@@ -83,11 +84,16 @@ x-transaction-modal label {
 }
 
 x-transaction-modal .blockHeight,
+x-transaction-modal .confirmations,
 x-transaction-modal .timestamp,
-x-transaction-modal .value,
+x-transaction-modal x-amount,
 x-transaction-modal .fee {
     display: inline-block;
     text-align: right;
+}
+
+x-transaction-modal x-amount {
+    font-size: 1.4em;
 }
 
 x-transaction-modal .hash {

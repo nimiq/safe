@@ -72,6 +72,10 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         }
     }
 
+    styles() {
+        return [ ...super.styles(), 'x-modal' ];
+    }
+
     static show() {
         XModalContainer.show(this.instance);
     }

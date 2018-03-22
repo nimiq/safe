@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-send-transaction.css" rel="stylesheet">
+    <link href="../x-send-transaction-modal.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding: 1em;
+        }
+    </style>
+</head>
+
+<body>
+<button class="small" id="open-modal-button" style="margin: 80px">Open as modal</button>
+<x-send-transaction></x-send-transaction>
+
+<script type="module">
+    import XSendTransaction from "../x-send-transactions.js";
+    import XSendTransactionModal from "../x-send-transaction-modal.js";
+
+    window.$sendTransaction = new XSendTransaction();
+
+    let state = {
+        accounts: new Map(),
+        hasContent: true
+    };
+
+    [
+        {
+            address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+            label: 'This is my account with a really really really long name',
+            balance: 238.12,
+            secure: false
+        },
+        {
+            address: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+            label: 'Account 2',
+            balance: 823434534.23423,
+            secure: true
+        },
+        {
+            address: 'NQ02 2Q42 7BVN F9NN RJE7 JLMP FKVC B00J THFD',
+            label: 'Main Account',
+            balance: 23423.12,
+            secure: true
+        },
+        {
+            address: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+            label: 'Account 3',
+            balance: 0,
+            secure: false
+        },
+        {
+            address: 'NQ53 XEKU HUKG 7RA8 L2ER 6LYY 5NVN BQ3U FYNX',
+            label: 'Account 4',
+            balance: 0,
+            secure: false
+        },
+        {
+            address: 'NQ25 D5PV 2N4H MBA0 1NNJ 46VQ 1FSV 9QT7 YL52',
+            label: 'Account 5',
+            balance: 123.45678,
+            secure: false
+        },
+        {
+            address: 'NQ25 LL4U QTYX R48H 597P 29DH HV20 3C67 66CQ',
+            label: 'Last account',
+            balance: 9999,
+            secure: true
+        }
+    ].forEach(account => state.accounts.set(account.address, account));
+
+    function updateStore(instance, store) {
+        instance.setProperties(store);
+        instance.$accountsList.setProperties(store);
+    }
+
+    updateStore($sendTransaction.$accountsDropdown, state);
+
+    document.getElementById('open-modal-button').addEventListener('click', () => {
+        XSendTransactionModal.show();
+        updateStore(XSendTransactionModal.instance.$accountsDropdown, state);
+    });
+</script>
+</body>
+
+</html>

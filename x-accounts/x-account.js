@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import XAmount from '/elements/x-amount/x-amount.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
@@ -13,20 +14,17 @@ export default class XAccount extends MixinRedux(XElement) {
                 <x-address></x-address>
                 <div class="x-account-bottom">
                     <i class="hidden secure-icon" title="High security account"></i>
-                    <span class="x-account-balance">
-                        <span class="dot-loader"></span>
-                    </span>
+                    <x-amount></x-amount>
                 </div>
             </div>
         `
     }
 
-    children() { return [XIdenticon, XAddress] }
+    children() { return [XIdenticon, XAddress, XAmount] }
 
     onCreate() {
         super.onCreate();
         this.$label = this.$('.x-account-label');
-        this.$balance = this.$('.x-account-balance');
         this.$secureIcon = this.$('.secure-icon');
     }
 
@@ -39,7 +37,7 @@ export default class XAccount extends MixinRedux(XElement) {
     static mapStateToProps(state, props) {
         return {
             ...state.accounts.entries.get(props.address)
-        };
+        }
     }
 
     _onPropertiesChanged(changes) {
@@ -62,7 +60,7 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set balance(balance) {
-        this.$balance.textContent = this._formatBalance(balance);
+        this.$amount.value = balance;
     }
 
     set type(type) {
@@ -70,7 +68,7 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set account(account) {
-        this.setProperties(account);
+        this.setProperties(account, true);
     }
 
     get account() {
@@ -79,9 +77,5 @@ export default class XAccount extends MixinRedux(XElement) {
 
     _onAccountSelected() {
         this.fire('x-account-selected', this.account);
-    }
-
-    _formatBalance(value) {
-        return NanoApi.formatValue(value, 3) + ' NIM';
     }
 }

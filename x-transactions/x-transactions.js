@@ -42,6 +42,8 @@ export default class XTransactions extends MixinRedux(XElement) {
             const recipient = accounts.get(tx.recipient);
             tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 9) + '...';
             tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 9) + '...';
+
+            tx.type = sender && recipient ? 'transfer' : sender ? 'outgoing' : 'incoming';
         });
 
         return txs;
@@ -95,7 +97,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         return $transaction;
     }
 
-    _onTransactionSelected(transaction){
+    _onTransactionSelected(transaction) {
         XTransactionModal.instance.transaction = transaction;
         XTransactionModal.show();
     }
