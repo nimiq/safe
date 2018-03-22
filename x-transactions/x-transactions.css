@@ -26,8 +26,20 @@ x-transaction {
     padding: 8px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     animation: from-right 500ms;
+    animation-fill-mode: backwards; /* Apply the animation's opacity:0 when the animation property is applied */
     cursor: pointer;
 }
+
+x-transaction:nth-child(1) { animation-delay: 0.0s }
+x-transaction:nth-child(2) { animation-delay: 0.1s }
+x-transaction:nth-child(3) { animation-delay: 0.2s }
+x-transaction:nth-child(4) { animation-delay: 0.3s }
+x-transaction:nth-child(5) { animation-delay: 0.4s }
+x-transaction:nth-child(6) { animation-delay: 0.5s }
+x-transaction:nth-child(7) { animation-delay: 0.6s }
+x-transaction:nth-child(8) { animation-delay: 0.7s }
+x-transaction:nth-child(9) { animation-delay: 0.8s }
+x-transaction:nth-child(10){ animation-delay: 0.9s }
 
 x-transaction:hover {
     background-color: rgba(0, 0, 0, 0.1);
