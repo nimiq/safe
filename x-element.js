@@ -249,6 +249,12 @@ export default class XElement {
     addEventListener(type, callback) { this.$el.addEventListener(type, callback, false) }
 
     /**
+     * @param {string} type
+     * @param {function} callback
+     */
+    removeEventListener(type, callback) { this.$el.removeEventListener(type, callback, false) }
+
+    /**
      * @param {string} eventType
      * @param {any} [detail=null]
      * @param {boolean} [bubbles=true]
