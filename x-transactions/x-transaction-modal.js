@@ -52,7 +52,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set fee(fee) {
-        this.$fee.textContent = this._formatBalance(fee);
+        this.$fee.textContent = fee + ' NIM';
     }
 
     set blockHeight(blockHeight) {
