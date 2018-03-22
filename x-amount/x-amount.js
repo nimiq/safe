@@ -19,6 +19,10 @@ export default class XAmount extends XElement {
         this.$currencyNim = this.$('x-currency-nim');
     }
 
+    set type(type) {
+        this.$el.classList.add(type);
+    }
+
     set value(value) {
         value = Number(value) || 0;
         value = Math.round(value * 100000) / 100000;
@@ -38,7 +42,8 @@ export default class XAmount extends XElement {
         this.$currencyNim.style.display = 'inline';
     }
 
-    _formatThousands(number, separator = '‘') {
+    // _formatThousands(number, separator = '‘') {
+    _formatThousands(number, separator = '\'') {
         let reversed = number.split('').reverse();
         for(let i = 3; i < reversed.length; i += 4) {
             reversed.splice(i, 0, separator);

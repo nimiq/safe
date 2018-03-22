@@ -92,7 +92,11 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set hash(hash) {
-        this._hash = hash;
+        // this._hash = hash;
+    }
+
+    set type(type) {
+        this.$amount.type = type;
     }
 
     set transaction(transaction) {

@@ -6,12 +6,32 @@ x-amount {
     letter-spacing: 0.02em;
 }
 
+x-amount.incoming {
+    color: forestgreen;
+}
+
+x-amount.incoming .integers::before {
+    content: '+';
+}
+
+x-amount.outgoing {
+    color: firebrick;
+}
+
+x-amount.outgoing .integers::before {
+    content: '-';
+}
+
 x-amount x-currency-nim {
     display: none;
 }
 
 x-amount .integers {
 
+}
+
+x-amount .integers::before {
+    font-weight: 400;
 }
 
 x-amount .main-decimals {

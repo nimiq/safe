@@ -64,7 +64,6 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set hash(hash) {
-        this._hash = hash;
         this.$hash.textContent = hash;
     }
 }
