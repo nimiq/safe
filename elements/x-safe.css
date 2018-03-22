@@ -95,6 +95,6 @@ footer {
 
 @media (min-width: 480px) {
     x-card {
-        padding: 2em;
+        padding: 1.5em 2em;
     }
 }
