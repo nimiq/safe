@@ -33,7 +33,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                 </div>
             </header>
-            <section class="content">
+            <section class="content nimiq-dark">
                 <x-router>
                     <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
                     <main x-route="sign"> New Transaction</main>
@@ -56,7 +56,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-view-settings x-route="settings"></x-view-settings>
                 </x-router>
             </section>
-            <footer>
+            <footer class="nimiq-dark>
                 &copy; 2017-2018 Nimiq Foundation
             </footer>
             `

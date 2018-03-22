@@ -10,17 +10,11 @@
 
 html, body {
     overflow-x: hidden;
-    color: #212121;
     background: rgb(245, 245, 245);
     display: initial;
 }
 
-button.secondary {
-    color: #212121;
-}
-
 header {
-    color: white;
     width: 100%;
     background: var(--primary-background-toright);
     text-align: center;
