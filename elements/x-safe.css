@@ -6,6 +6,7 @@
 @import '/elements/x-wallet-backup-import/x-wallet-backup-import.css';
 @import '/elements/nimiq-logo/nimiq-logo.css';
 @import '/elements/x-network-indicator/x-network-indicator.css';
+@import '/elements/x-send-transaction/x-send-transaction-modal.css';
 
 html, body {
     overflow-x: hidden;

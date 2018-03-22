@@ -3,11 +3,13 @@ import XRouter from '/elements/x-router/x-router.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
 import keyguardPromise from '../keyguard.js';
+import networkClient from '../network-client.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
 import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
+import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -27,8 +29,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <div class="header-bottom">
                     <nav class="main"></nav>
                     <nav class="actions">
-                        <a>Receive</a>
-                        <a>Send</a>
+                        <button class="small" new-tx>New Tx</button>
                     </nav>
                 </div>
             </header>
@@ -73,9 +74,15 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             'x-accounts-create': () => this._startCreate(),
             'x-accounts-import': () => this._startImportFile(),
-            'x-backup-import': this._importFile.bind(this)
-            // 'click button#import-words': () => this._startImportWords(),
-            // 'click button#export': () => this._startExport(),
+            'x-backup-import': this._importFile.bind(this),
+            'click button[new-tx]': this._clickedNewTransaction,
+            'x-send-transaction': this._signTransaction.bind(this)
+        }
+    }
+
+    static mapStateToProps(state, props) {
+        return {
+            height: state.network.height
         }
     }
 
@@ -112,6 +119,30 @@ export default class XSafe extends MixinRedux(XElement) {
         const newKey = await keyguard.importFromWords();
         console.log(`Got new key ${JSON.stringify(newKey)}`);
         // done
+    }
+
+    _clickedNewTransaction() {
+        XSendTransactionModal.instance.clear(this.properties.height);
+        XSendTransactionModal.show();
+    }
+
+    async _signTransaction(tx) {
+        tx.value = Number(tx.value);
+        tx.fee = Number(tx.fee) || 0;
+        tx.validityStartHeight = parseInt(tx.validityStartHeight) || this.properties.height;
+        tx.recipient = 'NQ' + tx.recipient;
+
+        const keyguard = await keyguardPromise;
+        const signedTx = await keyguard.sign(tx);
+
+        // TODO Show textform TX to the user and require explicit click on the "SEND NOW" button
+
+        XSendTransactionModal.hide();
+
+        const network = (await networkClient).rpcClient;
+        network.relayTransaction(signedTx);
+
+        console.log(signedTx);
     }
 }
 
