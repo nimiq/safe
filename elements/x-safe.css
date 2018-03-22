@@ -68,8 +68,12 @@ nav.actions {
 }
 
 x-view-dashboard {
-    display: block;
     padding: 1em 0.5em;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 960px;
+    align-items: flex-start;
+    margin: 0 auto;
 }
 
 x-card {
