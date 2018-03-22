@@ -41,8 +41,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                 ),
                 state.accounts.entries
             ),
-            hasContent: state.transactions.hasContent,
-            totalPages: Math.ceil(state.transactions.entries.size / state.transactions.txsPerPage)
+            hasContent: state.transactions.hasContent
         }
     }
 
@@ -72,8 +71,8 @@ export default class XTransactions extends MixinRedux(XElement) {
 
             for (const [hash, transaction] of changes.transactions) {
                 const $transaction = this._transactions.get(hash);
+                // FIXME/TODO Instead of deleting existing elements and re-creating new ones, why not re-use the existing ones?
                 if (transaction === undefined) {
-                    // todo test!
                     $transaction && $transaction.destroy();
                     this._transactions.delete(hash);
                 } else if (!$transaction) {

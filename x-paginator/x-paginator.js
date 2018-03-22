@@ -42,7 +42,7 @@ export default class XPaginator extends MixinRedux(XElement) {
         return {
             page: state[props.storePath].page,
             itemsPerPage: state[props.storePath].itemsPerPage,
-            totalPages: state[props.storePath].totalPages
+            totalPages: Math.ceil(state[props.storePath].entries.size / state[props.storePath].itemsPerPage)
         }
     }
 
