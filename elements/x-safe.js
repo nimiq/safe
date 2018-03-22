@@ -80,7 +80,7 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    static mapStateToProps(state, props) {
+    static mapStateToProps(state) {
         return {
             height: state.network.height
         }
