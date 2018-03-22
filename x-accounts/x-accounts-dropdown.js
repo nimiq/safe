@@ -12,6 +12,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
             <div dropdown-container>
                 <x-accounts-list></x-accounts-list>
             </div>
+            <input type="hidden">
         `;
     }
 
@@ -24,6 +25,8 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this._closeTimeout = null;
         this.$statusMessage = this.$('[status-message]');
         this.$dropdownContainer = this.$('[dropdown-container]');
+        this.$input = this.$('input');
+        if (this.attributes.name) this.$input.setAttribute('name', this.attributes.name);
         this.$el.addEventListener('click', e => e.stopPropagation()); // to avoid body click
         this.$account.addEventListener('x-account-selected', e => e.stopPropagation());
         this._closeDropdown = this._closeDropdown.bind(this);
@@ -48,7 +51,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
         if (changes.accounts && !this.selectedAccount) {
             // pre select some arbitrary account
-            this.$account.account = changes.accounts.values().next().value;
+            this.selectedAccount = changes.accounts.values().next().value;
         }
     }
 
@@ -71,6 +74,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         }
         if (!account) return;
         this.$account.account = account;
+        this.$input.value = account.address;
     }
 
     _showStatusMessage() {
@@ -90,6 +94,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
     _onAccountSelected(account){
         this.$account.setProperties(account);
+        this.$input.value = account.address;
         this._closeDropdown();
     }
 
