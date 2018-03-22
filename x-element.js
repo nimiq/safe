@@ -93,11 +93,11 @@ export default class XElement {
     }
 
     /* Set some propertes and call onPropertyChanged after, if present */
-    setProperties(properties) {
+    setProperties(properties, reset) {
         const oldProperties = this._properties;
 
         this._properties = {
-            ...this._properties,
+            ...(reset ? {} : this._properties),
             ...properties
         };
 
