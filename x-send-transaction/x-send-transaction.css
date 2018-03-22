@@ -13,7 +13,7 @@ x-send-transaction h3 {
 x-send-transaction input,
 x-send-transaction input::placeholder,
 x-send-transaction x-address-input {
-    font-size: 24px !important;
+    font-size: 20px !important;
     text-align: left !important;
     font-weight: 300 !important;
 }
@@ -26,7 +26,7 @@ x-send-transaction input[validity-start] {
 }
 
 x-send-transaction x-address-input input {
-    padding-left: 70px !important;
+    padding-left: 2em !important;
 }
 
 x-send-transaction button {
