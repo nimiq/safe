@@ -3,6 +3,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
+import XPaginator from '/elements/x-paginator/x-paginator.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -11,13 +12,16 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
+            <x-paginator store-path="transactions"></x-paginator>
         `
     }
 
+    children() { return [ XPaginator ] }
+
     onCreate() {
-        super.onCreate();
         this._transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
+        super.onCreate();
     }
 
     listeners() {
@@ -28,18 +32,25 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            transactions: XTransactions._getLabeledTransactions(state),
-            hasContent: state.transactions.hasContent
+            transactions: XTransactions._labelTransactions(
+                XPaginator.getPagedItems(
+                    state.transactions.entries,
+                    state.transactions.page,
+                    state.transactions.txsPerPage,
+                    true
+                ),
+                state.accounts.entries
+            ),
+            hasContent: state.transactions.hasContent,
+            totalPages: Math.ceil(state.transactions.entries.size / state.transactions.txsPerPage)
         }
     }
 
-    static _getLabeledTransactions(state) {
-        const txs = state.transactions.entries;
-        const accounts = state.accounts.entries;
-
+    static _labelTransactions(txs, accounts) {
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
+
             tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 9) + '...';
             tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 9) + '...';
 
