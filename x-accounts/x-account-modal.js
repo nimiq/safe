@@ -22,7 +22,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                         </div>
                     </div>
                 </x-account>
-                <button export class="secondary small">Export</button>
+                <button export class="secondary small">Backup</button>
                 <button rename class="secondary small">Rename</button>
                 <button send class="small">Send from this account</button>
             </div>
