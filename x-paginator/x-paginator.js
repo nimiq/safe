@@ -94,7 +94,7 @@ export default class XPaginator extends MixinRedux(XElement) {
             this.$prev.disabled = false;
         }
 
-        if (page === totalPages) {
+        if (page >= totalPages) {
             this.$toEnd.disabled = true;
             this.$next.disabled = true;
         } else {
