@@ -77,9 +77,10 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-create': () => this._startCreate(),
             'x-accounts-import': () => this._startImportFile(),
             'x-backup-import': this._importFile.bind(this),
-            'click button[new-tx]': this._clickedNewTransaction,
+            'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
-            'x-send-transaction-confirm': this._sendTransactionNow.bind(this)
+            'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
+            'x-account-modal-new-tx': this._clickedNewTransaction.bind(this)
         }
     }
 
@@ -124,8 +125,9 @@ export default class XSafe extends MixinRedux(XElement) {
         // done
     }
 
-    _clickedNewTransaction() {
+    _clickedNewTransaction(account) {
         XSendTransactionModal.instance.clear(this.properties.height);
+        account && XSendTransactionModal.instance.setSelectedSender(account);
         XSendTransactionModal.show();
     }
 
