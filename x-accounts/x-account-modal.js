@@ -39,9 +39,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     async _onExport(address) {
         const keyguard = await keyguardPromise;
-        const encKey = await keyguard.exportFile(address);
-        console.log(`Encrypted private key ${JSON.stringify(encKey)}`);
-        // todo: create account access file
+        const success = await keyguard.exportFile(address);
     }
 
     async _onRename(address) {

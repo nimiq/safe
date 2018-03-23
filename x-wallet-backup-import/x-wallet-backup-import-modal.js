@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XWalletBackupImport from './x-wallet-backup-import.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
+import keyguardPromise from '/apps/safe/keyguard.js';
 
 export default class XWalletBackupImportModal extends MixinModal(XElement) {
     html() {
@@ -12,7 +13,7 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
             <div class="modal-body">
                 <div class="file-import">
                     <x-wallet-backup-import class="black"></x-wallet-backup-import>
-                    <a secondary>Import Recovery Words instead</a>
+                    <a secondary>Use 24 Recovery Words instead</a>
                 </div>
                 <x-success-mark></x-success-mark>
             </div>
@@ -21,6 +22,12 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
 
     children() {
         return [ XWalletBackupImport, XSuccessMark ];
+    }
+
+    listeners() {
+        return {
+            'click a[secondary]': () => this._startImportWords()
+        }
     }
 
     onCreate() {
@@ -40,5 +47,11 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
         this.$successMark.$el.style.display = 'initial';
         await this.$successMark.animate();
         XWalletBackupImportModal.hide();
+    }
+
+    async _startImportWords() {
+        const keyguard = await keyguardPromise;
+        const newKey = await keyguard.importFromWords();
+        this.actions.addAccount(newKey);
     }
 }
