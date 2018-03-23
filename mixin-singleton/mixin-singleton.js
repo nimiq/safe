@@ -3,6 +3,7 @@ const MixinSingleton = XElementBase => class extends XElementBase {
         if (this.constructor._instance) {
             throw Error('Singleton already has an instance.');
         }
+        this.constructor._instance = this;
         super.onCreate();
     }
 

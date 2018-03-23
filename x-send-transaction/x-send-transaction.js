@@ -38,7 +38,7 @@ export default class XSendTransaction extends XElement {
     }
 
     children() {
-        return [ XIdenticon, XAccountsDropdown, XAddressInput ];
+        return [ XAccountsDropdown, XAddressInput ];
     }
 
     onCreate() {
