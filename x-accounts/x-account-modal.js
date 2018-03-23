@@ -33,7 +33,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         return {
             'click button[export]': _ => this._onExport(this._address),
             'click button[rename]': _ => this._onRename(this._address),
-            'click button[send]': _ => XToast.show('Send from account: ' + this._address)
+            'click button[send]': _ => this.fire('x-account-modal-new-tx', this._address)
         }
     }
 

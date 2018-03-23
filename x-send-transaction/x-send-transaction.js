@@ -51,6 +51,10 @@ export default class XSendTransaction extends XElement {
         }
     }
 
+    setSelectedSender(account) {
+        this.$accountsDropdown.selectedAccount = account;
+    }
+
     _onSubmit(e) {
         e.preventDefault();
         // const formData = new FormData(this.$form); // I don't know why this doesn't work...
