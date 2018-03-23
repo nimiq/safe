@@ -3,6 +3,10 @@ import Router from '/libraries/es6-router/src/index.js';
 
 export default class XRouter extends XElement {
 
+    constructor() {
+        super(document.body);
+    }
+
     onCreate() {
         this.reverse = false;
         this.routing = false;
@@ -27,6 +31,7 @@ export default class XRouter extends XElement {
 
     _initialize() {
         this.parseRoutes(this.$$('[x-route]'));
+        this.parseAside(this.$$('[x-route-aside]'));
         this.hookUpLinks(this.$$('a[x-href]'));
 
         this.router.listen();
@@ -39,16 +44,26 @@ export default class XRouter extends XElement {
             if (!path || path === '' || path ==='/') { // root
                 this.routes._root = { path, element }
                 this.router.add(() => {
-                    console.log('root route', path);
+                    console.log('XRoute: root route', path);
                     this._show('_root');
                 });
             } else {
-                this.routes[path] = { path, element, regex: new RegExp(path) }
+                const regex = new RegExp(path[0] == '*' ? `.${ path }` : path);
+                this.routes[path] = { path, element, regex }
                 this.router.add(path, (params) => {
-                    console.log('normal route', path, params);
+                    console.log('XRoute: normal route', path, params);
                     this._show(path);
                 });
             }
+        }
+    }
+
+    parseAside(routeElements) {
+        this.asides = new Map();
+        for (const element of routeElements) {
+            const tag = element.attributes['x-route-aside'].value.trim();
+            const regex = new RegExp(`.*_${ tag }_.*`);
+            this.asides.set(tag, { tag, element, regex });
         }
     }
 
@@ -61,44 +76,76 @@ export default class XRouter extends XElement {
         }
     }
 
-    goTo(path) {
-        this.reverse = false;
+    goTo(path, reverse = false) {
+        this.reverse = reverse;
         this.router.navigate(path);
     }
 
     goBackTo(path) {
-        this.reverse = true;
-        this.router.navigate(path);
+        this.goTo(path, true);
+    }
+
+    showAside(tag) {
+        const aside = this.asides.get(tag);
+        if (!aside) throw new Error(`XRouter: aside "${ tag } unknown"`);
+
+        const path = this.router.currentRoute;
+        if (!path.match(aside.regex)) {
+            this.router.navigate(`${ path }_${ tag }_`);
+        }
+    }
+
+    hideAside(tag) {
+        this.router.navigate(this.router.currentRoute.replace(`_${tag}_`, ''));
+    }
+
+    _makePath() {
+        let path = this.paths['root'];
     }
 
     async _show(path) {
         if (path === this.current) return;
-        // if (this.first) {
-        //     this.first = false;
-        //     setTimeout(_ => this._show(path), 10);
-        // }
         this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
         this._toggleInOut(this.previous, false)
         this._setClass(this.previous, 'in', false);
         this._toggleInOut(this.current, true);
         this._setClass(this.current, 'out', false);
-        this._doCallback(this.previous, 'onBeforeExit');
-        this._doCallback(this.current, 'onEntry');
+        this._doRouteCallback(this.previous, 'onBeforeExit');
+        this._doRouteCallback(this.current, 'onEntry');
         this.routing = true;
-    }
 
-    _doCallback(path, name, args = []) {
-        if (!path) return;
-        const element = XElement.get(this.routes[path].element);
-        if (element && element[name] instanceof Function) {
-            element[name](...args);
+        const hash = this.router.currentRoute;
+        for (const [tag, aside] of this.asides) {
+            if (hash.match(aside.regex) !== null) {
+                aside.visible = true;
+                console.log(`XRoute: aside "${ tag }" onEntry`);
+                this._doCallback(aside.element, 'onEntry');
+            } else if (aside.visible) {
+                aside.visible = false;
+                console.log(`XRoute: aside "${ tag }" onExit`);
+                this._doCallback(aside.element, 'onExit');
+            }
         }
     }
 
+    _doRouteCallback(path, name, args = []) {
+        if (!path) return;
+        this._doCallback(this.routes[path].element, name, args);
+    }
+
+    _doCallback(el, name, args = []) {
+        const element = XElement.get(el);
+        // element is undefined if el is a plain html node, e.g. section, main, ...
+        if (!element) return;
+
+        if (element[name] instanceof Function) {
+            element[name](...args);
+        } else console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
+    }
+
+    // TODO [sven] use attribute "animations to configure CSS classes to be used"
     _toggleInOut(path, setIn, setOut = !setIn) {
-        //this.setClass(path, this.reverse ? 'from-right-in' : 'from-left-in', setIn);
-        //this.setClass(path, this.reverse ? 'from-left-out' : 'from-right-out', setOut);
         this._setClass(path, 'from-left-in', setIn && this.reverse);
         this._setClass(path, 'from-right-in', setIn && !this.reverse);
         this._setClass(path, 'from-right-out', setOut && this.reverse);
