@@ -8,6 +8,7 @@ export default class XPaginator extends MixinRedux(XElement) {
             <br>
             <button toStart class="small secondary">&larrb;</button>
             <button prev class="small secondary">&lt;</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span page></span>&nbsp;&nbsp;&nbsp;&nbsp;
             <button next class="small secondary">&gt;</button>
             <button toEnd class="small secondary">&rarrb;</button>
         `
@@ -16,6 +17,7 @@ export default class XPaginator extends MixinRedux(XElement) {
     onCreate() {
         this.$toStart = this.$('button[toStart]');
         this.$prev = this.$('button[prev]');
+        this.$page = this.$('span[page]');
         this.$next = this.$('button[next]');
         this.$toEnd = this.$('button[toEnd]');
         this.setProperty('storePath', this.attributes.storePath);
@@ -85,6 +87,8 @@ export default class XPaginator extends MixinRedux(XElement) {
     _onPropertiesChanged(changes) {
         const page = changes.page || this.properties.page;
         const totalPages = changes.totalPages || this.properties.totalPages;
+
+        this.$page.textContent = page;
 
         if (page === 1) {
             this.$toStart.disabled = true;
