@@ -93,7 +93,6 @@ export default class XSafe extends MixinRedux(XElement) {
     async _startCreate() {
         const keyguard = await keyguardPromise;
         const newKey = await keyguard.create();
-        // todo: create account access file
         this.actions.addAccount(newKey);
     }
 
