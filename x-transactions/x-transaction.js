@@ -6,7 +6,7 @@ import XAmount from '../x-amount/x-amount.js';
 export default class XTransaction extends MixinRedux(XElement) {
     html() {
         return `
-            <div class="timestamp" title="">...</div>
+            <div class="timestamp" title="">pending...</div>
             <x-identicon sender></x-identicon>
             <div class="label" sender></div>
             <div>&#8674;</div>
@@ -58,7 +58,7 @@ export default class XTransaction extends MixinRedux(XElement) {
 
             switch (prop) {
                 case 'timestamp':
-                    this.$timestamp.textContent = '...';
+                    this.$timestamp.textContent = 'pending...';
                     this.$timestamp.setAttribute('title', '');
                     break;
                 case 'blockHeight':
