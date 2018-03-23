@@ -5,7 +5,7 @@ import networkClient from '/apps/safe/network-client.js';
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
     SET_ALL_KEYS: 'accounts/set-all-keys',
-    UPDATE_BALANCE: '/accounts/updateBalance',
+    UPDATE_BALANCES: '/accounts/updateBalances',
     SET_DEFAULT: 'accounts/set-default'
 };
 
@@ -39,16 +39,15 @@ export function reducer(state, action) {
                 entries: new Map(action.keys.map(x => [x.address, { ...x, balance: undefined } ]))
             };
 
-        case TypeKeys.UPDATE_BALANCE:
-            const oldEntry = state.entries.get(action.address);
+        case TypeKeys.UPDATE_BALANCES:
+            const entries = new Map(state.entries);
+            for (const [address, balance] of action.balances) {
+                entries.set(address, {...entries.get(address), balance});
+            }
 
             return {
                 ...state,
-                entries: new Map(state.entries)
-                    .set(action.address, {
-                        ...oldEntry,
-                        balance: action.balance
-                    })
+                entries
             };
 
         default:
@@ -82,10 +81,9 @@ export function setAllKeys(keys) {
     }
 }
 
-export function updateBalance(address, balance) {
+export function updateBalances(balances) {
     return {
-        type: TypeKeys.UPDATE_BALANCE,
-        address,
-        balance
+        type: TypeKeys.UPDATE_BALANCES,
+        balances
     }
 }
