@@ -14,3 +14,20 @@ x-send-transaction.x-modal x-address-input {
 x-send-transaction.x-modal input::placeholder {
     color: rgba(0, 0, 0, .3) !important;
 }
+
+x-send-transaction-plain-confirm-modal {
+    text-align: center;
+}
+
+x-send-transaction-plain-confirm-modal p {
+    margin: 1em 0;
+}
+
+x-send-transaction-plain-confirm-modal textarea {
+    width: 100%;
+    min-height: 225px;
+    background: #e9e9e9;
+    padding: 0.5em;
+    border-radius: 3px;
+    margin-bottom: 1em;
+}
