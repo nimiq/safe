@@ -10,6 +10,14 @@ export default class XRouter extends XElement {
     onCreate() {
         this.reverse = false;
         this.routing = false;
+        let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
+        if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
+            const animations = this.$el.getAttribute('animations').split(' ')
+            if (animations.length == 6)
+                classes = animations;
+        }
+        [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
+
         if (!XRouter.root) XRouter.root = window.xRouter = this;
         this.router = new Router({ debug: true, startListening: false });
 
@@ -17,9 +25,9 @@ export default class XRouter extends XElement {
             if (!this.routing) return;
             this.routing = false;
             this._toggleInOut(this.previous, false, false);
-            this._setClass(this.previous, 'out', true);
+            this._setClass(this.previous, this.CSS_HIDDEN, true);
             this._toggleInOut(this.current, false, false);
-            this._setClass(this.current, 'in', true);
+            this._setClass(this.current, this.CSS_SHOW, true);
             this._doCallback(this.previous, 'onExit');
             this._doCallback(this.current, 'onAfterEntry');
         });
@@ -38,18 +46,18 @@ export default class XRouter extends XElement {
     }
 
     parseRoutes(routeElements) {
-        this.routes = {};
+        this.routes = new Map();
         for (const element of routeElements) {
             const path = element.attributes['x-route'].value.trim();
-            if (!path || path === '' || path ==='/') { // root
-                this.routes._root = { path, element }
+            if (this._isRoot(path)) { // root
+                this.routes.set('_root', { path, element });
                 this.router.add(() => {
                     console.log('XRoute: root route', path);
                     this._show('_root');
                 });
             } else {
-                const regex = new RegExp(path[0] == '*' ? `.${ path }` : path);
-                this.routes[path] = { path, element, regex }
+                const regex = new RegExp(path[0] == `^\/?${ path }./`);
+                this.routes.set(path, { path, element, regex });
                 this.router.add(path, (params) => {
                     console.log('XRoute: normal route', path, params);
                     this._show(path);
@@ -99,18 +107,19 @@ export default class XRouter extends XElement {
         this.router.navigate(this.router.currentRoute.replace(`_${tag}_`, ''));
     }
 
-    _makePath() {
-        let path = this.paths['root'];
+    _isRoot(path = '') {
+        return ['', '/', '_root'].includes(path.trim());
     }
 
     async _show(path) {
+        if (this._isRoot(path)) path = '_root';
         if (path === this.current) return;
         this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
         this._toggleInOut(this.previous, false)
-        this._setClass(this.previous, 'in', false);
+        this._setClass(this.previous, this.CSS_SHOW, false);
         this._toggleInOut(this.current, true);
-        this._setClass(this.current, 'out', false);
+        this._setClass(this.current, this.CSS_HIDDEN, false);
         this._doRouteCallback(this.previous, 'onBeforeExit');
         this._doRouteCallback(this.current, 'onEntry');
         this.routing = true;
@@ -131,7 +140,7 @@ export default class XRouter extends XElement {
 
     _doRouteCallback(path, name, args = []) {
         if (!path) return;
-        this._doCallback(this.routes[path].element, name, args);
+        this._doCallback(this.routes.get(path).element, name, args);
     }
 
     _doCallback(el, name, args = []) {
@@ -144,15 +153,15 @@ export default class XRouter extends XElement {
         } else console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
     }
 
-    // TODO [sven] use attribute "animations to configure CSS classes to be used"
     _toggleInOut(path, setIn, setOut = !setIn) {
-        this._setClass(path, 'from-left-in', setIn && this.reverse);
-        this._setClass(path, 'from-right-in', setIn && !this.reverse);
-        this._setClass(path, 'from-right-out', setOut && this.reverse);
-        this._setClass(path, 'from-left-out', setOut && !this.reverse);
+        this._setClass(path, this.CSS_IN, setIn && !this.reverse);
+        this._setClass(path, this.CSS_IN_REVERSE, setIn && this.reverse);
+        this._setClass(path, this.CSS_OUT, setOut && !this.reverse);
+        this._setClass(path, this.CSS_OUT_REVERSE, setOut && this.reverse);
     }
 
     _setClass(path, css, on) {
-        if (this.routes[path]) this.routes[path].element.classList.toggle(css, on);
+        const route = this.routes.get(path)
+        if (route) route.element.classList.toggle(css, on);
     }
 }
