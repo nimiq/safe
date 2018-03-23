@@ -2,7 +2,7 @@ import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import configureStore from './store/configure-store.js';
-import { updateBalance, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
+import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount } from '/elements/x-network-indicator/x-network-indicator-redux.js';
 import keyguardPromise from './keyguard.js';
@@ -25,7 +25,7 @@ class Safe {
 
         this.actions = bindActionCreators({
             setAllKeys,
-            updateBalance,
+            updateBalances,
             addTransactions,
             setConsensus,
             setHeight,
@@ -59,7 +59,7 @@ class Safe {
                 this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
                 this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
                 this.networkListener.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
-                this.networkListener.on('nimiq-balance', this._onBalanceChanged.bind(this));
+                this.networkListener.on('nimiq-balances', this._onBalanceChanged.bind(this));
                 this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
                 this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
                 this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
@@ -92,8 +92,8 @@ class Safe {
         this.actions.setConsensus('lost');
     }
 
-    _onBalanceChanged(obj) {
-        this.actions.updateBalance(obj.address, obj.balance);
+    _onBalanceChanged(balances) {
+        this.actions.updateBalances(balances);
     }
 
     _onTransaction(tx) {
@@ -106,11 +106,6 @@ class Safe {
 
     _onPeerCountChanged(peerCount) {
         this.actions.setPeerCount(peerCount);
-    }
-
-    /** @param {string|string[]} address */
-    subscribe(address) {
-        return this.network.subscribe(address);
     }
 
     relayTransaction(obj) {
