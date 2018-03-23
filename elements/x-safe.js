@@ -10,6 +10,8 @@ import XTotalAmount from './x-total-amount.js';
 import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
+import XSendTransactionPlainConfirmModal from '/elements/x-send-transaction/x-send-transaction-plain-confirm-modal.js';
+import XToast from '/elements/x-toast/x-toast.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -76,7 +78,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-import': () => this._startImportFile(),
             'x-backup-import': this._importFile.bind(this),
             'click button[new-tx]': this._clickedNewTransaction,
-            'x-send-transaction': this._signTransaction.bind(this)
+            'x-send-transaction': this._signTransaction.bind(this),
+            'x-send-transaction-confirm': this._sendTransactionNow.bind(this)
         }
     }
 
@@ -135,14 +138,28 @@ export default class XSafe extends MixinRedux(XElement) {
         const keyguard = await keyguardPromise;
         const signedTx = await keyguard.sign(tx);
 
-        // TODO Show textform TX to the user and require explicit click on the "SEND NOW" button
+        // Show textform TX to the user and require explicit click on the "SEND NOW" button
+        XSendTransactionPlainConfirmModal.instance.transaction = signedTx;
+        XSendTransactionPlainConfirmModal.show();
+    }
 
-        XSendTransactionModal.hide();
+    async _sendTransactionNow(signedTx) {
+        if (!signedTx) return;
+
+        console.log("Sending Tx:", signedTx);
 
         const network = (await networkClient).rpcClient;
-        network.relayTransaction(signedTx);
+        try {
+            await network.relayTransaction(signedTx);
+        } catch(e) {
+            XToast.show(e.message);
+            return;
+        }
 
-        console.log(signedTx);
+        XSendTransactionPlainConfirmModal.instance.sent();
+        XSendTransactionPlainConfirmModal.hide();
+
+        XToast.show('Sent transaction');
     }
 }
 
