@@ -6,12 +6,12 @@ import XAmount from '../x-amount/x-amount.js';
 export default class XTransaction extends MixinRedux(XElement) {
     html() {
         return `
+            <div class="timestamp" title="">...</div>
             <x-identicon sender></x-identicon>
             <div class="label" sender></div>
             <div>&#8674;</div>
             <x-identicon recipient></x-identicon>
             <div class="label" recipient></div>
-            <div class="timestamp" title="">pending...</div>
             <x-amount></x-amount>
         `
     }
@@ -58,14 +58,15 @@ export default class XTransaction extends MixinRedux(XElement) {
 
             switch (prop) {
                 case 'timestamp':
-                    this.$timestamp.textContent = 'pending...';
+                    this.$timestamp.textContent = '...';
                     this.$timestamp.setAttribute('title', '');
                     break;
                 case 'blockHeight':
                     this.blockHeight = 0;
                     break;
                 default:
-                    console.warn('Possible unhandled reset of property', prop);
+                    // console.warn('Possible unhandled reset of property', prop);
+                    break;
             }
         }
     }
@@ -100,7 +101,16 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     set timestamp(timestamp) {
         const time = moment.unix(timestamp);
-        this.$timestamp.textContent = time.fromNow();
+
+        const before12hours = moment().subtract(12, 'hours');
+        if (time.isAfter(before12hours)) {
+            // If the time was less than 12 hours ago, display timeago
+            this.$timestamp.textContent = time.fromNow();
+        } else {
+            // If the time was yesterday or earlier, display date
+            this.$timestamp.textContent = time.format('D MMM');
+        }
+
         this.$timestamp.setAttribute('title', time.toDate().toLocaleString());
     }
 
@@ -110,6 +120,9 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     set type(type) {
         this.$amount.type = type;
+
+        this.$el.classList.remove('incoming', 'outgoing', 'transfer');
+        this.$el.classList.add(type);
     }
 
     set currentHeight(height) {
