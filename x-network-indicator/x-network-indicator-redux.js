@@ -11,7 +11,7 @@ export const TypeKeys = {
 export function reducer(state, action) {
     if (state === undefined) {
         return {
-            consensus: 'lost',
+            consensus: 'initializing',
             height: 0,
             peerCount: 0
         }
