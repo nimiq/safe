@@ -60,11 +60,6 @@ x-transaction x-identicon {
     margin-right: 8px;
 }
 
-x-transaction x-identicon svg {
-    width: 100%;
-    height: 100%;
-}
-
 x-transaction.incoming .label[recipient],
 x-transaction.outgoing .label[sender],
 x-transaction.transfer .label {

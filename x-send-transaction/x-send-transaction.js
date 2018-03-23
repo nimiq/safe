@@ -1,5 +1,4 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XIdenticon from '../x-identicon/x-identicon.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
 
@@ -13,7 +12,6 @@ export default class XSendTransaction extends XElement {
 
                 <h3>Send to</h3>
                 <div class="row">
-                    <x-identicon></x-identicon>
                     <x-address-input name="recipient"></x-address-input>
                 </div>
 

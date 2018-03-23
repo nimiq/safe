@@ -80,12 +80,6 @@ x-account-modal x-identicon {
     margin: 0 auto;
 }
 
-x-account x-identicon svg,
-x-account-modal x-identicon svg {
-    width: 100%;
-    height: 100%;
-}
-
 x-account .x-account-info,
 x-account-modal .x-account-info {
     text-align: left;
