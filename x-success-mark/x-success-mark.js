@@ -37,7 +37,7 @@ export default class XSuccessMark extends XElement {
 
         this.$el.classList.add('animate-success-mark');
         setTimeout(() => this.$$animate.forEach(el => el.beginElement()), 400);
-        return new Promise(resolve => setTimeout(resolve, 1500))
+        return new Promise(resolve => setTimeout(resolve, 3000))
     }
 
     _reset() {
