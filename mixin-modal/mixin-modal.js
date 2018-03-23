@@ -19,6 +19,7 @@ class XModalContainer extends MixinSingleton(XElement) {
         if (this._visibleModal) {
             await this._hide(this._visibleModal, true);
         }
+        if (modal._onBeforeShow) if (modal._onBeforeShow() === false) return;
         const modalEl = modal.$el;
         modalEl.classList.add('display');
         this.$el.classList.add('display');
@@ -37,6 +38,7 @@ class XModalContainer extends MixinSingleton(XElement) {
 
     async _hide(modal = this._visibleModal, keepBackdrop = false) {
         if (modal === null || modal !== this._visibleModal) return;
+        if (modal._onBeforeHide) if (modal._onBeforeHide() === false) return;
         const modalEl = modal.$el;
         modalEl.classList.remove('visible');
         if (!keepBackdrop) this.$el.classList.remove('visible');
