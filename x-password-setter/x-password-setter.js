@@ -14,7 +14,7 @@ export default class XPasswordSetter extends XElement {
             <x-password-input></x-password-input>
             ${ this._newPassword ? `<x-password-indicator></x-password-indicator>` : '' }
             <div buttons>
-                <div button wrong>Wrong passphrase</div>
+                <div button wrong disabled>Wrong passphrase</div>
                 <button${ this._newPassword ? ' disabled' : '' }>${ buttonLabel || 'Confirm' }</button>
             </div>
         `;
@@ -58,12 +58,13 @@ export default class XPasswordSetter extends XElement {
         this.$passwordInput.value = value;
     }
 
-    wrongPassphrase() {
-        this.$el.classList.add('wrong');
+    wrongPassphrase(set = true) {
+        this.$el.classList.toggle('wrong', set);
+        this.$button.disabled = set;
     }
 
     _onPasswordUpdate(password) {
-        this.$el.classList.remove('wrong');
+        this.wrongPassphrase(false);
 
         if (!this.$passwordIndicator) return;
 
