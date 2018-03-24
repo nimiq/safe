@@ -70,7 +70,7 @@ export default class XRouter extends XElement {
         this.asides = new Map();
         for (const element of routeElements) {
             const tag = element.attributes['x-route-aside'].value.trim();
-            const regex = new RegExp(`.*_${ tag }_.*`);
+            const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`);
             this.asides.set(tag, { tag, element, regex });
         }
     }
@@ -93,18 +93,23 @@ export default class XRouter extends XElement {
         this.goTo(path, true);
     }
 
-    showAside(tag) {
+    showAside(tag, parameters) {
         const aside = this.asides.get(tag);
         if (!aside) throw new Error(`XRouter: aside "${ tag } unknown"`);
 
         const path = this.router.currentRoute;
         if (!path.match(aside.regex)) {
-            this.router.navigate(`${ path }_${ tag }_`);
+            let param = '';
+            if (parameters) {
+                param = (parameters instanceof Array) ? parameters : [parameters];
+                param = '/' + [...param].join('/');
+            }
+            this.router.navigate(`${ path }_${ tag }${param}_`);
         }
     }
 
     hideAside(tag) {
-        this.router.navigate(this.router.currentRoute.replace(`_${tag}_`, ''));
+        this.router.navigate(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
     }
 
     _isRoot(path = '') {
@@ -132,10 +137,12 @@ export default class XRouter extends XElement {
     _checkAsides() {
         const hash = this.router.currentRoute;
         for (const [tag, aside] of this.asides) {
-            if (hash.match(aside.regex) !== null) {
+            const match = hash.match(aside.regex);
+            if (match) {
+                const params = match[1] ? match[1].split('/') : [];
                 aside.visible = true;
-                console.log(`XRoute: aside "${ tag }" onEntry`);
-                this._doCallback(aside.element, 'onEntry');
+                console.log(`XRoute: aside "${ tag }" onEntry; params=`, params);
+                this._doCallback(aside.element, 'onEntry', params);
             } else if (aside.visible) {
                 aside.visible = false;
                 console.log(`XRoute: aside "${ tag }" onExit`);

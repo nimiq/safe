@@ -34,7 +34,7 @@ export default class XAccounts extends XElement {
     }
 
     _onAccountSelected(account){
-        this.$accountModal.account = account;
-        this.$accountModal.show();
+        //this.$accountModal.account = account;
+        this.$accountModal.show(account.address);
     }
 }

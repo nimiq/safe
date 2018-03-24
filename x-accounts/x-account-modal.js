@@ -33,4 +33,10 @@ export default class XAccountModal extends MixinModal(XAccount) {
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this._address)
         }
     }
+
+    onEntry(address) {
+        this.address = address;
+        super.onEntry();
+    }
+
 }

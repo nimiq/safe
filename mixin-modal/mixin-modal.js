@@ -61,7 +61,9 @@ class XModalContainer extends MixinSingleton(XElement) {
 
     _onBackdropClick(e) {
         if (e.target !== this.$el) return;
-        this._hide(this._visibleModal);
+        if (this._visibleModal) {
+            this._visibleModal.hide();
+        }
     }
 
     _onEscape(e) {
@@ -87,32 +89,27 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     static show() {
         this.instance.show();
     }
-    show() {
+    show(parameters) {
         const route = this.attribute('x-route-aside');
         if (route) {
             // let the router trigger the show
-            XRouter.root.showAside(route);
+            XRouter.root.showAside(route, parameters);
         } else {
             XModalContainer.show(this);
         }
     }
 
     static hide() {
-        const instance = this.instance;
-        const route = instance.attribute('x-route-aside');
+        this.instance.hide();
+    }
+
+    hide() {
+        const route = this.attribute('x-route-aside');
         if (route) {
             // let the router trigger the show
             XRouter.root.hideAside(route);
         } else {
             XModalContainer.hide(instance);
-        }
-    }
-
-    _onHide() {
-        const route = this.attribute('x-route-aside');
-        if (route) {
-            // let the router trigger the show
-            XRouter.root.hideAside(route);
         }
     }
 
