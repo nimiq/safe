@@ -25,7 +25,6 @@ export default class XAccount extends MixinRedux(XElement) {
     onCreate() {
         this.$label = this.$('.x-account-label');
         this.$icon = this.$('.account-icon');
-        this._height = 0;
         this.$balance = this.$amount[0] || this.$amount;
         super.onCreate();
     }
@@ -59,7 +58,6 @@ export default class XAccount extends MixinRedux(XElement) {
     set address(address) {
         this.$identicon.address = address;
         this.$address.address = address;
-        this._address = address;
     }
 
     set balance(balance) {
@@ -96,10 +94,6 @@ export default class XAccount extends MixinRedux(XElement) {
         }
     }
 
-    set height(height) {
-        this._height = height;
-    }
-
     set account(account) {
         this.setProperties(account, true);
     }
@@ -109,6 +103,6 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     _onAccountSelected() {
-        this.fire('x-account-selected', this._address);
+        this.fire('x-account-selected', this.account.address);
     }
 }

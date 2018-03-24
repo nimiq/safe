@@ -35,7 +35,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$availableAmount = this.$amount[1];
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
-        this.__height = 0;
+        this._height = 0;
         super.onCreate();
     }
 
@@ -61,10 +61,10 @@ export default class XAccountModal extends MixinModal(XAccount) {
              || changes.stepAmount
              || changes.stepBlocks
              || changes.totalAmount
-             || (changes.height && !this.__height)
+             || (changes.height && !this._height)
              || changes.balance
             ) {
-                this.__height = this._height;
+                this._height = this.properties.height;
                 const balance = changes.balance || this.properties.balance || 0;
                 const start = changes.start || this.properties.start || 0;
                 const stepAmount = changes.stepAmount || this.properties.stepAmount;
@@ -117,7 +117,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     onEntry(address) {
-        address = decodeURIComponent(address);
         address = this._dashToSpace(address);
 
         let account = store.getState().accounts.entries.get(address);

@@ -9,7 +9,7 @@ export default class XAccounts extends XElement {
             <button create class="small secondary">&plus; Create</button>
             <button import class="small secondary">&#8615; Import</button>
             <x-accounts-list></x-accounts-list>
-            <x-account-modal x-route-aside="account-modal"></x-account-modal>
+            <x-account-modal x-route-aside="account"></x-account-modal>
         `;
     }
 
