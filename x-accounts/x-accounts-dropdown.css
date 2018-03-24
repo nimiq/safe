@@ -1,78 +1,42 @@
 @import 'x-accounts.css';
+@import '../x-expandable/x-expandable.css';
 
 x-accounts-dropdown {
-    cursor: pointer;
-    color: #212121;
-    background: white;
     width: 488px;
     height: 88px;
-    box-sizing: border-box;
-    border-radius: 3px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-        0 1px 5px 0 rgba(0, 0, 0, 0.12),
-        0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-x-accounts-dropdown.ready > [status-message],
-x-accounts-dropdown:not(.ready) > x-account {
+x-accounts-dropdown x-expandable:not([disabled]) [status-message],
+x-accounts-dropdown x-expandable[disabled] x-account {
     display: none;
 }
 
-x-accounts-dropdown.ready > x-account {
-    padding-right: 64px;
-}
-
-x-accounts-dropdown.ready::before,
-x-accounts-dropdown.ready::after {
-    /* arrow icon on the right */
-    content: '';
-    position: absolute;
-    right: 24px;
-    top: 50%;
-    height: 2px;
-    width: 13px;
-    background: #e2a62f;
-    pointer-events: none;
-}
-
-x-accounts-dropdown.ready::before {
-    transform: rotate(45deg);
-    right: 32px;
-}
-
-x-accounts-dropdown.ready::after {
-    transform: rotate(-45deg);
-}
-
-x-accounts-dropdown > * {
-    width: 100%;
-}
-
-x-accounts-dropdown > [status-message] {
+x-accounts-dropdown [status-message] {
     margin: 20px;
 }
 
-x-accounts-dropdown > [dropdown-container] {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    display: none;
-    max-height: 0;
-    transition: max-height .5s;
-    overflow: hidden;
-    z-index: 1;
-    background: white;
-    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
-                0  6px 30px 5px rgba(0, 0, 0, 0.12),
-                0  8px 10px -5px rgba(0, 0, 0, 0.4);
+x-accounts-dropdown x-expandable {
+    height: 100%;
+}
+
+x-accounts-dropdown [expandable-trigger] {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border-right: 16px solid transparent;
+}
+
+x-accounts-dropdown x-expandable:not([disabled]) [expandable-trigger]:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+x-accounts-dropdown [expandable-trigger] x-account:hover {
+    background: transparent;
 }
 
 x-accounts-dropdown x-accounts-list {
     display: block;
-    min-height: 0;
+    min-height: unset;
     max-height: 200px;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
@@ -81,4 +45,5 @@ x-accounts-dropdown x-accounts-list {
 
 x-accounts-dropdown x-account {
     animation: none;
+    width: 100%;
 }

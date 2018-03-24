@@ -101,7 +101,7 @@
 
     window.addEventListener('x-accounts-create', e => createAccount());
     window.addEventListener('x-accounts-import', e => XToast.show('Clicked "Import Account"'));
-    $accountsDropdown.addEventListener('x-account-selected', e => XToast.show('Selected Account: ' + e.detail.address));
+    $accountsDropdown.addEventListener('x-account-selected', e => XToast.show('Selected Account: ' + e.detail));
     </script>
 </body>
 
