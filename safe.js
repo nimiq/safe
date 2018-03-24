@@ -1,11 +1,11 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
-import configureStore from './store/configure-store.js';
+import store from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount } from '/elements/x-network-indicator/x-network-indicator-redux.js';
-import keyguardPromise from './keyguard.js';
+import accountManager from '/libraries/account-manager/account-manager.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/elements/mixin-singleton/mixin-singleton.js';
 
@@ -14,11 +14,16 @@ class Safe {
         const $appContainer = document.querySelector('#app');
 
         // set redux store
-        this.store = configureStore();
+        this.store = store;
         MixinRedux.store = this.store;
 
         // set singleton app container
         MixinSingleton.appContainer = $appContainer;
+
+        // Launch account manager
+        accountManager.then(a => {
+            this.accountManager = a;
+        });
 
         // start UI
         this._xApp = new XSafe($appContainer);
@@ -37,15 +42,6 @@ class Safe {
 
     async launch() {
         await Promise.all([
-            new Promise(async (res, err) => {
-                // launch keyguard client
-                this.keyguard = await keyguardPromise;
-                window.keyguard = this.keyguard; // for debugging
-                const keys = await this.keyguard.list();
-                // initialize accounts with keyguard data and load balances
-                await this.actions.setAllKeys(keys);
-                res();
-            }),
             new Promise(async (res, err) => {
                 // launch network rpc client
                 this.network = (await networkClient).rpcClient;
@@ -69,12 +65,6 @@ class Safe {
                 res();
             })
         ]);
-
-        // Request transaction history
-        const accounts = this.store.getState().accounts.entries;
-        const addresses = [...accounts.values()].map(account => account.address);
-        const txs = await this.network.requestTransactionHistory(addresses);
-        this.actions.addTransactions(txs);
     }
 
     _onConsensusSyncing() {

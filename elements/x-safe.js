@@ -2,7 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/elements/x-router/x-router.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
-import keyguardPromise from '../keyguard.js';
+import accountManager from '/libraries/account-manager/account-manager.js';
 import networkClient from '../network-client.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
@@ -74,13 +74,14 @@ export default class XSafe extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'x-accounts-create': () => this._startCreate(),
-            'x-accounts-import': () => this._startImportFile(),
-            'x-backup-import': this._importFile.bind(this),
+            'x-accounts-create': async () => (await accountManager).create(),
+            'x-accounts-import': async () => (await accountManager).import(),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
-            'x-account-modal-new-tx': this._clickedNewTransaction.bind(this)
+            'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
+            'x-account-modal-export': async (a) => (await accountManager).export(a),
+            'x-account-modal-rename': async (a) => (await accountManager).rename(a)
         }
     }
 
@@ -88,40 +89,6 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             height: state.network.height
         }
-    }
-
-    async _startCreate() {
-        const keyguard = await keyguardPromise;
-        const newKey = await keyguard.create();
-        this.actions.addAccount(newKey);
-    }
-
-    _startImportFile() {
-        console.log("_startImportFile");
-        XWalletBackupImportModal.instance.reset();
-        XWalletBackupImportModal.show();
-    }
-
-    /**
-     * @param {string} encryptedPrivKey Base64 encoded
-     */
-    async _importFile(encryptedPrivKey) {
-        const keyguard = await keyguardPromise;
-        try {
-            const newKey = await keyguard.importFromFile(encryptedPrivKey);
-            this.actions.addAccount(newKey);
-            XWalletBackupImportModal.instance.success();
-        } catch (e) {
-            // todo how to show error to user?
-            console.error(e);
-        }
-    }
-
-    async _startImportWords() {
-        const keyguard = await keyguardPromise;
-        const newKey = await keyguard.importFromWords();
-        console.log(`Got new key ${JSON.stringify(newKey)}`);
-        // done
     }
 
     _clickedNewTransaction(account) {
@@ -136,8 +103,7 @@ export default class XSafe extends MixinRedux(XElement) {
         tx.validityStartHeight = parseInt(tx.validityStartHeight) || this.properties.height;
         tx.recipient = 'NQ' + tx.recipient;
 
-        const keyguard = await keyguardPromise;
-        const signedTx = await keyguard.sign(tx);
+        const signedTx = await (await accountManager).sign(tx);
 
         // Show textform TX to the user and require explicit click on the "SEND NOW" button
         XSendTransactionPlainConfirmModal.instance.transaction = signedTx;
@@ -146,8 +112,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _sendTransactionNow(signedTx) {
         if (!signedTx) return;
-
-        console.log("Sending Tx:", signedTx);
 
         const network = (await networkClient).rpcClient;
         try {
