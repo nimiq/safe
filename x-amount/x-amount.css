@@ -4,6 +4,10 @@ x-amount {
     display: inline;
     font-weight: 600;
     letter-spacing: 0.02em;
+
+    /* https://twitter.com/wesbos/status/932644812582522880 */
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
 }
 
 x-amount.incoming {
@@ -20,6 +24,13 @@ x-amount.outgoing {
 
 x-amount.outgoing .integers::before {
     content: '-';
+}
+
+x-amount label {
+    display: block;
+    font-size: 0.7em;
+    font-weight: 300;
+    text-transform: uppercase;
 }
 
 x-amount x-currency-nim {
@@ -49,6 +60,7 @@ x-amount .rest-decimals {
 }
 
 x-amount[display] .ticker,
-x-amount[display] .rest-decimals {
-    font-size: 0.6em;
+x-amount[display] .rest-decimals,
+x-amount[display] label {
+    font-size: 0.5em;
 }
