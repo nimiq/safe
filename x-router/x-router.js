@@ -10,6 +10,7 @@ export default class XRouter extends XElement {
     onCreate() {
         this.reverse = false;
         this.routing = false;
+        this.running = false;
         let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
         if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
             const animations = this.$el.getAttribute('animations').split(' ')
@@ -19,7 +20,7 @@ export default class XRouter extends XElement {
         [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
 
         if (!XRouter.root) XRouter.root = window.xRouter = this;
-        this.router = new Router({ debug: true, startListening: false });
+        this.router = new Router({ debug: false, startListening: false });
 
         this.addEventListener('animationend', e => {
             if (!this.routing) return;
@@ -52,14 +53,12 @@ export default class XRouter extends XElement {
             if (this._isRoot(path)) { // root
                 this.routes.set('_root', { path, element });
                 this.router.add(() => {
-                    console.log('XRoute: root route', path);
                     this._show('_root');
                 });
             } else {
                 const regex = new RegExp(path[0] == `^\/?${ path }./`);
                 this.routes.set(path, { path, element, regex });
                 this.router.add(path, (params) => {
-                    console.log('XRoute: normal route', path, params);
                     this._show(path);
                 });
             }
@@ -71,7 +70,7 @@ export default class XRouter extends XElement {
         for (const element of routeElements) {
             const tag = element.attributes['x-route-aside'].value.trim();
             const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`);
-            this.asides.set(tag, { tag, element, regex });
+            this.asides.set(tag, { tag, element, regex, visible: false });
         }
     }
 
@@ -117,8 +116,20 @@ export default class XRouter extends XElement {
     }
 
     async _show(path) {
-        this._checkAsides();
-        this._changeRoute(this._isRoot(path) ? '_root' : path);
+        if (this.running) {
+            return setTimeout(_ => this._show(path), 1);
+        }
+        this.running = true;
+
+        const hash = this.router.currentRoute;
+        const parsedPath = this._isRoot(path) ? '_root' : path;
+        this._log(`XRouter: showing ${ parsedPath }, hash = ${ hash }`);
+
+        this._changeRoute(parsedPath);
+        this._checkAsides(hash);
+
+        this._log(`XRouter: /showing ${ parsedPath }, hash = ${ hash }`);
+        this.running = false;
     }
 
     _changeRoute(path) {
@@ -134,19 +145,18 @@ export default class XRouter extends XElement {
         this.routing = true;
     }
 
-    _checkAsides() {
-        const hash = this.router.currentRoute;
+    _checkAsides(hash) {
         for (const [tag, aside] of this.asides) {
             const match = hash.match(aside.regex);
             if (match && !aside.visible) {
                 const params = match[1] ? match[1].split('/') : [];
                 aside.visible = true;
-                console.log(`XRoute: aside "${ tag }" onEntry; params=`, params);
+                this._log(`XRouter: aside "${ tag }" onEntry; params=`, params);
                 this._doCallback(aside.element, 'onEntry', params);
             }
             if (!match && aside.visible) {
                 aside.visible = false;
-                console.log(`XRoute: aside "${ tag }" onExit`);
+                this._log(`XRouter: aside "${ tag }" onExit`);
                 this._doCallback(aside.element, 'onExit');
             }
         }
@@ -177,5 +187,11 @@ export default class XRouter extends XElement {
     _setClass(path, css, on) {
         const route = this.routes.get(path)
         if (route) route.element.classList.toggle(css, on);
+    }
+
+    _log(...args) {
+        if (this.$(this.__tagName).getAttribute('debug')) {
+            console.log(...args);
+        }
     }
 }
