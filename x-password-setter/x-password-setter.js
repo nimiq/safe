@@ -40,7 +40,8 @@ export default class XPasswordSetter extends XElement {
     listeners() {
         return {
             'x-password-input-change': value => this._onPasswordUpdate(value),
-            'click button': e => this._onPasswordSubmit()
+            'click button': e => this._onPasswordSubmit(),
+            'keydown input': (d, e) => { if (e.keyCode == 13) this._onPasswordSubmit() }
         }
     }
 
