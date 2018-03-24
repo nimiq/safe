@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
+import XExpandable from '../x-expandable/x-expandable.js';
 
 export default class XSendTransaction extends XElement {
     html() {
@@ -20,15 +21,20 @@ export default class XSendTransaction extends XElement {
                     <input name="value" amount placeholder="0.00" type="number" min="0" step="0.00001">
                 </div>
 
-                <h3>Fee</h3>
-                <div class="row">
-                    <input name="fee" fee placeholder="0.00" type="number" min="0" step="0.00001">
-                </div>
-
-                <h3>Valid from</h3>
-                <div class="row">
-                    <input name="validityStartHeight" validity-start placeholder="0" type="number" min="0" step="1">
-                </div>
+                <x-expandable transparent>
+                    <h3 expandable-trigger>Advanced Settings</h3>
+                    <div expandable-content>
+                        <h3>Fee</h3>
+                        <div class="row">
+                            <input name="fee" fee placeholder="0.00" type="number" min="0" step="0.00001">
+                        </div>
+        
+                        <h3>Valid from</h3>
+                        <div class="row">
+                            <input name="validityStartHeight" validity-start placeholder="0" type="number" min="0" step="1">
+                        </div>
+                    </div>                
+                </x-expandable>
 
                 <div class="center row">
                     <button send>Send</button>
@@ -38,7 +44,7 @@ export default class XSendTransaction extends XElement {
     }
 
     children() {
-        return [ XAccountsDropdown, XAddressInput ];
+        return [ XAccountsDropdown, XAddressInput, XExpandable ];
     }
 
     onCreate() {
@@ -117,9 +123,7 @@ export default class XSendTransaction extends XElement {
 }
 
 // TODO make fee a slider
-// TODO make fee and validity start height collapsible
-// TODO autofill validity start height
+// TODO make validity start a slider
 // TODO check balance
 // TODO offer to create account when no account available
 // TODO replace amount input by x-amount-input
-// TODO include recipient identicon into x-address-input

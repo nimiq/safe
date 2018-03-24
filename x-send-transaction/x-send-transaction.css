@@ -37,3 +37,7 @@
 .x-send-transaction button {
     margin-top: 48px;
 }
+
+.x-send-transaction [expandable-content] :first-child {
+    margin-top: 8px;
+}
