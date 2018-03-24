@@ -85,19 +85,21 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     static show() {
-        const instance = this.instance;
-        const route = instance.$el.getAttribute('x-route-aside');
+        this.instance.show();
+    }
+    show() {
+        const route = this.attribute('x-route-aside');
         if (route) {
             // let the router trigger the show
             XRouter.root.showAside(route);
         } else {
-            XModalContainer.show(instance);
+            XModalContainer.show(this);
         }
     }
 
     static hide() {
         const instance = this.instance;
-        const route = instance.$el.getAttribute('x-route-aside');
+        const route = instance.attribute('x-route-aside');
         if (route) {
             // let the router trigger the show
             XRouter.root.hideAside(route);
@@ -106,12 +108,20 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         }
     }
 
+    _onHide() {
+        const route = this.attribute('x-route-aside');
+        if (route) {
+            // let the router trigger the show
+            XRouter.root.hideAside(route);
+        }
+    }
+
     // callbacks for router
-    _onEntry() {
+    onEntry() {
         XModalContainer.show(this);
     }
 
-    _onExit() {
+    onExit() {
         XModalContainer.hide(this);
     }
 };

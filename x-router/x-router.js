@@ -112,7 +112,11 @@ export default class XRouter extends XElement {
     }
 
     async _show(path) {
-        if (this._isRoot(path)) path = '_root';
+        this._checkAsides();
+        this._changeRoute(this._isRoot(path) ? '_root' : path);
+    }
+
+    _changeRoute(path) {
         if (path === this.current) return;
         this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, path ];
@@ -123,7 +127,9 @@ export default class XRouter extends XElement {
         this._doRouteCallback(this.previous, 'onBeforeExit');
         this._doRouteCallback(this.current, 'onEntry');
         this.routing = true;
+    }
 
+    _checkAsides() {
         const hash = this.router.currentRoute;
         for (const [tag, aside] of this.asides) {
             if (hash.match(aside.regex) !== null) {
