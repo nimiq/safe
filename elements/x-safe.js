@@ -37,28 +37,27 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
             </header>
             <section class="content nimiq-dark">
-                <x-router>
-                    <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
-                    <main x-route="sign"> New Transaction</main>
-                    <main x-route="vesting"> Vesting contracts</main>
-                    <x-view-dashboard x-route="">
-                        <x-card>
-                            <h2>Recent Transactions</h2>
-                            <x-transactions></x-transactions>
-                        </x-card>
-                        <x-card style="max-width: 512px;">
-                            <h2>Your Accounts</h2>
-                            <x-accounts></x-accounts>
-                        </x-card>
-                        <x-card style="max-width: 400px;">
-                            <h2>Network Status</h2>
-                            <x-network-indicator></x-network-indicator>
-                        </x-card>
-                    </x-view-dashboard>
-                    <x-view-transactions x-route="transactions"></x-view-transactions>
-                    <x-view-settings x-route="settings"></x-view-settings>
-                </x-router>
+                <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
+                <main x-route="sign"> New Transaction</main>
+                <main x-route="vesting"> Vesting contracts</main>
+                <x-view-dashboard x-route="">
+                    <x-card>
+                        <h2>Recent Transactions</h2>
+                        <x-transactions></x-transactions>
+                    </x-card>
+                    <x-card style="max-width: 512px;">
+                        <h2>Your Accounts</h2>
+                        <x-accounts></x-accounts>
+                    </x-card>
+                    <x-card style="max-width: 400px;">
+                        <h2>Network Status</h2>
+                        <x-network-indicator></x-network-indicator>
+                    </x-card>
+                </x-view-dashboard>
+                <x-view-transactions x-route="transactions"></x-view-transactions>
+                <x-view-settings x-route="settings"></x-view-settings>
             </section>
+            <x-router debug="true"></x-router>
             <footer class="nimiq-dark>
                 &copy; 2017-2018 Nimiq Foundation
             </footer>
