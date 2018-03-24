@@ -3,14 +3,21 @@ import config from './config.js';
 
 class NetworkClient {
     static async getInstances() {
-        this._instance = this._instance || new NetworkClient();
+        this._instance = this._instance || new Promise(async resolve => {
+            const networkClient = new NetworkClient();
 
-        const [ eventClient, rpcClient ] = await Promise.all([this._instance.eventClient, this._instance.rpcClient]);
+            const [ eventClient, rpcClient ] = await Promise.all([
+                networkClient.eventClient,
+                networkClient.rpcClient
+            ]);
 
-        return {
-            eventClient,
-            rpcClient
-        }
+            resolve({
+                eventClient,
+                rpcClient
+            });
+        });
+
+        return this._instance;
     }
 
     constructor() {
