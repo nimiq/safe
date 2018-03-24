@@ -9,12 +9,11 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     }
 
     onEntry(address) {
-        console.log("XSendTransactionModal onEntry");
         if (address) {
             address = this._dashToSpace(address);
             let account = store.getState().accounts.entries.get(address);
             if (!account) account = { address };
-            this.setSelectedSender = account;
+            this.setSelectedSender(account);
         }
         super.onEntry();
     }
