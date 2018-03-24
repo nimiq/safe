@@ -17,7 +17,6 @@ export default class XWalletBackupImport extends XElement {
         this.$importIcon = this.$('x-wallet-backup-import-icon');
         this.$button = this.$('button');
         this._decoded = null;
-        this._bindHandlers();
 
         this._defaultStyle = {
             backgroundImage: this.$importIcon.style.backgroundImage,
@@ -26,18 +25,24 @@ export default class XWalletBackupImport extends XElement {
         };
     }
 
-    _bindHandlers() {
-        const dropZone = document.body;
-        dropZone.addEventListener('drop', e => this._onFileDrop(e), false);
-        dropZone.addEventListener('dragover', e => this._onDragOver(e), false);
+    onEntry() {
+        this.__bindListeners();
+    }
 
-        dropZone.addEventListener('dragexit', e => this._onDragEnd(e), false);
-        dropZone.addEventListener('dragend', e => this._onDragEnd(e), false);
-        // dropZone.addEventListener('dragleave', e => this._onDragEnd(e), false);
+    onExit() {
+        this.__removeListeners();
+    }
 
-        this.addEventListener('click', e => this._openFileInput());
-        this.$button.addEventListener('click', e => this._onButtonClicked(e));
-        this.$fileInput.addEventListener('change', e => this._onFileSelected(e));
+    listeners() {
+        return {
+            'drop': this._onFileDrop.bind(this),
+            'dragover': this._onDragOver.bind(this),
+            'dragexit': this._onDragEnd.bind(this),
+            'dragend': this._onDragEnd.bind(this),
+            'click': this._openFileInput.bind(this),
+            'click button': this._onButtonClicked.bind(this),
+            'change input': this._onFileSelected.bind(this)
+        }
     }
 
     _openFileInput() {
