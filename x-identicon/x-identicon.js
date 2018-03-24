@@ -10,18 +10,24 @@ export default class XIdenticon extends XElement {
 
     onCreate() {
         this.$img = this.$('img');
-        this.address = null;
+        this.placeholderColor = 'white';
     }
 
     _onPropertiesChanged() {
         this.address = this.properties.address;
     }
 
+    set placeholderColor(color) {
+        this._placeholderColor = color;
+        this.address = this._address; // rerender
+    }
+
     set address(address) {
+        this._address = address;
         if (NanoApi.validateAddress(address)) {
             Iqons.toDataUrl(address).then(dataUrl => this.$img.src = dataUrl);
         } else {
-            this.$img.src = Iqons.placeholderToDataUrl();
+            this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, 4);
         }
     }
 
@@ -30,7 +36,7 @@ export default class XIdenticon extends XElement {
         if (NanoApi.validateAddress(address)) {
             Iqons.render(address, this.$el);
         } else {
-            Iqons.renderPlaceholder(this.$el);
+            Iqons.renderPlaceholder(this.$el, this._placeholderColor, 4);
         }
     }
 }
