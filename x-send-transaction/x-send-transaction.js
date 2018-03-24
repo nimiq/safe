@@ -45,6 +45,10 @@ export default class XSendTransaction extends XElement {
         this.$form = this.$('form');
     }
 
+    styles() {
+        return [ ...super.styles(), 'x-send-transaction' ];
+    }
+
     listeners() {
         return {
             'submit form': this._onSubmit.bind(this)

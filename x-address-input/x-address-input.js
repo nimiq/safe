@@ -33,6 +33,10 @@ export default class XAddressInput extends XInput {
         return NanoApi.validateAddress(this.value);
     }
 
+    set placeholderColor(color) {
+        this.$identicon.placeholderColor = color;
+    }
+
     onCreate() {
         super.onCreate();
         const onChange = e => { this._submit(); };
@@ -42,10 +46,6 @@ export default class XAddressInput extends XInput {
         this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$el.addEventListener('click', () => this.$input.focus());
         this.oldInput = '';
-
-        if (this.$el.classList.contains('nimiq-dark')) {
-            this.$identicon.placeholderColor = '#bbb';
-        }
     }
 
     _onEntry() {

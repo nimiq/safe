@@ -1,5 +1,9 @@
 import XSendTransaction from './x-send-transaction.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 
-const XSendTransactionModal = MixinModal(XSendTransaction);
-export default XSendTransactionModal;
+export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
+    onCreate() {
+        super.onCreate();
+        this.$addressInput.placeholderColor = '#bbb';
+    }
+}

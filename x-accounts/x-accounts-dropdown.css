@@ -6,6 +6,7 @@ x-accounts-dropdown {
     background: white;
     width: 488px;
     height: 88px;
+    box-sizing: border-box;
     border-radius: 3px;
     position: relative;
     display: flex;

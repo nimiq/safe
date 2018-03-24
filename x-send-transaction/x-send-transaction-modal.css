@@ -1,17 +1,17 @@
 @import "x-send-transaction.css";
 @import "../mixin-modal/mixin-modal.css";
 
-x-send-transaction.x-modal h3 {
+x-send-transaction-modal h3 {
     opacity: .8;
 }
 
-x-send-transaction.x-modal input,
-x-send-transaction.x-modal input::placeholder,
-x-send-transaction.x-modal x-address-input {
+x-send-transaction-modal input,
+x-send-transaction-modal input::placeholder,
+x-send-transaction-modal x-address-input {
     color: black !important;
 }
 
-x-send-transaction.x-modal input::placeholder {
+x-send-transaction-modal input::placeholder {
     color: rgba(0, 0, 0, .3) !important;
 }
 
