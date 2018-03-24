@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-expandable.css" rel="stylesheet">
+    <title>x-expandable</title>
+    <style>
+        body {
+            padding: 1em;
+        }
+
+        x-expandable {
+            max-width: 800px;
+        }
+
+        h3 {
+            margin: 4px 0;
+        }
+    </style>
+</head>
+
+<body>
+<h1>X-Expandable</h1>
+<hr>
+
+<x-expandable>
+    <h3 expandable-trigger>
+        Simple Expandable
+    </h3>
+    <div expandable-content>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
+</x-expandable>
+
+<hr>
+
+<x-expandable dropdown>
+    <h3 expandable-trigger>
+        Dropdown Expandable
+    </h3>
+    <div expandable-content>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
+</x-expandable>
+
+<hr>
+
+<x-expandable disabled>
+    <h3 expandable-trigger>
+        Disabled Expandable
+    </h3>
+    <div expandable-content>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
+</x-expandable>
+
+<hr>
+
+<x-expandable transparent>
+    <h3 expandable-trigger>
+        Expandable with transparent background
+    </h3>
+    <div expandable-content>
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+    </div>
+</x-expandable>
+
+<script type="module">
+    import XExpandable from '../x-expandable.js';
+
+    document.querySelectorAll('x-expandable').forEach(e => {
+        console.log(new XExpandable(e));
+    });
+</script>
+</body>
+
+</html>

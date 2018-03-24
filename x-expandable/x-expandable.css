@@ -1,0 +1,79 @@
+x-expandable {
+    position: relative;
+    background: white;
+    color: #212121;
+    box-sizing: border-box;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 1px 5px 0 rgba(0, 0, 0, 0.12),
+        0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+x-expandable[transparent] {
+    background: none;
+    box-shadow: none;
+    color: inherit;
+}
+
+x-expandable [expandable-trigger] {
+    display: inline-block;
+    box-sizing: border-box;
+    padding: 8px 40px 8px 8px;
+    transition: padding .3s;
+    position: relative;
+}
+
+x-expandable[disabled] [expandable-trigger] {
+    padding-right: 8px;
+}
+
+x-expandable [expandable-trigger]::before,
+x-expandable [expandable-trigger]::after {
+    /* arrow icon on the right */
+    content: '';
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    height: 2px;
+    width: 13px;
+    background: #e2a62f;
+    pointer-events: none;
+    transition: opacity .3s;
+}
+
+x-expandable [expandable-trigger]::before {
+    transform: rotate(45deg);
+    right: 16px;
+}
+
+x-expandable [expandable-trigger]::after {
+    transform: rotate(-45deg);
+}
+
+x-expandable[disabled] [expandable-trigger]::before,
+x-expandable[disabled] [expandable-trigger]::after {
+    opacity: 0;
+}
+
+x-expandable [expandable-content] {
+    display: none;
+    width: 100%;
+    max-height: 0;
+    box-sizing: border-box;
+    transition: max-height .5s;
+    overflow: hidden;
+    padding: 0 8px;
+    cursor: initial;
+}
+
+x-expandable[dropdown] [expandable-content] {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    background: white;
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
+        0  6px 30px 5px rgba(0, 0, 0, 0.12),
+        0  8px 10px -5px rgba(0, 0, 0, 0.4);
+}
