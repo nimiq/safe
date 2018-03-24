@@ -6,8 +6,7 @@ import XAmount from '/elements/x-amount/x-amount.js';
 export default class XTotalAmount extends MixinRedux(XElement) {
     html(){
         return `
-            <span class="text">Total balance</span>
-            <x-amount white display></x-amount>
+            <x-amount white display label="Total balance"></x-amount>
         `
     }
 

@@ -44,12 +44,6 @@ x-total-amount {
     margin: 0.5em auto 1em;
 }
 
-x-total-amount .text {
-    display: block;
-    font-size: 15px;
-    text-transform: uppercase;
-}
-
 .header-bottom {
     overflow: auto;
     padding: 0.5em;
