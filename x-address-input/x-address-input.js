@@ -10,13 +10,10 @@ import { onChange } from '../../libraries/nimiq-utils/input-format/source/input-
 export default class XAddressInput extends XInput {
     html() {
         return `
-            <form action="/">
-                <div icon>
-                    <span icon-person></span>
-                    <x-identicon></x-identicon>                
-                </div>
+            <x-identicon></x-identicon>
+            <span class="prefix">NQ</span>
+            <form action="/">              
                 <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
-                <span class="prefix">nq</span>
             </form>
         `
     }
@@ -32,6 +29,7 @@ export default class XAddressInput extends XInput {
     set value(value) { this.$input.value = value; }
 
     _validate() {
+        this.$identicon.address = this.value;
         return NanoApi.validateAddress(this.value);
     }
 
@@ -42,12 +40,11 @@ export default class XAddressInput extends XInput {
         this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('input', e => InputFormat.onChange(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$el.addEventListener('click', () => this.$input.focus());
         this.oldInput = '';
 
-        if (this.$el.hasAttribute('no-identicon')) {
-            this.$identicon.destroy();
-            document.createElement('span');
-
+        if (this.$el.classList.contains('nimiq-dark')) {
+            this.$identicon.placeholderColor = '#bbb';
         }
     }
 

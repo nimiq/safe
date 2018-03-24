@@ -2,33 +2,40 @@
 
 x-address-input.x-address {
     max-width: 540px;
-    padding: 0;
+    padding: 4px 0 4px 0;
     text-transform: uppercase;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
 }
 
 x-address-input form {
-    width: 100%;
     min-width: 320px;
-    position: relative;
-    padding-top: 5px;
+    flex-grow: 1;
 }
 
 x-address-input input[type="text"] {
     font-size: inherit;
     width: 100%;
-    line-height: 32px;
-    height: 35px;
     transition: opacity 300ms;
     font-weight: inherit;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    padding-left: 52px;
 
     text-align: left;
     text-transform: uppercase;
+    border-bottom: none !important;
 }
 
-x-address-input [icon-person] {
-    position: absolute;
+x-address-input x-identicon {
+    width: 80px;
+    height: 72px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+x-address-input[small] x-identicon {
+    width: 28px;
+    height: 28px;
+    margin-right: 8px;
 }
 
 x-address-input input[type="text"]::placeholder,
@@ -40,9 +47,6 @@ x-address-input input[type="text"]::-webkit-input-placeholder {
 }
 
 x-address-input .prefix {
-    position: absolute;
-    left: 32px;
-    line-height: 32px;
-    padding-top: 1px;
-    height: 35px;
+    position: relative;
+    left: 1px;
 }
