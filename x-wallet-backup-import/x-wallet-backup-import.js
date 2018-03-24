@@ -8,7 +8,6 @@ export default class XWalletBackupImport extends XElement {
         return `
             <x-wallet-backup-import-icon></x-wallet-backup-import-icon>
             <button>Select file</button>
-            <x-wallet-backup-backdrop>Drop wallet file to import</x-wallet-backup-backdrop>
             <input type="file" accept="image/*">`
     }
 
@@ -16,17 +15,12 @@ export default class XWalletBackupImport extends XElement {
         this.$fileInput = this.$('input');
         this.$importIcon = this.$('x-wallet-backup-import-icon');
         this.$button = this.$('button');
-        this._decoded = null;
-
-        this._defaultStyle = {
-            backgroundImage: this.$importIcon.style.backgroundImage,
-            opacity: this.$importIcon.style.opacity,
-            textContent: this.$button.textContent
-        };
     }
 
     onEntry() {
-        this.__bindListeners();
+        if (this._boundListeners.size === 0) {
+            this.__bindListeners();
+        }
     }
 
     onExit() {
@@ -40,67 +34,16 @@ export default class XWalletBackupImport extends XElement {
             'dragexit': this._onDragEnd.bind(this),
             'dragend': this._onDragEnd.bind(this),
             'click': this._openFileInput.bind(this),
-            'click button': this._onButtonClicked.bind(this),
             'change input': this._onFileSelected.bind(this)
         }
     }
 
-    reset() {
-        // Reset element
-        this._decoded = null;
-        this._onDragEnd();
-        this.$importIcon.style.backgroundImage = this._defaultStyle.backgroundImage;
-        this.$importIcon.style.opacity = this._defaultStyle.opacity;
-        this.$button.textContent = this._defaultStyle.textContent;
-    }
-
-    _openFileInput() {
-        this.$fileInput.click();
-    }
-
-    _onFileSelected(_, e) {
-        this._onFileDrop(e);
-        this.$fileInput.value = null;
-    }
-
-    async _onFileDrop(event) {
+    async _onFileDrop(_, event) {
         this._stopPropagation(event);
         this._onDragEnd();
-        // Get files
-        const files = event.dataTransfer ? event.dataTransfer.files : event.target.files;
-        const file = files[0];
 
-        let qrPosition = WalletBackup.calculateQrPosition();
-        // add half padding to cut away the rounded corners
-        qrPosition.x += qrPosition.padding / 2;
-        qrPosition.y += qrPosition.padding / 2;
-        qrPosition.width = qrPosition.size - qrPosition.padding;
-        qrPosition.height = qrPosition.size - qrPosition.padding;
-
-        try {
-            this._decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
-            this._setImage(file);
-        } catch (e) {
-            this._onQrError();
-        }
-    }
-
-    _setImage(file) {
-        const url = URL.createObjectURL(file);
-        this.$importIcon.style.backgroundImage = `url(${url})`;
-        this.$importIcon.style.opacity = 1;
-        this.$button.textContent = 'Import';
-        setTimeout(_ => URL.revokeObjectURL(url), 1000);
-    }
-
-    _onButtonClicked(_, e) {
-        if (this._decoded) {
-            e.stopPropagation();
-            const decoded = this._decoded;
-            this._decoded = null;
-            this.fire('x-backup-import', decoded);
-            this.reset();
-        }
+        const files = event.dataTransfer.files;
+        this._readFile(files[0]);
     }
 
     _onDragOver(_, event) {
@@ -109,19 +52,38 @@ export default class XWalletBackupImport extends XElement {
         this.$el.setAttribute('active', 1);
     }
 
-    _stopPropagation(event) {
-        event.stopPropagation();
-        event.preventDefault();
-    }
-
     _onDragEnd() {
         this.$el.removeAttribute('active');
+    }
+
+    _openFileInput() {
+        this.$fileInput.click();
+    }
+
+    _onFileSelected(_, event) {
+        const files = event.target.files;
+        this._readFile(files[0]);
+        this.$fileInput.value = null;
     }
 
     _onQrError() {
         this.animate('shake', this.$importIcon);
         XToast.show('Couldn\'t read Backup File');
     }
-}
 
-// Todo: debug backdrop
+    _stopPropagation(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+
+    async _readFile(file) {
+        let qrPosition = WalletBackup.calculateQrPosition();
+
+        try {
+            const decoded = await QrScanner.scanImage(file, qrPosition, null, null, false, true);
+            this.fire('x-read-file', decoded);
+        } catch (e) {
+            this._onQrError();
+        }
+    }
+}
