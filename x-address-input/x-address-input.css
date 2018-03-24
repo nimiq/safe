@@ -41,7 +41,7 @@ x-address-input x-identicon {
 x-address-input[small] x-identicon {
     width: 28px;
     height: 28px;
-    margin-right: 8px;
+    margin-right: 4px;
 }
 
 x-address-input input[type="text"]::placeholder,

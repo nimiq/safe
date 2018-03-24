@@ -27,7 +27,7 @@ export default class XIdenticon extends XElement {
         if (NanoApi.validateAddress(address)) {
             Iqons.toDataUrl(address).then(dataUrl => this.$img.src = dataUrl);
         } else {
-            this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, 4);
+            this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, 160 / this.$img.offsetWidth);
         }
     }
 
@@ -36,7 +36,7 @@ export default class XIdenticon extends XElement {
         if (NanoApi.validateAddress(address)) {
             Iqons.render(address, this.$el);
         } else {
-            Iqons.renderPlaceholder(this.$el, this._placeholderColor, 4);
+            Iqons.renderPlaceholder(this.$el, this._placeholderColor, 160 / this.$img.offsetWidth);
         }
     }
 }
