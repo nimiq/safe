@@ -118,10 +118,16 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     onEntry(address) {
         address = decodeURIComponent(address);
+        address = this._dashToSpace(address);
+
         let account = store.getState().accounts.entries.get(address);
         if (!account) account = { address };
         this.account = account;
         super.onEntry();
+    }
+
+    _dashToSpace(string) {
+        return string.replace(/-/gi, ' ');
     }
 
 }

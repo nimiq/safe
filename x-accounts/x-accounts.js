@@ -34,6 +34,11 @@ export default class XAccounts extends XElement {
     }
 
     _onAccountSelected(address) {
+        address = this._spaceToDash(address);
         XAccountModal.show(address);
+    }
+
+    _spaceToDash(string) {
+        return string.replace(/ /gi, '-');
     }
 }
