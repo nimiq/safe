@@ -32,6 +32,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <nav class="main"></nav>
                     <nav class="actions">
                         <button class="small" new-tx>New Tx</button>
+                        <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     </nav>
                 </div>
             </header>
@@ -65,7 +66,15 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XTotalAmount, XRouter, XAccounts, XTransactions, XNetworkIndicator ];
+        return [
+            XTotalAmount,
+            XSendTransactionModal,
+            XSendTransactionPlainConfirmModal,
+            XRouter,
+            XAccounts,
+            XTransactions,
+            XNetworkIndicator
+        ];
     }
 
     static get actions() {
@@ -91,10 +100,13 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    _clickedNewTransaction(account) {
+    _clickedNewTransaction(address) {
         XSendTransactionModal.instance.clear(this.properties.height);
-        account && XSendTransactionModal.instance.setSelectedSender(account);
-        XSendTransactionModal.show();
+        XSendTransactionModal.show(this._spaceToDash(address));
+    }
+
+    _spaceToDash(string) {
+        return string.replace(/ /gi, '-');
     }
 
     async _signTransaction(tx) {
