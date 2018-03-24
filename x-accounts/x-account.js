@@ -9,12 +9,12 @@ export default class XAccount extends MixinRedux(XElement) {
     html() {
         return `
             <x-identicon></x-identicon>
+            <i class="hidden secure-icon" title="High security account"></i>
+            <i class="hidden vesting-icon" title="Vesting contract"></i>
             <div class="x-account-info">
                 <span class="x-account-label"></span>
                 <x-address></x-address>
                 <div class="x-account-bottom">
-                    <i class="hidden secure-icon" title="High security account"></i>
-                    <i class="hidden vesting-icon" title="Vesting contract"></i>
                     <x-amount></x-amount>
                 </div>
             </div>

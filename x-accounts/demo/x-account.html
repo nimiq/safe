@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="/elements/x-toast/x-toast.css" rel="stylesheet">
+    <link href="../x-accounts.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding: 0.5em;
+            background: rgb(245, 245, 245);
+        }
+
+        x-card {
+            display: block;
+            width: 100%;
+            max-width: 510px;
+            border: 1px solid rgb(220, 220, 220);
+            border-radius: 0.4em;
+            padding: 1em;
+            margin: 1em auto;
+            background: white;
+            box-shadow: 0px 10px 20px -15px grey;
+        }
+
+        x-card h2 {
+            margin-bottom: 0.5em;
+        }
+
+        @media (min-width: 480px) {
+            x-card {
+                padding: 1.5em 2em;
+            }
+        }
+
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <x-card class="nimiq-dark">
+        <x-account></x-account>
+        <x-account></x-account>
+        <x-account></x-account>
+        <x-account></x-account>
+    </x-card>
+
+    <script type="module">
+        import XAccount from '../x-account.js';
+        import XAccountModal from '../x-account-modal.js';
+
+        const demoAccounts = [
+            {
+                address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                label: 'Main Account',
+                balance: 238.12,
+                type: 1
+            },
+            {
+                address: 'NQ02 2Q42 7BVN F9NN RJE7 JLMP FKVC B00J THFD',
+                label: 'Savings Account',
+                balance: 23423.12,
+                type: 2
+            },
+            {
+                address: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+                label: 'Account 3',
+                balance: 0,
+                type: 3
+            },
+            {
+                address: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                label: 'Vesting Account 1',
+                balance: 82434534.23423,
+                type: 4
+            }
+        ];
+        window.demoAccounts = demoAccounts;
+
+        document.querySelectorAll('x-account').forEach(($el, i) => {
+            const $account = new XAccount($el);
+            $account.account = demoAccounts[i];
+        });
+
+        document.addEventListener('x-account-selected', e => {
+            const account = demoAccounts.find(acc => acc.address === e.detail);
+            XAccountModal.instance.account = account;
+            XAccountModal.show();
+        });
+    </script>
+</body>
+
+</html>

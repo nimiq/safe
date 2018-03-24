@@ -6,21 +6,20 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="x-modal-header">
-                <h2>Account Details</h2>
+                <h2 class="x-account-label"></h2>
             </div>
             <div class="x-modal-body">
                 <x-identicon></x-identicon>
+                <i class="hidden secure-icon" title="High security account"></i>
+                <i class="hidden vesting-icon" title="Vesting contract"></i>
                 <x-address></x-address>
-                <x-account>
-                    <div class="x-account-info">
-                        <span class="x-account-label"></span>
-                        <div class="x-account-bottom">
-                            <i class="hidden secure-icon" title="High security account"></i>
-                            <i class="hidden vesting-icon" title="Vesting contract"></i>
-                            <x-amount></x-amount>
-                        </div>
-                    </div>
-                </x-account>
+
+                <div class="x-account-bottom">
+                    <x-amount></x-amount>
+                </div>
+
+                <hr>
+
                 <button export class="secondary small">Backup</button>
                 <button rename class="secondary small">Rename</button>
                 <button send class="small">Send from this account</button>
