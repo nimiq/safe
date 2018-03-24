@@ -4,6 +4,7 @@ import NanoApi from '/libraries/nano-api/nano-api.js';
 export default class XAmount extends XElement {
     html(){
         return `
+            <label class="display-none"></label>
             <span class="dot-loader"></span>
             <x-currency-nim>
                 <span class="integers"></span>.<span class="main-decimals"></span><span class="rest-decimals"></span> <span class="ticker">NIM</span>
@@ -13,6 +14,11 @@ export default class XAmount extends XElement {
 
     onCreate() {
         if (this.attributes.white !== undefined) this.$('.dot-loader').classList.add('white');
+        this.$label = this.$('label');
+        if (this.attributes.label !== undefined) {
+            this.$label.textContent = this.attributes.label;
+            this.$label.classList.remove('display-none');
+        }
         this.$integers = this.$('span.integers');
         this.$mainDecimals = this.$('span.main-decimals');
         this.$restDecimals = this.$('span.rest-decimals');

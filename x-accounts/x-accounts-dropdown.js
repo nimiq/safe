@@ -64,7 +64,9 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
     get selectedAccount() {
         const account = this.$account.account;
-        return Object.keys(account).length === 0? null : account;
+        // An XAccount.account always has the hight property,
+        // thus we check if there are any more than that one
+        return Object.keys(account).length > 1 ? account : null;
     }
 
     set selectedAccount(account) {
@@ -92,7 +94,8 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         }
     }
 
-    _onAccountSelected(account){
+    _onAccountSelected(address) {
+        const account = this.properties.accounts.get(address);
         this.$account.setProperties(account);
         this.$input.value = account.address;
         this._closeDropdown();

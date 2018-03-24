@@ -7,6 +7,8 @@
     <link href="/elements/x-toast/x-toast.css" rel="stylesheet">
     <link href="../x-accounts.css" rel="stylesheet">
 
+    <script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
+
     <style>
         body {
             padding: 0.5em;
@@ -43,6 +45,8 @@
 
 <body>
     <x-card class="nimiq-dark">
+        <h2>Your Accounts</h2>
+        <x-account></x-account>
         <x-account></x-account>
         <x-account></x-account>
         <x-account></x-account>
@@ -55,28 +59,40 @@
 
         const demoAccounts = [
             {
-                address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
-                label: 'Main Account',
-                balance: 238.12,
+                address: 'NQ02 2Q42 7BVN F9NN RJE7 JLMP FKVC B00J THFD',
+                label: 'Activation Account',
+                balance: 276872,
                 type: 1
             },
             {
-                address: 'NQ02 2Q42 7BVN F9NN RJE7 JLMP FKVC B00J THFD',
-                label: 'Savings Account',
-                balance: 23423.12,
-                type: 2
-            },
-            {
-                address: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
-                label: 'Account 3',
+                address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                label: 'Vesting Account',
                 balance: 0,
-                type: 3
+                type: 1
             },
             {
                 address: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
-                label: 'Vesting Account 1',
-                balance: 82434534.23423,
-                type: 4
+                label: 'Vesting Contract 1',
+                balance: 1500000,
+                owner: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+                start: 1,
+                stepAmount: 750000,
+                stepBlocks: 129600,
+                totalAmount: 1500000,
+                type: 4,
+                height: 8000
+            },
+            {
+                address: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+                label: 'My Ledger',
+                balance: 1000000,
+                type: 3
+            },
+            {
+                address: 'NQ06 1YLF KX34 E5DM 4Y7D 03JC 0PLE LRLQ 20UH',
+                label: 'Main Account',
+                balance: 238.12432,
+                type: 2
             }
         ];
         window.demoAccounts = demoAccounts;

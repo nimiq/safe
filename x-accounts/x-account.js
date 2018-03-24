@@ -9,8 +9,7 @@ export default class XAccount extends MixinRedux(XElement) {
     html() {
         return `
             <x-identicon></x-identicon>
-            <i class="hidden secure-icon" title="High security account"></i>
-            <i class="hidden vesting-icon" title="Vesting contract"></i>
+            <i class="account-icon"></i>
             <div class="x-account-info">
                 <span class="x-account-label"></span>
                 <x-address></x-address>
@@ -25,8 +24,9 @@ export default class XAccount extends MixinRedux(XElement) {
 
     onCreate() {
         this.$label = this.$('.x-account-label');
-        this.$secureIcon = this.$('.secure-icon');
-        this.$vestingIcon = this.$('.vesting-icon');
+        this.$icon = this.$('.account-icon');
+        this._height = 0;
+        this.$balance = this.$amount[0] || this.$amount;
         super.onCreate();
     }
 
@@ -38,7 +38,8 @@ export default class XAccount extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         return {
-            ...state.accounts.entries.get(props.address)
+            ...state.accounts.entries.get(props.address),
+            height: state.network.height
         }
     }
 
@@ -62,19 +63,41 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set balance(balance) {
-        this.$amount.value = balance;
+        this.$balance.value = balance;
+
+        if (this.$sendButton)
+            if (balance > 0) this.$sendButton.disabled = false;
+            else             this.$sendButton.disabled = true;
     }
 
     set type(type) {
-        this.$secureIcon.classList.add('hidden');
-        this.$vestingIcon.classList.add('hidden');
+        this.$icon.classList.add('display-none');
+        this.$icon.classList.remove('secure-icon', 'ledger-icon', 'vesting-icon');
 
         switch (type) {
-            case 1: this.$secureIcon.classList.remove('hidden'); break; // KEYGUARD_HIGH
-            case 2: break; // KEYGUARD_LOW
-            case 3: break; // LEDGER
-            case 4: this.$vestingIcon.classList.remove('hidden'); break; // VESTING
+            case 1: // KEYGUARD_HIGH
+                this.$icon.classList.add('secure-icon');
+                this.$icon.classList.remove('display-none');
+                this.$icon.setAttribute('title', 'High security account');
+                break;
+            case 3: // LEDGER
+                this.$icon.classList.add('ledger-icon');
+                this.$icon.classList.remove('display-none');
+                this.$icon.setAttribute('title', 'Ledger account');
+                break;
+            case 4: // VESTING
+                this.$icon.classList.add('vesting-icon');
+                this.$icon.classList.remove('display-none');
+                this.$icon.setAttribute('title', 'Vesting contract');
+                break;
+            default: // KEYGUARD_LOW
+                this.$icon.setAttribute('title', '');
+                break;
         }
+    }
+
+    set height(height) {
+        this._height = height;
     }
 
     set account(account) {

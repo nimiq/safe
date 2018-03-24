@@ -87,6 +87,10 @@ x-transactions-list x-no-content {
 	height: 100%;
 }
 
+x-paginator button {
+    display: inline;
+}
+
 x-transaction-modal {
     max-width: 600px;
 }

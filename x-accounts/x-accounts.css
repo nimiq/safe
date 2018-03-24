@@ -114,6 +114,11 @@ x-account x-amount {
 
 x-account-modal x-amount {
     display: block;
+    font-size: 1.5em;
+    margin: 0.5em 0 1em;
+}
+
+x-account-modal x-amount[display] {
     font-size: 2em;
     margin: 0.5em 0 1em;
 }
@@ -136,17 +141,14 @@ x-account-modal .x-address {
     margin: 0.5em auto;
 }
 
-x-account .secure-icon,
-x-account-modal .secure-icon,
-x-account .vesting-icon,
-x-account-modal .vesting-icon {
+x-account .account-icon,
+x-account-modal .account-icon {
     display: block;
     position: absolute;
     left: 56px;
     top: 47px;
     width: 1.4em;
     height: 1.4em;
-    background-image: url('/elements/x-accounts/ic_security_black_24px.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 85%;
@@ -156,22 +158,26 @@ x-account-modal .vesting-icon {
     border-radius: 50%;
 }
 
-x-account-modal .secure-icon,
-x-account-modal .vesting-icon {
+x-account-modal .account-icon {
     padding: 22px;
     left: calc(50% + 38px);
     top: 154px;
     background-size: 80%;
 }
 
-x-account .vesting-icon,
-x-account-modal .vesting-icon {
-    background-image: url('/elements/x-accounts/ic_access_time_black_24px.svg');
+x-account .secure-icon,
+x-account-modal .secure-icon {
+    background-image: url('/elements/x-accounts/icons/ic_security_black_24px.svg');
 }
 
-.secure-icon.hidden,
-.vesting-icon.hidden {
-    display: none;
+x-account .vesting-icon,
+x-account-modal .vesting-icon {
+    background-image: url('/elements/x-accounts/icons/ic_access_time_black_24px.svg');
+}
+
+x-account .ledger-icon,
+x-account-modal .ledger-icon {
+    background-image: url('/elements/x-accounts/icons/ledger_icon_24px.svg');
 }
 
 /* Responsiveness */
@@ -181,8 +187,7 @@ x-account-modal .vesting-icon {
         padding: 8px 16px;
     }
 
-    x-account .secure-icon,
-    x-account .vesting-icon {
+    x-account .account-icon {
         left: 72px;
         top: 48px;
     }
