@@ -14,7 +14,7 @@ export default class XAccounts extends XElement {
     }
 
     children() {
-        return [XAccountsList, XAccountModal ];
+        return [ XAccountsList, XAccountModal ];
     }
 
     listeners() {
@@ -33,8 +33,7 @@ export default class XAccounts extends XElement {
         this.fire('x-accounts-import');
     }
 
-    _onAccountSelected(account){
-        //this.$accountModal.account = account;
-        this.$accountModal.show(account.address);
+    _onAccountSelected(address) {
+        XAccountModal.show(address);
     }
 }

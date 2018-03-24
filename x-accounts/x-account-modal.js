@@ -1,5 +1,6 @@
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
+import store from '/apps/safe/store.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -15,6 +16,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                         <span class="x-account-label"></span>
                         <div class="x-account-bottom">
                             <i class="hidden secure-icon" title="High security account"></i>
+                            <i class="hidden vesting-icon" title="Vesting contract"></i>
                             <x-amount></x-amount>
                         </div>
                     </div>
@@ -35,7 +37,10 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     onEntry(address) {
-        this.address = address;
+        address = decodeURIComponent(address);
+        let account = store.getState().accounts.entries.get(address);
+        if (!account) account = { address };
+        this.account = account;
         super.onEntry();
     }
 

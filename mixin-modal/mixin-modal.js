@@ -86,9 +86,10 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         return [ ...super.styles(), 'x-modal', 'nimiq-dark' ];
     }
 
-    static show() {
-        this.instance.show();
+    static show(parameters) {
+        this.instance.show(parameters);
     }
+
     show(parameters) {
         const route = this.attribute('x-route-aside');
         if (route) {

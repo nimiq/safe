@@ -24,10 +24,10 @@ export default class XAccount extends MixinRedux(XElement) {
     children() { return [XIdenticon, XAddress, XAmount] }
 
     onCreate() {
-        super.onCreate();
         this.$label = this.$('.x-account-label');
         this.$secureIcon = this.$('.secure-icon');
         this.$vestingIcon = this.$('.vesting-icon');
+        super.onCreate();
     }
 
     listeners() {
@@ -86,6 +86,6 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     _onAccountSelected() {
-        this.fire('x-account-selected', this.account);
+        this.fire('x-account-selected', this._address);
     }
 }
