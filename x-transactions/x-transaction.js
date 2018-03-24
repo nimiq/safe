@@ -91,14 +91,6 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$amount.value = value;
     }
 
-    set fee(fee) {
-        // this.$fee.textContent = fee + ' NIM';
-    }
-
-    set blockHeight(blockHeight) {
-        // this.$blockHeight.textContent = blockHeight;
-    }
-
     set timestamp(timestamp) {
         const time = moment.unix(timestamp);
 
@@ -114,19 +106,11 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$timestamp.setAttribute('title', time.toDate().toLocaleString());
     }
 
-    set hash(hash) {
-        // this._hash = hash;
-    }
-
     set type(type) {
         this.$amount.type = type;
 
         this.$el.classList.remove('incoming', 'outgoing', 'transfer');
         this.$el.classList.add(type);
-    }
-
-    set currentHeight(height) {
-        // this._currentHeight = height;
     }
 
     set transaction(transaction) {
@@ -138,7 +122,7 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     _onTransactionSelected() {
-        this.fire('x-transaction-selected', this.transaction);
+        this.fire('x-transaction-selected', this.transaction.hash);
     }
 
     _updateTimeago() {

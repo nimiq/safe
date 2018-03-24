@@ -13,10 +13,11 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
             <x-paginator store-path="transactions"></x-paginator>
+            <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
         `
     }
 
-    children() { return [ XPaginator ] }
+    children() { return [ XPaginator, XTransactionModal ] }
 
     onCreate() {
         this._transactions = new Map();
@@ -107,8 +108,8 @@ export default class XTransactions extends MixinRedux(XElement) {
         return $transaction;
     }
 
-    _onTransactionSelected(transaction) {
-        XTransactionModal.instance.transaction = transaction;
-        XTransactionModal.show();
+    _onTransactionSelected(hash) {
+        hash = encodeURIComponent(hash);
+        XTransactionModal.show(hash);
     }
 }

@@ -2,6 +2,7 @@ import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAddress from '../x-address/x-address.js';
 import XToast from '../x-toast/x-toast.js';
 import XTransaction from './x-transaction.js';
+import store from '/apps/safe/store.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -80,5 +81,14 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
         const confirmations = this.properties.currentHeight - this.properties.blockHeight;
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
+    }
+
+    onEntry(hash) {
+        hash = decodeURIComponent(hash);
+
+        let transaction = store.getState().transactions.entries.get(hash);
+        if (!transaction) transaction = { hash };
+        this.transaction = transaction;
+        super.onEntry();
     }
 }
