@@ -1,6 +1,7 @@
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
 import store from '/apps/safe/store.js';
+import XAmount from '../x-amount/x-amount.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -10,12 +11,15 @@ export default class XAccountModal extends MixinModal(XAccount) {
             </div>
             <div class="x-modal-body">
                 <x-identicon></x-identicon>
-                <i class="hidden secure-icon" title="High security account"></i>
-                <i class="hidden vesting-icon" title="Vesting contract"></i>
+                <i class="display-none account-icon"></i>
                 <x-address></x-address>
 
                 <div class="x-account-bottom">
-                    <x-amount></x-amount>
+                    <x-amount display></x-amount>
+                </div>
+
+                <div class="vesting-info">
+                    <x-amount display available-amount label="Available now"></x-amount>
                 </div>
 
                 <hr>
@@ -27,11 +31,88 @@ export default class XAccountModal extends MixinModal(XAccount) {
         `
     }
 
+    onCreate() {
+        this.$availableAmount = this.$amount[1];
+        this.$vestingInfo = this.$('.vesting-info');
+        this.$sendButton = this.$('button[send]');
+        this.__height = 0;
+        super.onCreate();
+    }
+
     listeners() {
         return {
             'click button[export]': _ => this.fire('x-account-modal-export', this._address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this._address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this._address)
+        }
+    }
+
+    _onPropertiesChanged(changes) {
+        for (const prop in changes) {
+            if (changes[prop] !== undefined) {
+                // Update display
+                this[prop] = changes[prop];
+            }
+        }
+
+        if (changes.type === 4 || (!changes.type && this.properties.type === 4)) {
+            // Is a vesting contract
+            if (changes.start
+             || changes.stepAmount
+             || changes.stepBlocks
+             || changes.totalAmount
+             || (changes.height && !this.__height)
+             || changes.balance
+            ) {
+                this.__height = this._height;
+                const balance = changes.balance || this.properties.balance || 0;
+                const start = changes.start || this.properties.start || 0;
+                const stepAmount = changes.stepAmount || this.properties.stepAmount;
+                const stepBlocks = changes.stepBlocks || this.properties.stepBlocks;
+                const totalAmount = changes.totalAmount || this.properties.totalAmount;
+
+                const steps = [];
+
+                const numberSteps = Math.ceil(totalAmount/stepAmount);
+
+                for (let i = 1; i <= numberSteps; i++) {
+                    const stepHeight = start + stepBlocks * i;
+                    const stepHeightDelta = stepHeight - this._height;
+                    steps.push({
+                        height: stepHeight,
+                        heightDelta: stepHeightDelta,
+                        amount: i < numberSteps ? stepAmount : totalAmount - stepAmount * (i - 1),
+                    });
+                }
+
+                const pastSteps = steps.filter(step => step.heightDelta <= 0);
+
+                const availableAmount = (balance - totalAmount) + pastSteps.reduce((acc, step) => acc + step.amount, 0);
+                const futureSteps = steps.filter(step => step.heightDelta > 0);
+
+                this.$availableAmount.value = availableAmount;
+                if (availableAmount > 0) this.$sendButton.disabled = false;
+                else                     this.$sendButton.disabled = true;
+
+                // Remove all steps
+                while (this.$vestingInfo.querySelector('x-amount:not([available-amount])')) {
+                    this.$vestingInfo.removeChild(this.$vestingInfo.querySelector('x-amount:not([available-amount])'));
+                }
+
+                // Add future steps
+                futureSteps.forEach(step => {
+                    const time = Date.now() / 1000 + step.heightDelta * 60;
+                    const timeString = moment.unix(time).calendar();
+                    const $amount = XAmount.createElement([['label', `Available ${timeString}`]]);
+                    $amount.value = step.amount;
+                    this.$vestingInfo.appendChild($amount.$el);
+                });
+
+                this.$vestingInfo.classList.remove('display-none');
+            }
+        }
+        else {
+            this.$vestingInfo.classList.add('display-none');
         }
     }
 
