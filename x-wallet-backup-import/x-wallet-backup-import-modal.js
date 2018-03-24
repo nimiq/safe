@@ -1,5 +1,4 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XWalletBackupImport from './x-wallet-backup-import.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
@@ -12,7 +11,7 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
             </div>
             <div class="modal-body">
                 <div class="file-import">
-                    <x-wallet-backup-import class="black"></x-wallet-backup-import>
+                    <button>Start import</button>
                     <a secondary>Use 24 Recovery Words instead</a>
                 </div>
                 <x-success-mark></x-success-mark>
@@ -21,12 +20,12 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
     }
 
     children() {
-        return [ XWalletBackupImport, XSuccessMark ];
+        return [ XSuccessMark ];
     }
 
     listeners() {
         return {
-            'x-backup-import': async (k) => (await accountManager).importFile(k),
+            'click button': async () => (await accountManager).importFile(),
             'click a[secondary]': async () => (await accountManager).importWords()
         }
     }
@@ -34,12 +33,6 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
     onCreate() {
         super.onCreate();
         this.$importDiv = this.$('div.file-import');
-    }
-
-    reset() {
-        this.$importDiv.style.display = 'initial';
-        this.$successMark.$el.style.display = 'none';
-        this.$walletBackupImport.reset();
     }
 
     async success() {
