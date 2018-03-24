@@ -14,6 +14,7 @@ export default class XAccount extends MixinRedux(XElement) {
                 <x-address></x-address>
                 <div class="x-account-bottom">
                     <i class="hidden secure-icon" title="High security account"></i>
+                    <i class="hidden vesting-icon" title="Vesting contract"></i>
                     <x-amount></x-amount>
                 </div>
             </div>
@@ -26,6 +27,7 @@ export default class XAccount extends MixinRedux(XElement) {
         super.onCreate();
         this.$label = this.$('.x-account-label');
         this.$secureIcon = this.$('.secure-icon');
+        this.$vestingIcon = this.$('.vesting-icon');
     }
 
     listeners() {
@@ -64,11 +66,14 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set type(type) {
+        this.$secureIcon.classList.add('hidden');
+        this.$vestingIcon.classList.add('hidden');
+
         switch (type) {
             case 1: this.$secureIcon.classList.remove('hidden'); break; // KEYGUARD_HIGH
             case 2: break; // KEYGUARD_LOW
             case 3: break; // LEDGER
-            case 4: break; // VESTING
+            case 4: this.$vestingIcon.classList.remove('hidden'); break; // VESTING
         }
     }
 
