@@ -15,25 +15,33 @@ class XModalContainer extends MixinSingleton(XElement) {
         this.instance._show(modal);
     }
 
-    async _show(modal) {
+    _show(modal) {
         if (modal === null || modal === this._visibleModal) return false;
         // check whether new modal allows to be shown
         if (modal._onBeforeShow && modal._onBeforeShow() === false) return false;
+        let waitTime = 0;
         // hide currently visible modal
-        if (this._visibleModal && !await this._hide(this._visibleModal, true)) {
-            // other modal refused to hide
+        if (this._visibleModal) {
+            this._keepBackdropOnNextHide = true;
+            this._visibleModal.hide();
+            waitTime = XModalContainer.ANIMATION_TIME;
+        }
+        if (this._visibleModal !== null) {
+            // previous modal refused to hide
             return false;
         }
-        const modalEl = modal.$el;
-        modalEl.classList.add('display');
-        this.$el.classList.add('display');
-        this.$el.offsetWidth; // style update
-        modalEl.offsetWidth; // style update
-        this.$el.classList.add('visible');
-        modalEl.classList.add('visible');
-        this.$el.focus();
-        this._visibleModal = modal;
         if (modal._onShow) modal._onShow();
+        setTimeout(() => {
+            const modalEl = modal.$el;
+            modalEl.classList.add('display');
+            this.$el.classList.add('display');
+            this.$el.offsetWidth; // style update
+            modalEl.offsetWidth; // style update
+            this.$el.classList.add('visible');
+            modalEl.classList.add('visible');
+            this.$el.focus();
+            this._visibleModal = modal;
+        }, waitTime);
         return true;
     }
 
@@ -41,7 +49,9 @@ class XModalContainer extends MixinSingleton(XElement) {
         this.instance._hide(modal);
     }
 
-    async _hide(modal = this._visibleModal, keepBackdrop = false) {
+    _hide(modal = this._visibleModal) {
+        const keepBackdrop = this._keepBackdropOnNextHide;
+        this._keepBackdropOnNextHide = false;
         if (modal === null || modal !== this._visibleModal) return false;
         if (modal._onBeforeHide && modal._onBeforeHide() === false) return false;
         const modalEl = modal.$el;
@@ -68,7 +78,9 @@ class XModalContainer extends MixinSingleton(XElement) {
 
     _onEscape(e) {
         if (e.keyCode !== 27) return; // other key than escape
-        this._hide(this._visibleModal);
+        if (this._visibleModal) {
+            this._visibleModal.hide();
+        }
     }
 }
 XModalContainer.ANIMATION_TIME = 700;
