@@ -138,12 +138,13 @@ export default class XRouter extends XElement {
         const hash = this.router.currentRoute;
         for (const [tag, aside] of this.asides) {
             const match = hash.match(aside.regex);
-            if (match) {
+            if (match && !aside.visible) {
                 const params = match[1] ? match[1].split('/') : [];
                 aside.visible = true;
                 console.log(`XRoute: aside "${ tag }" onEntry; params=`, params);
                 this._doCallback(aside.element, 'onEntry', params);
-            } else if (aside.visible) {
+            }
+            if (!match && aside.visible) {
                 aside.visible = false;
                 console.log(`XRoute: aside "${ tag }" onExit`);
                 this._doCallback(aside.element, 'onExit');
