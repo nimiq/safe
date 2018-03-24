@@ -97,7 +97,6 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set height(height) {
-        console.log("Setting height:", height);
         this._height = height;
     }
 
