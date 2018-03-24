@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinSingleton from '../mixin-singleton/mixin-singleton.js';
+import XRouter from '../x-router/x-router.js';
 
 class XModalContainer extends MixinSingleton(XElement) {
     onCreate() {
@@ -8,12 +9,6 @@ class XModalContainer extends MixinSingleton(XElement) {
         this.$el.setAttribute('tabindex', '-1');
         this.$el.addEventListener('click', e => this._onBackdropClick(e));
         this.$el.addEventListener('keydown', e => this._onEscape(e));
-        // make sure we are attached directly to body
-        document.body.appendChild(this.$el);
-    }
-
-    styles() {
-        return [ ...super.styles(), 'nimiq-dark' ];
     }
 
     static show(modal) {
@@ -21,11 +16,14 @@ class XModalContainer extends MixinSingleton(XElement) {
     }
 
     async _show(modal) {
-        if (modal === null || modal === this._visibleModal) return;
-        if (this._visibleModal) {
-            await this._hide(this._visibleModal, true);
+        if (modal === null || modal === this._visibleModal) return false;
+        // check whether new modal allows to be shown
+        if (modal._onBeforeShow && modal._onBeforeShow() === false) return false;
+        // hide currently visible modal
+        if (this._visibleModal && !await this._hide(this._visibleModal, true)) {
+            // other modal refused to hide
+            return false;
         }
-        if (modal._onBeforeShow) if (modal._onBeforeShow() === false) return;
         const modalEl = modal.$el;
         modalEl.classList.add('display');
         this.$el.classList.add('display');
@@ -36,6 +34,7 @@ class XModalContainer extends MixinSingleton(XElement) {
         this.$el.focus();
         this._visibleModal = modal;
         if (modal._onShow) modal._onShow();
+        return true;
     }
 
     static hide(modal) {
@@ -43,8 +42,8 @@ class XModalContainer extends MixinSingleton(XElement) {
     }
 
     async _hide(modal = this._visibleModal, keepBackdrop = false) {
-        if (modal === null || modal !== this._visibleModal) return;
-        if (modal._onBeforeHide) if (modal._onBeforeHide() === false) return;
+        if (modal === null || modal !== this._visibleModal) return false;
+        if (modal._onBeforeHide && modal._onBeforeHide() === false) return false;
         const modalEl = modal.$el;
         modalEl.classList.remove('visible');
         if (!keepBackdrop) this.$el.classList.remove('visible');
@@ -55,7 +54,7 @@ class XModalContainer extends MixinSingleton(XElement) {
             setTimeout(() => {
                 modalEl.classList.remove('display');
                 if (!keepBackdrop) this.$el.classList.remove('display');
-                resolve();
+                resolve(true);
             }, XModalContainer.ANIMATION_TIME)
         });
     }
@@ -82,15 +81,38 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     styles() {
-        return [ ...super.styles(), 'x-modal' ];
+        return [ ...super.styles(), 'x-modal', 'nimiq-dark' ];
     }
 
     static show() {
-        XModalContainer.show(this.instance);
+        const instance = this.instance;
+        const route = instance.$el.getAttribute('x-route-aside');
+        if (route) {
+            // let the router trigger the show
+            XRouter.root.showAside(route);
+        } else {
+            XModalContainer.show(instance);
+        }
     }
 
     static hide() {
-        XModalContainer.hide(this.instance);
+        const instance = this.instance;
+        const route = instance.$el.getAttribute('x-route-aside');
+        if (route) {
+            // let the router trigger the show
+            XRouter.root.hideAside(route);
+        } else {
+            XModalContainer.hide(instance);
+        }
+    }
+
+    // callbacks for router
+    _onEntry() {
+        XModalContainer.show(this);
+    }
+
+    _onExit() {
+        XModalContainer.hide(this);
     }
 };
 export default MixinModal;
