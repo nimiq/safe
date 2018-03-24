@@ -107,10 +107,10 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     hide() {
         const route = this.attribute('x-route-aside');
         if (route) {
-            // let the router trigger the show
+            // let the router trigger the hide
             XRouter.root.hideAside(route);
         } else {
-            XModalContainer.hide(instance);
+            XModalContainer.hide(this);
         }
     }
 
