@@ -85,7 +85,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             'x-accounts-create': async () => (await accountManager).create(),
             'x-accounts-import': async () => (await accountManager).import(),
-            'click button[new-tx]': this._clickedNewTransaction.bind(this),
+            'click button[new-tx]': () => this._clickedNewTransaction(),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
@@ -102,7 +102,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _clickedNewTransaction(address) {
         XSendTransactionModal.instance.clear(this.properties.height);
-        XSendTransactionModal.show(this._spaceToDash(address));
+        XSendTransactionModal.show(address && this._spaceToDash(address) || undefined);
     }
 
     _spaceToDash(string) {
