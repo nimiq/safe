@@ -45,11 +45,20 @@ export default class XWalletBackupImport extends XElement {
         }
     }
 
+    reset() {
+        // Reset element
+        this._decoded = null;
+        this._onDragEnd();
+        this.$importIcon.style.backgroundImage = this._defaultStyle.backgroundImage;
+        this.$importIcon.style.opacity = this._defaultStyle.opacity;
+        this.$button.textContent = this._defaultStyle.textContent;
+    }
+
     _openFileInput() {
         this.$fileInput.click();
     }
 
-    _onFileSelected(e) {
+    _onFileSelected(_, e) {
         this._onFileDrop(e);
         this.$fileInput.value = null;
     }
@@ -84,7 +93,7 @@ export default class XWalletBackupImport extends XElement {
         requestAnimationFrame(_ => URL.revokeObjectURL(url));
     }
 
-    _onButtonClicked(e) {
+    _onButtonClicked(_, e) {
         if (this._decoded) {
             e.stopPropagation();
             const decoded = this._decoded;
@@ -94,16 +103,7 @@ export default class XWalletBackupImport extends XElement {
         }
     }
 
-    reset() {
-        // Reset element
-        this._decoded = null;
-        this._onDragEnd();
-        this.$importIcon.style.backgroundImage = this._defaultStyle.backgroundImage;
-        this.$importIcon.style.opacity = this._defaultStyle.opacity;
-        this.$button.textContent = this._defaultStyle.textContent;
-    }
-
-    _onDragOver(event) {
+    _onDragOver(_, event) {
         this._stopPropagation(event);
         event.dataTransfer.dropEffect = 'copy';
         this.$el.setAttribute('active', 1);
@@ -125,4 +125,3 @@ export default class XWalletBackupImport extends XElement {
 }
 
 // Todo: debug backdrop
-// Todo: remove handlers on hide
