@@ -45,6 +45,13 @@ export default class XElement {
         this.__bindStyles(this.styles());
     }
 
+    __removeListeners() {
+        // remove listeners
+        for (const [key, { target, event, listener }] of this._boundListeners) {
+            target.removeEventListener(event, listener);
+        }
+    }
+
     destroy() {
         this.$el.parentNode.removeChild(this.$el);
 
@@ -55,10 +62,7 @@ export default class XElement {
            }
         }
 
-        // remove listeners
-        for (const [key, { target, event, listener }] of this._boundListeners) {
-            target.removeEventListener(event, listener);
-        }
+        this.__removeListeners();
     }
 
     /* Get attributes from DOM element - for use with deconstructors */
