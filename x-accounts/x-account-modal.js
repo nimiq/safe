@@ -1,8 +1,5 @@
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import XToast from '../x-toast/x-toast.js';
 import XAccount from './x-account.js';
-// todo, to be discussed: how to generalize this?
-import keyguardPromise from '/apps/safe/keyguard.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -31,21 +28,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
-            'click button[export]': _ => this._onExport(this._address),
-            'click button[rename]': _ => this._onRename(this._address),
+            'click button[export]': _ => this.fire('x-account-modal-export', this._address),
+            'click button[rename]': _ => this.fire('x-account-modal-rename', this._address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this._address)
         }
-    }
-
-    async _onExport(address) {
-        const keyguard = await keyguardPromise;
-        const success = await keyguard.exportFile(address);
-    }
-
-    async _onRename(address) {
-        const keyguard = await keyguardPromise;
-        const newLabel = await keyguard.rename(address);
-        console.log(`New label ${newLabel}`);
-        // todo save new label, this.actions.setLabel(address, newLabel)
     }
 }

@@ -5,7 +5,8 @@ import networkClient from '/apps/safe/network-client.js';
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
     SET_ALL_KEYS: 'accounts/set-all-keys',
-    UPDATE_BALANCES: '/accounts/updateBalances',
+    UPDATE_BALANCES: '/accounts/update-balances',
+    UPDATE_LABEL: '/accounts/update-label',
     SET_DEFAULT: 'accounts/set-default'
 };
 
@@ -39,7 +40,7 @@ export function reducer(state, action) {
                 entries: new Map(action.keys.map(x => [x.address, { ...x, balance: undefined } ]))
             };
 
-        case TypeKeys.UPDATE_BALANCES:
+        case TypeKeys.UPDATE_BALANCES: {
             const entries = new Map(state.entries);
             for (const [address, balance] of action.balances) {
                 entries.set(address, {...entries.get(address), balance});
@@ -49,6 +50,17 @@ export function reducer(state, action) {
                 ...state,
                 entries
             };
+        }
+
+        case TypeKeys.UPDATE_LABEL: {
+            const entries = new Map(state.entries);
+            entries.set(action.address, {...state.entries.get(action.address), label: action.label});
+
+            return {
+                ...state,
+                entries
+            };
+        }
 
         default:
             return state
@@ -74,6 +86,18 @@ export function setAllKeys(keys) {
         const { rpcClient } = await networkClient;
         rpcClient.subscribe(keys.map(key => key.address));
 
+        // FIXME Move to correct place!
+        new Promise(async () => {
+            // Request transaction history
+            const addresses = keys.map(key => key.address);
+            const transactions = await rpcClient.requestTransactionHistory(addresses);
+            // this.actions.addTransactions(txs);
+            dispatch({
+                type: 'transactions/add-transactions',
+                transactions
+            });
+        });
+
         dispatch({
             type: TypeKeys.SET_ALL_KEYS,
             keys
@@ -85,5 +109,13 @@ export function updateBalances(balances) {
     return {
         type: TypeKeys.UPDATE_BALANCES,
         balances
+    }
+}
+
+export function updateLabel(address, label) {
+    return {
+        type: TypeKeys.UPDATE_LABEL,
+        address,
+        label
     }
 }

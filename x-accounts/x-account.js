@@ -64,7 +64,12 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set type(type) {
-        if (type === 'high') this.$secureIcon.classList.remove('hidden');
+        switch (type) {
+            case 1: this.$secureIcon.classList.remove('hidden'); break; // KEYGUARD_HIGH
+            case 2: break; // KEYGUARD_LOW
+            case 3: break; // LEDGER
+            case 4: break; // VESTING
+        }
     }
 
     set account(account) {

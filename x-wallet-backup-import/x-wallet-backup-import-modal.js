@@ -2,7 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XWalletBackupImport from './x-wallet-backup-import.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
-import keyguardPromise from '/apps/safe/keyguard.js';
+import accountManager from '/libraries/account-manager/account-manager.js';
 
 export default class XWalletBackupImportModal extends MixinModal(XElement) {
     html() {
@@ -26,7 +26,8 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
 
     listeners() {
         return {
-            'click a[secondary]': () => this._startImportWords()
+            'x-backup-import': async (k) => (await accountManager).importFile(k),
+            'click a[secondary]': async () => (await accountManager).importWords()
         }
     }
 
@@ -36,7 +37,6 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
     }
 
     reset() {
-        console.log("modal reset()");
         this.$importDiv.style.display = 'initial';
         this.$successMark.$el.style.display = 'none';
         this.$walletBackupImport.reset();
@@ -47,11 +47,5 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
         this.$successMark.$el.style.display = 'initial';
         await this.$successMark.animate();
         XWalletBackupImportModal.hide();
-    }
-
-    async _startImportWords() {
-        const keyguard = await keyguardPromise;
-        const newKey = await keyguard.importFromWords();
-        this.actions.addAccount(newKey);
     }
 }
