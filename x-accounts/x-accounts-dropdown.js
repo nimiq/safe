@@ -42,7 +42,8 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.loading === true || changes.hasContent === false) {
+        if (changes.loading === true || changes.hasContent === false
+            || this.properties.accounts.size === 0) {
             this.$expandable.disable();
             this._showStatusMessage();
             return;
@@ -80,9 +81,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
     }
 
     _showStatusMessage() {
-        const { loading, hasContent } = this.properties;
-        if (hasContent) return;
-        if (loading) {
+        if (this.properties.accounts.size === 0) {
             this.$statusMessage.textContent = '';
             const dots = document.createElement('span');
             dots.classList.add('dot-loader');

@@ -2,6 +2,7 @@
 @import '../x-expandable/x-expandable.css';
 
 x-accounts-dropdown {
+    display: block;
     width: 488px;
     height: 88px;
 }
@@ -12,7 +13,7 @@ x-accounts-dropdown x-expandable[disabled] x-account {
 }
 
 x-accounts-dropdown [status-message] {
-    margin: 20px;
+    margin: 20px !important;
 }
 
 x-accounts-dropdown x-expandable {

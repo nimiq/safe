@@ -15,6 +15,10 @@
     margin-bottom: 12px;
 }
 
+.x-send-transaction x-accounts-dropdown {
+    width: 100%;
+}
+
 .x-send-transaction input,
 .x-send-transaction input::placeholder,
 .x-send-transaction x-address-input {
@@ -32,5 +36,4 @@
 
 .x-send-transaction button {
     margin-top: 48px;
-    max-width: none;
 }
