@@ -1,7 +1,7 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
-import store from './store.js';
+import { default as store, Store } from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
@@ -15,10 +15,12 @@ class Safe {
 
         // set redux store
         this.store = store;
+        console.log(JSON.stringify(store.getState()));
         MixinRedux.store = this.store;
 
         // set singleton app container
         MixinSingleton.appContainer = $appContainer;
+
 
         // Launch account manager
         accountManager.then(a => {
@@ -84,7 +86,7 @@ class Safe {
 
         const stringifiedState = JSON.stringify(persistentState);
 
-        console.log(`Current state: ${stringifiedState}`);
+        localStorage.setItem('persistedState', stringifiedState);
     }
 
     // todo refactor: move following methods to new class NetworkHandler(?)
