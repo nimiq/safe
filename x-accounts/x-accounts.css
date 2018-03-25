@@ -118,6 +118,10 @@ x-account-modal x-amount {
     margin: 0.5em 0 1em;
 }
 
+x-account-modal x-amount:last-child {
+    margin-bottom: 0;
+}
+
 x-account-modal x-amount[display] {
     font-size: 2em;
     margin: 0.5em 0 1em;

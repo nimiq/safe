@@ -10,7 +10,7 @@ x-amount {
     font-variant-numeric: tabular-nums;
 }
 
-x-amount.incoming {
+x-amount.incoming x-currency-nim {
     color: #2e7d32;
 }
 
@@ -18,7 +18,7 @@ x-amount.incoming .integers::before {
     content: '+';
 }
 
-x-amount.outgoing {
+x-amount.outgoing x-currency-nim {
     color: #d32f2f;
 }
 

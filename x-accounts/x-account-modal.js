@@ -15,7 +15,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 <x-address></x-address>
 
                 <div class="x-account-bottom">
-                    <x-amount display></x-amount>
+                    <x-amount display label="Balance"></x-amount>
                 </div>
 
                 <div class="vesting-info">
@@ -35,6 +35,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     onCreate() {
         this.$availableAmount = this.$amount[1];
+        this.$balanceSection = this.$('.x-account-bottom');
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
         this.$actionButtons = this.$('.action-buttons');
@@ -59,6 +60,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         }
 
         if (changes.type === 4 || (!changes.type && this.properties.type === 4)) {
+            this.$balanceSection.classList.add('display-none');
             // Is a vesting contract
             if (changes.start
              || changes.stepAmount
@@ -116,6 +118,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         }
         else {
             this.$vestingInfo.classList.add('display-none');
+            this.$balanceSection.classList.remove('display-none');
         }
     }
 
