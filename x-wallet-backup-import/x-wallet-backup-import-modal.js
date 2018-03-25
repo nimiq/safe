@@ -7,12 +7,13 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
-                <h2>Import Account Access File</h2>
+                <h2>Import Account</h2>
             </div>
             <div class="modal-body">
-                <div class="file-import">
-                    <button>Start import</button>
-                    <a secondary>Use 24 Recovery Words instead</a>
+                <div class="import">
+                    <br>
+                    <button>Import from file</button>
+                    <a secondary>Use 24 Recovery Words</a>
                 </div>
                 <x-success-mark></x-success-mark>
             </div>
@@ -32,7 +33,7 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
 
     onCreate() {
         super.onCreate();
-        this.$importDiv = this.$('div.file-import');
+        this.$importDiv = this.$('div.import');
     }
 
     async success() {
