@@ -88,7 +88,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
-            'x-account-modal-export': async (a) => (await accountManager).export(a),
+            'x-account-modal-export': async (a) => (await accountManager).backup(a),
             'x-account-modal-rename': async (a) => (await accountManager).rename(a)
         }
     }
