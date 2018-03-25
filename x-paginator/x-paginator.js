@@ -33,11 +33,7 @@ export default class XPaginator extends MixinRedux(XElement) {
         }
     }
 
-    static get actions() {
-        return {
-            setPage
-        }
-    }
+    static get actions() { return { setPage } }
 
     static mapStateToProps(state, props) {
         if (!props.storePath) return;

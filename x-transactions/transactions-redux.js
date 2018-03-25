@@ -19,8 +19,9 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.ADD_TXS:
-            const entries = new Map(state.entries);
-            action.transactions.forEach(tx => entries.set(tx.hash, tx));
+            let entries = [...state.entries];
+            action.transactions.forEach(tx => entries.push([tx.hash, tx]));
+            entries = new Map(entries.sort(_transactionSort));
             return {
                 ...state,
                 entries,
@@ -84,4 +85,8 @@ export function setItemsPerPage(itemsPerPage) {
         type: TypeKeys.SET_ITEMS_PER_PAGE,
         itemsPerPage
     }
+}
+
+export function _transactionSort(a, b) {
+    return a.blockHeight - b.blockHeight;
 }

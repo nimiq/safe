@@ -86,18 +86,6 @@ export function setAllKeys(keys) {
         const { rpcClient } = await networkClient;
         rpcClient.subscribe(keys.map(key => key.address));
 
-        // FIXME Move to correct place!
-        new Promise(async () => {
-            // Request transaction history
-            const addresses = keys.map(key => key.address);
-            const transactions = await rpcClient.requestTransactionHistory(addresses);
-            // this.actions.addTransactions(txs);
-            dispatch({
-                type: 'transactions/add-transactions',
-                transactions
-            });
-        });
-
         dispatch({
             type: TypeKeys.SET_ALL_KEYS,
             keys

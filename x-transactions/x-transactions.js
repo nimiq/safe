@@ -4,6 +4,8 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
+import { addTransactions } from './transactions-redux.js';
+import networkClient from '/apps/safe/network-client.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -20,7 +22,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     children() { return [ XPaginator, XTransactionModal ] }
 
     onCreate() {
-        this._transactions = new Map();
+        this._$transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
         super.onCreate();
     }
@@ -31,6 +33,9 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
+
+    static get actions() { return { addTransactions } }
+
     static mapStateToProps(state) {
         return {
             transactions: XTransactions._labelTransactions(
@@ -40,16 +45,20 @@ export default class XTransactions extends MixinRedux(XElement) {
                     state.transactions.itemsPerPage,
                     true
                 ),
-                state.accounts.entries
+                state.accounts ? state.accounts.entries : false
             ),
-            hasContent: state.transactions.hasContent
+            hasContent: state.transactions.hasContent,
+            addresses: state.accounts ? [...state.accounts.entries.keys()] : false
         }
     }
 
     static _labelTransactions(txs, accounts) {
+        if (!accounts) return txs;
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
+
+            if (!sender && !recipient) return;
 
             tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 9) + '...';
             tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 9) + '...';
@@ -61,6 +70,17 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
+        if (changes.addresses && !(changes.addresses instanceof Array)) {
+            const newAddresses = Object.values(changes.addresses);
+            // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
+            // Request transaction history for new accounts
+            new Promise(async () => {
+                // Request transaction history
+                const transactions = await this._requestTransactionHistory(newAddresses);
+                this.actions.addTransactions(transactions);
+            });
+        }
+
         const { hasContent, transactions } = this.properties;
 
         if (!hasContent) return;
@@ -71,11 +91,11 @@ export default class XTransactions extends MixinRedux(XElement) {
             }
 
             for (const [hash, transaction] of changes.transactions) {
-                const $transaction = this._transactions.get(hash);
+                const $transaction = this._$transactions.get(hash);
                 // FIXME/TODO Instead of deleting existing elements and re-creating new ones, why not re-use the existing ones?
                 if (transaction === undefined) {
                     $transaction && $transaction.destroy();
-                    this._transactions.delete(hash);
+                    this._$transactions.delete(hash);
                 } else if (!$transaction) {
                     // new entry
                     this.addTransaction(transaction);
@@ -94,7 +114,7 @@ export default class XTransactions extends MixinRedux(XElement) {
      * @param {object} tx
      */
     addTransaction(tx) {
-        this._transactions.set(tx.hash, this._createTransaction(tx));
+        this._$transactions.set(tx.hash, this._createTransaction(tx));
     }
 
     _createTransaction(transaction) {
@@ -111,5 +131,18 @@ export default class XTransactions extends MixinRedux(XElement) {
     _onTransactionSelected(hash) {
         hash = encodeURIComponent(hash);
         XTransactionModal.show(hash);
+    }
+
+    async _requestTransactionHistory(addresses) {
+        const knownReceipts = this._generateKnownReceipts();
+        return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts);
+    }
+
+    _generateKnownReceipts() {
+        const knownReceipts = new Map();
+        for (const [hash, tx] of this.properties.transactions) {
+            knownReceipts.set(hash, tx.blockHash);
+        }
+        return knownReceipts;
     }
 }
