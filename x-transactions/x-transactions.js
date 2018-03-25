@@ -47,8 +47,9 @@ export default class XTransactions extends MixinRedux(XElement) {
                 ),
                 state.accounts ? state.accounts.entries : false
             ),
-            hasContent: state.transactions.hasContent,
-            addresses: state.accounts ? [...state.accounts.entries.keys()] : false
+            hasTransactions: state.transactions.hasContent,
+            addresses: state.accounts ? [...state.accounts.entries.keys()] : false,
+            hasAccounts: state.accounts.hasContent
         }
     }
 
@@ -70,7 +71,11 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.addresses && !(changes.addresses instanceof Array)) {
+        if (changes.hasAccounts && changes.addresses instanceof Array && !changes.addresses.length) {
+            // Empty state
+            this.addTransactions([]);
+        }
+        else if (changes.addresses && !(changes.addresses instanceof Array)) {
             const newAddresses = Object.values(changes.addresses);
             // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
             // Request transaction history for new accounts
@@ -81,9 +86,9 @@ export default class XTransactions extends MixinRedux(XElement) {
             });
         }
 
-        const { hasContent, transactions } = this.properties;
+        const { hasTransactions, transactions } = this.properties;
 
-        if (!hasContent) return;
+        if (!hasTransactions) return;
 
         if (changes.transactions) {
             if (this.$('x-loading-animation') || this.$('x-no-content')) {

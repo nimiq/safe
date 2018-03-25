@@ -19,9 +19,25 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.ADD_TXS:
-            let entries = [...state.entries];
-            action.transactions.forEach(tx => entries.push([tx.hash, tx]));
-            entries = new Map(entries.sort(_transactionSort));
+            let entries = new Map(state.entries);
+
+            if (action.transactions.length === 1) {
+                // Check if this is a pending tx
+                const tx = action.transactions[0];
+                if (!tx.blockHeight) {
+                    entries.set(tx.hash, tx);
+                    return {
+                        ...state,
+                        entries,
+                        hasContent: true
+                    }
+                }
+            }
+
+            action.transactions.forEach(tx => entries.set(tx.hash, tx));
+            // Sort as array
+            entries = new Map([...entries].sort(_transactionSort));
+
             return {
                 ...state,
                 entries,
@@ -57,6 +73,9 @@ export function reducer(state, action) {
     }
 }
 
+/**
+ * @param {Array<{}>} transactions
+ */
 export function addTransactions(transactions) {
     return {
         type: TypeKeys.ADD_TXS,
@@ -88,5 +107,5 @@ export function setItemsPerPage(itemsPerPage) {
 }
 
 export function _transactionSort(a, b) {
-    return a.blockHeight - b.blockHeight;
+    return a[1].blockHeight - b[1].blockHeight;
 }

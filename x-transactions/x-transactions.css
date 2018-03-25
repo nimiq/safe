@@ -26,7 +26,7 @@ x-transaction {
     padding: 8px 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     animation: from-right 500ms;
-    animation-fill-mode: backwards; /* Apply the animation's opacity:0 when the animation property is applied */
+    animation-fill-mode: backwards; /* Apply the animation's opacity: 0 when the animation property is applied */
     cursor: pointer;
 }
 
