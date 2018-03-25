@@ -59,12 +59,16 @@ export default class XTransactions extends MixinRedux(XElement) {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            if (!sender && !recipient) return;
+            tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 14) + '...';
+            tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 14) + '...';
 
-            tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 9) + '...';
-            tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 9) + '...';
-
-            tx.type = sender && recipient ? 'transfer' : sender ? 'outgoing' : 'incoming';
+            tx.type = sender && recipient
+                    ? 'transfer'
+                        : sender
+                        ? 'outgoing'
+                            : recipient
+                            ? 'incoming'
+                                : '';
         });
 
         return txs;
