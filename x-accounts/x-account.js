@@ -92,6 +92,13 @@ export default class XAccount extends MixinRedux(XElement) {
                 this.$icon.setAttribute('title', '');
                 break;
         }
+
+        if (this.$actionButtons) {
+            this.$actionButtons.classList.remove('display-none');
+            if (type === 4) { // VESTING
+                this.$actionButtons.classList.add('display-none');
+            }
+        }
     }
 
     set account(account) {

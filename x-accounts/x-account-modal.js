@@ -22,11 +22,13 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <x-amount display available-amount label="Available now"></x-amount>
                 </div>
 
-                <hr>
+                <div class="action-buttons">
+                    <hr>
 
-                <button export class="secondary small">Backup</button>
-                <button rename class="secondary small">Rename</button>
-                <button send class="small">Send from this account</button>
+                    <button export class="secondary small">Backup</button>
+                    <button rename class="secondary small">Rename</button>
+                    <button send class="small">Send from this account</button>
+                </div>
             </div>
         `
     }
@@ -35,6 +37,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$availableAmount = this.$amount[1];
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
+        this.$actionButtons = this.$('.action-buttons');
         this._height = 0;
         super.onCreate();
     }
