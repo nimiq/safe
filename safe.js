@@ -4,7 +4,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import store from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
-import { setConsensus, setHeight, setPeerCount } from '/elements/x-network-indicator/x-network-indicator-redux.js';
+import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/elements/mixin-singleton/mixin-singleton.js';
@@ -34,7 +34,8 @@ class Safe {
             addTransactions,
             setConsensus,
             setHeight,
-            setPeerCount
+            setPeerCount,
+            setGlobalHashrate
         }, this.store.dispatch);
 
         this.launch();
@@ -90,8 +91,9 @@ class Safe {
         this.actions.addTransactions([tx]);
     }
 
-    _onHeadChange(height) {
+    _onHeadChange({height, globalHashrate}) {
         this.actions.setHeight(height);
+        this.actions.setGlobalHashrate(globalHashrate);
     }
 
     _onPeerCountChanged(peerCount) {

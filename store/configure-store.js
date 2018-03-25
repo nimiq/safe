@@ -3,7 +3,7 @@ import { createLogger } from '/libraries/redux-logger/src/index.js';
 import thunk from '/libraries/redux/src/redux-thunk.js';
 import { reducer as accountReducer } from '/elements/x-accounts/accounts-redux.js';
 import { reducer as transactionReducer } from '/elements/x-transactions/transactions-redux.js';
-import { reducer as networkReducer } from '/elements/x-network-indicator/x-network-indicator-redux.js';
+import { reducer as networkReducer } from '/elements/x-network-indicator/network-redux.js';
 
 const reducers = {
     accounts: accountReducer,
