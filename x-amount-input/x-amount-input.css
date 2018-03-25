@@ -1,10 +1,10 @@
 @import '../x-input/x-input.css';
-@import '../x-amount/x-amount.css';
 @import '../x-numpad/x-numpad.css';
 
 x-amount-input input {
     font-size: 56px !important;
     padding-bottom: 0;
+    width: 100% !important;
 }
 
 x-amount-input input:after {
@@ -31,4 +31,8 @@ x-amount-input form {
     flex-direction: column;
     justify-content: center;
     flex-grow: 1;
+}
+
+x-amount-input x-currency-1 {
+    display: block;
 }

@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
+import XAmountInput from '../x-amount-input/x-amount-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 
 export default class XSendTransaction extends XElement {
@@ -18,15 +19,15 @@ export default class XSendTransaction extends XElement {
 
                 <h3>Amount</h3>
                 <div class="row">
-                    <input name="value" amount placeholder="0.00" type="number" min="0" step="0.00001">
+                    <x-amount-input name="value" no-screen-keyboard max-decimals="5"></x-amount-input>
                 </div>
 
-                <x-expandable transparent>
+                <x-expandable advanced-settings transparent>
                     <h3 expandable-trigger>Advanced Settings</h3>
                     <div expandable-content>
                         <h3>Fee</h3>
                         <div class="row">
-                            <input name="fee" fee placeholder="0.00" type="number" min="0" step="0.00001">
+                            <x-amount-input name="fee" no-screen-keyboard max-decimals="5"></x-amount-input>
                         </div>
         
                         <h3>Valid from</h3>
@@ -44,7 +45,7 @@ export default class XSendTransaction extends XElement {
     }
 
     children() {
-        return [ XAccountsDropdown, XAddressInput, XExpandable ];
+        return [ XAccountsDropdown, XAddressInput, XAmountInput, XExpandable ];
     }
 
     onCreate() {
@@ -73,8 +74,9 @@ export default class XSendTransaction extends XElement {
     }
 
     clear(validityStartHeight) {
-        this.$form.reset();
-        this.$form.querySelector('input[name="validityStartHeight"]').value = validityStartHeight;
+        this.$addressInput.value = '';
+        this.$amountInput.forEach(input => input.value = '');
+        this.$form.querySelector('input[name="validityStartHeight"]').value = validityStartHeight || '';
     }
 
     _getFormData(form) {

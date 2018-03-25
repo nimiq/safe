@@ -1,5 +1,4 @@
 import XInput from '../x-input/x-input.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
 import XNumpad from '../x-numpad/x-numpad.js';
 
 export default class XAmountInput extends XInput {
@@ -20,12 +19,20 @@ export default class XAmountInput extends XInput {
         super.onCreate();
         this.$currency2 = this.$('x-currency-2');
         this._previousValue = '';
-        this.maxDecimals = 2;
-        if (!this._isMobile || this.$el.hasAttribute('no-screen-keyboard')) return;
+        const maxDecimals = this.$el.getAttribute('max-decimals');
+        this.maxDecimals = maxDecimals? parseInt(maxDecimals) : 2;
+        if (!this._isMobile || this.$el.hasAttribute('no-screen-keyboard')) {
+            this.$numpad.$el.style.display = 'none';
+            return;
+        }
         this._initScreenKeyboard();
     }
 
     set value(value) {
+        if (value === '') {
+            super.value = '';
+            return;
+        }
         value = Number(value);
         const decimals = Math.pow(10, this.maxDecimals);
         super.value = Math.round(value * decimals) / decimals; // triggers _onValueChanged

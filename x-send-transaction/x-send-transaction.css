@@ -1,5 +1,6 @@
 @import "../x-accounts/x-accounts-dropdown.css";
 @import "../x-address-input/x-address-input.css";
+@import "../x-amount-input/x-amount-input.css";
 
 .x-send-transaction {
     width: 600px;
@@ -38,6 +39,6 @@
     margin-top: 48px;
 }
 
-.x-send-transaction [expandable-content] :first-child {
+.x-send-transaction [advanced-settings] [expandable-content] > :first-child {
     margin-top: 8px;
 }
