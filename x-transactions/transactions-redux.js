@@ -42,7 +42,7 @@ export function reducer(state, action) {
                 ...state,
                 entries,
                 hasContent: true
-            }
+            };
 
         case TypeKeys.UPDATE_BLOCK:
             const oldEntry = state.entries.get(action.hash);
@@ -54,19 +54,19 @@ export function reducer(state, action) {
                         blockHeight: action.blockHeight,
                         timestamp: action.timestamp
                     })
-            }
+            };
 
         case TypeKeys.SET_PAGE:
             return {
                 ...state,
                 page: action.page
-            }
+            };
 
         case TypeKeys.SET_ITEMS_PER_PAGE:
             return {
                 ...state,
                 itemsPerPage: action.itemsPerPage
-            }
+            };
 
         default:
             return state
