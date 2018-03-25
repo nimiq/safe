@@ -183,13 +183,13 @@ export default class XElement {
      */
     __fromHtml() {
         if (!(this.html instanceof Function)) return;
-        const html = this.html().trim()
-        const currentContent = this.$el.innerHTML.trim();
+        const html = this.html().trim();
+        const currentChildNodes = [ ...this.$el.childNodes ];
         this.$el.innerHTML = html;
-        if (currentContent === '') return;
+        if (currentChildNodes.length === 0) return;
         const $content = this.$('[data-x-content]');
         if (!$content) return;
-        $content.innerHTML = currentContent;
+        currentChildNodes.forEach(node => $content.appendChild(node));
         $content.removeAttribute('data-x-content');
     }
 
