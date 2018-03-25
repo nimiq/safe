@@ -7,6 +7,7 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
             <div><label>Consensus</label> <strong consensus></strong></div>
             <div><label>Height</label> <strong height></strong></div>
             <div><label>Peer count</label> <strong peerCount></strong></div>
+            <div><label>Global hashrate</label> <strong globalHashrate></strong></div>
         `;
     }
 
@@ -14,6 +15,7 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
         this.$consensus = this.$('strong[consensus]');
         this.$height = this.$('strong[height]');
         this.$peerCount = this.$('strong[peerCount]');
+        this.$globalHashrate = this.$('strong[globalHashrate]');
         super.onCreate();
     }
 
@@ -37,5 +39,9 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
 
     set peerCount(peerCount) {
         this.$peerCount.textContent = peerCount;
+    }
+
+    set globalHashrate(globalHashrate) {
+        this.$globalHashrate.textContent = `~${globalHashrate} H/s`;
     }
 }

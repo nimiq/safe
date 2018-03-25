@@ -1,11 +1,8 @@
-// todo, to be discussed: abstract the functionality we need here in a generic network store OR consider network-client
-// as generic solution, so network-client should move to libraries?
-import networkClient from '../../apps/safe/network-client.js';
-
 export const TypeKeys = {
     SET_CONSENSUS: 'network/set-consensus',
     SET_HEIGHT: 'network/set-height',
-    SET_PEER_COUNT: 'network/set-peer-count'
+    SET_PEER_COUNT: 'network/set-peer-count',
+    SET_GLOBAL_HASHRATE: 'network/set-global-hashrate'
 };
 
 export function reducer(state, action) {
@@ -13,7 +10,8 @@ export function reducer(state, action) {
         return {
             consensus: 'initializing',
             height: 0,
-            peerCount: 0
+            peerCount: 0,
+            globalHashrate: 0
         }
     }
 
@@ -34,6 +32,12 @@ export function reducer(state, action) {
             return {
                 ...state,
                 peerCount: action.peerCount
+            }
+
+        case TypeKeys.SET_GLOBAL_HASHRATE:
+            return {
+                ...state,
+                globalHashrate: action.globalHashrate
             }
 
         default:
@@ -59,5 +63,12 @@ export function setPeerCount(peerCount) {
     return {
         type: TypeKeys.SET_PEER_COUNT,
         peerCount
+    }
+}
+
+export function setGlobalHashrate(globalHashrate) {
+    return {
+        type: TypeKeys.SET_GLOBAL_HASHRATE,
+        globalHashrate
     }
 }
