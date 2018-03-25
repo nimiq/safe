@@ -26,7 +26,9 @@ export default class XAmountInput extends XInput {
     }
 
     set value(value) {
-        super.value = NanoApi.formatValue(value, 5); // triggers _onValueChanged
+        value = Number(value);
+        const decimals = Math.pow(10, this.maxDecimals);
+        super.value = Math.round(value * decimals) / decimals; // triggers _onValueChanged
     }
 
     get value() {
@@ -34,8 +36,13 @@ export default class XAmountInput extends XInput {
     }
 
     set maxDecimals(maxDecimals) {
+        this._maxDecimals = maxDecimals;
         this.$numpad.maxDecimals = maxDecimals;
         this.$input.step = 1 / Math.pow(10, maxDecimals); /* also has an influence on this._validate() */
+    }
+
+    get maxDecimals() {
+        return this._maxDecimals;
     }
 
     _initScreenKeyboard() {
