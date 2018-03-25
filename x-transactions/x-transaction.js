@@ -114,6 +114,9 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set transaction(transaction) {
+        // Preserve currentHeight property through hard setting
+        transaction.currentHeight = this.properties.currentHeight;
+
         this.setProperties(transaction, true);
     }
 

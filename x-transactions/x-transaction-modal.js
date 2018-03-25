@@ -7,10 +7,10 @@ import store from '/apps/safe/store.js';
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
         return `
-            <div class="x-modal-header">
-                <h2>Transaction Detail</h2>
+            <div class="modal-header">
+                <h2>Transaction Information</h2>
             </div>
-            <div class="x-modal-body">
+            <div class="modal-body">
                 <center>
                     <x-identicon sender></x-identicon>
                     <div class="label" sender></div>
@@ -19,13 +19,20 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <x-identicon recipient></x-identicon>
                     <div class="label" recipient></div>
                     <x-address recipient></x-address>
-                </center>
 
-                <label>Value:</label> <x-amount></x-amount>
-                <label>Time:</label> <div class="timestamp" title="">pending...</div>
-                <label>Block height:</label> <div class="blockHeight"></div> <div class="confirmations"></div>
-                <label>Fee:</label> <div class="fee"></div>
-                <label>Hash:</label> <div class="hash"></div>
+                    <x-amount label="Value"></x-amount>
+
+                    <label>Time</label>
+                    <div class="timestamp" title="">pending...</div>
+
+                    <label>Block height</label>
+                    <div class="blockHeight"></div> <div class="confirmations"></div>
+
+                    <div class="fee-section display-none">
+                        <label>Fee</label>
+                        <div class="fee"></div>
+                    </div>
+                </center>
             </div>
         `
     }
@@ -33,13 +40,12 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     children() { return super.children().concat([XAddress]) }
 
     onCreate() {
-        super.onCreate();
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
         this.$blockHeight = this.$('div.blockHeight');
         this.$confirmations = this.$('div.confirmations');
         this.$fee = this.$('div.fee');
-        this.$hash = this.$('div.hash');
+        super.onCreate();
     }
 
     set sender(address) {
@@ -53,6 +59,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set fee(fee) {
+        if (!fee) this.$('.fee-section').classList.add('display-none');
+        else this.$('.fee-section').classList.remove('display-none');
         this.$fee.textContent = fee + ' NIM';
     }
 
@@ -64,10 +72,6 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     set timestamp(timestamp) {
         const time = moment.unix(timestamp);
         this.$timestamp.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
-    }
-
-    set hash(hash) {
-        this.$hash.textContent = hash;
     }
 
     set currentHeight(height) {
