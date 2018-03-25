@@ -39,6 +39,8 @@ class Safe {
         }, this.store.dispatch);
 
         this.launch();
+
+        self.onunload = this._persistState.bind(this);
     }
 
     async launch() {
@@ -67,6 +69,25 @@ class Safe {
             })
         ]);
     }
+
+    _persistState() {
+        const state = store.getState();
+
+        const transactions = [...state.transactions.entries.entries()];
+
+        const accounts = [...state.accounts.entries.entries()];
+
+        const persistentState = {
+            transactions,
+            accounts
+        };
+
+        const stringifiedState = JSON.stringify(persistentState);
+
+        console.log(`Current state: ${stringifiedState}`);
+    }
+
+    // todo refactor: move following methods to new class NetworkHandler(?)
 
     _onConsensusSyncing() {
         console.log('Consensus syncing');

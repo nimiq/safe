@@ -1,4 +1,4 @@
-import configureStore from './store/configure-store.js';
+import configureStore from './configure-store.js';
 
 /* Redux store as singleton. Use initialize for setting initial state from e.g. localStorage */
 export class Store {
