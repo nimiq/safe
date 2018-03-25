@@ -41,4 +41,9 @@ export default class XWalletBackupImportModal extends MixinModal(XElement) {
         await this.$successMark.animate();
         XWalletBackupImportModal.hide();
     }
+
+    reset() {
+        this.$importDiv.style.display = 'initial';
+        this.$successMark.$el.style.display = 'none';
+    }
 }
