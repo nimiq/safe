@@ -6,21 +6,23 @@ import XAmount from '../x-amount/x-amount.js';
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
-            <div class="x-modal-header">
-                <h2 class="x-account-label"></h2>
+            <div class="modal-header">
+                <h2 class="x-account-label">&nbsp;</h2>
             </div>
-            <div class="x-modal-body">
-                <x-identicon></x-identicon>
-                <i class="display-none account-icon"></i>
-                <x-address></x-address>
+            <div class="modal-body">
+                <center>
+                    <x-identicon></x-identicon>
+                    <i class="display-none account-icon"></i>
+                    <x-address></x-address>
 
-                <div class="x-account-bottom">
-                    <x-amount display label="Balance"></x-amount>
-                </div>
+                    <div class="x-account-bottom">
+                        <x-amount display label="Balance"></x-amount>
+                    </div>
 
-                <div class="vesting-info">
-                    <x-amount display available-amount label="Available now"></x-amount>
-                </div>
+                    <div class="vesting-info">
+                        <x-amount display available-amount label="Available now"></x-amount>
+                    </div>
+                </center>
 
                 <div class="action-buttons">
                     <hr>

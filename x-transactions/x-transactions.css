@@ -131,6 +131,10 @@ x-transaction-modal .fee {
     font-size: 1.2em;
 }
 
+x-transaction-modal .confirmations {
+    font-size: 1em;
+}
+
 x-transaction-modal x-amount {
     font-size: 1.4em;
 }
