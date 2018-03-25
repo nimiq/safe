@@ -11,11 +11,15 @@ export default class XRouter extends XElement {
         this.reverse = false;
         this.routing = false;
         this.running = false;
+        const recoveredState = window.history.state ? window.history.state.path : null;
+        this.history = recoveredState ? [ recoveredState ] : [];
+
         let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
         if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
             const animations = this.$el.getAttribute('animations').split(' ')
-            if (animations.length == 6)
+            if (animations.length == 6) {
                 classes = animations;
+            }
         }
         [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
 
@@ -83,13 +87,33 @@ export default class XRouter extends XElement {
         }
     }
 
-    goTo(path, reverse = false) {
-        this.reverse = reverse;
+    goTo(path) {
+        this.reverse = false;
+        this.history.unshift(path);
         this.router.navigate(path);
     }
 
     goBackTo(path) {
-        this.goTo(path, true);
+        this.reverse = true;
+        const search = new RegExp(`.*${ path }.*`);
+        const found = this.history.find((item, index) => {
+            if (path == item || item.match(search)) {
+                this.goBack(index);
+                return true;
+            }
+        });
+        if (!found) {
+            throw new Error(`XRouter: goBackTo(${ path }): path not found in history ${ JSON.stringify(this.history) }`);
+        }
+    }
+
+    goBack(steps = 1) {
+        // this.goBackTo(this.history[1]);
+        this._log(`XRouter: going ${ steps } steps back in history to ${ this.history[steps] }. old history = ${ JSON.stringify(this.history) }`);
+        // forget all the history "in between"
+        this.history = this.history.slice(steps);
+        this._log(`XRouter: new history = ${ JSON.stringify(this.history) }`);
+        window.history.go(-steps);
     }
 
     showAside(tag, parameters) {
@@ -103,12 +127,14 @@ export default class XRouter extends XElement {
                 param = (parameters instanceof Array) ? parameters : [parameters];
                 param = '/' + [...param].join('/');
             }
-            this.router.navigate(`${ path }_${ tag }${param}_`);
+            // this.router.navigate(`${ path }_${ tag }${param}_`);
+            this.goTo(`${ path }_${ tag }${param}_`);
         }
     }
 
     hideAside(tag) {
-        this.router.navigate(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
+        // this.router.navigate(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
+        this.goTo(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
     }
 
     _isRoot(path = '') {
