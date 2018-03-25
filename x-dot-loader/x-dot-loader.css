@@ -6,7 +6,7 @@
     height: 0.4em;
     border-radius: 50%;
     /* background: white; */
-    box-shadow: 0.5em 0 #212121;
+    box-shadow: 0.5em 0 #3b3b3b;
     animation: dot-loader-animation 1s ease-in-out 0s infinite;
 }
 
@@ -43,9 +43,9 @@
 }
 
 @keyframes dot-loader-animation {
-    15% { box-shadow: 0.5em -0.2em #212121; }
-    30% { box-shadow: 0.5em 0.2em #212121; }
-    0%, 45%, 100% { box-shadow: 0.5em 0 #212121; }
+    15% { box-shadow: 0.5em -0.2em #3b3b3b; }
+    30% { box-shadow: 0.5em 0.2em #3b3b3b; }
+    0%, 45%, 100% { box-shadow: 0.5em 0 #3b3b3b; }
 }
 
 @keyframes dot-loader-animation-white {
