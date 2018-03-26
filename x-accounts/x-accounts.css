@@ -16,10 +16,10 @@ x-accounts button + button {
 
 @media (max-width: 450px) {
     x-accounts button {
-        width: 41px;
+        width: 41px !important;
     }
 
-    x-accounts button span {
+    x-accounts button [hide-sm] {
         display: none;
     }
 }

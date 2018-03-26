@@ -8,6 +8,20 @@ x-transactions {
     margin-top: -2.8em;
 }
 
+@media (max-width: 400px) {
+    x-transactions button {
+        width: 41px !important;
+    }
+
+    x-transactions button [hide-sm] {
+        display: none;
+    }
+
+    x-transactions button .dot-loader {
+        margin-left: -0.3em !important;
+    }
+}
+
 x-transactions-list {
     display: table;
     width: 100%;

@@ -6,8 +6,8 @@ export default class XAccounts extends XElement {
 
     html() {
         return `
-            <button create class="small secondary" title="Create new account">&plus;<span> Create</span></button>
-            <button import class="small secondary" title="Import your account">&#8615;<span> Import</span></button>
+            <button create class="small secondary" title="Create new account">&plus;<span hide-sm> Create</span></button>
+            <button import class="small secondary" title="Import your account">&#8615;<span hide-sm> Import</span></button>
             <x-accounts-list></x-accounts-list>
             <x-account-modal x-route-aside="account"></x-account-modal>
         `;

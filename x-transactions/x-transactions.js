@@ -10,7 +10,7 @@ import networkClient from '/apps/safe/network-client.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <button refresh class="small secondary" title="Refresh transactions"><span text>&orarr; Refresh</span><span class="dot-loader display-none"></span></button>
+            <button refresh class="small secondary" title="Refresh transactions"><span text>&orarr;<span hide-sm> Refresh</span></span><span class="dot-loader display-none"></span></button>
             <x-transactions-list>
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
