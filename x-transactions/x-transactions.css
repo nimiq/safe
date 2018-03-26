@@ -4,7 +4,8 @@
 x-transactions {
     display: block;
     width: 100%;
-    text-align: center;
+    text-align: right;
+    margin-top: -2.8em;
 }
 
 x-transactions-list {
@@ -12,8 +13,10 @@ x-transactions-list {
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-top: 12px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
     border-top: 1px solid rgba(0, 0, 0, 0.5);
+    text-align: left;
 }
 
 x-transactions-list x-loading-animation {
@@ -62,9 +65,9 @@ x-transaction > * {
 }
 
 x-transaction x-identicon {
-    width: 50px;
+    width: 66px;
     height: 50px;
-    margin-right: 8px;
+    padding: 0 8px;
 }
 
 /* Responsiveness */
@@ -119,6 +122,11 @@ x-transactions-list x-no-content {
 	align-items: center;
 	justify-content: center;
 	height: 100%;
+}
+
+x-paginator {
+    display: block;
+    text-align: center;
 }
 
 x-paginator button {

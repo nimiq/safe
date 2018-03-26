@@ -10,6 +10,7 @@ import networkClient from '/apps/safe/network-client.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
+            <button refresh class="small secondary" title="Refresh transactions"><span text>&orarr; Refresh</span><span class="dot-loader display-none"></span></button>
             <x-transactions-list>
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
@@ -24,12 +25,16 @@ export default class XTransactions extends MixinRedux(XElement) {
     onCreate() {
         this._$transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
+        this.$refresh = this.$('button[refresh]');
+        this.$refreshText = this.$('span[text]');
+        this.$refreshLoader = this.$('span.dot-loader');
         super.onCreate();
     }
 
     listeners() {
         return {
-            'x-transaction-selected': this._onTransactionSelected
+            'x-transaction-selected': this._onTransactionSelected,
+            'click button[refresh]': () => this.requestTransactionHistory()
         }
     }
 
@@ -121,9 +126,11 @@ export default class XTransactions extends MixinRedux(XElement) {
     async requestTransactionHistory(addresses) {
         if (!this.properties.hasAccounts) return;
 
+        this._buttonShowLoader();
         addresses = addresses || this.properties.addresses;
         const transactions = await this._requestTransactionHistory(addresses);
-        this.actions.addTransactions(transactions);
+        transactions.length && this.actions.addTransactions(transactions);
+        this._buttonShowText();
     }
 
     /**
@@ -160,5 +167,17 @@ export default class XTransactions extends MixinRedux(XElement) {
             knownReceipts.set(hash, tx.blockHash);
         }
         return knownReceipts;
+    }
+
+    _buttonShowLoader() {
+        this.$refreshText.classList.add('display-none');
+        this.$refreshLoader.classList.remove('display-none');
+        this.$refresh.disabled = true;
+    }
+
+    _buttonShowText() {
+        this.$refreshText.classList.remove('display-none');
+        this.$refreshLoader.classList.add('display-none');
+        this.$refresh.disabled = false;
     }
 }
