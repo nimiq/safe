@@ -65,6 +65,11 @@ x-transaction:nth-child(8) { animation-delay: 0.7s }
 x-transaction:nth-child(9) { animation-delay: 0.8s }
 x-transaction:nth-child(10){ animation-delay: 0.9s }
 
+x-transactions.no-animation x-transaction {
+    animation: none !important;
+    animation-delay: 0s !important;
+}
+
 x-transaction:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
