@@ -7,8 +7,10 @@ import XExpandable from '../x-expandable/x-expandable.js';
 export default class XSendTransaction extends XElement {
     html() {
         return `
-            <h2>Send Transaction</h2>
-            <form class="x-modal-body">
+            <div class="modal-header">
+                <h2>Send Transaction</h2>
+            </div>
+            <form class="modal-body">
                 <h3>Send from</h3>
                 <x-accounts-dropdown name="sender"></x-accounts-dropdown>
 
@@ -29,12 +31,12 @@ export default class XSendTransaction extends XElement {
                         <div class="row">
                             <x-amount-input name="fee" no-screen-keyboard max-decimals="5"></x-amount-input>
                         </div>
-        
+
                         <h3>Valid from</h3>
                         <div class="row">
                             <input name="validityStartHeight" validity-start placeholder="0" type="number" min="0" step="1">
                         </div>
-                    </div>                
+                    </div>
                 </x-expandable>
 
                 <div class="center row">

@@ -95,10 +95,6 @@ x-transaction-modal {
     max-width: 600px;
 }
 
-x-transaction-modal center {
-    padding-bottom: 1em;
-}
-
 x-transaction-modal x-identicon {
     display: block;
     width: 120px;
