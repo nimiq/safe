@@ -48,7 +48,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                 state.accounts ? state.accounts.entries : false
             ),
             hasTransactions: state.transactions.hasContent,
-            addresses: state.accounts ? [...state.accounts.entries.keys()] : false,
+            addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
             hasAccounts: state.accounts.hasContent
         }
     }
@@ -75,19 +75,15 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.hasAccounts && changes.addresses instanceof Array && !changes.addresses.length) {
+        if (changes.hasAccounts && !this.properties.addresses.length) {
             // Empty state
-            this.addTransactions([]);
+            this.actions.addTransactions([]);
         }
         else if (changes.addresses && !(changes.addresses instanceof Array)) {
             const newAddresses = Object.values(changes.addresses);
             // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
             // Request transaction history for new accounts
-            new Promise(async () => {
-                // Request transaction history
-                const transactions = await this._requestTransactionHistory(newAddresses);
-                this.actions.addTransactions(transactions);
-            });
+            this.requestTransactionHistory(newAddresses);
         }
 
         const { hasTransactions, transactions } = this.properties;
@@ -120,6 +116,17 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     /**
+     * @param {string[]} [addresses]
+     */
+    async requestTransactionHistory(addresses) {
+        if (!this.properties.hasAccounts) return;
+
+        addresses = addresses || this.properties.addresses;
+        const transactions = await this._requestTransactionHistory(addresses);
+        this.actions.addTransactions(transactions);
+    }
+
+    /**
      * @param {object} tx
      */
     addTransaction(tx) {
@@ -149,7 +156,7 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     _generateKnownReceipts() {
         const knownReceipts = new Map();
-        for (const [hash, tx] of this.properties.transactions) {
+        for (const [hash, tx] of MixinRedux.store.getState().transactions.entries) {
             knownReceipts.set(hash, tx.blockHash);
         }
         return knownReceipts;

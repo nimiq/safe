@@ -5,14 +5,16 @@ export const TypeKeys = {
     SET_GLOBAL_HASHRATE: 'network/set-global-hashrate'
 };
 
+export const initialState = {
+    consensus: 'initializing',
+    height: 0,
+    peerCount: 0,
+    globalHashrate: 0
+};
+
 export function reducer(state, action) {
     if (state === undefined) {
-        return {
-            consensus: 'initializing',
-            height: 0,
-            peerCount: 0,
-            globalHashrate: 0
-        }
+        return initialState;
     }
 
     switch (action.type) {
