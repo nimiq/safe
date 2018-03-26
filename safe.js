@@ -42,7 +42,8 @@ class Safe {
 
         this.launch();
 
-        self.onunload = this._persistState.bind(this);
+        // Persist store before closing
+        self.onunload = Store.persist;
     }
 
     async launch() {
@@ -70,29 +71,6 @@ class Safe {
                 res();
             })
         ]);
-    }
-
-    _persistState() {
-        const state = store.getState();
-
-        const transactions = {
-            ...state.transactions,
-            entries: [...state.transactions.entries.entries()]
-        };
-
-        const accounts = {
-            ...state.accounts,
-            entries: [...state.accounts.entries.entries()]
-        };
-
-        const persistentState = {
-            transactions,
-            accounts
-        };
-
-        const stringifiedState = JSON.stringify(persistentState);
-
-        localStorage.setItem('persistedState', stringifiedState);
     }
 
     // todo refactor: move following methods to new class NetworkHandler(?)
@@ -135,5 +113,3 @@ class Safe {
 }
 
 window.safe = new Safe();
-
-// todo persist parts of state on unload
