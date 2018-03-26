@@ -106,6 +106,9 @@ export function setItemsPerPage(itemsPerPage) {
     }
 }
 
-export function _transactionSort(a, b) {
-    return a[1].blockHeight - b[1].blockHeight;
+export function _transactionSort(left, right) {
+    if (!left[1].blockHeight && !right[1].blockHeight) return 0;
+    else if (!left[1].blockHeight) return 1; // sort a after
+    else if (!right[1].blockHeight) return -1; // sort a before
+    else return left[1].blockHeight - right[1].blockHeight;
 }
