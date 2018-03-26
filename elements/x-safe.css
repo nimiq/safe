@@ -38,6 +38,11 @@ nimiq-logo {
     float: right;
 }
 
+.secondary-links a {
+    display: inline-block;
+    margin: 0 0.5em;
+}
+
 x-total-amount {
     display: block;
     font-size: 2.5em;
@@ -57,10 +62,17 @@ x-total-amount {
 
 nav.main {
     float: left;
+    height: 44px;
+}
+
+nav.main a {
+    display: inline-block;
+    margin: 29px 0.5em 0;
 }
 
 nav.actions {
     float: right;
+    margin-right: 0.5em;
 }
 
 x-view-dashboard {

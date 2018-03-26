@@ -12,6 +12,7 @@ import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XSendTransactionPlainConfirmModal from '/elements/x-send-transaction/x-send-transaction-plain-confirm-modal.js';
 import XToast from '/elements/x-toast/x-toast.js';
+import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -24,12 +25,17 @@ export default class XSafe extends MixinRedux(XElement) {
                     </div>
                     <nav class="secondary-links">
                         <a href="https://nimiq.com">Homepage</a>
+                        <a href="https://medium.com/nimiq-network">Blog</a>
                         <a href="https://nimiq.com/explorer">Explorer</a>
                     </nav>
                 </div>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom">
-                    <nav class="main"></nav>
+                    <nav class="main">
+                        <a href="#">Dashboard</a>
+                        <a href="#transactions">Transactions</a>
+                        <!-- <a href="settings">Settings</a> -->
+                    </nav>
                     <nav class="actions">
                         <button class="small" new-tx>New Tx</button>
                         <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
@@ -37,13 +43,10 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
             </header>
             <section class="content nimiq-dark">
-                <x-import-file x-route="import-from-file"> Import via backup file</x-import-file>
-                <main x-route="sign"> New Transaction</main>
-                <main x-route="vesting"> Vesting contracts</main>
                 <x-view-dashboard x-route="">
                     <x-card>
                         <h2>Recent Transactions</h2>
-                        <x-transactions></x-transactions>
+                        <x-transactions only-recent></x-transactions>
                     </x-card>
                     <x-card style="max-width: 512px;">
                         <h2>Your Accounts</h2>
@@ -54,8 +57,15 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
-                <x-view-transactions x-route="transactions"></x-view-transactions>
+                <x-view-transactions x-route="transactions">
+                    <x-card>
+                        <h2>Transactions</h2>
+                        <x-transactions></x-transactions>
+                    </x-card>
+                </x-view-transactions>
                 <x-view-settings x-route="settings"></x-view-settings>
+
+                <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
@@ -72,7 +82,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XRouter,
             XAccounts,
             XTransactions,
-            XNetworkIndicator
+            XNetworkIndicator,
+            XTransactionModal
         ];
     }
 
@@ -96,7 +107,7 @@ export default class XSafe extends MixinRedux(XElement) {
     onCreate() {
         // Trigger history update when state loaded from persistedState
         // (request is aborted in function when no accounts exist)
-        this.$transactions.requestTransactionHistory();
+        this.$transactions[0].requestTransactionHistory();
     }
 
     static mapStateToProps(state) {
