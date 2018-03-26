@@ -57,10 +57,10 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-transactions x-route="transactions"></x-view-transactions>
                 <x-view-settings x-route="settings"></x-view-settings>
             </section>
-            <x-router debug="true"></x-router>
-            <footer class="nimiq-dark>
+            <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
             </footer>
+            <x-router debug="true"></x-router>
             `
     }
 
