@@ -71,7 +71,7 @@ export default class XElement {
     get attributes() {
         const map = {};
         for (const attribute of this.$el.attributes) {
-            map[XElement.camelize(attribute.name)] = attribute.value;
+            map[XElement.camelize(attribute.name)] = attribute.value || true;
         }
         return map;
     }
