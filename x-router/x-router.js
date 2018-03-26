@@ -137,6 +137,10 @@ export default class XRouter extends XElement {
         this.goTo(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
     }
 
+    get goingBackwards() {
+        return this.reverse;
+    }
+
     _isRoot(path = '') {
         return ['', '/', '_root'].includes(path.trim());
     }
