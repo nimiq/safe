@@ -48,7 +48,7 @@ export default class XSendTransactionOfflineModal extends MixinModal(XElement) {
         this.$textarea.value = this._txString;
     }
 
-    _onBeforeHide() {
+    allowsHide() {
         return this._sent || confirm("Close the transaction window?");
     }
 }

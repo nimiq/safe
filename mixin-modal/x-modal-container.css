@@ -1,0 +1,20 @@
+x-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+    padding: 64px 0;
+}
+
+x-modal-container > * {
+    animation-duration: .4s !important;
+    animation-fill-mode: both;
+}
