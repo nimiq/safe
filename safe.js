@@ -43,7 +43,9 @@ class Safe {
         this.launch();
 
         // Persist store before closing
-        self.onunload = Store.persist;
+        self.onunload = () => {
+            if (!window.skipPersistingState) Store.persist();
+        }
     }
 
     async launch() {
