@@ -32,9 +32,9 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom">
                     <nav class="main">
-                        <a href="#">Dashboard</a>
-                        <a href="#transactions">Transactions</a>
-                        <!-- <a href="settings">Settings</a> -->
+                        <a x-href="">Dashboard</a>
+                        <a x-href="transactions">Transactions</a>
+                        <!-- <a x-href="settings">Settings</a> -->
                     </nav>
                     <nav class="actions">
                         <button class="small" new-tx>New Tx</button>
