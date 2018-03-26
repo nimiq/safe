@@ -8,6 +8,7 @@ export const TypeKeys = {
 export const initialState = {
     consensus: 'initializing',
     height: 0,
+    oldHeight: 0,
     peerCount: 0,
     globalHashrate: 0
 };
