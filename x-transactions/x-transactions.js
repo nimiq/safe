@@ -53,6 +53,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             ),
             hasTransactions: state.transactions.hasContent,
             addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
+            hasAccounts: state.accounts.hasContent,
             lastKnownHeight: state.network.height
         }
     }
