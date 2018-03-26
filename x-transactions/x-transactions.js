@@ -38,7 +38,6 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
-
     static get actions() { return { addTransactions } }
 
     static mapStateToProps(state) {
@@ -54,7 +53,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             ),
             hasTransactions: state.transactions.hasContent,
             addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
-            hasAccounts: state.accounts.hasContent
+            lastKnownHeight: state.network.height
         }
     }
 
@@ -158,7 +157,10 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     async _requestTransactionHistory(addresses) {
         const knownReceipts = this._generateKnownReceipts();
-        return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts);
+
+        const height = this.properties.lastKnownHeight - 10;
+
+        return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts, height);
     }
 
     _generateKnownReceipts() {

@@ -81,6 +81,7 @@ export default class XPaginator extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
+        // todo think about that code. Should be either simplified or really use change information.
         const page = changes.page || this.properties.page;
         const totalPages = changes.totalPages || this.properties.totalPages;
 

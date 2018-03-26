@@ -33,11 +33,20 @@ export function reducer(state, action) {
             };
 
         case TypeKeys.SET_ALL_KEYS:
+            const newEntries = action.keys.filter(x => !state.entries.has(x.address)).map(x => ({
+                ...x,
+                balance: undefined
+            }));
+
+            const oldEntries = [...state.entries.values()];
+
+            const merged = [...newEntries, ... oldEntries];
+
             return {
                 ...state,
                 hasContent: true,
                 // convert array to map with address as key
-                entries: new Map(action.keys.map(x => [x.address, { ...x, balance: undefined } ]))
+                entries: new Map(merged.map(x => [ x.address, x ]))
             };
 
         case TypeKeys.UPDATE_BALANCES: {
@@ -82,7 +91,7 @@ export function addAccount(key) {
 
 export function setAllKeys(keys) {
     return async dispatch => {
-        // when adding a new account, subscribe at network
+        // when adding a new account, subscribe at network.
         const { rpcClient } = await networkClient;
         rpcClient.subscribe(keys.map(key => key.address));
 
