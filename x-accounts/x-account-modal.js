@@ -1,7 +1,7 @@
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
-import store from '/apps/safe/store.js';
-import XAmount from '../x-amount/x-amount.js';
+import XAmount from '/elements/x-amount/x-amount.js';
+import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -127,7 +127,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
     onEntry(address) {
         address = this._dashToSpace(address);
 
-        let account = store.getState().accounts.entries.get(address);
+        let account = MixinRedux.store.getState().accounts.entries.get(address);
         if (!account) account = { address };
         this.account = account;
         super.onEntry();

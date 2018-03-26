@@ -1,6 +1,6 @@
 import XSendTransaction from './x-send-transaction.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import store from '/apps/safe/store.js';
+import MixinRedux from '../mixin-redux/mixin-redux.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
     onCreate() {
@@ -11,7 +11,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     onEntry(address) {
         if (address) {
             address = this._dashToSpace(address);
-            let account = store.getState().accounts.entries.get(address);
+            let account = MixinRedux.store.getState().accounts.entries.get(address);
             if (!account) account = { address };
             this.setSelectedSender(account);
         }

@@ -27,6 +27,16 @@ const MixinRedux = XElementBase => class extends XElementBase {
         }
     }
 
+    // setProperties(props, reset) {
+    //     let newProps = {...this.properties, props};
+
+    //     if (mapStateToProps.length > 1) {
+    //         newProps = mapStateToProps(store.getState(), newProps);
+    //     }
+
+    //     super.setProperties(newProps, reset);
+    // }
+
     destroy() {
         super.destroy();
 
