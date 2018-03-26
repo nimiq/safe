@@ -60,7 +60,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-transactions x-route="transactions">
                     <x-card>
                         <h2>Transactions</h2>
-                        <x-transactions></x-transactions>
+                        <x-transactions class="no-animation"></x-transactions>
                     </x-card>
                 </x-view-transactions>
                 <x-view-settings x-route="settings"></x-view-settings>
