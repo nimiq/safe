@@ -61,6 +61,7 @@ export default class XPasswordSetter extends XElement {
     wrongPassphrase(set = true) {
         this.$el.classList.toggle('wrong', set);
         this.$button.disabled = set;
+        this.focus();
     }
 
     _onPasswordUpdate(password) {
