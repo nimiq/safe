@@ -16,22 +16,21 @@ export class Store {
             return configureStore();
         }
 
-        const persistedState = JSON.parse(stringifiedState);
+        let persistedState = JSON.parse(stringifiedState);
 
-        const transactions = new Map(persistedState.transactions);
-        const accounts = new Map(persistedState.accounts);
-
-        const initialState = {
+        persistedState = {
+            ...persistedState,
             transactions: {
-                entries: transactions,
-                hasContent: true
+                ...persistedState.transactions,
+                entries: new Map(persistedState.transactions.entries)
             },
             accounts: {
-                entries: accounts
+                ...persistedState.accounts,
+                entries: new Map(persistedState.accounts.entries)
             }
         };
 
-        return configureStore(initialState);
+        return configureStore(persistedState);
     }
 }
 

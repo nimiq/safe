@@ -75,9 +75,15 @@ class Safe {
     _persistState() {
         const state = store.getState();
 
-        const transactions = [...state.transactions.entries.entries()];
+        const transactions = {
+            ...state.transactions,
+            entries: [...state.transactions.entries.entries()]
+        };
 
-        const accounts = [...state.accounts.entries.entries()];
+        const accounts = {
+            ...state.accounts,
+            entries: [...state.accounts.entries.entries()]
+        };
 
         const persistentState = {
             transactions,
