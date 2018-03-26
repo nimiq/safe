@@ -93,6 +93,12 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
+    onCreate() {
+        // Trigger history update when state loaded from persistedState
+        // (request is aborted in function when no accounts exist)
+        this.$transactions.requestTransactionHistory();
+    }
+
     static mapStateToProps(state) {
         return {
             height: state.network.height
