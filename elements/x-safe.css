@@ -44,6 +44,12 @@ x-total-amount {
     margin: 0.5em auto;
 }
 
+@media (max-width: 480px) {
+    x-total-amount {
+        font-size: 2em;
+    }
+}
+
 .header-bottom {
     overflow: auto;
     padding: 0.5em;
