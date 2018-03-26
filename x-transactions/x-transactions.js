@@ -16,7 +16,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
             <x-paginator store-path="transactions"></x-paginator>
-            <a secondary href="#transactions" class="display-none">View more</a>
+            <a secondary x-href="transactions" class="display-none">View more</a>
         `
     }
 
