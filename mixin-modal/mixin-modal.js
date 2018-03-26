@@ -26,12 +26,12 @@ class XModalContainer extends MixinSingleton(XElement) {
             this._visibleModal.hide();
             waitTime = XModalContainer.ANIMATION_TIME;
         }
-        if (this._visibleModal !== null) {
-            // previous modal refused to hide
-            return false;
-        }
-        if (modal._onShow) modal._onShow();
         setTimeout(() => {
+            if (this._visibleModal !== null) {
+                // previous modal refused to hide
+                return false;
+            }
+            if (modal._onShow) modal._onShow();
             const modalEl = modal.$el;
             modalEl.classList.add('display');
             this.$el.classList.add('display');
