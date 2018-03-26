@@ -175,7 +175,7 @@ x-account-modal .account-icon {
 x-account-modal .account-icon {
     padding: 22px;
     left: calc(50% + 40px);
-    top: 170px;
+    top: 115px;
     background-size: 80%;
 }
 
@@ -218,11 +218,6 @@ x-account-modal .action-buttons button {
     x-account .account-icon {
         left: 72px;
         top: 48px;
-    }
-
-    x-account-modal .account-icon {
-        left: calc(50% + 40px);
-        top: 178px;
     }
 }
 

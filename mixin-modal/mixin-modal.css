@@ -51,13 +51,24 @@ x-modal-container > .visible {
 .modal-header::after {
     content: "";
     height: 3px;
-    background: var(--primary-background-toright);
+    background: var(--primary-background-progress);
+    background-size: 200%;
     display: block;
     margin-top: 16px;
 }
 
+.x-modal.pending .modal-header::after {
+    animation: background-progress 2s linear infinite;
+}
+
+@keyframes background-progress {
+    0%  { background-position: 0% 0 }
+    100%{ background-position: 200% 0 }
+}
+
 .modal-body {
     padding: 16px 32px 24px;
+    position: relative; /* Required for absolute positioning of account icon */
 }
 
 @media (max-width: 480px) {

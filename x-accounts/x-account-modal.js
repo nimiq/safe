@@ -122,6 +122,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
             this.$vestingInfo.classList.add('display-none');
             this.$balanceSection.classList.remove('display-none');
         }
+
+        if (this.properties.label === undefined) this.$el.classList.add('pending'); // Used for gradient animation
+        else this.$el.classList.remove('pending');
     }
 
     onEntry(address) {

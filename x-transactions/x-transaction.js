@@ -56,6 +56,7 @@ export default class XTransaction extends MixinRedux(XElement) {
                 continue;
             }
 
+            // Doesn't need to be in else{}, because of 'continue' statement above
             switch (prop) {
                 case 'timestamp':
                     this.$timestamp.textContent = 'pending...';
@@ -69,6 +70,9 @@ export default class XTransaction extends MixinRedux(XElement) {
                     break;
             }
         }
+
+        if (!this.properties.timestamp) this.$el.classList.add('pending'); // Used for gradient animation
+        else this.$el.classList.remove('pending');
     }
 
     set sender(address) {
