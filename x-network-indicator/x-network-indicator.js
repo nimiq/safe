@@ -4,6 +4,7 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {
         return `
+            <hr>
             <div><label>Consensus</label> <strong consensus></strong></div>
             <div><label>Height</label> <strong height></strong></div>
             <div><label>Peer count</label> <strong peerCount></strong></div>

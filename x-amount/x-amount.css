@@ -64,3 +64,9 @@ x-amount[display] .rest-decimals,
 x-amount[display] label {
     font-size: 0.5em;
 }
+
+@media (max-width: 480px) {
+    x-amount .rest-decimals {
+        display: none;
+    }
+}

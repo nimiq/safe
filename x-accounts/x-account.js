@@ -103,7 +103,7 @@ export default class XAccount extends MixinRedux(XElement) {
 
     set account(account) {
         // Preserve height property through hard setting
-        account.height = this.properties.height;
+        if (!account.height) account.height = this.properties.height;
 
         this.setProperties(account, true);
     }

@@ -24,10 +24,17 @@ x-transactions-list x-loading-animation {
 x-transaction {
     display: table-row;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     animation: from-right 500ms;
     animation-fill-mode: backwards; /* Apply the animation's opacity: 0 when the animation property is applied */
     cursor: pointer;
+}
+
+x-transaction > * {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+x-transaction:last-child > * {
+    border-bottom: none;
 }
 
 x-transaction:nth-child(1) { animation-delay: 0.0s }
@@ -60,6 +67,13 @@ x-transaction x-identicon {
     margin-right: 8px;
 }
 
+/* Responsiveness */
+@media (max-width: 600px) {
+    x-transaction .label {
+        display: none !important;
+    }
+}
+
 x-transaction.incoming .label[recipient],
 x-transaction.outgoing .label[sender],
 x-transaction.transfer .label {
@@ -69,6 +83,26 @@ x-transaction.transfer .label {
 x-transaction x-amount {
     text-align: right;
     font-size: 1.4em;
+}
+
+@media (max-width: 768px) {
+    x-transaction x-amount {
+        font-size: 1.2em;
+    }
+
+    x-transaction x-amount .rest-decimals {
+        display: none;
+    }
+
+    x-transaction x-amount .ticker {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    x-transaction x-amount {
+        font-size: 1.1em;
+    }
 }
 
 /* Responsiveness */

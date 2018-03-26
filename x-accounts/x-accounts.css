@@ -14,6 +14,16 @@ x-accounts button + button {
     margin-left: 1em;
 }
 
+@media (max-width: 450px) {
+    x-accounts button {
+        width: 41px;
+    }
+
+    x-accounts button span {
+        display: none;
+    }
+}
+
 x-accounts-list {
 	display: flex;
     width: 100%;
@@ -164,8 +174,8 @@ x-account-modal .account-icon {
 
 x-account-modal .account-icon {
     padding: 22px;
-    left: calc(50% + 38px);
-    top: 154px;
+    left: calc(50% + 40px);
+    top: 170px;
     background-size: 80%;
 }
 
@@ -188,11 +198,18 @@ x-account-modal hr {
     background: rgba(0, 0, 0, 0.1);
     height: 1px;
     border: 0;
-    margin-bottom: 1em;
+}
+
+x-account-modal .action-buttons {
+    text-align: center;
+}
+
+x-account-modal .action-buttons button {
+    margin-top: 1em;
 }
 
 /* Responsiveness */
-@media (min-width: 480px) {
+@media (min-width: 481px) {
     x-account {
         justify-content: center;
         padding: 8px 16px;
@@ -201,6 +218,11 @@ x-account-modal hr {
     x-account .account-icon {
         left: 72px;
         top: 48px;
+    }
+
+    x-account-modal .account-icon {
+        left: calc(50% + 40px);
+        top: 178px;
     }
 }
 
