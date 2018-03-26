@@ -16,11 +16,11 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
             <x-paginator store-path="transactions"></x-paginator>
-            <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
+            <a secondary href="#transactions" class="display-none">View more</a>
         `
     }
 
-    children() { return [ XPaginator, XTransactionModal ] }
+    children() { return [ XPaginator ] }
 
     onCreate() {
         this._$transactions = new Map();
@@ -28,6 +28,11 @@ export default class XTransactions extends MixinRedux(XElement) {
         this.$refresh = this.$('button[refresh]');
         this.$refreshText = this.$('span[text]');
         this.$refreshLoader = this.$('span.dot-loader');
+        this.properties.onlyRecent = !!this.attributes.onlyRecent;
+        if (this.properties.onlyRecent) {
+            this.$paginator.$el.classList.add('display-none');
+            this.$('a[secondary]').classList.remove('display-none');
+        }
         super.onCreate();
     }
 
@@ -40,13 +45,13 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     static get actions() { return { addTransactions } }
 
-    static mapStateToProps(state) {
+    static mapStateToProps(state, props) {
         return {
             transactions: XTransactions._labelTransactions(
                 XPaginator.getPagedItems(
                     state.transactions.entries,
-                    state.transactions.page,
-                    state.transactions.itemsPerPage,
+                    props.onlyRecent ? 1 : state.transactions.page,
+                    props.onlyRecent ? 5 : state.transactions.itemsPerPage,
                     true
                 ),
                 state.accounts ? state.accounts.entries : false
