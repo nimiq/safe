@@ -55,14 +55,16 @@ export default class XRouter extends XElement {
         for (const element of routeElements) {
             const path = element.attributes['x-route'].value.trim();
             if (this._isRoot(path)) { // root
+                const regex = /^\/?$|^\/?_.*/;
                 this.routes.set('_root', { path, element });
-                this.router.add(() => {
+                this.router.add(regex, () => {
                     this._show('_root');
                 });
             } else {
-                const regex = new RegExp(path[0] == `^\/?${ path }./`);
+                // const regex = new RegExp(path[0] == `^\/?${ path }./`);
+                const regex = new RegExp(`^\/?${ path }.*`);
                 this.routes.set(path, { path, element, regex });
-                this.router.add(path, (params) => {
+                this.router.add(regex, (params) => {
                     this._show(path);
                 });
             }
@@ -81,9 +83,12 @@ export default class XRouter extends XElement {
     hookUpLinks(links) {
         for (const link of links) {
             const path = link.attributes['x-href'].value.trim();
-            link.href = `#${path}`;
+            link.href = `#/${path}`;
             // do we need this? is the above line not enough?
-            link.addEventListener('click', e => this.goTo(path))
+            link.addEventListener('click', e => {
+                this.goTo(path);
+                e.preventDefault();
+            });
         }
     }
 
@@ -158,7 +163,6 @@ export default class XRouter extends XElement {
         this._changeRoute(parsedPath);
         this._checkAsides(hash);
 
-        this._log(`XRouter: /showing ${ parsedPath }, hash = ${ hash }`);
         this.running = false;
     }
 
