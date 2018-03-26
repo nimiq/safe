@@ -55,7 +55,7 @@ export class Store {
             transactions,
             accounts,
             network: {
-                height: state.network.height
+                oldHeight: state.network.height
             }
         };
 

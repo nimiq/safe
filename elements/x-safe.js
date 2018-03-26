@@ -10,7 +10,7 @@ import XTotalAmount from './x-total-amount.js';
 import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
-import XSendTransactionPlainConfirmModal from '/elements/x-send-transaction/x-send-transaction-plain-confirm-modal.js';
+import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XToast from '/elements/x-toast/x-toast.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 
@@ -79,7 +79,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return [
             XTotalAmount,
             XSendTransactionModal,
-            XSendTransactionPlainConfirmModal,
+            XSendTransactionOfflineModal,
             XRouter,
             XAccounts,
             XTransactions,
@@ -109,11 +109,13 @@ export default class XSafe extends MixinRedux(XElement) {
         // Trigger history update when state loaded from persistedState
         // (request is aborted in function when no accounts exist)
         this.$transactions[0].requestTransactionHistory();
+        super.onCreate();
     }
 
     static mapStateToProps(state) {
         return {
-            height: state.network.height
+            height: state.network.height,
+            consensus: state.network.consensus
         }
     }
 
@@ -127,16 +129,31 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     async _signTransaction(tx) {
+        // To allow for airgapped transaction creation, the validityStartHeight needs
+        // to be allowed to be set by the user. Thus we need to parse what the user
+        // put in and react accordingly.
+
+        const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
+        console.log(tx, setValidityStartHeight);
+
+        if (isNaN(setValidityStartHeight) && !this.properties.height) {
+            XToast.show('Consensus not yet established, please try again in a few seconds.');
+            return;
+        }
+
         tx.value = Number(tx.value);
         tx.fee = Number(tx.fee) || 0;
-        tx.validityStartHeight = parseInt(tx.validityStartHeight) || this.properties.height;
+        tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
 
         const signedTx = await (await accountManager).sign(tx);
 
-        // Show textform TX to the user and require explicit click on the "SEND NOW" button
-        XSendTransactionPlainConfirmModal.instance.transaction = signedTx;
-        XSendTransactionPlainConfirmModal.show();
+        if (this.properties.consensus !== 'established') {
+            XSendTransactionOfflineModal.instance.transaction = signedTx;
+            XSendTransactionOfflineModal.show();
+        } else {
+            this._sendTransactionNow(signedTx);
+        }
     }
 
     async _sendTransactionNow(signedTx) {
@@ -147,13 +164,16 @@ export default class XSafe extends MixinRedux(XElement) {
             await network.relayTransaction(signedTx);
         } catch(e) {
             XToast.show(e.message);
+
+            XSendTransactionOfflineModal.instance.transaction = signedTx;
+            XSendTransactionOfflineModal.show();
             return;
         }
 
-        XSendTransactionPlainConfirmModal.instance.sent();
-        XSendTransactionPlainConfirmModal.hide();
+        XSendTransactionModal.hide();
+        XSendTransactionOfflineModal.hide();
 
-        XToast.show('Sent transaction');
+        XToast.show('Transaction sent!');
     }
 }
 
