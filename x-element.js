@@ -63,6 +63,8 @@ export default class XElement {
         }
 
         this.__removeListeners();
+
+        XElement.elementMap.delete(this);
     }
 
     /* Get attributes from DOM element - for use with deconstructors */
@@ -85,7 +87,10 @@ export default class XElement {
     /* Overwrite this to listen on property changes */
     _onPropertiesChanged() { }
 
-    /* Set single property and call onPropertyChanged after, if present */
+    /** Set single property and call onPropertyChanged after, if present.
+     *
+     *  @return {boolean} true if there was a change
+     */
     setProperty(key, value) {
         const oldProperty = this._properties[key];
         const delta = diff(oldProperty, value);
@@ -93,10 +98,16 @@ export default class XElement {
         if (!isObject(delta) || Object.keys(delta).length > 0) {
             this._properties[key] = value;
             this._onPropertiesChanged({ [key]: delta });
+            return true;
         }
+
+        return false;
     }
 
-    /* Set some propertes and call onPropertyChanged after, if present */
+    /** Set some propertes and call onPropertyChanged after, if present
+     *
+     *  @return {boolean} true if there was a change
+     */
     setProperties(properties, reset) {
         const oldProperties = this._properties;
 
@@ -109,7 +120,10 @@ export default class XElement {
 
         if (Object.keys(changes).length > 0) {
             this._onPropertiesChanged(changes);
+            return true;
         }
+
+        return false;
     }
 
     __createChildren() { // Create all children recursively
