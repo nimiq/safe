@@ -13,6 +13,7 @@ export default class XInput extends XElement {
         this.$form = this.$('form');
         if (this.$form) this.$form.addEventListener('submit', e => this._onSubmit(e));
         this._autoSubmit = this.$el.hasAttribute('auto-submit');
+        this._oldValue = this.$input.value;
     }
 
     get value() {
@@ -20,9 +21,9 @@ export default class XInput extends XElement {
     }
 
     set value(value) {
-        const oldValue = this.$input.value;
+        this._oldValue = this.$input.value;
         this.$input.value = value;
-        if (value !== oldValue) this._onValueChanged();
+        if (value !== this._oldValue) this._onValueChanged();
     }
 
     _onSubmit(e) {
@@ -32,6 +33,8 @@ export default class XInput extends XElement {
     }
 
     __onValueChanged(e) {
+        if (this._oldValue === this.$input.value) return;
+        this._oldValue = this.$input.value;
         if (this._autosubmit) this._submit();
         this._onValueChanged(e);
         this._notifyValidity();
