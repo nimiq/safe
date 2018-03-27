@@ -18,6 +18,10 @@
     text-align: center;
 }
 
+.modal-header h2 {
+    padding: 0 32px;
+}
+
 .modal-header::after {
     content: "";
     height: 3px;
@@ -48,6 +52,10 @@
 
     .modal-header {
         padding-top: 12px;
+    }
+
+    .modal-header h2 {
+        padding: 0 16px;
     }
 
     .modal-header::after {
