@@ -11,8 +11,7 @@ export default class XRouter extends XElement {
         this.reverse = false;
         this.routing = false;
         this.running = false;
-        const recoveredState = window.history.state ? window.history.state.path : null;
-        this.history = recoveredState ? [ recoveredState ] : [];
+        this.history = [];
 
         let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
         if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
@@ -26,15 +25,26 @@ export default class XRouter extends XElement {
         if (!XRouter.root) XRouter.root = window.xRouter = this;
         this.router = new Router({ debug: false, startListening: false });
 
+        let state = 1; // first time, there is no 'previous' element
         this.addEventListener('animationend', e => {
             if (!this.routing) return;
-            this.routing = false;
-            this._toggleInOut(this.previous, false, false);
-            this._setClass(this.previous, this.CSS_HIDDEN, true);
-            this._toggleInOut(this.current, false, false);
-            this._setClass(this.current, this.CSS_SHOW, true);
-            this._doCallback(this.previous, 'onExit');
-            this._doCallback(this.current, 'onAfterEntry');
+            const xElement = XElement.get(e.target);
+            if (e.target == this.current.element) {
+                this._toggleInOut(this.current, false, false);
+                this._setClass(this.current, this.CSS_SHOW, true);
+                this._doCallback(this.current, 'onAfterEntry');
+                state++;
+            }
+            if (this.previous && e.target == this.previous.element) {
+                this._toggleInOut(this.previous, false, false);
+                this._setClass(this.previous, this.CSS_HIDDEN, true);
+                this._doCallback(this.previous, 'onExit');
+                state++;
+            }
+            if (state == 2) {
+                state = 0;
+                this.routing = false;
+            }
         });
 
         // X-router is just an element of page, so the initialization of x-router happens before all the siblings
@@ -54,6 +64,7 @@ export default class XRouter extends XElement {
         this.routes = new Map();
         for (const element of routeElements) {
             const path = element.attributes['x-route'].value.trim();
+            // TODO [sven] store x-element?
             if (this._isRoot(path)) { // root
                 const regex = /^\/?$|^\/?_.*/;
                 this.routes.set('_root', { path, element });
@@ -61,7 +72,6 @@ export default class XRouter extends XElement {
                     this._show('_root');
                 });
             } else {
-                // const regex = new RegExp(path[0] == `^\/?${ path }./`);
                 const regex = new RegExp(`^\/?${ path }.*`);
                 this.routes.set(path, { path, element, regex });
                 this.router.add(regex, (params) => {
@@ -138,7 +148,6 @@ export default class XRouter extends XElement {
     }
 
     hideAside(tag) {
-        // this.router.navigate(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
         this.goTo(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
     }
 
@@ -167,15 +176,23 @@ export default class XRouter extends XElement {
     }
 
     _changeRoute(path) {
-        if (path === this.current) return;
-        this.reverse = path == this.previous;
-        [ this.previous, this.current ] = [ this.current, path ];
-        this._toggleInOut(this.previous, false)
-        this._setClass(this.previous, this.CSS_SHOW, false);
+        if (this.current && path === this.current.path) return;
+        // TODO keep following line? is there a more generic way?
+        // this.reverse = path == this.previous;
+        [ this.previous, this.current ] = [ this.current, this.routes.get(path) ];
+
+        if (this.previous) {
+            this._toggleInOut(this.previous, false)
+            this._setClass(this.previous, this.CSS_SHOW, false);
+            this._doRouteCallback(this.previous, 'onBeforeExit');
+            this.previous.element.classList.remove('current');
+        }
+
         this._toggleInOut(this.current, true);
         this._setClass(this.current, this.CSS_HIDDEN, false);
-        this._doRouteCallback(this.previous, 'onBeforeExit');
         this._doRouteCallback(this.current, 'onEntry');
+        this.current.element.classList.add('current');
+
         this.routing = true;
     }
 
@@ -196,9 +213,10 @@ export default class XRouter extends XElement {
         }
     }
 
-    _doRouteCallback(path, name, args = []) {
-        if (!path) return;
-        this._doCallback(this.routes.get(path).element, name, args);
+    _doRouteCallback(route, name, args = []) {
+        // if (!route) return;
+        if (!route) throw `XRouter: no route!`;
+        this._doCallback(route.element, name, args);
     }
 
     _doCallback(el, name, args = []) {
@@ -211,16 +229,16 @@ export default class XRouter extends XElement {
         } else console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
     }
 
-    _toggleInOut(path, setIn, setOut = !setIn) {
-        this._setClass(path, this.CSS_IN, setIn && !this.reverse);
-        this._setClass(path, this.CSS_IN_REVERSE, setIn && this.reverse);
-        this._setClass(path, this.CSS_OUT, setOut && !this.reverse);
-        this._setClass(path, this.CSS_OUT_REVERSE, setOut && this.reverse);
+    _toggleInOut(route, setIn, setOut = !setIn) {
+        this._setClass(route, this.CSS_IN, setIn && !this.reverse);
+        this._setClass(route, this.CSS_IN_REVERSE, setIn && this.reverse);
+        this._setClass(route, this.CSS_OUT, setOut && !this.reverse);
+        this._setClass(route, this.CSS_OUT_REVERSE, setOut && this.reverse);
     }
 
-    _setClass(path, css, on) {
-        const route = this.routes.get(path)
+    _setClass(route, css, on) {
         if (route) route.element.classList.toggle(css, on);
+        else throw `XRouter: no route!`;
     }
 
     _log(...args) {
