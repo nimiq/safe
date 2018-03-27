@@ -114,6 +114,10 @@ export default class XSafe extends MixinRedux(XElement) {
         if (changes.accountsInitialized && !this.properties.accountsPresent) {
             this.$welcomeModal.show();
         }
+
+        if (changes.accountsPresent) {
+            this.$welcomeModal.hide();
+        }
     }
 
     listeners() {
