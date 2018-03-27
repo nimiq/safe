@@ -89,12 +89,11 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
     }
 
-    onEntry(hash) {
+    onShow(hash) {
         hash = decodeURIComponent(hash);
 
         let transaction = MixinRedux.store.getState().transactions.entries.get(hash);
         if (!transaction) transaction = { hash };
         this.transaction = transaction;
-        super.onEntry();
     }
 }

@@ -8,7 +8,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         this.$addressInput.placeholderColor = 'black';
     }
 
-    onEntry(...params) {
+    onShow(...params) {
         params = this._parseRouterParams(params);
 
         if (params.sender) {
@@ -22,7 +22,6 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
             params.recipient = this._dashToSpace(params.recipient);
             this.recipient = params.recipient;
         }
-        super.onEntry();
     }
 
     _parseRouterParams(params) {

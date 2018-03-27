@@ -11,11 +11,11 @@ export default class XModals extends MixinSingleton(XElement) {
         this._switchHistory = [];
     }
 
-    static show(modal) {
-        this.instance._show(modal);
+    static show(modal, ...parameters) {
+        this.instance._show(modal, ...parameters);
     }
 
-    _show(modal) {
+    _show(modal, ...parameters) {
         if (modal === null || modal === this._visibleModal || !modal.allowsShow()
             || (this._visibleModal && !this._visibleModal.allowsHide())) return;
         clearTimeout(this._hideTimer);
@@ -49,8 +49,8 @@ export default class XModals extends MixinSingleton(XElement) {
             } else {
                 this._switchHistory.push(modal);
             }
+            modal.onShow(...parameters);
             modal.container.animateShow(this._isSwitchingModal, this._isSwitchingBack);
-            modal.onShow();
             this._isSwitchingModal = false;
             this._isSwitchingBack = false;
         }, 20);

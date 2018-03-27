@@ -127,13 +127,12 @@ export default class XAccountModal extends MixinModal(XAccount) {
         else this.$el.classList.remove('pending');
     }
 
-    onEntry(address) {
+    onShow(address) {
         address = this._dashToSpace(address);
 
         let account = MixinRedux.store.getState().accounts.entries.get(address);
         if (!account) account = { address };
         this.account = account;
-        super.onEntry();
     }
 
     _dashToSpace(string) {

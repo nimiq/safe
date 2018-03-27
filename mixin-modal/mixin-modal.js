@@ -16,17 +16,17 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         return [ ...super.styles(), 'x-modal', 'nimiq-dark' ];
     }
 
-    static show(parameters) {
-        this.instance.show(parameters);
+    static show(...parameters) {
+        this.instance.show(...parameters);
     }
 
-    show(parameters) {
+    show(...parameters) {
         if (this.isVisible() || !this.allowsShow()) return;
         if (this._route) {
             // let the router trigger the show
-            XRouter.root.showAside(this._route, parameters);
+            XRouter.root.showAside(this._route, ...parameters);
         } else {
-            XModals.show(this);
+            XModals.show(this, ...parameters);
         }
     }
 
@@ -52,7 +52,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         return true;
     }
 
-    onShow() {
+    onShow(...parameters) {
         // abstract method
     }
 
@@ -65,8 +65,8 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     // callbacks for router
-    onEntry() {
-        XModals.show(this);
+    onEntry(...parameters) {
+        XModals.show(this, ...parameters);
     }
 
     onExit() {
