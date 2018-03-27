@@ -47,9 +47,9 @@ export default class XRouter extends XElement {
             }
         });
 
-        // X-router is just an element of page, so the initialization of x-router happens before all the siblings
+        // X-router is just an element of page, so the initialization of x-router may happen before all the siblings
         // are initialized by x-element. Thus, leaving the current process to make sure all initialization is done.
-        setTimeout(e => this._initialize(), 1);
+        requestAnimationFrame(() => this._initialize());
     }
 
     _initialize() {
@@ -160,7 +160,7 @@ export default class XRouter extends XElement {
     async _show(orgPath) {
         const path = this._sanitizePath(orgPath);
         if (this.running) {
-            return setTimeout(_ => this._show(path), 1);
+            return requestAnimationFrame(() => this._show(path));
         }
         this.running = true;
 
