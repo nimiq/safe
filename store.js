@@ -19,21 +19,18 @@ export class Store {
 
         let persistedState = JSON.parse(stringifiedState);
 
-        persistedState = {
-            ...persistedState,
-            transactions: {
-                ...persistedState.transactions,
-                entries: new Map(persistedState.transactions.entries)
-            },
-            accounts: {
-                ...persistedState.accounts,
-                entries: new Map(persistedState.accounts.entries)
-            },
-            network: {
-                ...initialNetworkState,
-                ...persistedState.network
+        persistedState = Object.assign({},
+            persistedState,
+            {
+                transactions: Object.assign({}, persistedState.transactions, {
+                    entries: new Map(persistedState.transactions.entries)
+                }),
+                accounts: Object.assign({}, persistedState.accounts, {
+                    entries: new Map(persistedState.accounts.entries)
+                }),
+                network: Object.assign({}, initialNetworkState, persistedState.network)
             }
-        };
+        );
 
         return configureStore(persistedState);
     }
@@ -41,15 +38,15 @@ export class Store {
     static persist() {
         const state = Store.instance.getState();
 
-        const transactions = {
-            ...state.transactions,
-            entries: [...state.transactions.entries.entries()]
-        };
+        const transactions = Object.assign({},
+            state.transactions,
+            { entries: [...state.transactions.entries.entries()] }
+        );
 
-        const accounts = {
-            ...state.accounts,
-            entries: [...state.accounts.entries.entries()]
-        };
+        const accounts =  Object.assign({},
+            state.accounts,
+            { entries: [...state.accounts.entries.entries()] }
+        );
 
         const persistentState = {
             transactions,
