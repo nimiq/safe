@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import Clipboard from '/libraries/nimiq-utils/clipboard/clipboard.js';
 import XToast from '../x-toast/x-toast.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XAddress extends XElement {
     styles() { return ['x-address'] }
@@ -17,6 +18,10 @@ export default class XAddress extends XElement {
     }
 
     set address(address) {
-        this.$el.textContent = address;
+        if (NanoApi.validateAddress(address)) {
+            this.$el.textContent = address;
+        } else {
+            this.$el.textContent = '';
+        }
     }
 }

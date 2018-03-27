@@ -64,8 +64,8 @@ export default class XSendTransaction extends XElement {
         }
     }
 
-    set sender(account) {
-        this.$accountsDropdown.selectedAccount = account;
+    set sender(accountOrAddress) {
+        this.$accountsDropdown.selectedAccount = accountOrAddress;
     }
 
     set recipient(address) {
@@ -96,4 +96,3 @@ export default class XSendTransaction extends XElement {
 // TODO make validity start a slider
 // TODO check balance
 // TODO offer to create account when no account available
-// TODO replace amount input by x-amount-input
