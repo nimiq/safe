@@ -46,6 +46,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$confirmations = this.$('div.confirmations');
         this.$fee = this.$('div.fee');
         super.onCreate();
+        this.$senderIdenticon.placeholderColor = '#bbb';
+        this.$recipientIdenticon.placeholderColor = '#bbb';
     }
 
     set sender(address) {
