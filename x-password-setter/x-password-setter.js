@@ -32,11 +32,11 @@ export default class XPasswordSetter extends XElement {
     }
 
     focus() {
-        this.$passwordInput[0].focus();
+        this.$passwordInput.focus();
     }
 
     get value() {
-        return this.$passwordInput[0].value;
+        return this.$passwordInput.value;
     }
 
     _onPasswordUpdate(password) {
