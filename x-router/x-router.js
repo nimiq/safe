@@ -226,7 +226,10 @@ export default class XRouter extends XElement {
     }
 
     _doRouteCallback(route, name, args = []) {
-        if (!route) throw `XRouter: no route!`;
+        if (!route) {
+            throw new Error('XRouter: no route!');
+        }
+
         this._doCallback(route.element, name, args);
     }
 
@@ -248,8 +251,11 @@ export default class XRouter extends XElement {
     }
 
     _setClass(route, css, on) {
-        if (route) route.element.classList.toggle(css, on);
-        else throw `XRouter: no route!`;
+        if (route) {
+            route.element.classList.toggle(css, on);
+        } else {
+            throw new Error('XRouter: no route!');
+        }
     }
 
     _log(...args) {
