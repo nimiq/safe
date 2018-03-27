@@ -14,7 +14,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
                     <x-account></x-account>
                 </div>
                 <div expandable-content>
-                    <x-accounts-list></x-accounts-list>
+                    <x-accounts-list no-vesting></x-accounts-list>
                 </div>
             </x-expandable>
             <input type="hidden">

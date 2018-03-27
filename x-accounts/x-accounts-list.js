@@ -57,6 +57,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
      * @param {object} account
      */
     _addAccountEntry(account) {
+        if (this.attributes.noVesting && account.type === 4) return; // Do not list vesting accounts
         const accountEntry = this._createAccountEntry(account);
         this._accountEntries.set(account.address, accountEntry);
         this.$el.appendChild(accountEntry.$el);
