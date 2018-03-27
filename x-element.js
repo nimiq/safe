@@ -111,10 +111,10 @@ export default class XElement {
     setProperties(properties, reset) {
         const oldProperties = this._properties;
 
-        this._properties = {
-            ...(reset ? {} : this._properties),
-            ...properties
-        };
+        this._properties = Object.assign({},
+            reset ? {} : this._properties,
+            properties
+        );
 
         const changes = diff(oldProperties, this._properties);
 
