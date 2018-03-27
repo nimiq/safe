@@ -15,7 +15,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <x-identicon sender></x-identicon>
                     <div class="label" sender></div>
                     <x-address sender></x-address>
-                    <div>&#8675;</div>
+                    <div><i class="material-icons">arrow_downward</i></div>
                     <x-identicon recipient></x-identicon>
                     <div class="label" recipient></div>
                     <x-address recipient></x-address>
