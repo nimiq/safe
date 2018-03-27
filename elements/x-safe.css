@@ -84,6 +84,25 @@ x-view-dashboard {
     margin: 0 auto;
 }
 
+.content {
+    position: relative;
+}
+
+.content > [x-route] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+}
+
+.content > [x-route].current {
+    position: static;
+}
+
+a[x-href].current {
+    font-weight: bold;
+}
+
 x-card {
     display: block;
     width: 100%;
