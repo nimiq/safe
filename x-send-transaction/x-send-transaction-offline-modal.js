@@ -38,7 +38,7 @@ export default class XSendTransactionOfflineModal extends MixinModal(XElement) {
         if (typeof tx === 'string') {
             this._txString = tx;
         } else {
-            const clonedTx = { ...tx };
+            const clonedTx = Object.assign({}, tx, {});
             clonedTx.senderPubKey = [...tx.senderPubKey];
             clonedTx.signature = [...tx.signature];
 

@@ -22,19 +22,16 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.ADD_KEY:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 hasContent: true,
                 entries: new Map(state.entries)
-                    .set(action.key.address, {
-                        ...action.key,
+                    .set(action.key.address, Object.assign({}, action.key, {
                         balance: undefined
-                    })
-            };
+                    }))
+            });
 
         case TypeKeys.SET_ALL_KEYS:
-            const newEntries = action.keys.filter(x => !state.entries.has(x.address)).map(x => ({
-                ...x,
+            const newEntries = action.keys.filter(x => !state.entries.has(x.address)).map(x => Object.assign({}, x, {
                 balance: undefined
             }));
 
@@ -42,33 +39,30 @@ export function reducer(state, action) {
 
             const merged = [...newEntries, ... oldEntries];
 
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 hasContent: true,
                 // convert array to map with address as key
                 entries: new Map(merged.map(x => [ x.address, x ]))
-            };
+            });
 
         case TypeKeys.UPDATE_BALANCES: {
             const entries = new Map(state.entries);
             for (const [address, balance] of action.balances) {
-                entries.set(address, {...entries.get(address), balance});
+                entries.set(address, Object.assign({}, entries.get(address), { balance }));
             }
 
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 entries
-            };
+            });
         }
 
         case TypeKeys.UPDATE_LABEL: {
             const entries = new Map(state.entries);
-            entries.set(action.address, {...state.entries.get(action.address), label: action.label});
+            entries.set(action.address, Object.assign({}, state.entries.get(action.address), { label: action.label }));
 
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 entries
-            };
+            });
         }
 
         default:

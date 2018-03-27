@@ -20,28 +20,24 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.SET_CONSENSUS:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 consensus: action.consensus
-            }
+            })
 
         case TypeKeys.SET_HEIGHT:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 height: action.height
-            }
+            })
 
         case TypeKeys.SET_PEER_COUNT:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 peerCount: action.peerCount
-            }
+            })
 
         case TypeKeys.SET_GLOBAL_HASHRATE:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 globalHashrate: action.globalHashrate
-            }
+            })
 
         default:
             return state

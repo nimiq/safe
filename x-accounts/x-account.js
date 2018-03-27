@@ -36,10 +36,12 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     static mapStateToProps(state, props) {
-        return {
-            ...state.accounts.entries.get(props.address),
-            height: state.network.height
-        }
+        return Object.assign({},
+            state.accounts.entries.get(props.address),
+            {
+                height: state.network.height
+            }
+        )
     }
 
     _onPropertiesChanged(changes) {

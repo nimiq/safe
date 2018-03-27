@@ -26,11 +26,10 @@ export function reducer(state, action) {
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
                     entries.set(tx.hash, tx);
-                    return {
-                        ...state,
+                    return Object.assign({}, state, {
                         entries,
                         hasContent: true
-                    }
+                    });
                 }
             }
 
@@ -38,35 +37,30 @@ export function reducer(state, action) {
             // Sort as array
             entries = new Map([...entries].sort(_transactionSort));
 
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 entries,
                 hasContent: true
-            };
+            });
 
         case TypeKeys.UPDATE_BLOCK:
             const oldEntry = state.entries.get(action.hash);
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 entries: new Map(state.entries)
-                    .set(action.hash, {
-                        ...oldEntry,
+                    .set(action.hash, Object.assign({}, oldEntry, {
                         blockHeight: action.blockHeight,
                         timestamp: action.timestamp
-                    })
-            };
+                    }))
+            });
 
         case TypeKeys.SET_PAGE:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 page: action.page
-            };
+            });
 
         case TypeKeys.SET_ITEMS_PER_PAGE:
-            return {
-                ...state,
+            return Object.assign({}, state, {
                 itemsPerPage: action.itemsPerPage
-            };
+            });
 
         default:
             return state
