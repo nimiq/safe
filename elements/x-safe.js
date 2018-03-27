@@ -25,8 +25,8 @@ export default class XSafe extends MixinRedux(XElement) {
                     </div>
                     <nav class="secondary-links">
                         <a href="https://nimiq.com">Homepage</a>
-                        <a href="https://medium.com/nimiq-network">Blog</a>
-                        <a href="https://nimiq.com/explorer">Explorer</a>
+                        <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
+                        <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
                     </nav>
                 </div>
                 <x-total-amount></x-total-amount>
