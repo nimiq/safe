@@ -35,6 +35,14 @@ x-transaction > * {
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+x-transaction > *:first-child {
+    padding-left: 8px;
+}
+
+x-transaction > *:last-child {
+    padding-right: 8px;
+}
+
 x-transaction:last-child > * {
     border-bottom: none;
 }
