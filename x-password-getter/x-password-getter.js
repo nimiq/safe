@@ -8,6 +8,7 @@ export default class XPasswordGetter extends XElement {
 
         return `
             <x-password-input></x-password-input>
+            <x-grow></x-grow>
             <button>${ buttonLabel || 'Confirm' }</button>
         `;
     }
