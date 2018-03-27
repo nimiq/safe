@@ -28,7 +28,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 <div class="action-buttons">
                     <hr>
 
-                    <button export class="secondary small">Backup</button>
+                    <button backup class="secondary small">Backup</button>
                     <button rename class="secondary small">Rename</button>
                     <button send class="small">Send from this account</button>
                 </div>
@@ -48,7 +48,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
-            'click button[export]': _ => this.fire('x-account-modal-export', this.properties.address),
+            'click button[backup]': _ => this.fire('x-account-modal-backup', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
         }
