@@ -104,8 +104,22 @@ export default class XRouter extends XElement {
         }
     }
 
-    goTo(path) {
+    goTo(pathOrNode, orgPath) {
         this.reverse = false;
+        let absolutePath = pathOrNode;
+        if (orgPath) {
+            const readPath = (node, path = []) => {
+                const segment = this._sanitizePath(node.getAttribute('x-route'));
+                if (segment) {
+                    path.unshift(segment);
+                }
+                return node.parentNode ? readPath(node.parentNode, path) : path;
+            };
+            const path = [ pathOrNode.$(`[x-route="${ orgPath }"]`) ];
+            absolutePath = readPath(pathOrNode, path).join('/');
+            if (!this.routes.get(absolutePath)) throw `XRouter: goTo(${ pathOrNode}, ${ orgPath }): absolute path "${ absolutePath }" not found.`;
+        }
+        const path = absolutePath;
         this.history.unshift(path);
         this.router.navigate(path);
     }
@@ -155,7 +169,8 @@ export default class XRouter extends XElement {
 
     get goingBackwards() { return this.reverse; }
 
-    _sanitizePath(path) { return this._isRoot(path) ? '' : path}
+    // _sanitizePath(path) { return this._isRoot(path) ? '' : path }
+    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$)/g, ''); }
 
     _isRoot(path = '') { return ['', '/'].includes(path.trim()); }
 
@@ -229,7 +244,6 @@ export default class XRouter extends XElement {
         if (!route) {
             throw new Error('XRouter: no route!');
         }
-
         this._doCallback(route.element, name, args);
     }
 
