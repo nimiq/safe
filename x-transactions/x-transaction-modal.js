@@ -1,8 +1,8 @@
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAddress from '/elements/x-address/x-address.js';
-import XToast from '/elements/x-toast/x-toast.js';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -87,6 +87,11 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
         const confirmations = this.properties.currentHeight - this.properties.blockHeight;
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
+    }
+
+    allowsShow(hash) {
+        hash = decodeURIComponent(hash);
+        return NanoApi.isValidHash(hash);
     }
 
     onShow(hash) {

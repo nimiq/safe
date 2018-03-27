@@ -21,7 +21,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     show(...parameters) {
-        if (this.isVisible() || !this.allowsShow()) return;
+        if (this.isVisible() || !this.allowsShow(...parameters)) return;
         if (this._route) {
             // let the router trigger the show
             XRouter.root.showAside(this._route, ...parameters);
@@ -44,7 +44,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         }
     }
 
-    allowsShow() {
+    allowsShow(...parameters) {
         return true;
     }
 

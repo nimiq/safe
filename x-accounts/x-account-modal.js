@@ -2,6 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -125,6 +126,11 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
         if (this.properties.label === undefined) this.$el.classList.add('pending'); // Used for gradient animation
         else this.$el.classList.remove('pending');
+    }
+
+    allowsShow(address) {
+        address = this._dashToSpace(address);
+        return NanoApi.validateAddress(address);
     }
 
     onShow(address) {

@@ -16,7 +16,7 @@ export default class XModals extends MixinSingleton(XElement) {
     }
 
     _show(modal, ...parameters) {
-        if (modal === null || modal === this._visibleModal || !modal.allowsShow()
+        if (modal === null || modal === this._visibleModal || !modal.allowsShow(...parameters)
             || (this._visibleModal && !this._visibleModal.allowsHide())) return;
         clearTimeout(this._hideTimer);
 

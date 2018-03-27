@@ -1,5 +1,6 @@
 import XSendTransaction from './x-send-transaction.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
+import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
     onCreate() {
@@ -7,12 +8,19 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         this.$addressInput.placeholderColor = 'black';
     }
 
+    allowsShow(...params) {
+        params = this._parseRouterParams(params);
+
+        return (!params.sender || NanoApi.validateAddress(params.sender))
+            && (!params.recipient || NanoApi.validateAddress(params.recipient));
+    }
+
     onShow(...params) {
         params = this._parseRouterParams(params);
 
         if (params.sender) {
             params.sender = this._dashToSpace(params.sender);
-            this.sender = account;
+            this.sender = params.sender;
         }
 
         if (params.recipient) {
