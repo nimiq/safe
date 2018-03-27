@@ -7,7 +7,7 @@ export default class XModals extends MixinSingleton(XElement) {
         this._visibleModal = null;
         this._hideTimer = null;
         this._isSwitchingModal = false;
-        this._hideRequested = false;
+        this._isSwitchingBack = false;
         this._switchHistory = [];
     }
 
@@ -25,29 +25,24 @@ export default class XModals extends MixinSingleton(XElement) {
         this.$el.offsetWidth; // style update
         this.$el.style.background = 'rgba(0,0,0,0.5)';
 
-        // check whether we're switching modals (i.e. there is another modal to be hidden)
-        this._isSwitchingModal = !!this._visibleModal || this._hideRequested;
+        // check whether we're switching modals (i.e. there is another modal to be hidden).
+        // The router invokes show of the new modal before hide of the old modal, so we can be sure there is no
+        // race condition on _visibleModal.
+        this._isSwitchingModal = !!this._visibleModal;
         this._isSwitchingBack = this._isSwitchingModal && this._switchHistory.length>=2
             && this._switchHistory[this._switchHistory.length-2] === modal;
         if (!this._isSwitchingModal) this._switchHistory = [];
 
-        // Hide currently visible modal if necessary.
-        let waitTime = 0;
-        // TODO this can be simplified if the router always calls all the onEntries before the onExits
-        // If hiding of the previous modal isn't handled by the router, we have to do it manually. However, if the
-        // router handles it, we won't trigger the hiding manually to avoid adding an entry for the hide call to the
-        // browser history. As the router might call the hide after the show, we have to wait a little bit to see it
-        if (this._visibleModal && !this._hideRequested) {
-            setTimeout(() => {
-                if (this._hideRequested) return;
-                // modal apparently wasn't closed by the router
-                this._visibleModal.hide();
-            }, 30);
-            waitTime = 35;
-        }
-
-        // show new modal
+        // Show new modal
+        // Do it with a small delay as the router invokes hide on the old modal after show on the new one but we
+        // actually want to wait for the router to hide the old one first such that the hiding knows the _isSwitching flag.
         setTimeout(() => {
+            // If hiding of the previous modal wasn't handled by the router (the case if the old modal doesn't have a
+            // route assigned), we have to do it manually.
+            if (this._visibleModal !== null) {
+                this._visibleModal.hide();
+            }
+
             this._visibleModal = modal;
             if (this._isSwitchingBack) {
                 this._switchHistory.pop();
@@ -56,14 +51,9 @@ export default class XModals extends MixinSingleton(XElement) {
             }
             modal.container.animateShow(this._isSwitchingModal, this._isSwitchingBack);
             modal.onShow();
-            // Delay resetting the switching flag for the case that hide gets invoked before show and then waits
-            // to determine whether we are switching
-            // XXX will probably lead to problems on frequent calls.
-            setTimeout(() => {
-                this._isSwitchingModal = false;
-                this._isSwitchingBack = false;
-            }, 40 - waitTime);
-        }, waitTime);
+            this._isSwitchingModal = false;
+            this._isSwitchingBack = false;
+        }, 20);
     }
 
     static hide(modal) {
@@ -72,26 +62,22 @@ export default class XModals extends MixinSingleton(XElement) {
 
     _hide(modal = this._visibleModal) {
         if (modal === null || modal !== this._visibleModal || !modal.allowsHide()) return;
-        this._hideRequested = true;
+        this._visibleModal = null;
 
-        // If _isSwitchingModal isn't true anyways, wait a little bit so see whether the _hide gets followed by a
-        // _show which would then set _isSwitchingModal
-        const waitTime = this._isSwitchingModal? 0 : 30;
+        // Note that the router ensures that hide always gets called after show, so to determine _isSwitchingModal
+        // we don't have to wait for a potential _show call after _hide
 
-        setTimeout(() => {
-            if (!this._isSwitchingModal) {
-                this._visibleModal = null;
-                this.$el.style.background = 'rgba(0,0,0,0)';
-                this._hideTimer = setTimeout(() => this.$el.style.display = 'none', XModals.ANIMATION_TIME);
-            }
-            modal.container.animateHide(this._isSwitchingModal, this._isSwitchingBack);
-            modal.onHide();
-            this._hideRequested = false;
-        }, waitTime);
+        if (!this._isSwitchingModal) {
+            this.$el.style.background = 'rgba(0,0,0,0)';
+            this._hideTimer = setTimeout(() => this.$el.style.display = 'none', XModals.ANIMATION_TIME);
+            this._switchHistory = [];
+        }
+        modal.container.animateHide(this._isSwitchingModal, this._isSwitchingBack);
+        modal.onHide();
     }
 
-    static isVisible(instance) {
-        return this.instance._visibleModal === instance;
+    static isVisible(modal) {
+        return this.instance._visibleModal === modal;
     }
 }
 XModals.ANIMATION_TIME = 400;
