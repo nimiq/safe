@@ -8,7 +8,6 @@ export default class XPasswordSetter extends XElement {
 
         return `
             <x-password-input></x-password-input>
-            <x-password-input id="confirm" placeholder="Confirm passphrase"></x-password-input>
             <x-password-indicator></x-password-indicator>
             <button disabled>${ buttonLabel || 'Confirm' }</button>
         `;
@@ -27,7 +26,6 @@ export default class XPasswordSetter extends XElement {
     listeners() {
         return {
             'x-password-input-change': value => this._onPasswordUpdate(value),
-            'x-password-input-confirm-change': value => this._onPasswordConfirmUpdate(value),
             'click button': e => this._onPasswordSubmit(),
             'keydown input': (d, e) => { if (e.keyCode == 13) this._onPasswordSubmit() }
         }
@@ -44,19 +42,7 @@ export default class XPasswordSetter extends XElement {
     _onPasswordUpdate(password) {
         const strength = this._getPasswordStrength(password);
         this.$passwordIndicator.setStrength(strength);
-        this._password1 = password;
-        this._checkPasswords();
-
-    }
-
-    _onPasswordConfirmUpdate(password) {
-        this._password2 = password;
-        this._checkPasswords();
-    }
-
-    _checkPasswords() {
-        const strength = this._getPasswordStrength(this._password1);
-        if (strength < 3 || this._password1 !== this._password2) {
+        if (strength < 3) {
             this.$button.setAttribute('disabled', 'disabled');
         } else {
             this.$button.removeAttribute('disabled');
