@@ -1,77 +1,62 @@
 import XPasswordInput from '../x-password-input/x-password-input.js';
 import XPasswordIndicator from '../x-password-indicator/x-password-indicator.js';
-import XElement from '../../libraries/x-element/x-element.js';
-
-// TODO [sven] remove "password too short" hint when pressing return (only when used as password check w/t indicator)
+import XElement from '/libraries/x-element/x-element.js';
 
 export default class XPasswordSetter extends XElement {
     html() {
-        const { buttonLabel, showIndicator } = this.attributes;
-
-        this._newPassword = showIndicator === 'true';
+        const { buttonLabel } = this.attributes;
 
         return `
             <x-password-input></x-password-input>
-            ${ this._newPassword ? `<x-password-indicator></x-password-indicator>` : '' }
-            <div buttons>
-                <div button wrong disabled>Wrong passphrase</div>
-                <button${ this._newPassword ? ' disabled' : '' }>${ buttonLabel || 'Confirm' }</button>
-            </div>
+            <x-password-input id="confirm" placeholder="Confirm passphrase"></x-password-input>
+            <x-password-indicator></x-password-indicator>
+            <button disabled>${ buttonLabel || 'Confirm' }</button>
         `;
     }
 
     onCreate() {
         this.$button = this.$('button');
         // TODO is it correct to disable autocompletion and force users to re-enter password?
-        this.$('input').setAttribute('autocomplete', this._newPassword ? 'new-password' : 'off');
+        this.$('input').setAttribute('autocomplete', 'new-password');
     }
 
     children() {
         return [ XPasswordInput, XPasswordIndicator];
     }
 
-    types() {
-        /** @type {XPasswordInput} */
-        this.$passwordInput = null
-        /*** @type {XPasswordIndicator} */
-        this.$passwordIndicator = null;
-    }
-
     listeners() {
         return {
             'x-password-input-change': value => this._onPasswordUpdate(value),
+            'x-password-input-confirm-change': value => this._onPasswordConfirmUpdate(value),
             'click button': e => this._onPasswordSubmit(),
             'keydown input': (d, e) => { if (e.keyCode == 13) this._onPasswordSubmit() }
         }
     }
 
     focus() {
-        this.$passwordInput.focus();
+        this.$passwordInput[0].focus();
     }
 
     get value() {
-        return this.$passwordInput.value;
-    }
-
-    /** @param {string} value */
-    set value(value) {
-        this.$passwordInput.value = value;
-    }
-
-    wrongPassphrase(set = true) {
-        this.$el.classList.toggle('wrong', set);
-        this.$button.disabled = set;
-        this.focus();
+        return this.$passwordInput[0].value;
     }
 
     _onPasswordUpdate(password) {
-        this.wrongPassphrase(false);
-
-        if (!this.$passwordIndicator) return;
-
         const strength = this._getPasswordStrength(password);
         this.$passwordIndicator.setStrength(strength);
-        if (strength < 3) {
+        this._password1 = password;
+        this._checkPasswords();
+
+    }
+
+    _onPasswordConfirmUpdate(password) {
+        this._password2 = password;
+        this._checkPasswords();
+    }
+
+    _checkPasswords() {
+        const strength = this._getPasswordStrength(this._password1);
+        if (strength < 3 || this._password1 !== this._password2) {
             this.$button.setAttribute('disabled', 'disabled');
         } else {
             this.$button.removeAttribute('disabled');
@@ -92,6 +77,3 @@ export default class XPasswordSetter extends XElement {
         return 4;
     }
 }
-
-
-// todo: wrong password "button" may not be clickable

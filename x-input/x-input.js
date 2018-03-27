@@ -5,13 +5,22 @@ export default class XInput extends XElement {
 
     onCreate() {
         this.$input = this.$('input');
-        if (this.attributes.name) this.$input.setAttribute('name', this.attributes.name);
+
+        if (this.attributes.name) {
+            this.$input.setAttribute('name', this.attributes.name);
+        }
+
         this.$input.addEventListener('input', e => this.__onInput(e)); // Note: this doens't work with checkbox or radio button
         this.$input.addEventListener('keypress', e => this.__onKeypress(e));
         this.$input.addEventListener('input', e => this.__onValueChanged(e));
         this.$input.addEventListener('keyup', e => this.__onValueChanged(e));
+
         this.$form = this.$('form');
-        if (this.$form) this.$form.addEventListener('submit', e => this._onSubmit(e));
+
+        if (this.$form){
+            this.$form.addEventListener('submit', e => this._onSubmit(e));
+        }
+
         this._autoSubmit = this.$el.hasAttribute('auto-submit');
         this._oldValue = this.$input.value;
     }
@@ -55,6 +64,10 @@ export default class XInput extends XElement {
 
     focus() {
         requestAnimationFrame(_ => this.$input.focus());
+    }
+
+    setInvalid() {
+        this._onInvalid();
     }
 
     async _onInvalid() {

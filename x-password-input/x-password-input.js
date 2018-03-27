@@ -2,9 +2,11 @@ import XInput from '../x-input/x-input.js';
 
 export default class XPasswordInput extends XInput {
     html() {
+        const { placeholder } = this.attributes;
+
         return `
             <form action="/">
-                <input class="password" type="password" placeholder="Enter Password" required minlength="10">
+                <input class="password" type="password" placeholder="${ placeholder || 'Enter Passphrase' }">
                 <span id="eye" icon-eye />
             </form>
         `;
@@ -21,7 +23,12 @@ export default class XPasswordInput extends XInput {
     }}
 
     _onValueChanged() {
-      this.fire(this.__tagName + '-change', this.value);
+        const { id } = this.attributes;
+        if (id) {
+            this.fire(`${ this.__tagName }-${ id }-change`, this.value);
+        } else {
+            this.fire(`${ this.__tagName }-change`, this.value);
+        }
     }
 
     _toggleVisibility() {
