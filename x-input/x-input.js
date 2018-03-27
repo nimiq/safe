@@ -12,6 +12,7 @@ export default class XInput extends XElement {
         this.$input.addEventListener('keyup', e => this.__onValueChanged(e));
         this.$form = this.$('form');
         if (this.$form) this.$form.addEventListener('submit', e => this._onSubmit(e));
+        this._autoSubmit = this.$el.hasAttribute('auto-submit');
     }
 
     get value() {
@@ -46,7 +47,6 @@ export default class XInput extends XElement {
 
     _submit() {
         if (!this._validate(this.value)) return;
-        this.$input.blur();
         requestAnimationFrame(_ => this.fire(this.__tagName, this.value)); // Hack to hide keyboard on iOS even after paste
     }
 
@@ -60,8 +60,6 @@ export default class XInput extends XElement {
     }
 
     _validate() { return this.$input.checkValidity(); }
-
-    get _autosubmit() { return false; }
 
     _notifyValidity() {
         const isValid = this._validate(this.value);

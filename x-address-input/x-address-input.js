@@ -18,34 +18,43 @@ export default class XAddressInput extends XInput {
         `
     }
 
+    onCreate() {
+        super.onCreate();
+        const onChange = () => this._autoSubmit?  this._submit() : this._validate();
+        this.$input.addEventListener('paste', e => InputFormat.onPaste(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
+        this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
+        // input event will be handled by _onValueChanged
+        this.$el.addEventListener('click', () => this.$input.focus());
+    }
+
     styles() { return ['x-address']; }
 
     children() { return [XIdenticon]; }
 
-    get _autosubmit() { return true; }
+    get value() {
+        const address = 'NQ' + this.$input.value;
+        return NanoApi.validateAddress(address)? address : null;
+    }
 
-    get value() { return 'NQ' + this.$input.value; }
+    set value(value) {
+        // Have to define setter as we have defined the getter as well, but we'll just call the setter of super.
+        // This will also trigger _onValueChanged
+        super.value = value;
+    }
 
-    set value(value) { this.$input.value = value; }
+    _onValueChanged() {
+        InputFormat.onChange(null, this.$input, this._parseAddressChars, this._format,
+            () => this._autoSubmit? this._submit() : this._validate());
+    }
 
     _validate() {
         this.$identicon.address = this.value;
-        return NanoApi.validateAddress(this.value);
+        return this.value !== null;
     }
 
     set placeholderColor(color) {
         this.$identicon.placeholderColor = color;
-    }
-
-    onCreate() {
-        super.onCreate();
-        const onChange = e => { this._submit(); };
-        this.$input.addEventListener('paste', e => InputFormat.onPaste(e, this.$input, this._parseAddressChars, this._format, onChange));
-        this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
-        this.$input.addEventListener('input', e => InputFormat.onChange(e, this.$input, this._parseAddressChars, this._format, onChange));
-        this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
-        this.$el.addEventListener('click', () => this.$input.focus());
-        this.oldInput = '';
     }
 
     _onEntry() {
