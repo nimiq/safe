@@ -67,9 +67,9 @@ export default class XRouter extends XElement {
             // TODO [sven] store x-element?
             if (this._isRoot(path)) { // root
                 const regex = /^\/?$|^\/?_.*/;
-                this.routes.set('_root', { path, element });
+                this.routes.set('', { path: '', element });
                 this.router.add(regex, () => {
-                    this._show('_root');
+                    this._show('');
                 });
             } else {
                 const regex = new RegExp(`^\/?${ path }.*`);
@@ -93,7 +93,7 @@ export default class XRouter extends XElement {
     hookUpLinks(links) {
         for (const link of links) {
             const path = link.attributes['x-href'].value.trim();
-            link.href = `#/${path}`;
+            link.href = `#/${ path }`;
             // do we need this? is the above line not enough?
             link.addEventListener('click', e => {
                 this.goTo(path);
@@ -151,32 +151,31 @@ export default class XRouter extends XElement {
         this.goTo(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
     }
 
-    get goingBackwards() {
-        return this.reverse;
-    }
+    get goingBackwards() { return this.reverse; }
 
-    _isRoot(path = '') {
-        return ['', '/', '_root'].includes(path.trim());
-    }
+    _sanitizePath(path) { return this._isRoot(path) ? '' : path}
 
-    async _show(path) {
+    _isRoot(path = '') { return ['', '/'].includes(path.trim()); }
+
+    async _show(orgPath) {
+        const path = this._sanitizePath(orgPath);
         if (this.running) {
             return setTimeout(_ => this._show(path), 1);
         }
         this.running = true;
 
         const hash = this.router.currentRoute;
-        const parsedPath = this._isRoot(path) ? '_root' : path;
-        this._log(`XRouter: showing ${ parsedPath }, hash = ${ hash }`);
+        this._log(`XRouter: showing ${ path }, hash = ${ hash }`);
 
-        this._changeRoute(parsedPath);
+        this._changeRoute(path);
         this._checkAsides(hash);
 
         this.running = false;
     }
 
-    _changeRoute(path) {
-        if (this.current && path === this.current.path) return;
+    _changeRoute(orgPath) {
+        const path = this._sanitizePath(orgPath);
+        if (this.current && orgPath === this.current.path) return;
         // TODO keep following line? is there a more generic way?
         // this.reverse = path == this.previous;
         [ this.previous, this.current ] = [ this.current, this.routes.get(path) ];
@@ -197,19 +196,27 @@ export default class XRouter extends XElement {
     }
 
     _checkAsides(hash) {
+        let onEntries = [];
+        let onExits = [];
         for (const [tag, aside] of this.asides) {
             const match = hash.match(aside.regex);
             if (match && !aside.visible) {
                 const params = match[1] ? match[1].split('/') : [];
                 aside.visible = true;
-                this._log(`XRouter: aside "${ tag }" onEntry; params=`, params);
-                this._doCallback(aside.element, 'onEntry', params);
+                // this._log(`XRouter: aside "${ tag }" onEntry; params=`, params);
+                // this._doCallback(aside.element, 'onEntry', params);
+                onEntries.push({ tag, element: aside.element, name: 'onEntry', params });
             }
             if (!match && aside.visible) {
                 aside.visible = false;
-                this._log(`XRouter: aside "${ tag }" onExit`);
-                this._doCallback(aside.element, 'onExit');
+                // this._log(`XRouter: aside "${ tag }" onExit`);
+                // this._doCallback(aside.element, 'onExit');
+                onExits.push({ tag, element: aside.element, name: 'onExit' });
             }
+        }
+        for (const callback of [...onEntries, ...onExits]) {
+            this._log(`XRouter: aside "${ callback.tag }" ${ callback.name }`, callback.params);
+            this._doCallback(callback.element, callback.name, callback.params);
         }
     }
 
