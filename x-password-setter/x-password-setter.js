@@ -9,6 +9,7 @@ export default class XPasswordSetter extends XElement {
         return `
             <x-password-input></x-password-input>
             <x-password-indicator></x-password-indicator>
+            <x-grow></x-grow>
             <button disabled>${ buttonLabel || 'Confirm' }</button>
         `;
     }

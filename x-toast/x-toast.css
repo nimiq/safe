@@ -6,6 +6,7 @@ x-toast {
     justify-content: center;
     z-index: 3;
     transform: translateY(-110%);
+    text-align: center;
 }
 
 x-toast [toast-content] {

@@ -22,7 +22,8 @@ x-privacy-agent p {
 }
 
 x-privacy-agent svg{
-	opacity: 0.8;
+    opacity: 0.8;
+    display: block;
 }
 
 x-privacy-agent button{
@@ -46,6 +47,6 @@ x-privacy-agent-container {
 
 @media (max-height: 500px) {
     x-privacy-agent-container svg {
-        display: none;
+        /* display: none; */
     }
 }

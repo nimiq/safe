@@ -3,7 +3,6 @@ import XElement from '/libraries/x-element/x-element.js';
 export default class XPassphraseTipps extends XElement {
     html() {
         return ` <section>
-            <p>Please enter a passphrase to secure your account.</p>
             <p>Your passphrase becomes stronger:</p>
             <ul>
                 <li>
