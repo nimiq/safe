@@ -23,7 +23,7 @@ export default class XModals extends MixinSingleton(XElement) {
         // show background
         this.$el.style.display = 'block';
         this.$el.offsetWidth; // style update
-        this.$el.style.background = 'rgba(0,0,0,0.15)';
+        this.$el.style.background = 'rgba(0,0,0,0.3)';
 
         // check whether we're switching modals (i.e. there is another modal to be hidden)
         this._isSwitchingModal = !!this._visibleModal || this._hideRequested;
