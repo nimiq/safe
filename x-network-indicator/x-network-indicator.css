@@ -1,6 +1,6 @@
 x-network-indicator {
     display: block;
-    padding-top: 0.4em;
+    /* padding-top: 0.4em; */
 }
 
 x-network-indicator hr {

@@ -10,13 +10,17 @@ import networkClient from '/apps/safe/network-client.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <button refresh class="small secondary" title="Refresh transactions">
-                <span text>
-                    <i class="material-icons">refresh</i>
-                    <span hide-sm> Refresh</span>
-                </span>
-                <span class="dot-loader display-none"></span>
-            </button>
+            <div class="popupmenu">
+                <button>
+                    <span text>
+                        <i class="material-icons">menu</i>
+                    </span>
+                    <span class="dot-loader display-none"></span>
+                </button>
+                <div>
+                    <button refresh><i class="material-icons">refresh</i> Refresh</button>
+                </div>
+            </div>
             <x-transactions-list>
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
@@ -31,7 +35,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     onCreate() {
         this._$transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
-        this.$refresh = this.$('button[refresh]');
+        this.$refreshMenu = this.$('div.popupmenu > button');
         this.$refreshText = this.$('span[text]');
         this.$refreshLoader = this.$('span.dot-loader');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
@@ -189,12 +193,12 @@ export default class XTransactions extends MixinRedux(XElement) {
     _buttonShowLoader() {
         this.$refreshText.classList.add('display-none');
         this.$refreshLoader.classList.remove('display-none');
-        this.$refresh.disabled = true;
+        this.$refreshMenu.disabled = true;
     }
 
     _buttonShowText() {
         this.$refreshText.classList.remove('display-none');
         this.$refreshLoader.classList.add('display-none');
-        this.$refresh.disabled = false;
+        this.$refreshMenu.disabled = false;
     }
 }
