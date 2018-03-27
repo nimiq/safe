@@ -15,9 +15,11 @@ const MixinRedux = XElementBase => class extends XElementBase {
         }
 
         if (mapStateToProps) {
-            // set initial properties after DOM was created
-            const initialProperties = mapStateToProps(store.getState(), this.properties);
-            requestAnimationFrame(() => this.setProperties(initialProperties));
+            requestAnimationFrame(() => {
+                // set initial properties after DOM was created
+                const initialProperties = mapStateToProps(store.getState(), this.properties);
+                this.setProperties(initialProperties);
+            });
 
             // subscribe to state updates
             this._unsubscribe = store.subscribe(() => {
