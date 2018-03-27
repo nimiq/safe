@@ -21,7 +21,6 @@ class Safe {
         // set singleton app container
         MixinSingleton.appContainer = $appContainer;
 
-
         // Launch account manager
         accountManager.then(a => {
             this.accountManager = a;

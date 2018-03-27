@@ -7,12 +7,12 @@ import networkClient from '../network-client.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
-import XWalletBackupImportModal from '/elements/x-wallet-backup-import/x-wallet-backup-import-modal.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XToast from '/elements/x-toast/x-toast.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
+import XWelcomeModal from './x-welcome-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -65,6 +65,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 </x-view-transactions>
                 <x-view-settings x-route="settings"></x-view-settings>
 
+                <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
             </section>
             <footer class="nimiq-dark">
@@ -84,12 +85,35 @@ export default class XSafe extends MixinRedux(XElement) {
             XAccounts,
             XTransactions,
             XNetworkIndicator,
-            XTransactionModal
+            XTransactionModal,
+            XWelcomeModal
         ];
+    }
+
+    onCreate() {
+        // Trigger history update when state loaded from persistedState
+        // (request is aborted in function when no accounts exist)
+        this.$transactions[0].requestTransactionHistory();
+        super.onCreate();
     }
 
     static get actions() {
         return { addAccount };
+    }
+
+    static mapStateToProps(state) {
+        return {
+            height: state.network.height,
+            consensus: state.network.consensus,
+            accountsInitialized: state.accounts.hasContent,
+            accountsPresent: state.accounts.entries.size > 0
+        }
+    }
+
+    _onPropertiesChanged(changes) {
+        if (changes.accountsInitialized && !this.properties.accountsPresent) {
+            this.$welcomeModal.show();
+        }
     }
 
     listeners() {
@@ -102,20 +126,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
             'x-account-modal-export': async (a) => (await accountManager).backup(a),
             'x-account-modal-rename': async (a) => (await accountManager).rename(a)
-        }
-    }
-
-    onCreate() {
-        // Trigger history update when state loaded from persistedState
-        // (request is aborted in function when no accounts exist)
-        this.$transactions[0].requestTransactionHistory();
-        super.onCreate();
-    }
-
-    static mapStateToProps(state) {
-        return {
-            height: state.network.height,
-            consensus: state.network.consensus
         }
     }
 
