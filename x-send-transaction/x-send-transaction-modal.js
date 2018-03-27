@@ -11,8 +11,8 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     allowsShow(...params) {
         params = this._parseRouterParams(params);
 
-        return (!params.sender || NanoApi.validateAddress(params.sender))
-            && (!params.recipient || NanoApi.validateAddress(params.recipient));
+        return (!params.sender || NanoApi.validateAddress(this._dashToSpace(params.sender)))
+            && (!params.recipient || NanoApi.validateAddress(this._dashToSpace(params.recipient)));
     }
 
     onShow(...params) {
