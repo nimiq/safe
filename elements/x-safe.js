@@ -135,7 +135,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _clickedNewTransaction(address) {
         XSendTransactionModal.instance.clear(this.properties.height);
-        XSendTransactionModal.show(address && this._spaceToDash(address) || undefined);
+        XSendTransactionModal.show(...(address? [`sender=${this._spaceToDash(address)}`] : []));
     }
 
     _spaceToDash(string) {
