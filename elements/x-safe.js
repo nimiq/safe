@@ -122,14 +122,50 @@ export default class XSafe extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'x-accounts-create': async () => (await accountManager).create(),
-            'x-accounts-import': async () => (await accountManager).import(),
-            'click button[new-tx]': () => this._clickedNewTransaction(),
+            'x-accounts-create': this._clickedCreateAccount.bind(this),
+            'x-accounts-import': this._clickedImportAccount.bind(this),
+            'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
-            'x-account-modal-export': async (a) => (await accountManager).backup(a),
-            'x-account-modal-rename': async (a) => (await accountManager).rename(a)
+            'x-account-modal-backup': this._clickedAccountBackup.bind(this),
+            'x-account-modal-rename': this._clickedAccountRename.bind(this)
+        }
+    }
+
+    async _clickedCreateAccount() {
+        try {
+            await (await accountManager).create();
+        } catch (e) {
+            console.log(e);
+            XToast.show('Account was not created.');
+        }
+    }
+
+    async _clickedImportAccount() {
+        try {
+            await (await accountManager).import();
+        } catch (e) {
+            console.log(e);
+            XToast.show('Account was not imported.');
+        }
+    }
+
+    async _clickedAccountBackup(address) {
+        try {
+            await (await accountManager).backupFile(address);
+        } catch (e) {
+            console.log(e);
+            XToast.show('No backup created.');
+        }
+    }
+
+    async _clickedAccountRename(address) {
+        try {
+            await (await accountManager).rename(address);
+        } catch (e) {
+            console.log(e);
+            XToast.show('Account was not renamed.');
         }
     }
 
