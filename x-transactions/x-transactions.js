@@ -170,7 +170,10 @@ export default class XTransactions extends MixinRedux(XElement) {
     async _requestTransactionHistory(addresses) {
         const knownReceipts = this._generateKnownReceipts();
 
-        const height = this.properties.lastKnownHeight - 10;
+        // TODO: only ask from knownLastHeight when this function is called at app start,
+        // not when requesting txs after a new account has been added!
+        // const height = this.properties.lastKnownHeight - 10;
+        const height = 0;
 
         return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts, height);
     }
