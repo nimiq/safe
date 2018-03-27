@@ -140,7 +140,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         this._buttonShowLoader();
         addresses = addresses || this.properties.addresses;
         const transactions = await this._requestTransactionHistory(addresses);
-        transactions.length && this.actions.addTransactions(transactions);
+        this.actions.addTransactions(transactions);
         this._buttonShowText();
     }
 
