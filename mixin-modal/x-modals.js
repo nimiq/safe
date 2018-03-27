@@ -89,5 +89,9 @@ export default class XModals extends MixinSingleton(XElement) {
             this._hideRequested = false;
         }, waitTime);
     }
+
+    static isVisible(instance) {
+        return this.instance._visibleModal === instance;
+    }
 }
 XModals.ANIMATION_TIME = 400;

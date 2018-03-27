@@ -21,7 +21,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     show(parameters) {
-        if (!this.allowsShow()) return;
+        if (this.isVisible() || !this.allowsShow()) return;
         if (this._route) {
             // let the router trigger the show
             XRouter.root.showAside(this._route, parameters);
@@ -35,7 +35,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     hide() {
-        if (!this.allowsHide()) return;
+        if (!this.isVisible() || !this.allowsHide()) return;
         if (this._route) {
             // let the router trigger the hide
             XRouter.root.hideAside(this._route);
@@ -71,6 +71,10 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
 
     onExit() {
         XModals.hide(this);
+    }
+
+    isVisible() {
+        return XModals.isVisible(this);
     }
 };
 export default MixinModal;
