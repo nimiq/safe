@@ -91,9 +91,11 @@ export default class XRouter extends XElement {
     }
 
     hookUpLinks(links) {
+        this.links = [];
         for (const link of links) {
             const path = link.attributes['x-href'].value.trim();
             link.href = `#/${ path }`;
+            this.links.push({ path, link });
             // do we need this? is the above line not enough?
             link.addEventListener('click', e => {
                 this.goTo(path);
@@ -169,6 +171,7 @@ export default class XRouter extends XElement {
 
         this._changeRoute(path);
         this._checkAsides(hash);
+        this._highlightLinks(path);
 
         this.running = false;
     }
@@ -203,14 +206,10 @@ export default class XRouter extends XElement {
             if (match && !aside.visible) {
                 const params = match[1] ? match[1].split('/') : [];
                 aside.visible = true;
-                // this._log(`XRouter: aside "${ tag }" onEntry; params=`, params);
-                // this._doCallback(aside.element, 'onEntry', params);
                 onEntries.push({ tag, element: aside.element, name: 'onEntry', params });
             }
             if (!match && aside.visible) {
                 aside.visible = false;
-                // this._log(`XRouter: aside "${ tag }" onExit`);
-                // this._doCallback(aside.element, 'onExit');
                 onExits.push({ tag, element: aside.element, name: 'onExit' });
             }
         }
@@ -220,8 +219,13 @@ export default class XRouter extends XElement {
         }
     }
 
+    _highlightLinks(currentPath) {
+        for (const { path, link } of this.links) {
+            link.classList.toggle('current', path == currentPath);
+        }
+    }
+
     _doRouteCallback(route, name, args = []) {
-        // if (!route) return;
         if (!route) throw `XRouter: no route!`;
         this._doCallback(route.element, name, args);
     }
