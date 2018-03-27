@@ -64,8 +64,12 @@ export default class XSendTransaction extends XElement {
         }
     }
 
-    setSelectedSender(account) {
+    set sender(account) {
         this.$accountsDropdown.selectedAccount = account;
+    }
+
+    set recipient(address) {
+        this.$addressInput.value = address;
     }
 
     _onSubmit(e) {
