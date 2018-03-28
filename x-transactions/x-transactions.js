@@ -61,7 +61,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                 XPaginator.getPagedItems(
                     state.transactions.entries,
                     props.onlyRecent ? 1 : state.transactions.page,
-                    props.onlyRecent ? 5 : state.transactions.itemsPerPage,
+                    props.onlyRecent ? 4 : state.transactions.itemsPerPage,
                     true
                 ),
                 state.accounts ? state.accounts.entries : false

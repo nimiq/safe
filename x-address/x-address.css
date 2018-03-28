@@ -6,8 +6,8 @@ x-address, .x-address{
     max-width: 400px;
     box-sizing: border-box;
     padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 800;
+    font-size: 14px;
+    font-weight: 600;
     white-space: nowrap;
 }
 

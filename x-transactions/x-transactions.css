@@ -16,6 +16,16 @@ x-transactions[no-menu] .popupmenu {
     display: none;
 }
 
+x-transactions a[secondary] {
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    padding: 1em;
+    margin-bottom: -1em;
+    margin-top: 5px;
+}
+
 x-transactions-list {
     display: table;
     width: 100%;
@@ -29,6 +39,10 @@ x-transactions-list {
 x-transactions-list x-loading-animation {
     margin: 0 auto;
     margin-top: 2em;
+}
+
+x-transactions-list x-loading-animation + h2 {
+    text-align: center;
 }
 
 x-transaction {

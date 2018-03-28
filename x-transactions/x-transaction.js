@@ -101,7 +101,7 @@ export default class XTransaction extends MixinRedux(XElement) {
         const before12hours = moment().subtract(12, 'hours');
         if (time.isAfter(before12hours)) {
             // If the time was less than 12 hours ago, display timeago
-            this.$timestamp.textContent = time.fromNow();
+            this.$timestamp.textContent = time.format('HH:mm');
         } else {
             // If the time was yesterday or earlier, display date
             this.$timestamp.textContent = time.format('D MMM');

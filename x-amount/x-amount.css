@@ -31,6 +31,8 @@ x-amount label {
     font-size: 0.7em;
     font-weight: 300;
     text-transform: uppercase;
+    /* letter-spacing: 0.12em; */
+    /* opacity: 0.8; */
 }
 
 x-amount x-currency-nim {
