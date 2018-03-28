@@ -13,6 +13,10 @@ x-route.in,
     display: flex;
 } */
 
+.x-route-parent {
+    position: relative;
+}
+
 x-route:not(.out), [x-route]:not(.out) {
     display: flex;
 }

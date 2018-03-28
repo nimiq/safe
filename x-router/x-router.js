@@ -83,6 +83,7 @@ export default class XRouter extends XElement {
             this.routeByElement.set(element, route);
             this.router.add(regex, (params) => this._show(path, params));
             this._setClass(route, this.CSS_HIDDEN, true);
+            element.parentNode.classList.add('x-route-parent');
         }
     }
 
