@@ -16,6 +16,7 @@ import XWelcomeModal from './x-welcome-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import config from '../config.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -72,7 +73,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
-                <x-create-request-link-modal x-route-aside="receive"></x-create-request-link-modal>
+                <x-create-request-link-modal x-route-aside="receive" data-x-root="${config.root}"></x-create-request-link-modal>
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
