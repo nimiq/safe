@@ -100,7 +100,7 @@ x-view-dashboard {
     position: static;
 }
 
-a[x-href].current {
+nav.main a[x-href].current {
     opacity: 1;
     border-bottom: 2px solid var(--success-color);
 }
@@ -109,16 +109,20 @@ x-card {
     display: block;
     width: 100%;
     max-width: 960px;
-    border: 1px solid rgb(220, 220, 220);
     border-radius: 0.4em;
     padding: 1em;
     margin: 1em auto;
     background: white;
-    box-shadow: 0px 10px 20px -15px grey;
+    box-shadow: 0px 5px 20px -10px grey;
 }
 
 x-card h2 {
-    margin-bottom: 0.5em;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 13px;
+    font-weight: bold;
+
 }
 
 footer {

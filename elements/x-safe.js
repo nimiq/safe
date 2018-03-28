@@ -37,7 +37,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                     <nav class="main">
                         <a x-href="">Dashboard</a>
-                        <a x-href="transactions">Transactions</a>
+                        <a x-href="transactions">History</a>
                         <!-- <a x-href="settings">Settings</a> -->
                     </nav>
                 </div>
@@ -46,20 +46,20 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-dashboard x-route="">
                     <x-card>
                         <h2>Recent Transactions</h2>
-                        <x-transactions only-recent></x-transactions>
+                        <x-transactions class="no-animation" only-recent no-menu></x-transactions>
                     </x-card>
                     <x-card style="max-width: 512px;">
                         <h2>Your Accounts</h2>
                         <x-accounts></x-accounts>
                     </x-card>
                     <x-card style="max-width: 400px;">
-                        <h2>Network Status</h2>
+                        <h2>Nimiq Network</h2>
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
                 <x-view-transactions x-route="transactions">
                     <x-card>
-                        <h2>Transactions</h2>
+                        <h2>Transaction History</h2>
                         <x-transactions class="no-animation"></x-transactions>
                     </x-card>
                 </x-view-transactions>
@@ -70,7 +70,7 @@ export default class XSafe extends MixinRedux(XElement) {
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
-                <br><small><a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistance and reload</a></small>
+                <br><small><a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
             </footer>
             <x-router debug="true"></x-router>
             `
