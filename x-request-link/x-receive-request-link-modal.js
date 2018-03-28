@@ -55,4 +55,4 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
     }
 }
 
-// todo handle message and value
+// todo [v2] handle message and value

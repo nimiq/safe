@@ -28,7 +28,9 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
     onCreate() {
         this.$statusMessage = this.$('[status-message]');
         this.$input = this.$('input');
-        if (this.attributes.name) this.$input.setAttribute('name', this.attributes.name);
+        if (this.attributes.name) {
+            this.$input.setAttribute('name', this.attributes.name);
+        }
         this.$account.addEventListener('x-account-selected', e => e.stopPropagation());
         super.onCreate();
     }
@@ -78,6 +80,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         if (!account) return;
         this.$account.account = account;
         this.$input.value = account.address;
+        this.fire('x-account-selected', account.address);
     }
 
     _showStatusMessage() {
