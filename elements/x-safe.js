@@ -123,7 +123,8 @@ export default class XSafe extends MixinRedux(XElement) {
     listeners() {
         return {
             'x-accounts-create': this._clickedCreateAccount.bind(this),
-            'x-accounts-import': this._clickedImportAccount.bind(this),
+            'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
+            'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
@@ -142,9 +143,18 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedImportAccount() {
+    async _clickedImportAccountFile() {
         try {
-            await (await accountManager).import();
+            await (await accountManager).importFile();
+        } catch (e) {
+            console.log(e);
+            XToast.show('Account was not imported.');
+        }
+    }
+
+    async _clickedImportAccountWords() {
+        try {
+            await (await accountManager).importWords();
         } catch (e) {
             console.log(e);
             XToast.show('Account was not imported.');
@@ -171,7 +181,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _clickedNewTransaction(address) {
         XSendTransactionModal.instance.clear(this.properties.height);
-        XSendTransactionModal.show(...(address? [`sender=${this._spaceToDash(address)}`] : []));
+        XSendTransactionModal.show(...(address ? [`sender=${this._spaceToDash(address)}`] : []));
     }
 
     _spaceToDash(string) {
