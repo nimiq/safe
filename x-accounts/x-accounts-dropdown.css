@@ -22,9 +22,13 @@ x-accounts-dropdown x-expandable {
 
 x-accounts-dropdown [expandable-trigger] {
     display: flex;
-    align-items: center;
-    height: 100%;
     border-right: 16px solid transparent;
+}
+
+@media (max-width: 480px) {
+    x-accounts-dropdown [expandable-trigger] {
+        border-right: 0;
+    }
 }
 
 x-accounts-dropdown x-expandable:not([disabled]) [expandable-trigger]:hover {

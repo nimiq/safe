@@ -6,7 +6,7 @@ import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
     onCreate() {
         super.onCreate();
-        this.$addressInput.placeholderColor = 'black';
+        this.$addressInput.placeholderColor = '#bbb';
     }
 
     allowsShow(...params) {

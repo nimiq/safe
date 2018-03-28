@@ -16,12 +16,12 @@ export default class XSendTransaction extends XElement {
 
                 <h3>Send to</h3>
                 <div class="row">
-                    <x-address-input name="recipient"></x-address-input>
+                    <x-address-input class="multiline" name="recipient"></x-address-input>
                 </div>
 
                 <h3>Amount</h3>
                 <div class="row">
-                    <x-amount-input name="value" no-screen-keyboard max-decimals="5"></x-amount-input>
+                    <x-amount-input name="value" no-screen-keyboard></x-amount-input>
                 </div>
 
                 <x-expandable advanced-settings transparent>
@@ -29,7 +29,7 @@ export default class XSendTransaction extends XElement {
                     <div expandable-content>
                         <h3>Fee</h3>
                         <div class="row">
-                            <x-amount-input name="fee" no-screen-keyboard max-decimals="5"></x-amount-input>
+                            <x-amount-input name="fee" no-screen-keyboard></x-amount-input>
                         </div>
 
                         <h3>Valid from</h3>

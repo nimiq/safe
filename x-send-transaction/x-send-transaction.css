@@ -5,22 +5,24 @@
 .x-send-transaction {
     width: 600px;
     box-sizing: content-box;
+    text-align: center;
 }
 
 .x-send-transaction h3 {
     margin-top: 24px;
     margin-bottom: 12px;
+    text-transform: uppercase;
+    font-size: 13px;
+    letter-spacing: 0.16em;
 }
 
 .x-send-transaction x-accounts-dropdown {
     width: 100%;
 }
 
-.x-send-transaction input,
-.x-send-transaction input::placeholder,
 .x-send-transaction x-address-input {
     font-size: 20px !important;
-    text-align: left !important;
+    /* text-align: left !important; */
     font-weight: 300 !important;
 }
 
@@ -29,12 +31,18 @@
 .x-send-transaction input[validity-start] {
     width: 100%;
     padding: 0 !important;
+    font-weight: 300;
 }
 
 .x-send-transaction button {
-    margin-top: 48px;
+    margin-top: 28px;
 }
 
 .x-send-transaction [advanced-settings] [expandable-content] > :first-child {
     margin-top: 8px;
+}
+
+.x-send-transaction [advanced-settings] input,
+.x-send-transaction [advanced-settings] input::placeholder {
+    font-size: 30px !important;
 }

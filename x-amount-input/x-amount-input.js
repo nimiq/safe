@@ -19,8 +19,7 @@ export default class XAmountInput extends XInput {
         super.onCreate();
         this.$currency2 = this.$('x-currency-2');
         this._previousValue = '';
-        const maxDecimals = this.$el.getAttribute('max-decimals');
-        this.maxDecimals = maxDecimals? parseInt(maxDecimals) : 2;
+        this.maxDecimals = this.attributes.maxDecimals ? parseInt(this.attributes.maxDecimals) : 2;
         if (!this._isMobile || this.$el.hasAttribute('no-screen-keyboard')) {
             this.$numpad.$el.style.display = 'none';
             return;
@@ -84,7 +83,7 @@ export default class XAmountInput extends XInput {
     */
 
     get _isMobile() {
-        return window.innerWidth < 420; 
+        return window.innerWidth < 420;
     }
 
     focus() {
@@ -97,5 +96,5 @@ export default class XAmountInput extends XInput {
     }
 }
 
-// Todo: [low] [Max] refactor `_isMobile` into an own library for mobile-detection 
+// Todo: [low] [Max] refactor `_isMobile` into an own library for mobile-detection
     // then make it more sophisticated (regex ?)

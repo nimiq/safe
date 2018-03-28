@@ -111,6 +111,18 @@ x-account x-amount {
     margin-top: -0.25em;
 }
 
+@media (max-width: 480px) {
+    x-account x-amount {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 350px) {
+    x-account x-amount {
+        font-size: 1em;
+    }
+}
+
 x-account-modal x-amount {
     display: block;
     font-size: 1.5em;

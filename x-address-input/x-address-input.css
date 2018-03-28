@@ -6,6 +6,7 @@ x-address-input.x-address {
     text-transform: uppercase;
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
     display: flex;
+    flex-direction: column;
     align-items: center;
     font-size: 20px;
 }
@@ -28,7 +29,6 @@ x-address-input input[type="text"] {
 
     text-align: left;
     text-transform: uppercase;
-    border-bottom: none !important;
 }
 
 x-address-input x-identicon {
@@ -36,6 +36,11 @@ x-address-input x-identicon {
     height: 72px;
     margin-right: 8px;
     flex-shrink: 0;
+}
+
+x-address-input.multiline x-identicon {
+    display: block;
+    margin: 0 auto;
 }
 
 x-address-input[small] x-identicon {
@@ -52,7 +57,17 @@ x-address-input input[type="text"]::-webkit-input-placeholder {
     padding-left: 10px;
 }
 
-x-address-input .prefix {
-    position: relative;
-    left: 1px;
+x-address-input.multiline x-identicon {
+    margin-bottom: 12px;
+}
+
+x-address-input.multiline .input-row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+x-address-input.multiline .input-row input {
+    width: auto;
+    flex-grow: 0.9;
 }

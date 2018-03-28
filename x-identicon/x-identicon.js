@@ -27,7 +27,7 @@ export default class XIdenticon extends XElement {
         if (ValidationUtils.isValidAddress(address)) {
             Iqons.toDataUrl(address).then(dataUrl => this.$img.src = dataUrl);
         } else {
-            this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, 160 / this.$img.offsetWidth);
+            this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, Infinity);
         }
     }
 
@@ -36,7 +36,7 @@ export default class XIdenticon extends XElement {
         if (ValidationUtils.isValidAddress(address)) {
             Iqons.render(address, this.$el);
         } else {
-            Iqons.renderPlaceholder(this.$el, this._placeholderColor, 160 / this.$img.offsetWidth);
+            Iqons.renderPlaceholder(this.$el, this._placeholderColor, Infinity);
         }
     }
 }

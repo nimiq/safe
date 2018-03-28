@@ -5,16 +5,6 @@ x-send-transaction-modal h3 {
     opacity: .8;
 }
 
-x-send-transaction-modal input,
-x-send-transaction-modal input::placeholder,
-x-send-transaction-modal x-address-input {
-    color: black !important;
-}
-
-x-send-transaction-modal input::placeholder {
-    color: rgba(0, 0, 0, .3) !important;
-}
-
 x-send-transaction-offline-modal {
     max-width: 500px;
     text-align: center;

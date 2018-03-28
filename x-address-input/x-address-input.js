@@ -9,11 +9,15 @@ import XIdenticon from '../x-identicon/x-identicon.js';
 export default class XAddressInput extends XInput {
     html() {
         return `
-            <x-identicon></x-identicon>
-            <span class="prefix">NQ</span>
-            <form action="/">              
-                <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
-            </form>
+            <div class="input-row">
+                <x-identicon></x-identicon>
+            </div>
+            <div class="input-row">
+                <span class="prefix">NQ</span>
+                <form action="/">
+                    <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
+                </form>
+            </div>
         `
     }
 
@@ -70,7 +74,7 @@ export default class XAddressInput extends XInput {
         const template = 'xx xxxx xxxx xxxx xxxx xxxx xxxx xxxx xxxx';
         return InputFormat.templateFormatter(template)(value);
     }
-   
+
     // Accept 0-9, a-Z. Convert to upper case and replace some letters by similar looking numbers.
     _parseAddressChars(character, value) {
         const prunedCharacter = character.toUpperCase()

@@ -28,6 +28,14 @@ x-expandable [expandable-trigger] {
     padding-right: 40px;
     transition: padding .3s;
     position: relative;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+@media (max-width: 480px) {
+    x-expandable [expandable-trigger] {
+        padding-right: 30px;
+    }
 }
 
 x-expandable[disabled] [expandable-trigger] {
@@ -70,6 +78,7 @@ x-expandable [expandable-content] {
     transition: max-height .5s;
     overflow: hidden;
     cursor: initial;
+    padding-bottom: 3px;
 }
 
 x-expandable[dropdown] [expandable-content] {

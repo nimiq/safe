@@ -137,6 +137,12 @@ x-transaction x-amount {
     }
 }
 
+@media (max-width: 350px) {
+    x-transaction x-amount {
+        font-size: 1em;
+    }
+}
+
 /* Responsiveness */
 @media (min-width: 480px) {
     x-transaction {
