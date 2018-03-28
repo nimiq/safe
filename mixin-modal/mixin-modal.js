@@ -4,9 +4,10 @@ import XModals from './x-modals.js';
 import XModalContainer from './x-modal-container.js';
 
 const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
-    onCreate() {
+    async onCreate() {
         super.onCreate();
         this._route = this.attribute('x-route-aside');
+        if (this._route) this.router = await XRouter.instance;
         this._container = XModalContainer.createFor(this);
         this._container.$el.appendChild(this.$el); // append to the container if not already the case
         XModals.instance.$el.appendChild(this._container.$el); // append to x-modals if not already the case
@@ -24,7 +25,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         if (this.isVisible() || !this.allowsShow(...parameters)) return;
         if (this._route) {
             // let the router trigger the show
-            XRouter.root.showAside(this._route, ...parameters);
+            this.router.showAside(this._route, ...parameters);
         } else {
             XModals.show(this, ...parameters);
         }
@@ -38,7 +39,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         if (!this.isVisible() || !this.allowsHide()) return;
         if (this._route) {
             // let the router trigger the hide
-            XRouter.root.hideAside(this._route);
+            this.router.hideAside(this._route);
         } else {
             XModals.hide(this);
         }
