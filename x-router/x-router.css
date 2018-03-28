@@ -1,10 +1,22 @@
 x-route, [x-route] {
     display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
 }
 
-x-route[class*="from-"],
+/* x-route[class*="from-"],
 x-route.in,
 [x-route][class*="from-"],
 [x-route].in {
     display: flex;
+} */
+
+x-route:not(.out), [x-route]:not(.out) {
+    display: flex;
+}
+
+x-route.current, [x-route].current {
+    position: static;
 }
