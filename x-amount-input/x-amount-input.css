@@ -2,7 +2,7 @@
 @import '../x-numpad/x-numpad.css';
 
 x-amount-input input {
-    font-size: 56px !important;
+    font-size: 3.5em !important;
     font-weight: 300;
     padding-bottom: 0;
     width: 100% !important;

@@ -49,6 +49,10 @@ x-address-input[small] x-identicon {
     margin-right: 4px;
 }
 
+x-address-input .prefix {
+    margin-top: 1px;
+}
+
 x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
@@ -67,5 +71,4 @@ x-address-input.multiline .input-row {
 
 x-address-input.multiline .input-row input {
     width: auto;
-    flex-grow: 0.9;
 }

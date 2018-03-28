@@ -19,10 +19,28 @@
 .x-send-transaction input,
 .x-send-transaction input::placeholder,
 .x-send-transaction x-address-input {
-    font-size: 20px !important;
+    font-size: 20px;
     /* text-align: left !important; */
-    font-weight: 300 !important;
+    font-weight: 300;
 }
+
+.x-send-transaction x-address-input.multiline .input-row input {
+    flex-grow: 0.85;
+}
+
+@media (max-width: 610px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 0.9; } }
+@media (max-width: 595px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 0.95; } }
+@media (max-width: 585px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 1; } }
+@media (max-width: 572px) { .x-send-transaction x-address-input { font-size: 19px; } }
+@media (max-width: 547px) { .x-send-transaction x-address-input { font-size: 18px; } }
+@media (max-width: 527px) { .x-send-transaction x-address-input { font-size: 17px; } }
+@media (max-width: 500px) { .x-send-transaction x-address-input { font-size: 16px; } }
+@media (max-width: 480px) { .x-send-transaction x-address-input { font-size: 17px; } }
+@media (max-width: 465px) { .x-send-transaction x-address-input { font-size: 16px; } }
+@media (max-width: 440px) { .x-send-transaction x-address-input { font-size: 15px; } }
+@media (max-width: 415px) { .x-send-transaction x-address-input { font-size: 14px; } }
+@media (max-width: 390px) { .x-send-transaction x-address-input { font-size: 13px; } }
+@media (max-width: 359px) { .x-send-transaction x-address-input { font-size: 12px; } }
 
 .x-send-transaction input[amount],
 .x-send-transaction input[fee],
@@ -34,6 +52,7 @@
 
 .x-send-transaction button {
     margin-top: 28px;
+    width: 80%;
 }
 
 .x-send-transaction [advanced-settings] [expandable-content] > :first-child {
@@ -46,7 +65,8 @@
 }
 
 .x-send-transaction [advanced-settings] small {
-    display: inline-block;
+    display: block;
+    margin-top: -5px;
     margin-bottom: 5px;
     opacity: 0.6;
 }
