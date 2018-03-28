@@ -3,7 +3,6 @@ import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
 
 export default class XAccount extends MixinRedux(XElement) {
     html() {

@@ -2,7 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
+import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
@@ -131,7 +131,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     allowsShow(address) {
         address = dashToSpace(address);
-        return NanoApi.validateAddress(address);
+        return ValidationUtils.isValidAddress(address);
     }
 
     onShow(address) {

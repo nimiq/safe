@@ -2,7 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '/elements/x-identicon/x-identicon.js';
 import XAddress from '/elements/x-address/x-address.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
+import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 import { dashToSpace, spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XRouter from '/elements/x-router/x-router.js';
 
@@ -37,7 +37,7 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
 
     allowsShow(address) {
         address = dashToSpace(address);
-        return NanoApi.validateAddress(address);
+        return ValidationUtils.isValidAddress(address);
     }
 
     onShow(address) {

@@ -1,6 +1,6 @@
 import XSendTransaction from './x-send-transaction.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
+import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
@@ -12,8 +12,8 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     allowsShow(...params) {
         params = this._parseRouterParams(params);
 
-        return (!params.sender || NanoApi.validateAddress(dashToSpace(params.sender)))
-            && (!params.recipient || NanoApi.validateAddress(dashToSpace(params.recipient)));
+        return (!params.sender || ValidationUtils.isValidAddress(dashToSpace(params.sender)))
+            && (!params.recipient || ValidationUtils.isValidAddress(dashToSpace(params.recipient)));
     }
 
     onShow(...params) {

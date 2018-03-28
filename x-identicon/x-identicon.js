@@ -1,6 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import Iqons from '/libraries/iqons/dist/iqons.min.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
+import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 
 export default class XIdenticon extends XElement {
 
@@ -24,7 +24,7 @@ export default class XIdenticon extends XElement {
 
     set address(address) {
         this._address = address;
-        if (NanoApi.validateAddress(address)) {
+        if (ValidationUtils.isValidAddress(address)) {
             Iqons.toDataUrl(address).then(dataUrl => this.$img.src = dataUrl);
         } else {
             this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, 160 / this.$img.offsetWidth);
@@ -33,7 +33,7 @@ export default class XIdenticon extends XElement {
 
     set addressAsSvg(address) {
         // also clears the inner html of this tag
-        if (NanoApi.validateAddress(address)) {
+        if (ValidationUtils.isValidAddress(address)) {
             Iqons.render(address, this.$el);
         } else {
             Iqons.renderPlaceholder(this.$el, this._placeholderColor, 160 / this.$img.offsetWidth);

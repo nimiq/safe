@@ -2,7 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
-import NanoApi from '/libraries/nano-api/nano-api.js';
+import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -91,7 +91,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     allowsShow(hash) {
         hash = decodeURIComponent(hash);
-        return NanoApi.isValidHash(hash);
+        return ValidationUtils.isValidHash(hash);
     }
 
     onShow(hash) {
