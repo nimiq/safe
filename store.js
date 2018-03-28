@@ -40,7 +40,10 @@ export class Store {
 
         const transactions = Object.assign({},
             state.transactions,
-            { entries: [...state.transactions.entries.entries()] }
+            {
+                entries: [...state.transactions.entries.entries()],
+                isRequestingHistory: undefined
+            }
         );
 
         const accounts =  Object.assign({},

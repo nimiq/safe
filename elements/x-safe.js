@@ -62,7 +62,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-history x-route="history">
                     <x-card>
                         <h2>Transaction History</h2>
-                        <x-transactions class="no-animation"></x-transactions>
+                        <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
                 <x-view-settings x-route="settings"></x-view-settings>
@@ -92,13 +92,6 @@ export default class XSafe extends MixinRedux(XElement) {
             XWelcomeModal,
             XReceiveRequestLinkModal
         ];
-    }
-
-    onCreate() {
-        // Trigger history update when state loaded from persistedState
-        // (request is aborted in function when no accounts exist)
-        this.$transactions[0].requestTransactionHistory();
-        super.onCreate();
     }
 
     static get actions() {
