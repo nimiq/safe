@@ -14,6 +14,7 @@ import XToast from '/elements/x-toast/x-toast.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XWelcomeModal from './x-welcome-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
+import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XSafe extends MixinRedux(XElement) {
@@ -35,6 +36,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <div class="header-bottom">
                     <nav class="actions">
                         <button class="small" new-tx>Send NIM</button>
+                        <button class="small" receive>Receive NIM</button>
                         <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     </nav>
                     <nav class="main">
@@ -70,6 +72,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
+                <x-create-request-link-modal x-route-aside="receive"></x-create-request-link-modal>
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
@@ -90,7 +93,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XNetworkIndicator,
             XTransactionModal,
             XWelcomeModal,
-            XReceiveRequestLinkModal
+            XReceiveRequestLinkModal,
+            XCreateRequestLinkModal
         ];
     }
 
@@ -123,6 +127,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
             'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
+            'click button[receive]': this._clickedReceive.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
@@ -188,6 +193,10 @@ export default class XSafe extends MixinRedux(XElement) {
         } else {
             XSendTransactionModal.show();
         }
+    }
+
+    _clickedReceive() {
+        XCreateRequestLinkModal.show();
     }
 
     async _signTransaction(tx) {
