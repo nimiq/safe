@@ -278,3 +278,5 @@ export default class XRouter extends XElement {
         }
     }
 }
+
+// todo [low] support change of parameters while staying in same aside

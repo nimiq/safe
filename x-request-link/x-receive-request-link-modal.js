@@ -3,7 +3,8 @@ import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '/elements/x-identicon/x-identicon.js';
 import XAddress from '/elements/x-address/x-address.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
-import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import { dashToSpace, spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import XRouter from '/elements/x-router/x-router.js';
 
 export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -16,14 +17,14 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
                     <x-identicon></x-identicon>
                     <i class="display-none account-icon"></i>
                     <x-address></x-address>
-                    Someone send you a link to request a transaction.
+                    <div>Someone send you a link to request a transaction.</div>
                 </center>
 
                 <div class="action-buttons">
                     <hr>
 
-                    <button backup class="secondary small">Cancel</button>
-                    <button send class="small">Ok</button>
+                    <button class="cancel secondary small">Cancel</button>
+                    <button class="confirm small">Ok</button>
                 </div>
             </div>
         `;
@@ -42,6 +43,16 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
     onShow(address) {
         address = dashToSpace(address);
         this.$identicon.address = address;
-        this.$address.value = address;
+        this.$address.address = address;
+        this._address = address;
+    }
+
+    listeners() {
+        return {
+            'click button.cancel': () => this.hide(),
+            'click button.confirm': () => XRouter.root.showAside('new-transaction', `recipient=${spaceToDash(this._address)}`)
+        }
     }
 }
+
+// todo handle message and value
