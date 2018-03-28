@@ -50,3 +50,5 @@ const MixinRedux = XElementBase => class extends XElementBase {
 };
 
 export default MixinRedux;
+
+// todo [later] Only listen to state updates while element is visible
