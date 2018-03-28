@@ -39,7 +39,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                     <nav class="main">
                         <a x-href="">Dashboard</a>
-                        <a x-href="transactions">History</a>
+                        <a x-href="history">History</a>
                         <!-- <a x-href="settings">Settings</a> -->
                     </nav>
                 </div>
@@ -50,21 +50,21 @@ export default class XSafe extends MixinRedux(XElement) {
                         <h2>Recent Transactions</h2>
                         <x-transactions class="no-animation" only-recent no-menu></x-transactions>
                     </x-card>
-                    <x-card style="max-width: 512px;">
+                    <x-card style="max-width: 525px;">
                         <h2>Your Accounts</h2>
                         <x-accounts></x-accounts>
                     </x-card>
-                    <x-card style="max-width: 400px;">
+                    <x-card style="max-width: 360px;">
                         <h2>Nimiq Network</h2>
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
-                <x-view-transactions x-route="transactions">
+                <x-view-history x-route="history">
                     <x-card>
                         <h2>Transaction History</h2>
                         <x-transactions class="no-animation"></x-transactions>
                     </x-card>
-                </x-view-transactions>
+                </x-view-history>
                 <x-view-settings x-route="settings"></x-view-settings>
 
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
