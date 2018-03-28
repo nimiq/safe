@@ -13,6 +13,8 @@ import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-tr
 import XToast from '/elements/x-toast/x-toast.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XWelcomeModal from './x-welcome-modal.js';
+import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
+import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -67,6 +69,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
+                <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
@@ -86,7 +89,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XTransactions,
             XNetworkIndicator,
             XTransactionModal,
-            XWelcomeModal
+            XWelcomeModal,
+            XReceiveRequestLinkModal
         ];
     }
 
@@ -128,7 +132,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
-            'x-account-modal-new-tx': this._clickedNewTransaction.bind(this),
+            'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-backup': this._clickedAccountBackup.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this)
         }
@@ -179,13 +183,18 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    _clickedNewTransaction(address) {
-        XSendTransactionModal.instance.clear(this.properties.height);
-        XSendTransactionModal.show(...(address ? [`sender=${this._spaceToDash(address)}`] : []));
+    _clickedNewTransaction() {
+        this._newTransactionFrom();
     }
 
-    _spaceToDash(string) {
-        return string.replace(/ /gi, '-');
+    _newTransactionFrom(address) {
+        XSendTransactionModal.instance.clear(this.properties.height);
+
+        if (address) {
+            XSendTransactionModal.show(`sender=${ spaceToDash(address) }`);
+        } else {
+            XSendTransactionModal.show();
+        }
     }
 
     async _signTransaction(tx) {
