@@ -3,6 +3,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import WebShare from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -33,7 +34,8 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
     listeners() {
         return {
-            'x-account-selected': this._onAccountSelected.bind(this)
+            'x-account-selected': this._onAccountSelected.bind(this),
+            'click .x-request-link': navigator.share(this._link)
         }
     }
 
@@ -46,6 +48,8 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
         const $requestLink = this.$('.x-request-link');
 
-        $requestLink.textContent = `${ this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
+        this._link = `${ this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
+
+        $requestLink.textContent = this._link;
     }
 }
