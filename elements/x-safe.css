@@ -81,7 +81,7 @@ nav.actions {
 x-view-dashboard,
 x-view-history {
     padding: 1em 0.5em;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
     max-width: 960px;
     align-items: flex-start;
@@ -99,7 +99,7 @@ x-card {
     max-width: 960px;
     border-radius: 0.4em;
     padding: 1em;
-    margin: 1em;
+    margin: 0.5em;
     background: white;
     box-shadow: 0px 5px 20px -10px grey;
 }
@@ -133,6 +133,7 @@ footer {
         font-size: 12px;
         letter-spacing: 1px;
         padding: 0 4px 14px;
+        line-height: 15px;
     }
 
     nav.actions {
@@ -143,6 +144,7 @@ footer {
 @media (min-width: 480px) {
     x-card {
         padding: 1.5em 2em;
+        margin: 1em;
     }
 }
 
