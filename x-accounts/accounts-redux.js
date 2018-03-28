@@ -31,18 +31,17 @@ export function reducer(state, action) {
             });
 
         case TypeKeys.SET_ALL_KEYS:
-            const newEntries = action.keys.filter(x => !state.entries.has(x.address)).map(x => Object.assign({}, x, {
-                balance: undefined
-            }));
-
-            const oldEntries = [...state.entries.values()];
-
-            const merged = [...newEntries, ... oldEntries];
+            const newEntries = action.keys.map(x => [
+                x.address,
+                Object.assign({}, x, {
+                    balance: state.entries.has(x.address) ? state.entries.get(x.address).balance : undefined,
+                })
+            ]);
 
             return Object.assign({}, state, {
                 hasContent: true,
                 // convert array to map with address as key
-                entries: new Map(merged.map(x => [ x.address, x ]))
+                entries: new Map(newEntries)
             });
 
         case TypeKeys.UPDATE_BALANCES: {
