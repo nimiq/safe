@@ -196,7 +196,6 @@ export default class XSafe extends MixinRedux(XElement) {
         // put in and react accordingly.
 
         const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
-        console.log(tx, setValidityStartHeight);
 
         if (isNaN(setValidityStartHeight) && !this.properties.height) {
             XToast.show('Consensus not yet established, please try again in a few seconds.');
