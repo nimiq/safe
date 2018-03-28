@@ -122,13 +122,14 @@ export default class XRouter extends XElement {
         this.reverse = false;
         // const path = this._absolutePathOf(pathOrNode, orgPath);
         const findRoute = (node, relative) => {
-            if (typeof node == 'string') return this.routes.get(node);
-            return this.routeByElement.get(relative ? pathOrNode.querySelector(`[x-route="${ relative }"]`) : node);
+            if (typeof node == 'string') return { route: this._getRoute(node), path: node };
+            const _node = relative ? pathOrNode.querySelector(`[x-route="${ relative }"]`) : node;
+            return { route: this.routeByElement.get(), path: route.path };
         }
-        const route = findRoute(pathOrNode, relativePath);
-        if (!route) throw `XRouter: route for absolute path "${ relativePath }" of ${ pathOrNode.tagName } not found.`;
+        const { route, path } = findRoute(pathOrNode, relativePath);
+        if (!route) throw `XRouter: route for absolute path "${ path }" of ${ pathOrNode.tagName } not found.`;
         this.history.unshift(route);
-        this.router.navigate(route.path);
+        this.router.navigate(path);
     }
 
     _absolutePathOf(node, relativePath){
@@ -183,7 +184,7 @@ export default class XRouter extends XElement {
                 param = '/' + [...param].join('/');
             }
             // this.router.navigate(`${ path }_${ tag }${param}_`);
-            this.goTo(`${ path }_${ tag }${param}_`);
+            this.goTo(`${ path }_${ tag }${ param }_`);
         }
     }
 
@@ -193,19 +194,18 @@ export default class XRouter extends XElement {
 
     get goingBackwards() { return this.reverse; }
 
-    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$)/g, ''); }
-
+    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$|_[^_]*_)/g, ''); }
+    _getRoute(path) { return this.routes.get(this._sanitizePath(path)); }
     _isRoot(path = '') { return this._sanitizePath(path) == ''; }
 
-    async _show(orgPath) {
-        const path = this._sanitizePath(orgPath);
+    async _show(path) {
         if (this.running) {
             return requestAnimationFrame(() => this._show(path));
         }
         this.running = true;
 
         const hash = this.router.currentRoute;
-        const route = this.routes.get(path);
+        const route = this._getRoute(path);
         this._log(`XRouter: showing ${ path }, hash = ${ hash }, route = `, route);
 
         this._changeRoute(route);

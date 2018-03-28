@@ -6,13 +6,6 @@ x-route, [x-route] {
     width: 100vw;
 }
 
-/* x-route[class*="from-"],
-x-route.in,
-[x-route][class*="from-"],
-[x-route].in {
-    display: flex;
-} */
-
 .x-route-parent {
     position: relative;
 }
