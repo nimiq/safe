@@ -33,6 +33,7 @@ export default class XSendTransaction extends XElement {
                         </div>
 
                         <h3>Valid from</h3>
+                        <small>Only required for offline transaction creation.</small>
                         <div class="row">
                             <input name="validityStartHeight" validity-start placeholder="0" type="number" min="0" step="1">
                         </div>

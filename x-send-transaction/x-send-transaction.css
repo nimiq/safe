@@ -46,3 +46,9 @@
 .x-send-transaction [advanced-settings] input::placeholder {
     font-size: 30px !important;
 }
+
+.x-send-transaction [advanced-settings] small {
+    display: inline-block;
+    margin-bottom: 5px;
+    opacity: 0.6;
+}

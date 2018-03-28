@@ -52,8 +52,6 @@ x-address-input[small] x-identicon {
 x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
-    font-weight: normal;
-    text-transform: none;
     padding-left: 10px;
 }
 
