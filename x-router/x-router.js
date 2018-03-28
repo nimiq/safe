@@ -1,13 +1,23 @@
 import XElement from '/libraries/x-element/x-element.js';
 import Router from '/libraries/es6-router/src/index.js';
 
+const _waitingForInit = [];
+
 export default class XRouter extends XElement {
+
+    static get instance() {
+        return new Promise((resolve, reject) => {
+            if (XRouter._instance) resolve(XRouter._instance);
+            else _waitingForInit.push(resolve);
+        });
+    }
 
     constructor() {
         super(document.body);
     }
 
     onCreate() {
+        window.XRouter = XRouter;
         this.reverse = false;
         this.routing = false;
         this.running = false;
@@ -22,7 +32,6 @@ export default class XRouter extends XElement {
         }
         [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
 
-        if (!XRouter.root) XRouter.root = window.xRouter = this;
         this.router = new Router({ debug: false, startListening: false });
 
         let state = 1; // first time, there is no 'previous' element
@@ -32,13 +41,13 @@ export default class XRouter extends XElement {
             if (e.target == this.current.element) {
                 this._toggleInOut(this.current, false, false);
                 this._setClass(this.current, this.CSS_SHOW, true);
-                this._doCallback(this.current, 'onAfterEntry');
+                this._doRouteCallback(this.current, 'onAfterEntry');
                 state++;
             }
             if (this.previous && e.target == this.previous.element) {
                 this._toggleInOut(this.previous, false, false);
                 this._setClass(this.previous, this.CSS_HIDDEN, true);
-                this._doCallback(this.previous, 'onExit');
+                this._doRouteCallback(this.previous, 'onExit');
                 state++;
             }
             if (state == 2) {
@@ -58,26 +67,23 @@ export default class XRouter extends XElement {
         this.hookUpLinks(this.$$('a[x-href]'));
 
         this.router.listen();
+        XRouter._instance = this;
+        for (const callback of _waitingForInit) callback(this);
     }
 
     parseRoutes(routeElements) {
         this.routes = new Map();
+        this.routeByElement = new Map();
         for (const element of routeElements) {
-            const path = element.attributes['x-route'].value.trim();
-            // TODO [sven] store x-element?
-            if (this._isRoot(path)) { // root
-                const regex = /^\/?$|^\/?_.*/;
-                this.routes.set('', { path: '', element });
-                this.router.add(regex, () => {
-                    this._show('');
-                });
-            } else {
-                const regex = new RegExp(`^\/?${ path }.*`);
-                this.routes.set(path, { path, element, regex });
-                this.router.add(regex, (params) => {
-                    this._show(path);
-                });
-            }
+            const { path, nodes } = this._absolutePathOf(element);
+            const regex = this._isRoot(path) ? /^\/?$|^\/?_.*/ : new RegExp(`^\/?${ path }.*`);
+            const route = { path, element, regex, nodes };
+
+            this.routes.set(path, route);
+            this.routeByElement.set(element, route);
+            this.router.add(regex, (params) => this._show(path, params));
+            this._setClass(route, this.CSS_HIDDEN, true);
+            element.parentNode.classList.add('x-route-parent');
         }
     }
 
@@ -93,18 +99,26 @@ export default class XRouter extends XElement {
     hookUpLinks(links) {
         this.links = [];
         for (const link of links) {
-            const path = link.attributes['x-href'].value.trim();
-            link.href = `#/${ path }`;
-            this.links.push({ path, link });
-            // do we need this? is the above line not enough?
-            link.addEventListener('click', e => {
-                this.goTo(path);
-                e.preventDefault();
-            });
+            const linkPath = link.attributes['x-href'].value.trim();
+            if (linkPath[0] == '/') {
+                link.href = `#${ linkPath }`;
+                this.links.push({ path: this._sanitizePath(linkPath), link });
+            } else {
+                // if relative (no leading slash) > use _absolutePathOf > path + relative
+                const { path, nodes } = this._absolutePathOf(link);
+                const absolutePath = `${ path }/${ linkPath }`;
+                link.href = `#/${ absolutePath }`;
+                this.links.push({ path: absolutePath, link });
+            }
+            // // do we need this? is the above line not enough?
+            // link.addEventListener('click', e => {
+            //     this.goTo(path);
+            //     e.preventDefault();
+            // });
         }
     }
 
-    goTo(pathOrNode, orgPath) {
+    goTo(pathOrNode, relativePath) {
         this.reverse = false;
         // const path = this._absolutePathOf(pathOrNode, orgPath);
         const findRoute = (node, relative) => {
@@ -194,19 +208,16 @@ export default class XRouter extends XElement {
         const route = this._getRoute(path);
         this._log(`XRouter: showing ${ path }, hash = ${ hash }, route = `, route);
 
-        this._changeRoute(path);
+        this._changeRoute(route);
         this._checkAsides(hash);
-        this._highlightLinks(path);
+        this._highlightLinks(route);
 
         this.running = false;
     }
 
-    _changeRoute(orgPath) {
-        const path = this._sanitizePath(orgPath);
-        if (this.current && orgPath === this.current.path) return;
-        // TODO keep following line? is there a more generic way?
-        // this.reverse = path == this.previous;
-        [ this.previous, this.current ] = [ this.current, this.routes.get(path) ];
+    _changeRoute(route) {
+        if (this.current && route.path === this.current.path) return;
+        [ this.previous, this.current ] = [ this.current, route ];
 
         if (this.previous) {
             this._toggleInOut(this.previous, false)
@@ -244,9 +255,9 @@ export default class XRouter extends XElement {
         }
     }
 
-    _highlightLinks(currentPath) {
+    _highlightLinks(route) {
         for (const { path, link } of this.links) {
-            link.classList.toggle('current', path == currentPath);
+            link.classList.toggle('current', path == route.path);
         }
     }
 
@@ -254,16 +265,18 @@ export default class XRouter extends XElement {
         if (!route) {
             throw new Error('XRouter: no route!');
         }
-        this._doCallback(route.element, name, args);
+        for (const node of route.nodes) {
+            this._doCallback(node, name, args);
+        }
     }
 
-    _doCallback(el, name, args = []) {
-        const element = XElement.get(el);
+    _doCallback(element, name, args = []) {
+        const xElement = XElement.get(element);
         // element is undefined if el is a plain html node, e.g. section, main, ...
-        if (!element) return;
+        if (!xElement) return;
 
-        if (element[name] instanceof Function) {
-            element[name](...args);
+        if (xElement[name] instanceof Function) {
+            xElement[name](...args);
         } else console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
     }
 
@@ -276,7 +289,7 @@ export default class XRouter extends XElement {
 
     _setClass(route, css, on) {
         if (route) {
-            route.element.classList.toggle(css, on);
+            for (const node of route.nodes) node.classList.toggle(css, on);
         } else {
             throw new Error('XRouter: no route!');
         }
