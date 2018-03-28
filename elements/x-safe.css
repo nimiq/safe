@@ -65,7 +65,7 @@ nav.main a {
     margin: 18px 1em 0 0.5em;
     text-transform: uppercase;
     font-size: 14px;
-    letter-spacing: 2px;
+    letter-spacing: 0.16em;
     padding: 0 4px 15px;
     font-weight: bold;
     opacity: 0.6;
@@ -119,7 +119,7 @@ x-card {
 x-card h2 {
     margin-bottom: 15px;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 0.16em;
     font-size: 13px;
     font-weight: bold;
 
