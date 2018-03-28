@@ -9,6 +9,7 @@ x-modal-container {
     align-items: center;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
     padding: 64px 0;

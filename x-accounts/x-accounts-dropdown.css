@@ -47,4 +47,6 @@ x-accounts-dropdown x-accounts-list {
 x-accounts-dropdown x-account {
     animation: none;
     width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
 }
