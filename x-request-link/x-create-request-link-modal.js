@@ -46,8 +46,6 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
         const $requestLink = this.$('.x-request-link');
 
-        const path = 'http://localhost/apps/safe';
-
-        $requestLink.textContent = `${path}/#_request/${spaceToDash(address)}_`;
+        $requestLink.textContent = `${ this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
     }
 }
