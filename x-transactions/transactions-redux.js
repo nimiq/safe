@@ -2,8 +2,8 @@ export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
     UPDATE_BLOCK: 'transactions/updateBlock',
     SET_PAGE: 'transactions/set-page',
-    SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page'
-
+    SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
+    SET_REQUESTING_HISTORY: 'transactions/set-requesting-history'
 };
 
 export function reducer(state, action) {
@@ -62,6 +62,11 @@ export function reducer(state, action) {
                 itemsPerPage: action.itemsPerPage
             });
 
+        case TypeKeys.SET_REQUESTING_HISTORY:
+            return Object.assign({}, state, {
+                isRequestingHistory: action.isRequestingHistory
+            });
+
         default:
             return state
     }
@@ -97,6 +102,13 @@ export function setItemsPerPage(itemsPerPage) {
     return {
         type: TypeKeys.SET_ITEMS_PER_PAGE,
         itemsPerPage
+    }
+}
+
+export function setRequestingHistory(isRequestingHistory) {
+    return {
+        type: TypeKeys.SET_REQUESTING_HISTORY,
+        isRequestingHistory
     }
 }
 

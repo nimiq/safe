@@ -8,14 +8,6 @@ x-transactions {
     margin-top: -2.8em;
 }
 
-x-transactions[no-menu] {
-    margin-top: 0;
-}
-
-x-transactions[no-menu] .popupmenu {
-    display: none;
-}
-
 x-transactions a[secondary] {
     font-weight: 400;
     text-transform: uppercase;

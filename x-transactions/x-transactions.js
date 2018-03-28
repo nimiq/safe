@@ -4,7 +4,7 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
-import { addTransactions } from './transactions-redux.js';
+import { addTransactions, setRequestingHistory } from './transactions-redux.js';
 import networkClient from '/apps/safe/network-client.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
@@ -53,7 +53,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
-    static get actions() { return { addTransactions } }
+    static get actions() { return { addTransactions, setRequestingHistory } }
 
     static mapStateToProps(state, props) {
         return {
@@ -69,7 +69,8 @@ export default class XTransactions extends MixinRedux(XElement) {
             hasTransactions: state.transactions.hasContent,
             addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
             hasAccounts: state.accounts.hasContent,
-            lastKnownHeight: state.network.height || state.network.oldHeight
+            lastKnownHeight: state.network.height || state.network.oldHeight,
+            isRequestingHistory: state.transactions.isRequestingHistory
         }
     }
 
@@ -95,15 +96,28 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.hasAccounts && !this.properties.addresses.length) {
-            // Empty state
-            this.actions.addTransactions([]);
+        if (!this.attributes.passive) {
+            if (changes.hasAccounts && this.properties.addresses.length === 0) {
+                // Empty state
+                this.actions.addTransactions([]);
+            }
+            else if (changes.addresses && changes.addresses instanceof Array && changes.addresses.length > 0) {
+                // Called when state is loaded from persisted state (deepdiff returns the accounts as the new array)
+                this.requestTransactionHistory(changes.addresses);
+            }
+            else if (changes.addresses && !(changes.addresses instanceof Array)) {
+                // Called when an account is added (deepdiff returns array diff as object)
+                const newAddresses = Object.values(changes.addresses);
+                // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
+                this.requestTransactionHistory(newAddresses);
+            }
         }
-        else if (changes.addresses && !(changes.addresses instanceof Array)) {
-            const newAddresses = Object.values(changes.addresses);
-            // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
-            // Request transaction history for new accounts
-            this.requestTransactionHistory(newAddresses);
+
+        if (changes.isRequestingHistory) {
+            this._buttonShowLoader();
+        }
+        else if (changes.isRequestingHistory !== undefined) {
+            this._buttonShowText();
         }
 
         const { hasTransactions, transactions } = this.properties;
@@ -141,11 +155,11 @@ export default class XTransactions extends MixinRedux(XElement) {
     async requestTransactionHistory(addresses) {
         if (!this.properties.hasAccounts) return;
 
-        this._buttonShowLoader();
+        this.actions.setRequestingHistory(true);
         addresses = addresses || this.properties.addresses;
         const transactions = await this._requestTransactionHistory(addresses);
         this.actions.addTransactions(transactions);
-        this._buttonShowText();
+        this.actions.setRequestingHistory(false);
     }
 
     /**
@@ -193,12 +207,12 @@ export default class XTransactions extends MixinRedux(XElement) {
     _buttonShowLoader() {
         this.$refreshText.classList.add('display-none');
         this.$refreshLoader.classList.remove('display-none');
-        this.$refreshMenu.disabled = true;
+        (this.$refreshMenu.disabled = true);
     }
 
     _buttonShowText() {
-        this.$refreshText.classList.remove('display-none');
+        !this.attributes.noMenu && this.$refreshText.classList.remove('display-none');
         this.$refreshLoader.classList.add('display-none');
-        this.$refreshMenu.disabled = false;
+        !this.attributes.noMenu && (this.$refreshMenu.disabled = false);
     }
 }
