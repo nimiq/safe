@@ -2,9 +2,14 @@ x-route, [x-route] {
     display: none;
 }
 
-x-route[class*="from-"],
-x-route.in,
-[x-route][class*="from-"],
-[x-route].in {
+.x-route-parent {
+    position: relative;
+}
+
+x-route:not(.out), [x-route]:not(.out) {
     display: flex;
+}
+
+x-route.current, [x-route].current {
+    position: static;
 }

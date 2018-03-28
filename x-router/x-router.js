@@ -106,22 +106,33 @@ export default class XRouter extends XElement {
 
     goTo(pathOrNode, orgPath) {
         this.reverse = false;
-        let absolutePath = pathOrNode;
-        if (orgPath) {
-            const readPath = (node, path = []) => {
-                const segment = this._sanitizePath(node.getAttribute('x-route'));
-                if (segment) {
-                    path.unshift(segment);
-                }
-                return node.parentNode ? readPath(node.parentNode, path) : path;
-            };
-            const path = [ pathOrNode.$(`[x-route="${ orgPath }"]`) ];
-            absolutePath = readPath(pathOrNode, path).join('/');
-            if (!this.routes.get(absolutePath)) throw `XRouter: goTo(${ pathOrNode}, ${ orgPath }): absolute path "${ absolutePath }" not found.`;
+        // const path = this._absolutePathOf(pathOrNode, orgPath);
+        const findRoute = (node, relative) => {
+            if (typeof node == 'string') return { route: this._getRoute(node), path: node };
+            const _node = relative ? pathOrNode.querySelector(`[x-route="${ relative }"]`) : node;
+            return { route: this.routeByElement.get(), path: route.path };
         }
-        const path = absolutePath;
-        this.history.unshift(path);
+        const { route, path } = findRoute(pathOrNode, relativePath);
+        if (!route) throw `XRouter: route for absolute path "${ path }" of ${ pathOrNode.tagName } not found.`;
+        this.history.unshift(route);
         this.router.navigate(path);
+    }
+
+    _absolutePathOf(node, relativePath){
+        if (typeof node == 'string') return node; // `node` is abs path already
+        const nodes = [];
+        const readPath = (node, path = []) => {
+            const segment = node.getAttribute('x-route');
+            if (segment != null) {
+                path.unshift(this._sanitizePath(segment));
+                nodes.unshift(node);
+            }
+            return (node.parentNode != this.$el) ? readPath(node.parentNode, path) : path;
+        };
+        const leaf = relativePath ? node.querySelector(`[x-route="${ relativePath }"]`) : node;
+        if (!leaf) throw new Error(`XRouter: can not find relative x-route ${ relativePath } in this tag ${ node.tagName }`);
+        const path = readPath(leaf).join('/');
+        return { path, nodes };
     }
 
     goBackTo(path) {
@@ -159,7 +170,7 @@ export default class XRouter extends XElement {
                 param = '/' + [...param].join('/');
             }
             // this.router.navigate(`${ path }_${ tag }${param}_`);
-            this.goTo(`${ path }_${ tag }${param}_`);
+            this.goTo(`${ path }_${ tag }${ param }_`);
         }
     }
 
@@ -169,20 +180,19 @@ export default class XRouter extends XElement {
 
     get goingBackwards() { return this.reverse; }
 
-    // _sanitizePath(path) { return this._isRoot(path) ? '' : path }
-    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$)/g, ''); }
+    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$|_[^_]*_)/g, ''); }
+    _getRoute(path) { return this.routes.get(this._sanitizePath(path)); }
+    _isRoot(path = '') { return this._sanitizePath(path) == ''; }
 
-    _isRoot(path = '') { return ['', '/'].includes(path.trim()); }
-
-    async _show(orgPath) {
-        const path = this._sanitizePath(orgPath);
+    async _show(path) {
         if (this.running) {
             return requestAnimationFrame(() => this._show(path));
         }
         this.running = true;
 
         const hash = this.router.currentRoute;
-        this._log(`XRouter: showing ${ path }, hash = ${ hash }`);
+        const route = this._getRoute(path);
+        this._log(`XRouter: showing ${ path }, hash = ${ hash }, route = `, route);
 
         this._changeRoute(path);
         this._checkAsides(hash);
