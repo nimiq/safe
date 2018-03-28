@@ -8,13 +8,21 @@ x-transactions {
     margin-top: -2.8em;
 }
 
+x-transactions[no-menu] {
+    margin-top: 0;
+}
+
+x-transactions[no-menu] .popupmenu {
+    display: none;
+}
+
 x-transactions-list {
     display: table;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
@@ -32,7 +40,11 @@ x-transaction {
 }
 
 x-transaction > * {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
+    display: table-cell !important;
+    vertical-align: middle;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 x-transaction > *:first-child {
@@ -64,16 +76,11 @@ x-transactions.no-animation x-transaction {
 }
 
 x-transaction:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.075);
 }
 
 x-transaction:last-child {
     border-bottom: 1px solid transparent;
-}
-
-x-transaction > * {
-    display: table-cell !important;
-    vertical-align: middle;
 }
 
 x-transaction x-identicon {

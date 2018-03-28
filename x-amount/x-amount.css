@@ -57,6 +57,7 @@ x-amount .ticker {
 
 x-amount .rest-decimals {
     margin-left: 0.05em;
+    display: none;
 }
 
 x-amount[display] .ticker,

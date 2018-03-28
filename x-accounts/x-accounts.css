@@ -21,8 +21,8 @@ x-accounts-list {
     flex-grow: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-    border-top: 1px solid rgba(0, 0, 0, 0.5);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
     flex-direction: column;
 }
 
@@ -38,7 +38,7 @@ x-accounts-list h2 {
 x-account {
     display: flex;
     padding: 8px 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
     animation: from-right 500ms;
     cursor: pointer;
     position: relative;
@@ -55,7 +55,7 @@ x-account-modal x-account {
 }
 
 x-account:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.075);
 }
 
 x-account-modal x-account:hover {
