@@ -69,6 +69,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         const account = this.$account.account;
         // An XAccount.account always has the height property,
         // thus we check if there are any more than that one
+        // todo remove height from account objects and find a less hacky solution
         return Object.keys(account).length > 1 ? account : null;
     }
 

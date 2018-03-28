@@ -1,7 +1,7 @@
 x-toast {
     position: fixed;
-    top: 0px;
-    width: 100%;
+    top:0;
+    margin: auto;
     display: flex;
     justify-content: center;
     z-index: 3;
@@ -49,7 +49,7 @@ x-toast.x-toast-show {
 @media (max-width: 420px) {
     x-toast [toast-content] {
         margin: 0px;
-        width: 100%;
+        width: 100vw;
         border-radius: 0;
     }
 }
