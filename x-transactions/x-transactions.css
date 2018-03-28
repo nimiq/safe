@@ -116,6 +116,10 @@ x-transaction.transfer .label {
     font-weight: bold;
 }
 
+x-transaction .timestamp {
+    /* text-transform: uppercase; */
+}
+
 x-transaction x-amount {
     text-align: right;
     font-size: 1.4em;
