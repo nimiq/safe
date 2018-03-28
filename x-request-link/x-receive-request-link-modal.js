@@ -13,18 +13,14 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
                 <h2>Transaction Request</h2>
             </div>
             <div class="modal-body">
-                <center>
+                <div class="center">
                     <x-identicon></x-identicon>
                     <i class="display-none account-icon"></i>
                     <x-address></x-address>
-                    <div>Someone send you a link to request a transaction.</div>
-                </center>
+                    <div class="x-message">Someone send you a link to request a transaction.</div>
 
-                <div class="action-buttons">
-                    <hr>
-
-                    <button class="cancel secondary small">Cancel</button>
-                    <button class="confirm small">Ok</button>
+                    <button class="confirm">Ok</button>
+                    <a class="cancel" secondary>Cancel</a>
                 </div>
             </div>
         `;
@@ -49,8 +45,9 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
 
     listeners() {
         return {
-            'click button.cancel': () => this.hide(),
-            'click button.confirm': () => XRouter.root.showAside('new-transaction', `recipient=${spaceToDash(this._address)}`)
+            'click a.cancel': () => this.hide(),
+            'click button.confirm': async () =>
+                (await XRouter.instance).showAside('new-transaction', `recipient=${spaceToDash(this._address)}`)
         }
     }
 }

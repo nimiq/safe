@@ -3,3 +3,7 @@ x-receive-request-link-modal x-identicon {
     width: 160px;
     margin: 0 auto;
 }
+
+x-receive-request-link-modal .x-message {
+    margin: 20px;
+}
