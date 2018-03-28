@@ -6,19 +6,25 @@ x-network-indicator {
 x-network-indicator hr {
     border: 0;
     height: 1px;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 x-network-indicator div {
-    margin-bottom: 0.4em;
+    line-height: 45px;
 }
 
 x-network-indicator label,
-x-network-indicator strong {
+x-network-indicator span {
     display: inline-block;
-    width: 49%;
+    width: 49.5%;
 }
 
-x-network-indicator strong {
+x-network-indicator label {
+    opacity: 0.6;
+}
+
+x-network-indicator span {
     text-align: right;
+    font-size: 1.5em;
+    text-transform: capitalize;
 }

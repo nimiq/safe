@@ -5,18 +5,18 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {
         return `
             <hr>
-            <div><label>Consensus</label> <strong consensus></strong></div>
-            <div><label>Height</label> <strong height></strong></div>
-            <div><label>Peer count</label> <strong peerCount></strong></div>
-            <div><label>Global hashrate</label> <strong globalHashrate></strong></div>
+            <div><label>Consensus</label> <span consensus></span></div>
+            <div><label>Connected peers</label> <span peerCount></span></div>
+            <div><label>Blockchain Height</label> <span height></span></div>
+            <div><label>Global hashrate</label> <span globalHashrate></span></div>
         `;
     }
 
     onCreate() {
-        this.$consensus = this.$('strong[consensus]');
-        this.$height = this.$('strong[height]');
-        this.$peerCount = this.$('strong[peerCount]');
-        this.$globalHashrate = this.$('strong[globalHashrate]');
+        this.$consensus = this.$('span[consensus]');
+        this.$height = this.$('span[height]');
+        this.$peerCount = this.$('span[peerCount]');
+        this.$globalHashrate = this.$('span[globalHashrate]');
         super.onCreate();
     }
 
@@ -43,6 +43,18 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
     }
 
     set globalHashrate(globalHashrate) {
-        this.$globalHashrate.textContent = `~${globalHashrate} H/s`;
+        this.$globalHashrate.textContent = this._formatHashrate(globalHashrate);
+    }
+
+    _formatHashrate(hashrate) {
+        // kilo, mega, giga, tera, peta, exa, zetta
+        const unit_prefix = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z'];
+
+        for (let i = 0; i < unit_prefix.length - 1; i++) {
+            if (hashrate < 1000) return `${hashrate.toFixed(2)} ${unit_prefix[i]}H/s`;
+            hashrate = hashrate / 1000;
+        }
+
+        throw new Error('Hashrate higher than 1000 ZH/s');
     }
 }
