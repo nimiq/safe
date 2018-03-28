@@ -8,6 +8,7 @@
 @import '/elements/x-network-indicator/x-network-indicator.css';
 @import '/elements/x-send-transaction/x-send-transaction-modal.css';
 @import '/elements/x-request-link/x-receive-request-link-modal.css';
+@import '/elements/x-request-link/x-create-request-link-modal.css';
 
 html, body {
     overflow-x: hidden;
