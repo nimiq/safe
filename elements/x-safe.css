@@ -93,6 +93,10 @@ nav.main a[x-href].current {
     border-bottom: 2px solid var(--success-color);
 }
 
+.content {
+    position: relative;
+}
+
 x-card {
     display: block;
     width: 100%;
