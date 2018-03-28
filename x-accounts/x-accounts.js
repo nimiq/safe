@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
+import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XAccounts extends XElement {
 
@@ -45,11 +46,7 @@ export default class XAccounts extends XElement {
     }
 
     _onAccountSelected(address) {
-        address = this._spaceToDash(address);
+        address = spaceToDash(address);
         XAccountModal.show(address);
-    }
-
-    _spaceToDash(string) {
-        return string.replace(/ /gi, '-');
     }
 }

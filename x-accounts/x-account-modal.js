@@ -3,6 +3,7 @@ import XAccount from './x-account.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
+import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -129,20 +130,15 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     allowsShow(address) {
-        address = this._dashToSpace(address);
+        address = dashToSpace(address);
         return NanoApi.validateAddress(address);
     }
 
     onShow(address) {
-        address = this._dashToSpace(address);
+        address = dashToSpace(address);
 
         let account = MixinRedux.store.getState().accounts.entries.get(address);
         if (!account) account = { address };
         this.account = account;
     }
-
-    _dashToSpace(string) {
-        return string.replace(/-/gi, ' ');
-    }
-
 }
