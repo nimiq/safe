@@ -1,9 +1,9 @@
-import XInput from '../x-input/x-input.js';
+import XInput from '../../secure-elements/x-input/x-input.js';
 import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
 import PasteHandler from '/libraries/nimiq-utils/paste-handler/paste-handler.js';
 import KeyboardHandler from '/libraries/nimiq-utils/keyboard-handler/keyboard-handler.js';
 import * as InputFormat from '/libraries/nimiq-utils/input-format/index.js';
-import XIdenticon from '../x-identicon/x-identicon.js';
+import XIdenticon from '../../secure-elements/x-identicon/x-identicon.js';
 
 
 export default class XAddressInput extends XInput {

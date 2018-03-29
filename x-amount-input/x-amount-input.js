@@ -1,4 +1,4 @@
-import XInput from '../x-input/x-input.js';
+import XInput from '../../secure-elements/x-input/x-input.js';
 import XNumpad from '../x-numpad/x-numpad.js';
 
 export default class XAmountInput extends XInput {

@@ -1,4 +1,4 @@
-@import '../x-input/x-input.css';
+@import '../../secure-elements/x-input/x-input.css';
 @import '../x-numpad/x-numpad.css';
 
 x-amount-input input {

@@ -1,6 +1,6 @@
 @import '../x-address/x-address.css';
 @import '../mixin-modal/mixin-modal.css';
-@import '/elements/x-loading-animation/x-loading-animation.css';
+@import '/secure-elements/x-loading-animation/x-loading-animation.css';
 @import '/elements/x-amount/x-amount.css';
 
 x-accounts {

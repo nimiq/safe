@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 
 export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {

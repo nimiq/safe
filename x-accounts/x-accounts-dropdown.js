@@ -2,7 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import XAccount from './x-account.js';
 import XAccountsList from './x-accounts-list.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 
 export default class XAccountsDropdown extends MixinRedux(XElement) {
 
