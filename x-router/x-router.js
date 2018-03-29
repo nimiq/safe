@@ -107,8 +107,8 @@ export default class XRouter extends XElement {
         this.asides = new Map();
         for (const element of routeElements) {
             const tag = element.attributes['x-route-aside'].value.trim();
-            const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`, 'g');
-            const replace = new RegExp(`_${ tag }\/?[^_]*_`, 'g');
+            const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`);
+            const replace = new RegExp(`_${ tag }\/?[^_]*_`);
             this.asides.set(tag, { tag, element, regex, replace, visible: false });
         }
     }
