@@ -42,7 +42,7 @@ export default class XSendTransaction extends XElement {
                 </x-expandable>
 
                 <div class="center row">
-                    <input type="submit" button send value="Send">
+                    <button send>Send</button>
                 </div>
             </form>
         `
@@ -54,7 +54,7 @@ export default class XSendTransaction extends XElement {
 
     onCreate() {
         this.$form = this.$('form');
-        this.$button = this.$('input[send]');
+        this.$button = this.$('button[send]');
         this.$addressInput.placeholderColor = '#bbb';
 
         this.__debouncedValidateRecipient = this.debounce(this.__validateRecipient, 1000, true);
@@ -130,12 +130,11 @@ export default class XSendTransaction extends XElement {
      */
     async _validateField(field) {
         switch (field) {
-            case 'sender':
-                this._validateSender();
-                break;
             case 'recipient':
                 this._validateRecipient();
                 break;
+            case 'sender':
+                this._validateSender();
             case 'amount':
             case 'fees':
                 this._validateAmountAndFees();
@@ -161,6 +160,7 @@ export default class XSendTransaction extends XElement {
 
         this._validRecipient = false;
 
+        // TODO Skip network request when doing airgapped tx creation
         if (address) this.__debouncedValidateRecipient(address);
 
         return;
@@ -196,12 +196,12 @@ export default class XSendTransaction extends XElement {
     }
 
     _isValid() {
-        // console.log(
-        //     "sender", this._validSender,
-        //     "recipient", this._validRecipient,
-        //     "amountandFees", this._validAmountAndFees,
-        //     "validityStartHeight", this._validValidityStartHeigth
-        // );
+        console.log(
+            "sender", this._validSender,
+            "recipient", this._validRecipient,
+            "amountandFees", this._validAmountAndFees,
+            "validityStartHeight", this._validValidityStartHeigth
+        );
         return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeigth;
     }
 
