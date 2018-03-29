@@ -4,6 +4,7 @@ import XAddressInput from '../x-address-input/x-address-input.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/network-client.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 
 export default class XSendTransaction extends XElement {
     html() {
@@ -176,8 +177,13 @@ export default class XSendTransaction extends XElement {
 
         // TODO Skip network request when doing airgapped tx creation
         if (address) {
-            this._setError('Validating receiver type, please wait...', 'recipient');
-            this.__debouncedValidateRecipient(address);
+            if (MixinRedux.store.getState().network.consensus !== 'established') {
+                this._setError('Cannot validate address (not connected)');
+                this._validRecipient = true;
+            } else {
+                this._setError('Validating receiver type, please wait...', 'recipient');
+                this.__debouncedValidateRecipient(address);
+            }
         } else if (value.length === 0) {
             this._clearError('recipient');
         } else {
