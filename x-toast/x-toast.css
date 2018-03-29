@@ -19,6 +19,7 @@ x-toast [toast-content] {
     animation-fill-mode: backwards;
     box-shadow: var(--box-shadow);
     margin: 24px;
+    pointer-events: initial;
 }
 
 x-toast.x-toast-show {
