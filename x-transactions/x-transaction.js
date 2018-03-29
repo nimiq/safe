@@ -1,7 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XIdenticon from '../../secure-elements/x-identicon/x-identicon.js';
-import XAmount from '../x-amount/x-amount.js';
+import XAmount from '../../secure-elements/x-amount/x-amount.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
     html() {

@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
     <link href="../x-amount-input.css" rel="stylesheet">
-    <link href="../../x-toast/x-toast.css" rel="stylesheet">
+    <link href="../../../secure-elements/x-toast/x-toast.css" rel="stylesheet">
 </head>
 
 <body>
     <x-amount-input></x-amount-input>
     <script type="module">
         import XAmountInput from "../x-amount-input.js";
-        import XToast from "../../x-toast/x-toast.js";
+        import XToast from "../../../secure-elements/x-toast/x-toast.js";
         const $input = new XAmountInput();
         $input.addEventListener('x-amount-input', e => XToast.show(`${e.type}: ${e.detail}`));
     </script>

@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
-    <link href="/elements/x-toast/x-toast.css" rel="stylesheet">
+    <link href="/secure-elements/x-toast/x-toast.css" rel="stylesheet">
     <link href="../x-transactions.css" rel="stylesheet">
 
     <style>
@@ -23,7 +23,7 @@
 
     <script type="module">
     import XTransactions from '../x-transactions.js';
-    import XToast from '../../x-toast/x-toast.js';
+    import XToast from '../../../secure-elements/x-toast/x-toast.js';
     const $transactions = new XTransactions();
     window.$transactions = $transactions;
     const demoTransactions = [

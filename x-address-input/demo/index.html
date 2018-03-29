@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
     <link href="../x-address-input.css" rel="stylesheet">
-    <link href="../../x-toast/x-toast.css" rel="stylesheet">
+    <link href="../../../secure-elements/x-toast/x-toast.css" rel="stylesheet">
 </head>
 
 <body>
     <x-address-input></x-address-input>
     <script type="module">
         import XAddressInput from "../x-address-input.js";
-        import XToast from "../../x-toast/x-toast.js";
+        import XToast from "../../../secure-elements/x-toast/x-toast.js";
         const $input = new XAddressInput();
         $input._onEntry();
         $input.addEventListener('x-address-input', e => XToast.show(`${e.type}: ${e.detail}`));

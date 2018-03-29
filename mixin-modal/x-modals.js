@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import MixinSingleton from '../mixin-singleton/mixin-singleton.js';
+import MixinSingleton from '../../secure-elements/mixin-singleton/mixin-singleton.js';
 
 export default class XModals extends MixinSingleton(XElement) {
     onCreate() {
