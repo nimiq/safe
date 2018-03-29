@@ -41,9 +41,9 @@ export default class XRouter extends XElement {
         this.running = false;
         this.history = [];
 
-        let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
+        let classes = ['from-right-in', 'in', 'from-left-out', 'visible', 'from-left-in', 'from-right-out'];
 
-        [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
+        [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_VISIBLE, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
 
         this.router = new Router({ debug: false, startListening: false });
 
@@ -59,7 +59,7 @@ export default class XRouter extends XElement {
             }
             if (this.previous && e.target == this.previous.element) {
                 this._toggleInOut(this.previous, false, false);
-                this._setClass(this.previous, this.CSS_HIDDEN, true);
+                this._setClass(this.previous, this.CSS_VISIBLE, false);
                 this._doRouteCallback(this.previous, 'onExit');
                 state++;
             }
@@ -98,7 +98,7 @@ export default class XRouter extends XElement {
             this.routes.set(path, route);
             this.routeByElement.set(element, route);
             this.router.add(regex, (params) => this._show(path, params));
-            this._setClass(route, this.CSS_HIDDEN, true);
+            // this._setClass(route, this.CSS_VISIBLE, false);
             element.parentNode.classList.add('x-route-parent');
         }
     }
@@ -253,7 +253,7 @@ export default class XRouter extends XElement {
         }
 
         this._toggleInOut(this.current, true);
-        this._setClass(this.current, this.CSS_HIDDEN, false);
+        this._setClass(this.current, this.CSS_VISIBLE, true);
         this._doRouteCallback(this.current, 'onEntry');
         this.current.element.classList.add('current');
 

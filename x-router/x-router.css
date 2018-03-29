@@ -9,7 +9,7 @@ x-route, [x-route] {
     position: relative;
 }
 
-x-route:not(.out), [x-route]:not(.out) {
+x-route.visible, [x-route].visible {
     display: flex;
 }
 
