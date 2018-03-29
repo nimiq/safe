@@ -5,7 +5,7 @@ import ValidationUtils from '/libraries/secure-utils/validation-utils/validation
 export default class XIdenticon extends XElement {
 
     html() {
-        return '<img width="100%" height="100%;">';
+        return '<img width="100%" height="100%">';
     }
 
     onCreate() {
