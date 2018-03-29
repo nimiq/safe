@@ -10,7 +10,7 @@ import XTotalAmount from './x-total-amount.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
-import XToast from '/elements/x-toast/x-toast.js';
+import XToast from '/secure-elements/x-toast/x-toast.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XWelcomeModal from './x-welcome-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';

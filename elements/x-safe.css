@@ -1,8 +1,8 @@
 @import '/secure-elements/x-router/x-router.css';
 @import '/elements/x-accounts/x-accounts.css';
 @import '/elements/x-transactions/x-transactions.css';
-@import '/elements/x-toast/x-toast.css';
-@import '/elements/x-amount/x-amount.css';
+@import '/secure-elements/x-toast/x-toast.css';
+@import '/secure-elements/x-amount/x-amount.css';
 @import '/secure-elements/x-account-backup-import/x-account-backup-import.css';
 @import '/secure-elements/nimiq-logo/nimiq-logo.css';
 @import '/elements/x-network-indicator/x-network-indicator.css';

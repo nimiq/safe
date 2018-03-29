@@ -8,7 +8,7 @@ import { setConsensus, setHeight,
     setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
 import networkClient from './network-client.js';
-import MixinSingleton from '/elements/mixin-singleton/mixin-singleton.js';
+import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 
 class Safe {
     constructor() {
