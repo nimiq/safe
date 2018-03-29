@@ -1,0 +1,18 @@
+{
+  "name": "nimiq-safe",
+  "version": "1.0.0",
+  "description": "Nimiq Safe",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nimiq",
+    "safe"
+  ],
+  "author": "Nimiq Foundation",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}

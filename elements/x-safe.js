@@ -1,20 +1,20 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
-import XAccounts from '/elements/x-accounts/x-accounts.js';
-import XTransactions from '/elements/x-transactions/x-transactions.js';
-import accountManager from '/libraries/account-manager/account-manager.js';
-import networkClient from '../network-client.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
+import networkClient from '../network-client.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import accountManager from '/libraries/account-manager/account-manager.js';
+import XAccounts from '/elements/x-accounts/x-accounts.js';
+import XTransactions from '/elements/x-transactions/x-transactions.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
-import XWelcomeModal from './x-welcome-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
+import XWelcomeModal from './x-welcome-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import config from '../config.js';
 
