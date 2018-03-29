@@ -107,8 +107,9 @@ export default class XRouter extends XElement {
         this.asides = new Map();
         for (const element of routeElements) {
             const tag = element.attributes['x-route-aside'].value.trim();
-            const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`);
-            this.asides.set(tag, { tag, element, regex, visible: false });
+            const regex = new RegExp(`.*_${ tag }\/?([^_]*)_.*`, 'g');
+            const replace = new RegExp(`_${ tag }\/?[^_]*_`, 'g');
+            this.asides.set(tag, { tag, element, regex, replace, visible: false });
         }
     }
 
@@ -189,23 +190,33 @@ export default class XRouter extends XElement {
     }
 
     showAside(tag, parameters) {
+        this.goTo(this._putAside(this.router.currentRoute, tag, parameters));
+    }
+
+    _putAside(path, tag, parameters) {
         const aside = this.asides.get(tag);
         if (!aside) throw new Error(`XRouter: aside "${ tag } unknown"`);
 
-        const path = this.router.currentRoute;
-        if (!path.match(aside.regex)) {
-            let param = '';
-            if (parameters) {
-                param = (parameters instanceof Array) ? parameters : [parameters];
-                param = '/' + [...param].join('/');
-            }
-            // this.router.navigate(`${ path }_${ tag }${param}_`);
-            this.goTo(`${ path }_${ tag }${ param }_`);
-        }
+        return path.match(aside.regex) ? path : `${ path }${ this._makeAside(tag, parameters)}`;
     }
 
-    hideAside(tag) {
-        this.goTo(this.router.currentRoute.replace(new RegExp(`_${tag}\/?[^_]*_`, 'g'), ''));
+    _makeAside(tag, parameters) {
+        let param = '';
+        if (parameters) {
+            param = (parameters instanceof Array) ? parameters : [parameters];
+            param = '/' + [...param].join('/');
+        }
+        return `_${ tag }${ param }_`;
+    }
+
+    hideAside(tag, replaceWith = '') {
+        const aside = this.asides.get(tag);
+        if (!aside) throw new Error(`XRouter: aside "${ tag } unknown"`);
+        this.goTo(this.router.currentRoute.replace(aside.replace, replaceWith));
+    }
+
+    replaceAside(oldTag, newTag, parameters) {
+        this.hideAside(oldTag, this._makeAside(newTag, parameters));
     }
 
     get goingBackwards() { return this.reverse; }
