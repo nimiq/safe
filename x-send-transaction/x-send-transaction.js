@@ -14,16 +14,19 @@ export default class XSendTransaction extends XElement {
             <form class="modal-body">
                 <h3>Send from</h3>
                 <x-accounts-dropdown name="sender"></x-accounts-dropdown>
+                <span error sender class="display-none"></span>
 
                 <h3>Send to</h3>
                 <div class="row">
                     <x-address-input class="multiline" name="recipient"></x-address-input>
                 </div>
+                <span error recipient class="display-none"></span>
 
                 <h3>Amount</h3>
                 <div class="row">
                     <x-amount-input name="value" no-screen-keyboard></x-amount-input>
                 </div>
+                <span error amount class="display-none"></span>
 
                 <x-expandable advanced-settings transparent>
                     <h3 expandable-trigger>Advanced Settings</h3>
@@ -32,12 +35,15 @@ export default class XSendTransaction extends XElement {
                         <div class="row">
                             <x-amount-input name="fee" no-screen-keyboard></x-amount-input>
                         </div>
+                        <span error fees class="display-none"></span>
 
                         <h3>Valid from</h3>
                         <small>Only required for offline transaction creation</small>
+                        <small>Setting a wrong valid-from height can invalidate your transaction!</small>
                         <div class="row">
                             <input name="validityStartHeight" validity-start placeholder="0" type="number" min="0" step="1">
                         </div>
+                        <span error start-height class="display-none"></span>
                     </div>
                 </x-expandable>
 
@@ -62,7 +68,9 @@ export default class XSendTransaction extends XElement {
         // To work around the double x-address-input-valid event
         // which happens because of the address formatting when
         // pasting a full address
-        this.__lastValidatedAddress = '';
+        this.__lastValidatedValue = '';
+
+        this._errorElements = {};
 
         this.clear();
     }
@@ -150,18 +158,31 @@ export default class XSendTransaction extends XElement {
     _validateSender() {
         const account = this.$accountsDropdown.selectedAccount;
         this._validSender = !!(account && account.balance > 0);
+        if (this._validSender) {
+            this._clearError('sender');
+        } else {
+            this._setError('This account has no balance', 'sender');
+        }
     }
 
     _validateRecipient() {
         const address = this.$addressInput.value;
+        const value = this.$addressInput.$input.value;
 
-        if (address === this.__lastValidatedAddress) return;
-        this.__lastValidatedAddress = address;
+        if (value === this.__lastValidatedValue) return;
+        this.__lastValidatedValue = value;
 
         this._validRecipient = false;
 
         // TODO Skip network request when doing airgapped tx creation
-        if (address) this.__debouncedValidateRecipient(address);
+        if (address) {
+            this._setError('Validating receiver type, please wait...', 'recipient');
+            this.__debouncedValidateRecipient(address);
+        } else if (value.length === 0) {
+            this._clearError('recipient');
+        } else {
+            this._setError('Invalid address', 'recipient');
+        }
 
         return;
     }
@@ -170,6 +191,12 @@ export default class XSendTransaction extends XElement {
         const accountType = await (await networkClient).rpcClient.getAccountTypeString(address);
 
         this._validRecipient = (accountType === 'basic');
+
+        if (this._validRecipient) {
+            this._clearError('recipient');
+        } else {
+            this._setError('Cannot send to this account type', 'recipient');
+        }
 
         // Because this is a debounced async function, there is no external way
         // no know if this function finished, so we need to do that action in here
@@ -182,17 +209,45 @@ export default class XSendTransaction extends XElement {
         const amount = this.$amountInput[0].value;
         const fees = this.$amountInput[1].value;
 
+        if (amount < 0) {
+            this._setError('You cannot send a negative amount', 'amount');
+        }
+        if (amount === 0) {
+            this._clearError('amount');
+        }
+
+        if (fees < 0) {
+            this._setError('Negative fees are not allowed', 'fees');
+        } else {
+            this._clearError('fees');
+        }
+
         if (amount <= 0 || fees < 0) {
             this._validAmountAndFees = false;
             return;
         }
 
         this._validAmountAndFees = !!(account && account.balance >= (amount + fees));
+
+        if (this._validAmountAndFees) {
+            this._clearError('amount');
+            this._clearError('fees');
+        } else {
+            this._setError('You do not have enough funds', 'amount');
+        }
     }
 
     _validateValidityStartHeight() {
         // TODO: Validate validityStartHeight?
-        this._validValidityStartHeigth = true;
+        const value = this.$('input[validity-start]').value || 0;
+
+        this._validValidityStartHeight = !!(value >= 0);
+
+        if (this._validValidityStartHeight) {
+            this._clearError('start-height');
+        } else {
+            this._setError('Cannot set a negative start height', 'start-height');
+        }
     }
 
     _isValid() {
@@ -200,9 +255,9 @@ export default class XSendTransaction extends XElement {
             "sender", this._validSender,
             "recipient", this._validRecipient,
             "amountandFees", this._validAmountAndFees,
-            "validityStartHeight", this._validValidityStartHeigth
+            "validityStartHeight", this._validValidityStartHeight
         );
-        return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeigth;
+        return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeight;
     }
 
     // Returns a function, that, as long as it continues to be invoked, will not
@@ -227,10 +282,26 @@ export default class XSendTransaction extends XElement {
             }
         }
     }
+
+    _setError(msg, field) {
+        let $el = this._errorElements[field];
+        if (!$el) this._errorElements[field] = $el = this.$(`span[error][${field}]`);
+
+        if (msg) {
+            $el.textContent = msg;
+            $el.classList.remove('display-none');
+        } else {
+            $el.classList.add('display-none');
+        }
+    }
+
+    _clearError(field) {
+        this._setError('', field);
+    }
 }
 
 // TODO Validation: enable recipient=true when modal loaded from URL
-// TODO Validation: prevent double ...-valid event from x-address-input
+// TODO Validation: disable account type check for airgapped tx creation
 
 // TODO make fee a slider
 // TODO make validity start a slider

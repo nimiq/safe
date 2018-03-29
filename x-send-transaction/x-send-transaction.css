@@ -70,3 +70,9 @@
     margin-bottom: 5px;
     opacity: 0.6;
 }
+
+span[error] {
+    color: var(--error-color);
+    display: block;
+    padding: 4px 0;
+}
