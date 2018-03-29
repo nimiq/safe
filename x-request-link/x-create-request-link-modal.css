@@ -1,3 +1,12 @@
 x-create-request-link-modal {
     width: 600px;
 }
+
+x-create-request-link-modal .x-request-link {
+    cursor: pointer;
+}
+
+x-create-request-link-modal ul {
+    padding-left: 12px;
+    list-style: square;
+}

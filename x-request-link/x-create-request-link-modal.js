@@ -16,10 +16,11 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                     <x-accounts-dropdown name="recipient"></x-accounts-dropdown>
                     <ul>
                         <li>
-                            Copy address:<x-address></x-address>
+                            <div>Copy address:</div>
+                            <x-address></x-address>
                         </li>
                         <li>
-                            OR use the following link to request a transaction 
+                            <div>OR use the following link to request a transaction</div>
                             <div class="x-request-link"></div>
                         </li>
                     </ul>
@@ -35,7 +36,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     listeners() {
         return {
             'x-account-selected': this._onAccountSelected.bind(this),
-            'click .x-request-link': navigator.share(this._link)
+            'click .x-request-link': () => navigator.share(this._link)
         }
     }
 
