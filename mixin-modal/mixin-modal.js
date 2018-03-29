@@ -1,13 +1,11 @@
 import MixinSingleton from '../../secure-elements/mixin-singleton/mixin-singleton.js';
-import XRouter from '../../secure-elements/x-router/x-router.js';
 import XModals from './x-modals.js';
 import XModalContainer from './x-modal-container.js';
 
 const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
-    async onCreate() {
+    onCreate() {
         super.onCreate();
         this._route = this.attribute('x-route-aside');
-        if (this._route) this.router = await XRouter.instance;
         this._container = XModalContainer.createFor(this);
         this._container.$el.appendChild(this.$el); // append to the container if not already the case
         XModals.instance.$el.appendChild(this._container.$el); // append to x-modals if not already the case
@@ -22,13 +20,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     show(...parameters) {
-        if (this.isVisible() || !this.allowsShow(...parameters)) return;
-        if (this._route) {
-            // let the router trigger the show
-            this.router.showAside(this._route, ...parameters);
-        } else {
-            XModals.show(this, ...parameters);
-        }
+        XModals.show(false, this, ...parameters);
     }
 
     static hide() {
@@ -36,13 +28,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     hide() {
-        if (!this.isVisible() || !this.allowsHide()) return;
-        if (this._route) {
-            // let the router trigger the hide
-            this.router.hideAside(this._route);
-        } else {
-            XModals.hide(this);
-        }
+        XModals.hide(false, this);
     }
 
     allowsShow(...parameters) {
@@ -65,17 +51,17 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         return this._container;
     }
 
+    get route() {
+        return this._route;
+    }
+
     // callbacks for router
     onEntry(...parameters) {
-        XModals.show(this, ...parameters);
+        XModals.show(true, this, ...parameters);
     }
 
     onExit() {
-        XModals.hide(this);
-    }
-
-    isVisible() {
-        return XModals.isVisible(this);
+        XModals.hide(true, this);
     }
 };
 export default MixinModal;

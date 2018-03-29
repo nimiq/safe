@@ -1,4 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
+import XRouter from '../../secure-elements/x-router/x-router.js';
 import MixinSingleton from '../../secure-elements/mixin-singleton/mixin-singleton.js';
 
 export default class XModals extends MixinSingleton(XElement) {
@@ -11,13 +12,25 @@ export default class XModals extends MixinSingleton(XElement) {
         this._switchHistory = [];
     }
 
-    static show(modal, ...parameters) {
-        this.instance._show(modal, ...parameters);
+    static async show(triggeredByRouter, modal, ...parameters) {
+        const visibleModal = XModals.visibleModal;
+        if (modal === null || modal === visibleModal || !modal.allowsShow(...parameters)
+            || (visibleModal && !visibleModal.allowsHide())) return;
+        if (triggeredByRouter || !modal.route) {
+            this.instance._show(modal, ...parameters);
+            return;
+        }
+        // Note: If old modal doesn't have a route or new one doesn't have a route, _show will take care
+        // of hiding the old modal
+        const router = await XRouter.instance;
+        if (visibleModal && visibleModal.route) {
+            router.replaceAside(visibleModal.route, modal.route, ...parameters);
+        } else {
+            router.showAside(modal.route, ...parameters);
+        }
     }
 
     _show(modal, ...parameters) {
-        if (modal === null || modal === this._visibleModal || !modal.allowsShow(...parameters)
-            || (this._visibleModal && !this._visibleModal.allowsHide())) return;
         clearTimeout(this._hideTimer);
 
         // show background
@@ -59,12 +72,19 @@ export default class XModals extends MixinSingleton(XElement) {
         }, 20);
     }
 
-    static hide(modal) {
-        this.instance._hide(modal);
+    static async hide(triggeredByRouter, modal) {
+        const visibleModal = XModals.visibleModal;
+        if (modal === null || modal !== visibleModal || !modal.allowsHide()) return;
+        if (triggeredByRouter || !modal.route) {
+            this.instance._hide(modal);
+        } else {
+            // let the router trigger the hide
+            const router = await XRouter.instance;
+            router.hideAside(modal.route);
+        }
     }
 
     _hide(modal = this._visibleModal) {
-        if (modal === null || modal !== this._visibleModal || !modal.allowsHide()) return;
         this._visibleModal = null;
 
         // Note that the router ensures that hide always gets called after show, so to determine _isSwitchingModal
@@ -80,8 +100,8 @@ export default class XModals extends MixinSingleton(XElement) {
         modal.onHide();
     }
 
-    static isVisible(modal) {
-        return this.instance._visibleModal === modal;
+    static get visibleModal() {
+        return this.instance._visibleModal;
     }
 }
 XModals.ANIMATION_TIME = 400;
