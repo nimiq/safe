@@ -1,6 +1,6 @@
 import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions } from '/elements/x-transactions/transactions-redux.js';

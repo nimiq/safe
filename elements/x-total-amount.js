@@ -1,6 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import NanoApi from '/libraries/nano-api/nano-api.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 
 export default class XTotalAmount extends MixinRedux(XElement) {

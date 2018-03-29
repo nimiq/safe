@@ -1,11 +1,11 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XRouter from '/elements/x-router/x-router.js';
+import XRouter from '/secure-elements/x-router/x-router.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
 import networkClient from '../network-client.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
