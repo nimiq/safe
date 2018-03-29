@@ -1,0 +1,75 @@
+@import '/elements/x-dot-loader/x-dot-loader.css';
+
+x-amount {
+    display: inline;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+
+    /* https://twitter.com/wesbos/status/932644812582522880 */
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+
+x-amount.incoming x-currency-nim {
+    color: #2e7d32;
+}
+
+x-amount.incoming .integers::before {
+    content: '+';
+}
+
+x-amount.outgoing x-currency-nim {
+    color: #d32f2f;
+}
+
+x-amount.outgoing .integers::before {
+    content: '-';
+}
+
+x-amount label {
+    display: block;
+    font-size: 0.7em;
+    font-weight: 300;
+    text-transform: uppercase;
+    /* letter-spacing: 0.12em; */
+    /* opacity: 0.8; */
+}
+
+x-amount x-currency-nim {
+    display: none;
+}
+
+x-amount .integers {
+
+}
+
+x-amount .integers::before {
+    font-weight: 400;
+}
+
+x-amount .main-decimals {
+
+}
+
+x-amount .rest-decimals,
+x-amount .ticker {
+    font-weight: 400;
+    font-size: 0.75em;
+}
+
+x-amount .rest-decimals {
+    margin-left: 0.05em;
+    display: none;
+}
+
+x-amount[display] .ticker,
+x-amount[display] .rest-decimals,
+x-amount[display] label {
+    font-size: 0.5em;
+}
+
+@media (max-width: 480px) {
+    x-amount .rest-decimals {
+        display: none;
+    }
+}
