@@ -3,7 +3,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
-import WebShare from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
+import share from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -12,7 +12,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                 <h2>Create Transaction Request</h2>
             </div>
             <div class="modal-body">
-                <center>
+                <div class="center">
                     <x-accounts-dropdown name="recipient"></x-accounts-dropdown>
                     <ul>
                         <li>
@@ -24,7 +24,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                             <div class="x-request-link"></div>
                         </li>
                     </ul>
-                </center>
+                </div>
             </div>
         `;
     }
@@ -33,10 +33,19 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         return [ XAddress, XAccountsDropdown ];
     }
 
+    onCreate() {
+        navigator.share = share;
+        super.onCreate();
+    }
+
     listeners() {
         return {
             'x-account-selected': this._onAccountSelected.bind(this),
-            'click .x-request-link': () => navigator.share(this._link)
+            'click .x-request-link': () => navigator.share({
+                title: 'Nimiq Transaction Request',
+                text: 'Please me Nimiq using this link',
+                url: this._link
+            })
         }
     }
 
