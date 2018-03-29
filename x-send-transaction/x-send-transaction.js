@@ -59,6 +59,11 @@ export default class XSendTransaction extends XElement {
 
         this.__debouncedValidateRecipient = this.debounce(this.__validateRecipient, 1000, true);
 
+        // To work around the double x-address-input-valid event
+        // which happens because of the address formatting when
+        // pasting a full address
+        this.__lastValidatedAddress = '';
+
         this.clear();
     }
 
@@ -124,7 +129,6 @@ export default class XSendTransaction extends XElement {
      * @returns {nothing valuable} The return statement is just used for quitting the function early
      */
     async _validateField(field) {
-        console.log("_validateField", field);
         switch (field) {
             case 'sender':
                 this._validateSender();
@@ -150,10 +154,12 @@ export default class XSendTransaction extends XElement {
     }
 
     _validateRecipient() {
-        this._validRecipient = false;
-
         const address = this.$addressInput.value;
-        console.log("got address", address);
+
+        if (address === this.__lastValidatedAddress) return;
+        this.__lastValidatedAddress = address;
+
+        this._validRecipient = false;
 
         if (address) this.__debouncedValidateRecipient(address);
 
@@ -161,11 +167,7 @@ export default class XSendTransaction extends XElement {
     }
 
     async __validateRecipient(address) {
-        console.log("Validating recipient via NETWORK:", address);
-
         const accountType = await (await networkClient).rpcClient.getAccountTypeString(address);
-
-        console.log("got accountType", accountType);
 
         this._validRecipient = (accountType === 'basic');
 
@@ -194,12 +196,12 @@ export default class XSendTransaction extends XElement {
     }
 
     _isValid() {
-        console.log(
-            "sender", this._validSender,
-            "recipient", this._validRecipient,
-            "amountandFees", this._validAmountAndFees,
-            "validityStartHeight", this._validValidityStartHeigth
-        );
+        // console.log(
+        //     "sender", this._validSender,
+        //     "recipient", this._validRecipient,
+        //     "amountandFees", this._validAmountAndFees,
+        //     "validityStartHeight", this._validValidityStartHeigth
+        // );
         return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeigth;
     }
 

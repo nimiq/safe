@@ -79,7 +79,6 @@ export default class XInput extends XElement {
 
     _notifyValidity() {
         const isValid = this._validate(this.value);
-        console.log("firing valid event", this.__tagName + '-valid');
         this.fire(this.__tagName + '-valid', isValid);
     }
 }
