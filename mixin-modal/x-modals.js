@@ -25,6 +25,9 @@ export default class XModals extends MixinSingleton(XElement) {
         this.$el.offsetWidth; // style update
         this.$el.style.background = 'rgba(0,0,0,0.5)';
 
+        // avoid page scroll below the modal
+        document.documentElement.style.overflow = 'hidden';
+
         // check whether we're switching modals (i.e. there is another modal to be hidden).
         // The router invokes show of the new modal before hide of the old modal, so we can be sure there is no
         // race condition on _visibleModal.
@@ -68,8 +71,9 @@ export default class XModals extends MixinSingleton(XElement) {
         // we don't have to wait for a potential _show call after _hide
 
         if (!this._isSwitchingModal) {
-            this.$el.style.background = 'rgba(0,0,0,0)';
-            this._hideTimer = setTimeout(() => this.$el.style.display = 'none', XModals.ANIMATION_TIME);
+            document.documentElement.style.overflow = null;
+            this.$el.style.background = null;
+            this._hideTimer = setTimeout(() => this.$el.style.display = null, XModals.ANIMATION_TIME);
             this._switchHistory = [];
         }
         modal.container.animateHide(this._isSwitchingModal, this._isSwitchingBack);
