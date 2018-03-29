@@ -1,6 +1,6 @@
 import XSendTransaction from './x-send-transaction.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
+import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {

@@ -2,7 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '/secure-elements/x-identicon/x-identicon.js';
 import XAddress from '/elements/x-address/x-address.js';
-import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-utils.js';
+import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace, spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
 
