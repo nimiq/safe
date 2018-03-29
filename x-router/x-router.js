@@ -13,9 +13,22 @@ export default class XRouter extends XElement {
     }
 
     static create(initialPath) {
-        location.hash = this._sanitizePath(initialPath);
+        location.hash = XRouter._sanitizePath(initialPath);
+
+        /*
+        if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
+            const animations = this.$el.getAttribute('animations').split(' ')
+            if (animations.length == 6) {
+                classes = animations;
+            }
+        }*/
+
         return new XRouter();
     }
+
+    static _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$|_[^_]*_)/g, ''); }
+
+    static _isRoot(path = '') { return XRouter._sanitizePath(path) == ''; }
 
     constructor() {
         super(document.body);
@@ -29,12 +42,7 @@ export default class XRouter extends XElement {
         this.history = [];
 
         let classes = ['from-right-in', 'in', 'from-left-out', 'out', 'from-left-in', 'from-right-out'];
-        if (this.$el.hasAttribute('animations') && this.animations.length > 0) {
-            const animations = this.$el.getAttribute('animations').split(' ')
-            if (animations.length == 6) {
-                classes = animations;
-            }
-        }
+
         [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_HIDDEN, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = classes;
 
         this.router = new Router({ debug: false, startListening: false });
@@ -84,7 +92,7 @@ export default class XRouter extends XElement {
         this.routeByElement = new Map();
         for (const element of routeElements) {
             const { path, nodes } = this._absolutePathOf(element);
-            const regex = this._isRoot(path) ? /^\/?$|^\/?_.*/ : new RegExp(`^\/?${ path }.*`);
+            const regex = XRouter._isRoot(path) ? /^\/?$|^\/?_.*/ : new RegExp(`^\/?${ path }.*`);
             const route = { path, element, regex, nodes };
 
             this.routes.set(path, route);
@@ -110,7 +118,7 @@ export default class XRouter extends XElement {
             const linkPath = link.attributes['x-href'].value.trim();
             if (linkPath[0] == '/') {
                 link.href = `#${ linkPath }`;
-                this.links.push({ path: this._sanitizePath(linkPath), link });
+                this.links.push({ path: XRouter._sanitizePath(linkPath), link });
             } else {
                 // if relative (no leading slash) > use _absolutePathOf > path + relative
                 const { path, nodes } = this._absolutePathOf(link);
@@ -146,7 +154,7 @@ export default class XRouter extends XElement {
         const readPath = (node, path = []) => {
             const segment = node.getAttribute('x-route');
             if (segment != null) {
-                path.unshift(this._sanitizePath(segment));
+                path.unshift(XRouter._sanitizePath(segment));
                 nodes.unshift(node);
             }
             return (node.parentNode != this.$el) ? readPath(node.parentNode, path) : path;
@@ -202,9 +210,8 @@ export default class XRouter extends XElement {
 
     get goingBackwards() { return this.reverse; }
 
-    _sanitizePath(path) { return path.replace(/(^\s*\/|\/\s*$|_[^_]*_)/g, ''); }
-    _getRoute(path) { return this.routes.get(this._sanitizePath(path)); }
-    _isRoot(path = '') { return this._sanitizePath(path) == ''; }
+
+    _getRoute(path) { return this.routes.get(XRouter._sanitizePath(path)); }
 
     async _show(path) {
         if (this.running) {
@@ -304,9 +311,7 @@ export default class XRouter extends XElement {
     }
 
     _log(...args) {
-        if (this.$(this.__tagName).getAttribute('debug')) {
-            console.log(...args);
-        }
+        console.log(...args);
     }
 }
 
