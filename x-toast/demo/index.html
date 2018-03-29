@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-toast</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <button>Show Toast</button>
+    <script type="module">
+        import XToast from "../x-toast.js";
+        const message = 'This is a x-toast!';
+        document.querySelector('button').addEventListener('click', e => XToast.show(message));
+    </script>
+</body>
+
+</html>
