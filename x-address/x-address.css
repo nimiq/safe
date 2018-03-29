@@ -1,4 +1,4 @@
-@import '../x-toast/x-toast.css';
+@import '../../secure-elements/x-toast/x-toast.css';
 
 x-address, .x-address{
     width: 100%;
