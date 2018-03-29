@@ -12,6 +12,11 @@ export default class XRouter extends XElement {
         });
     }
 
+    static create(initialPath) {
+        location.hash = this._sanitizePath(initialPath);
+        return new XRouter();
+    }
+
     constructor() {
         super(document.body);
     }
@@ -58,7 +63,7 @@ export default class XRouter extends XElement {
 
         // X-router is just an element of page, so the initialization of x-router may happen before all the siblings
         // are initialized by x-element. Thus, leaving the current process to make sure all initialization is done.
-        requestAnimationFrame(() => this._initialize());
+        setTimeout(() => this._initialize());
     }
 
     _initialize() {
@@ -66,9 +71,12 @@ export default class XRouter extends XElement {
         this.parseAside(this.$$('[x-route-aside]'));
         this.hookUpLinks(this.$$('a[x-href]'));
 
-        this.router.listen();
-        XRouter._instance = this;
         for (const callback of _waitingForInit) callback(this);
+
+        XRouter._instance = this;
+        // this.router.listen();
+        // make sure that anyone that was listening
+        setTimeout(() => this.router.listen());
     }
 
     parseRoutes(routeElements) {
@@ -106,7 +114,7 @@ export default class XRouter extends XElement {
             } else {
                 // if relative (no leading slash) > use _absolutePathOf > path + relative
                 const { path, nodes } = this._absolutePathOf(link);
-                const absolutePath = `${ path }/${ linkPath }`;
+                const absolutePath = path ? `${ path }/${ linkPath }` : linkPath;
                 link.href = `#/${ absolutePath }`;
                 this.links.push({ path: absolutePath, link });
             }
@@ -200,7 +208,7 @@ export default class XRouter extends XElement {
 
     async _show(path) {
         if (this.running) {
-            return requestAnimationFrame(() => this._show(path));
+            return setTimeout(() => this._show(path));
         }
         this.running = true;
 
