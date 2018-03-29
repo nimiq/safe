@@ -16,17 +16,28 @@ export default class XModals extends MixinSingleton(XElement) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal === visibleModal || !modal.allowsShow(...parameters)
             || (visibleModal && !visibleModal.allowsHide())) return;
-        if (triggeredByRouter || !modal.route) {
-            this.instance._show(modal, ...parameters);
+        let router = null;
+
+        if (!triggeredByRouter && modal.route && visibleModal && visibleModal.route) {
+            router = await XRouter.instance;
+            router.replaceAside(visibleModal.route, modal.route, ...parameters);
             return;
         }
-        // Note: If old modal doesn't have a route or new one doesn't have a route, _show will take care
-        // of hiding the old modal
-        const router = await XRouter.instance;
-        if (visibleModal && visibleModal.route) {
-            router.replaceAside(visibleModal.route, modal.route, ...parameters);
+
+        if (triggeredByRouter || !modal.route) {
+            XModals.instance._show(modal, ...parameters);
         } else {
+            router = await XRouter.instance;
             router.showAside(modal.route, ...parameters);
+        }
+
+        if (!visibleModal) return;
+
+        if (triggeredByRouter || !visibleModal.route) {
+            XModals.instance._hide(visibleModal);
+        } else {
+            router = router || await XRouter.instance;
+            router.hideAside(visibleModal.route);
         }
     }
 
@@ -39,6 +50,8 @@ export default class XModals extends MixinSingleton(XElement) {
         this.$el.style.background = 'rgba(0,0,0,0.5)';
 
         // avoid page scroll below the modal
+        // TODO this leads to a jumping of the page cause by the disappearing scroll bar. Test whether we can
+        // block the scrolling by preventDefault of the scroll event
         document.documentElement.style.overflow = 'hidden';
 
         // check whether we're switching modals (i.e. there is another modal to be hidden).
@@ -53,12 +66,6 @@ export default class XModals extends MixinSingleton(XElement) {
         // Do it with a small delay as the router invokes hide on the old modal after show on the new one but we
         // actually want to wait for the router to hide the old one first such that the hiding knows the _isSwitching flag.
         setTimeout(() => {
-            // If hiding of the previous modal wasn't handled by the router (the case if the old modal doesn't have a
-            // route assigned), we have to do it manually.
-            if (this._visibleModal !== null) {
-                this._visibleModal.hide();
-            }
-
             this._visibleModal = modal;
             if (this._isSwitchingBack) {
                 this._switchHistory.pop();
