@@ -8,6 +8,10 @@ x-amount-input input {
     width: 100% !important;
 }
 
+x-amount-input input::placeholder {
+    font-size: 1em !important;
+}
+
 x-amount-input input:after {
     position: absolute;
     right: -32px;

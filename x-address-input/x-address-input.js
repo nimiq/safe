@@ -49,10 +49,10 @@ export default class XAddressInput extends XInput {
     _onValueChanged() {
         InputFormat.onChange(null, this.$input, this._parseAddressChars, this._format,
             () => this._autoSubmit? this._submit() : this._validate());
+        this.$identicon.address = this.value;
     }
 
     _validate() {
-        this.$identicon.address = this.value;
         return this.value !== null;
     }
 
