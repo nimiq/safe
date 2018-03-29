@@ -30,6 +30,9 @@ class Safe {
         // start UI
         this._xApp = new XSafe($appContainer);
 
+        // FIXME
+        setTimeout(() => document.body.classList.remove('preparing'));
+
         this.actions = bindActionCreators({
             setAllKeys,
             updateBalances,

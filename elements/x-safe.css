@@ -118,6 +118,7 @@ footer {
     text-align: center;
     padding: 1em;
     opacity: 0.6;
+    transition: opacity 0.5s linear 0.1s;
 }
 
 @media (max-width: 480px) {
@@ -157,4 +158,12 @@ footer {
     nav.actions {
         float: none;
     }
+}
+
+body.preparing > * {
+    visibility: hidden !important;
+}
+
+body.preparing footer {
+    opacity: 0;
 }
