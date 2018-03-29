@@ -1,0 +1,18 @@
+@import '/libraries/nimiq-style/nimiq-style.css';
+
+body {
+    background: var(--primary-background);
+}
+
+x-test {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5vh 5vw;
+    width: 90vw;
+    height: 90vh;
+}
+
+a.next:before {
+    content: "\00BB ";
+}

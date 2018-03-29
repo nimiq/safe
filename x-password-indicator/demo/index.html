@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-password-indicator demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-password-indicator.css" rel="stylesheet">
+    <link href="../../../elements/x-toast/x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <x-password-indicator></x-password-indicator>
+    <script type="module">
+        import XPasswordIndicator from "../x-password-indicator.js";
+        import XToast from "../../../elements/x-toast/x-toast.js";
+        const $indicator = new XPasswordIndicator();
+        $indicator.addEventListener('x-password-indicator', e => XToast.show(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>

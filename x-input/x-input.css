@@ -1,0 +1,9 @@
+.x-input{
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.x-input.shake input {
+    border-bottom: 1px solid var(--error-color) !important;
+}
+

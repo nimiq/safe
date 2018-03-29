@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>X-Router Demo</title>
+        <link rel="stylesheet" href="../x-router.css">
+        <link rel="stylesheet" href="demo.css">
+    </head>
+    <body>
+    </body>
+    <script type="module">
+        import XElement from '/libraries/x-element/x-element.js';
+        import XRouter from '../x-router.js';
+
+        class XTest extends XElement {
+            onCreate() { console.log('onCreate', this.parent); }
+            onEntry() { console.log('onEntry'); console.trace(); }
+            onAfterEntry() { console.log('onAfterEntry'); console.trace(); }
+            onBeforeExit() { console.log('onBeforeExit'); console.trace(); }
+            onExit() { console.log('onExit'); console.trace(); }
+        }
+
+        class DemoApp extends XElement {
+            constructor() {
+                super(document.body);
+            }
+
+            children() { return [ XRouter, XTest ]; }
+
+            html() { return `
+                <x-router>
+                    <x-test x-route="import">
+                        <h1>Import</h1>
+                        <p> Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar. The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn’t listen. </p>
+                        <div x-route="recursive">This is recursive content #2</div>
+                        <div x-route="">This is recursive content #1</div>
+                        <a href="backup">&raquo; backup</a>
+                        <a x-href="backup"> TEST </a>
+                    </x-test>
+                    <x-test x-route="backup">
+                        <h1>Backup</h1>
+                        <p>She packed her seven versalia, put her initial into the belt and made herself on the way. When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then she continued her way. On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country.</p>
+                        <a x-href="error">&raquo; continue&hellip;</a>
+                    </x-test>
+                    <x-test x-route="error">
+                        Error
+                    </x-test>
+                    <x-test x-route="test">
+                        Test route
+                    </x-test>
+                    <!-- root needs to be last for now, to be fixed -->
+                    <x-test x-route="/">
+                        <h1>Root!</h1>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth. </p>
+                        <a x-href="import">&raquo; import</a>
+                    </x-test>
+                </x-router>
+                `;
+            }
+        }
+
+        new DemoApp();
+        window.XRouter = XRouter;
+    </script>
+</html>

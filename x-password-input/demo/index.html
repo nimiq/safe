@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-password-input demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="../x-password-input.css" rel="stylesheet">
+    <link href="../../../elements/x-toast/x-toast.css" rel="stylesheet">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="/elements/x-screen/x-screen.css" rel="stylesheet">
+</head>
+
+<body class="x-screen-fit">
+    <x-password-input></x-password-input>
+    <script type="module">
+        import XPasswordInput from "../x-password-input.js";
+        import XToast from "../../../elements/x-toast/x-toast.js";
+        const $input = new XPasswordInput();
+        $input.addEventListener('x-password-input', e => XToast.show(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>x-password-setter demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-password-getter.css" rel="stylesheet">
+    <link href="../../x-toast/x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+    <x-password-getter></x-password-getter>
+    <x-toast></x-toast>
+    <script type="module">
+        import XPasswordGetter from "../x-password-getter.js";
+        const $getter = new XPasswordGetter();
+        $getter.focus();
+        import XToast from "../../x-toast/x-toast.js";
+        const $toast = new XToast();
+        $getter.addEventListener('x-password-getter-submitted', e => $toast.show(`${e.type}: ${e.detail}`));
+    </script>
+</body>
+
+</html>
