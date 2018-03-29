@@ -1,7 +1,8 @@
 x-toast {
     position: fixed;
-    top:0;
-    margin: auto;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
     display: flex;
     justify-content: center;
     z-index: 3;
