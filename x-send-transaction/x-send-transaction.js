@@ -178,7 +178,7 @@ export default class XSendTransaction extends XElement {
         // TODO Skip network request when doing airgapped tx creation
         if (address) {
             if (MixinRedux.store.getState().network.consensus !== 'established') {
-                this._setError('Cannot validate address (not connected)');
+                this._setError('Cannot validate address (not connected)', 'recipient');
                 this._validRecipient = true;
             } else {
                 this._setError('Validating receiver type, please wait...', 'recipient');
