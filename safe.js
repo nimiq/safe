@@ -16,7 +16,6 @@ class Safe {
 
         // set redux store
         this.store = store;
-        console.log(JSON.stringify(store.getState()));
         MixinRedux.store = this.store;
 
         // set singleton app container
