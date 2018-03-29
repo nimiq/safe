@@ -4,11 +4,6 @@ import ValidationUtils from '/libraries/nimiq-utils/validation-utils/validation-
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
-    onCreate() {
-        super.onCreate();
-        this.$addressInput.placeholderColor = '#bbb';
-    }
-
     allowsShow(...params) {
         params = this._parseRouterParams(params);
 
