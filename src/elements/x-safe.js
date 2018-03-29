@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
+import XSettings from '../settings/x-settings.js';
 import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
@@ -44,7 +45,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <nav class="main">
                         <a x-href="">Dashboard</a>
                         <a x-href="history">History</a>
-                        <!-- <a x-href="settings">Settings</a> -->
+                        <a x-href="settings">Settings</a>
                     </nav>
                 </div>
             </header>
@@ -69,8 +70,9 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
-                <x-view-settings x-route="settings"></x-view-settings>
-
+                <x-view-settings x-route="settings">
+                    <x-settings></x-settings> 
+                </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
@@ -92,6 +94,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XRouter,
             XAccounts,
             XTransactions,
+            XSettings,
             XNetworkIndicator,
             XTransactionModal,
             XWelcomeModal,
