@@ -5,7 +5,7 @@ import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
 import { addTransactions, setRequestingHistory } from './transactions-redux.js';
-import networkClient from '/apps/safe/network-client.js';
+import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 
 export default class XTransactions extends MixinRedux(XElement) {

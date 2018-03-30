@@ -3,7 +3,7 @@ import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
-import networkClient from '/apps/safe/network-client.js';
+import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 
 export default class XSendTransaction extends XElement {
