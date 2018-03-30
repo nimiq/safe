@@ -95,6 +95,11 @@ x-transaction:last-child {
     border-bottom: 1px solid transparent;
 }
 
+x-transaction.removed .timestamp,
+x-transaction.expired .timestamp {
+    font-weight: bold;
+}
+
 x-transaction x-identicon {
     width: 66px;
     height: 50px;
@@ -121,6 +126,11 @@ x-transaction .timestamp {
 x-transaction x-amount {
     text-align: right;
     font-size: 1.4em;
+}
+
+x-transaction.removed x-currency-nim,
+x-transaction.expired x-currency-nim {
+    text-decoration: line-through;
 }
 
 @media (max-width: 768px) {
@@ -209,6 +219,12 @@ x-transaction-modal x-amount,
 x-transaction-modal .fee {
     display: block;
     font-size: 1.2em;
+}
+
+x-transaction-modal.removed .timestamp,
+x-transaction-modal.expired .timestamp {
+    background: var(--warning-color);
+    padding: 0.2em 0.5em;
 }
 
 x-transaction-modal .confirmations {

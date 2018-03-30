@@ -68,7 +68,11 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set blockHeight(blockHeight) {
-        this.$blockHeight.textContent = `#${blockHeight}`;
+        if (this.properties.removed || this.properties.expired) {
+            this.$blockHeight.textContent = '-';
+        } else {
+            this.$blockHeight.textContent = `#${blockHeight}`;
+        }
         this._calcConfirmations();
     }
 
@@ -82,7 +86,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     _calcConfirmations() {
-        if (!this.properties.currentHeight || !this.properties.blockHeight) {
+        if (!this.properties.currentHeight || !this.properties.blockHeight || this.properties.removed || this.properties.expired) {
             if (this.$confirmations) this.$confirmations.textContent = '';
             return;
         }

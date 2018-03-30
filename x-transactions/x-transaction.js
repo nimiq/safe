@@ -78,6 +78,16 @@ export default class XTransaction extends MixinRedux(XElement) {
 
         if (!this.properties.timestamp) this.$el.classList.add('pending'); // Used for gradient animation
         else this.$el.classList.remove('pending');
+
+        if (this.properties.removed) {
+            this.$timestamp.textContent = 'removed';
+            this.$timestamp.setAttribute('title', 'Transaction was removed');
+        }
+
+        if (this.properties.expired) {
+            this.$timestamp.textContent = 'expired';
+            this.$timestamp.setAttribute('title', 'Transaction has expired');
+        }
     }
 
 
