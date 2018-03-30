@@ -146,54 +146,60 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedCreateAccount() {
         try {
             await (await accountManager).create();
+            XToast.success('Account created successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('Account was not created.');
+            XToast.warning('Account was not created.');
         }
     }
 
     async _clickedImportAccountFile() {
         try {
             await (await accountManager).importFile();
+            XToast.success('Account imported successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('Account was not imported.');
+            XToast.warning('Account was not imported.');
         }
     }
 
     async _clickedImportAccountWords() {
         try {
             await (await accountManager).importWords();
+            XToast.success('Account imported successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('Account was not imported.');
+            XToast.warning('Account was not imported.');
         }
     }
 
     async _clickedAccountBackupFile(address) {
         try {
             await (await accountManager).backupFile(address);
+            XToast.success('Account backed up successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('No backup created.');
+            XToast.warning('No backup created.');
         }
     }
 
     async _clickedAccountBackupWords(address) {
         try {
             await (await accountManager).backupWords(address);
+            XToast.success('Account backed up successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('No backup created.');
+            XToast.warning('No backup created.');
         }
     }
 
     async _clickedAccountRename(address) {
         try {
             await (await accountManager).rename(address);
+            XToast.success('Account renamed successfully.');
         } catch (e) {
             console.log(e);
-            XToast.show('Account was not renamed.');
+            XToast.warning('Account was not renamed.');
         }
     }
 
@@ -225,7 +231,7 @@ export default class XSafe extends MixinRedux(XElement) {
         const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
 
         if (isNaN(setValidityStartHeight) && !this.properties.height) {
-            XToast.show('Consensus not yet established, please try again in a few seconds.');
+            XToast.warning('Consensus not yet established, please try again in a few seconds.');
             return;
         }
 
@@ -251,7 +257,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await network.relayTransaction(signedTx);
         } catch(e) {
-            XToast.show(e.message);
+            XToast.error(e.message);
 
             XSendTransactionOfflineModal.instance.transaction = signedTx;
             XSendTransactionOfflineModal.show();
@@ -262,7 +268,7 @@ export default class XSafe extends MixinRedux(XElement) {
         XSendTransactionOfflineModal.hide();
         XSendPreparedTransactionModal.hide();
 
-        XToast.show('Transaction sent!');
+        XToast.success('Transaction sent!');
     }
 }
 
