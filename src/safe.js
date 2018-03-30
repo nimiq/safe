@@ -3,7 +3,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
-import { addTransactions } from '/elements/x-transactions/transactions-redux.js';
+import { addTransactions, removeTransactions } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight,
     setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
@@ -36,6 +36,7 @@ class Safe {
             setAllKeys,
             updateBalances,
             addTransactions,
+            removeTransactions,
             setConsensus,
             setHeight,
             setPeerCount,
@@ -69,6 +70,7 @@ class Safe {
                 this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
                 this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
                 this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
+                this.networkListener.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
                 this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
                 this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
                 this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
@@ -100,6 +102,10 @@ class Safe {
 
     _onTransaction(tx) {
         this.actions.addTransactions([tx]);
+    }
+
+    _onTransactionExpired(hash) {
+        this.actions.removeTransactions([hash], true);
     }
 
     _onHeadChange({height, globalHashrate}) {
