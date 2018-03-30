@@ -9,6 +9,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
             </div>
             <div class="modal-body">

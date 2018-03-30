@@ -10,6 +10,7 @@ export default class XSendTransaction extends XElement {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Transaction</h2>
             </div>
             <form class="modal-body">

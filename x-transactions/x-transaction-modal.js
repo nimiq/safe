@@ -8,6 +8,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Transaction</h2>
             </div>
             <div class="modal-body">

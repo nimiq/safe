@@ -5,6 +5,7 @@ export default class XSendTransactionOfflineModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Offline Transaction</h2>
             </div>
             <div class="modal-body">
