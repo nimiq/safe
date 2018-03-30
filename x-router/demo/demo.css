@@ -16,3 +16,7 @@ x-test {
 a.next:before {
     content: "\00BB ";
 }
+
+[x-route] {
+    flex-direction: column;
+}
