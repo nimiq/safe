@@ -105,7 +105,7 @@ class Safe {
     }
 
     _onTransactionExpired(hash) {
-        this.actions.markRemoved([hash], true);
+        this.actions.markRemoved([hash], this.store.getState().network.height + 1);
     }
 
     _onHeadChange({height, globalHashrate}) {
