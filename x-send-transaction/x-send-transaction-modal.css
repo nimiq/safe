@@ -5,6 +5,10 @@ x-send-transaction-modal h3 {
     opacity: .8;
 }
 
+x-send-transaction-modal a[secondary] {
+    margin-bottom: 0;
+}
+
 x-send-transaction-offline-modal {
     max-width: 500px;
     text-align: center;

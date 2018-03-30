@@ -51,6 +51,7 @@ export default class XSendTransaction extends XElement {
 
                 <div class="center row">
                     <button send>Send</button>
+                    <a secondary>Send a prepared transaction</a>
                 </div>
             </form>
         `
@@ -90,6 +91,7 @@ export default class XSendTransaction extends XElement {
             'input input[name="value"]': () => this._validateField('amount'),
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
+            'click a[secondary]': () => this.fire('x-send-prepared-transaction')
         }
     }
 
