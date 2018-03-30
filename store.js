@@ -1,5 +1,5 @@
 import configureStore from './configure-store.js';
-import { initialNetworkState } from '/elements/x-network-indicator/network-redux.js';
+import { initialState as initialNetworkState } from '/elements/x-network-indicator/network-redux.js';
 
 /* Redux store as singleton */
 export class Store {
