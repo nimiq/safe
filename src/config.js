@@ -1,7 +1,7 @@
 const devConfig = {
     keyguardSrc: `${location.origin}/libraries/keyguard/src/keyguard.html`,
     networkSrc: `${location.origin}/libraries/network/src/network.html`,
-    root: `${location.origin}/apps/safe`
+    root: `${location.origin}/apps/safe/src`
 }
 
 const liveConfig = {
