@@ -12,8 +12,12 @@
     <button>Show Toast</button>
     <script type="module">
         import XToast from "../x-toast.js";
+        import Random from "/libraries/secure-utils/random/random.js";
+        const types = ['show', 'success', 'warning', 'error'];
         const message = 'This is a x-toast!';
-        document.querySelector('button').addEventListener('click', e => XToast.show(message));
+        document.querySelector('button').addEventListener('click', e => {
+            XToast.show(message, Random.pickRandom(types));
+        });
     </script>
 </body>
 

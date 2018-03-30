@@ -22,6 +22,24 @@ x-toast [toast-content] {
     pointer-events: initial;
 }
 
+/* types */
+
+x-toast [toast-content].success {
+    background: var(--success-color);
+    color: black;
+}
+
+x-toast [toast-content].error {
+    background: var(--error-color);
+}
+
+x-toast [toast-content].warning {
+    background: var(--warning-color);
+    color: #333;
+}
+
+/* animation */
+
 x-toast.x-toast-show {
     animation: x-toast-show 3s;
 }
