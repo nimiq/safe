@@ -115,7 +115,9 @@ export default class XSendTransaction extends XElement {
         this.$amountInput.forEach(input => input.value = '');
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
+    }
 
+    validateAllFields() {
         this._validateSender();
         this._validateRecipient();
         this._validateAmountAndFees();

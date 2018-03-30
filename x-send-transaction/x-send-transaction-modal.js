@@ -12,21 +12,21 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     }
 
     onShow(...params) {
+        this.clear();
+
         params = this._parseRouterParams(params);
 
         if (params.sender) {
             params.sender = dashToSpace(params.sender);
             this.sender = params.sender;
-            this._validateSender();
-            this.setButton();
         }
 
         if (params.recipient) {
             params.recipient = dashToSpace(params.recipient);
             this.recipient = params.recipient;
-            this._validateRecipient();
-            this.setButton();
         }
+
+        this.validateAllFields();
     }
 
     _parseRouterParams(params) {
