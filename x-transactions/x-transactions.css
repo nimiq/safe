@@ -235,6 +235,11 @@ x-transaction-modal x-amount {
     font-size: 1.4em;
 }
 
+x-transaction-modal.removed x-currency-nim,
+x-transaction-modal.expired x-currency-nim {
+    text-decoration: line-through;
+}
+
 x-transaction-modal .hash {
     font-family: monospace;
 }
