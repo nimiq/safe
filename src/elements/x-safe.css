@@ -24,8 +24,13 @@ header {
     /* border-bottom: 3px solid var(--success-color); */
 }
 
+.header-top, .header-bottom {
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+}
+
 .header-top {
-    padding: 1em;
+    padding: 1em 1.8em;
     overflow: auto;
 }
 
@@ -53,8 +58,8 @@ x-total-amount {
 }
 
 .header-bottom {
-    overflow: auto;
-    padding: 0.5em;
+    overflow: hidden;
+    padding: 0.5em 1em;
 }
 
 nav.main {
@@ -84,7 +89,7 @@ x-view-history {
     padding: 1em 0.5em;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: 960px;
+    max-width: var(--max-content-width);
     align-items: flex-start;
     margin: 0 auto;
 }
@@ -156,7 +161,7 @@ footer {
     }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 380px) {
     nav.main {
         float: none;
     }
