@@ -22,7 +22,7 @@ export function reducer(state, action) {
         case TypeKeys.ADD_TXS: {
             let entries = new Map(state.entries);
 
-            if (action.transactions.length === 1) {
+            if (action.transactions && action.transactions.length === 1) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
