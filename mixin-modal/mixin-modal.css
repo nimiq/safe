@@ -19,7 +19,11 @@
 }
 
 .modal-header h2 {
-    padding: 0 32px;
+    padding: 2px 32px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 .modal-header::after {
