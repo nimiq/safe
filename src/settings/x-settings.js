@@ -1,20 +1,25 @@
 import XElement from '/libraries/x-element/x-element.js';
-import MixinRedux from '/elements/mixin-redux/mixin-redux.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 
 export default class XSettings extends MixinRedux(XElement) {
     html(){
         return `
              <x-card>
                 <h2>Settings</h2>
-                <label><input type="checkbox">Offline-mode</label>
+                <hr>
+                <ul>
+                    <li>
+                        <a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
+                    </li>
+                </ul>
              </x-card>
         `
     }
 
     static mapStateToProps(state) {
-        return {
+        /*return {
             settings: state.accounts.settings
-        };
+        };*/
     }
 
     _onPropertiesChanged(changes) {

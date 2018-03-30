@@ -114,6 +114,12 @@ x-card h2 {
 
 }
 
+x-card hr {
+    border: 0;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.1);
+}
+
 footer {
     text-align: center;
     padding: 1em;

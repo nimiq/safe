@@ -80,7 +80,6 @@ export default class XSafe extends MixinRedux(XElement) {
             </section>
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation
-                <br><small><a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
             </footer>
             <x-router debug="true"></x-router>
             `
