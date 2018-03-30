@@ -1,7 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 
-export default class XSendTransactionOfflineModal extends MixinModal(XElement) {
+export default class XSendPreparedTransactionModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">

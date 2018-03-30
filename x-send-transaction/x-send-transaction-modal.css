@@ -9,16 +9,19 @@ x-send-transaction-modal a[secondary] {
     margin-bottom: 0;
 }
 
-x-send-transaction-offline-modal {
+x-send-transaction-offline-modal,
+x-send-prepared-transaction-modal {
     max-width: 500px;
     text-align: center;
 }
 
-x-send-transaction-offline-modal p {
+x-send-transaction-offline-modal p,
+x-send-prepared-transaction-modal p {
     margin: 1em 0;
 }
 
-x-send-transaction-offline-modal textarea {
+x-send-transaction-offline-modal textarea,
+x-send-prepared-transaction-modal textarea {
     width: 100%;
     min-height: 225px;
     background: #e9e9e9;
