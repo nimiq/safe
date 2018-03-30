@@ -9,6 +9,7 @@
 @import '/elements/x-send-transaction/x-send-transaction-modal.css';
 @import '/elements/x-request-link/x-receive-request-link-modal.css';
 @import '/elements/x-request-link/x-create-request-link-modal.css';
+@import '../settings/x-settings.css';
 
 html, body {
     overflow-x: hidden;
@@ -85,7 +86,8 @@ nav.actions {
 }
 
 x-view-dashboard,
-x-view-history {
+x-view-history,
+x-view-settings {
     padding: 1em 0.5em;
     justify-content: center;
     flex-wrap: wrap;
@@ -123,6 +125,7 @@ x-card hr {
     border: 0;
     height: 1px;
     background: rgba(0, 0, 0, 0.1);
+    margin: 0;
 }
 
 footer {

@@ -1,0 +1,13 @@
+x-settings {
+    width: 100%;
+    max-width: 480px;
+}
+
+x-settings a {
+    display: block;
+    padding: 1.2em 0.5em;
+}
+
+x-settings a:hover {
+    background: rgba(0, 0, 0, 0.1);
+}

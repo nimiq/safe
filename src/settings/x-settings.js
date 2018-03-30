@@ -7,11 +7,7 @@ export default class XSettings extends MixinRedux(XElement) {
              <x-card>
                 <h2>Settings</h2>
                 <hr>
-                <ul>
-                    <li>
-                        <a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
-                    </li>
-                </ul>
+                <a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
              </x-card>
         `
     }
