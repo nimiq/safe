@@ -4,7 +4,7 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoContent from './x-no-content.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
-import { addTransactions, setRequestingHistory } from './transactions-redux.js';
+import { addTransactions, removeTransactions, setRequestingHistory } from './transactions-redux.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 
@@ -44,7 +44,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
-    static get actions() { return { addTransactions, setRequestingHistory } }
+    static get actions() { return { addTransactions, removeTransactions, setRequestingHistory } }
 
     static mapStateToProps(state, props) {
         return {
@@ -148,8 +148,9 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         this.actions.setRequestingHistory(true);
         addresses = addresses || this.properties.addresses;
-        const transactions = await this._requestTransactionHistory(addresses);
-        this.actions.addTransactions(transactions);
+        const { newTransactions, removedTransactions } = await this._requestTransactionHistory(addresses);
+        this.actions.addTransactions(newTransactions);
+        this.actions.removeTransactions(removedTransactions, this.properties.lastKnownHeight);
         this.actions.setRequestingHistory(false);
     }
 
@@ -177,7 +178,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     async _requestTransactionHistory(addresses) {
-        const knownReceipts = this._generateKnownReceipts();
+        const knownReceipts = this._generateKnownReceipts(addresses);
 
         // TODO: only ask from knownLastHeight when this function is called at app start,
         // not when requesting txs after a new account has been added!
@@ -187,10 +188,17 @@ export default class XTransactions extends MixinRedux(XElement) {
         return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts, height);
     }
 
-    _generateKnownReceipts() {
-        const knownReceipts = new Map();
+    _generateKnownReceipts(addresses) {
+        const knownReceipts = new Map(addresses.map(a => [a, new Map()]));
+
         for (const [hash, tx] of MixinRedux.store.getState().transactions.entries) {
-            knownReceipts.set(hash, tx.blockHash);
+            if (knownReceipts.has(tx.sender)) {
+                knownReceipts.get(tx.sender).set(hash, tx.blockHash);
+            }
+
+            if (knownReceipts.has(tx.recipient)) {
+                knownReceipts.get(tx.recipient).set(hash, tx.blockHash);
+            }
         }
         return knownReceipts;
     }

@@ -1,5 +1,6 @@
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
+    REMOVE_TXS: 'transactions/remove-transactions',
     UPDATE_BLOCK: 'transactions/updateBlock',
     SET_PAGE: 'transactions/set-page',
     SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
@@ -18,7 +19,7 @@ export function reducer(state, action) {
     }
 
     switch (action.type) {
-        case TypeKeys.ADD_TXS:
+        case TypeKeys.ADD_TXS: {
             let entries = new Map(state.entries);
 
             if (action.transactions.length === 1) {
@@ -41,7 +42,22 @@ export function reducer(state, action) {
                 entries,
                 hasContent: true
             });
+        }
+        case TypeKeys.REMOVE_TXS: {
+            let entries = new Map(state.entries);
 
+            action.hashes.forEach(hash => {
+                if (!entries.get(hash).blockHeight
+                 && action.currentHeight >= entries.get(hash).validityStartHeight + 120 || action.currentHeight === true) {
+                    entries.delete(hash);
+                }
+            });
+
+            return Object.assign({}, state, {
+                entries,
+                hasContent: true
+            });
+        }
         case TypeKeys.UPDATE_BLOCK:
             const oldEntry = state.entries.get(action.hash);
             return Object.assign({}, state, {
@@ -82,6 +98,18 @@ export function addTransactions(transactions) {
     }
 }
 
+/**
+ * @param {Array<string>} hashes
+ * @param {Number|Boolean} currentHeight
+ */
+export function removeTransactions(hashes, currentHeight) {
+    return {
+        type: TypeKeys.REMOVE_TXS,
+        hashes,
+        currentHeight
+    }
+}
+
 export function updateBlock(hash, blockHeight, timestamp) {
     return {
         type: TypeKeys.UPDATE_BLOCK,
@@ -113,8 +141,11 @@ export function setRequestingHistory(isRequestingHistory) {
 }
 
 export function _transactionSort(left, right) {
-    if (!left[1].blockHeight && !right[1].blockHeight) return 0;
-    else if (!left[1].blockHeight) return 1; // sort a after
-    else if (!right[1].blockHeight) return -1; // sort a before
+    if (!left[1].blockHeight && !right[1].blockHeight) {
+        // Both tx are pending, sort by validityStartHeight
+        return left[1].validityStartHeight - right[1].validityStartHeight;
+    }
+    else if (!left[1].blockHeight) return 1; // sort left after
+    else if (!right[1].blockHeight) return -1; // sort left before
     else return left[1].blockHeight - right[1].blockHeight;
 }
