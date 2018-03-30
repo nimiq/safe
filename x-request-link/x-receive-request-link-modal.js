@@ -47,7 +47,7 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
         return {
             'click a.cancel': () => this.hide(),
             'click button.confirm': async () =>
-                (await XRouter.instance).showAside('new-transaction', `recipient=${spaceToDash(this._address)}`)
+                (await XRouter.instance).replaceAside('request', 'new-transaction', `recipient=${spaceToDash(this._address)}`)
         }
     }
 }
