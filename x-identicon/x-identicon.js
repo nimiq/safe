@@ -25,7 +25,7 @@ export default class XIdenticon extends XElement {
     set address(address) {
         this._address = address;
         if (ValidationUtils.isValidAddress(address)) {
-            Iqons.toDataUrl(address).then(dataUrl => this.$img.src = dataUrl);
+            Iqons.toDataUrl(address.toUpperCase()).then(dataUrl => this.$img.src = dataUrl);
         } else {
             this.$img.src = Iqons.placeholderToDataUrl(this._placeholderColor, Infinity);
         }
