@@ -1,6 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import Router from '/libraries/es6-router/src/index.js';
-import SetUtils from '/libraries/nimiq-utils/set-utils.js';
 
 const _waitingForInit = [];
 const DEFAULT_CLASSES = ['from-right-in', 'in', 'from-left-out', 'visible', 'from-left-in', 'from-right-out'];
