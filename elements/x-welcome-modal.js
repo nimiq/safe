@@ -6,9 +6,10 @@ export default class XWelcomeModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
-            <div class="modal-body">
+            <div class="modal-body center">
                 <button class="create">create new account</button>
                 <button class="import">import account</button>
             </div>
