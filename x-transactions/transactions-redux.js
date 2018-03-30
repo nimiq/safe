@@ -1,5 +1,6 @@
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
+    MARK_REMOVED: 'transactions/mark-removed',
     REMOVE_TXS: 'transactions/remove-transactions',
     UPDATE_BLOCK: 'transactions/updateBlock',
     SET_PAGE: 'transactions/set-page',
@@ -43,19 +44,48 @@ export function reducer(state, action) {
                 hasContent: true
             });
         }
-        case TypeKeys.REMOVE_TXS: {
-            let entries = new Map(state.entries);
+        case TypeKeys.MARK_REMOVED: {
+            const entries = new Map(state.entries);
 
             action.hashes.forEach(hash => {
-                if (!entries.get(hash).blockHeight
-                 && action.currentHeight >= entries.get(hash).validityStartHeight + 120 || action.currentHeight === true) {
-                    entries.delete(hash);
+                const tx = entries.get(hash);
+                // If the blockHeight is set, it means it's not a pending tx and can be marked as removed
+                if (tx.blockHeight) {
+                    entries.set(hash, Object.assign({},
+                        tx,
+                        {
+                            'removed': true,
+                            blockHeight: action.currentHeight
+                        }
+                    ));
+                }
+                // If the blockHeight is not set, it means it's a pending tx. Receipts of pending tx are
+                // also sent into the requestTransactionHistory function and thus come back in the
+                // removedTransactions array, but should only be marked as expired if they are expired (older than 120 blocks)
+                if (action.currentHeight >= tx.validityStartHeight + 120 || action.currentHeight === true) {
+                    entries.set(hash, Object.assign({},
+                        tx,
+                        {
+                            'expired': true,
+                            blockHeight: action.currentHeight
+                        }
+                    ));
                 }
             });
 
             return Object.assign({}, state, {
-                entries,
-                hasContent: true
+                entries
+            });
+        }
+        case TypeKeys.REMOVE_TXS: {
+            const entries = new Map(state.entries);
+
+            action.hashes.forEach(hash => {
+                entries.delete(hash);
+            });
+
+            return Object.assign({}, state, {
+                entries
             });
         }
         case TypeKeys.UPDATE_BLOCK:
@@ -102,7 +132,18 @@ export function addTransactions(transactions) {
  * @param {Array<string>} hashes
  * @param {Number|Boolean} currentHeight
  */
-export function removeTransactions(hashes, currentHeight) {
+export function markRemoved(hashes, currentHeight) {
+    return {
+        type: TypeKeys.MARK_REMOVED,
+        hashes,
+        currentHeight
+    }
+}
+
+/**
+ * @param {Array<string>} hashes
+ */
+export function removeTransactions(hashes) {
     return {
         type: TypeKeys.REMOVE_TXS,
         hashes,

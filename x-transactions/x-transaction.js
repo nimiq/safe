@@ -67,6 +67,9 @@ export default class XTransaction extends MixinRedux(XElement) {
                 case 'blockHeight':
                     this.blockHeight = 0;
                     break;
+                case 'removed':
+                case 'expired':
+                    this.$el.classList.remove('removed', 'expired');
                 default:
                     // console.warn('Possible unhandled reset of property', prop);
                     break;
@@ -118,6 +121,14 @@ export default class XTransaction extends MixinRedux(XElement) {
 
         this.$el.classList.remove('incoming', 'outgoing', 'transfer');
         this.$el.classList.add(type);
+    }
+
+    set removed(removed) {
+        this.$el.classList.add('removed');
+    }
+
+    set expired(expired) {
+        this.$el.classList.add('expired');
     }
 
     set transaction(transaction) {

@@ -46,6 +46,11 @@ x-transaction {
     cursor: pointer;
 }
 
+x-transaction.removed,
+x-transaction.expired {
+    background: var(--warning-color);
+}
+
 x-transaction > * {
     /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
     display: table-cell !important;
