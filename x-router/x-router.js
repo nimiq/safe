@@ -147,8 +147,9 @@ export default class XRouter extends XElement {
             }
             let node = nodeOrPath.$el ? nodeOrPath.$el : nodeOrPath;
             node = relative ? node.querySelector(`[x-route="${ relative }"]`) : node;
-            return { route: this.routeByElement.get(node), path: route.path };
-        }
+            const route = this.routeByElement.get(node);
+            return { route, path: route.path };
+        };
         const { route, path } = findRoute(pathOrNode, relativePath);
         if (!route) throw `XRouter: route for absolute path "${ path }" of ${ pathOrNode.tagName } not found.`;
         this.history.unshift(route);
