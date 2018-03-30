@@ -1,6 +1,6 @@
 const devConfig = {
-    keyguardSrc: `${location.origin}/libraries/keyguard/keyguard.html`,
-    networkSrc: `${location.origin}/libraries/network/network.html`,
+    keyguardSrc: `${location.origin}/libraries/keyguard/src/keyguard.html`,
+    networkSrc: `${location.origin}/libraries/network/src/network.html`,
     root: `${location.origin}/apps/safe`
 }
 

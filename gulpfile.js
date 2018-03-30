@@ -5,9 +5,9 @@ const argv = require('yargs').argv;
 const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 
 gulp.task('build', () => NimiqBuild.build(
-    'safe.js',
-    'safe.css',
-    'index.html',
+    'src/safe.js',
+    'src/safe.css',
+    'src/index.html',
     [],
     `${__dirname}/../../`,
     'dist',
