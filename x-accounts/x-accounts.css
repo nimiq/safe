@@ -191,6 +191,10 @@ x-account-modal .ledger-icon {
     background-image: url('/elements/x-accounts/icons/ledger_icon_24px.svg');
 }
 
+x-account-modal .x-account-label {
+    font-size: 1.2em;
+}
+
 x-account-modal hr {
     background: rgba(0, 0, 0, 0.1);
     height: 1px;

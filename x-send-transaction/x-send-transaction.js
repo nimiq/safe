@@ -10,7 +10,7 @@ export default class XSendTransaction extends XElement {
     html() {
         return `
             <div class="modal-header">
-                <h2>Send Transaction</h2>
+                <h2>Transaction</h2>
             </div>
             <form class="modal-body">
                 <h3>Send from</h3>

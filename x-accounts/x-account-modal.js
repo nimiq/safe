@@ -9,12 +9,15 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
-                <h2 class="x-account-label">&nbsp;</h2>
+                <h2>Account</h2>
             </div>
             <div class="modal-body">
                 <div class="center">
                     <x-identicon></x-identicon>
                     <i class="display-none account-icon"></i>
+
+                    <span class="x-account-label"></span>
+
                     <x-address></x-address>
 
                     <div class="x-account-bottom">

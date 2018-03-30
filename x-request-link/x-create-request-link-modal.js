@@ -16,11 +16,11 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                     <x-accounts-dropdown name="recipient"></x-accounts-dropdown>
                     <ul>
                         <li>
-                            <div>Copy address:</div>
+                            <div>Copy your address:</div>
                             <x-address></x-address>
                         </li>
                         <li>
-                            <div>OR use the following link to request a transaction</div>
+                            <div>OR use the following link to request a transaction:</div>
                             <div class="x-request-link"></div>
                         </li>
                     </ul>

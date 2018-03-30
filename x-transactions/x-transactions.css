@@ -188,7 +188,8 @@ x-transaction-modal label {
 
 x-transaction-modal .label {
     display: block;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.2em;
+    font-size: 1em;
 }
 
 x-transaction-modal x-address {
