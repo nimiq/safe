@@ -3,7 +3,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
-import { addTransactions, removeTransactions } from '/elements/x-transactions/transactions-redux.js';
+import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight,
     setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
@@ -36,7 +36,7 @@ class Safe {
             setAllKeys,
             updateBalances,
             addTransactions,
-            removeTransactions,
+            markRemoved,
             setConsensus,
             setHeight,
             setPeerCount,
@@ -105,7 +105,7 @@ class Safe {
     }
 
     _onTransactionExpired(hash) {
-        this.actions.removeTransactions([hash], true);
+        this.actions.markRemoved([hash], true);
     }
 
     _onHeadChange({height, globalHashrate}) {
