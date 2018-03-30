@@ -33,7 +33,6 @@ export default class XPopupMenu extends XElement {
     }
 
     set loading(loading) {
-        console.log("Setting loading", loading);
         this.$text.classList.toggle('display-none', this._noMenu || !!loading);
         this.$loader.classList.toggle('display-none', !loading);
         this.disabled = this._noMenu || loading;
