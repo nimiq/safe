@@ -7,6 +7,7 @@ import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator
 import networkClient from '../network-client.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
+import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
@@ -130,7 +131,9 @@ export default class XSafe extends MixinRedux(XElement) {
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
+            'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
+            'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
@@ -197,13 +200,15 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _newTransactionFrom(address) {
-        XSendTransactionModal.instance.clear();
-
         if (address) {
             XSendTransactionModal.show(`sender=${ spaceToDash(address) }`);
         } else {
             XSendTransactionModal.show();
         }
+    }
+
+    _clickedPreparedTransaction() {
+        XSendPreparedTransactionModal.show();
     }
 
     _clickedReceive() {
@@ -253,6 +258,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XSendTransactionModal.hide();
         XSendTransactionOfflineModal.hide();
+        XSendPreparedTransactionModal.hide();
 
         XToast.show('Transaction sent!');
     }
