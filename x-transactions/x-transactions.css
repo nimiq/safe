@@ -1,5 +1,6 @@
 @import '../x-address/x-address.css';
 @import '/secure-elements/x-loading-animation/x-loading-animation.css';
+@import '/elements/x-popup-menu/x-popup-menu.css';
 
 x-transactions {
     display: block;

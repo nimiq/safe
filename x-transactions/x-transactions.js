@@ -6,21 +6,14 @@ import XNoContent from './x-no-content.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
 import { addTransactions, setRequestingHistory } from './transactions-redux.js';
 import networkClient from '/apps/safe/network-client.js';
+import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <div class="popupmenu">
-                <button>
-                    <span text>
-                        <i class="material-icons">menu</i>
-                    </span>
-                    <span class="dot-loader display-none"></span>
-                </button>
-                <div>
-                    <button refresh><i class="material-icons">refresh</i> Refresh</button>
-                </div>
-            </div>
+            <x-popup-menu>
+                <button refresh><i class="material-icons">refresh</i> Refresh</button>
+            </x-popup-menu>
             <x-transactions-list>
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
@@ -30,19 +23,17 @@ export default class XTransactions extends MixinRedux(XElement) {
         `
     }
 
-    children() { return [ XPaginator ] }
+    children() { return [ XPopupMenu, XPaginator ] }
 
     onCreate() {
         this._$transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
-        this.$refreshMenu = this.$('div.popupmenu > button');
-        this.$refreshText = this.$('span[text]');
-        this.$refreshLoader = this.$('span.dot-loader');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
         if (this.properties.onlyRecent) {
             this.$paginator.$el.classList.add('display-none');
             this.$('a[secondary]').classList.remove('display-none');
         }
+        this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
     }
 
@@ -114,10 +105,10 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
 
         if (changes.isRequestingHistory) {
-            this._buttonShowLoader();
+            this.$popupMenu.loading = true;
         }
         else if (changes.isRequestingHistory !== undefined) {
-            this._buttonShowText();
+            this.$popupMenu.loading = false;
         }
 
         const { hasTransactions, transactions } = this.properties;
@@ -202,17 +193,5 @@ export default class XTransactions extends MixinRedux(XElement) {
             knownReceipts.set(hash, tx.blockHash);
         }
         return knownReceipts;
-    }
-
-    _buttonShowLoader() {
-        this.$refreshText.classList.add('display-none');
-        this.$refreshLoader.classList.remove('display-none');
-        (this.$refreshMenu.disabled = true);
-    }
-
-    _buttonShowText() {
-        !this.attributes.noMenu && this.$refreshText.classList.remove('display-none');
-        this.$refreshLoader.classList.add('display-none');
-        !this.attributes.noMenu && (this.$refreshMenu.disabled = false);
     }
 }

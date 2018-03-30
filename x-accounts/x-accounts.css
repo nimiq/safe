@@ -10,10 +10,6 @@ x-accounts {
     margin-top: -2.8em;
 }
 
-x-accounts button + button {
-    margin-left: 1em;
-}
-
 x-accounts-list {
 	display: flex;
     width: 100%;
