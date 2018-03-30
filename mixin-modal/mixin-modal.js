@@ -9,6 +9,8 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         this._container = XModalContainer.createFor(this);
         this._container.$el.appendChild(this.$el); // append to the container if not already the case
         XModals.instance.$el.appendChild(this._container.$el); // append to x-modals if not already the case
+        this.$closeButton = this.$el.querySelector('[x-modal-close]');
+        if (this.$closeButton) this.$closeButton.addEventListener('click', () => this.hide());
     }
 
     styles() {
@@ -20,7 +22,6 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     show(...parameters) {
-        console.log("local show");
         XModals.show(false, this, ...parameters);
     }
 
