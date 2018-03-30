@@ -16,6 +16,7 @@
     "gulp": "^3.9.1"
   },
   "dependencies": {
-    "babel-preset-minify": "^0.3.0"
+    "babel-preset-minify": "^0.3.0",
+    "yargs": "^11.0.0"
   }
 }
