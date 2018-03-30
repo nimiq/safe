@@ -260,19 +260,6 @@ export default class XRouter extends XElement {
             this.animateOut = [];
         }
 
-
-        // if (this.previous) {
-        //     this._toggleInOut(this.previous, false)
-        //     this._setClass(this.previous, this.CSS_SHOW, false);
-        //     this._doRouteCallback(this.previous, 'onBeforeExit');
-        //     this.previous.element.classList.remove('current');
-        // }
-        //
-        // this._toggleInOut(this.current, true);
-        // this._setClass(this.current, this.CSS_VISIBLE, true);
-        // this._doRouteCallback(this.current, 'onEntry');
-        // this.current.element.classList.add('current');
-
         this._toggleInOut(this.animateOut, false)
         this._setClass(this.animateOut, this.CSS_SHOW, false);
         if (this.previous) {
