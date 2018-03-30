@@ -11,7 +11,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 <h2>Transaction</h2>
             </div>
             <div class="modal-body">
-                <center>
+                <div class="center">
                     <x-identicon sender></x-identicon>
                     <div class="label" sender></div>
                     <x-address sender></x-address>
@@ -32,7 +32,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                         <label>Fee</label>
                         <div class="fee"></div>
                     </div>
-                </center>
+                </div>
             </div>
         `
     }

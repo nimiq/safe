@@ -1,6 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XIdenticon from '../../secure-elements/x-identicon/x-identicon.js';
+import XIdenticon from '/secure-elements/x-identicon/x-identicon.js';
 import XAmount from '../x-amount/x-amount.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
@@ -37,10 +37,12 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     static mapStateToProps(state, props) {
-        return {
-            ...state.transactions.entries.get(props.hash),
-            currentHeight: state.network.height
-        }
+        return Object.assign({},
+            state.transactions.entries.get(props.hash),
+            {
+                currentHeight: state.network.height
+            }
+        )
     }
 
     _onPropertiesChanged(changes) {
@@ -74,6 +76,7 @@ export default class XTransaction extends MixinRedux(XElement) {
         if (!this.properties.timestamp) this.$el.classList.add('pending'); // Used for gradient animation
         else this.$el.classList.remove('pending');
     }
+
 
     set sender(address) {
         this.$senderIdenticon.address = address;
