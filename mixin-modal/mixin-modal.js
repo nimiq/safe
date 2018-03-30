@@ -20,6 +20,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     show(...parameters) {
+        console.log("local show");
         XModals.show(false, this, ...parameters);
     }
 

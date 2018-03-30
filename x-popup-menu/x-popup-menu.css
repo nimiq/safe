@@ -10,6 +10,11 @@
 x-popup-menu {
     display: block;
     position: relative;
+    text-align: right;
+}
+
+x-popup-menu[left-align] {
+    text-align: left;
 }
 
 x-popup-menu button {
@@ -21,7 +26,7 @@ x-popup-menu button {
     width: 40px;
     padding: 0;
     height: 40px;
-    line-height: 38px;
+    line-height: 40px;
     min-height: 40px;
     box-shadow: none;
 }
@@ -39,7 +44,12 @@ x-popup-menu > div {
     z-index: 1;
     border: 1px solid lightgray;
     border-radius: 3px;
-    box-shadow: 0 0 10px 0 lightgray;
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+x-popup-menu[left-align] > div {
+    right: auto;
+    left: 0;
 }
 
 x-popup-menu.active > div {

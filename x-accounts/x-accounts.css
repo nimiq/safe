@@ -1,7 +1,8 @@
-@import '../x-address/x-address.css';
-@import '../mixin-modal/mixin-modal.css';
+@import '/elements/x-address/x-address.css';
+@import '/elements/mixin-modal/mixin-modal.css';
 @import '/secure-elements/x-loading-animation/x-loading-animation.css';
 @import '/elements/x-amount/x-amount.css';
+@import '/elements/x-popup-menu/x-popup-menu.css';
 
 x-accounts {
     text-align: right;
@@ -149,7 +150,7 @@ x-account .x-address {
 
 x-account-modal .x-address {
     display: inline-block;
-    margin: 0.5em auto;
+    margin: 0.5em 0;
 }
 
 x-account .account-icon,
@@ -201,12 +202,8 @@ x-account-modal hr {
     border: 0;
 }
 
-x-account-modal .action-buttons {
+x-account-modal .action-button {
     text-align: center;
-}
-
-x-account-modal .action-buttons button {
-    margin-top: 1em;
 }
 
 /* Responsiveness */

@@ -20,20 +20,35 @@
 }
 
 .modal-header h2 {
-    padding: 2px 64px;
+    padding: 2px 46px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     font-size: 13px;
     font-weight: bold;
 }
 
+.modal-header x-popup-menu {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(100% - 12px);
+    margin: 6px 6px 2px 6px;
+}
+
 .modal-header [x-modal-close] {
     position: absolute;
     right: 0;
-    top: 3px;
-    padding: 14px;
+    top: 0;
     cursor: pointer;
-    width: 52px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 50%;
+    margin: 6px;
+}
+
+.modal-header [x-modal-close]:hover {
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .modal-header::after {
@@ -62,17 +77,5 @@
 @media (max-width: 480px) {
     .modal-body {
         padding: 16px 16px 24px;
-    }
-
-    .modal-header {
-        padding-top: 12px;
-    }
-
-    .modal-header h2 {
-        padding: 0 16px;
-    }
-
-    .modal-header::after {
-        margin-top: 12px;
     }
 }

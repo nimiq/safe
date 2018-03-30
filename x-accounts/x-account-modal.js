@@ -4,11 +4,17 @@ import XAmount from '/elements/x-amount/x-amount.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
+                <x-popup-menu left-align>
+                    <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button>
+                    <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
+                    <button rename><i class="material-icons">mode_edit</i> Rename</button>
+                </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
             </div>
@@ -30,30 +36,29 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     </div>
                 </div>
 
-                <div class="action-buttons">
-                    <hr>
-
-                    <button backup class="secondary small">Backup</button>
-                    <button rename class="secondary small">Rename</button>
+                <div class="action-button">
                     <button send class="small">Send from this account</button>
                 </div>
             </div>
         `
     }
 
+    children() { return [ ...super.children(), XPopupMenu ] }
+
     onCreate() {
         this.$availableAmount = this.$amount[1];
         this.$balanceSection = this.$('.x-account-bottom');
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
-        this.$actionButtons = this.$('.action-buttons');
+        this.$actionButton = this.$('.action-button');
         this._height = 0;
         super.onCreate();
     }
 
     listeners() {
         return {
-            'click button[backup]': _ => this.fire('x-account-modal-backup', this.properties.address),
+            'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
+            'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
         }
@@ -134,11 +139,15 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     allowsShow(address) {
+        if (!address) return true;
+
         address = dashToSpace(address);
         return ValidationUtils.isValidAddress(address);
     }
 
     onShow(address) {
+        if (!address) return;
+
         address = dashToSpace(address);
 
         let account = MixinRedux.store.getState().accounts.entries.get(address);
