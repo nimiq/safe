@@ -132,7 +132,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
-            'x-account-modal-backup': this._clickedAccountBackup.bind(this),
+            'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
+            'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this)
         }
     }
@@ -164,9 +165,18 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountBackup(address) {
+    async _clickedAccountBackupFile(address) {
         try {
             await (await accountManager).backupFile(address);
+        } catch (e) {
+            console.log(e);
+            XToast.show('No backup created.');
+        }
+    }
+
+    async _clickedAccountBackupWords(address) {
+        try {
+            await (await accountManager).backupWords(address);
         } catch (e) {
             console.log(e);
             XToast.show('No backup created.');
