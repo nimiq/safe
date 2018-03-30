@@ -2,13 +2,6 @@ x-network-indicator {
     display: block;
     /* padding-top: 0.4em; */
 }
-
-x-network-indicator hr {
-    border: 0;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.1);
-}
-
 x-network-indicator div {
     line-height: 45px;
 }
