@@ -69,7 +69,8 @@ export default class XSendTransaction extends XElement {
         // To work around the double x-address-input-valid event
         // which happens because of the address formatting when
         // pasting a full address
-        this.__lastValidatedValue = '';
+        this.__lastValidatedValue = null;
+        this.__validateRecipientTimeout = null;
 
         this._errorElements = {};
 
@@ -112,6 +113,7 @@ export default class XSendTransaction extends XElement {
         this.$addressInput.value = '';
         this.$amountInput.forEach(input => input.value = '');
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
+        this.$expandable.collapse();
 
         this._validateSender();
         this._validateRecipient();
@@ -170,8 +172,11 @@ export default class XSendTransaction extends XElement {
         const address = this.$addressInput.value;
         const value = this.$addressInput.$input.value;
 
-        if (value === this.__lastValidatedValue) return;
+        if (value === this.__lastValidatedValue && !this.__validateRecipientTimeout) return;
         this.__lastValidatedValue = value;
+
+        clearTimeout(this.__validateRecipientTimeout);
+        this.__validateRecipientTimeout = null;
 
         this._validRecipient = false;
 
@@ -179,6 +184,7 @@ export default class XSendTransaction extends XElement {
         if (address) {
             if (MixinRedux.store.getState().network.consensus !== 'established') {
                 this._setError('Cannot validate address (not connected)', 'recipient');
+                this.__validateRecipientTimeout = setInterval(this._validateRecipient.bind(this), 1000);
                 this._validRecipient = true;
             } else {
                 this._setError('Validating receiver type, please wait...', 'recipient');

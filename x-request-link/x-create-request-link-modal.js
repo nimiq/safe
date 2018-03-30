@@ -43,7 +43,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
             'x-account-selected': this._onAccountSelected.bind(this),
             'click .x-request-link': () => navigator.share({
                 title: 'Nimiq Transaction Request',
-                text: 'Please me Nimiq using this link',
+                text: 'Please send me Nimiq using this link:',
                 url: this._link
             })
         }

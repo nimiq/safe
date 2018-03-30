@@ -12,7 +12,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 <h2 class="x-account-label">&nbsp;</h2>
             </div>
             <div class="modal-body">
-                <center>
+                <div class="center">
                     <x-identicon></x-identicon>
                     <i class="display-none account-icon"></i>
                     <x-address></x-address>
@@ -24,7 +24,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <div class="vesting-info">
                         <x-amount display available-amount label="Available now"></x-amount>
                     </div>
-                </center>
+                </div>
 
                 <div class="action-buttons">
                     <hr>
