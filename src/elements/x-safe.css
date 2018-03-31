@@ -10,6 +10,7 @@
 @import '/elements/x-request-link/x-receive-request-link-modal.css';
 @import '/elements/x-request-link/x-create-request-link-modal.css';
 @import '../settings/x-settings.css';
+@import '/elements/x-education-slides/x-education-slides.css';
 
 html,
 body {

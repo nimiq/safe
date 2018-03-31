@@ -20,8 +20,18 @@ import XWelcomeModal from './x-welcome-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import config from '../config.js';
+import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 
 export default class XSafe extends MixinRedux(XElement) {
+
+    onCreate() {
+        super.onCreate();
+        this._introFinished = XEducationSlides.finished;
+        if (!this._introFinished) {
+            XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
+            XEducationSlides.resume();
+        }
+    }
 
     html() {
         return `
@@ -121,12 +131,18 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.accountsPresent) {
-            this.$welcomeModal.show();
+            if (this._introFinished) this.$welcomeModal.show();
+            else this._showWelcomeAfterIntro = true;
         }
 
         if (changes.accountsPresent) {
             this.$welcomeModal.hide();
         }
+    }
+
+    _onIntroFinished() {
+        this._introFinished = true;
+        if (this._showWelcomeAfterIntro) this.$welcomeModal.show();
     }
 
     listeners() {
