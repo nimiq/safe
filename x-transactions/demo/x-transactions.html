@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="/secure-elements/x-toast/x-toast.css" rel="stylesheet">
+    <link href="../x-transactions.css" rel="stylesheet">
+
+    <script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
+
+    <style>
+        body {
+            padding: 0.5em;
+            background: rgb(245, 245, 245);
+        }
+
+        x-card {
+            display: block;
+            width: 100%;
+            max-width: 960px;
+            border-radius: 0.4em;
+            padding: 1em;
+            margin: 0.5em;
+            background: white;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        x-card h2 {
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        x-card hr {
+            border: 0;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0;
+        }
+
+        @media (min-width: 480px) {
+            x-card {
+                padding: 24px ;
+                margin: 16px;
+            }
+        }
+
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <x-card class="nimiq-dark">
+        <h2>Transactions</h2>
+        <x-transactions-list>
+            <x-transaction></x-transaction>
+            <x-transaction></x-transaction>
+            <x-transaction></x-transaction>
+        </x-transactions-list>
+    </x-card>
+
+    <script type="module">
+        import XTransaction from '../x-transaction.js';
+        import XTransactionModal from '../x-transaction-modal.js';
+
+        const demoTransactions = [
+            {
+                sender: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                senderLabel: 'Little Green Punk',
+                recipient: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                recipientLabel: 'NQ77 X5GR VCE5...',
+                type: 'outgoing',
+                value: 238.12,
+                fee: 0,
+                blockHeight: 34521,
+                timestamp: 1521411029,
+                hash: 'kjasodifjap0893jaio3jpai23fap0iw',
+                currentHeight: 35422,
+            },
+            {
+                recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                recipientLabel: 'Little Green Punk',
+                sender: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                senderLabel: 'NQ77 X5GR VCE5...',
+                type: 'incoming',
+                value: 238.12,
+                fee: 0,
+                blockHeight: 34352,
+                timestamp: 1521311029,
+                hash: 'kjasodifjap0893jaio3jpai23fap0ib',
+                currentHeight: 35422,
+            },
+            {
+                recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                recipientLabel: 'Little Green Punk',
+                sender: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                senderLabel: 'NQ77 X5GR VCE5...',
+                type: 'incoming',
+                expired: true,
+                value: 238.12,
+                fee: 0,
+                blockHeight: 34321,
+                timestamp: 1521311029,
+                hash: 'kjasodifjap0893jaio3jpai23fapasdlfja',
+                currentHeight: 35422,
+            }
+        ];
+        window.demoTransactions = demoTransactions;
+
+        document.querySelectorAll('x-transaction').forEach(($el, i) => {
+            const $transaction = new XTransaction($el);
+            $transaction.transaction = demoTransactions[i];
+        });
+
+        document.addEventListener('x-transaction-selected', e => {
+            const transaction = demoTransactions.find(tx => tx.hash === e.detail);
+            XTransactionModal.instance.transaction = transaction;
+            XTransactionModal.show();
+        });
+    </script>
+</body>
+
+</html>
