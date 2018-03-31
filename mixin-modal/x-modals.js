@@ -14,7 +14,6 @@ export default class XModals extends MixinSingleton(XElement) {
 
     static async show(triggeredByRouter, modal, ...parameters) {
         const visibleModal = XModals.visibleModal;
-        const incomingModal = XModals.instance._incomingModal;
         if (modal === null || modal === visibleModal /*|| modal === incomingModal*/
             || !modal.allowsShow(...parameters)
             || (visibleModal && !visibleModal.allowsHide(modal))) return;
