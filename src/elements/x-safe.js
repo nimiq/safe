@@ -39,8 +39,8 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom">
                     <nav class="actions">
-                        <button class="small" new-tx>Send NIM</button>
-                        <button class="small" receive>Receive NIM</button>
+                        <button class="small" new-tx>Send</button>
+                        <button class="small" receive>Receive</button>
                         <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     </nav>
                     <nav class="main">
