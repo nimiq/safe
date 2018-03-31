@@ -132,7 +132,7 @@ export default class XSafe extends MixinRedux(XElement) {
     listeners() {
         return {
             'x-accounts-create': this._clickedCreateAccount.bind(this),
-            'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
+            // 'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
             'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
@@ -141,7 +141,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
-            'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
+            // 'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show()
@@ -158,15 +158,15 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedImportAccountFile() {
-        try {
-            await (await accountManager).importFile();
-            XToast.success('Account imported successfully.');
-        } catch (e) {
-            console.log(e);
-            XToast.warning('Account was not imported.');
-        }
-    }
+    // async _clickedImportAccountFile() {
+    //     try {
+    //         await (await accountManager).importFile();
+    //         XToast.success('Account imported successfully.');
+    //     } catch (e) {
+    //         console.log(e);
+    //         XToast.warning('Account was not imported.');
+    //     }
+    // }
 
     async _clickedImportAccountWords() {
         try {
@@ -178,15 +178,15 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountBackupFile(address) {
-        try {
-            await (await accountManager).backupFile(address);
-            XToast.success('Account backed up successfully.');
-        } catch (e) {
-            console.log(e);
-            XToast.warning('No backup created.');
-        }
-    }
+    // async _clickedAccountBackupFile(address) {
+    //     try {
+    //         await (await accountManager).backupFile(address);
+    //         XToast.success('Account backed up successfully.');
+    //     } catch (e) {
+    //         console.log(e);
+    //         XToast.warning('No backup created.');
+    //     }
+    // }
 
     async _clickedAccountBackupWords(address) {
         try {
