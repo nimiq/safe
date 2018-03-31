@@ -70,9 +70,12 @@ export default class XElement {
     /* Get attributes from DOM element - for use with deconstructors */
     get attributes() {
         const map = {};
-        for (const attribute of this.$el.attributes) {
+
+        for (let i = 0; i < this.$el.attributes.length; i++) {
+            const attribute = this.$el.attributes[i];
             map[XElement.camelize(attribute.name)] = attribute.value || true;
         }
+
         return map;
     }
 
