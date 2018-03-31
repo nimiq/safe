@@ -53,7 +53,7 @@ x-amount .main-decimals {
 
 x-amount .rest-decimals,
 x-amount .ticker {
-    font-weight: 400;
+    font-weight: 700;
     font-size: 0.75em;
 }
 
@@ -65,7 +65,7 @@ x-amount .rest-decimals {
 x-amount[display] .ticker,
 x-amount[display] .rest-decimals,
 x-amount[display] label {
-    font-size: 0.5em;
+    font-size: 14px;
 }
 
 @media (max-width: 480px) {

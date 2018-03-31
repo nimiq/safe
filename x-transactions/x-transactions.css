@@ -32,6 +32,7 @@ x-transactions-list {
 x-transactions-list x-loading-animation {
     margin: 0 auto;
     margin-top: 2em;
+    display: none;
 }
 
 x-transactions-list x-loading-animation + h2 {
@@ -167,11 +168,11 @@ x-transaction.expired x-currency-nim {
 }
 
 x-transactions-list x-no-content {
-	font-size: 20px;
-    display: block;
-    padding: 1.5em;
-    text-align: center;
-    opacity: 0.6;
+	font-size: 16px;
+	display: block;
+	padding: 1.5em;
+	text-align: center;
+	opacity: 0.6;
 }
 
 x-transactions-list x-no-content h1.material-icons {

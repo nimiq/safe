@@ -23,6 +23,6 @@ x-network-indicator label {
 
 x-network-indicator span {
     text-align: right;
-    font-size: 1.5em;
+    font-size: 15px;
     text-transform: capitalize;
 }

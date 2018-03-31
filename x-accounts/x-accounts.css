@@ -13,19 +13,20 @@ x-accounts {
 
 x-accounts-list {
 	display: flex;
-    width: 100%;
-    min-height: 177px; /* height of two XAccount elements */
-    flex-grow: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    flex-direction: column;
+	width: 100%;
+	/* min-height: 177px; */ /* height of two XAccount elements */
+	flex-grow: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	flex-direction: column;
 }
 
 x-accounts-list x-loading-animation {
     margin: 0 auto;
     margin-top: 2em;
+    display: none;
 }
 
 x-accounts-list h2 {
@@ -104,7 +105,7 @@ x-account-modal .x-account-bottom {
 
 x-account x-amount {
     display: block;
-    font-size: 1.5em;
+    font-size: 16px;
     margin-top: -0.25em;
 }
 

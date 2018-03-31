@@ -2,8 +2,8 @@
 .dot-loader::before,
 .dot-loader::after {
     display: inline-block;
-    width: 0.4em;
-    height: 0.4em;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     /* background: white; */
     box-shadow: 0.5em 0 #3b3b3b;
@@ -13,7 +13,7 @@
 .dot-loader.white,
 .dot-loader.white::before,
 .dot-loader.white::after {
-    box-shadow: 0.5em 0 white;
+    box-shadow: 10em 0 white;
     animation: dot-loader-animation-white 1s ease-in-out 0s infinite;
 }
 
