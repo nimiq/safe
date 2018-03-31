@@ -11,9 +11,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
         return `
             <div class="modal-header">
                 <x-popup-menu left-align>
-                    <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button>
-                    <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
+                    <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
+                    <!-- <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button> -->
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
@@ -57,7 +57,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
-            'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
+            // 'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
             'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
