@@ -150,7 +150,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedCreateAccount() {
         try {
-            await (await accountManager).create();
+            await (await accountManager).createSafe();
             XToast.success('Account created successfully.');
         } catch (e) {
             console.log(e);
