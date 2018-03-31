@@ -37,7 +37,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         return true;
     }
 
-    allowsHide() {
+    allowsHide(incomingModal) {
         return true;
     }
 
