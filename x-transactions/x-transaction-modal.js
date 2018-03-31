@@ -14,23 +14,47 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             <div class="modal-body">
                 <div class="center">
                     <x-identicon sender></x-identicon>
-                    <div class="label" sender></div>
-                    <x-address sender></x-address>
-                    <div><i class="material-icons">arrow_downward</i></div>
+                    <i class="material-icons">arrow_forward</i>
                     <x-identicon recipient></x-identicon>
-                    <div class="label" recipient></div>
-                    <x-address recipient></x-address>
+                </div>
 
-                    <x-amount label="Value"></x-amount>
+                <div class="center">
+                    <x-amount></x-amount>
+                </div>
 
-                    <label>Time</label>
-                    <div class="timestamp" title="">pending...</div>
+                <div class="row">
+                    <label>From</label>
+                    <div class="row-data">
+                        <div class="label" sender></div>
+                        <x-address sender></x-address>
+                    </div>
+                </div>
 
-                    <label>Block height</label>
-                    <div class="blockHeight"></div> <div class="confirmations"></div>
+                <div class="row">
+                    <label>To</label>
+                    <div class="row-data">
+                        <div class="label" recipient></div>
+                        <x-address recipient></x-address>
+                    </div>
+                </div>
 
-                    <div class="fee-section display-none">
-                        <label>Fee</label>
+                <div class="row">
+                    <label>Date</label>
+                    <div class="row-data">
+                        <div class="timestamp" title="">pending...</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <label>Block</label>
+                    <div class="row-data">
+                        <span class="blockHeight"></span> <span class="confirmations"></span>
+                    </div>
+                </div>
+
+                <div class="fee-section display-none row">
+                    <label>Fee</label>
+                    <div class="row-data">
                         <div class="fee"></div>
                     </div>
                 </div>
@@ -40,11 +64,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     children() { return super.children().concat([XAddress]) }
 
+    listeners() { return [] }
+
     onCreate() {
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
-        this.$blockHeight = this.$('div.blockHeight');
-        this.$confirmations = this.$('div.confirmations');
+        this.$blockHeight = this.$('span.blockHeight');
+        this.$confirmations = this.$('span.confirmations');
         this.$fee = this.$('div.fee');
         super.onCreate();
         this.$senderIdenticon.placeholderColor = '#bbb';

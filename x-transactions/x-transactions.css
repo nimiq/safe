@@ -1,8 +1,8 @@
 @import '../x-address/x-address.css';
 @import '../x-amount/x-amount.css';
-@import '/elements/mixin-modal/mixin-modal.css';
 @import '/secure-elements/x-loading-animation/x-loading-animation.css';
 @import '/elements/x-popup-menu/x-popup-menu.css';
+@import './x-transaction-modal.css';
 
 x-transactions {
     display: block;
@@ -191,64 +191,4 @@ x-paginator {
 
 x-paginator button {
     display: inline;
-}
-
-x-transaction-modal {
-    max-width: 600px;
-}
-
-x-transaction-modal x-identicon {
-    display: block;
-    width: 120px;
-    margin-bottom: 0.25em;
-}
-
-x-transaction-modal label {
-    display: block;
-    font-weight: 300;
-    text-transform: uppercase;
-    margin-top: 1em;
-}
-
-x-transaction-modal .label {
-    display: block;
-    margin-bottom: 0.2em;
-    font-size: 1em;
-}
-
-x-transaction-modal x-address {
-    display: inline-block;
-    margin-bottom: 0.5em;
-}
-
-x-transaction-modal .blockHeight,
-x-transaction-modal .confirmations,
-x-transaction-modal .timestamp,
-x-transaction-modal x-amount,
-x-transaction-modal .fee {
-    display: block;
-    font-size: 1.2em;
-}
-
-x-transaction-modal.removed .timestamp,
-x-transaction-modal.expired .timestamp {
-    background: var(--warning-color);
-    padding: 0.2em 0.5em;
-}
-
-x-transaction-modal .confirmations {
-    font-size: 1em;
-}
-
-x-transaction-modal x-amount {
-    font-size: 1.4em;
-}
-
-x-transaction-modal.removed x-currency-nim,
-x-transaction-modal.expired x-currency-nim {
-    text-decoration: line-through;
-}
-
-x-transaction-modal .hash {
-    font-family: monospace;
 }

@@ -1,0 +1,125 @@
+@import '/elements/mixin-modal/mixin-modal.css';
+
+x-transaction-modal {
+    max-width: 600px;
+}
+
+x-transaction-modal .center {
+    flex-direction: row;
+}
+
+x-transaction-modal x-identicon {
+    display: inline-block;
+    width: 120px;
+}
+
+x-transaction-modal x-identicon[sender] {
+    margin-right: 24px;
+}
+
+x-transaction-modal x-identicon[recipient] {
+    margin-left: 24px;
+}
+
+x-transaction-modal .row {
+    margin: 14px 0;
+    align-items: flex-start;
+}
+
+x-transaction-modal .row + .row {
+    margin-top: 28px;
+}
+
+x-transaction-modal label {
+    display: inline-block;
+    width: 96px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 13px;
+    font-weight: bold;
+    opacity: 0.76;
+}
+
+x-transaction-modal .label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
+
+x-transaction-modal.incoming .label[sender] {
+    display: none;
+}
+
+x-transaction-modal.outgoing .label[recipient] {
+    display: none;
+}
+
+x-transaction-modal x-address {
+    margin-left: -16px;
+}
+
+x-transaction-modal .blockHeight,
+x-transaction-modal .confirmations,
+x-transaction-modal .timestamp,
+x-transaction-modal x-amount,
+x-transaction-modal .fee {
+    /* font-size: 1.2em; */
+}
+
+x-transaction-modal.removed .timestamp,
+x-transaction-modal.expired .timestamp {
+    background: var(--warning-color);
+    padding: 4px 12px;
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+x-transaction-modal .confirmations {
+    font-size: 1em;
+}
+
+x-transaction-modal x-amount {
+    margin: 18px 0;
+    font-size: 26px;
+}
+
+x-transaction-modal.removed x-currency-nim,
+x-transaction-modal.expired x-currency-nim {
+    text-decoration: line-through;
+}
+
+x-transaction-modal .hash {
+    font-family: monospace;
+}
+
+
+@media (max-width: 480px) {
+    x-transaction-modal x-identicon {
+        width: 90px;
+    }
+
+    x-transaction-modal x-identicon[sender] {
+        margin-right: 18px;
+    }
+
+    x-transaction-modal x-identicon[recipient] {
+        margin-left: 18px;
+    }
+
+    x-transaction-modal .row {
+        flex-direction: column;
+    }
+
+    x-transaction-modal label {
+        margin-bottom: 6px;
+        font-size: 12px
+    }
+
+    x-transaction-modal .label {
+        margin-bottom: 6px;
+    }
+
+    x-transaction-modal x-address {
+        margin-left: -4px;
+    }
+}
