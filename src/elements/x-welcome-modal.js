@@ -11,7 +11,7 @@ export default class XWelcomeModal extends MixinModal(XElement) {
             </div>
             <div class="modal-body center">
                 <button class="create">create new account</button>
-                <a class="secondary">import account</a>
+                <a secondary>Import account</a>
             </div>
             `
     }
@@ -19,7 +19,7 @@ export default class XWelcomeModal extends MixinModal(XElement) {
     listeners() {
         return {
             'click button.create': this._onCreateAccount.bind(this),
-            'click a.secondary': this._onImportAccount.bind(this)
+            'click a[secondary]': this._onImportAccount.bind(this)
         }
     }
     _onCreateAccount() {
@@ -27,7 +27,7 @@ export default class XWelcomeModal extends MixinModal(XElement) {
     }
 
     _onImportAccount() {
-        this.fire('x-accounts-import');
+        this.fire('x-accounts-import-words');
     }
 }
 
