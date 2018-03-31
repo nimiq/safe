@@ -18,6 +18,7 @@ import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request
 import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
 import XWelcomeModal from './x-welcome-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import XDisclaimerModal from './x-disclaimer-modal.js';
 import config from '../config.js';
 
 export default class XSafe extends MixinRedux(XElement) {
@@ -71,15 +72,17 @@ export default class XSafe extends MixinRedux(XElement) {
                     </x-card>
                 </x-view-history>
                 <x-view-settings x-route="settings">
-                    <x-settings></x-settings> 
+                    <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${config.root}"></x-create-request-link-modal>
+                <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
-                &copy; 2017-2018 Nimiq Foundation
+                &copy; 2017-2018 Nimiq Foundation<br>
+                <a disclaimer>Disclaimer</a>
             </footer>
             <x-router debug="true"></x-router>
             `
@@ -98,7 +101,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XTransactionModal,
             XWelcomeModal,
             XReceiveRequestLinkModal,
-            XCreateRequestLinkModal
+            XCreateRequestLinkModal,
+            XDisclaimerModal
         ];
     }
 
@@ -139,7 +143,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
-            'x-account-modal-rename': this._clickedAccountRename.bind(this)
+            'x-account-modal-rename': this._clickedAccountRename.bind(this),
+            'click a[disclaimer]': () => XDisclaimerModal.show()
         }
     }
 

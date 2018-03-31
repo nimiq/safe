@@ -135,6 +135,11 @@ footer {
     transition: opacity 0.5s linear 0.1s;
 }
 
+footer a {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 @media (max-width: 480px) {
     header {
         padding: 0;
@@ -180,4 +185,16 @@ body.preparing > * {
 
 body.preparing footer {
     opacity: 0;
+}
+
+x-disclaimer-modal {
+    width: 690px;
+}
+
+x-disclaimer-modal p {
+    text-align: justify;
+}
+
+x-disclaimer-modal p + p {
+    margin-top: 1em;
 }
