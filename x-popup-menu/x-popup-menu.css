@@ -66,10 +66,6 @@ x-popup-menu > button[disabled] + div {
     display: none !important;
 }
 
-x-popup-menu > button:disabled .dot-loader {
-    opacity: 0.26;
-}
-
 x-popup-menu > div > button {
     display: block;
     width: 100%;

@@ -11,7 +11,7 @@ import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu>
+            <x-popup-menu x-loading-tooltip="Refreshing transaction history">
                 <button refresh><i class="material-icons">refresh</i> Refresh</button>
             </x-popup-menu>
             <x-transactions-list>

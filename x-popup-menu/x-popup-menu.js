@@ -15,6 +15,7 @@ export default class XPopupMenu extends XElement {
         this.$button = this.$('button');
         this.$text = this.$('i');
         this.$loader = this.$('.dot-loader');
+        this.$loader.setAttribute('title', this.attributes.xLoadingTooltip);
         this._noMenu = false;
 
         this._handleiOS();
