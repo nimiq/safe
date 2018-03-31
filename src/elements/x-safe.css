@@ -134,6 +134,13 @@ x-card hr {
     margin: 0;
 }
 
+@media (min-width: 480px) {
+    x-card {
+        padding: 24px ;
+        margin: 16px;
+    }
+}
+
 footer {
     text-align: center;
     padding: 1em;
@@ -167,13 +174,6 @@ footer a {
 
     nav.actions {
         margin-right: 0;
-    }
-}
-
-@media (min-width: 480px) {
-    x-card {
-        padding: 24px ;
-        margin: 16px;
     }
 }
 
