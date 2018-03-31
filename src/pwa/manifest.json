@@ -1,7 +1,7 @@
 {
     "name": "Nimiq Safe",
     "short_name": "Nimiq Safe",
-    "start_url": ".",
+    "start_url": "..",
     "display": "standalone",
     "background_color": "#fff",
     "description": "The Nimiq Safe app to manage your NIM",
