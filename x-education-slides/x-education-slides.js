@@ -56,6 +56,10 @@ export default class XEducationSlides {
         return previousSlide? previousSlide.instance : null;
     }
 
+    static get lastSlide() {
+        return XEducationSlides.slides[XEducationSlides.slides.length - 1];
+    }
+
     static set currentSlide(slide) {
         const index = XEducationSlides.slides.indexOf(slide.constructor);
         if (index < 0) return;
