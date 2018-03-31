@@ -5,7 +5,7 @@ function getConfig(host) {
                 keyguardSrc: 'https://secure.nimiq.com',
                 networkSrc: 'https://network.nimiq.com',
                 root: 'https://safe.nimiq.com',
-                mode: 'live'
+                mode: 'main'
             };
 
         case 'https://safe.nimiq-testnet.com':
@@ -22,7 +22,7 @@ function getConfig(host) {
                     keyguardSrc: `${location.origin}/libraries/keyguard/dist/`,
                     networkSrc: `${location.origin}/libraries/network/dist/`,
                     root: `${location.origin}/apps/safe/dist`,
-                    mode: 'test'
+                    mode: 'dev'
                 }
             }
 
@@ -30,7 +30,7 @@ function getConfig(host) {
                 keyguardSrc: `${location.origin}/libraries/keyguard/src/`,
                 networkSrc: `${location.origin}/libraries/network/src/`,
                 root: `${location.origin}/apps/safe/src`,
-                mode: 'test'
+                mode: 'dev'
             }
     }
 }
