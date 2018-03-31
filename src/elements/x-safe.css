@@ -60,7 +60,7 @@ nimiq-logo {
 x-total-amount {
     display: block;
     font-size: 2.5em;
-    margin: 0.5em auto;
+    margin: 0.5em auto 1em auto;
 }
 
 .header-bottom {
@@ -177,7 +177,9 @@ footer a {
     }
 }
 
-@media (max-width: 380px) {
+/* The point at which the main nav and the action buttons
+   in the header don't fit next to each other anymore */
+@media (max-width: 730px) {
     nav.main {
         float: none;
     }

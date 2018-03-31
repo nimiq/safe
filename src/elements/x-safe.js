@@ -31,7 +31,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <nimiq-logo>NIMIQ <strong>SAFE</strong></nimiq-logo>
                     </div>
                     <nav class="secondary-links">
-                        <a href="https://nimiq.com">Homepage</a>
+                        <!-- <a href="https://nimiq.com">Homepage</a> -->
                         <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
                         <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
                     </nav>
@@ -52,15 +52,15 @@ export default class XSafe extends MixinRedux(XElement) {
             </header>
             <section class="content nimiq-dark">
                 <x-view-dashboard x-route="">
-                    <x-card>
+                    <x-card style="max-width: 960px;">
                         <h2>Recent Transactions</h2>
                         <x-transactions class="no-animation" only-recent no-menu></x-transactions>
                     </x-card>
-                    <x-card style="max-width: 525px;">
+                    <x-card style="max-width: 530px;">
                         <h2>Your Accounts</h2>
                         <x-accounts></x-accounts>
                     </x-card>
-                    <x-card style="max-width: 360px;">
+                    <x-card style="max-width: 350px;">
                         <h2>Nimiq Network</h2>
                         <x-network-indicator></x-network-indicator>
                     </x-card>
