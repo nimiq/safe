@@ -95,11 +95,14 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     allowsShow(hash) {
+        if (!hash) return true;
         hash = decodeURIComponent(hash);
         return ValidationUtils.isValidHash(hash);
     }
 
     onShow(hash) {
+        if (!hash) return;
+
         hash = decodeURIComponent(hash);
 
         let transaction = MixinRedux.store.getState().transactions.entries.get(hash);

@@ -1,4 +1,6 @@
 @import '../x-address/x-address.css';
+@import '../x-amount/x-amount.css';
+@import '/elements/mixin-modal/mixin-modal.css';
 @import '/secure-elements/x-loading-animation/x-loading-animation.css';
 @import '/elements/x-popup-menu/x-popup-menu.css';
 
