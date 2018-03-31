@@ -14,3 +14,5 @@ gulp.task('build', () => NimiqBuild.build(
     argv.config,
     true
 ));
+
+gulp.task('default', ['build']);
