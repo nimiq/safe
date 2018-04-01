@@ -20,6 +20,20 @@ body {
     display: initial;
 }
 
+.header-warning {
+    padding: 15px;
+    background: var(--warning-color);
+    color: #3b3b3b;
+    text-align: center;
+    /* font-weight: 600; */
+}
+
+.header-warning .close-warning {
+    float: right;
+    color: #3b3b3b;
+    cursor: pointer;
+}
+
 header {
     width: 100%;
     background: var(--primary-background-toright);

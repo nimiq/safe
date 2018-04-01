@@ -27,6 +27,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
     html() {
         return `
+            <div class="header-warning display-none">
+                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
+                You are connecting to the Nimiq Testnet. Please do not use your Mainnet accounts in the Testnet!
+            </div>
             <header>
                 <div class="header-top">
                     <div class="nimiq-app-name">
@@ -114,6 +118,9 @@ export default class XSafe extends MixinRedux(XElement) {
         if (!this._introFinished) {
             XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
             XEducationSlides.start();
+        }
+        if (config.mode !== 'main') {
+            this.$('.header-warning').classList.remove('display-none');
         }
     }
 
