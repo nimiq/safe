@@ -21,6 +21,7 @@ import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import config from '../config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+// import XAccountFileImportModal from './x-account-file-import-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -149,6 +150,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             'x-accounts-create': this._clickedCreateAccount.bind(this),
             // 'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
+            // 'x-backup-import': this._importedAccountFile.bind(this),
             'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
@@ -175,8 +177,13 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     // async _clickedImportAccountFile() {
+    //     XAccountFileImportModal.show();
+    // }
+
+    // async _importedAccountFile(encryptedPrivKey) {
     //     try {
-    //         await (await accountManager).importFile();
+    //         await (await accountManager).importFile(encryptedPrivKey);
+    //         XAccountFileImportModal.hide();
     //         XToast.success('Account imported successfully.');
     //     } catch (e) {
     //         console.log(e);
