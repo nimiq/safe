@@ -48,10 +48,9 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom">
-                    <nav class="actions">
+                <nav class="actions">
                         <button class="small" new-tx disabled>Send</button>
                         <button class="small" receive disabled>Receive</button>
-                        <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     </nav>
                     <nav class="main">
                         <a x-href="">Dashboard</a>
@@ -60,8 +59,79 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                 </div>
             </header>
-            <section class="content nimiq-dark">
+            <style>
+                .content-width {
+                    max-width: var(--max-content-width);
+                    margin: 0 auto;
+                }
+                nav.actions {
+                    display: none;
+                }
+                nav.actions.floating-actions {
+                    margin-bottom: -40px;
+                    display: flex;
+                    justify-content: flex-end;
+                    padding-right: 10px;
+                    float: none;
+                }
+                .floating-btn {
+                    text-align: center;
+                    width:110px;
+                    margin-top: -45px;
+                }
+                .floating-btn button {
+                    width: 60px !important;
+                    height: 60px !important;
+                    border-radius: 32px;
+                    background-color: white;
+                    background-position: center !important;
+                    background-repeat: no-repeat !important;
+                    margin-left: 0;
+                    padding: 0;
+                    min-height: 0;
+                    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                }
+                .floating-btn .btn-text {
+                    padding-top: 8px;
+                    user-select: none;
+                }
+                h1 {
+                    width: 100%;
+                    text-align: left;
+                    padding: 8px 38px;
+                }
+                .floating-btn [new-tx] {
+                    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="#4463D7" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>') !important;
+                }
+                .floating-btn [receive] {
+                    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="#9548EF" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
+                }
+                @media (max-width: 730px) {
+                    nav.actions {
+                        display: block;
+                    }
+                    nav.actions.floating-actions {
+                        display: none;
+                    }
+                    .content h1 {
+                        display: none;
+                    }
+                }
+            </style>
+            <section class="content nimiq-dark content-width">
+                <nav class="actions floating-actions">
+                    <div class="floating-btn">
+                        <button new-tx disabled></button>
+                        <div class="btn-text">Send</div>
+                    </div>
+                    <div class="floating-btn">
+                        <button receive disabled></button>
+                        <div class="btn-text">Receive</div>
+                    </div>
+                    <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
+                </nav>
                 <x-view-dashboard x-route="">
+                    <h1>Dashboard</h1>
                     <x-card style="max-width: 960px;">
                         <h2>Recent Transactions</h2>
                         <x-transactions class="no-animation" only-recent no-menu></x-transactions>
@@ -76,12 +146,14 @@ export default class XSafe extends MixinRedux(XElement) {
                     </x-card>
                 </x-view-dashboard>
                 <x-view-history x-route="history">
+                    <h1>History</h1>
                     <x-card>
-                        <h2>Transaction History</h2>
+                        <h2>Transaction history</h2>
                         <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
                 <x-view-settings x-route="settings">
+                    <h1>Settings</h1>
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
