@@ -13,10 +13,7 @@
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
-    "gulp": "^3.9.1"
-  },
-  "dependencies": {
-    "babel-preset-minify": "^0.3.0",
-    "yargs": "^11.0.0"
+    "gulp": "^3.9.1",
+    "babel-preset-minify": "^0.3.0"
   }
 }
