@@ -165,11 +165,16 @@ export default class XSendTransaction extends XElement {
 
     _validateSender() {
         const account = this.$accountsDropdown.selectedAccount;
-        this._validSender = !!(account && account.balance > 0);
-        if (this._validSender) {
-            this._clearError('sender');
-        } else {
-            this._setError('This account has no balance', 'sender');
+        if (MixinRedux.store.getState().network.consensus === 'established') {
+            this._validSender = !!(account && account.balance > 0);
+            if (this._validSender) {
+                this._clearError('sender');
+            } else {
+                this._setError('This account has no balance', 'sender');
+            }
+        }
+        else {
+            this._validSender = !!account;
         }
     }
 
@@ -244,13 +249,17 @@ export default class XSendTransaction extends XElement {
             return;
         }
 
-        this._validAmountAndFees = !!(account && account.balance >= (amount + fees));
+        if (MixinRedux.store.getState().network.consensus === 'established') {
+            this._validAmountAndFees = !!(account && account.balance >= (amount + fees));
 
-        if (this._validAmountAndFees) {
-            this._clearError('amount');
-            this._clearError('fees');
-        } else {
-            this._setError('You do not have enough funds', 'amount');
+            if (!this._validAmountAndFees) {
+                this._setError('You do not have enough funds', 'amount');
+            } else {
+                this._clearError('amount');
+            }
+        }
+        else {
+            this._validAmountAndFees = true;
         }
     }
 
