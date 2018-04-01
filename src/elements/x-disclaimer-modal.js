@@ -9,11 +9,11 @@ export default class XDisclaimerModal extends MixinModal(XElement) {
                 <h2>Disclaimer</h2>
             </div>
             <div class="modal-body">
-                <p>Be safe & secure: <a href="">We highly recommend that you read our guide on How to Prevent Loss & Theft for some recommendations on how to be proactive about your security.</a></p>
+                <!-- <p>Be safe & secure: <a href="">We highly recommend that you read our guide on How to Prevent Loss & Theft for some guidelines on how to be proactive about your security.</a></p> -->
 
-                <p>Always backup your keys: safe.nimiq.com & miner.nimiq.com are not "web wallets". You do not create an account or give us your funds to hold onto. No data leaves your computer / your browser. We make it easy for you to create, save, and access your information and interact with the blockchain.</p>
+                <p>Always backup your recovery words, passphrase, pin and keys. Please note that safe.nimiq.com, secure.nimiq.com & miner.nimiq.com are not "web wallets". <strong>You do not create an account or give us your funds to hold onto.</strong> You hold your keys. We only make it easy for you, through a browser, to create, save, and access your information and interact with the blockchain.</p>
 
-                <p>We are not responsible for any loss:  Nimiq, safe.nimiq.com & miner.nimiq.com, and some of the underlying Javascript libraries we use are under active development. While we have thoroughly tested, there is always the possibility something unexpected happens that causes your funds to be lost. Please do not invest more than you are willing to lose, and please be careful.</p>
+                <p>We are not responsible for any loss. Nimiq, safe.nimiq.com, secure.nimiq.com & miner.nimiq.com, and some of the underlying libraries are under active development. While we thoroughly test, there is always the possibility something unexpected happens that causes your funds to be lost. Please do not place more than you are willing to lose, and please be careful.</p>
 
                 <p><strong>MIT License Copyright © 2018 Nimiq Foundation</strong></p>
 
