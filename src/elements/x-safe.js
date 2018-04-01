@@ -29,7 +29,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return `
             <div class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are connecting to the Nimiq Testnet. Please do not use your Mainnet accounts in the Testnet!
+                You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
             <header>
                 <div class="header-top">
