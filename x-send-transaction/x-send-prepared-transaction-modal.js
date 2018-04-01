@@ -28,4 +28,8 @@ export default class XSendPreparedTransactionModal extends MixinModal(XElement) 
             'click button': () => this.fire('x-send-prepared-transaction-confirm', JSON.parse(this.$textarea.value))
         }
     }
+
+    onShow() {
+        this.$textarea.value = '';
+    }
 }
