@@ -7,7 +7,10 @@ export default class XSettings extends MixinRedux(XElement) {
              <x-card>
                 <h2>Settings</h2>
                 <hr>
-                <a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">Delete persistence and reload</a></small>
+                <a href="#" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">
+                    Delete persistence and reload
+                    <small>This does not delete your accounts. It only deletes your transaction history and balances, which will be loaded again from the network.</small>
+                </a>
              </x-card>
         `
     }

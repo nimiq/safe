@@ -11,3 +11,9 @@ x-settings a {
 x-settings a:hover {
     background: rgba(0, 0, 0, 0.1);
 }
+
+x-settings small {
+    display: block;
+    opacity: 0.6;
+    margin-top: 8px;
+}
