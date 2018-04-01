@@ -25,15 +25,6 @@ import XEducationSlides from '/elements/x-education-slides/x-education-slides.js
 
 export default class XSafe extends MixinRedux(XElement) {
 
-    onCreate() {
-        super.onCreate();
-        this._introFinished = XEducationSlides.finished;
-        if (!this._introFinished) {
-            XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
-            XEducationSlides.resume();
-        }
-    }
-
     html() {
         return `
             <header>
@@ -50,8 +41,8 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom">
                     <nav class="actions">
-                        <button class="small" new-tx>Send</button>
-                        <button class="small" receive>Receive</button>
+                        <button class="small" new-tx disabled>Send</button>
+                        <button class="small" receive disabled>Receive</button>
                         <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     </nav>
                     <nav class="main">
@@ -117,6 +108,15 @@ export default class XSafe extends MixinRedux(XElement) {
         ];
     }
 
+    onCreate() {
+        super.onCreate();
+        this._introFinished = XEducationSlides.finished;
+        if (!this._introFinished) {
+            XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
+            XEducationSlides.resume();
+        }
+    }
+
     static get actions() {
         return { addAccount };
     }
@@ -138,6 +138,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (changes.accountsPresent) {
             this.$welcomeModal.hide();
+            this.$('button[new-tx]').disabled = false;
+            this.$('button[receive]').disabled = false;
         }
     }
 
