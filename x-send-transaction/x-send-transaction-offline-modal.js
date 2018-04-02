@@ -9,7 +9,7 @@ export default class XSendTransactionOfflineModal extends MixinModal(XElement) {
                 <h2>Offline Transaction</h2>
             </div>
             <div class="modal-body">
-                <strong>It looks like you are not connected to the network.</strong>
+                <p><strong>It looks like you are not connected to the network.</strong></p>
                 <p>You can copy the text below to save your transaction and submit it when you are connected.</p>
                 <small>Note: the transaction is only valid for 120 blocks (~2 hours) after its validity-start-height.</small>
                 <br><br>

@@ -1,8 +1,13 @@
 @import "x-send-transaction.css";
 @import "../mixin-modal/mixin-modal.css";
+@import '/elements/x-popup-menu/x-popup-menu.css';
 
 x-send-transaction-modal h3 {
     opacity: .8;
+}
+
+.x-send-transaction .modal-body > h3:first-child {
+    margin-top: 0;
 }
 
 x-send-transaction-modal a[secondary] {
@@ -17,7 +22,7 @@ x-send-prepared-transaction-modal {
 
 x-send-transaction-offline-modal p,
 x-send-prepared-transaction-modal p {
-    margin: 1em 0;
+    margin-bottom: 1em;
 }
 
 x-send-transaction-offline-modal textarea,

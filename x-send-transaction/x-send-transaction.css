@@ -50,7 +50,7 @@
     font-weight: 300;
 }
 
-.x-send-transaction button {
+.x-send-transaction button[send] {
     margin-top: 28px;
     width: 80%;
 }

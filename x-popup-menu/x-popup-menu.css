@@ -29,6 +29,7 @@ x-popup-menu button {
     line-height: 40px;
     min-height: 40px;
     box-shadow: none;
+    box-sizing: border-box;
 }
 
 x-popup-menu button:hover {

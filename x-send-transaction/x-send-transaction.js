@@ -5,11 +5,15 @@ import XAmountInput from '../x-amount-input/x-amount-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 
 export default class XSendTransaction extends XElement {
     html() {
         return `
             <div class="modal-header">
+                <x-popup-menu left-align>
+                    <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
+                </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Transaction</h2>
             </div>
@@ -51,14 +55,13 @@ export default class XSendTransaction extends XElement {
 
                 <div class="center row">
                     <button send>Send</button>
-                    <a secondary>Send a prepared transaction</a>
                 </div>
             </form>
         `
     }
 
     children() {
-        return [ XAccountsDropdown, XAddressInput, XAmountInput, XExpandable ];
+        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XExpandable ];
     }
 
     onCreate() {
@@ -91,7 +94,7 @@ export default class XSendTransaction extends XElement {
             'input input[name="value"]': () => this._validateField('amount'),
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
-            'click a[secondary]': () => this.fire('x-send-prepared-transaction')
+            'click button[prepared]': () => this.fire('x-send-prepared-transaction')
         }
     }
 
