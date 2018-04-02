@@ -6,6 +6,12 @@ x-create-request-link-modal .x-request-link {
     cursor: pointer;
 }
 
+x-create-request-link-modal .x-request-link.x-address {
+    /* adjust x-address style */
+    white-space: normal;
+    max-width: none;
+}
+
 x-create-request-link-modal ul {
     padding-left: 12px;
     list-style: square;
