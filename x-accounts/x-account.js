@@ -95,11 +95,9 @@ export default class XAccount extends MixinRedux(XElement) {
         }
 
         if (this.$popupMenu && this.$actionButton) {
-            this.$popupMenu.disabled = (type === 4);
+            this.$popupMenu.$el.classList.toggle('display-none', type === 4 || type === 2);
             this.$actionButton.classList.toggle('display-none', type === 4);
         }
-
-        if (this.$backupWordsButton) this.$backupWordsButton.classList.toggle('display-none', type === 2);
     }
 
     set account(account) {

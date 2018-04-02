@@ -51,7 +51,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
         this.$actionButton = this.$('.action-button');
-        this.$backupWordsButton = this.$('button[backupWords]');
         this._height = 0;
         super.onCreate();
     }
