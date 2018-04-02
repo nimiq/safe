@@ -17,10 +17,11 @@
     padding: 16px 0;
     text-align: center;
     position: relative;
+    border-bottom: 1px solid #f3f3f3;
 }
 
 .modal-header h2 {
-    padding: 2px 46px;
+    padding: 8px 46px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     font-size: 13px;
@@ -31,8 +32,8 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: calc(100% - 12px);
-    margin: 6px 6px 2px 6px;
+    width: calc(100% - 22px);
+    margin: 11px;
 }
 
 .modal-header [x-modal-close] {
@@ -44,7 +45,7 @@
     height: 40px;
     line-height: 40px;
     border-radius: 50%;
-    margin: 6px;
+    margin: 13px;
 }
 
 .modal-header [x-modal-close]:hover {
@@ -67,14 +68,13 @@
 }
 
 .modal-body {
-    padding: 16px 32px 24px;
+    padding: 32px 32px;
     position: relative; /* Required for absolute positioning of account icon */
     background: #fafafa;
-    box-shadow: 0 2px 5px -3px rgba(0,0,0,.125);
 }
 
 @media (max-width: 480px) {
     .modal-body {
-        padding: 16px 16px 24px;
+        padding: 24px 24px;
     }
 }
