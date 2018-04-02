@@ -2,7 +2,9 @@ const gulp = require('gulp');
 
 const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 
-gulp.task('build', () => NimiqBuild.build({
+gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
+
+gulp.task('build', ['clean'], () => NimiqBuild.build({
     jsEntry: 'src/safe.js',
     cssEntry: 'src/safe.css',
     htmlEntry: 'src/index.html',
