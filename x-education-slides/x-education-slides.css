@@ -54,20 +54,52 @@
     float: right;
 }
 
+.x-education-slide button[next]::after,
+.x-education-slide button[back]::before {
+    /* Copied from /libraries/nimiq-style/material-icons/material-icons.css */
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    vertical-align: middle;
+    margin-top: -0.1em;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
 .x-education-slide button[next]::after {
-    content: ">";
-    font-size: 32px;
-    right: 16px;
+    content: "navigate_next";
+    right: 8px;
+    top: 10px;
     position: absolute;
     opacity: .9;
+    font-size: 40px;
 }
 
 .x-education-slide button[back]::before {
-    content: "<";
-    font-size: 32px;
-    left: 16px;
+    content: "navigate_before";
+    left: 8px;
+    top: 10px;
     position: absolute;
     opacity: .7;
+    font-size: 40px;
 }
 
 .x-education-slide .warning {
