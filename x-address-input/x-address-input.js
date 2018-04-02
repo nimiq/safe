@@ -2,7 +2,7 @@ import XInput from '../../secure-elements/x-input/x-input.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import PasteHandler from '/libraries/nimiq-utils/paste-handler/paste-handler.js';
 import KeyboardHandler from '/libraries/secure-utils/keyboard-handler/keyboard-handler.js';
-import * as InputFormat from '/libraries/nimiq-utils/input-format/index.js';
+import InputFormat from '/libraries/nimiq-utils/input-format/index.js';
 import XIdenticon from '../../secure-elements/x-identicon/x-identicon.js';
 
 
