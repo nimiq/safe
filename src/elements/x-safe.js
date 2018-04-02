@@ -113,11 +113,11 @@ export default class XSafe extends MixinRedux(XElement) {
 
     onCreate() {
         super.onCreate();
-        this._introFinished = XEducationSlides.finished;
-        if (!this._introFinished) {
-            XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
-            XEducationSlides.start();
-        }
+        // this._introFinished = XEducationSlides.finished;
+        // if (!this._introFinished) {
+        //     XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
+        //     XEducationSlides.start();
+        // }
         if (config.mode !== 'main') {
             this.$('.header-warning').classList.remove('display-none');
         }
