@@ -59,45 +59,14 @@
 <body>
     <x-card class="nimiq-dark">
         <h2>Transactions</h2>
-        <x-transactions-list>
-            <x-transaction></x-transaction>
-            <x-transaction></x-transaction>
-            <x-transaction></x-transaction>
-            <x-transaction></x-transaction>
-        </x-transactions-list>
+        <x-transactions class="no-animation"></x-transactions>
     </x-card>
 
     <script type="module">
-        import XTransaction from '../x-transaction.js';
+        import XTransactions from '../x-transactions.js';
         import XTransactionModal from '../x-transaction-modal.js';
 
-        const demoTransactions = [
-            {
-                sender: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
-                senderLabel: 'Green Mustaccio',
-                recipient: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
-                recipientLabel: 'NQ77 X5GR VCE5...',
-                type: 'outgoing',
-                value: 238.12,
-                fee: 0.01,
-                blockHeight: 34521,
-                timestamp: 1521411029,
-                hash: 'hash_01',
-                currentHeight: 35422,
-            },
-            {
-                recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
-                recipientLabel: 'Green Mustaccio',
-                sender: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
-                senderLabel: 'NQ77 X5GR VCE5...',
-                type: 'incoming',
-                value: 238.12,
-                fee: 0,
-                blockHeight: 34352,
-                timestamp: 1521311029,
-                hash: 'hash_02',
-                currentHeight: 35422,
-            },
+        const demoTransactions1 = [
             {
                 recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
                 recipientLabel: 'Green Mustaccio',
@@ -109,9 +78,35 @@
                 fee: 0,
                 blockHeight: 34321,
                 timestamp: 1521211029,
+                hash: 'hash_02',
+                currentHeight: 35422,
+            },
+            {
+                sender: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                senderLabel: 'Green Mustaccio',
+                recipient: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                recipientLabel: 'NQ77 X5GR VCE5...',
+                type: 'outgoing',
+                value: 238.12,
+                fee: 0.01,
+                blockHeight: 34521,
+                timestamp: 1521411029,
                 hash: 'hash_03',
                 currentHeight: 35422,
             },
+            {
+                recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                recipientLabel: 'Green Mustaccio',
+                sender: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                senderLabel: 'NQ77 X5GR VCE5...',
+                type: 'incoming',
+                value: 238.12,
+                fee: 0,
+                hash: 'hash_04',
+                currentHeight: 35422,
+            }
+        ];
+        const demoTransactions2 = [
             {
                 recipient: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
                 recipientLabel: 'Green Mustaccio',
@@ -122,19 +117,28 @@
                 fee: 0,
                 blockHeight: 34045,
                 timestamp: 1521111029,
-                hash: 'hash_04',
+                hash: 'hash_01',
                 currentHeight: 35422,
             },
         ];
-        window.demoTransactions = demoTransactions;
 
-        document.querySelectorAll('x-transaction').forEach(($el, i) => {
-            const $transaction = new XTransaction($el);
-            $transaction.transaction = demoTransactions[i];
+        const $transactions = new XTransactions(document.querySelector('x-transactions'));
+
+        $transactions.setProperties({
+            hasTransactions: true,
+            transactions: new Map(demoTransactions1.map(tx => [tx.hash, tx]))
         });
 
+        // Simulate delayed network answer with old tx that needs to be correctly ordered into the list
+        setTimeout(() => {
+            $transactions.setProperties({
+                hasTransactions: true,
+                transactions: new Map(demoTransactions2.concat(demoTransactions1).map(tx => [tx.hash, tx]))
+            });
+        }, 1000);
+
         document.addEventListener('x-transaction-selected', e => {
-            const transaction = demoTransactions.find(tx => tx.hash === e.detail);
+            const transaction = demoTransactions2.concat(demoTransactions1).find(tx => tx.hash === e.detail);
             XTransactionModal.instance.transaction = transaction;
             XTransactionModal.show();
         });

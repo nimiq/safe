@@ -46,6 +46,9 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
+        // TODO Prevent update when update is handled by transaction list
+        // delete changes.triggeredByList;
+
         for (const prop in changes) {
             if (changes[prop] !== undefined) {
                 // Update display

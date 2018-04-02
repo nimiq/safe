@@ -111,29 +111,76 @@ export default class XTransactions extends MixinRedux(XElement) {
             this.$popupMenu.loading = false;
         }
 
-        const { hasTransactions, transactions } = this.properties;
-
-        if (!hasTransactions) return;
+        if (!this.properties.hasTransactions) return;
 
         if (changes.transactions) {
             if (this.$('x-loading-animation') || this.$('x-no-transactions')) {
                 this.$transactionsList.textContent = '';
             }
 
+            // Transaction-internal updates are handled by the XTransaction
+            // elements themselves, so we only need to handle reordering and
+            // removed tx here.
+
+            // Check if the changes include a new hash or a
+            // blockHeight, which would make sorting necessary
+            let needsSorting = false;
+
+            let removedTx = [];
+
             for (const [hash, transaction] of changes.transactions) {
-                const $transaction = this._$transactions.get(hash);
-                // FIXME/TODO Instead of deleting existing elements and re-creating new ones, why not re-use the existing ones?
-                if (transaction === undefined) {
-                    $transaction && $transaction.destroy();
-                    this._$transactions.delete(hash);
-                } else if (!$transaction) {
-                    // new entry
-                    this.addTransaction(transaction);
+                if (transaction === undefined) removedTx.push(hash);
+                else if (transaction.hash || transaction.blockHeight) {
+                    needsSorting = true;
                 }
             }
+
+            // Remove the XTransaction elements of removed tx
+            if (removedTx.length > 0) {
+                for (const hash of removedTx) {
+                    const $transaction = this._$transactions.get(hash);
+                    $transaction && $transaction.destroy();
+                    this._$transactions.delete(hash);
+                }
+            }
+
+            if (needsSorting) {
+                // Reorder existing elements and create new ones as required
+
+                // Get XTransaction elements in reverse DOM order
+                const xTransactions = [...this._$transactions.values()];
+                this._$transactions = new Map();
+
+                // Set XTransaction transaction to object in this.properties.transactions
+                let i = 0;
+                for (const [hash, transaction] of this.properties.transactions) {
+                    if (xTransactions[i]) {
+                        // transaction.triggeredByList = true;
+                        xTransactions[i].transaction = transaction;
+                        this._$transactions.set(hash, xTransactions[i]);
+                    }
+                    else {
+                        // When no more XTransactions, create new ones
+                        this.addTransaction(transaction);
+                    }
+                    i++;
+                }
+
+                // DEBUGGING: Validate order of this._$transactions map
+                // let lastBlockHeight = 0;
+                // for (const [hash, xTransaction] of this._$transactions) {
+                //     if (xTransaction.properties.blockHeight >= lastBlockHeight)
+                //         lastBlockHeight = xTransaction.properties.blockHeight;
+                //     else if (!xTransaction.properties.blockHeight)
+                //         continue;
+                //     else
+                //         console.log("isSorted", false);
+                // }
+            }
+
         }
 
-        if (transactions.size === 0) {
+        if (this.properties.transactions.size === 0) {
             this.$transactionsList.textContent = '';
             const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);

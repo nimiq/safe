@@ -27,7 +27,7 @@ export function reducer(state, action) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
-                    entries.set(tx.hash, tx);
+                    entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
                         entries,
                         hasContent: true
