@@ -10,7 +10,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
-                <x-popup-menu>
+                <x-popup-menu left-align>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
                     <!-- <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button> -->
