@@ -21,7 +21,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
             <div class="modal-body">
                 <div class="center">
                     <x-identicon></x-identicon>
-                    <i class="display-none account-icon"></i>
+                    <i class="display-none account-icon material-icons"></i>
 
                     <span class="x-account-label"></span>
 

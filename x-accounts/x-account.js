@@ -8,7 +8,7 @@ export default class XAccount extends MixinRedux(XElement) {
     html() {
         return `
             <x-identicon></x-identicon>
-            <i class="account-icon"></i>
+            <i class="account-icon material-icons"></i>
             <div class="x-account-info">
                 <span class="x-account-label"></span>
                 <x-address></x-address>
