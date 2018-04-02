@@ -165,7 +165,7 @@ x-transaction.expired x-currency-nim {
     }
 }
 
-x-transactions-list x-no-content {
+x-transactions-list x-no-transactions {
 	font-size: 16px;
 	display: block;
 	padding: 1.5em;
@@ -173,7 +173,7 @@ x-transactions-list x-no-content {
 	opacity: 0.6;
 }
 
-x-transactions-list x-no-content h1.material-icons {
+x-transactions-list x-no-transactions h1.material-icons {
     display: block;
     font-size: 120px;
     opacity: 0.3;
