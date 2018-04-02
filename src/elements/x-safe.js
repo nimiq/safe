@@ -21,7 +21,6 @@ import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import config from '../config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
-// import XAccountFileImportModal from './x-account-file-import-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
