@@ -9,13 +9,6 @@ x-address, .x-address{
     font-size: 14px;
     font-weight: 600;
     white-space: nowrap;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background 100ms;
-}
-
-x-address:hover, .x-address:hover {
-    background: rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 375px) {
@@ -29,4 +22,13 @@ x-address:hover, .x-address:hover {
     x-address, .x-address {
         font-size: 11px;
     }
+}
+
+x-address {
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+x-address:hover{
+    background: rgba(0, 0, 0, 0.2);
 }

@@ -22,7 +22,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                         </li>
                         <li>
                             <div>OR use the following link to request a transaction:</div>
-                            <div class="x-request-link x-address"></div>
+                            <div class="x-request-link"></div>
                         </li>
                     </ul>
                 </div>

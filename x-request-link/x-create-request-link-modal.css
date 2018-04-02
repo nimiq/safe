@@ -4,12 +4,11 @@ x-create-request-link-modal {
 
 x-create-request-link-modal .x-request-link {
     cursor: pointer;
+    font-weight: bold;
 }
 
-x-create-request-link-modal .x-request-link.x-address {
-    /* adjust x-address style */
-    white-space: normal;
-    max-width: none;
+x-create-request-link-modal .x-request-link:hover {
+    background: rgba(0, 0, 0, 0.2);
 }
 
 x-create-request-link-modal ul {
