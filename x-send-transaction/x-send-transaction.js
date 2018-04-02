@@ -280,12 +280,12 @@ export default class XSendTransaction extends XElement {
     }
 
     _isValid() {
-        console.log(
-            "sender", this._validSender,
-            "recipient", this._validRecipient,
-            "amountandFees", this._validAmountAndFees,
-            "validityStartHeight", this._validValidityStartHeight
-        );
+        // console.log(
+        //     "sender", this._validSender,
+        //     "recipient", this._validRecipient,
+        //     "amountandFees", this._validAmountAndFees,
+        //     "validityStartHeight", this._validValidityStartHeight
+        // );
         return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeight;
     }
 
