@@ -4,7 +4,7 @@ export default class XPopupMenu extends XElement {
     html() {
         return `
             <button>
-                <i class="material-icons">menu</i>
+                <i class="material-icons">more_vert</i>
                 <span class="dot-loader display-none"></span>
             </button>
             <div data-x-content></div>
