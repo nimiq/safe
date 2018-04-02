@@ -113,6 +113,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     onCreate() {
         super.onCreate();
+        this._introFinished = true;
         // this._introFinished = XEducationSlides.finished;
         // if (!this._introFinished) {
         //     XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
