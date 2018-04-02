@@ -2,7 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
-import XNoContent from './x-no-content.js';
+import XNoTransactions from './x-no-transactions.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
 import { addTransactions, markRemoved, setRequestingHistory } from './transactions-redux.js';
 import networkClient from '/apps/safe/src/network-client.js';
@@ -116,7 +116,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         if (!hasTransactions) return;
 
         if (changes.transactions) {
-            if (this.$('x-loading-animation') || this.$('x-no-content')) {
+            if (this.$('x-loading-animation') || this.$('x-no-transactions')) {
                 this.$transactionsList.textContent = '';
             }
 
@@ -135,7 +135,7 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         if (transactions.size === 0) {
             this.$transactionsList.textContent = '';
-            const $noContent = XNoContent.createElement();
+            const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);
         }
     }

@@ -1,7 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XNoContent from './x-no-content.js';
+import XNoAccounts from './x-no-accounts.js';
 
 export default class XAccountsList extends MixinRedux(XElement) {
     html() {
@@ -29,7 +29,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
         if (!hasContent) return;
 
         if (changes.accounts) {
-            if (this.$('x-loading-animation') || this.$('x-no-content')) {
+            if (this.$('x-loading-animation') || this.$('x-no-accounts')) {
                 this.$el.textContent = ''; // remove loading animation
             }
 
@@ -48,7 +48,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
 
         if (accounts.size === 0) {
             this.$el.textContent = '';
-            const $noContent = XNoContent.createElement();
+            const $noContent = XNoAccounts.createElement();
             this.$el.appendChild($noContent.$el);
         }
     }

@@ -1,6 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 
-export default class XNoContent extends XElement {
+export default class XNoTransactions extends XElement {
     html() {
         return `
             <h1 class="material-icons">inbox</h1>
