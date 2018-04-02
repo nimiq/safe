@@ -2,8 +2,8 @@
 .dot-loader::before,
 .dot-loader::after {
     display: inline-block;
-    width: 10px;
-    height: 10px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     /* background: white; */
     box-shadow: 10px 0 #3b3b3b;
