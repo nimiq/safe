@@ -37,7 +37,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
                 const $account = this._accountEntries.get(address);
                 if (account === undefined) {
                     // todo test!
-                    $account && $accout.destroy && $account.destroy();
+                    $account && $account.destroy && $account.destroy();
                     this._accountEntries.delete(address);
                 } else if (!$account) {
                     // new entry
