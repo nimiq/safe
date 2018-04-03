@@ -33,7 +33,10 @@ export default class XSafe extends MixinRedux(XElement) {
             <header>
                 <div class="header-top">
                     <div class="nimiq-app-name">
-                        <nimiq-logo>NIMIQ SAFE<sup>BETA</sup></nimiq-logo>
+                        <nimiq-logo>
+                            NIMIQ SAFE<sup>BETA</sup>
+                            <a logo-link href="#"></a>
+                        </nimiq-logo>
                     </div>
                     <nav class="secondary-links">
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
@@ -121,6 +124,9 @@ export default class XSafe extends MixinRedux(XElement) {
         // }
         if (config.mode !== 'main') {
             this.$('.header-warning').classList.remove('display-none');
+            this.$('[logo-link]').href = 'https://nimiq-testnet.com';
+        } else {
+            this.$('[logo-link]').href = 'https://nimiq.com';
         }
     }
 
