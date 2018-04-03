@@ -60,6 +60,7 @@ export default class XModals extends MixinSingleton(XElement) {
 
     _show(modal, ...parameters) {
         clearTimeout(this._hideTimer);
+        clearTimeout(this._showTimer); // stop potential other incoming modal
         this._setIncomingModal(modal);
 
         // show background
@@ -75,7 +76,7 @@ export default class XModals extends MixinSingleton(XElement) {
         // Show new modal
         // Do it with a small delay as the router invokes hide on the old modal after show on the new one but we
         // actually want to wait for the router to hide the old one first such that the hiding knows the _isSwitching flag.
-        setTimeout(() => {
+        this._showTimer = setTimeout(() => {
             this._visibleModal = modal;
             if (!this._isSwitchingModal) this._switchHistory = [];
             if (this._isSwitchingBack) {
