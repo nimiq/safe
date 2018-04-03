@@ -21,19 +21,35 @@ class NetworkClient {
     }
 
     constructor() {
-        const $iframe = this._createIframe(config.networkSrc);
-        const networkOrigin = new URL(config.networkSrc).origin;
+        this.$iframe = this._createIframe(config.networkSrc);
+        this.networkOrigin = new URL(config.networkSrc).origin;
 
-        this.rpcClient = RPC.Client($iframe.contentWindow, 'NanoNetworkApi', networkOrigin);
-        this.eventClient = EventClient.create($iframe.contentWindow);
+        this.rpcClient = new Promise(res => {
+            this.rpcClientResolve = res;
+        });
+
+        this.eventClient = new Promise(res => {
+            this.eventClientResolve = res;
+        });
+
+        this.launch();
     }
 
+    async launch() {
+        this.rpcClientResolve(RPC.Client((await this.$iframe).contentWindow, 'NanoNetworkApi', this.networkOrigin));
+        this.eventClientResolve(EventClient.create((await this.$iframe).contentWindow));
+    }
+
+    /**
+     * @return {Promise}
+     */
     _createIframe(src) {
         const $iframe = document.createElement('iframe');
+        const promise = new Promise(resolve => $iframe.addEventListener('load', () => resolve($iframe)));
         $iframe.src = src;
         $iframe.name = 'network';
         document.body.appendChild($iframe);
-        return $iframe;
+        return promise;
     }
 }
 
