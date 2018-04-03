@@ -56,10 +56,6 @@ header {
     overflow: auto;
 }
 
-nimiq-logo {
-    display: inline-block;
-}
-
 .nimiq-app-name {
     float: left;
 }
