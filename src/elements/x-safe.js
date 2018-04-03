@@ -33,7 +33,7 @@ export default class XSafe extends MixinRedux(XElement) {
             <header>
                 <div class="header-top">
                     <div class="nimiq-app-name">
-                        <nimiq-logo>NIMIQ <strong>SAFE</strong><sup>BETA</sup></nimiq-logo>
+                        <nimiq-logo>NIMIQ SAFE<sup>BETA</sup></nimiq-logo>
                     </div>
                     <nav class="secondary-links">
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
