@@ -10,8 +10,8 @@ x-send-transaction-modal h3 {
     margin-top: 0;
 }
 
-x-send-transaction-modal a[secondary] {
-    margin-bottom: 0;
+x-send-transaction-modal h3[expandable-trigger] {
+    font-size: 10px;
 }
 
 x-send-transaction-offline-modal,
