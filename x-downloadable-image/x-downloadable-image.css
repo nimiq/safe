@@ -1,0 +1,42 @@
+@import '../../secure-elements/x-toast/x-toast.css';
+
+x-downloadable-image {
+    display: inline-block;
+    line-height: 0;
+}
+
+x-downloadable-image a {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+x-downloadable-image img {
+    width: 100%;
+    cursor: pointer;
+    animation: grow 0.6s, fade 0.3s;
+}
+
+x-downloadable-image [long-touch-indicator] {
+    width: 96px;
+    height: 96px;
+    position: absolute;
+    top: 80px;
+    left: calc(50% - 48px);
+    pointer-events: none;
+    display: none;
+    stroke: var(--success-color);
+}
+
+[long-touch-indicator].animate {
+    animation: long-touch-indicator-animation .7s linear forwards;
+}
+
+@keyframes long-touch-indicator-animation {
+    from {
+        stroke-dashoffset: 100.5;
+        stroke: #F6AE2D;
+    }
+}
