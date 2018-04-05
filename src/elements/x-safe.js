@@ -165,6 +165,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
             'x-backup-import': this._importedAccountFile.bind(this),
             'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
+            'x-accounts-import-ledger': this._clickedImportAccountLedger.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
@@ -187,6 +188,11 @@ export default class XSafe extends MixinRedux(XElement) {
             console.log(e);
             XToast.warning('Account was not created.');
         }
+    }
+
+    async _clickedImportAccountLedger() {
+        await (await accountManager).importLedger();
+        XToast.success('Account imported successfully.');
     }
 
     async _clickedImportAccountFile() {
