@@ -212,6 +212,14 @@ x-popup-menu .ledger-icon {
     width: 24px;
 }
 
+button[importLedger] {
+    display: none;
+}
+
+.enable-ledger button[importLedger] {
+    display: block;
+}
+
 x-account-modal .x-account-label {
     font-size: 1.2em;
 }
