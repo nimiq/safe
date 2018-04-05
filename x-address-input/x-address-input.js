@@ -23,7 +23,7 @@ export default class XAddressInput extends XInput {
 
     onCreate() {
         super.onCreate();
-        const onChange = () => this._autoSubmit?  this._submit() : this._validate();
+        const onChange = () => this._autoSubmit ?  this._submit() : this._validate();
         this.$input.addEventListener('paste', e => InputFormat.onPaste(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('cut', e => InputFormat.onCut(e, this.$input, this._parseAddressChars, this._format, onChange));
         this.$input.addEventListener('keydown', e => InputFormat.onKeyDown(e, this.$input, this._parseAddressChars, this._format, onChange));
