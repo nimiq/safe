@@ -170,6 +170,10 @@ export default class XElement {
                 else this[method](event);
             }});
 
+            if (!target) {
+                throw new Error(`Non-existing target with selector ${selector} for event ${event}`);
+            }
+
             target.addEventListener(event, this._boundListeners.get(key).listener);
         }
     }
