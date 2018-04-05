@@ -63,14 +63,9 @@ export default class XAccount extends MixinRedux(XElement) {
 
     set balance(balance) {
         this.$balance.value = balance;
-
-        if (this.$sendButton)
-            if (balance > 0) this.$sendButton.disabled = false;
-            else             this.$sendButton.disabled = true;
     }
 
     set type(type) {
-        this.$icon.classList.add('display-none');
         this.$icon.classList.remove('secure-icon', 'ledger-icon', 'vesting-icon');
 
         switch (type) {
@@ -90,19 +85,15 @@ export default class XAccount extends MixinRedux(XElement) {
                 this.$icon.setAttribute('title', 'Vesting contract');
                 break;
             default: // KEYGUARD_LOW
+                this.$icon.classList.add('display-none');
                 this.$icon.setAttribute('title', '');
                 break;
-        }
-
-        if (this.$popupMenu && this.$actionButton) {
-            this.$popupMenu.$el.classList.toggle('display-none', type === 4 || type === 2);
-            this.$actionButton.classList.toggle('display-none', type === 4);
         }
     }
 
     set account(account) {
         // Preserve height property through hard setting
-        if (!account.height) account.height = this.properties.height;
+        account.height = this.properties.height;
 
         this.setProperties(account, true);
     }

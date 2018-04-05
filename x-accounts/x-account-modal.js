@@ -138,6 +138,20 @@ export default class XAccountModal extends MixinModal(XAccount) {
         else this.$el.classList.remove('pending');
     }
 
+    set balance(balance) {
+        super.balance = balance;
+
+        if (balance > 0) this.$sendButton.disabled = false;
+        else             this.$sendButton.disabled = true;
+    }
+
+    set type(type) {
+        super.type = type;
+
+        this.$popupMenu.$el.classList.toggle('display-none', type === 4 || type === 2);
+        this.$actionButton.classList.toggle('display-none', type === 4);
+    }
+
     allowsShow(address) {
         if (!address) return true;
 
