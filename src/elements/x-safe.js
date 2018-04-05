@@ -100,7 +100,6 @@ export default class XSafe extends MixinRedux(XElement) {
         return [
             XTotalAmount,
             XSendTransactionModal,
-            XSendTransactionOfflineModal,
             XRouter,
             XAccounts,
             XTransactions,
