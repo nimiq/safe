@@ -112,8 +112,9 @@ export default class XSendTransaction extends XElement {
         if (!this._isValid()) return;
 
         // const formData = new FormData(this.$form); // I don't know why this doesn't work...
-        const formData = this._getFormData(this.$form);
-        this.fire('x-send-transaction', formData);
+        const tx = this._getFormData(this.$form);
+        tx.network = Config.network;
+        this.fire('x-send-transaction', tx);
     }
 
     clear() {
@@ -214,8 +215,6 @@ export default class XSendTransaction extends XElement {
         } else {
             this._setError('Invalid address', 'recipient');
         }
-
-        return;
     }
 
     async __validateRecipient(address) {
