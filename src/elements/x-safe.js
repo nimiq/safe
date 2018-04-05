@@ -201,7 +201,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _importedAccountFile(encryptedPrivKey) {
         try {
-            await (await accountManager).importFile(encryptedPrivKey);
+            await (await accountManager).importFromFile(encryptedPrivKey);
             XAccountFileImportModal.hide();
             XToast.success('Account imported successfully.');
         } catch (e) {
