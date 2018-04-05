@@ -1,4 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export default class XAmount extends XElement {
     html(){
@@ -12,6 +13,12 @@ export default class XAmount extends XElement {
     }
 
     onCreate() {
+        if (Config.offline) {
+            this.$el.removeChild(this.$('span.dot-loader'));
+            this.$el.classList.add('display-none');
+            return;
+        }
+
         if (this.attributes.white !== undefined) this.$('.dot-loader').classList.add('white');
         this.$label = this.$('label');
         if (this.attributes.label !== undefined) {

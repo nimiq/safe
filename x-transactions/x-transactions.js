@@ -7,6 +7,7 @@ import XPaginator from '/elements/x-paginator/x-paginator.js';
 import { addTransactions, markRemoved, setRequestingHistory } from './transactions-redux.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -192,6 +193,10 @@ export default class XTransactions extends MixinRedux(XElement) {
      */
     async requestTransactionHistory(addresses) {
         if (!this.properties.hasAccounts) return;
+        if (Config.offline) {
+            this.actions.addTransactions([]);
+            return;
+        }
 
         this.actions.setRequestingHistory(true);
         addresses = addresses || this.properties.addresses;

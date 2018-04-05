@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {
@@ -32,18 +33,22 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
 
     set consensus(consensus) {
         this.$consensus.textContent = consensus;
+        if (Config.offline) this.$consensus.textContent = 'offline';
     }
 
     set height(height) {
         this.$height.textContent = `#${height}`;
+        if (Config.offline) this.$height.textContent = '-';
     }
 
     set peerCount(peerCount) {
         this.$peerCount.textContent = peerCount;
+        if (Config.offline) this.$peerCount.textContent = '-';
     }
 
     set globalHashrate(globalHashrate) {
         this.$globalHashrate.textContent = this._formatHashrate(globalHashrate);
+        if (Config.offline) this.$globalHashrate.textContent = '-';
     }
 
     _formatHashrate(hashrate) {

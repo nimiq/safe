@@ -6,6 +6,7 @@ import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export default class XSendTransaction extends XElement {
     html() {
@@ -196,9 +197,14 @@ export default class XSendTransaction extends XElement {
         // TODO Skip network request when doing airgapped tx creation
         if (address) {
             if (MixinRedux.store.getState().network.consensus !== 'established') {
-                this._setError('Cannot validate address (not connected)', 'recipient');
-                this.__validateRecipientTimeout = setInterval(this._validateRecipient.bind(this), 1000);
-                this._validRecipient = true;
+                if (Config.offline) {
+                    this._setError('Cannot validate address in offline mode', 'recipient');
+                    this._validRecipient = true;
+                } else {
+                    this._setError('Cannot validate address (not connected). Retrying...', 'recipient');
+                    this.__validateRecipientTimeout = setInterval(this._validateRecipient.bind(this), 1000);
+                    this._validRecipient = true;
+                }
             } else {
                 this._setError('Validating receiver type, please wait...', 'recipient');
                 this.__debouncedValidateRecipient(address);
@@ -329,10 +335,6 @@ export default class XSendTransaction extends XElement {
     }
 }
 
-// TODO Validation: enable recipient=true when modal loaded from URL
-// TODO Validation: disable account type check for airgapped tx creation
-
 // TODO make fee a slider
 // TODO make validity start a slider
-// TODO check balance
 // TODO offer to create account when no account available

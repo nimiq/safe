@@ -1,6 +1,7 @@
 // todo, to be discussed: abstract the functionality we need here in a generic network store OR consider network-client
 // as generic solution, so network-client should move to libraries?
 import networkClient from '/apps/safe/src/network-client.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
@@ -71,9 +72,11 @@ export function reducer(state, action) {
 
 export function addAccount(key) {
     return async dispatch => {
-        // when adding a new account, subscribe at network
-        const { rpcClient } = await networkClient;
-        rpcClient.subscribe(key.address);
+        if (!Config.offline) {
+            // when adding a new account, subscribe at network
+            const { rpcClient } = await networkClient;
+            rpcClient.subscribe(key.address);
+        }
 
         dispatch({
             type: TypeKeys.ADD_KEY,
@@ -84,9 +87,11 @@ export function addAccount(key) {
 
 export function setAllKeys(keys) {
     return async dispatch => {
-        // when adding a new account, subscribe at network.
-        const { rpcClient } = await networkClient;
-        rpcClient.subscribe(keys.map(key => key.address));
+        if (!Config.offline) {
+            // when adding a new account, subscribe at network.
+            const { rpcClient } = await networkClient;
+            rpcClient.subscribe(keys.map(key => key.address));
+        }
 
         dispatch({
             type: TypeKeys.SET_ALL_KEYS,
