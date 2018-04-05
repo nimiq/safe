@@ -212,7 +212,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountWords() {
         try {
-            await (await accountManager).importWords();
+            await (await accountManager).importFromWords();
             XToast.success('Account imported successfully.');
         } catch (e) {
             console.log(e);
