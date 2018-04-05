@@ -21,7 +21,6 @@ class NetworkClient {
     }
 
     constructor() {
-        console.log(Config.offline);
         if (Config.offline) {
             this.rpcClient = {};
             this.eventClient = {};
