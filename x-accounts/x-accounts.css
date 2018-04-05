@@ -202,9 +202,14 @@ x-account-modal .vesting-icon::after {
 }
 
 x-account .ledger-icon,
-x-account-modal .ledger-icon {
+x-account-modal .ledger-icon,
+x-popup-menu .ledger-icon {
     /* @asset(/elements/x-accounts/icons/ledger_icon_24px.svg) */
     background-image: url('/elements/x-accounts/icons/ledger_icon_24px.svg');
+}
+
+x-popup-menu .ledger-icon {
+    width: 24px;
 }
 
 x-account-modal .x-account-label {
