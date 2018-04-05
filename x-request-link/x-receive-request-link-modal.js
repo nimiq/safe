@@ -18,7 +18,7 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
                     <x-identicon></x-identicon>
                     <i class="display-none account-icon"></i>
                     <x-address></x-address>
-                    <div class="x-message">Someone send you a link to request a transaction.</div>
+                    <div class="x-message">Someone sent you a link to request a transaction.</div>
 
                     <button class="confirm">Ok</button>
                     <a class="cancel" secondary>Cancel</a>
