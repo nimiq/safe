@@ -1,5 +1,5 @@
 import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
-import config from './config.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 class NetworkClient {
     static async getInstances() {
@@ -21,8 +21,14 @@ class NetworkClient {
     }
 
     constructor() {
-        this.$iframe = this._createIframe(config.networkSrc);
-        this.networkOrigin = new URL(config.networkSrc).origin;
+        console.log(Config.offline);
+        if (Config.offline) {
+            this.rpcClient = {};
+            this.eventClient = {};
+            return;
+        }
+
+        this.$iframe = this._createIframe(Config.src('network'));
 
         this.rpcClient = new Promise(res => {
             this.rpcClientResolve = res;
@@ -36,7 +42,7 @@ class NetworkClient {
     }
 
     async launch() {
-        this.rpcClientResolve(RPC.Client((await this.$iframe).contentWindow, 'NanoNetworkApi', this.networkOrigin));
+        this.rpcClientResolve(RPC.Client((await this.$iframe).contentWindow, 'NanoNetworkApi', Config.origin('network')));
         this.eventClientResolve(EventClient.create((await this.$iframe).contentWindow));
     }
 

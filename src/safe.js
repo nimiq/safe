@@ -7,6 +7,7 @@ import { addTransactions, markRemoved } from '/elements/x-transactions/transacti
 import { setConsensus, setHeight,
     setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
+import Config from '/libraries/secure-utils/config/config.js'; // Config needs to be imported before networkClient
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 
@@ -52,31 +53,26 @@ class Safe {
     }
 
     async launch() {
-        await Promise.all([
-            new Promise(async (res, err) => {
-                // launch network rpc client
-                this.network = (await networkClient).rpcClient;
-                window.network = this.network; // for debugging
-                res();
-            }),
-            new Promise(async (res, err) => {
-                // launch network event client
-                this.networkListener = (await networkClient).eventClient;
-                this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
-                this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
-                this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
-                this.networkListener.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
-                this.networkListener.on('nimiq-balances', this._onBalanceChanged.bind(this));
-                this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
-                this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
-                this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
-                this.networkListener.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
-                this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
-                this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
-                this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
-                res();
-            })
-        ]);
+        if (Config.offline) return;
+
+        // launch network rpc client
+        this.network = (await networkClient).rpcClient;
+        window.network = this.network; // for debugging
+
+        // launch network event client
+        this.networkListener = (await networkClient).eventClient;
+        this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+        this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
+        this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+        this.networkListener.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
+        this.networkListener.on('nimiq-balances', this._onBalanceChanged.bind(this));
+        this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
+        this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
+        this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
+        this.networkListener.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
+        this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
+        this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
+        this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
     }
 
     // todo refactor: move following methods to new class NetworkHandler(?)
@@ -115,10 +111,6 @@ class Safe {
 
     _onPeerCountChanged(peerCount) {
         this.actions.setPeerCount(peerCount);
-    }
-
-    relayTransaction(obj) {
-        return this.network.relayTransaction(obj);
     }
 }
 

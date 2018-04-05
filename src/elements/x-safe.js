@@ -19,7 +19,7 @@ import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-l
 import XWelcomeModal from './x-welcome-modal.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
-import config from '../config.js';
+import Config from '/libraries/secure-utils/config/config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 
 export default class XSafe extends MixinRedux(XElement) {
@@ -85,7 +85,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
-                <x-create-request-link-modal x-route-aside="receive" data-x-root="${config.root}"></x-create-request-link-modal>
+                <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe')}"></x-create-request-link-modal>
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
@@ -121,12 +121,10 @@ export default class XSafe extends MixinRedux(XElement) {
         //     XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
         //     XEducationSlides.start();
         // }
-        if (config.mode !== 'main') {
+        if (Config.network !== 'main') {
             this.$('.header-warning').classList.remove('display-none');
-            this.$('[logo-link]').href = 'https://nimiq-testnet.com';
-        } else {
-            this.$('[logo-link]').href = 'https://nimiq.com';
         }
+        this.$('[logo-link]').href = 'https://' + Config.tld;
     }
 
     static get actions() {
@@ -273,7 +271,11 @@ export default class XSafe extends MixinRedux(XElement) {
         const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
 
         if (isNaN(setValidityStartHeight) && !this.properties.height) {
-            XToast.warning('Consensus not yet established, please try again in a few seconds.');
+            if (Config.offline) {
+                XToast.warning('In offline mode, the validity-start-height needs to be set (advanced settings).');
+            } else {
+                XToast.warning('Consensus not yet established, please try again in a few seconds.');
+            }
             return;
         }
 
@@ -294,6 +296,12 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _sendTransactionNow(signedTx) {
         if (!signedTx) return;
+
+        if (Config.offline) {
+            XSendTransactionOfflineModal.instance.transaction = signedTx;
+            XSendTransactionOfflineModal.show();
+            return;
+        }
 
         const network = (await networkClient).rpcClient;
         try {
