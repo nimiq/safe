@@ -141,7 +141,9 @@ export default class XElement {
         const tagName = XElement.__toTagName(childClass.name);
         const foundChildren = this.$$(tagName + ':not([data-x-initialized])');
 
-        if (foundChildren.length < 1) return;
+        if (foundChildren.length < 1) {
+            throw new Error(`Child could not be created: No tag found with name ${name}`);
+        }
 
         this[name] = [];
         foundChildren.forEach(c => this[name].push(new childClass(c)));
