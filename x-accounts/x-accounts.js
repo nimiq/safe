@@ -10,7 +10,7 @@ export default class XAccounts extends XElement {
         return `
             <x-popup-menu>
                 <button create><i class="material-icons">add</i> Create new account</button>
-                <!-- <button importFile><i class="material-icons">crop_portrait</i> Import Access File</button> -->
+                <button importFile><i class="material-icons">crop_portrait</i> Import Access File</button>
                 <button importWords><i class="material-icons">text_format</i> Import Recovery Words</button>
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
@@ -25,7 +25,7 @@ export default class XAccounts extends XElement {
     listeners() {
         return {
             'click button[create]': this._onCreateAccount,
-            // 'click button[importFile]': this._onImportFromFile,
+            'click button[importFile]': this._onImportFromFile,
             'click button[importWords]': this._onImportFromWords,
             'x-account-selected': this._onAccountSelected
         };
@@ -35,9 +35,9 @@ export default class XAccounts extends XElement {
         this.fire('x-accounts-create');
     }
 
-    // _onImportFromFile() {
-    //     this.fire('x-accounts-import-file');
-    // }
+    _onImportFromFile() {
+        this.fire('x-accounts-import-file');
+    }
 
     _onImportFromWords() {
         this.fire('x-accounts-import-words');
