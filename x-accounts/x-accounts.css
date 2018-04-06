@@ -220,14 +220,6 @@ button[importLedger] {
     display: block;
 }
 
-button[importFile] {
-    display: none;
-}
-
-.enable-file button[importFile] {
-    display: block;
-}
-
 x-account-modal .x-account-label {
     font-size: 1.2em;
 }
