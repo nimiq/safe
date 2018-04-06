@@ -75,7 +75,7 @@ export default class XAccountFileImport extends XElement {
         this.$importIcon.style.backgroundImage = `url(${url})`;
         this.$importIcon.style.opacity = 1;
         this.$button.textContent = 'Import';
-        requestAnimationFrame(_ => URL.revokeObjectURL(url));
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
     }
 
     _onButtonClicked(e) {
