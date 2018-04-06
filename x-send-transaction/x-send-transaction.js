@@ -33,7 +33,6 @@ export default class XSendTransaction extends XElement {
                 <div class="row">
                     <x-amount-input name="value" no-screen-keyboard></x-amount-input>
                 </div>
-                </div>
                 <span error amount class="display-none"></span>
 
                 <x-expandable advanced-settings transparent>
