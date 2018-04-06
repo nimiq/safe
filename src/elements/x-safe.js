@@ -187,7 +187,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await (await accountManager).createSafe();
             XToast.success('Account created successfully.');
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('Account was not created.');
         }
     }
@@ -207,7 +207,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XAccountFileImportModal.hide();
             XToast.success('Account imported successfully.');
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('Account was not imported.');
         }
     }
@@ -217,7 +217,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await (await accountManager).importFromWords();
             XToast.success('Account imported successfully.');
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('Account was not imported.');
         }
     }
@@ -225,11 +225,11 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedAccountBackupFile(address) {
         try {
             const encryptedPrivKey = await (await accountManager).backupFile(address);
-            const dataUrl = await WalletBackup(address, encryptedPrivKey).toDataUrl();
-            XAccountFileExportModal.set(address, dataUrl);
+            const dataUrl = await new WalletBackup(address, encryptedPrivKey).toDataUrl();
+            XAccountFileExportModal.instance.set(address, dataUrl);
             XAccountFileExportModal.show();
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('No backup created.');
         }
     }
@@ -239,7 +239,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await (await accountManager).backupWords(address);
             XToast.success('Account backed up successfully.');
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('No backup created.');
         }
     }
@@ -249,7 +249,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await (await accountManager).rename(address);
             XToast.success('Account renamed successfully.');
         } catch (e) {
-            console.log(e);
+            console.error(e);
             XToast.warning('Account was not renamed.');
         }
     }
