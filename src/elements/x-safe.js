@@ -22,6 +22,8 @@ import XDisclaimerModal from './x-disclaimer-modal.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import XAccountFileImportModal from './x-account-file-import-modal.js';
+import WalletBackup from '/libraries/backup-file/backup-file.js';
+import XAccountFileExportModal from './x-account-file-export-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -173,7 +175,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
-            // 'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
+            'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show()
@@ -220,15 +222,17 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    // async _clickedAccountBackupFile(address) {
-    //     try {
-    //         await (await accountManager).backupFile(address);
-    //         XToast.success('Account backed up successfully.');
-    //     } catch (e) {
-    //         console.log(e);
-    //         XToast.warning('No backup created.');
-    //     }
-    // }
+    async _clickedAccountBackupFile(address) {
+        try {
+            const encryptedPrivKey = await (await accountManager).backupFile(address);
+            const dataUrl = await WalletBackup(address, encryptedPrivKey).toDataUrl();
+            XAccountFileExportModal.set(address, dataUrl);
+            XAccountFileExportModal.show();
+        } catch (e) {
+            console.log(e);
+            XToast.warning('No backup created.');
+        }
+    }
 
     async _clickedAccountBackupWords(address) {
         try {

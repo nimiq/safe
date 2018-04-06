@@ -1,7 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XAccountFileImport from './x-account-file-import.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
-import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
 
 export default class XAccountFileImportModal extends MixinModal(XElement) {
     html() {
