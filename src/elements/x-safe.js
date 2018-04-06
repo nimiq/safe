@@ -193,8 +193,12 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     async _clickedImportAccountLedger() {
-        await (await accountManager).importLedger();
-        XToast.success('Account imported successfully.');
+        try {
+            await (await accountManager).importLedger();
+            XToast.success('Account imported successfully.');
+        } catch(e) {
+            XToast.warning('Account was not imported.');
+        }
     }
 
     async _clickedImportAccountFile() {
