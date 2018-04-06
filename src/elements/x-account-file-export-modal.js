@@ -20,7 +20,7 @@ export default class XAccountFileExportModal extends MixinModal(XElement) {
     }
 
     set(address, dataUrl) {
-        this.$downloadableImage.filename = address.replace(/ /g, '+') + '.png';
+        this.$downloadableImage.filename = address.replace(/ /g, '-') + '.png';
         this.$downloadableImage.src = dataUrl;
     }
 }
