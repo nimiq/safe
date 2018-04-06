@@ -6,6 +6,7 @@ export default class XAccountFileExportModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Backup Access File</h2>
             </div>
             <div class="modal-body">
