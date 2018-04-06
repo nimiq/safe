@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XToast from '../../secure-elements/x-toast/x-toast.js';
+import XToast from '/secure-elements/x-toast/x-toast.js';
 
 export default class XDownloadableImage extends XElement {
     static get LONG_TOUCH_DURATION() {

@@ -13,7 +13,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 <x-popup-menu left-align>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
-                    <!-- <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button> -->
+                    <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button>
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
@@ -51,13 +51,18 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
         this.$actionButton = this.$('.action-button');
+
+        this.$renameButton = this.$('button[rename]');
+        this.$backupWordsButton = this.$('button[backupWords]');
+        this.$backupFileButton = this.$('button[backupFile]');
+
         this._height = 0;
         super.onCreate();
     }
 
     listeners() {
         return {
-            // 'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
+            'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
             'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
@@ -148,8 +153,20 @@ export default class XAccountModal extends MixinModal(XAccount) {
     set type(type) {
         super.type = type;
 
-        this.$popupMenu.$el.classList.toggle('display-none', type === 4 || type === 2);
+        // 1 = Safe, 2 = Wallet, 3 = Ledger, 4 = Vesting
+
+        // Disable popup menu for Ledger and Vesting
+        this.$popupMenu.$el.classList.toggle('display-none', type === 3 || type === 4);
+
+        // Disable send button for Vesting
         this.$actionButton.classList.toggle('display-none', type === 4);
+
+        // Enable rename and backupWords button only for Safe
+        this.$renameButton.classList.toggle('display-none', type !== 1);
+        this.$backupWordsButton.classList.toggle('display-none', type !== 1);
+
+        // Enable backupFile button only for Wallet
+        this.$backupFileButton.classList.toggle('display-none', type !== 2);
     }
 
     allowsShow(address) {
