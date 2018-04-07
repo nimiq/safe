@@ -115,18 +115,15 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set timestamp(timestamp) {
-        const time = moment.unix(timestamp);
+        const dateTime = moment.unix(timestamp);
 
-        const before12hours = moment().subtract(12, 'hours');
-        if (time.isAfter(before12hours)) {
-            // If the time was less than 12 hours ago, display timeago
-            this.$timestamp.textContent = time.format('HH:mm');
+        if (dateTime.isSame(moment(), 'day')) {
+            this.$timestamp.textContent = dateTime.format('HH:mm');
         } else {
-            // If the time was yesterday or earlier, display date
-            this.$timestamp.textContent = time.format('D MMM');
+            this.$timestamp.textContent = dateTime.format('DD MMM');
         }
 
-        this.$timestamp.setAttribute('title', time.toDate().toLocaleString());
+        this.$timestamp.setAttribute('title', dateTime.toDate().toLocaleString());
     }
 
     set type(type) {
