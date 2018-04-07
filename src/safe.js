@@ -50,6 +50,11 @@ class Safe {
         self.onunload = () => {
             if (!window.skipPersistingState) Store.persist();
         }
+
+        // TODO just temporary code
+        if (window.location.hash.indexOf('enable-ledger') !== -1) {
+            document.body.classList.add('enable-ledger');
+        }
     }
 
     async launch() {
