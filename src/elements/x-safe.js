@@ -1,7 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
 import XSettings from '../settings/x-settings.js';
-import { addAccount } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XTotalAmount from './x-total-amount.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
@@ -130,10 +129,8 @@ export default class XSafe extends MixinRedux(XElement) {
             this.$('.header-warning').classList.remove('display-none');
         }
         this.$('[logo-link]').href = 'https://' + Config.tld;
-    }
 
-    static get actions() {
-        return { addAccount };
+        this.relayedTxRequestResolvers = new Map();
     }
 
     static mapStateToProps(state) {
@@ -184,7 +181,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'click button[receive]': this._clickedReceive.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
-            'x-send-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
@@ -331,22 +327,37 @@ export default class XSafe extends MixinRedux(XElement) {
             return;
         }
 
+        // Give user feedback that something is happening
+        XSendTransactionModal.instance.loading = true;
+        XSendPreparedTransactionModal.instance.loading = true;
+
         const network = await networkClient.rpcClient;
         try {
+            const relayedTxRequest = new Promise((resolve, reject) => {
+                this.relayedTxRequestResolvers.set(signedTx.hash, resolve);
+                setTimeout(reject, 5000, new Error('Transaction could not be sent'));
+            });
+
             await network.relayTransaction(signedTx);
+
+            try {
+                await relayedTxRequest;
+            } catch(e) {
+                this.relayedTxRequestResolvers.delete(signedTx.hash);
+                network.removeTxFromMempool(signedTx);
+                throw e;
+            }
+
+            XSendTransactionModal.hide();
+            XSendPreparedTransactionModal.hide();
+
+            XToast.success('Transaction sent!');
         } catch(e) {
-            XToast.error(e.message);
-
-            XSendTransactionOfflineModal.instance.transaction = signedTx;
-            XSendTransactionOfflineModal.show();
-            return;
+            XToast.error(e.message || e);
+        } finally {
+            XSendTransactionModal.instance.loading = false;
+            XSendPreparedTransactionModal.instance.loading = false;
         }
-
-        XSendTransactionModal.hide();
-        XSendTransactionOfflineModal.hide();
-        XSendPreparedTransactionModal.hide();
-
-        XToast.success('Transaction sent!');
     }
 
     _onSetVisualLock(pin) {
