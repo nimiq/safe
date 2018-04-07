@@ -35,7 +35,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
 
             for (const [ address, account ] of changes.accounts) {
                 const $account = this._accountEntries.get(address);
-                if (account === undefined && $account.properties.type !== 3) { // Do not remove Ledger accounts
+                if (account === undefined) {
                     $account && $account.destroy && $account.destroy();
                     this._accountEntries.delete(address);
                 } else if (!$account) {
