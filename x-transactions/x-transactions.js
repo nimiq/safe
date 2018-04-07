@@ -12,7 +12,7 @@ import Config from '/libraries/secure-utils/config/config.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu x-loading-tooltip="Refreshing transaction history">
+            <x-popup-menu x-loading-tooltip="Refreshing transaction history" x-icon="refresh">
                 <button refresh><i class="material-icons">refresh</i> Refresh</button>
             </x-popup-menu>
             <x-transactions-list>

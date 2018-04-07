@@ -4,7 +4,7 @@ export default class XPopupMenu extends XElement {
     html() {
         return `
             <button>
-                <i class="material-icons">more_vert</i>
+                <i class="material-icons"></i>
                 <span class="dot-loader display-none"></span>
             </button>
             <div data-x-content></div>
@@ -15,6 +15,7 @@ export default class XPopupMenu extends XElement {
         this.$button = this.$('button');
         this.$text = this.$('i');
         this.$loader = this.$('.dot-loader');
+        this.$('i').textContent = this.attributes.xIcon || 'more_vert';
         this.$loader.setAttribute('title', this.attributes.xLoadingTooltip);
         this._noMenu = false;
 
