@@ -122,6 +122,7 @@ export default class XSendTransaction extends XElement {
         this.$amountInput.forEach(input => input.value = '');
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
+        this._isLoading = false;
     }
 
     validateAllFields() {
@@ -129,6 +130,12 @@ export default class XSendTransaction extends XElement {
         this._validateRecipient();
         this._validateAmountAndFees();
         this._validateValidityStartHeight();
+        this.setButton();
+    }
+
+    set loading(isLoading) {
+        this._isLoading = !!isLoading;
+        this.$button.textContent = this._isLoading ? 'Loading' : 'Send';
         this.setButton();
     }
 
@@ -143,7 +150,7 @@ export default class XSendTransaction extends XElement {
      */
 
     setButton() {
-        this.$button.disabled = !this._isValid();
+        this.$button.disabled = !this._isValid() || this._isLoading;
     }
 
     /**
