@@ -49,7 +49,7 @@ class Safe {
         // Persist store before closing
         self.onunload = () => {
             if (!window.skipPersistingState) Store.persist();
-        }
+        };
 
         // TODO just temporary code
         if (window.location.hash.indexOf('enable-ledger') !== -1) {
