@@ -130,7 +130,7 @@ export default class XSafe extends MixinRedux(XElement) {
         }
         this.$('[logo-link]').href = 'https://' + Config.tld;
 
-        this.relayedTxRequestResolvers = new Map();
+        this.relayedTxResolvers = new Map();
     }
 
     static mapStateToProps(state) {
@@ -333,17 +333,17 @@ export default class XSafe extends MixinRedux(XElement) {
 
         const network = await networkClient.rpcClient;
         try {
-            const relayedTxRequest = new Promise((resolve, reject) => {
-                this.relayedTxRequestResolvers.set(signedTx.hash, resolve);
-                setTimeout(reject, 5000, new Error('Transaction could not be sent'));
+            const relayedTx = new Promise((resolve, reject) => {
+                this.relayedTxResolvers.set(signedTx.hash, resolve);
+                setTimeout(reject, 8000, new Error('Transaction could not be sent'));
             });
 
             await network.relayTransaction(signedTx);
 
             try {
-                await relayedTxRequest;
+                await relayedTx;
             } catch(e) {
-                this.relayedTxRequestResolvers.delete(signedTx.hash);
+                this.relayedTxResolvers.delete(signedTx.hash);
                 network.removeTxFromMempool(signedTx);
                 throw e;
             }
