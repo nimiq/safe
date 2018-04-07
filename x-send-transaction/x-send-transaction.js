@@ -214,7 +214,6 @@ export default class XSendTransaction extends XElement {
                     this._validRecipient = true;
                 }
             } else {
-                this._setError('Validating receiver type, please wait...', 'recipient');
                 this.__debouncedValidateRecipient(address);
             }
         } else if (value.length === 0) {
@@ -225,9 +224,13 @@ export default class XSendTransaction extends XElement {
     }
 
     async __validateRecipient(address) {
+        this._validatingRecipientTimeout = setTimeout(() => this._setError('Validating address type, please wait...', 'recipient'), 1000);
+
         const accountType = await (await networkClient).rpcClient.getAccountTypeString(address);
 
         this._validRecipient = (accountType === 'basic');
+
+        clearTimeout(this._validatingRecipientTimeout);
 
         if (this._validRecipient) {
             this._clearError('recipient');
