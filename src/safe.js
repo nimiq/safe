@@ -10,20 +10,24 @@ import accountManager from '/libraries/account-manager/account-manager.js';
 import Config from '/libraries/secure-utils/config/config.js'; // Config needs to be imported before networkClient
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
+import XSafeLock from './elements/x-safe-lock.js';
 
 class Safe {
     constructor() {
         if (localStorage.getItem('lock')) {
-            const input = prompt("The Safe is locked. Please enter your PIN:", '');
-            if (input === localStorage.getItem('lock')) this.launchApp();
-            else alert("Nope");
+            const $safeLock = XSafeLock.createElement();
+            $safeLock.$el.classList.add('nimiq-dark');
+            document.getElementById('app').appendChild($safeLock.$el);
         } else {
             this.launchApp();
         }
+
+        // FIXME
+        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     launchApp() {
-        const $appContainer = document.querySelector('#app');
+        const $appContainer = document.getElementById('app');
 
         // set redux store
         this.store = store;
@@ -37,9 +41,6 @@ class Safe {
 
         // start UI
         this._xApp = new XSafe($appContainer);
-
-        // FIXME
-        setTimeout(() => document.body.classList.remove('preparing'));
 
         this.actions = bindActionCreators({
             setAllKeys,

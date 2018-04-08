@@ -1,52 +1,36 @@
 import XElement from '/libraries/x-element/x-element.js';
-import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import PatternLock from '/libraries/patternLock/patternLock.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 
-export default class XSettingVisualLockModal extends MixinModal(XElement) {
+export default class XSafeLock extends XElement {
     html() {
         return `
-            <div class="modal-header">
-                <i x-modal-close class="material-icons">close</i>
-                <h2>Set up visual lock</h2>
-            </div>
-            <div class="modal-body">
-                <p>Draw a pattern to visually lock the Safe:</p>
-                <div id="setting-patternLock"></div>
-            </div>
+            <i class="material-icons">locked</i>
+            <h1>Your Nimiq Safe is locked</h1>
+            <p>Draw your pattern to unlock:</p>
+            <div id="unlock-patternLock"></div>
         `
     }
 
     onCreate() {
-        super.onCreate();
-        this.lock = new PatternLock("#setting-patternLock", {
+        this.lock = new PatternLock(this.$('#unlock-patternLock'), {
             mapper: {1: 3, 2: 8, 3: 4, 4: 2, 5: 9, 6: 7, 7: 5, 8: 1, 9: 6},
             onDraw: this._onEnterPin.bind(this)
         });
     }
 
-    onShow() {
-        this._pin = null;
-        this.lock.reset();
-    }
-
-    onHide() {
-        this.lock.reset();
-    }
-
     _onEnterPin(pin) {
         pin = this._hash(pin);
-        if (!this._pin) {
-            this._pin = pin;
-            this.lock.reset();
-            XToast.show('Please repeat pattern to confirm');
-        } else if (this._pin !== pin) {
+        if (pin === localStorage.getItem('lock')) {
+            this.destroy();
+
+            // Launch Safe app
+            window.safe.launchApp();
+        } else {
             this.lock.error();
             setTimeout(this.lock.reset.bind(this.lock), 500);
             this._pin = null;
-            XToast.error('Pattern not matching. Please try again.');
-        } else {
-            this.fire('x-setting-visual-lock-pin', pin);
+            XToast.error('Wrong pattern');
         }
     }
 
