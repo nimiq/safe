@@ -156,6 +156,10 @@ export default class XSafe extends MixinRedux(XElement) {
         if (changes.accountsPresent) {
             this.$welcomeModal.hide();
             this.$('button[receive]').disabled = false;
+
+            if (Config.offline) {
+                this.$('button[new-tx]').disabled = false;
+            }
         }
 
         if (changes.totalAmount) {
