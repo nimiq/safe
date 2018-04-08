@@ -24,6 +24,7 @@ import XEducationSlides from '/elements/x-education-slides/x-education-slides.js
 import XAccountFileImportModal from './x-account-file-import-modal.js';
 import WalletBackup from '/libraries/backup-file/backup-file.js';
 import XAccountFileExportModal from './x-account-file-export-modal.js';
+import totalAmount$ from '../selectors/totalAmount$.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -139,7 +140,8 @@ export default class XSafe extends MixinRedux(XElement) {
             height: state.network.height,
             consensus: state.network.consensus,
             accountsInitialized: state.accounts.hasContent,
-            accountsPresent: state.accounts.entries.size > 0
+            accountsPresent: state.accounts.entries.size > 0,
+            totalAmount: totalAmount$(state)
         }
     }
 
@@ -153,8 +155,11 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (changes.accountsPresent) {
             this.$welcomeModal.hide();
-            this.$('button[new-tx]').disabled = false;
             this.$('button[receive]').disabled = false;
+        }
+
+        if (changes.totalAmount) {
+            this.$('button[new-tx]').disabled = changes.totalAmount === 0;
         }
     }
 
