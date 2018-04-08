@@ -346,7 +346,6 @@ export default class XSafe extends MixinRedux(XElement) {
         this.$('x-settings [visual-lock] input').checked = true;
         XToast.success('Visual lock set!');
         XSettingVisualLockModal.hide();
-        XSettingVisualLockModal.instance.$pinpad.reset();
     }
 }
 
