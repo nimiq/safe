@@ -233,6 +233,7 @@ nav button {
 .waiting {
     cursor: wait;
     color: #949292 !important;
+    pointer-events: none;
 }
 
 button.waiting {

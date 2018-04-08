@@ -48,9 +48,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     _onCreateAccount() {
-        if (this.properties.keyguardReady) {
-            this.fire('x-accounts-create');
-        }
+        this.fire('x-accounts-create');
     }
 
     _onImportLedger() {
@@ -58,15 +56,11 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     _onImportWords() {
-        if (this.properties.keyguardReady) {
-            this.fire('x-accounts-import-words');
-        }
+        this.fire('x-accounts-import-words');
     }
 
     _onImportFile() {
-        if (this.properties.keyguardReady) {
-            this.fire('x-accounts-import-file');
-        }
+        this.fire('x-accounts-import-file');
     }
 }
 
