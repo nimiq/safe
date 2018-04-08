@@ -74,7 +74,7 @@ export function addAccount(key) {
     return async dispatch => {
         if (!Config.offline) {
             // when adding a new account, subscribe at network
-            const { rpcClient } = await networkClient;
+            const rpcClient = await networkClient.rpcClient;
             rpcClient.subscribe(key.address);
         }
 
@@ -89,7 +89,7 @@ export function setAllKeys(keys) {
     return async dispatch => {
         if (!Config.offline) {
             // when adding a new account, subscribe at network.
-            const { rpcClient } = await networkClient;
+            const rpcClient = await networkClient.rpcClient;
             rpcClient.subscribe(keys.map(key => key.address));
         }
 

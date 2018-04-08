@@ -237,7 +237,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         // const height = this.properties.lastKnownHeight - 10;
         const height = 0;
 
-        return (await networkClient).rpcClient.requestTransactionHistory(addresses, knownReceipts, height);
+        return (await networkClient.rpcClient).requestTransactionHistory(addresses, knownReceipts, height);
     }
 
     _generateKnownReceipts(addresses) {

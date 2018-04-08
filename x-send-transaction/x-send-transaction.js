@@ -226,7 +226,7 @@ export default class XSendTransaction extends XElement {
     async __validateRecipient(address) {
         this._validatingRecipientTimeout = setTimeout(() => this._setError('Validating address type, please wait...', 'recipient'), 1000);
 
-        const accountType = await (await networkClient).rpcClient.getAccountTypeString(address);
+        const accountType = await (await networkClient.rpcClient).getAccountTypeString(address);
 
         this._validRecipient = (accountType === 'basic');
 
