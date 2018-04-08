@@ -2,33 +2,12 @@ import { RPC, EventClient } from '/libraries/boruca-messaging/src/boruca.js';
 import Config from '/libraries/secure-utils/config/config.js';
 
 class NetworkClient {
-    static async getInstances() {
-        this._instance = this._instance || new Promise(async resolve => {
-            const networkClient = new NetworkClient();
-
-            const [ eventClient, rpcClient ] = await Promise.all([
-                networkClient.eventClient,
-                networkClient.rpcClient
-            ]);
-
-            resolve({
-                eventClient,
-                rpcClient
-            });
-        });
-
+    static getInstance() {
+        this._instance = this._instance || new NetworkClient();
         return this._instance;
     }
 
     constructor() {
-        if (Config.offline) {
-            this.rpcClient = {};
-            this.eventClient = {};
-            return;
-        }
-
-        this.$iframe = this._createIframe(Config.src('network'));
-
         this.rpcClient = new Promise(res => {
             this.rpcClientResolve = res;
         });
@@ -36,13 +15,12 @@ class NetworkClient {
         this.eventClient = new Promise(res => {
             this.eventClientResolve = res;
         });
-
-        this.launch();
     }
 
     async launch() {
-        this.rpcClientResolve(RPC.Client((await this.$iframe).contentWindow, 'NanoNetworkApi', Config.origin('network')));
-        this.eventClientResolve(EventClient.create((await this.$iframe).contentWindow));
+        this.$iframe = await this._createIframe(Config.src('network'));
+        this.rpcClientResolve(RPC.Client(this.$iframe.contentWindow, 'NanoNetworkApi', Config.origin('network')));
+        this.eventClientResolve(EventClient.create(this.$iframe.contentWindow));
     }
 
     /**
@@ -58,4 +36,4 @@ class NetworkClient {
     }
 }
 
-export default NetworkClient.getInstances();
+export default NetworkClient.getInstance();

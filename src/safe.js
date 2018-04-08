@@ -13,6 +13,14 @@ import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js'
 
 class Safe {
     constructor() {
+        if (localStorage.getItem('lock')) {
+            alert("Safe is locked");
+        } else {
+            this.launchApp();
+        }
+    }
+
+    launchApp() {
         const $appContainer = document.querySelector('#app');
 
         // set redux store
@@ -23,9 +31,7 @@ class Safe {
         MixinSingleton.appContainer = $appContainer;
 
         // Launch account manager
-        accountManager.then(a => {
-            this.accountManager = a;
-        });
+        accountManager.launch();
 
         // start UI
         this._xApp = new XSafe($appContainer);
@@ -44,7 +50,7 @@ class Safe {
             setGlobalHashrate
         }, this.store.dispatch);
 
-        this.launch();
+        this.launchNetwork();
 
         // Persist store before closing
         self.onunload = () => {
@@ -57,15 +63,18 @@ class Safe {
         }
     }
 
-    async launch() {
+    async launchNetwork() {
         if (Config.offline) return;
 
+        // Launch network
+        networkClient.launch();
+
         // launch network rpc client
-        this.network = (await networkClient).rpcClient;
+        this.network = await networkClient.rpcClient;
         window.network = this.network; // for debugging
 
         // launch network event client
-        this.networkListener = (await networkClient).eventClient;
+        this.networkListener = await networkClient.eventClient;
         this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
         this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
         this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));

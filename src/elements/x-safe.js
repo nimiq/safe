@@ -186,7 +186,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedCreateAccount() {
         try {
-            await (await accountManager).createSafe();
+            await accountManager.createSafe();
             XToast.success('Account created successfully.');
         } catch (e) {
             console.error(e);
@@ -196,7 +196,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountLedger() {
         try {
-            await (await accountManager).importLedger();
+            await accountManager.importLedger();
             XToast.success('Account imported successfully.');
         } catch(e) {
             XToast.warning('Account was not imported.');
@@ -209,7 +209,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _importedAccountFile(encryptedPrivKey) {
         try {
-            await (await accountManager).importFromFile(encryptedPrivKey);
+            await accountManager.importFromFile(encryptedPrivKey);
             XAccountFileImportModal.hide();
             XToast.success('Account imported successfully.');
         } catch (e) {
@@ -220,7 +220,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountWords() {
         try {
-            await (await accountManager).importFromWords();
+            await accountManager.importFromWords();
             XToast.success('Account imported successfully.');
         } catch (e) {
             console.error(e);
@@ -230,7 +230,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountBackupFile(address) {
         try {
-            const encryptedPrivKey = await (await accountManager).backupFile(address);
+            const encryptedPrivKey = await accountManager.backupFile(address);
             const dataUrl = await new WalletBackup(address, encryptedPrivKey).toDataUrl();
             XAccountFileExportModal.instance.set(address, dataUrl);
             XAccountFileExportModal.show();
@@ -242,7 +242,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountBackupWords(address) {
         try {
-            await (await accountManager).backupWords(address);
+            await accountManager.backupWords(address);
             XToast.success('Account backed up successfully.');
         } catch (e) {
             console.error(e);
@@ -252,7 +252,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountRename(address) {
         try {
-            await (await accountManager).rename(address);
+            await accountManager.rename(address);
             XToast.success('Account renamed successfully.');
         } catch (e) {
             console.error(e);
@@ -301,7 +301,7 @@ export default class XSafe extends MixinRedux(XElement) {
         tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
 
-        const signedTx = await (await accountManager).sign(tx);
+        const signedTx = await accountManager.sign(tx);
 
         if (this.properties.consensus !== 'established') {
             XSendTransactionOfflineModal.instance.transaction = signedTx;
@@ -320,7 +320,7 @@ export default class XSafe extends MixinRedux(XElement) {
             return;
         }
 
-        const network = (await networkClient).rpcClient;
+        const network = await networkClient.rpcClient;
         try {
             await network.relayTransaction(signedTx);
         } catch(e) {
