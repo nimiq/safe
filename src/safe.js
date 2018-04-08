@@ -10,6 +10,7 @@ import accountManager from '/libraries/account-manager/account-manager.js';
 import Config from '/libraries/secure-utils/config/config.js'; // Config needs to be imported before networkClient
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
+import XToast from '/secure-elements/x-toast/x-toast.js';
 
 class Safe {
     constructor() {
@@ -55,6 +56,15 @@ class Safe {
         // Persist store before closing
         self.onunload = () => {
             if (!window.skipPersistingState) Store.persist();
+        };
+
+        self.onerror = (error) => {
+            XToast.show(error.message, 'error');
+        };
+
+        // cancel request and close window when there is an unhandled promise rejection
+        self.onunhandledrejection = (event) => {
+            XToast.show(event.reason, 'error');
         };
 
         // TODO just temporary code

@@ -347,5 +347,3 @@ export default class XSafe extends MixinRedux(XElement) {
         XToast.success('Transaction sent!');
     }
 }
-
-// TODO catch errors in a top level error panel catching all previously uncaught exceptions > XApp?
