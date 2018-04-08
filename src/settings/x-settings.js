@@ -15,6 +15,7 @@ export default class XSettings extends MixinRedux(XElement) {
                 <span class="setting" visual-lock>
                     Visual lock
                     <input type="checkbox" disabled>
+                    <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
                 </span>
              </x-card>
         `
