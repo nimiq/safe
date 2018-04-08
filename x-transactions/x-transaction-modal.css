@@ -13,12 +13,8 @@ x-transaction-modal x-identicon {
     width: 120px;
 }
 
-x-transaction-modal x-identicon[sender] {
-    margin-right: 24px;
-}
-
-x-transaction-modal x-identicon[recipient] {
-    margin-left: 24px;
+x-transaction-modal .arrow {
+    margin: 0 24px;
 }
 
 x-transaction-modal .row {
@@ -98,12 +94,8 @@ x-transaction-modal .hash {
         width: 90px;
     }
 
-    x-transaction-modal x-identicon[sender] {
-        margin-right: 18px;
-    }
-
-    x-transaction-modal x-identicon[recipient] {
-        margin-left: 18px;
+    x-transaction-modal .arrow {
+        margin: 0 18px;
     }
 
     x-transaction-modal .row {
