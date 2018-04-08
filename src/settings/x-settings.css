@@ -1,14 +1,17 @@
+@import '/libraries/patternLock/patternLock.css';
+
 x-settings {
     width: 100%;
     max-width: 480px;
 }
 
-x-settings a {
+x-settings .setting {
     display: block;
     padding: 1.2em 0.5em;
+    cursor: pointer;
 }
 
-x-settings a:hover {
+x-settings .setting:hover {
     background: rgba(0, 0, 0, 0.1);
 }
 
@@ -16,4 +19,8 @@ x-settings small {
     display: block;
     opacity: 0.6;
     margin-top: 8px;
+}
+
+x-settings input[type="checkbox"] {
+    float: right;
 }

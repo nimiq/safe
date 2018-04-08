@@ -11,18 +11,24 @@ import Config from '/libraries/secure-utils/config/config.js'; // Config needs t
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import XSafeLock from './elements/x-safe-lock.js';
 
 class Safe {
     constructor() {
         if (localStorage.getItem('lock')) {
-            alert("Safe is locked");
+            const $safeLock = XSafeLock.createElement();
+            $safeLock.$el.classList.add('nimiq-dark');
+            document.getElementById('app').appendChild($safeLock.$el);
         } else {
             this.launchApp();
         }
+
+        // FIXME
+        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     launchApp() {
-        const $appContainer = document.querySelector('#app');
+        const $appContainer = document.getElementById('app');
 
         // set redux store
         this.store = store;
@@ -36,9 +42,6 @@ class Safe {
 
         // start UI
         this._xApp = new XSafe($appContainer);
-
-        // FIXME
-        setTimeout(() => document.body.classList.remove('preparing'));
 
         this.actions = bindActionCreators({
             setAllKeys,
