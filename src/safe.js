@@ -14,7 +14,9 @@ import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js'
 class Safe {
     constructor() {
         if (localStorage.getItem('lock')) {
-            alert("Safe is locked");
+            const input = prompt("The Safe is locked. Please enter your PIN:", '');
+            if (input === localStorage.getItem('lock')) this.launchApp();
+            else alert("Nope");
         } else {
             this.launchApp();
         }

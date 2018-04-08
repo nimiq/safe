@@ -24,6 +24,7 @@ import XEducationSlides from '/elements/x-education-slides/x-education-slides.js
 import XAccountFileImportModal from './x-account-file-import-modal.js';
 import WalletBackup from '/libraries/backup-file/backup-file.js';
 import XAccountFileExportModal from './x-account-file-export-modal.js';
+import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -180,7 +181,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
-            'click a[disclaimer]': () => XDisclaimerModal.show()
+            'click a[disclaimer]': () => XDisclaimerModal.show(),
+            'x-setting-visual-lock-pin': this._onSetVisualLock
         }
     }
 
@@ -336,6 +338,15 @@ export default class XSafe extends MixinRedux(XElement) {
         XSendPreparedTransactionModal.hide();
 
         XToast.success('Transaction sent!');
+    }
+
+    _onSetVisualLock(pin) {
+        console.log(pin);
+        localStorage.setItem('lock', pin);
+        this.$('x-settings [visual-lock] input').checked = true;
+        XToast.success('Visual lock set!');
+        XSettingVisualLockModal.hide();
+        XSettingVisualLockModal.instance.$pinpad.reset();
     }
 }
 
