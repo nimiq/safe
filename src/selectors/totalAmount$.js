@@ -25,7 +25,7 @@ export default createSelector(
     accountsArray$,
     balancesLoaded$,
     (accounts, balancesLoaded) => {
-        if (!balancesLoaded) return null;
+        if (!balancesLoaded) return undefined;
 
         if (accounts.length === 0) return 0;
 

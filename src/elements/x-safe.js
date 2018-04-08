@@ -163,7 +163,7 @@ export default class XSafe extends MixinRedux(XElement) {
             }
         }
 
-        if (changes.totalAmount) {
+        if (changes.totalAmount !== undefined) {
             this.$('button[new-tx]').disabled = changes.totalAmount === 0;
         }
     }

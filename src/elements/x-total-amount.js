@@ -28,7 +28,7 @@ export default class XTotalAmount extends MixinRedux(XElement) {
     _onPropertiesChanged(changes) {
         const { totalAmount } = changes;
 
-        if (totalAmount) {
+        if (totalAmount !== undefined) {
             this.value = totalAmount;
         }
     }
