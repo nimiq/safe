@@ -212,11 +212,11 @@ x-popup-menu .ledger-icon {
     width: 24px;
 }
 
-button[importLedger] {
+button.import-ledger {
     display: none;
 }
 
-.enable-ledger button[importLedger] {
+.enable-ledger button.import-ledger {
     display: block;
 }
 
