@@ -10,9 +10,9 @@ export default class XAccounts extends XElement {
         return `
             <x-popup-menu x-icon="add">
                 <button create><i class="material-icons">add</i> Create new account</button>
-                <button importLedger><i class="material-icons ledger-icon">&nbsp;</i> Import Ledger account</button>
-                <button importWords><i class="material-icons">text_format</i> Import Recovery Words</button>
-                <button importFile><i class="material-icons">crop_portrait</i> Import Access File</button>
+                <button importLedger><i class="material-icons ledger-icon">&nbsp;</i> Import Account from Ledger</button>
+                <button importWords><i class="material-icons">text_format</i> Import from Recovery Words</button>
+                <button importFile><i class="material-icons">crop_portrait</i> Import from Access File</button>
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
             <x-account-modal x-route-aside="account"></x-account-modal>

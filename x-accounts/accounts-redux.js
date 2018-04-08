@@ -1,5 +1,7 @@
 // todo, to be discussed: abstract the functionality we need here in a generic network store OR consider network-client
-// as generic solution, so network-client should move to libraries?
+// as generic solution, so network-client should move to libraries? - We could also move the async functions to
+// account-manager.js
+
 import networkClient from '/apps/safe/src/network-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
 
