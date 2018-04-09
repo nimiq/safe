@@ -187,4 +187,6 @@ x-paginator {
 
 x-paginator button {
     display: inline;
+    padding: 0 7px !important;
+    line-height: 40px !important;
 }
