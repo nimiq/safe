@@ -98,6 +98,7 @@ class Safe {
         this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
         this.networkListener.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
         this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
+        this.networkListener.on('nimiq-transaction-relayed', this._onTransactionRelayed.bind(this));
         this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
         this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
     }
@@ -129,6 +130,13 @@ class Safe {
 
     _onTransactionExpired(hash) {
         this.actions.markRemoved([hash], this.store.getState().network.height + 1);
+    }
+
+    _onTransactionRelayed(tx) {
+        this._onTransaction(tx);
+
+        const resolver = this._xApp.relayedTxResolvers.get(tx.hash);
+        resolver && resolver();
     }
 
     _onHeadChange({height, globalHashrate}) {
