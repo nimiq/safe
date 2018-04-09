@@ -188,19 +188,27 @@ export default class XSendTransaction extends XElement {
         else {
             this._validSender = !!account;
         }
+
+        this._validateRecipient(true);
     }
 
-    _validateRecipient() {
+    _validateRecipient(forceValidate) {
         const address = this.$addressInput.value;
         const value = this.$addressInput.$input.value;
 
-        if (value === this.__lastValidatedValue && !this.__validateRecipientTimeout) return;
+        if (value === this.__lastValidatedValue && !this.__validateRecipientTimeout && !forceValidate) return;
         this.__lastValidatedValue = value;
 
         clearTimeout(this.__validateRecipientTimeout);
         this.__validateRecipientTimeout = null;
 
         this._validRecipient = false;
+
+        console.log(address, this.$accountsDropdown.selectedAccount.address);
+        if (address === this.$accountsDropdown.selectedAccount.address) {
+            this._setError('This is the same address as the sender', 'recipient');
+            return;
+        }
 
         // TODO Skip network request when doing airgapped tx creation
         if (address) {
