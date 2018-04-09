@@ -130,7 +130,7 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$amount.type = type;
 
         this.$el.classList.remove('incoming', 'outgoing', 'transfer');
-        this.$el.classList.add(type);
+        type && this.$el.classList.add(type);
     }
 
     set removed(removed) {

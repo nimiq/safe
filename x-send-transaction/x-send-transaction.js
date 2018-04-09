@@ -204,7 +204,6 @@ export default class XSendTransaction extends XElement {
 
         this._validRecipient = false;
 
-        console.log(address, this.$accountsDropdown.selectedAccount.address);
         if (address === this.$accountsDropdown.selectedAccount.address) {
             this._setError('This is the same address as the sender', 'recipient');
             return;

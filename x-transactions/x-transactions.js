@@ -99,7 +99,9 @@ export default class XTransactions extends MixinRedux(XElement) {
             }
             else if (changes.addresses && !(changes.addresses instanceof Array)) {
                 // Called when an account is added (deepdiff returns array diff as object)
-                const newAddresses = Object.values(changes.addresses);
+                let newAddresses = Object.values(changes.addresses);
+                // Filter out deleted addresses
+                newAddresses = newAddresses.filter(a => !!a);
                 // console.log("ADDRESSES CHANGED, REQUESTING TX HISTORY FOR", newAddresses);
                 this.requestTransactionHistory(newAddresses);
             }
