@@ -76,13 +76,9 @@ export default class XTransactions extends MixinRedux(XElement) {
             tx.senderLabel = sender ? sender.label : AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
             tx.recipientLabel = recipient ? recipient.label : AddressBook.getLabel(tx.sender) || tx.recipient.slice(0, 14) + '...';
 
-            tx.type = sender && recipient
-                    ? 'transfer'
-                        : sender
-                        ? 'outgoing'
-                            : recipient
-                            ? 'incoming'
-                                : '';
+            if (sender) tx.type = 'outgoing';
+            if (recipient) tx.type = 'incoming';
+            if (sender && recipient) tx.type = 'transfer';
         });
 
         return txs;
