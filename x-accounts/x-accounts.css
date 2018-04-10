@@ -158,8 +158,8 @@ x-account .account-icon,
 x-account-modal .account-icon {
     display: block;
     position: absolute;
-    left: 56px;
-    top: 47px;
+    left: 60px;
+    top: 48px;
     width: 1.4em;
     height: 1.4em;
     background-repeat: no-repeat;
@@ -169,6 +169,7 @@ x-account-modal .account-icon {
     padding: 12px;
     border: 0.5px solid lightgray;
     border-radius: 50%;
+    font-size: 20px;
 }
 
 x-account-modal .account-icon {
@@ -181,8 +182,8 @@ x-account-modal .account-icon {
 
 x-account .account-icon::after {
     position: relative;
-    left: -7.5px;
-    top: -8px;
+    left: -8.5px;
+    top: -9px;
 }
 
 x-account-modal .account-icon::after {
@@ -242,8 +243,7 @@ x-account-modal .action-button {
     }
 
     x-account .account-icon {
-        left: 72px;
-        top: 48px;
+        left: 76px;
     }
 
     x-account-modal .account-icon {
