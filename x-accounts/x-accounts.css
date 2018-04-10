@@ -194,7 +194,8 @@ x-account-modal .account-icon::after {
 
 x-account .secure-icon::after,
 x-account-modal .secure-icon::after {
-    content: 'security';
+    content: 'check_circle';
+    color: #2e7d32;
 }
 
 x-account .vesting-icon::after,
