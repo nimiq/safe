@@ -15,6 +15,7 @@ x-transactions a[secondary] {
     padding: 1em;
     margin-bottom: -1em;
     margin-top: 5px;
+    text-align: center;
 }
 
 x-transactions-list {
