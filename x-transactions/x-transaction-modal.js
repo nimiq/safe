@@ -87,6 +87,16 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$recipientAddress.address = address;
     }
 
+    set senderLabel(label) {
+        this.$senderLabel.textContent = label;
+        this.$senderLabel.classList.toggle('default-label', label.startsWith('NQ'));
+    }
+
+    set recipientLabel(label) {
+        this.$recipientLabel.textContent = label;
+        this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
+    }
+
     set fee(fee) {
         if (!fee) this.$('.fee-section').classList.add('display-none');
         else this.$('.fee-section').classList.remove('display-none');

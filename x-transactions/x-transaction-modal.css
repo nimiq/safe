@@ -42,11 +42,11 @@ x-transaction-modal .label {
     font-size: 1em;
 }
 
-x-transaction-modal.incoming .label[sender] {
+x-transaction-modal.incoming .label[sender].default-label {
     display: none;
 }
 
-x-transaction-modal.outgoing .label[recipient] {
+x-transaction-modal.outgoing .label[recipient].default-label {
     display: none;
 }
 

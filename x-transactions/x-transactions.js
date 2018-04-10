@@ -8,6 +8,7 @@ import { addTransactions, markRemoved, setRequestingHistory } from './transactio
 import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
+import AddressBook from '/libraries/nimiq-utils/address-book/address-book.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -72,8 +73,8 @@ export default class XTransactions extends MixinRedux(XElement) {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            tx.senderLabel = sender ? sender.label : tx.sender.slice(0, 14) + '...';
-            tx.recipientLabel = recipient ? recipient.label : tx.recipient.slice(0, 14) + '...';
+            tx.senderLabel = sender ? sender.label : AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
+            tx.recipientLabel = recipient ? recipient.label : AddressBook.getLabel(tx.sender) || tx.recipient.slice(0, 14) + '...';
 
             tx.type = sender && recipient
                     ? 'transfer'
