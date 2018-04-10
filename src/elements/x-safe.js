@@ -236,10 +236,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountBackupFile(address) {
         try {
-            const encryptedPrivKey = await accountManager.backupFile(address);
-            const dataUrl = await new WalletBackup(address, encryptedPrivKey).toDataUrl();
-            XAccountFileExportModal.instance.set(address, dataUrl);
-            XAccountFileExportModal.show();
+            await accountManager.backupFile(address);
+            XToast.success('Account backed up successfully.');
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
