@@ -1,5 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import Router from '/libraries/es6-router/src/index.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 const _waitingForInit = [];
 const DEFAULT_CLASSES = ['from-right-in', 'in', 'from-left-out', 'visible', 'from-left-in', 'from-right-out'];
@@ -318,7 +319,9 @@ export default class XRouter extends XElement {
 
         if (xElement[name] instanceof Function) {
             xElement[name](...args);
-        } else console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
+        } else if (Config.devMode) {
+            console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
+        }
     }
 
     _toggleInOut(route, setIn, setOut = !setIn) {
