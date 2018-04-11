@@ -37,6 +37,8 @@ export default class XAmount extends XElement {
     }
 
     set value(value) {
+        if (Config.offline) return;
+
         value = Number(value) || 0;
         value = Math.round(value * 100000) / 100000;
 
