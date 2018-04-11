@@ -16,10 +16,10 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
             <div class="modal-body center">
-                <button class="create waiting">create new account</button>
-                <a secondary import-ledger>Import Account From Ledger</a>
-                <a secondary class="waiting" import-words>Import Account From Words</a>
-                <a secondary class="waiting" import-file>Import Account From Access File</a>
+                <button class="create waiting">Create New Account</button>
+                <a secondary import-ledger>Import Ledger Account</a>
+                <a secondary class="waiting" import-words>Import Recovery Words</a>
+                <a secondary class="waiting" import-file>Import Access File</a>
             </div>
             `
     }
