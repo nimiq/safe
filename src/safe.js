@@ -125,6 +125,13 @@ class Safe {
     }
 
     _onTransaction(tx) {
+        // Check if we know the sender or recipient of the tx
+        const accounts = this.store.getState().accounts.entries;
+        if (!accounts.has(tx.sender) && !accounts.has(tx.recipient)) {
+            console.warn('Not displaying transaction because sender and recipient are unknown:', tx);
+            return;
+        }
+
         this.actions.addTransactions([tx]);
     }
 
