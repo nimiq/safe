@@ -20,6 +20,7 @@ export default class XSendPreparedTransactionModal extends MixinModal(XElement) 
 
     onCreate() {
         this.$textarea = this.$('textarea');
+        this.$button = this.$('button');
         super.onCreate();
     }
 
@@ -31,5 +32,12 @@ export default class XSendPreparedTransactionModal extends MixinModal(XElement) 
 
     onShow() {
         this.$textarea.value = '';
+        this.loading = false;
+    }
+
+    set loading(isLoading) {
+        this._isLoading = !!isLoading;
+        this.$button.textContent = this._isLoading ? 'Loading' : 'Send now';
+        this.$button.disabled = this._isLoading;
     }
 }
