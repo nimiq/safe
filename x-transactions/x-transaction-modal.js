@@ -107,7 +107,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         if (this.properties.removed || this.properties.expired) {
             this.$blockHeight.textContent = '-';
         } else {
-            this.$blockHeight.textContent = `#${blockHeight}`;
+            this.$blockHeight.textContent = blockHeight > 0 ? `#${blockHeight}` : '';
         }
         this._calcConfirmations();
     }
