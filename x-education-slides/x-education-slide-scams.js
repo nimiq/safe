@@ -13,14 +13,14 @@ export default class XEducationSlideScams extends XEducationSlide {
                         <li>If it is too good to be true, it probably is.</li>
                         <li>Research before sending money to someone or some project. Look for information on a variety of websites and forums. Be wary.</li>
                         <li>Ask questions when you don't understand something or it doesn't seem right.</li>
-                        <li>Don't let fear, FUD, or FOMO win over common sense. If something is very urgent, ask yourself "why?". It may be to create FOMO or prevent you from doing research.</li>
+                        <li>Don't let fear, FUD (fear, uncertainty and doubt), or FOMO (fear of missing out) win over common sense. If something is very urgent, ask yourself "why?". It may be to create FOMO or prevent you from doing research.</li>
                     </ul>
                     <div class="side-image-scams"></div>
                 </div>
-                
+
                 <div class="button-bar">
                     <button back>Phishers</button>
-                    <button next>Protect From Loss</button>    
+                    <button next>Protect From Loss</button>
                 </div>
             </div>
         `;

@@ -4,7 +4,7 @@ export default class XEducationSlidePointOfNimiq extends XEducationSlide {
     html() {
         return `
             <h1 class="modal-header">
-                Why can't Nimiq Wallet & Safe do those things?
+                Why can't Nimiq Safe do those things?
             </h1>
             <div class="modal-body">
                 <div class="has-side-image">
@@ -18,10 +18,10 @@ export default class XEducationSlidePointOfNimiq extends XEducationSlide {
                         </ul>
                     </div>
                 </div>
-                
+
                 <div class="button-bar">
                     <button back>But... Why?</button>
-                    <button next>Protect your Funds</button>    
+                    <button next>Protect your Funds</button>
                 </div>
             </div>
         `;
