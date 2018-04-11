@@ -20,7 +20,6 @@ import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
-import XAccountFileImportModal from './x-account-file-import-modal.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 
