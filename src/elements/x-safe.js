@@ -342,7 +342,6 @@ export default class XSafe extends MixinRedux(XElement) {
             XToast.success('Transaction sent!');
         } catch(e) {
             XToast.error(e.message || e);
-        } finally {
             XSendTransactionModal.instance.loading = false;
             XSendPreparedTransactionModal.instance.loading = false;
         }
