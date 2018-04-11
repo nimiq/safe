@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XSettingVisualLockModal from './x-setting-visual-lock-modal.js';
+import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 
 export default class XSettings extends MixinRedux(XElement) {
     html(){
@@ -12,6 +13,9 @@ export default class XSettings extends MixinRedux(XElement) {
                     Visual lock
                     <input type="checkbox" disabled>
                     <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
+                </span>
+                <span class="setting" prepared-tx>
+                    Send prepared transaction
                 </span>
                 <span class="setting" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">
                     Delete persistence
@@ -27,7 +31,8 @@ export default class XSettings extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'click [visual-lock]': this._onClickVisualLock
+            'click [visual-lock]': this._onClickVisualLock,
+            'click [prepared-tx]': () => XSendPreparedTransactionModal.show()
         }
     }
 
