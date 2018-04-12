@@ -41,7 +41,7 @@ export default class XRouter extends XElement {
         if (!(this.classes instanceof Array) || this.classes.length != 6) this.classes = DEFAULT_CLASSES;
         [ this.CSS_IN, this.CSS_SHOW, this.CSS_OUT, this.CSS_VISIBLE, this.CSS_IN_REVERSE, this.CSS_OUT_REVERSE ] = this.classes;
 
-        this.router = new Router({ debug: false, startListening: false });
+        this._router = new Router({ debug: false, startListening: false });
 
         let state = 1; // first time, there is no 'previous' element
         this.addEventListener('animationend', e => {
@@ -79,7 +79,7 @@ export default class XRouter extends XElement {
         for (const callback of _waitingForInit) callback(this);
 
         // make sure that anyone that was listening can act first, e.g. update the route
-        setTimeout(() => this.router.listen());
+        setTimeout(() => this._router.listen());
     }
 
     parseRoutes(routeElements) {
@@ -97,7 +97,7 @@ export default class XRouter extends XElement {
         }
 
         for (const [path, route] of this.routes){
-            this.router.add(route.regex, (params) => this._show(path, params));
+            this._router.add(route.regex, (params) => this._show(path, params));
         }
 
     }
@@ -154,7 +154,7 @@ export default class XRouter extends XElement {
         const { route, path } = findRoute(pathOrNode, relativePath);
         if (!route) throw `XRouter: route for absolute path "${ path }" of ${ pathOrNode.tagName } not found.`;
         this.history.unshift(route);
-        this.router.navigate(path);
+        this._router.navigate(path);
     }
 
     _absolutePathOf(node, relativePath){
@@ -198,7 +198,7 @@ export default class XRouter extends XElement {
     }
 
     showAside(tag, parameters) {
-        this.goTo(this._putAside(this.router.currentRoute, tag, parameters));
+        this.goTo(this._putAside(this._router.currentRoute, tag, parameters));
     }
 
     _putAside(path, tag, parameters) {
@@ -220,7 +220,7 @@ export default class XRouter extends XElement {
     hideAside(tag, replaceWith = '') {
         const aside = this.asides.get(tag);
         if (!aside) throw new Error(`XRouter: aside "${ tag } unknown"`);
-        this.goTo(this.router.currentRoute.replace(aside.replace, replaceWith));
+        this.goTo(this._router.currentRoute.replace(aside.replace, replaceWith));
     }
 
     replaceAside(oldTag, newTag, parameters) {
@@ -238,7 +238,7 @@ export default class XRouter extends XElement {
         }
         this.running = true;
 
-        const hash = this.router.currentRoute;
+        const hash = this._router.currentRoute;
         const route = this._getRoute(path);
         this._log(`XRouter: showing ${ path }, hash = ${ hash }, route = `, route);
 
