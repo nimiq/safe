@@ -5,6 +5,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
+import AccountType from '/libraries/account-manager/account-type.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -69,6 +70,15 @@ export default class XAccountModal extends MixinModal(XAccount) {
         }
     }
 
+    static mapStateToProps(state, props) {
+        return Object.assign({},
+            state.accounts.entries.get(props.address),
+            {
+                height: state.network.height
+            }
+        )
+    }
+
     _onPropertiesChanged(changes) {
         for (const prop in changes) {
             if (changes[prop] !== undefined) {
@@ -77,7 +87,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
             }
         }
 
-        if (changes.type === 4 || (!changes.type && this.properties.type === 4)) {
+        if (changes.type === AccountType.VESTING || (!changes.type && this.properties.type === AccountType.VESTING)) {
             this.$balanceSection.classList.add('display-none');
             // Is a vesting contract
             if (changes.start
@@ -153,20 +163,25 @@ export default class XAccountModal extends MixinModal(XAccount) {
     set type(type) {
         super.type = type;
 
-        // 1 = Safe, 2 = Wallet, 3 = Ledger, 4 = Vesting
-
         // Disable popup menu for Ledger and Vesting
-        this.$popupMenu.$el.classList.toggle('display-none', type === 3 || type === 4);
+        this.$popupMenu.$el.classList.toggle('display-none', type === AccountType.LEDGER || type === AccountType.VESTING);
 
         // Disable send button for Vesting
-        this.$actionButton.classList.toggle('display-none', type === 4);
+        this.$actionButton.classList.toggle('display-none', type === AccountType.VESTING);
 
         // Enable rename and backupWords button only for Safe
-        this.$renameButton.classList.toggle('display-none', type !== 1);
-        this.$backupWordsButton.classList.toggle('display-none', type !== 1);
+        this.$renameButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_HIGH);
+        this.$backupWordsButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_HIGH);
 
         // Enable backupFile button only for Wallet
-        this.$backupFileButton.classList.toggle('display-none', type !== 2);
+        this.$backupFileButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_LOW);
+    }
+
+    set account(account) {
+        // Preserve height property through hard setting
+        account.height = this.properties.height;
+
+        super.account = account;
     }
 
     allowsShow(address) {

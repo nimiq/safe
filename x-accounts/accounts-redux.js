@@ -10,7 +10,8 @@ export const TypeKeys = {
     SET_ALL_KEYS: 'accounts/set-all-keys',
     UPDATE_BALANCES: '/accounts/update-balances',
     UPDATE_LABEL: '/accounts/update-label',
-    SET_DEFAULT: 'accounts/set-default'
+    REMEMBER_BACKUP: '/accounts/remember-backup',
+    BACKUP_CANCELED: '/accounts/backup-canceled'
 };
 
 export function reducer(state, action) {
@@ -34,12 +35,14 @@ export function reducer(state, action) {
             });
 
         case TypeKeys.SET_ALL_KEYS:
-            const newEntries = action.keys.map(x => [
-                x.address,
-                Object.assign({}, x, {
-                    balance: state.entries.has(x.address) ? state.entries.get(x.address).balance : undefined,
-                })
-            ]);
+            const newEntries = action.keys.map(x => {
+                const oldEntry = state.entries.get(x.address);
+
+                return [
+                    x.address,
+                    Object.assign({}, oldEntry, x)
+                ];
+            });
 
             return Object.assign({}, state, {
                 hasContent: true,
@@ -61,6 +64,26 @@ export function reducer(state, action) {
         case TypeKeys.UPDATE_LABEL: {
             const entries = new Map(state.entries);
             entries.set(action.address, Object.assign({}, state.entries.get(action.address), { label: action.label }));
+
+            return Object.assign({}, state, {
+                entries
+            });
+        }
+
+        case TypeKeys.REMEMBER_BACKUP: {
+            const entries = new Map(state.entries);
+            entries.set(action.address, Object.assign({}, state.entries.get(action.address), { backup: true }));
+
+            return Object.assign({}, state, {
+                entries
+            });
+        }
+
+        case TypeKeys.BACKUP_CANCELED: {
+            const entries = new Map(state.entries);
+            entries.set(action.address, Object.assign({}, state.entries.get(action.address), {
+                backupCanceled: Date.now()
+            }));
 
             return Object.assign({}, state, {
                 entries
@@ -114,5 +137,19 @@ export function updateLabel(address, label) {
         type: TypeKeys.UPDATE_LABEL,
         address,
         label
+    }
+}
+
+export function rememberBackup(address) {
+    return {
+        type: TypeKeys.REMEMBER_BACKUP,
+        address
+    }
+}
+
+export function backupCanceled(address) {
+    return {
+        type: TypeKeys.BACKUP_CANCELED,
+        address
     }
 }

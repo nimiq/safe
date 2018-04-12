@@ -36,10 +36,7 @@ export default class XAccount extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         return Object.assign({},
-            state.accounts.entries.get(props.address),
-            {
-                height: state.network.height
-            }
+            state.accounts.entries.get(props.address)
         )
     }
 
@@ -92,9 +89,6 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set account(account) {
-        // Preserve height property through hard setting
-        account.height = this.properties.height;
-
         this.setProperties(account, true);
     }
 
