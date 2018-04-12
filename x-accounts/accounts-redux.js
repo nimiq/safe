@@ -4,14 +4,16 @@
 
 import networkClient from '/apps/safe/src/network-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
+import AccountType from '/libraries/account-manager/account-type.js';
 
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
     SET_ALL_KEYS: 'accounts/set-all-keys',
-    UPDATE_BALANCES: '/accounts/update-balances',
-    UPDATE_LABEL: '/accounts/update-label',
-    REMEMBER_BACKUP: '/accounts/remember-backup',
-    BACKUP_CANCELED: '/accounts/backup-canceled'
+    UPDATE_BALANCES: 'accounts/update-balances',
+    UPDATE_LABEL: 'accounts/update-label',
+    REMEMBER_BACKUP: 'accounts/remember-backup',
+    BACKUP_CANCELED: 'accounts/backup-canceled',
+    UPGRADE: 'accounts/upgrade'
 };
 
 export function reducer(state, action) {
@@ -90,6 +92,17 @@ export function reducer(state, action) {
             });
         }
 
+        case TypeKeys.UPGRADE: {
+            const entries = new Map(state.entries);
+            entries.set(action.address, Object.assign({}, state.entries.get(action.address), {
+                type: AccountType.KEYGUARD_HIGH
+            }));
+
+            return Object.assign({}, state, {
+                entries
+            });
+        }
+
         default:
             return state
     }
@@ -150,6 +163,13 @@ export function rememberBackup(address) {
 export function backupCanceled(address) {
     return {
         type: TypeKeys.BACKUP_CANCELED,
+        address
+    }
+}
+
+export function upgrade(address) {
+    return {
+        type: TypeKeys.UPGRADE,
         address
     }
 }
