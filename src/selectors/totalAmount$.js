@@ -1,25 +1,6 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
 
-const accounts$ = state => state.accounts.entries;
-
-const hasContent$ = state => state.accounts.hasContent;
-
-const accountsArray$ = createSelector(
-    accounts$,
-    hasContent$,
-    (accounts, hasContent) => hasContent && [...accounts.values()]
-);
-
-const balancesLoaded$ = createSelector(
-    accountsArray$,
-    accounts => {
-        if (!accounts) return false;
-
-        if (accounts.filter(x => x.balance === undefined).length > 0) return false;
-
-        return true;
-    }
-);
+import { accountsArray$, balancesLoaded$ } from './account$.js';
 
 export default createSelector(
     accountsArray$,

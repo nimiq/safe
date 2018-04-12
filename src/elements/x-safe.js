@@ -22,6 +22,8 @@ import Config from '/libraries/secure-utils/config/config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
+import XBackupWarningModal from './x-backup-warning-modal.js';
+import { rememberBackup } from '/elements/x-accounts/accounts-redux.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -84,6 +86,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
+                <x-backup-warning-modal x-route-aside="please-backup"></x-backup-warning-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe')}"></x-create-request-link-modal>
@@ -110,23 +113,33 @@ export default class XSafe extends MixinRedux(XElement) {
             XWelcomeModal,
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
-            XDisclaimerModal
+            XDisclaimerModal,
+            XBackupWarningModal
         ];
     }
 
     onCreate() {
         super.onCreate();
         this._introFinished = XEducationSlides.finished || Config.network === 'test'; // on testnet don't show the slides
+
         if (!this._introFinished) {
             XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
             XEducationSlides.start();
         }
+
         if (Config.network !== 'main') {
             this.$('.header-warning').classList.remove('display-none');
         }
+
         this.$('[logo-link]').href = 'https://' + Config.tld;
 
         this.relayedTxResolvers = new Map();
+    }
+
+    static get actions() {
+        return {
+            rememberBackup
+        }
     }
 
     static mapStateToProps(state) {
@@ -163,7 +176,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onIntroFinished() {
         this._introFinished = true;
-        if (this._showWelcomeAfterIntro) this.$welcomeModal.show();
+
+        if (this._showWelcomeAfterIntro) {
+            this.$welcomeModal.show();
+        }
     }
 
     listeners() {
@@ -229,6 +245,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.backupFile(address);
             XToast.success('Account backed up successfully.');
+            this.actions.rememberBackup(address);
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
