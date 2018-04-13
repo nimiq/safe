@@ -54,7 +54,3 @@ x-accounts-dropdown x-account {
     padding-left: 8px;
     padding-right: 8px;
 }
-
-x-accounts-dropdown x-account .account-icon {
-    left: 66px;
-}

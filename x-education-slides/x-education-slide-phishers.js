@@ -11,7 +11,7 @@ export default class XEducationSlidePhishers extends XEducationSlide {
                 <div class="has-side-image">
                     <ul>
                         <li>Always check the URL: https://safe.nimiq.com</li>
-                        <li>Always make sure the URL bar has NIMIQ in green</li>
+                        <!-- <li>Always make sure the URL bar has NIMIQ in green</li> -->
                         <li>Do not trust messages or links sent to you randomly via email, Slack, Reddit, Twitter, etc.
 Always navigate directly to a site before you enter information. Do not enter information after clicking a link from a message or email.</li>
                         <li>Install an AdBlocker and do not click ads on your search engine (e.g. Google).</li>

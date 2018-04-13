@@ -158,7 +158,7 @@ x-account .account-icon,
 x-account-modal .account-icon {
     display: block;
     position: absolute;
-    left: 60px;
+    left: 66px;
     top: 48px;
     width: 1.4em;
     height: 1.4em;
@@ -244,7 +244,7 @@ x-account-modal .action-button {
     }
 
     x-account .account-icon {
-        left: 76px;
+        left: 70px;
     }
 
     x-account-modal .account-icon {

@@ -10,7 +10,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Create Transaction Request</h2>
+                <h2>Transaction Request</h2>
             </div>
             <div class="modal-body">
                 <div class="center">
