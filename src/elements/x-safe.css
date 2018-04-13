@@ -45,8 +45,7 @@ header {
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-.header-top,
-.header-bottom {
+.content-width {
     max-width: var(--max-content-width);
     margin: 0 auto;
 }
@@ -97,20 +96,13 @@ nav.main a {
     line-height: 16px;
 }
 
-nav.actions {
-    float: right;
-    margin-right: 0.5em;
-}
-
 x-view-dashboard,
 x-view-history,
 x-view-settings {
     padding: 1em 0.5em;
     justify-content: center;
     flex-wrap: wrap;
-    max-width: var(--max-content-width);
     align-items: flex-start;
-    margin: 0 auto;
 }
 
 nav.main a[x-href].current {
@@ -184,20 +176,16 @@ footer a {
         padding: 0 4px 14px;
         line-height: 15px;
     }
-
-    nav.actions {
-        margin-right: 0;
-    }
 }
 
 /* The point at which the main nav and the action buttons
    in the header don't fit next to each other anymore */
-@media (max-width: 730px) {
-    nav.main {
-        float: none;
+@media (max-width: 620px) {
+    x-total-amount {
+        margin: 0.5em auto;
     }
 
-    nav.actions {
+    nav.main {
         float: none;
     }
 }
@@ -259,4 +247,111 @@ x-safe-lock .material-icons {
 x-safe-lock .patt-holder {
     margin: auto;
     margin-top: 40px;
+}
+
+
+
+
+
+nav.actions.floating-actions {
+    margin-bottom: -16px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 16px;
+    float: none;
+}
+
+.floating-btn {
+    text-align: center;
+    width: 96px;
+    margin-top: -45px;
+}
+
+.floating-btn button {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50%;
+    background-color: white;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    margin-left: 0;
+    padding: 0;
+    min-height: 0;
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+}
+
+.floating-btn button:disabled {
+    background: white;
+    border: 1px solid transparent;
+}
+
+.floating-btn button:disabled span {
+    opacity: 0.6;
+}
+
+.floating-btn button span {
+    display: none;
+}
+
+.floating-btn .btn-text {
+    padding-top: 8px;
+    user-select: none;
+}
+
+.floating-btn button:disabled + .btn-text {
+    opacity: 0.6;
+}
+
+.floating-btn [new-tx] {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>') !important;
+}
+
+.floating-btn [new-tx]:disabled {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" opacity="0.6" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>') !important;
+}
+
+.floating-btn [receive] {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
+}
+
+.floating-btn [receive]:disabled {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" opacity="0.6" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
+}
+
+@media (max-width: 620px) {
+    nav.actions.floating-actions {
+        justify-content: center;
+        padding-right: 0;
+    }
+
+    .floating-btn {
+        margin: 16px 8px 0;
+        width: auto;
+    }
+
+    .floating-btn button {
+        width: auto !important;
+        height: 40px !important;
+        border-radius: 20px;
+        min-height: 40px;
+        padding: 0 24px;
+        box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.2);
+        background-position: 12px center !important;
+        line-height: 38px;
+        padding-left: 40px;
+    }
+
+    .floating-btn button span {
+        display: inline;
+        color: #3b3b3b;
+        /* font-size: 13px; */
+        font-weight: normal;
+        text-transform: none;
+        letter-spacing: 0;
+        font-family: inherit;
+    }
+
+    .floating-btn .btn-text {
+        display: none;
+    }
 }

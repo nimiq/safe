@@ -33,7 +33,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
             <header>
-                <div class="header-top">
+                <div class="header-top content-width">
                     <div class="nimiq-app-name">
                         <nimiq-logo>
                             NIMIQ SAFE<sup>BETA</sup>
@@ -47,12 +47,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                 </div>
                 <x-total-amount></x-total-amount>
-                <div class="header-bottom">
-                    <nav class="actions">
-                        <button class="small" new-tx disabled>Send</button>
-                        <button class="small" receive disabled>Receive</button>
-                        <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
-                    </nav>
+                <div class="header-bottom content-width">
                     <nav class="main">
                         <a x-href="">Dashboard</a>
                         <a x-href="history">History</a>
@@ -60,8 +55,21 @@ export default class XSafe extends MixinRedux(XElement) {
                     </nav>
                 </div>
             </header>
-            <section class="content nimiq-dark">
-                <x-view-dashboard x-route="">
+
+            <section class="content nimiq-dark content-width">
+                <nav class="actions floating-actions">
+                    <div class="floating-btn">
+                        <button new-tx><span>Send</span></button>
+                        <div class="btn-text">Send</div>
+                    </div>
+                    <div class="floating-btn">
+                        <button receive><span>Receive</span></button>
+                        <div class="btn-text">Receive</div>
+                    </div>
+                    <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
+                </nav>
+                <x-view-dashboard x-route="" class="content-width">
+                    <!-- <h1>Dashboard</h1> -->
                     <x-card style="max-width: 960px;">
                         <h2>Recent Transactions</h2>
                         <x-transactions class="no-animation" only-recent no-menu></x-transactions>
@@ -75,13 +83,15 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
-                <x-view-history x-route="history">
+                <x-view-history x-route="history" class="content-width">
+                    <!-- <h1>History</h1> -->
                     <x-card>
-                        <h2>Transaction History</h2>
+                        <h2>Transaction history</h2>
                         <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
-                <x-view-settings x-route="settings">
+                <x-view-settings x-route="settings" class="content-width">
+                    <!-- <h1>Settings</h1> -->
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
