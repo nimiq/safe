@@ -69,7 +69,6 @@ x-account x-identicon {
     width: 80px;
     min-width: 50px;
     height: 71px;
-    margin-right: 8px;
 }
 
 x-account-modal x-identicon {
@@ -81,6 +80,7 @@ x-account-modal x-identicon {
 x-account .x-account-info {
     text-align: left;
     width: 100%;
+    padding-left: 16px;
     max-width: calc(100% - 88px);
 }
 
@@ -281,4 +281,8 @@ x-accounts-list x-no-accounts h1.material-icons {
     font-size: 120px;
     opacity: 0.3;
     margin-bottom: 0.1em;
+}
+
+x-accounts-list x-account {
+    padding: 8px;
 }
