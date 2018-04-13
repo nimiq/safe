@@ -248,6 +248,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.upgrade(address);
             XToast.success('Account upgraded successfully.');
+            XUpgradeModal.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Upgrade not completed.');
