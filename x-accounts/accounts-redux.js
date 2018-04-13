@@ -11,8 +11,7 @@ export const TypeKeys = {
     SET_ALL_KEYS: 'accounts/set-all-keys',
     UPDATE_BALANCES: 'accounts/update-balances',
     UPDATE_LABEL: 'accounts/update-label',
-    REMEMBER_BACKUP: 'accounts/remember-backup',
-    BACKUP_CANCELED: 'accounts/backup-canceled',
+    UPGRADE_CANCELED: 'accounts/upgrade-canceled',
     UPGRADE: 'accounts/upgrade'
 };
 
@@ -72,19 +71,10 @@ export function reducer(state, action) {
             });
         }
 
-        case TypeKeys.REMEMBER_BACKUP: {
-            const entries = new Map(state.entries);
-            entries.set(action.address, Object.assign({}, state.entries.get(action.address), { backup: true }));
-
-            return Object.assign({}, state, {
-                entries
-            });
-        }
-
-        case TypeKeys.BACKUP_CANCELED: {
+        case TypeKeys.UPGRADE_CANCELED: {
             const entries = new Map(state.entries);
             entries.set(action.address, Object.assign({}, state.entries.get(action.address), {
-                backupCanceled: Date.now()
+                upgradeCanceled: Date.now()
             }));
 
             return Object.assign({}, state, {
@@ -153,16 +143,9 @@ export function updateLabel(address, label) {
     }
 }
 
-export function rememberBackup(address) {
+export function upgradeCanceled(address) {
     return {
-        type: TypeKeys.REMEMBER_BACKUP,
-        address
-    }
-}
-
-export function backupCanceled(address) {
-    return {
-        type: TypeKeys.BACKUP_CANCELED,
+        type: TypeKeys.UPGRADE_CANCELED,
         address
     }
 }

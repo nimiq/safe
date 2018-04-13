@@ -14,7 +14,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 <x-popup-menu left-align>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
-                    <button backupFile><i class="material-icons">crop_portrait</i> Backup Access File</button>
+                    <button upgrade><i class="material-icons">check_circle</i> Upgrade</button>
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
@@ -55,7 +55,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
         this.$renameButton = this.$('button[rename]');
         this.$backupWordsButton = this.$('button[backupWords]');
-        this.$backupFileButton = this.$('button[backupFile]');
+        this.$upgradeButton = this.$('button[upgrade]');
 
         this._height = 0;
         super.onCreate();
@@ -63,7 +63,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
-            'click button[backupFile]': _ => this.fire('x-account-modal-backup-file', this.properties.address),
+            'click button[upgrade]': _ => this.fire('x-upgrade-account', this.properties.address),
             'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
@@ -173,8 +173,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$renameButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_HIGH);
         this.$backupWordsButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_HIGH);
 
-        // Enable backupFile button only for Wallet
-        this.$backupFileButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_LOW);
+        // Enable upgrade button only for Wallet
+        this.$upgradeButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_LOW);
     }
 
     set account(account) {
