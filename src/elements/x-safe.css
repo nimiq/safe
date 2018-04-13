@@ -330,7 +330,7 @@ nav.actions.floating-actions {
     }
 
     .floating-btn button {
-        width: auto !important;
+        width: 120px !important;
         height: 40px !important;
         border-radius: 20px;
         min-height: 40px;
