@@ -160,6 +160,22 @@ footer a {
     cursor: pointer;
 }
 
+/* The point at which the main nav and the action buttons
+   in the header don't fit next to each other anymore */
+@media (max-width: 620px) {
+    x-total-amount {
+        margin: 0.5em auto;
+    }
+
+    nav.main {
+        float: none;
+    }
+
+    nav.main a {
+        line-height: 17px;
+    }
+}
+
 @media (max-width: 480px) {
     header {
         padding: 0;
@@ -178,19 +194,7 @@ footer a {
     }
 }
 
-/* The point at which the main nav and the action buttons
-   in the header don't fit next to each other anymore */
-@media (max-width: 620px) {
-    x-total-amount {
-        margin: 0.5em auto;
-    }
-
-    nav.main {
-        float: none;
-    }
-}
-
-body.preparing>* {
+body.preparing > * {
     visibility: hidden !important;
 }
 
