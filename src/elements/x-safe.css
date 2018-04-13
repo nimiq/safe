@@ -280,6 +280,15 @@ nav.actions.floating-actions {
     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
+.floating-btn button:disabled {
+    background: white;
+    border: 1px solid transparent;
+}
+
+.floating-btn button:disabled span {
+    opacity: 0.6;
+}
+
 .floating-btn button span {
     display: none;
 }
@@ -289,18 +298,24 @@ nav.actions.floating-actions {
     user-select: none;
 }
 
-h1 {
-    width: 100%;
-    text-align: left;
-    padding: 8px 38px;
+.floating-btn button:disabled + .btn-text {
+    opacity: 0.6;
 }
 
 .floating-btn [new-tx] {
     background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>') !important;
 }
 
+.floating-btn [new-tx]:disabled {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" opacity="0.6" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>') !important;
+}
+
 .floating-btn [receive] {
     background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
+}
+
+.floating-btn [receive]:disabled {
+    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" opacity="0.6" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
 }
 
 @media (max-width: 620px) {
@@ -321,7 +336,7 @@ h1 {
         min-height: 40px;
         padding: 0 24px;
         box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.2);
-        background-position: 10px center !important;
+        background-position: 12px center !important;
         line-height: 38px;
         padding-left: 40px;
     }
