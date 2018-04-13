@@ -11,10 +11,15 @@ x-address, .x-address{
     white-space: nowrap;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 460px) {
+    x-address, .x-address {
+        padding: 8px 4px;
+    }
+}
+
+@media (max-width: 400px) {
     x-address, .x-address {
         font-size: 12px;
-        padding: 8px 4px;
     }
 }
 

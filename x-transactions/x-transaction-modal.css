@@ -34,6 +34,7 @@ x-transaction-modal label {
     font-size: 13px;
     font-weight: bold;
     opacity: 0.76;
+    flex-shrink: 0;
 }
 
 x-transaction-modal .label {
@@ -89,7 +90,7 @@ x-transaction-modal .hash {
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
     x-transaction-modal x-identicon {
         width: 90px;
     }
@@ -111,7 +112,8 @@ x-transaction-modal .hash {
         margin-bottom: 6px;
     }
 
-    x-transaction-modal x-address {
+    x-transaction-modal x-address.x-address {
         margin-left: -4px;
+        padding: 8px 4px;
     }
 }
