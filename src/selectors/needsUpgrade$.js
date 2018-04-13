@@ -11,6 +11,6 @@ const walletAccounts$ = createSelector(
 
 export default createSelector(
     walletAccounts$,
-    accounts => accounts && accounts.filter(x => x.balance > 0 && !x.backup
-        && (!x.backupCanceled || Date.now() - x.backupCanceled > 1000 * 3600 * 24))[0]
+    accounts => accounts && accounts.filter(x => x.balance > 0
+        && (!x.upgradeCanceled || Date.now() - x.upgradeCanceled > 1000 * 3600 * 24))[0]
 );

@@ -22,8 +22,7 @@ import Config from '/libraries/secure-utils/config/config.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
-import XBackupWarningModal from './x-backup-warning-modal.js';
-import { rememberBackup } from '/elements/x-accounts/accounts-redux.js';
+import XUpgradeModal from './x-upgrade-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -86,7 +85,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
-                <x-backup-warning-modal x-route-aside="please-backup"></x-backup-warning-modal>
+                <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe')}"></x-create-request-link-modal>
@@ -114,7 +113,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XBackupWarningModal
+            XUpgradeModal
         ];
     }
 
@@ -134,12 +133,6 @@ export default class XSafe extends MixinRedux(XElement) {
         this.$('[logo-link]').href = 'https://' + Config.tld;
 
         this.relayedTxResolvers = new Map();
-    }
-
-    static get actions() {
-        return {
-            rememberBackup
-        }
     }
 
     static mapStateToProps(state) {
@@ -194,7 +187,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
-            'x-account-modal-backup-file': this._clickedAccountBackupFile.bind(this),
+            'x-upgrade-account': this._clickedAccountUpgrade.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
@@ -241,14 +234,13 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountBackupFile(address) {
+    async _clickedAccountUpgrade(address) {
         try {
-            await accountManager.backupFile(address);
-            XToast.success('Account backed up successfully.');
-            this.actions.rememberBackup(address);
+            await accountManager.upgrade(address);
+            XToast.success('Account upgraded successfully.');
         } catch (e) {
             console.error(e);
-            XToast.warning('No backup created.');
+            XToast.warning('Upgrade not completed.');
         }
     }
 
