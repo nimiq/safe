@@ -31,6 +31,10 @@ export default class XIdenticon extends XElement {
         }
     }
 
+    get address() {
+        return this._address;
+    }
+
     set addressAsSvg(address) {
         // also clears the inner html of this tag
         if (ValidationUtils.isValidAddress(address)) {
