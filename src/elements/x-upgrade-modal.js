@@ -44,9 +44,14 @@ export default class XUpgradeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.account) {
-            this.$account.account = changes.account;
-            this.show();
+        const account = changes.account;
+
+        if (account) {
+            this.$account.account = account;
+
+            if (!account.upgradeCanceled || Date.now() - account.upgradeCanceled > 1000 * 3600 * 24) {
+                this.show();
+            }
         }
     }
 

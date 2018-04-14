@@ -11,6 +11,5 @@ const walletAccounts$ = createSelector(
 
 export default createSelector(
     walletAccounts$,
-    accounts => accounts && accounts.find(x => x.balance > 0
-        && (!x.upgradeCanceled || Date.now() - x.upgradeCanceled > 1000 * 3600 * 24))
+    accounts => accounts && accounts.find(x => x.balance > 0)
 );
