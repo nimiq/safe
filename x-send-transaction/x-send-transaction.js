@@ -359,4 +359,3 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
 // TODO make fee a slider
 // TODO make validity start a slider
-// TODO offer to create account when no account available
