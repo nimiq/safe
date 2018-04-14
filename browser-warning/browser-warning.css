@@ -2,28 +2,26 @@ noscript {
     font-size: 32px;
 }
 
-body[browser-unsupported] {
+body[browser-outdated],
+body[browser-edge] {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-body[browser-unsupported]::after {
-    content: 'Please update your browser.';
+    background-image: linear-gradient(30deg, #3023AE, #9C58CB);
+    height: 100vh;
+    max-height: 100%;
     font-size: 32px;
 }
 
-body[browser-unsupported] > * {
+body[browser-outdated] > *,
+body[browser-edge] > * {
     display: none !important;
 }
 
-@media (max-height: 650px) {
-    body * {
-        display: none;
-    }
+body[browser-outdated]::after {
+    content: 'Please update your browser.';
+}
 
-    body:after {
-        white-space: pre;
-        content: "You're screen is too small. \a Please zoom out. \a\a Use \2318  and [-] on Mac, \a [Ctrl] and [-] on Windows/Linux, \a or [Ctrl] and scroll.";
-    }
+body[browser-edge]::after {
+    content: 'Edge is currently not supported.';
 }
