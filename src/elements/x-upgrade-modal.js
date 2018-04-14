@@ -27,7 +27,10 @@ export default class XUpgradeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     onHide() {
-        this.actions.upgradeCanceled(this.properties.account.address);
+        if (this.properties.account) {
+            // When the upgrade is cancelled, this property is still set
+            this.actions.upgradeCanceled(this.properties.account.address);
+        }
     }
 
     static get actions() {
