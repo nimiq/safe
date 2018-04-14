@@ -32,7 +32,7 @@ export default class XEducationSlide extends MixinModal(XElement) {
     }
 
     allowsHide(incomingModal) {
-        if (XEducationSlides.finished
+        if (XEducationSlides.isFinished
             || (incomingModal && (XEducationSlides.nextSlide === incomingModal
             || XEducationSlides.previousSlide === incomingModal))) return true;
         XToast.warn('Please read through this important information.');

@@ -32,7 +32,9 @@ export default class XEducationSlides {
         if (nextSlide) {
             nextSlide.show();
         } else {
+            localStorage[XEducationSlides.KEY_FINISHED] = 'yes';
             XEducationSlides.hide();
+            XEducationSlides.onFinished();
         }
     }
 
@@ -74,14 +76,14 @@ export default class XEducationSlides {
         if (index < 0 || index >= XEducationSlides.slides.length) return;
         localStorage[XEducationSlides.KEY_CURRENT_SLIDE] = index;
         XEducationSlides.currentSlide.show();
-        if (index === XEducationSlides.slides.length-1) {
-            localStorage[XEducationSlides.KEY_FINISHED] = 'yes';
-        }
     }
 
-    static get finished() {
+    static get isFinished() {
         return localStorage[XEducationSlides.KEY_FINISHED] === 'yes';
     }
+
+    /* Override if needed */
+    static onFinished() { }
 }
 XEducationSlides.KEY_CURRENT_SLIDE = 'education-slides-current-slide';
 XEducationSlides.KEY_FINISHED = 'education-slides-finished';
