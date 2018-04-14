@@ -240,9 +240,12 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _generateKnownReceipts(addresses) {
+        // Create an emtpy map of knownReceiptsbyAddress
         const knownReceipts = new Map(addresses.map(a => [a, new Map()]));
 
         for (const [hash, tx] of MixinRedux.store.getState().transactions.entries) {
+            if (tx.removed || tx.expired) continue;
+
             if (knownReceipts.has(tx.sender)) {
                 knownReceipts.get(tx.sender).set(hash, tx.blockHash);
             }

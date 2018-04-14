@@ -73,6 +73,7 @@ export default class XTransaction extends MixinRedux(XElement) {
                 case 'removed':
                 case 'expired':
                     this.$el.classList.remove('removed', 'expired');
+                    this._updateTimeago();
                 default:
                     // console.warn('Possible unhandled reset of property', prop);
                     break;
