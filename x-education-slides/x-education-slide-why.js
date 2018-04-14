@@ -13,7 +13,7 @@ export default class XEducationSlideWhy extends XEducationSlide {
                         <h3>Because we need you to understand that we cannot...</h3>
                         <ul class="important">
                             <li>Access your account or send your funds for you.</li>
-                            <li>Recover or change your private key or 24 recovery words.</li>
+                            <li>Recover or change your private key or 24 Recovery Words.</li>
                             <li>Recover or reset your Pass Phrase or PIN.</li>
                             <li>Reverse, cancel, or refund transactions.</li>
                             <li>Freeze accounts.</li>
@@ -21,9 +21,9 @@ export default class XEducationSlideWhy extends XEducationSlide {
 
                         <h3><strong>You</strong> and <strong>only you</strong> are responsible for your security.</h3>
                         <ul>
-                            <li>Be diligent to keep your private key and associated 24 recovery words, account access file and Pass Phrase safe.</li>
-                            <li>If you lose your private key (24 recovery words), Pass Phrase or PIN, no one can recover it.</li>
-                            <li>If you enter your private key (24 recovery words) on a phishing website, you will have <strong>all your funds taken</strong>.</li>
+                            <li>Be diligent to keep your private key and associated 24 Recovery Words, account access file and Pass Phrase safe.</li>
+                            <li>If you lose your private key (24 Recovery Words), Pass Phrase or PIN, no one can recover it.</li>
+                            <li>If you enter your private key (24 Recovery Words) on a phishing website, you will have <strong>all your funds taken</strong>.</li>
                         </ul>
                     </div>
                 </div>

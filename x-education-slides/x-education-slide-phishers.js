@@ -11,7 +11,7 @@ export default class XEducationSlidePhishers extends XEducationSlide {
                 <div class="has-side-image">
                     <ul>
                         <li>Always validate the URL: https://safe.nimiq.com</li>
-                        <li><strong>The only authorized page that will ever ask you for your Pass Phrase, PIN or 24 Recovery Words is the Nimiq Keyguard at https://keyguard.nimiq.com</strong></li>
+                        <li><strong>The only authorized view that will ever ask you for your Pass Phrase, PIN or 24 Recovery Words is the Nimiq Keyguard at https://keyguard.nimiq.com</strong></li>
                         <!-- <li>Always make sure the URL bar has NIMIQ in green</li> -->
                         <li>Do not trust messages or links sent to you randomly via email, Slack, Reddit, Twitter, etc.
 Always navigate directly to a site before you enter information. Do not enter information after clicking a link from a message or email.</li>

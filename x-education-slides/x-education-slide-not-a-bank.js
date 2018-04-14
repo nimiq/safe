@@ -12,12 +12,12 @@ export default class XEducationSlideNotABank extends XEducationSlide {
                     <div>
                         <h3>Nimiq Safe is an Interface.</h3>
                         <ul>
-                            <li>When you create an account in Nimiq Safe, you are generating a cryptographic set of numbers: your private key (via 24 recovery words) and associated account number (public key).</li>
+                            <li>When you create an account in Nimiq Safe, you are generating a cryptographic set of numbers: your private key (via 24 Recovery Words) and associated account number (public key).</li>
                             <li>The handling of your keys happens entirely on your computer, inside your browser.</li>
-                            <li>We never transmit, receive or store your private key, 24 recovery words, Pass Phrase, PIN, account access file or other account information.</li>
+                            <li>We never transmit, receive or store your private key, 24 Recovery Words, Pass Phrase, PIN, account access file or other account information.</li>
                             <li>You are simply using our interface to <strong>interact directly with the blockchain</strong>.</li>
                             <li>If you send your account number (public key) to someone, they can send you NIM.</li>
-                            <li>If you send your private key, 24 recovery words or account access file with PIN / Pass Phrase to someone, they now have full control of your account.</li>
+                            <li>If you send your private key, 24 Recovery Words or account access file with PIN / Pass Phrase to someone, they now have full control of your account.</li>
                         </ul>
                     </div>
                 </div>
