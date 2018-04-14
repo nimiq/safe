@@ -60,11 +60,11 @@ export default class XSafe extends MixinRedux(XElement) {
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
-                        <button new-tx><span>Send</span></button>
+                        <button new-tx disabled><span>Send</span></button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
-                        <button receive><span>Receive</span></button>
+                        <button receive disabled><span>Receive</span></button>
                         <div class="btn-text">Receive</div>
                     </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
@@ -150,7 +150,7 @@ export default class XSafe extends MixinRedux(XElement) {
     static mapStateToProps(state) {
         return {
             height: state.network.height,
-            consensus: state.network.consensus,
+            hasConsensus: state.network.consensus === 'established',
             accountsInitialized: state.accounts.hasContent,
             accountsPresent: state.accounts.entries.size > 0,
             totalAmount: totalAmount$(state),
@@ -160,8 +160,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.accountsPresent
-            // TODO remove check for temporary enable-ledger flag
-            && window.location.hash.indexOf('enable-ledger') === -1) {
+            //&& !window.location.hash.includes('enable-ledger')
+        ) {
             if (this._introFinished) this.$welcomeModal.show();
             else this._showWelcomeAfterIntro = true;
         }
@@ -325,7 +325,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
         const signedTx = await accountManager.sign(tx);
 
-        if (this.properties.consensus !== 'established') {
+        if (!this.properties.hasConsensus) {
             XSendTransactionOfflineModal.instance.transaction = signedTx;
             XSendTransactionOfflineModal.show();
         } else {
