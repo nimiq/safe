@@ -9,11 +9,13 @@ export default class XSettings extends MixinRedux(XElement) {
              <x-card>
                 <h2>Settings</h2>
                 <hr>
+                <!--
                 <span class="setting" visual-lock>
                     Visual lock
                     <input type="checkbox" disabled>
                     <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
                 </span>
+                -->
                 <span class="setting" prepared-tx>
                     Send prepared transaction
                 </span>
@@ -31,7 +33,7 @@ export default class XSettings extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'click [visual-lock]': this._onClickVisualLock,
+            //'click [visual-lock]': this._onClickVisualLock,
             'click [prepared-tx]': () => XSendPreparedTransactionModal.show()
         }
     }
