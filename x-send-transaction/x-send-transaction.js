@@ -128,7 +128,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$amountInput.forEach(input => input.value = '');
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
-        this._isLoading = false;
+        this.loading = false;
     }
 
     validateAllFields() {
