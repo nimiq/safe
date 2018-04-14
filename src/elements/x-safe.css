@@ -322,6 +322,16 @@ nav.actions.floating-actions {
     background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" opacity="0.6" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>') !important;
 }
 
+@media (max-width: 1000px) {
+    x-view-dashboard {
+        flex-direction: column;
+    }
+
+    x-view-dashboard > * {
+        max-width: calc(100% - 32px) !important;
+    }
+}
+
 @media (max-width: 620px) {
     nav.actions.floating-actions {
         justify-content: center;
@@ -357,5 +367,11 @@ nav.actions.floating-actions {
 
     .floating-btn .btn-text {
         display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    x-view-dashboard > * {
+        max-width: calc(100% - 1em) !important;
     }
 }
