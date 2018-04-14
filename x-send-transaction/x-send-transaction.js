@@ -8,7 +8,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
 
-export default class XSendTransaction extends XElement {
+export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
         return `
             <div class="modal-header">
@@ -85,6 +85,12 @@ export default class XSendTransaction extends XElement {
 
     styles() {
         return [ ...super.styles(), 'x-send-transaction' ];
+    }
+
+    static mapStateToProps(state) {
+        return {
+            hasConsensus: state.network.consensus === 'established'
+        }
     }
 
     listeners() {
@@ -177,7 +183,7 @@ export default class XSendTransaction extends XElement {
 
     _validateSender() {
         const account = this.$accountsDropdown.selectedAccount;
-        if (MixinRedux.store.getState().network.consensus === 'established') {
+        if (this.properties.hasConsensus) {
             this._validSender = !!(account && account.balance > 0);
             if (this._validSender) {
                 this._clearError('sender');
@@ -211,7 +217,7 @@ export default class XSendTransaction extends XElement {
 
         // TODO Skip network request when doing airgapped tx creation
         if (address) {
-            if (MixinRedux.store.getState().network.consensus !== 'established') {
+            if (!this.properties.hasConsensus) {
                 if (Config.offline) {
                     this._setError('Cannot validate address in offline mode', 'recipient');
                     this._validRecipient = true;
@@ -274,7 +280,7 @@ export default class XSendTransaction extends XElement {
             return;
         }
 
-        if (MixinRedux.store.getState().network.consensus === 'established') {
+        if (this.properties.hasConsensus) {
             this._validAmountAndFees = !!(account && account.balance >= (amount + fees));
 
             if (!this._validAmountAndFees) {
