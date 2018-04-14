@@ -62,7 +62,7 @@
 }
 
 .x-modal.pending .modal-header::after {
-    animation: background-progress 2s linear infinite;
+    /* animation: background-progress 2s linear infinite; */
 }
 
 @keyframes background-progress {
