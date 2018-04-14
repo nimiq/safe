@@ -1,28 +1,29 @@
 import XElement from '/libraries/x-element/x-element.js';
-import XRouter from '/secure-elements/x-router/x-router.js';
-import XSettings from '../settings/x-settings.js';
-import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XTotalAmount from './x-total-amount.js';
-import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
-import networkClient from '../network-client.js';
-import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
-import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
-import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
-import XToast from '/secure-elements/x-toast/x-toast.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
+import Config from '/libraries/secure-utils/config/config.js';
+import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import XRouter from '/secure-elements/x-router/x-router.js';
+import XToast from '/secure-elements/x-toast/x-toast.js';
+import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
+import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
-import XWelcomeModal from './x-welcome-modal.js';
-import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
-import XDisclaimerModal from './x-disclaimer-modal.js';
-import Config from '/libraries/secure-utils/config/config.js';
+import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
+import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
-import totalAmount$ from '../selectors/totalAmount$.js';
+import XSettings from '../settings/x-settings.js';
+import XTotalAmount from './x-total-amount.js';
+import networkClient from '../network-client.js';
+import XWelcomeModal from './x-welcome-modal.js';
+import XDisclaimerModal from './x-disclaimer-modal.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 import XUpgradeModal from './x-upgrade-modal.js';
+import totalAmount$ from '../selectors/totalAmount$.js';
+import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -125,7 +126,7 @@ export default class XSafe extends MixinRedux(XElement) {
         ];
     }
 
-    onCreate() {
+    async onCreate() {
         super.onCreate();
 
         XRouter.create('');
@@ -152,7 +153,8 @@ export default class XSafe extends MixinRedux(XElement) {
             consensus: state.network.consensus,
             accountsInitialized: state.accounts.hasContent,
             accountsPresent: state.accounts.entries.size > 0,
-            totalAmount: totalAmount$(state)
+            totalAmount: totalAmount$(state),
+            upgradeAccount: needsUpgrade$(state)
         }
     }
 
@@ -183,6 +185,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (this._showWelcomeAfterIntro) {
             this.$welcomeModal.show();
+        }
+
+        if (this.properties.upgradeAccount) {
+            this.$upgradeModal.show();
         }
     }
 
