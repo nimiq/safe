@@ -3,7 +3,8 @@ noscript {
 }
 
 body[browser-outdated],
-body[browser-edge] {
+body[browser-edge],
+body[no-local-storage] {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -14,7 +15,8 @@ body[browser-edge] {
 }
 
 body[browser-outdated] > *,
-body[browser-edge] > * {
+body[browser-edge] > *,
+body[no-local-storage] > * {
     display: none !important;
 }
 
@@ -24,4 +26,8 @@ body[browser-outdated]::after {
 
 body[browser-edge]::after {
     content: 'Edge is currently not supported.';
+}
+
+body[no-local-storage]::after {
+    content: 'Local Storage not available. If you are in private browsing mode, try to run this page in normal mode.';
 }
