@@ -15,8 +15,7 @@ export default class XUpgradeModal extends MixinRedux(MixinModal(XElement)) {
             <div class="modal-body center">
                 <x-account></x-account>
                 <div class="spacing-bottom spacing-top -left">
-                    To protect your funds, please upgrade your account to a safe account. You will get a backup and
-                    a nice green checkmark.
+                    To protect your funds, please upgrade your account to a Nimiq Safe Account. You will create a backup and get a nice green checkmark.
                 </div>
                 <button>Upgrade now</button>
             </div>
