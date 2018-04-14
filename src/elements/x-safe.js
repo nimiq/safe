@@ -105,7 +105,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 &copy; 2017-2018 Nimiq Foundation<br>
                 <a disclaimer>Disclaimer</a>
             </footer>
-            <x-router debug="true"></x-router>
             `
     }
 
@@ -113,7 +112,6 @@ export default class XSafe extends MixinRedux(XElement) {
         return [
             XTotalAmount,
             XSendTransactionModal,
-            XRouter,
             XAccounts,
             XTransactions,
             XSettings,
@@ -129,6 +127,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
     onCreate() {
         super.onCreate();
+
+        XRouter.create('');
+
         this._introFinished = XEducationSlides.finished || Config.network === 'test'; // on testnet don't show the slides
 
         if (!this._introFinished) {
