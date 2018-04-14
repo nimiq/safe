@@ -131,10 +131,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XRouter.create('');
 
-        this._introFinished = XEducationSlides.finished || Config.network === 'test'; // on testnet don't show the slides
+        this._introFinished = XEducationSlides.isFinished || Config.network === 'test'; // on testnet don't show the slides
 
         if (!this._introFinished) {
-            XEducationSlides.lastSlide.instance.onHide = () => this._onIntroFinished();
+            XEducationSlides.onFinished = () => this._onIntroFinished();
             XEducationSlides.start();
         }
 
