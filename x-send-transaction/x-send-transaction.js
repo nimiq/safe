@@ -81,6 +81,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this._errorElements = {};
 
         this.clear();
+
+        super.onCreate();
     }
 
     styles() {
