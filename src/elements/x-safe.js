@@ -131,7 +131,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XRouter.create('');
 
-        this._introFinished = XEducationSlides.isFinished || Config.network === 'test'; // on testnet don't show the slides
+        this._introFinished = XEducationSlides.isFinished || Config.network === 'test' // on testnet don't show the slides
+            || document.body.classList.contains('enable-ledger'); // TODO only temporary. Remove when not needed anymore
 
         if (!this._introFinished) {
             XEducationSlides.onFinished = () => this._onIntroFinished();
@@ -160,8 +161,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.accountsPresent
-            // TODO remove check for temporary enable-ledger flag
-            && window.location.hash.indexOf('enable-ledger') === -1
+            // TODO remove check for temporary enable-ledger flag when not needed anymore
+            && !document.body.classList.contains('enable-ledger')
         ) {
             if (this._introFinished) this.$welcomeModal.show();
             else this._showWelcomeAfterIntro = true;
