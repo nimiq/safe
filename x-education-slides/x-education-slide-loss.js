@@ -11,7 +11,7 @@ export default class XEducationSlideLoss extends XEducationSlide {
                 <div class="has-side-image">
                     <ul>
                         <li>Make a backup of your 24 Recovery Words and Pass Phrase. Do NOT just store it on your computer. Print it out or write it down on a piece of paper.</li>
-                        <li>Store one or more copies of this paper in one or more secure and private physical locations. A backup is not useful if it is destroyed by a fire or flood along with your laptop.</li>
+                        <li>Store one or more copies of this paper in one or more secure and private physical locations. A backup is not useful if it is destroyed by a fire or flood along with your computer.</li>
                         <li>Do not store your 24 Recovery Words in Dropbox, Google Drive, or other cloud storage. If that account is compromised, your funds will be stolen.</li>
                     </ul>
                     <div class="side-image-loss"></div>
