@@ -160,7 +160,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.accountsPresent
-            //&& !window.location.hash.includes('enable-ledger')
+            // TODO remove check for temporary enable-ledger flag
+            && window.location.hash.indexOf('enable-ledger') === -1
         ) {
             if (this._introFinished) this.$welcomeModal.show();
             else this._showWelcomeAfterIntro = true;
