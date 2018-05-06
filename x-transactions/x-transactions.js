@@ -74,7 +74,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             const recipient = accounts.get(tx.recipient);
 
             tx.senderLabel = sender ? sender.label : AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
-            tx.recipientLabel = recipient ? recipient.label : AddressBook.getLabel(tx.sender) || tx.recipient.slice(0, 14) + '...';
+            tx.recipientLabel = recipient ? recipient.label : AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
 
             if (sender) tx.type = 'outgoing';
             if (recipient) tx.type = 'incoming';
