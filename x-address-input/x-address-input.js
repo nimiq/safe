@@ -10,13 +10,11 @@ export default class XAddressInput extends XInput {
     html() {
         return `
             <div class="input-row">
-                <x-identicon></x-identicon>
-            </div>
-            <div class="input-row">
                 <span class="prefix">NQ</span>
                 <form action="/">
-                    <input type="text" placeholder="Enter Recipient Address" spellcheck="false" autocomplete="off">
+                    <input type="text" placeholder="Recipient Address" spellcheck="false" autocomplete="off">
                 </form>
+                <x-identicon></x-identicon>
             </div>
         `
     }

@@ -12,12 +12,20 @@ x-amount-input input::placeholder {
     font-size: 1em !important;
 }
 
-x-amount-input input:after {
+x-amount-input input + .ticker {
+    display: block;
     position: absolute;
-    right: -32px;
-    bottom: 6px;
+    right: 0.35em;
+    bottom: 0.8em;
     margin: 0;
     padding: 0;
+    font-size: 1.5em;
+    letter-spacing: 0.08em;
+    opacity: 0.4;
+}
+
+x-amount-input input:focus + .ticker {
+    opacity: 1;
 }
 
 @media (min-width: 420px) {
@@ -38,6 +46,7 @@ x-amount-input form {
     flex-grow: 1;
 }
 
-x-amount-input x-currency-1 {
+x-amount-input x-currency-nim {
     display: block;
+    position: relative;
 }

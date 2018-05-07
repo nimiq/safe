@@ -9,38 +9,54 @@
 }
 
 .x-send-transaction h3 {
-    margin-top: 24px;
-    margin-bottom: 12px;
+    margin-top: 32px;
+    margin-bottom: 8px;
     text-transform: uppercase;
     font-size: 13px;
     letter-spacing: 0.16em;
+    text-align: left;
+}
+
+.x-send-transaction .link-address-book {
+    display: none;
+    float: right;
+    /* text-transform: none; */
+    font-size: 11px;
+    /* font-weight: normal; */
+    /* letter-spacing: 0; */
 }
 
 .x-send-transaction input,
 .x-send-transaction input::placeholder,
 .x-send-transaction x-address-input {
-    font-size: 20px;
+    font-size: 19px;
     /* text-align: left !important; */
     font-weight: 300;
 }
 
-.x-send-transaction x-address-input.multiline .input-row input {
-    flex-grow: 0.85;
+.x-send-transaction x-address-input {
+    margin-top: -16px;
 }
 
-@media (max-width: 610px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 0.9; } }
-@media (max-width: 595px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 0.95; } }
-@media (max-width: 585px) { .x-send-transaction x-address-input.multiline .input-row input { flex-grow: 1; } }
-@media (max-width: 572px) { .x-send-transaction x-address-input { font-size: 19px; } }
-@media (max-width: 547px) { .x-send-transaction x-address-input { font-size: 18px; } }
-@media (max-width: 527px) { .x-send-transaction x-address-input { font-size: 17px; } }
-@media (max-width: 500px) { .x-send-transaction x-address-input { font-size: 16px; } }
-@media (max-width: 480px) { .x-send-transaction x-address-input { font-size: 17px; } }
-@media (max-width: 465px) { .x-send-transaction x-address-input { font-size: 16px; } }
-@media (max-width: 440px) { .x-send-transaction x-address-input { font-size: 15px; } }
-@media (max-width: 415px) { .x-send-transaction x-address-input { font-size: 14px; } }
-@media (max-width: 390px) { .x-send-transaction x-address-input { font-size: 13px; } }
-@media (max-width: 359px) { .x-send-transaction x-address-input { font-size: 12px; } }
+.x-send-transaction x-address-input .input-row {
+    margin-bottom: -20px;
+}
+
+.x-send-transaction x-address-input.multiline .input-row input {
+    flex-grow: 1;
+}
+
+@media (max-width: 615px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 18px; } }
+@media (max-width: 590px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 17px; } }
+@media (max-width: 560px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 16px; } }
+@media (max-width: 530px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 15px; } }
+@media (max-width: 505px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 14px; } }
+@media (max-width: 480px) { .x-send-transaction x-address-input { font-size: 15px; } }
+@media (max-width: 460px) { .x-send-transaction x-address-input { font-size: 14px; } }
+@media (max-width: 430px) { .x-send-transaction x-address-input { font-size: 13px; } }
+@media (max-width: 408px) { .x-send-transaction x-address-input { font-size: 12px; } }
+@media (max-width: 374px) { .x-send-transaction x-address-input { font-size: 11px; } }
+@media (max-width: 160px) { .x-send-transaction x-address-input { font-size: 10px; } }
 
 .x-send-transaction input[amount],
 .x-send-transaction input[fee],
@@ -64,8 +80,13 @@
     font-size: 30px !important;
 }
 
+.x-send-transaction [advanced-settings] x-currency-nim {
+    font-size: 9px;
+}
+
 .x-send-transaction [advanced-settings] small {
     display: block;
+    text-align: left;
     margin-top: -5px;
     margin-bottom: 5px;
     opacity: 0.6;

@@ -29,38 +29,37 @@ x-address-input input[type="text"] {
 
     text-align: left;
     text-transform: uppercase;
+
+    height: 40px;
+    margin-top: 16px;
 }
 
 x-address-input x-identicon {
-    width: 80px;
+    width: 12.5%;
+    min-width: 40px;
+    max-width: 75px;
     height: 72px;
-    margin-right: 8px;
-    flex-shrink: 0;
+    flex-shrink: 0.5;
 }
 
 x-address-input.multiline x-identicon {
     display: block;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 x-address-input[small] x-identicon {
     width: 28px;
     height: 28px;
-    margin-right: 4px;
 }
 
 x-address-input .prefix {
-    margin-top: 1px;
+    line-height: 72px;
 }
 
 x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
     text-align: left;
-    padding-left: 10px;
-}
-
-x-address-input.multiline x-identicon {
-    margin-bottom: 12px;
+    padding-left: 5px;
 }
 
 x-address-input.multiline .input-row {

@@ -5,10 +5,11 @@ export default class XAmountInput extends XInput {
     html() {
         return `
             <form>
-                <x-currency-1>
+                <x-currency-nim>
                     <input placeholder="0.00" type="number" min="0">
-                </x-currency-1>
-                <x-currency-2></x-currency-2>
+                    <span class="ticker">NIM</span>
+                </x-currency-nim>
+                <x-currency-fiat></x-currency-fiat>
             </form>
             <x-numpad></x-numpad>`;
     }

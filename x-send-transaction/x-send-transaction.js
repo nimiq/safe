@@ -16,14 +16,14 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Transaction</h2>
+                <h2>New Transaction</h2>
             </div>
             <form class="modal-body">
                 <h3>Send from</h3>
                 <x-accounts-dropdown name="sender"></x-accounts-dropdown>
                 <span error sender class="display-none"></span>
 
-                <h3>Send to</h3>
+                <h3>Send to <span class="link-address-book">Address book</span></h3>
                 <div class="row">
                     <x-address-input class="multiline" name="recipient"></x-address-input>
                 </div>
