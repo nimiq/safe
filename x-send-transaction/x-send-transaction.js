@@ -31,7 +31,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
                 <h3>Amount</h3>
                 <div class="row">
-                    <x-amount-input name="value" no-screen-keyboard></x-amount-input>
+                    <x-amount-input name="value" no-screen-keyboard enable-set-all></x-amount-input>
                 </div>
                 <span error amount class="display-none"></span>
 
@@ -103,7 +103,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="value"]': () => this._validateField('amount'),
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
-            'click button[prepared]': () => this.fire('x-send-prepared-transaction')
+            'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
+            'x-amount-input-set-all': this._onAmountSetAll
         }
     }
 
@@ -151,6 +152,12 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         const formData = {};
         form.querySelectorAll('input').forEach(i => formData[i.getAttribute('name')] = i.value);
         return formData;
+    }
+
+    _onAmountSetAll() {
+        const account = this.$accountsDropdown.selectedAccount;
+        this.$amountInput[0].maxDecimals = 5;
+        this.$amountInput[0].value = account.balance;
     }
 
     /**
