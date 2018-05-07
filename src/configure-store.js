@@ -5,12 +5,14 @@ import { reducer as accountReducer } from '/elements/x-accounts/accounts-redux.j
 import { reducer as transactionReducer } from '/elements/x-transactions/transactions-redux.js';
 import { reducer as networkReducer } from '/elements/x-network-indicator/network-redux.js';
 import { reducer as connectionReducer } from '/libraries/account-manager/connection-redux.js';
+import { reducer as settingReducer } from './settings/settings-redux.js';
 
 const reducers = {
     accounts: accountReducer,
     transactions: transactionReducer,
     network: networkReducer,
-    connection: connectionReducer
+    connection: connectionReducer,
+    settings: settingReducer
 };
 
 const logger = createLogger({

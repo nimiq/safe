@@ -1,5 +1,6 @@
 import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from '/elements/x-network-indicator/network-redux.js';
+import { initialState as initialSettingsState } from './settings/settings-redux.js';
 
 /* Redux store as singleton */
 export class Store {
@@ -28,7 +29,8 @@ export class Store {
                 accounts: Object.assign({}, persistedState.accounts, {
                     entries: new Map(persistedState.accounts.entries)
                 }),
-                network: Object.assign({}, initialNetworkState, persistedState.network)
+                network: Object.assign({}, initialNetworkState, persistedState.network),
+                settings: Object.assign({}, initialSettingsState, persistedState.settings)
             }
         );
 
@@ -56,7 +58,8 @@ export class Store {
             accounts,
             network: {
                 oldHeight: state.network.height
-            }
+            },
+            settings: state.settings
         };
 
         const stringifiedState = JSON.stringify(persistentState);
