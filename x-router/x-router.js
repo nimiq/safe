@@ -341,8 +341,7 @@ export default class XRouter extends XElement {
     }
 
     _log(...args) {
-        return;
-        console.log(...args);
+        // console.log(...args);
     }
 }
 
