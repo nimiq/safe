@@ -62,10 +62,14 @@ x-amount .rest-decimals {
     display: none;
 }
 
+.setting-show-all-decimals x-amount .rest-decimals {
+    display: initial;
+}
+
 x-amount[display] .ticker,
 x-amount[display] .rest-decimals,
 x-amount[display] label {
-    font-size: 14px;
+    font-size: 0.5em;
 }
 
 @media (max-width: 480px) {
