@@ -32,7 +32,16 @@ export default class XInput extends XElement {
     set value(value) {
         this._oldValue = this.$input.value;
         this.$input.value = value;
-        if (value !== this._oldValue) this._onValueChanged();
+        if (value !== this._oldValue) {
+            // Dispatch actual input event on input DOM node
+            var event = new Event('input', {
+                'bubbles': true,
+                'cancelable': true
+            });
+            this.$input.dispatchEvent(event);
+
+            this._onValueChanged();
+        }
     }
 
     _onSubmit(e) {
