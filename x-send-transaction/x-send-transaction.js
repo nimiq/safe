@@ -81,6 +81,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         this._errorElements = {};
 
+        this._isSetAll = false;
+
         this.clear();
 
         super.onCreate();
@@ -105,7 +107,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
             'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
-            'x-amount-input-set-all': this._onAmountSetAll
+            'x-amount-input-set-all': this._onAmountSetAll,
+            'x-fee-input-changed': this._onFeeChanged
         }
     }
 
@@ -159,7 +162,12 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     _onAmountSetAll() {
         const account = this.$accountsDropdown.selectedAccount;
         this.$amountInput.maxDecimals = 5;
-        this.$amountInput.value = account.balance;
+        this.$amountInput.value = account.balance - this.$feeInput.value;
+        this._isSetAll = true;
+    }
+
+    _onFeeChanged(fee) {
+        if (this._isSetAll) this._onAmountSetAll();
     }
 
     /**
@@ -181,6 +189,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             case 'sender':
                 this._validateSender();
             case 'amount':
+                this._isSetAll = (this.$amountInput.value + this.$feeInput.value) === this.$accountsDropdown.selectedAccount.balance;
             case 'fees':
                 this._validateAmountAndFees();
                 break;
