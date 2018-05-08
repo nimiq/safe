@@ -14,7 +14,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     onShow(...params) {
         this.clear();
 
-        this.$amountInput[0].maxDecimals = document.body.classList.contains('setting-show-all-decimals') ? 5 : 2;
+        this.$amountInput.maxDecimals = document.body.classList.contains('setting-show-all-decimals') ? 5 : 2;
 
         params = this._parseRouterParams(params);
 

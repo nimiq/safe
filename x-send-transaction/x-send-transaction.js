@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
+import XFeeInput from '../x-fee-input/x-fee-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
@@ -40,7 +41,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                     <div expandable-content>
                         <h3>Fee</h3>
                         <div class="row">
-                            <x-amount-input name="fee" max-decimals="5" no-screen-keyboard></x-amount-input>
+                            <x-fee-input name="fee" max-sats="2"></x-fee-input>
                         </div>
                         <span error fees class="display-none"></span>
 
@@ -62,7 +63,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XExpandable ];
+        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XFeeInput, XExpandable ];
     }
 
     onCreate() {
@@ -128,7 +129,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     clear() {
         this.$addressInput.value = '';
-        this.$amountInput.forEach(input => input.value = '');
+        this.$amountInput.value = '';
+        this.$feeInput.value = 0;
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
         this.loading = false;
@@ -156,8 +158,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     _onAmountSetAll() {
         const account = this.$accountsDropdown.selectedAccount;
-        this.$amountInput[0].maxDecimals = 5;
-        this.$amountInput[0].value = account.balance;
+        this.$amountInput.maxDecimals = 5;
+        this.$amountInput.value = account.balance;
     }
 
     /**
@@ -268,20 +270,14 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     _validateAmountAndFees() {
         const account = this.$accountsDropdown.selectedAccount;
 
-        const amount = this.$amountInput[0].value;
-        const fees = this.$amountInput[1].value;
+        const amount = this.$amountInput.value;
+        const fees = this.$feeInput.value;
 
         if (amount < 0) {
             this._setError('You cannot send a negative amount', 'amount');
         }
         if (amount === 0) {
             this._clearError('amount');
-        }
-
-        if (fees < 0) {
-            this._setError('Negative fees are not allowed', 'fees');
-        } else {
-            this._clearError('fees');
         }
 
         if (amount <= 0 || fees < 0) {

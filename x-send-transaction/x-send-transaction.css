@@ -1,6 +1,7 @@
 @import "../x-accounts/x-accounts-dropdown.css";
 @import "../x-address-input/x-address-input.css";
 @import "../x-amount-input/x-amount-input.css";
+@import "../x-fee-input/x-fee-input.css";
 
 .x-send-transaction {
     width: 600px;
@@ -26,8 +27,8 @@
     /* letter-spacing: 0; */
 }
 
-.x-send-transaction input,
-.x-send-transaction input::placeholder,
+.x-send-transaction input[type="number"],
+.x-send-transaction input[type="number"]::placeholder,
 .x-send-transaction x-address-input {
     font-size: 18px;
     /* text-align: left !important; */
@@ -88,13 +89,9 @@
     margin-top: 8px;
 }
 
-.x-send-transaction [advanced-settings] input,
-.x-send-transaction [advanced-settings] input::placeholder {
+.x-send-transaction [advanced-settings] input[type="number"],
+.x-send-transaction [advanced-settings] input[type="number"]::placeholder {
     font-size: 30px !important;
-}
-
-.x-send-transaction [advanced-settings] x-currency-nim {
-    font-size: 9px;
 }
 
 .x-send-transaction [advanced-settings] small {

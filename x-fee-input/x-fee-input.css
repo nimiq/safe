@@ -1,0 +1,19 @@
+@import '../../secure-elements/x-input/x-input.css';
+
+x-fee-input .x-fee-labels {
+    max-width: 320px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    opacity: 0.8;
+    margin-bottom: -4px;
+}
+
+x-fee-input .x-fee-labels label {
+    padding: 4px;
+    cursor: pointer;
+}
+
+x-fee-input x-currency-fiat {
+    display: none;
+}
