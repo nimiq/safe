@@ -36,21 +36,24 @@ x-amount-input button.set-max {
 }
 
 x-amount-input[enable-set-max] input {
-    padding: 1px 96px 0;
+    padding-left: 96px;
+    padding-right: 96px;
 }
 
 x-amount-input[enable-set-max] button.set-max {
     display: initial;
+    background: white;
     position: absolute;
-    left: 4px;
+    right: 4px;
     bottom: 4px;
     opacity: 0;
-    transition: opacity 0.2s ease-out, pointer-events 0.1s;
+    transition: opacity 0.1s ease-out;
     pointer-events: none;
 }
 
 x-amount-input[enable-set-max] input:focus ~ button.set-max,
-x-amount-input button.set-max:active {
+x-amount-input button.set-max:active/*,
+x-amount-input button.set-max:focus*/ {
     opacity: 1;
     pointer-events: all;
 }
@@ -58,7 +61,7 @@ x-amount-input button.set-max:active {
 x-amount-input input + .ticker {
     display: block;
     position: absolute;
-    right: 4px;
+    right: 22px;
     bottom: 0.65em;
     margin: 0;
     padding: 0;

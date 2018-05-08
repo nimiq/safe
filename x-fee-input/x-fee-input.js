@@ -13,7 +13,7 @@ export default class XFeeInput extends XInput {
                 <input type="range" min="0" value="0">
 
                 <div class="x-fee-value">
-                    <span class="x-fee-sats">0</span> sat/byte:
+                    <span class="x-fee-sats">0</span>
                     <x-currency-nim>0.00</x-currency-nim> NIM
                     <x-currency-fiat>($0.00)</x-currency-fiat>
                 </div>
@@ -63,7 +63,7 @@ export default class XFeeInput extends XInput {
         this._previousValue = this.value;
         //this._currencyFiat = this.value;
 
-        this.$sats.textContent = Math.round(this.value * 1e5 / this._txSize);
+        this.$sats.textContent = Math.round(this.value * 1e5 / this._txSize) + ' sat/byte:';
         this.$nim.textContent = this.value;
         // this._currencyFiat(this.value);
 

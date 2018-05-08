@@ -80,6 +80,10 @@
     font-weight: 300;
 }
 
+.x-send-transaction input[validity-start] {
+    padding-left: 8px !important;
+}
+
 .x-send-transaction button[send] {
     margin-top: 28px;
     width: 80%;
