@@ -8,7 +8,7 @@ export default class XAmountInput extends XInput {
                 <x-currency-nim>
                     <input placeholder="0.00" type="number" min="0">
                     <span class="ticker">NIM</span>
-                    <button class="small secondary set-all">All</button>
+                    <button class="small secondary set-all">Max</button>
                 </x-currency-nim>
                 <x-currency-fiat></x-currency-fiat>
             </form>

@@ -2,10 +2,29 @@
 @import '../x-numpad/x-numpad.css';
 
 x-amount-input input {
-    font-size: 3.5em !important;
+    font-size: 3em !important;
+    line-height: 54px;
     font-weight: 300;
     padding-bottom: 0;
     width: 100% !important;
+}
+
+@media (max-width: 620px) {
+    x-amount-input input {
+        font-size: 2.5em !important;
+    }
+}
+
+@media (max-width: 515px) {
+    x-amount-input input {
+        font-size: 2em !important;
+    }
+}
+
+@media (max-width: 410px) {
+    x-amount-input input {
+        font-size: 1.5em !important;
+    }
 }
 
 x-amount-input input::placeholder {
@@ -16,11 +35,15 @@ x-amount-input button.set-all {
     display: none;
 }
 
+x-amount-input[enable-set-all] input {
+    padding: 1px 96px 0;
+}
+
 x-amount-input[enable-set-all] button.set-all {
     display: initial;
     position: absolute;
-    left: 8px;
-    bottom: 8px;
+    left: 4px;
+    bottom: 4px;
     opacity: 0;
     transition: opacity 0.2s ease-out, pointer-events 0.1s;
     pointer-events: none;
@@ -35,8 +58,8 @@ x-amount-input button.set-all:active {
 x-amount-input input + .ticker {
     display: block;
     position: absolute;
-    right: 0.35em;
-    bottom: 0.8em;
+    right: 4px;
+    bottom: 0.65em;
     margin: 0;
     padding: 0;
     font-size: 1.5em;
