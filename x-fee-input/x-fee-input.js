@@ -6,8 +6,8 @@ export default class XFeeInput extends XInput {
             <form>
                 <div class="x-fee-labels">
                     <label free>free</label>
-                    <label cheap>cheap</label>
-                    <label fast>fast</label>
+                    <label low>low</label>
+                    <label high>high</label>
                 </div>
 
                 <input type="range" min="0" value="0">
@@ -33,8 +33,8 @@ export default class XFeeInput extends XInput {
     listeners() {
         return {
             'click label[free]': () => this._clickedLabel('free'),
-            'click label[cheap]': () => this._clickedLabel('cheap'),
-            'click label[fast]': () => this._clickedLabel('fast'),
+            'click label[low]': () => this._clickedLabel('low'),
+            'click label[high]': () => this._clickedLabel('high'),
         }
     }
 
@@ -75,10 +75,10 @@ export default class XFeeInput extends XInput {
             case 'free':
                 this.value = 0;
                 break;
-            case 'cheap':
+            case 'low':
                 this.value = Math.floor(this._maxSats * this._txSize / 2 / this._txSize) * this._txSize / 1e5;
                 break;
-            case 'fast':
+            case 'high':
                 this.value = this._maxSats * this._txSize;
                 break;
         }

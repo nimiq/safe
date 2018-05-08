@@ -32,7 +32,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
                 <h3>Amount</h3>
                 <div class="row">
-                    <x-amount-input name="value" no-screen-keyboard enable-set-all></x-amount-input>
+                    <x-amount-input name="value" no-screen-keyboard enable-set-max></x-amount-input>
                 </div>
                 <span error amount class="display-none"></span>
 
@@ -81,7 +81,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         this._errorElements = {};
 
-        this._isSetAll = false;
+        this._isSetMax = false;
 
         this.clear();
 
@@ -107,7 +107,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
             'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
-            'x-amount-input-set-all': this._onAmountSetAll,
+            'x-amount-input-set-max': this._onAmountSetMax,
             'x-fee-input-changed': this._onFeeChanged
         }
     }
@@ -159,15 +159,15 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         return formData;
     }
 
-    _onAmountSetAll() {
+    _onAmountSetMax() {
         const account = this.$accountsDropdown.selectedAccount;
         this.$amountInput.maxDecimals = 5;
         this.$amountInput.value = account.balance - this.$feeInput.value;
-        this._isSetAll = true;
+        this._isSetMax = true;
     }
 
     _onFeeChanged(fee) {
-        if (this._isSetAll) this._onAmountSetAll();
+        if (this._isSetMax) this._onAmountSetMax();
     }
 
     /**
@@ -189,7 +189,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             case 'sender':
                 this._validateSender();
             case 'amount':
-                this._isSetAll = (this.$amountInput.value + this.$feeInput.value) === this.$accountsDropdown.selectedAccount.balance;
+                this._isSetMax = (this.$amountInput.value + this.$feeInput.value) === this.$accountsDropdown.selectedAccount.balance;
             case 'fees':
                 this._validateAmountAndFees();
                 break;

@@ -8,7 +8,7 @@ export default class XAmountInput extends XInput {
                 <x-currency-nim>
                     <input placeholder="0.00" type="number" min="0">
                     <span class="ticker">NIM</span>
-                    <button class="small secondary set-all">Max</button>
+                    <button class="small secondary set-max">Max</button>
                 </x-currency-nim>
                 <x-currency-fiat></x-currency-fiat>
             </form>
@@ -31,7 +31,7 @@ export default class XAmountInput extends XInput {
 
     listeners() {
         return {
-            'click button.set-all': this._onClickSetAll
+            'click button.set-max': this._onClickSetMax
         }
     }
 
@@ -103,9 +103,9 @@ export default class XAmountInput extends XInput {
         super.value = event.detail.stringValue; // also triggers _onValueChanged
     }
 
-    _onClickSetAll(_, e) {
+    _onClickSetMax(_, e) {
         e.preventDefault();
-        this.fire('x-amount-input-set-all');
+        this.fire('x-amount-input-set-max');
     }
 }
 

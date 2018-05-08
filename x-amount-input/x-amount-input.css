@@ -31,15 +31,15 @@ x-amount-input input::placeholder {
     font-size: 1em !important;
 }
 
-x-amount-input button.set-all {
+x-amount-input button.set-max {
     display: none;
 }
 
-x-amount-input[enable-set-all] input {
+x-amount-input[enable-set-max] input {
     padding: 1px 96px 0;
 }
 
-x-amount-input[enable-set-all] button.set-all {
+x-amount-input[enable-set-max] button.set-max {
     display: initial;
     position: absolute;
     left: 4px;
@@ -49,8 +49,8 @@ x-amount-input[enable-set-all] button.set-all {
     pointer-events: none;
 }
 
-x-amount-input[enable-set-all] input:focus ~ button.set-all,
-x-amount-input button.set-all:active {
+x-amount-input[enable-set-max] input:focus ~ button.set-max,
+x-amount-input button.set-max:active {
     opacity: 1;
     pointer-events: all;
 }
