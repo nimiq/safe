@@ -35,16 +35,17 @@ x-address-input input[type="text"] {
 }
 
 x-address-input x-identicon {
-    width: 12.5%;
+    width: 15%;
     min-width: 40px;
-    max-width: 75px;
+    max-width: 80px;
     height: 72px;
     flex-shrink: 0.5;
+    margin-left: 12px;
+    margin-right: 2px;
 }
 
 x-address-input.multiline x-identicon {
     display: block;
-    /* margin: 0 auto; */
 }
 
 x-address-input[small] x-identicon {

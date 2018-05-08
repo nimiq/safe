@@ -29,13 +29,13 @@
 .x-send-transaction input,
 .x-send-transaction input::placeholder,
 .x-send-transaction x-address-input {
-    font-size: 19px;
+    font-size: 18px;
     /* text-align: left !important; */
     font-weight: 300;
 }
 
 .x-send-transaction x-address-input {
-    margin-top: -16px;
+    /* margin-top: -16px; */
 }
 
 .x-send-transaction x-address-input .input-row {
@@ -46,17 +46,30 @@
     flex-grow: 1;
 }
 
-@media (max-width: 615px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 18px; } }
-@media (max-width: 590px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 17px; } }
-@media (max-width: 560px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 16px; } }
-@media (max-width: 530px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 15px; } }
-@media (max-width: 505px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 14px; } }
+@media (max-width: 620px) {
+    .x-send-transaction x-address-input x-identicon {
+        margin-left: 0;
+    }
+}
+@media (max-width: 610px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 17px; } }
+@media (max-width: 570px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 16px; } }
+@media (max-width: 545px) { .x-send-transaction x-address-input, .x-send-transaction input::placeholder { font-size: 15px; } }
+@media (max-width: 515px) {
+    .x-send-transaction x-address-input,
+    .x-send-transaction input::placeholder {
+        font-size: 14px;
+    }
+
+    .x-send-transaction x-address-input {
+        margin-top: -8px;
+    }
+}
 @media (max-width: 480px) { .x-send-transaction x-address-input { font-size: 15px; } }
-@media (max-width: 460px) { .x-send-transaction x-address-input { font-size: 14px; } }
-@media (max-width: 430px) { .x-send-transaction x-address-input { font-size: 13px; } }
-@media (max-width: 408px) { .x-send-transaction x-address-input { font-size: 12px; } }
-@media (max-width: 374px) { .x-send-transaction x-address-input { font-size: 11px; } }
-@media (max-width: 160px) { .x-send-transaction x-address-input { font-size: 10px; } }
+@media (max-width: 470px) { .x-send-transaction x-address-input { font-size: 14px; } }
+@media (max-width: 440px) { .x-send-transaction x-address-input { font-size: 13px; } }
+@media (max-width: 415px) { .x-send-transaction x-address-input { font-size: 12px; } }
+@media (max-width: 385px) { .x-send-transaction x-address-input { font-size: 11px; } .x-send-transaction x-address-input { margin-top: -16px; } }
+@media (max-width: 345px) { .x-send-transaction x-address-input { font-size: 10px; } }
 
 .x-send-transaction input[amount],
 .x-send-transaction input[fee],
