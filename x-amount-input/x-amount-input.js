@@ -31,7 +31,9 @@ export default class XAmountInput extends XInput {
 
     listeners() {
         return {
-            'click button.set-max': this._onClickSetMax
+            'click button.set-max': this._onClickSetMax,
+            'focus input': this._toggleMaxButton,
+            'blur input': this._onBlur
         }
     }
 
@@ -78,6 +80,7 @@ export default class XAmountInput extends XInput {
         } else {
             this.$numpad.value = this.value;
         }
+        this._toggleMaxButton();
     }
 
     /*
@@ -106,6 +109,14 @@ export default class XAmountInput extends XInput {
     _onClickSetMax(_, e) {
         e.preventDefault();
         this.fire('x-amount-input-set-max');
+    }
+
+    _toggleMaxButton() {
+        this.$el.classList.toggle('show-set-max-button', !this.$input.value);
+    }
+
+    _onBlur() {
+        this.$el.classList.remove('show-set-max-button');
     }
 }
 

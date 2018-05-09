@@ -51,7 +51,7 @@ x-amount-input[enable-set-max] button.set-max {
     pointer-events: none;
 }
 
-x-amount-input[enable-set-max] input:focus ~ button.set-max,
+x-amount-input[enable-set-max].show-set-max-button button.set-max,
 x-amount-input button.set-max:active/*,
 x-amount-input button.set-max:focus*/ {
     opacity: 1;
