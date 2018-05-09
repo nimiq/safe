@@ -38,6 +38,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     </div>
                 </div>
 
+                <div class="extra-data-section display-none row">
+                    <label>Note</label>
+                    <div class="row-data">
+                        <div class="extra-data"></div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <label>Date</label>
                     <div class="row-data">
@@ -72,6 +79,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$blockHeight = this.$('span.blockHeight');
         this.$confirmations = this.$('span.confirmations');
         this.$fee = this.$('div.fee');
+        this.$note = this.$('div.extra-data');
         super.onCreate();
         this.$senderIdenticon.placeholderColor = '#bbb';
         this.$recipientIdenticon.placeholderColor = '#bbb';
@@ -97,9 +105,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
     }
 
+    set extraData(extraData) {
+        this.$('.extra-data-section').classList.toggle('display-none', !extraData);
+        this.$note.textContent = extraData;
+    }
+
     set fee(fee) {
-        if (!fee) this.$('.fee-section').classList.add('display-none');
-        else this.$('.fee-section').classList.remove('display-none');
+        this.$('.fee-section').classList.toggle('display-none', !fee);
         this.$fee.textContent = fee + ' NIM';
     }
 

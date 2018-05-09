@@ -2,6 +2,7 @@
 @import "../x-address-input/x-address-input.css";
 @import "../x-amount-input/x-amount-input.css";
 @import "../x-fee-input/x-fee-input.css";
+@import "../x-extra-data-input/x-extra-data-input.css";
 
 .x-send-transaction {
     width: 600px;

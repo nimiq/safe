@@ -3,11 +3,13 @@ import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import XFeeInput from '../x-fee-input/x-fee-input.js';
+import XExtraDataInput from '../x-extra-data-input/x-extra-data-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
+import AccountType from '../../libraries/account-manager/account-type.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -39,6 +41,13 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <x-expandable advanced-settings transparent>
                     <h3 expandable-trigger>Advanced Settings</h3>
                     <div expandable-content>
+                        <div class="extra-data-section">
+                            <h3>Note</h3>
+                            <div class="row">
+                                <x-extra-data-input name="extraData" max-bytes="64"></x-extra-data-input>
+                            </div>
+                        </div>
+
                         <h3>Fee</h3>
                         <div class="row">
                             <x-fee-input name="fee" max-sats="2"></x-fee-input>
@@ -63,7 +72,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XFeeInput, XExpandable ];
+        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XFeeInput, XExpandable, XExtraDataInput ];
     }
 
     onCreate() {
@@ -108,7 +117,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
             'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
             'x-amount-input-set-max': this._onAmountSetMax,
-            'x-fee-input-changed': this._onFeeChanged
+            'x-fee-input-changed': this._onFeeChanged,
+            'x-extra-data-input-changed-size': this._onExtraDataChangedSize
         }
     }
 
@@ -124,7 +134,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         e.preventDefault();
         if (!this._isValid()) return;
 
-        // const formData = new FormData(this.$form); // I don't know why this doesn't work...
         const tx = this._getFormData(this.$form);
         tx.network = Config.network;
         this.fire('x-send-transaction', tx);
@@ -133,6 +142,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     clear() {
         this.$addressInput.value = '';
         this.$amountInput.value = '';
+        this.$extraDataInput.value = '';
         this.$feeInput.value = 0;
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
@@ -170,6 +180,11 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         if (this._isSetMax) this._onAmountSetMax();
     }
 
+    _onExtraDataChangedSize(size) {
+        if (size > 0) this.$feeInput.txSize = 166 + size;
+        else this.$feeInput.txSize = 138;
+    }
+
     /**
      * VALIDATION METHODS
      */
@@ -188,8 +203,10 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 break;
             case 'sender':
                 this._validateSender();
+                // Fall through
             case 'amount':
                 this._isSetMax = (this.$amountInput.value + this.$feeInput.value) === this.$accountsDropdown.selectedAccount.balance;
+                // Fall through
             case 'fees':
                 this._validateAmountAndFees();
                 break;
@@ -203,6 +220,15 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     _validateSender() {
         const account = this.$accountsDropdown.selectedAccount;
+
+        // TODO FIXME Move this somewhere more reasonable
+        if (account.type !== AccountType.KEYGUARD_HIGH) {
+            this.$extraDataInput.value = '';
+            this.$('.extra-data-section').classList.add('display-none');
+        } else {
+            this.$('.extra-data-section').classList.remove('display-none');
+        }
+
         if (this.properties.hasConsensus) {
             this._validSender = !!(account && account.balance > 0);
             if (this._validSender) {
@@ -295,7 +321,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         }
 
         if (this.properties.hasConsensus) {
-            this._validAmountAndFees = !!(account && account.balance >= (amount + fees));
+            this._validAmountAndFees = !!(account && account.balance >= Math.round((amount + fees) * 1e5) / 1e5);
 
             if (!this._validAmountAndFees) {
                 this._setError('You do not have enough funds', 'amount');

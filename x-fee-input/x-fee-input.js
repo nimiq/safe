@@ -5,9 +5,9 @@ export default class XFeeInput extends XInput {
         return `
             <form>
                 <div class="x-fee-labels">
-                    <label free>free</label>
-                    <label low>low</label>
-                    <label high>high</label>
+                    <!-- <label free>free</label> --> <label free>free&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <!-- <label low>low</label>   --> <label low>standard</label>
+                    <!-- <label high>high</label> --> <label high>express</label>
                 </div>
 
                 <input type="range" min="0" value="0">
