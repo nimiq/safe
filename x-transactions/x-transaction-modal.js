@@ -39,7 +39,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="extra-data-section display-none row">
-                    <label>Note</label>
+                    <label>Message</label>
                     <div class="row-data">
                         <div class="extra-data"></div>
                     </div>
@@ -79,7 +79,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$blockHeight = this.$('span.blockHeight');
         this.$confirmations = this.$('span.confirmations');
         this.$fee = this.$('div.fee');
-        this.$note = this.$('div.extra-data');
+        this.$message = this.$('div.extra-data');
         super.onCreate();
         this.$senderIdenticon.placeholderColor = '#bbb';
         this.$recipientIdenticon.placeholderColor = '#bbb';
@@ -107,7 +107,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set extraData(extraData) {
         this.$('.extra-data-section').classList.toggle('display-none', !extraData);
-        this.$note.textContent = extraData;
+        this.$message.textContent = extraData;
     }
 
     set fee(fee) {

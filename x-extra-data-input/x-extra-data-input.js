@@ -5,7 +5,7 @@ export default class XExtraDataInput extends XInput {
     html() {
         return `
             <form>
-                <input type="text" placeholder="Note">
+                <input type="text" placeholder="Message">
                 <div class="x-extra-data-info">
                     <span class="x-extra-data-help"></span>
                     <span class="x-extra-data-remaining"></span>

@@ -42,7 +42,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                     <h3 expandable-trigger>Advanced Settings</h3>
                     <div expandable-content>
                         <div class="extra-data-section">
-                            <h3>Note</h3>
+                            <h3>Message</h3>
                             <div class="row">
                                 <x-extra-data-input name="extraData" max-bytes="64"></x-extra-data-input>
                             </div>
