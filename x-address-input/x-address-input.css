@@ -55,6 +55,7 @@ x-address-input[small] x-identicon {
 
 x-address-input .prefix {
     line-height: 72px;
+    word-spacing: -1px;
 }
 
 x-address-input input[type="text"]::placeholder,
@@ -71,4 +72,5 @@ x-address-input.multiline .input-row {
 
 x-address-input.multiline .input-row input {
     width: auto;
+    word-spacing: -1px;
 }
