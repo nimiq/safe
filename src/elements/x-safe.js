@@ -129,7 +129,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async onCreate() {
         super.onCreate();
 
-        XRouter.create('');
+        XRouter.create();
 
         this._introFinished = XEducationSlides.isFinished || Config.network === 'test' // on testnet don't show the slides
             || document.body.classList.contains('enable-ledger'); // TODO only temporary. Remove when not needed anymore
