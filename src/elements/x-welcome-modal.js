@@ -1,6 +1,8 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+import XToast from '/secure-elements/x-toast/x-toast.js';
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
@@ -12,10 +14,17 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                 }
             </style>
             <div class="modal-header">
-                <i x-modal-close class="material-icons">close</i>
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
             <div class="modal-body center">
+               <h3>What is the Nimiq Safe?</h3>
+                        <ul>
+                            <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
+                            <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
+                        </ul>
+                
+                For using Nimiq Safe, you need an account.
+            
                 <button class="create waiting">Create New Account</button>
                 <a secondary import-ledger>Import Ledger Account</a>
                 <a secondary class="waiting" import-words>Import Recovery Words</a>
@@ -38,6 +47,16 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
         }
     }
 
+    allowsHide(incomingModal) {
+        if (incomingModal && (XEducationSlides.currentSlide === incomingModal)) {
+            return true;
+        }
+
+        XToast.warn('Please read through this important information.');
+
+        return false;
+    }
+
     listeners() {
         return {
             'click button.create': this._onCreateAccount.bind(this),
@@ -48,20 +67,29 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     _onCreateAccount() {
-        this.fire('x-accounts-create');
+        XEducationSlides.onFinished = () => this.fire('x-accounts-create');
+        XEducationSlides.action = 'create';
+        XEducationSlides.start();
     }
 
     _onImportLedger() {
-        this.fire('x-accounts-import-ledger');
+        XEducationSlides.onFinished = () => this.fire('x-accounts-import-ledger');
+        XEducationSlides.action = 'import-ledger';
+        XEducationSlides.start();
     }
 
     _onImportWords() {
-        this.fire('x-accounts-import-words');
+        XEducationSlides.onFinished = () => this.fire('x-accounts-import-words');
+        XEducationSlides.action = 'import-words';
+        XEducationSlides.start();
     }
 
     _onImportFile() {
-        this.fire('x-accounts-import-file');
+        XEducationSlides.onFinished = () => this.fire('x-accounts-import-file');
+        XEducationSlides.action = 'import-file';
+        XEducationSlides.start();
     }
 }
 
-// Todo wording, content of this element
+// Todo: wording, content of this element
+// Todo: Show welcome text and options according to if miner account exists or not

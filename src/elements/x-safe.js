@@ -14,7 +14,6 @@ import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request
 import XCreateRequestLinkModal from '/elements/x-request-link/x-create-request-link-modal.js';
 import XSendTransactionOfflineModal from '/elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
-import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import XSettings from '../settings/x-settings.js';
 import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
@@ -131,14 +130,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XRouter.create();
 
-        this._introFinished = XEducationSlides.isFinished || Config.network === 'test' // on testnet don't show the slides
-            || document.body.classList.contains('enable-ledger'); // TODO only temporary. Remove when not needed anymore
-
-        if (!this._introFinished) {
-            XEducationSlides.onFinished = () => this._onIntroFinished();
-            XEducationSlides.start();
-        }
-
         if (Config.network !== 'main') {
             this.$('.header-warning').classList.remove('display-none');
         }
@@ -164,8 +155,7 @@ export default class XSafe extends MixinRedux(XElement) {
             // TODO remove check for temporary enable-ledger flag when not needed anymore
             && !document.body.classList.contains('enable-ledger')
         ) {
-            if (this._introFinished) this.$welcomeModal.show();
-            else this._showWelcomeAfterIntro = true;
+            this.$welcomeModal.show();
         }
 
         if (changes.accountsPresent) {
@@ -179,18 +169,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (changes.totalAmount !== undefined) {
             this.$('button[new-tx]').disabled = changes.totalAmount === 0;
-        }
-    }
-
-    _onIntroFinished() {
-        this._introFinished = true;
-
-        if (this._showWelcomeAfterIntro) {
-            this.$welcomeModal.show();
-        }
-
-        if (this.properties.upgradeAccount) {
-            this.$upgradeModal.show();
         }
     }
 
