@@ -14,11 +14,11 @@ export default class XRouter extends XElement {
         });
     }
 
-    static create(initialPath, classes = DEFAULT_CLASSES) {
-        location.hash = XRouter._sanitizePath(initialPath);
+    static create(initialPath = location.hash, classes = DEFAULT_CLASSES) {
+        location.hash = initialPath;
         XRouter._classes = classes;
 
-        const xRouter = new XRouter();
+        new XRouter();
     }
 
     static _sanitizePath(path) { return path.replace(/(^\s*\/|\s*\/$|_[^_]*_)/g, ''); }
