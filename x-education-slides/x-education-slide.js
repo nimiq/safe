@@ -2,23 +2,32 @@ import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XEducationSlides from './x-education-slides.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
 
 export default class XEducationSlide extends MixinModal(XElement) {
     onCreate() {
         super.onCreate();
         this.$nextButton = this.$('[next]');
         if (this.$nextButton) {
-            this.$nextButton.addEventListener('click', XEducationSlides.next);
+            this.$nextButton.addEventListener('click', this.onNext);
         }
         this.$backButton = this.$('[back]');
         if (this.$backButton) {
-            this.$backButton.addEventListener('click', XEducationSlides.back);
+            this.$backButton.addEventListener('click', this.onBack);
         }
         this.container.addEventListener('keydown', e => this._onArrowNavigation(e));
     }
 
     styles() {
         return [...super.styles(), 'x-education-slide'];
+    }
+
+    onNext() {
+        XEducationSlides.next();
+    }
+
+    onBack() {
+        XEducationSlides.back();
     }
 
     _onArrowNavigation(e) {
@@ -32,10 +41,15 @@ export default class XEducationSlide extends MixinModal(XElement) {
     }
 
     allowsHide(incomingModal) {
-        if (XEducationSlides.isFinished
-            || (incomingModal && (XEducationSlides.nextSlide === incomingModal
-            || XEducationSlides.previousSlide === incomingModal))) return true;
+        if (incomingModal
+            && (incomingModal === XEducationSlides.nextSlide || incomingModal === XEducationSlides.previousSlide
+            || incomingModal === XWelcomeModal.instance)
+        ) {
+            return true;
+        }
+
         XToast.warn('Please read through this important information.');
+
         return false;
     }
 

@@ -7,7 +7,6 @@ import XEducationSlidePhishers from "./x-education-slide-phishers.js";
 import XEducationSlideScams from "./x-education-slide-scams.js";
 import XEducationSlideLoss from "./x-education-slide-loss.js";
 
-
 export default class XEducationSlides {
     static get slides() {
         return [ XEducationSlideIntro, XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
@@ -32,7 +31,6 @@ export default class XEducationSlides {
         if (nextSlide) {
             nextSlide.show();
         } else {
-            localStorage[XEducationSlides.KEY_FINISHED] = 'yes';
             XEducationSlides.hide();
             XEducationSlides.onFinished();
         }
@@ -76,10 +74,6 @@ export default class XEducationSlides {
         if (index < 0 || index >= XEducationSlides.slides.length) return;
         localStorage[XEducationSlides.KEY_CURRENT_SLIDE] = index;
         XEducationSlides.currentSlide.show();
-    }
-
-    static get isFinished() {
-        return localStorage[XEducationSlides.KEY_FINISHED] === 'yes';
     }
 
     /* Override if needed */
