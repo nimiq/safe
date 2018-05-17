@@ -21,8 +21,10 @@ import XWelcomeModal from './x-welcome-modal.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 import XUpgradeModal from './x-upgrade-modal.js';
+import XEducationSlideIntro from '/elements/x-education-slides/x-education-slide-intro.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
+import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -95,6 +97,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
+                <x-education-slide-intro x-route-aside="information"></x-education-slide-intro>
                 <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
@@ -121,7 +124,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XUpgradeModal
+            XUpgradeModal,
+            XEducationSlideIntro
         ];
     }
 
@@ -144,14 +148,14 @@ export default class XSafe extends MixinRedux(XElement) {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
             accountsInitialized: state.accounts.hasContent,
-            accountsPresent: state.accounts.entries.size > 0,
+            safeAccountsPresent: safeAccountsPresent$(state),
             totalAmount: totalAmount$(state),
             upgradeAccount: needsUpgrade$(state)
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.accountsInitialized && !this.properties.accountsPresent
+        if (changes.accountsInitialized && !this.properties.safeAccountsPresent
             // TODO remove check for temporary enable-ledger flag when not needed anymore
             && !document.body.classList.contains('enable-ledger')
         ) {

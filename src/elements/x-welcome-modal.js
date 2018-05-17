@@ -3,13 +3,14 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import { walletAccounts$ } from '../selectors/needsUpgrade$.js';
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
     html() {
         return `
             <style>
-                body:not(.enable-ledger) [import-ledger] {
+                body:not(.enable-ledger) [import-ledger-1], body:not(.enable-ledger) [import-ledger-2] {
                     display: none;
                 }
             </style>
@@ -23,27 +24,51 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                             <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
                         </ul>
                 
-                For using Nimiq Safe, you need an account.
-            
-                <button class="create waiting">Create New Account</button>
-                <a secondary import-ledger>Import Ledger Account</a>
-                <a secondary class="waiting" import-words>Import Recovery Words</a>
-                <a secondary class="waiting" import-file>Import Access File</a>
+                
+                <div class="options new">
+                    <div class="spacing-bottom">
+                        For using Nimiq Safe, you need an account. If you have an access file or 24 recovery words,
+                        you can use those to import your existing account.
+                    </div>
+                
+                    <button class="create waiting">Create New Account</button>
+                    <a secondary import-ledger-1>Import Ledger Account</a>
+                    <a secondary class="waiting" import-words-1>Import from 24 Words</a>
+                    <a secondary class="waiting" import-file-1>Import from Access File</a>
+                </div>
+                
+                 <div class="options upgrade display-none">
+                   <div class="spacing-bottom">
+                        You can upgrade your existing miner account for Nimiq Safe, or if you have an access file or 24 recovery words,
+                        you can use those to import your account.
+                    </div>
+                        
+                    <button class="upgrade">Upgrade account</button>
+                    <a secondary import-ledger-2>Import Ledger Account</a>
+                    <a secondary import-words-2>Import from 24 Words</a>
+                    <a secondary import-file-2>Import from Access File</a>
+                </div>
             </div>
             `
     }
 
     static mapStateToProps(state) {
         return {
-            keyguardReady: state.connection.keyguard
+            keyguardReady: state.connection.keyguard,
+            upgradedableAccount: walletAccounts$(state)
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.keyguardReady) {
-            this.$('.create').classList.remove('waiting');
-            this.$('[import-words]').classList.remove('waiting');
-            this.$('[import-file]').classList.remove('waiting');
+        if (changes.keyguardReady && !this.properties.upgradedableAccount) {
+                this.$('.create').classList.remove('waiting');
+                this.$('[import-words]').classList.remove('waiting');
+                this.$('[import-file]').classList.remove('waiting');
+        }
+
+        if (changes.upgradedableAccount) {
+            this.$('.options.new').classList.add('display-none');
+            this.$('.options.upgrade').classList.remove('display-none');
         }
     }
 
@@ -60,9 +85,13 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     listeners() {
         return {
             'click button.create': this._onCreateAccount.bind(this),
-            'click [import-ledger]': this._onImportLedger.bind(this),
-            'click [import-words]': this._onImportWords.bind(this),
-            'click [import-file]': this._onImportFile.bind(this)
+            'click button.upgrade': this._onUpgradeAccount.bind(this),
+            'click [import-ledger-1]': this._onImportLedger.bind(this),
+            'click [import-words-1]': this._onImportWords.bind(this),
+            'click [import-file-1]': this._onImportFile.bind(this),
+            'click [import-ledger-2]': this._onImportLedger.bind(this),
+            'click [import-words-2]': this._onImportWords.bind(this),
+            'click [import-file-2]': this._onImportFile.bind(this)
         }
     }
 
@@ -89,7 +118,12 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
         XEducationSlides.action = 'import-file';
         XEducationSlides.start();
     }
+
+    _onUpgradeAccount() {
+        XEducationSlides.onFinished = () => this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
+        XEducationSlides.action = 'upgrade';
+        XEducationSlides.start();
+    }
 }
 
 // Todo: wording, content of this element
-// Todo: Show welcome text and options according to if miner account exists or not

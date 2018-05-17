@@ -12,6 +12,7 @@
 @import '/elements/x-education-slides/x-education-slides.css';
 @import '/elements/x-ledger-ui/x-ledger-ui-modal.css';
 @import './x-upgrade-modal.css';
+@import '/secure-elements/x-loader/x-loader.css';
 
 html,
 body {
