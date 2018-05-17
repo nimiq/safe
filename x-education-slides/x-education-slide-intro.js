@@ -57,9 +57,9 @@ export default class XEducationSlideIntro extends XEducationSlide {
     }
 
     onBack() {
-       XWelcomeModal.show();
+        XWelcomeModal.show();
+        XEducationSlideIntro.destroyInstance();
     }
 }
 
-// Todo: Recalculate actionText after going back and choosing new option. Kill modal instance?
 // Todo: Fix import situation (import from apps/safe)
