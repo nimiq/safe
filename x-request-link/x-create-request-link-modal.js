@@ -4,6 +4,7 @@ import XAddress from '/elements/x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import share from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
+import Config from '/libraries/secure-utils/config/config.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -59,7 +60,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
         const $requestLink = this.$('.x-request-link');
 
-        this._link = `${ this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
+        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
 
         $requestLink.textContent = this._link;
     }
