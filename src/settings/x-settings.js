@@ -41,7 +41,7 @@ export default class XSettings extends MixinRedux(XElement) {
     listeners() {
         return {
             'click [show-all-decimals]': this._onClickShowAllDecimals,
-            'input [show-all-decimals]>input': this._onClickShowAllDecimals,
+            'change [show-all-decimals]>input': this._onClickShowAllDecimals,
             //'click [visual-lock]': this._onClickVisualLock,
             'click [prepared-tx]': () => XSendPreparedTransactionModal.show()
         }
@@ -50,7 +50,8 @@ export default class XSettings extends MixinRedux(XElement) {
     static get actions() { return { showAllDecimals } }
 
     _onClickShowAllDecimals(_, e) {
-        e.stopPropagation();
+        // Handle click events from the text, but only the change event of the checkbox
+        if(e.type === 'click' && e.target.matches('input')) return;
         this.actions.showAllDecimals(!this.settings.showAllDecimals);
     }
 
