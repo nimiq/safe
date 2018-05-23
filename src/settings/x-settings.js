@@ -12,7 +12,7 @@ export default class XSettings extends MixinRedux(XElement) {
                 <hr>
                 <span class="setting" show-all-decimals>
                     Show all decimals
-                    <input type="checkbox" disabled>
+                    <input type="checkbox">
                     <small>Show all five decimals when displaying balances.</small>
                 </span>
                 <!--
@@ -41,6 +41,7 @@ export default class XSettings extends MixinRedux(XElement) {
     listeners() {
         return {
             'click [show-all-decimals]': this._onClickShowAllDecimals,
+            'input [show-all-decimals]>input': this._onClickShowAllDecimals,
             //'click [visual-lock]': this._onClickVisualLock,
             'click [prepared-tx]': () => XSendPreparedTransactionModal.show()
         }
@@ -48,8 +49,9 @@ export default class XSettings extends MixinRedux(XElement) {
 
     static get actions() { return { showAllDecimals } }
 
-    _onClickShowAllDecimals() {
-        this.actions.showAllDecimals(!this.$('[show-all-decimals] input').checked);
+    _onClickShowAllDecimals(_, e) {
+        e.stopPropagation();
+        this.actions.showAllDecimals(!this.settings.showAllDecimals);
     }
 
     _onClickVisualLock() {
