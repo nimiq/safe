@@ -4,6 +4,36 @@ import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
 
 export default class XEducationSlideIntro extends XEducationSlide {
     html() {
+        return `
+            <h1 class="modal-header">
+                Important Information
+            </h1>
+            <div class="modal-body">
+                <div class="has-side-image">
+                    <div>
+                        <div>
+                            Alright, you can soon <span class="action-text"></span> Before that, we have some important information for you.
+                        </div>
+                        <div class="warning">
+                            <p>Please take your time to understand this for your own safety. 🙏</p>
+                            <p>Your funds may be stolen if you do not heed these warnings.</p>
+                        </div>
+                        <div class="warning">
+                            We cannot recover your funds or freeze your account if you visit a phishing site or lose your private key.
+                        </div>
+                    </div>
+                    <div class="side-image-intro"></div>
+                </div>
+
+                <div class="button-bar">
+                    <button back>Back</button>
+                    <button next>Nimiq is not a Bank</button>
+                </div>
+            </div>
+        `;
+    }
+
+    onShow() {
         let actionText;
         switch (XEducationSlides.action) {
             case 'create':
@@ -25,40 +55,15 @@ export default class XEducationSlideIntro extends XEducationSlide {
             case 'upgrade':
                 actionText = 'upgrade your account for Nimiq Safe';
                 break;
+
+            default:
+                this.onBack();
         }
-
-        return `
-            <h1 class="modal-header">
-                Important Information
-            </h1>
-            <div class="modal-body">
-                <div class="has-side-image">
-                    <div>
-                        <div>
-                            Alright, you can soon ${ actionText }. Before that, we have some important information for you.
-                        </div>
-                        <div class="warning">
-                            <p>Please take your time to understand this for your own safety. 🙏</p>
-                            <p>Your funds may be stolen if you do not heed these warnings.</p>
-                        </div>
-                        <div class="warning">
-                            We cannot recover your funds or freeze your account if you visit a phishing site or lose your private key.
-                        </div>
-                    </div>
-                    <div class="side-image-intro"></div>
-                </div>
-
-                <div class="button-bar">
-                    <button back>Back</button>
-                    <button next>Nimiq is not a Bank</button>
-                </div>
-            </div>
-        `;
+        this.$('.action-text').innerText = actionText;
     }
 
     onBack() {
         XWelcomeModal.show();
-        XEducationSlideIntro.destroyInstance();
     }
 }
 
