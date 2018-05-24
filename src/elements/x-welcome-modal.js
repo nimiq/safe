@@ -62,8 +62,8 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     _onPropertiesChanged(changes) {
         if (changes.keyguardReady && !this.properties.upgradedableAccount) {
                 this.$('.create').classList.remove('waiting');
-                this.$('[import-words]').classList.remove('waiting');
-                this.$('[import-file]').classList.remove('waiting');
+                this.$('[import-words-1]').classList.remove('waiting');
+                this.$('[import-file-1]').classList.remove('waiting');
         }
 
         if (changes.upgradedableAccount) {
