@@ -26,8 +26,6 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$recipientLabel = this.$('div.label[recipient]');
 
         this.$timestamp = this.$('div.timestamp');
-
-        this._timeagoUpdateInterval = null;
     }
 
     listeners() {
@@ -54,10 +52,6 @@ export default class XTransaction extends MixinRedux(XElement) {
                 // Update display
                 this[prop] = changes[prop];
 
-                if (prop === 'timestamp' && !this._timeagoUpdateInterval) {
-                    this._timeagoUpdateInterval = setInterval(_ => this._updateTimeago(), 60 * 1000); // Update every minute
-                }
-
                 continue;
             }
 
@@ -73,7 +67,11 @@ export default class XTransaction extends MixinRedux(XElement) {
                 case 'removed':
                 case 'expired':
                     this.$el.classList.remove('removed', 'expired');
-                    this._updateTimeago();
+                    if (this.properties.timestamp) this.timestamp = this.properties.timestamp;
+                    else {
+                        this.$timestamp.textContent = 'pending...';
+                        this.$timestamp.setAttribute('title', '');
+                    }
                 default:
                     // console.warn('Possible unhandled reset of property', prop);
                     break;
@@ -155,10 +153,5 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     _onTransactionSelected() {
         this.fire('x-transaction-selected', this.transaction.hash);
-    }
-
-    _updateTimeago() {
-        // Trigger timeago update
-        if (this.properties.timestamp) this.timestamp = this.properties.timestamp;
     }
 }
