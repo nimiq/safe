@@ -15,9 +15,9 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
         return `
             <div class="modal-header">
-                <x-popup-menu left-align>
+                <!-- <x-popup-menu left-align>
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
-                </x-popup-menu>
+                </x-popup-menu> -->
                 <i x-modal-close class="material-icons">close</i>
                 <h2>New Transaction</h2>
             </div>
@@ -72,7 +72,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     children() {
-        return [ XPopupMenu, XAccountsDropdown, XAddressInput, XAmountInput, XFeeInput, XExpandable, XExtraDataInput ];
+        return [ /*XPopupMenu,*/ XAccountsDropdown, XAddressInput, XAmountInput, XFeeInput, XExpandable, XExtraDataInput ];
     }
 
     onCreate() {
@@ -115,7 +115,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="value"]': () => this._validateField('amount'),
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
-            'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
+            // 'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
             'x-amount-input-set-max': this._onAmountSetMax,
             'x-fee-input-changed': this._onFeeChanged,
             'x-extra-data-input-changed-size': this._onExtraDataChangedSize
