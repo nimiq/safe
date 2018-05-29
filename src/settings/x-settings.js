@@ -22,8 +22,14 @@ export default class XSettings extends MixinRedux(XElement) {
                     <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
                 </span>
                 -->
+             </x-card>
+
+             <x-card>
+                <h2>Advanced</h2>
+                <hr>
                 <span class="setting" prepared-tx>
                     Send prepared transaction
+                    <small>Send a transaction that was prepared offline.</small>
                 </span>
                 <span class="setting" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">
                     Delete persistence
