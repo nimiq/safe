@@ -1,16 +1,18 @@
 import XEducationSlideIntro from './x-education-slide-intro.js';
 import XEducationSlideNotABank from './x-education-slide-not-a-bank.js';
-import XEducationSlideBlockchain from "./x-education-slide-blockchain.js";
-import XEducationSlideWhy from "./x-education-slide-why.js";
-import XEducationSlidePointOfNimiq from "./x-education-slide-point-of-nimiq.js";
-import XEducationSlidePhishers from "./x-education-slide-phishers.js";
-import XEducationSlideScams from "./x-education-slide-scams.js";
-import XEducationSlideLoss from "./x-education-slide-loss.js";
+import XEducationSlideBlockchain from './x-education-slide-blockchain.js';
+import XEducationSlideWhy from './x-education-slide-why.js';
+import XEducationSlidePointOfNimiq from './x-education-slide-point-of-nimiq.js';
+import XEducationSlidePhishers from './x-education-slide-phishers.js';
+import XEducationSlideScams from './x-education-slide-scams.js';
+import XEducationSlideLoss from './x-education-slide-loss.js';
+import XEducationSlideOutro from './x-education-slide-outro.js';
 
 export default class XEducationSlides {
     static get slides() {
         return [ XEducationSlideIntro, XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
-            XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss];
+            XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss,
+            XEducationSlideOutro ];
     }
 
     static start() {
@@ -80,6 +82,5 @@ export default class XEducationSlides {
     static onFinished() { }
 }
 XEducationSlides.KEY_CURRENT_SLIDE = 'education-slides-current-slide';
-XEducationSlides.KEY_FINISHED = 'education-slides-finished';
 
 // TODO lazy loading

@@ -1,34 +1,28 @@
 import XEducationSlide from './x-education-slide.js';
 import XEducationSlides from './x-education-slides.js';
-import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
-import XWelcomeMinerModal from '/apps/safe/src/elements/x-welcome-miner-modal.js';
 
-export default class XEducationSlideIntro extends XEducationSlide {
+export default class XEducationSlideOutro extends XEducationSlide {
     html() {
         return `
             <h1 class="modal-header">
-                Important Information
+                Let's go
             </h1>
             <div class="modal-body">
                 <div class="has-side-image">
                     <div>
                         <div>
-                            Alright, you can soon <span class="action-text"></span> Before that, we have some important information for you.
+                            Thanks for your patience! Now you are prepared to <span class="action-text"></span>.
+                            
+                            For that purpose, in the next step a popup window will open which contains the Keyguard app.
+                            Just follow the steps there and see you very soon in Nimiq Safe!
                         </div>
-                        <div class="warning">
-                            <p>Please take your time to understand this for your own safety. 🙏</p>
-                            <p>Your funds may be stolen if you do not heed these warnings.</p>
-                        </div>
-                        <div class="warning">
-                            We cannot recover your funds or freeze your account if you visit a phishing site or lose your private key.
-                        </div>
+                        <div class="side-image-intro"></div>
                     </div>
-                    <div class="side-image-intro"></div>
                 </div>
 
                 <div class="button-bar">
                     <button back>Back</button>
-                    <button next>Nimiq is not a Bank</button>
+                    <button next>Open Keyguard</button>
                 </div>
             </div>
         `;
@@ -64,14 +58,4 @@ export default class XEducationSlideIntro extends XEducationSlide {
         }
         this.$('.action-text').innerText = actionText;
     }
-
-    onBack() {
-        if (XEducationSlides.entry === 'miner') {
-            XWelcomeMinerModal.show();
-        } else {
-            XWelcomeModal.show();
-        }
-    }
 }
-
-// Todo: Fix import situation (import from apps/safe)
