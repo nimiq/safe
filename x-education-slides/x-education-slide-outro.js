@@ -16,7 +16,6 @@ export default class XEducationSlideOutro extends XEducationSlide {
                             For that purpose, in the next step a popup window will open which contains the Keyguard app.
                             Just follow the steps there and see you very soon in Nimiq Safe!
                         </div>
-                        <div class="side-image-intro"></div>
                     </div>
                 </div>
 
@@ -57,5 +56,17 @@ export default class XEducationSlideOutro extends XEducationSlide {
                 this.onBack();
         }
         this.$('.action-text').innerText = actionText;
+    }
+
+    allowsHide(incomingModal) {
+        // Don't hide when keyguard opens (wait for it to finish), but don't show message neither.
+
+        if (incomingModal
+            && (incomingModal === XEducationSlides.previousSlide)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }
