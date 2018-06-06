@@ -110,6 +110,7 @@ export default class XSafe extends MixinRedux(XElement) {
             <footer class="nimiq-dark">
                 &copy; 2017-2018 Nimiq Foundation<br>
                 <a disclaimer>Disclaimer</a>
+                <a warnings>Show information slides</a>
             </footer>
             `
     }
@@ -196,7 +197,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
-            'x-setting-visual-lock-pin': this._onSetVisualLock
+            'x-setting-visual-lock-pin': this._onSetVisualLock,
+            'click a[warnings]': this._showWarnings
         }
     }
 
@@ -375,5 +377,11 @@ export default class XSafe extends MixinRedux(XElement) {
         this.$('x-settings [visual-lock] input').checked = true;
         XToast.success('Visual lock set!');
         XSettingVisualLockModal.hide();
+    }
+
+    _showWarnings() {
+        XEducationSlides.onFinished = XEducationSlides.hide;
+        XEducationSlides._slides = XEducationSlides.allSlides.slice(1, XEducationSlides.length - 1);
+        XEducationSlides.start();
     }
 }
