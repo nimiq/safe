@@ -8,6 +8,8 @@ class NetworkClient {
     }
 
     constructor() {
+        this._isLaunched = false;
+
         this.rpcClient = new Promise(res => {
             this.rpcClientResolve = res;
         });
@@ -18,6 +20,8 @@ class NetworkClient {
     }
 
     async launch() {
+        if (this._isLaunched) return;
+        this._isLaunched = true;
         this.$iframe = await this._createIframe(Config.src('network'));
         this.rpcClientResolve(RPC.Client(this.$iframe.contentWindow, 'NanoNetworkApi', Config.origin('network')));
         this.eventClientResolve(EventClient.create(this.$iframe.contentWindow));

@@ -13,4 +13,12 @@ gulp.task('build', ['clean'], () => NimiqBuild.build({
     minify: false
 }));
 
-gulp.task('default', ['build']);
+gulp.task('build-network-client', () => NimiqBuild.bundleJs(
+    './src/network-client.js',
+    `${__dirname}/../../`,
+    false,
+    true,
+    'dist',
+));
+
+gulp.task('default', ['build', 'build-network-client']);
