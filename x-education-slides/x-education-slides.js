@@ -25,15 +25,14 @@ export default class XEducationSlides {
     }
 
     static hide() {
-        XEducationSlides.currentSlide.hide();
+        XEducationSlides.currentSlide.hide(true);
     }
 
-    static next() {
+    static async next() {
         const nextSlide = XEducationSlides.nextSlide;
         if (nextSlide) {
             nextSlide.show();
         } else {
-            XEducationSlides.hide();
             XEducationSlides.onFinished();
         }
     }

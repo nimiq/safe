@@ -29,8 +29,8 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
         this.instance.hide();
     }
 
-    hide() {
-        XModals.hide(false, this);
+    hide(force = false) {
+        XModals.hide(false, this, force);
     }
 
     allowsShow(...parameters) {

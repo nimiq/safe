@@ -90,10 +90,10 @@ export default class XModals extends MixinSingleton(XElement) {
         }, 20);
     }
 
-    static async hide(triggeredByRouter, modal) {
+    static async hide(triggeredByRouter, modal, force = false) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal !== visibleModal
-            || !modal.allowsHide(XModals.instance._incomingModal)) return;
+            || (!modal.allowsHide(XModals.instance._incomingModal) && !force)) return;
         if (triggeredByRouter || !modal.route) {
             this.instance._hide(modal);
         } else {
