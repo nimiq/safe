@@ -10,9 +10,7 @@ import XEducationSlideOutro from './x-education-slide-outro.js';
 
 export default class XEducationSlides {
     static get slides() {
-        return [ XEducationSlideIntro, XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
-            XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss,
-            XEducationSlideOutro ];
+        return XEducationSlides._slides;
     }
 
     static start() {
@@ -81,5 +79,11 @@ export default class XEducationSlides {
     static onFinished() { }
 }
 XEducationSlides.KEY_CURRENT_SLIDE = 'education-slides-current-slide';
+
+XEducationSlides.allSlides = [ XEducationSlideIntro, XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
+    XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss,
+    XEducationSlideOutro ];
+
+XEducationSlides._slides = XEducationSlides.allSlides;
 
 // TODO lazy loading

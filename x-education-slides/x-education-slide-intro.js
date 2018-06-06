@@ -12,8 +12,8 @@ export default class XEducationSlideIntro extends XEducationSlide {
             <div class="modal-body">
                 <div class="has-side-image">
                     <div>
-                        <div>
-                            Alright, you can soon <span class="action-text"></span> Before that, we have some important information for you.
+                        <div class="spacing-bottom">
+                            Alright, you can soon <span class="action-text"></span>. Before that, we have some important information for you.
                         </div>
                         <div class="warning">
                             <p>Please take your time to understand this for your own safety. 🙏</p>
@@ -42,7 +42,7 @@ export default class XEducationSlideIntro extends XEducationSlide {
         super.onCreate();
 
         this.$('a[secondary]').onclick = () => {
-            XEducationSlides.hide();
+            XEducationSlides.onFinished();
         }
     }
 

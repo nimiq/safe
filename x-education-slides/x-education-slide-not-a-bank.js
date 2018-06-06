@@ -1,4 +1,5 @@
 import XEducationSlide from './x-education-slide.js';
+import XEducationSlides from './x-education-slides.js';
 
 export default class XEducationSlideNotABank extends XEducationSlide {
     html() {
@@ -28,5 +29,17 @@ export default class XEducationSlideNotABank extends XEducationSlide {
                 </div>
             </div>
         `;
+    }
+
+    onShow() {
+        super.onShow();
+
+        if (XEducationSlides.allSlides.length !== XEducationSlides.slides.length) {
+            // user clicked on "show information slides", so this is the first slide
+            const backButton = this.$('button[back]');
+            if (backButton) {
+                this.$('.button-bar').removeChild(backButton);
+            }
+        }
     }
 }
