@@ -30,8 +30,20 @@ export default class XEducationSlideIntro extends XEducationSlide {
                     <button back>Back</button>
                     <button next>Nimiq is not a Bank</button>
                 </div>
+                
+                <div class="spacing-top center">
+                <a secondary>Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
+    }
+
+    onCreate() {
+        super.onCreate();
+
+        this.$('a[secondary]').onclick = () => {
+            XEducationSlides.hide();
+        }
     }
 
     onShow() {
