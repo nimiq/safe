@@ -3,7 +3,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
-import { walletAccounts$ } from '../selectors/needsUpgrade$.js';
+import { upgradeableAccount$ } from '../selectors/needsUpgrade$.js';
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
@@ -55,7 +55,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     static mapStateToProps(state) {
         return {
             keyguardReady: state.connection.keyguard,
-            upgradedableAccount: walletAccounts$(state)
+            upgradedableAccount: upgradeableAccount$(state)
         }
     }
 

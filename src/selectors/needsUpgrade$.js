@@ -9,6 +9,11 @@ export const walletAccounts$ = createSelector(
     accounts => accounts && accounts.filter(x => x.type === AccountType.KEYGUARD_LOW)
 );
 
+export const upgradeableAccount$ = createSelector(
+    walletAccounts$,
+    accounts => accounts.length > 0 && accounts[0]
+);
+
 export default createSelector(
     walletAccounts$,
     accounts => accounts && accounts.find(x => x.balance > 0)

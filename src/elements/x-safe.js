@@ -26,6 +26,7 @@ import XEducationSlideIntro from '/elements/x-education-slides/x-education-slide
 import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
+import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -203,6 +204,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.createSafe();
             XToast.success('Account created successfully.');
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not created.');
@@ -213,6 +215,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.importLedger();
             XToast.success('Account imported successfully.');
+            XEducationSlides.hide();
         } catch(e) {
             XToast.warning('Account was not imported.');
         }
@@ -222,6 +225,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.importFromFile();
             XToast.success('Account imported successfully.');
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not imported.');
@@ -232,6 +236,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.importFromWords();
             XToast.success('Account imported successfully.');
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not imported.');
@@ -243,6 +248,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await accountManager.upgrade(address);
             XToast.success('Account upgraded successfully.');
             XUpgradeModal.hide();
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Upgrade not completed.');
@@ -253,6 +259,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.backupWords(address);
             XToast.success('Account backed up successfully.');
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
@@ -263,6 +270,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.rename(address);
             XToast.success('Account renamed successfully.');
+            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not renamed.');

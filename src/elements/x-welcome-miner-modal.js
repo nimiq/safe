@@ -42,7 +42,7 @@ export default class XWelcomeMinerModal extends MixinRedux(MixinModal(XElement))
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.keyguardReady && !this.properties.upgradedableAccount) {
+        if (changes.keyguardReady) {
             this.$('[import-words]').classList.remove('waiting');
             this.$('[import-file]').classList.remove('waiting');
         }
