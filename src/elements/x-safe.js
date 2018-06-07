@@ -22,7 +22,6 @@ import XWelcomeMinerModal from './x-welcome-miner-modal.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 import XUpgradeModal from './x-upgrade-modal.js';
-import XEducationSlideIntro from '/elements/x-education-slides/x-education-slide-intro.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
@@ -100,7 +99,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-welcome-miner-modal x-route-aside="welcome-miner"></x-welcome-miner-modal>
-                <x-education-slide-intro x-route-aside="information"></x-education-slide-intro>
                 <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
@@ -129,8 +127,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XUpgradeModal,
-            XEducationSlideIntro
+            XUpgradeModal
         ];
     }
 
