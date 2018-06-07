@@ -10,12 +10,11 @@ export default class XEducationSlideOutro extends XEducationSlide {
             <div class="modal-body">
                 <div class="has-side-image">
                     <div>
-                        <div>
-                            Thanks for your patience! Now you are prepared to <span class="action-text"></span>.
-                            
+                        Thanks for your patience! Now you are prepared to <span class="action-text"></span>.
+                        <span class="keyguard-popup-info">
                             For that purpose, in the next step a popup window will open which contains the Keyguard app.
                             Just follow the steps there and see you very soon in Nimiq Safe!
-                        </div>
+                        </span>
                     </div>
                 </div>
 
@@ -45,6 +44,8 @@ export default class XEducationSlideOutro extends XEducationSlide {
 
             case 'import-ledger':
                 actionText = 'import an existing account from your ledger';
+                this.$nextButton.textContent = 'Import from Ledger';
+                this.$('.keyguard-popup-info').style.display = 'none';
                 break;
 
             case 'upgrade':

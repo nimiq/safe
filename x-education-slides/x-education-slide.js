@@ -34,10 +34,10 @@ export default class XEducationSlide extends MixinModal(XElement) {
     _onArrowNavigation(e) {
         if (e.keyCode === 37) {
             // left arrow
-            XEducationSlides.back();
+            this.onBack();
         } else if (e.keyCode === 39) {
             // right arrow
-            XEducationSlides.next();
+            this.onNext();
         }
     }
 
