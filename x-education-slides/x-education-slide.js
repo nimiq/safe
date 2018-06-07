@@ -42,7 +42,8 @@ export default class XEducationSlide extends MixinModal(XElement) {
     }
 
     allowsHide(incomingModal) {
-        if (incomingModal instanceof XEducationSlide
+        if (XEducationSlides.closingAllowed
+            || incomingModal instanceof XEducationSlide
             || incomingModal === XWelcomeModal.instance
             || incomingModal === XWelcomeMinerModal.instance) {
             return true;

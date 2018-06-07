@@ -13,12 +13,14 @@ export default class XEducationSlides {
         return XEducationSlides._slides;
     }
 
-    static start() {
+    static start(closingAllowed = false) {
+        XEducationSlides._closingAllowed = closingAllowed;
         XEducationSlides.currentSlideIndex = 0;
         XEducationSlides.currentSlide.show();
     }
 
-    static resume() {
+    static resume(closingAllowed = false) {
+        XEducationSlides._closingAllowed = closingAllowed;
         XEducationSlides.currentSlide.show();
     }
 
@@ -73,6 +75,10 @@ export default class XEducationSlides {
         if (index < 0 || index >= XEducationSlides.slides.length) return;
         localStorage[XEducationSlides.KEY_CURRENT_SLIDE] = index;
         XEducationSlides.currentSlide.show();
+    }
+
+    static get closingAllowed() {
+        return !!XEducationSlides._closingAllowed;
     }
 
     /* Override if needed */
