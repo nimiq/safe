@@ -160,10 +160,7 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.accountsInitialized && !this.properties.safeAccountsPresent
-            // TODO remove check for temporary enable-ledger flag when not needed anymore
-            && !document.body.classList.contains('enable-ledger')
-        ) {
+        if (changes.accountsInitialized && !this.properties.safeAccountsPresent) {
             this.$welcomeModal.show();
         }
 
@@ -215,9 +212,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountLedger() {
         try {
+            XEducationSlides.hide(); // hide x education slides before showing the ledger modal
             await accountManager.importLedger();
             XToast.success('Account imported successfully.');
-            XEducationSlides.hide();
         } catch(e) {
             XToast.warning('Account was not imported.');
         }

@@ -15,11 +15,6 @@ import XSafeLock from './elements/x-safe-lock.js';
 
 class Safe {
     constructor() {
-        // TODO just temporary code
-        if (window.location.hash.indexOf('enable-ledger') !== -1) {
-            document.body.classList.add('enable-ledger');
-        }
-
         if (localStorage.getItem('lock')) {
             const $safeLock = XSafeLock.createElement();
             $safeLock.$el.classList.add('nimiq-dark');

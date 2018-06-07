@@ -8,11 +8,6 @@ export default class XWelcomeMinerModal extends MixinRedux(MixinModal(XElement))
 
     html() {
         return `
-            <style>
-                body:not(.enable-ledger) [import-ledger] {
-                    display: none;
-                }
-            </style>
             <div class="modal-header">
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
@@ -20,11 +15,11 @@ export default class XWelcomeMinerModal extends MixinRedux(MixinModal(XElement))
                 <div>
                     To mine Nimiq with an existing account, you can import it to Nimiq Safe by using your 24 recovery words or your access file.
                 </div>
-               <h3>What is the Nimiq Safe?</h3>
-                        <ul>
-                            <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
-                            <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
-                        </ul>
+                <h3>What is the Nimiq Safe?</h3>
+                <ul>
+                    <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
+                    <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
+                </ul>
                 
                 <div class="options new">
                     <button class="waiting" import-words>Import from 24 Words</button>

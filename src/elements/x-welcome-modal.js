@@ -9,22 +9,16 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
     html() {
         return `
-            <style>
-                body:not(.enable-ledger) [import-ledger-1], body:not(.enable-ledger) [import-ledger-2] {
-                    display: none;
-                }
-            </style>
             <div class="modal-header">
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
             <div class="modal-body center">
-               <h3>What is the Nimiq Safe?</h3>
-                        <ul>
-                            <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
-                            <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
-                        </ul>
-                
-                
+                <h3>What is the Nimiq Safe?</h3>
+                <ul>
+                    <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
+                    <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
+                </ul>
+
                 <div class="options new">
                     <div class="spacing-bottom">
                         For using Nimiq Safe, you need an account. If you have an access file or 24 recovery words,
@@ -36,34 +30,34 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                     <a secondary class="waiting" import-words-1>Import from 24 Words</a>
                     <a secondary class="waiting" import-file-1>Import from Access File</a>
                 </div>
-                
+
                  <div class="options upgrade display-none">
                    <div class="spacing-bottom">
                         You can upgrade your existing miner account for Nimiq Safe, or if you have an access file or 24 recovery words,
                         you can use those to import your account.
                     </div>
-                        
+
                     <button class="upgrade">Upgrade account</button>
                     <a secondary import-ledger-2>Import Ledger Account</a>
                     <a secondary import-words-2>Import from 24 Words</a>
                     <a secondary import-file-2>Import from Access File</a>
                 </div>
             </div>
-            `
+            `;
     }
 
     static mapStateToProps(state) {
         return {
             keyguardReady: state.connection.keyguard,
             upgradedableAccount: upgradeableAccount$(state)
-        }
+        };
     }
 
     _onPropertiesChanged(changes) {
         if (changes.keyguardReady && !this.properties.upgradedableAccount) {
-                this.$('.create').classList.remove('waiting');
-                this.$('[import-words-1]').classList.remove('waiting');
-                this.$('[import-file-1]').classList.remove('waiting');
+            this.$('.create').classList.remove('waiting');
+            this.$('[import-words-1]').classList.remove('waiting');
+            this.$('[import-file-1]').classList.remove('waiting');
         }
 
         if (changes.upgradedableAccount) {
@@ -92,7 +86,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
             'click [import-ledger-2]': this._onImportLedger.bind(this),
             'click [import-words-2]': this._onImportWords.bind(this),
             'click [import-file-2]': this._onImportFile.bind(this)
-        }
+        };
     }
 
     _onCreateAccount() {
