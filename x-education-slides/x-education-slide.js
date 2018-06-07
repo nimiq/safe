@@ -42,10 +42,9 @@ export default class XEducationSlide extends MixinModal(XElement) {
     }
 
     allowsHide(incomingModal) {
-        if (incomingModal
-            && (incomingModal === XEducationSlides.nextSlide || incomingModal === XEducationSlides.previousSlide
-            || incomingModal === XWelcomeModal.instance || incomingModal === XWelcomeMinerModal.instance)
-        ) {
+        if (incomingModal instanceof XEducationSlide
+            || incomingModal === XWelcomeModal.instance
+            || incomingModal === XWelcomeMinerModal.instance) {
             return true;
         }
 

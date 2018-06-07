@@ -1,5 +1,6 @@
 import XEducationSlide from './x-education-slide.js';
 import XEducationSlides from './x-education-slides.js';
+import XEducationSlideOutro from './x-education-slide-outro.js';
 import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
 import XWelcomeMinerModal from '/apps/safe/src/elements/x-welcome-miner-modal.js';
 
@@ -41,9 +42,8 @@ export default class XEducationSlideIntro extends XEducationSlide {
     onCreate() {
         super.onCreate();
 
-        this.$('a[secondary]').onclick = () => {
-            XEducationSlides.onFinished();
-        }
+        // skip to outro slide
+        this.$('a[secondary]').onclick = () => XEducationSlides.currentSlide = XEducationSlideOutro.instance;
     }
 
     onShow() {

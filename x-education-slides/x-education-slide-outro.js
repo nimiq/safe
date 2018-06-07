@@ -20,7 +20,6 @@ export default class XEducationSlideOutro extends XEducationSlide {
                 </div>
 
                 <div class="button-bar">
-                    <button back>Back</button>
                     <button next>Open Keyguard</button>
                 </div>
             </div>
@@ -51,22 +50,16 @@ export default class XEducationSlideOutro extends XEducationSlide {
             case 'upgrade':
                 actionText = 'upgrade your account for Nimiq Safe';
                 break;
-
-            default:
-                this.onBack();
         }
         this.$('.action-text').innerText = actionText;
     }
 
-    allowsHide(incomingModal) {
-        // Don't hide when keyguard opens (wait for it to finish), but don't show message neither.
-
-        if (incomingModal
-            && (incomingModal === XEducationSlides.previousSlide)
-        ) {
-            return true;
+    _onArrowNavigation(e) {
+        if (e.keyCode === 37) {
+            // left arrow
+            return; // don't allow going back
         }
-
-        return false;
+        super._onArrowNavigation(e);
     }
+
 }
