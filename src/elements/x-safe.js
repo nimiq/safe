@@ -190,6 +190,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-upgrade-account': this._clickedAccountUpgrade.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
+            'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings
@@ -255,7 +256,6 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.backupWords(address);
             XToast.success('Account backed up successfully.');
-            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
@@ -266,10 +266,19 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.rename(address);
             XToast.success('Account renamed successfully.');
-            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not renamed.');
+        }
+    }
+
+    async _clickedConfirmLedgerAddress(address) {
+        try {
+            await accountManager.confirmLedgerAddress(address);
+            XToast.success('Ledger account confirmed.');
+        } catch(e) {
+            console.error(e);
+            XToast.warning('Ledger Account not confirmed.');
         }
     }
 
