@@ -15,6 +15,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backupWords><i class="material-icons">text_format</i> Backup Recovery Words</button>
                     <button upgrade><i class="material-icons">check_circle</i> Upgrade</button>
+                    <button confirmLedgerAddress><i class="material-icons">check_circle</i> Check Address on Ledger</button>
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Account</h2>
@@ -57,6 +58,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$backupWordsButton = this.$('button[backupWords]');
         this.$upgradeButton = this.$('button[upgrade]');
 
+        this.$confirmLedgerAddressButton = this.$('button[confirmLedgerAddress]');
+
         this._height = 0;
         super.onCreate();
     }
@@ -66,7 +69,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
             'click button[upgrade]': _ => this.fire('x-upgrade-account', this.properties.address),
             'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
-            'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address)
+            'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address),
+            'click button[confirmLedgerAddress]': () => this.fire('x-confirm-ledger-address', this.properties.address)
         }
     }
 
@@ -163,8 +167,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
     set type(type) {
         super.type = type;
 
-        // Disable popup menu for Ledger and Vesting
-        this.$popupMenu.$el.classList.toggle('display-none', type === AccountType.LEDGER || type === AccountType.VESTING);
+        // Disable popup menu for Vesting
+        this.$popupMenu.$el.classList.toggle('display-none', type === AccountType.VESTING);
 
         // Disable send button for Vesting
         this.$actionButton.classList.toggle('display-none', type === AccountType.VESTING);
@@ -175,6 +179,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
         // Enable upgrade button only for Wallet
         this.$upgradeButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_LOW);
+
+        // Enable confirm ledger address button only for ledger accounts
+        this.$confirmLedgerAddressButton.classList.toggle('display-none', type !== AccountType.LEDGER);
     }
 
     set account(account) {
