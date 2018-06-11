@@ -295,7 +295,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _newTransactionFrom(address) {
         if (address) {
-            XSendTransactionModal.show(`sender=${ spaceToDash(address) }`);
+            XSendTransactionModal.show(`${ spaceToDash(address) }`, 'sender');
         } else {
             XSendTransactionModal.show();
         }
