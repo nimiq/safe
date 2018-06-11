@@ -130,6 +130,14 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$addressInput.value = address;
     }
 
+    set amount(amount) {
+        this.$amountInput.value = amount;
+    }
+
+    set message(message) {
+        this.$extraDataInput.value = message;
+    }
+
     _onSubmit(e) {
         e.preventDefault();
         if (!this._isValid()) return;

@@ -21,7 +21,7 @@ export default class XModals extends MixinSingleton(XElement) {
 
         if (!triggeredByRouter && modal.route && visibleModal && visibleModal.route) {
             router = await XRouter.instance;
-            router.replaceAside(visibleModal.route, modal.route, ...parameters);
+            router.replaceAside(visibleModal.route, modal.route, parameters);
             return;
         }
 

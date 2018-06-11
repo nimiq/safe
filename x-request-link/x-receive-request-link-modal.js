@@ -37,20 +37,24 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
         return ValidationUtils.isValidAddress(address);
     }
 
-    onShow(address) {
+    onShow(address, amount, message) {
         address = dashToSpace(address);
         this.$identicon.address = address;
         this.$address.address = address;
         this._address = address;
+        this._message = message;
+        this._amount = amount;
     }
 
     listeners() {
         return {
             'click a.cancel': () => this.hide(),
             'click button.confirm': async () =>
-                (await XRouter.instance).replaceAside('request', 'new-transaction', `recipient=${spaceToDash(this._address)}`)
+                (await XRouter.instance).replaceAside(
+                    'request',
+                    'new-transaction',
+                    `${spaceToDash(this._address)}/recipient/${this._amount}/${this._message}`,
+                )
         }
     }
 }
-
-// todo [v2] handle message and value
