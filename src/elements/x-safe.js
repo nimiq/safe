@@ -208,16 +208,6 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedImportAccountLedger() {
-        try {
-            XEducationSlides.hide(); // hide x education slides before showing the ledger modal
-            await accountManager.importLedger();
-            XToast.success('Account imported successfully.');
-        } catch(e) {
-            XToast.warning('Account was not imported.');
-        }
-    }
-
     async _clickedImportAccountFile() {
         try {
             await accountManager.importFromFile();
@@ -272,13 +262,30 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
+    async _clickedImportAccountLedger() {
+        try {
+            XEducationSlides.hide(); // hide x education slides before showing the ledger modal
+            await accountManager.importLedger();
+            XToast.success('Account imported successfully.');
+        } catch(e) {
+            if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
+                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+            } else {
+                XToast.warning('Account was not imported.');
+            }
+        }
+    }
+
     async _clickedConfirmLedgerAddress(address) {
         try {
             await accountManager.confirmLedgerAddress(address);
             XToast.success('Ledger account confirmed.');
         } catch(e) {
-            console.error(e);
-            XToast.warning('Ledger Account not confirmed.');
+            if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
+                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+            } else {
+                XToast.warning('Ledger Account not confirmed.');
+            }
         }
     }
 
