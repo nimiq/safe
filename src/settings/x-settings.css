@@ -5,6 +5,10 @@ x-settings {
     max-width: 480px;
 }
 
+x-settings x-card {
+    width: auto;
+}
+
 x-settings .setting {
     display: block;
     padding: 1.2em 0.5em;
