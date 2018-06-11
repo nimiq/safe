@@ -115,7 +115,6 @@ x-card {
     display: block;
     width: 100%;
     max-width: 960px;
-    overflow: hidden;
     border-radius: 0.4em;
     padding: 1em;
     margin: 0.5em;
