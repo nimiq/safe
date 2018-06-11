@@ -20,18 +20,17 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
 
         if (address && mode === 'recipient') {
             this.recipient = dashToSpace(address);
+            this.$addressInput.$input.setAttribute('readonly', true);
         }
 
         if (amount) {
             this.amount = amount;
+            this.$amountInput.$input.setAttribute('readonly', true);
         }
 
         if (message) {
             this.message = message;
-        }
-
-        if (freeze) {
-            // todo implement
+            this.$extraDataInput.$input.setAttribute('readonly', true);
         }
 
         this.validateAllFields();

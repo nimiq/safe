@@ -2,6 +2,7 @@ import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XElement from '/libraries/x-element/x-element.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
+import XAmountInput from '/elements/x-amount-input/x-amount-input.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import share from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '/libraries/secure-utils/config/config.js';
@@ -22,8 +23,9 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                             <x-address></x-address>
                         </li>
                         <li>
-                            <div>OR use the following link to request a transaction:</div>
-                            <div class="x-request-link"></div>
+                            <div>OR create a transaction request link:</div>
+                            <div class="spacing-top"><x-amount-input></x-amount-input></div>
+                            <div class="x-request-link spacing-top"></div>
                         </li>
                     </ul>
                 </div>
@@ -32,7 +34,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     }
 
     children() {
-        return [ XAddress, XAccountsDropdown ];
+        return [ XAddress, XAccountsDropdown, XAmountInput ];
     }
 
     onCreate() {
@@ -47,7 +49,8 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                 title: 'Nimiq Transaction Request',
                 text: 'Please send me Nimiq using this link:',
                 url: this._link
-            })
+            }),
+            'input x-amount-input input': this._updateLink.bind(this)
         }
     }
 
@@ -57,11 +60,15 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
     _setAccount(address) {
         this.$address.address = address;
+        this._address = address;
+        this._updateLink();
+    }
 
+    _updateLink() {
+        const amount = this.$amountInput.value > 0 ? `/${this.$amountInput.value}` : '';
+
+        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }/#_request/${spaceToDash(this._address)}${amount}_`;
         const $requestLink = this.$('.x-request-link');
-
-        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }/#_request/${spaceToDash(address)}_`;
-
         $requestLink.textContent = this._link;
     }
 }
