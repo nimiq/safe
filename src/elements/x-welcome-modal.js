@@ -12,35 +12,45 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
             <div class="modal-header">
                 <h2>Welcome to Nimiq Safe</h2>
             </div>
-            <div class="modal-body center">
-                <h3>What is the Nimiq Safe?</h3>
+            <div class="modal-body center safe-logo-background">
+                <h3 class="logo-margin-top">What is the Nimiq Safe?</h3>
                 <ul>
-                    <li>The Nimiq Safe is a free, open-source, client-side interface.</li>
-                    <li>It allows you to interact directly with the Nimiq blockchain while remaining in full control of your keys & your funds.</li>
+                    <li>Nimiq Safe lets you securely manage your Nimiq accounts,<br>send and receive NIM and view your balances.</li>
+                    <li>Nimiq Safe is a free and open-source, client-side interface.</li>
+                    <li>Nimiq Safe allows you to interact directly with the blockchain<br>while remaining in full control of your keys & your funds.</li>
                 </ul>
 
                 <div class="options new">
                     <div class="spacing-bottom">
-                        For using Nimiq Safe, you need an account. If you have an access file or 24 recovery words,
-                        you can use those to import your existing account.
+                        <strong>For using Nimiq Safe, you need an account:</strong><br>
                     </div>
-                
-                    <button class="create waiting">Create New Account</button>
-                    <a secondary import-ledger-1>Import Ledger Account</a>
+
+                    <button class="create waiting spacing-bottom">Create New Account</button>
+
+                    <div class="spacing-bottom">
+                        If you have 24 Recovery Words or an Access File,<br>
+                        you can use those to import your existing account:
+                    </div>
+
                     <a secondary class="waiting" import-words-1>Import from 24 Words</a>
                     <a secondary class="waiting" import-file-1>Import from Access File</a>
+                    <a secondary import-ledger-1>Import Ledger Account</a>
                 </div>
 
                  <div class="options upgrade display-none">
                    <div class="spacing-bottom">
-                        You can upgrade your existing miner account for Nimiq Safe, or if you have an access file or 24 recovery words,
-                        you can use those to import your account.
+                        <strong>You can upgrade your existing Miner Account for Nimiq Safe:</strong>
                     </div>
 
-                    <button class="upgrade">Upgrade account</button>
-                    <a secondary import-ledger-2>Import Ledger Account</a>
+                    <button class="upgrade spacing-bottom">Upgrade account</button>
+
+                    <div class="spacing-bottom">
+                        Or if you have 24 Recovery Words or an Access File,<br>you can use those to import your account.
+                    </div>
+
                     <a secondary import-words-2>Import from 24 Words</a>
                     <a secondary import-file-2>Import from Access File</a>
+                    <a secondary import-ledger-2>Import Ledger Account</a>
                 </div>
             </div>
             `;
