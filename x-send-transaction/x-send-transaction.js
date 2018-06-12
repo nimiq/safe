@@ -405,5 +405,4 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 }
 
-// TODO make fee a slider
 // TODO make validity start a slider

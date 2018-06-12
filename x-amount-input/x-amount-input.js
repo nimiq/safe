@@ -38,11 +38,12 @@ export default class XAmountInput extends XInput {
     }
 
     set value(value) {
-        if (value === '') {
+        if (value === '' || value > 21e10) {
             super.value = '';
             return;
         }
         value = Number(value);
+
         const decimals = Math.pow(10, this.maxDecimals);
         super.value = Math.round(value * decimals) / decimals; // triggers _onValueChanged
     }
