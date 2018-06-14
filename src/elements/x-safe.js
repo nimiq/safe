@@ -26,6 +26,7 @@ import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -44,6 +45,8 @@ export default class XSafe extends MixinRedux(XElement) {
                         </nimiq-logo>
                     </div>
                     <nav class="secondary-links">
+                        <a href="javascript:void(0);" contact-list>Contacts</a>
+                        <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
                         <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
                         <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
@@ -127,7 +130,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XUpgradeModal
+            XUpgradeModal,
+            VContactListModal
         ];
     }
 
@@ -193,7 +197,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'x-setting-visual-lock-pin': this._onSetVisualLock,
-            'click a[warnings]': this._showWarnings
+            'click a[warnings]': this._showWarnings,
+            'click a[contact-list]': () => VContactListModal.show(true)
         }
     }
 
