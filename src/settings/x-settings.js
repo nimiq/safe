@@ -9,7 +9,6 @@ export default class XSettings extends MixinRedux(XElement) {
         return `
              <x-card>
                 <h2>Settings</h2>
-                <hr>
                 <span class="setting" show-all-decimals>
                     Show all decimals
                     <input type="checkbox">
@@ -26,7 +25,6 @@ export default class XSettings extends MixinRedux(XElement) {
 
              <x-card>
                 <h2>Advanced</h2>
-                <hr>
                 <span class="setting" prepared-tx>
                     Send prepared transaction
                     <small>Send a transaction that was prepared offline.</small>

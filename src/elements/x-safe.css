@@ -41,9 +41,7 @@ header {
     text-align: center;
     padding: 0 0.5em;
     /* border-bottom: 3px solid var(--success-color); */
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
 .content-width {
@@ -119,24 +117,7 @@ x-card {
     padding: 1em;
     margin: 0.5em;
     background: white;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
-    0 1px 5px 0 rgba(0, 0, 0, 0.12),
-    0 3px 1px -2px rgba(0, 0, 0, 0.2);
-}
-
-x-card h2 {
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-x-card hr {
-    border: 0;
-    height: 1px;
-    background: rgba(0, 0, 0, 0.1);
-    margin: 0;
+    box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.25);
 }
 
 @media (min-width: 480px) {
@@ -144,6 +125,14 @@ x-card hr {
         padding: 24px ;
         margin: 16px;
     }
+}
+
+x-card h2 {
+    margin-bottom: 23px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 13px;
+    font-weight: bold;
 }
 
 footer {
@@ -281,7 +270,7 @@ nav.actions.floating-actions {
     margin-left: 0;
     padding: 0;
     min-height: 0;
-    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2);
 }
 
 .floating-btn button:disabled {
