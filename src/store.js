@@ -44,7 +44,8 @@ export class Store {
             state.transactions,
             {
                 entries: [...state.transactions.entries.entries()],
-                isRequestingHistory: undefined
+                isRequestingHistory: undefined,
+                page: 1
             }
         );
 
