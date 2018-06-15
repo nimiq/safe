@@ -45,8 +45,6 @@ export default class XSafe extends MixinRedux(XElement) {
                         </nimiq-logo>
                     </div>
                     <nav class="secondary-links">
-                        <a href="javascript:void(0);" contact-list>Contacts</a>
-                        <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
                         <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
                         <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
@@ -72,7 +70,12 @@ export default class XSafe extends MixinRedux(XElement) {
                         <button receive disabled><span>Receive</span></button>
                         <div class="btn-text">Receive</div>
                     </div>
+                    <div class="floating-btn">
+                        <button contacts><span>Contacts</span></button>
+                        <div class="btn-text">Contacts</div>
+                    </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
+                    <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
                 </nav>
                 <x-view-dashboard x-route="" class="content-width">
                     <!-- <h1>Dashboard</h1> -->
@@ -198,7 +201,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
-            'click a[contact-list]': () => VContactListModal.show(true)
+            'click button[contacts]': () => VContactListModal.show(true)
         }
     }
 
