@@ -29,7 +29,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         }
 
         if (message) {
-            this.message = message;
+            this.message = decodeURIComponent(message);
             this.$extraDataInput.$input.setAttribute('readonly', true);
         }
 
