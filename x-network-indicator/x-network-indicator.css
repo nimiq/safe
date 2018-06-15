@@ -1,10 +1,6 @@
 x-network-indicator {
     display: block;
-    /* padding-top: 0.4em; */
-}
-
-x-card x-network-indicator hr {
-    margin-bottom: 0.5em;
+    margin-top: -4px;
 }
 
 x-network-indicator div {

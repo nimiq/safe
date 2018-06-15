@@ -33,7 +33,6 @@ export default class XTransactions extends MixinRedux(XElement) {
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
         if (this.properties.onlyRecent) {
             this.$paginator.$el.classList.add('display-none');
-            this.$('a[secondary]').classList.remove('display-none');
         }
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
@@ -60,6 +59,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                 state.accounts ? state.accounts.entries : false
             ),
             hasTransactions: state.transactions.hasContent,
+            totalTransactionCount: state.transactions.entries.size,
             addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
             hasAccounts: state.accounts.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
@@ -184,6 +184,10 @@ export default class XTransactions extends MixinRedux(XElement) {
             this.$transactionsList.textContent = '';
             const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);
+        }
+
+        if (this.properties.onlyRecent) {
+            this.$('a[secondary]').classList.toggle('display-none', this.properties.totalTransactionCount <= 4);
         }
     }
 

@@ -5,7 +5,6 @@ import Config from '/libraries/secure-utils/config/config.js';
 export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {
         return `
-            <hr>
             <div><label>Consensus</label> <span consensus></span></div>
             <div><label>Connected peers</label> <span peerCount></span></div>
             <div><label>Blockchain height</label> <span height></span></div>

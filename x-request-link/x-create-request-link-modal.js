@@ -67,7 +67,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     _updateLink() {
         const amount = this.$amountInput.value > 0 ? `/${this.$amountInput.value}` : '';
 
-        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }/#_request/${spaceToDash(this._address)}${amount}_`;
+        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }#_request/${spaceToDash(this._address)}${amount}_`;
         const $requestLink = this.$('.x-request-link');
         $requestLink.textContent = this._link;
     }

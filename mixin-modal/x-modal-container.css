@@ -12,7 +12,7 @@ x-modal-container {
     -webkit-overflow-scrolling: touch;
     outline: none !important;
     -webkit-tap-highlight-color: transparent;
-    padding: 64px 0;
+    padding: 24px 0;
 }
 
 x-modal-container > * {

@@ -23,8 +23,6 @@ x-transactions-list {
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
     text-align: left;
 }
 
@@ -44,6 +42,7 @@ x-transaction {
     animation: from-right 500ms;
     animation-fill-mode: backwards; /* Apply the animation's opacity: 0 when the animation property is applied */
     cursor: pointer;
+    border-radius: 4px;
 }
 
 x-transaction.removed,
@@ -52,7 +51,6 @@ x-transaction.expired {
 }
 
 x-transaction > * {
-    /* border-bottom: 1px solid rgba(0, 0, 0, 0.1); */
     display: table-cell !important;
     vertical-align: middle;
     padding-top: 20px;
@@ -60,15 +58,15 @@ x-transaction > * {
 }
 
 x-transaction > *:first-child {
-    padding-left: 8px;
+    padding-left: 16px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 x-transaction > *:last-child {
-    padding-right: 8px;
-}
-
-x-transaction:last-child > * {
-    border-bottom: none;
+    padding-right: 16px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 x-transaction:nth-child(1) { animation-delay: 0.0s }
@@ -87,12 +85,8 @@ x-transactions.no-animation x-transaction {
     animation-delay: 0s !important;
 }
 
-x-transaction:hover {
+x-transaction:hover > * {
     background-color: rgba(0, 0, 0, 0.075);
-}
-
-x-transaction:last-child {
-    border-bottom: 1px solid transparent;
 }
 
 x-transaction.removed .timestamp,

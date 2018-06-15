@@ -5,6 +5,7 @@ x-create-request-link-modal {
 x-create-request-link-modal .x-request-link {
     cursor: pointer;
     font-weight: bold;
+    overflow-wrap: break-word;
 }
 
 x-create-request-link-modal .x-request-link:hover {
@@ -12,6 +13,7 @@ x-create-request-link-modal .x-request-link:hover {
 }
 
 x-create-request-link-modal ul {
-    padding-left: 12px;
+    padding-left: 20px;
     list-style: square;
+    max-width: 100%;
 }

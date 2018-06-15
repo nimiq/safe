@@ -13,6 +13,10 @@ x-popup-menu {
     text-align: right;
 }
 
+x-card x-popup-menu {
+    top: -11px;
+}
+
 x-popup-menu[left-align] {
     text-align: left;
 }
@@ -44,7 +48,7 @@ x-popup-menu > div {
     background: white;
     z-index: 1;
     border: 1px solid lightgray;
-    border-radius: 3px;
+    border-radius: 4px;
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
