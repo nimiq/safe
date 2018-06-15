@@ -63,16 +63,16 @@ export default class XSafe extends MixinRedux(XElement) {
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
+                        <button contacts><span>Contacts</span></button>
+                        <div class="btn-text">Contacts</div>
+                    </div>
+                    <div class="floating-btn">
                         <button new-tx disabled><span>Send</span></button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
                         <button receive disabled><span>Receive</span></button>
                         <div class="btn-text">Receive</div>
-                    </div>
-                    <div class="floating-btn">
-                        <button contacts><span>Contacts</span></button>
-                        <div class="btn-text">Contacts</div>
                     </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
