@@ -12,7 +12,7 @@ x-toast {
 
 x-toast [toast-content] {
     min-height: 20px;
-    padding: 14px 24px;
+    padding: 14px 24px 14px 16px;
     background: #333;
     color: white;
     border-radius: 3px;
@@ -20,6 +20,39 @@ x-toast [toast-content] {
     box-shadow: var(--box-shadow);
     margin: 24px;
     pointer-events: initial;
+}
+
+x-toast [toast-content]::before {
+    content: "info";
+    color: inherit;
+    margin-right: 8px;
+    opacity: 0.8;
+
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    vertical-align: middle;
+    margin-top: -0.1em;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
 }
 
 /* types */
@@ -37,6 +70,18 @@ x-toast [toast-content].error {
 x-toast [toast-content].warning {
     background: var(--warning-color);
     color: #333;
+}
+
+x-toast [toast-content].success::before {
+    content: "check_circle";
+}
+
+x-toast [toast-content].error::before {
+    content: "cancel";
+}
+
+x-toast [toast-content].warning::before {
+    content: "warning";
 }
 
 /* animation */
