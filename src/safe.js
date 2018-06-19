@@ -23,6 +23,9 @@ class Safe {
             this.launchApp();
         }
 
+        this._consensusSyncing = false;
+        this._consensusEstablished = false;
+
         // FIXME
         setTimeout(() => document.body.classList.remove('preparing'));
     }
@@ -103,11 +106,19 @@ class Safe {
     _onConsensusSyncing() {
         console.log('Consensus syncing');
         this.actions.setConsensus('syncing');
+        if (location.origin === 'https://safe.nimiq.com' && !this._consensusSyncing) {
+            this._consensusSyncing = true;
+            _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'start-syncing', Math.round(performance.now() / 100) / 10]);
+        }
     }
 
     _onConsensusEstablished() {
         console.log('Consensus established');
         this.actions.setConsensus('established');
+        if (location.origin === 'https://safe.nimiq.com' && !this._consensusEstablished) {
+            this._consensusEstablished = true;
+            _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'established', Math.round(performance.now() / 100) / 10]);
+        }
     }
 
     _onConsensusLost() {
