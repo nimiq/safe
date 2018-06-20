@@ -2,6 +2,11 @@ x-upgrade-modal {
     width: 600px;
 }
 
+x-upgrade-modal x-account {
+    max-width: 100%;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 x-welcome-modal {
     max-width: 500px !important;
 }
