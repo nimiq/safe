@@ -15,6 +15,10 @@ import XSafeLock from './elements/x-safe-lock.js';
 
 class Safe {
     constructor() {
+        this._networkLaunched = false;
+        this._consensusSyncing = false;
+        this._consensusEstablished = false;
+
         if (localStorage.getItem('lock')) {
             const $safeLock = XSafeLock.createElement();
             $safeLock.$el.classList.add('nimiq-dark');
@@ -22,9 +26,6 @@ class Safe {
         } else {
             this.launchApp();
         }
-
-        this._consensusSyncing = false;
-        this._consensusEstablished = false;
 
         // FIXME
         setTimeout(() => document.body.classList.remove('preparing'));
@@ -79,6 +80,10 @@ class Safe {
 
         // Launch network
         networkClient.launch();
+        if (location.origin === 'https://safe.nimiq.com' && !this._networkLaunched) {
+            this._networkLaunched = true;
+            _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'initialize', Math.round(performance.now() / 100) / 10]);
+        }
 
         // launch network rpc client
         this.network = await networkClient.rpcClient;
