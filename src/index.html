@@ -52,6 +52,7 @@
     <link rel="apple-touch-icon" sizes="192x192" href="/apps/safe/src/pwa/icons/icon192.png">
     <link rel="apple-touch-startup-image" href="/apps/safe/src/pwa/icons/icon512.png">
     <!-- build:css -->
+    <link rel="stylesheet" href="/elements/vue-components/dist/NimiqComponents.css">
     <link rel="stylesheet" href="safe.css">
     <!-- endbuild -->
     <title>Nimiq Safe</title>
@@ -79,23 +80,10 @@
 <!-- @asset(/libraries/nimiq-utils/moment/moment.min.js) -->
 <script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
 
-<!-- development version, includes helpful console warnings -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
-
-<!-- production version, optimized for size and speed -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
-<!-- @asset(/elements/vue-components/lib/vue.min.js) -->
-<script src="/elements/vue-components/lib/vue.min.js"></script>
-
-<!-- @asset(/elements/vue-components/lib/vue-async-computed.js) -->
-<script src="/elements/vue-components/lib/vue-async-computed.js"></script>
-
-<!-- @asset(/elements/vue-components/dist/NimiqComponents.umd.min.js) -->
-<script src="/elements/vue-components/dist/NimiqComponents.umd.min.js"></script>
-<!-- @asset(/elements/vue-components/dist/NimiqComponents.css) -->
-<link rel="stylesheet" href="/elements/vue-components/dist/NimiqComponents.css">
-
 <!-- build:js -->
+<script src="/elements/vue-components/dist/vue.js"></script><!-- development version, includes helpful console warnings -->
+<script src="/elements/vue-components/lib/vue-async-computed.js"></script>
+<script src="/elements/vue-components/dist/NimiqComponents.umd.min.js"></script>
 <script src="safe.js" type="module"></script>
 <!-- endbuild -->
 <!-- build:browser-warning --><!-- endbuild -->
