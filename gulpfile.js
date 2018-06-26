@@ -6,6 +6,7 @@ gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
 
 gulp.task('build', ['clean'], () => NimiqBuild.build({
     jsEntry: [
+        '../../libraries/nimiq-utils/moment/moment.min.js',
         '../../elements/vue-components/lib/vue.min.js', // Production version
         '../../elements/vue-components/lib/vue-async-computed.js',
         '../../elements/vue-components/dist/NimiqComponents.umd.min.js',
