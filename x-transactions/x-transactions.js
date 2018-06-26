@@ -56,7 +56,8 @@ export default class XTransactions extends MixinRedux(XElement) {
                     props.onlyRecent ? 4 : state.transactions.itemsPerPage,
                     true
                 ),
-                state.accounts ? state.accounts.entries : false
+                state.accounts ? state.accounts.entries : false,
+                state.contacts
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: state.transactions.entries.size,
@@ -67,14 +68,23 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
-    static _labelTransactions(txs, accounts) {
+    static _labelTransactions(txs, accounts, contacts) {
         if (!accounts) return txs;
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            tx.senderLabel = sender ? sender.label : AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
-            tx.recipientLabel = recipient ? recipient.label : AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
+            tx.senderLabel = sender ?
+                sender.label :
+                contacts[tx.sender] ?
+                    contacts[tx.sender].label :
+                    AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
+
+            tx.recipientLabel = recipient ?
+                recipient.label :
+                contacts[tx.recipient] ?
+                    contacts[tx.recipient].label :
+                    AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
 
             if (sender) tx.type = 'outgoing';
             if (recipient) tx.type = 'incoming';

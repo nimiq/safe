@@ -29,7 +29,7 @@ export default class XModals extends MixinSingleton(XElement) {
             XModals.instance._show(modal, ...parameters);
         } else {
             router = await XRouter.instance;
-            router.showAside(modal.route, ...parameters);
+            router.showAside(modal.route, parameters);
         }
 
         if (!visibleModal) return;

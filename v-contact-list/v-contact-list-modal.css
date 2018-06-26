@@ -1,0 +1,9 @@
+v-contact-list-modal {
+    width: 100%;
+}
+
+@media (min-width: 540px) {
+    v-contact-list-modal {
+        max-width: 534px !important;
+    }
+}

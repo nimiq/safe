@@ -10,6 +10,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '../../libraries/account-manager/account-type.js';
+import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -26,7 +27,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <x-accounts-dropdown name="sender"></x-accounts-dropdown>
                 <span error sender class="display-none"></span>
 
-                <h3>Send to <span class="link-address-book">Address book</span></h3>
+                <h3>Send to <span class="link-contact-list">Contact List</span></h3>
                 <div class="row">
                     <x-address-input class="multiline" name="recipient"></x-address-input>
                 </div>
@@ -118,7 +119,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             // 'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
             'x-amount-input-set-max': this._onAmountSetMax,
             'x-fee-input-changed': this._onFeeChanged,
-            'x-extra-data-input-changed-size': this._onExtraDataChangedSize
+            'x-extra-data-input-changed-size': this._onExtraDataChangedSize,
+            'click .link-contact-list': this._onClickContactList
         }
     }
 
@@ -191,6 +193,10 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     _onExtraDataChangedSize(size) {
         if (size > 0) this.$feeInput.txSize = 166 + size;
         else this.$feeInput.txSize = 138;
+    }
+
+    _onClickContactList() {
+        VContactListModal.show();
     }
 
     /**
