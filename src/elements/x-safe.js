@@ -26,6 +26,7 @@ import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -69,7 +70,12 @@ export default class XSafe extends MixinRedux(XElement) {
                         <button receive disabled><span>Receive</span></button>
                         <div class="btn-text">Receive</div>
                     </div>
+                    <div class="floating-btn">
+                        <button contacts><span>Contacts</span></button>
+                        <div class="btn-text">Contacts</div>
+                    </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
+                    <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
                 </nav>
                 <x-view-dashboard x-route="" class="content-width">
                     <!-- <h1>Dashboard</h1> -->
@@ -127,7 +133,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XUpgradeModal
+            XUpgradeModal,
+            VContactListModal
         ];
     }
 
@@ -193,7 +200,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'x-setting-visual-lock-pin': this._onSetVisualLock,
-            'click a[warnings]': this._showWarnings
+            'click a[warnings]': this._showWarnings,
+            'click button[contacts]': () => VContactListModal.show(true)
         }
     }
 

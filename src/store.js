@@ -60,7 +60,8 @@ export class Store {
             network: {
                 oldHeight: state.network.height
             },
-            settings: state.settings
+            settings: state.settings,
+            contacts: state.contacts
         };
 
         const stringifiedState = JSON.stringify(persistentState);

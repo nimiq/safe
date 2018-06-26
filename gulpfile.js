@@ -5,8 +5,16 @@ const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
 
 gulp.task('build', ['clean'], () => NimiqBuild.build({
-    jsEntry: 'src/safe.js',
-    cssEntry: 'src/safe.css',
+    jsEntry: [
+        '../../elements/vue-components/lib/vue.min.js', // Production version
+        '../../elements/vue-components/lib/vue-async-computed.js',
+        '../../elements/vue-components/dist/NimiqComponents.umd.min.js',
+        'src/safe.js'
+    ],
+    cssEntry: [
+        '../../elements/vue-components/dist/NimiqComponents.css',
+        'src/safe.css'
+    ],
     htmlEntry: 'src/index.html',
     rootPath: `${__dirname}/../../`,
     distPath: 'deployment-safe/dist',
