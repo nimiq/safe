@@ -30,7 +30,7 @@ export default class XSettings extends MixinRedux(XElement) {
                     <small>Send a transaction that was prepared offline.</small>
                 </span>
                 <span class="setting" onclick="localStorage.removeItem('persistedState'); window.skipPersistingState = true; location.reload();">
-                    Delete persistence
+                    Delete cached data
                     <small>This does not delete your accounts. It only deletes your transaction history and balances, which will be loaded again from the network.</small>
                 </span>
              </x-card>
