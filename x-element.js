@@ -297,6 +297,7 @@ export default class XElement {
      * @param {Element | window} $el
      */
     listenOnce(type, callback, $el) {
+        $el = $el || this.$el;
         const listener = e => {
             $el.removeEventListener(type, listener);
             callback(e);
