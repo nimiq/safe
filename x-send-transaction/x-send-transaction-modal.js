@@ -8,7 +8,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         return address === '-' || !address || ValidationUtils.isValidAddress(dashToSpace(address));
     }
 
-    /* mode: 'sender'|'recipient'|'contact' */
+    /* mode: 'sender'|'recipient'|'contact'|'vesting' */
     onShow(address, mode, amount, message, freeze) {
 
         if (mode !== 'contact') this.clear();
@@ -19,7 +19,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
             this.sender = dashToSpace(address);
         }
 
-        if (address && mode === 'recipient') {
+        if (address && (mode === 'recipient' || mode === 'vesting')) {
             this.recipient = dashToSpace(address);
             this.$addressInput.$input.setAttribute('readonly', true);
             this.$('.link-contact-list').classList.add('display-none');

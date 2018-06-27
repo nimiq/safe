@@ -29,6 +29,7 @@ export default class XAmount extends XElement {
         this.$mainDecimals = this.$('span.main-decimals');
         this.$restDecimals = this.$('span.rest-decimals');
         this.$currencyNim = this.$('x-currency-nim');
+        this._value = 0;
     }
 
     set type(type) {
@@ -41,6 +42,8 @@ export default class XAmount extends XElement {
 
         value = Number(value) || 0;
         value = Math.round(value * 100000) / 100000;
+
+        this._value = value;
 
         const valueStr = value.toFixed(5);
         let [i, d] = valueStr.split('.');
@@ -55,6 +58,10 @@ export default class XAmount extends XElement {
         this.$mainDecimals.textContent = mainDecimals;
         this.$restDecimals.textContent = restDecimals;
         this.$currencyNim.style.display = 'inline';
+    }
+
+    get value() {
+        return this._value;
     }
 
     // _formatThousands(number, separator = '‘') {
