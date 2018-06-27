@@ -8,7 +8,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         return address === '-' || !address || ValidationUtils.isValidAddress(dashToSpace(address));
     }
 
-    /* mode: sender or recipient or fromContactList */
+    /* mode: 'sender'|'recipient'|'contact' */
     onShow(address, mode, amount, message, freeze) {
 
         if (mode !== 'contact') this.clear();
@@ -19,12 +19,13 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
             this.sender = dashToSpace(address);
         }
 
-        if (address) {
-            if (mode === 'recipient') {
-                this.recipient = dashToSpace(address);
-                this.$addressInput.$input.setAttribute('readonly', true);
-            }
-            this.$('.link-contact-list').classList.toggle('display-none', mode === 'recipient');
+        if (address && mode === 'recipient') {
+            this.recipient = dashToSpace(address);
+            this.$addressInput.$input.setAttribute('readonly', true);
+            this.$('.link-contact-list').classList.add('display-none');
+        } else {
+            this.$addressInput.$input.removeAttribute('readonly');
+            this.$('.link-contact-list').classList.remove('display-none');
         }
 
         if (address && mode === 'contact' && address !== '-') {
@@ -34,11 +35,15 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         if (amount) {
             this.amount = amount;
             this.$amountInput.$input.setAttribute('readonly', true);
+        } else {
+            this.$amountInput.$input.removeAttribute('readonly');
         }
 
         if (message) {
             this.message = decodeURIComponent(message);
             this.$extraDataInput.$input.setAttribute('readonly', true);
+        } else {
+            this.$extraDataInput.$input.removeAttribute('readonly');
         }
 
         this.validateAllFields();
