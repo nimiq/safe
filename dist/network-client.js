@@ -118,11 +118,12 @@ class RPC {
                 /** @private
                  *  @type {Map.<number,{resolve:Function,error:Function}>} */
                 this._waiting = new Map();
-                self.addEventListener('message', this._receive.bind(this));
+                this._receive = this._receive.bind(this);
+                self.addEventListener('message', this._receive);
             }
 
             close() {
-                self.removeEventListener('message', this._receive.bind(this));
+                self.removeEventListener('message', this._receive);
             }
 
             _receive({ source, origin, data }) {
@@ -384,6 +385,10 @@ class Config {
         return Config._origin(subdomain, true);
     }
 
+    static get online() {
+        return !Config.offline;
+    }
+
     /* Private methods */
 
     static _origin(subdomain, withPath) {
@@ -409,6 +414,7 @@ class Config {
                     case 'network': path = '/libraries/network/'; break;
                     case 'safe': path = '/apps/safe/'; break;
                     case 'promo': path = '/apps/promo/'; break;
+                    case 'shop': path = '/'; break;
                 }
 
                 if (location.pathname.includes('/dist')) {
