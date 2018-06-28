@@ -35,9 +35,14 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     static mapStateToProps(state, props) {
-        return Object.assign({},
+        const newProps = Object.assign({},
             state.accounts.entries.get(props.address)
-        )
+        );
+        if (props.type === 4 && newProps.type === 4) { // Vesting
+            // Keep "available balance"
+            newProps.balance = props.balance;
+        }
+        return newProps;
     }
 
     _onPropertiesChanged(changes) {

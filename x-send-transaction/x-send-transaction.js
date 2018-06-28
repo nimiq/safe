@@ -156,7 +156,10 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$feeInput.value = 0;
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
+        this.$accountsDropdown.selectDefaultAccount();
+        this.$accountsDropdown.enable();
         this.loading = false;
+        this.fire('x-send-transaction-cleared');
     }
 
     validateAllFields() {

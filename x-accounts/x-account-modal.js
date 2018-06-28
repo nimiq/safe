@@ -40,6 +40,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
                 <div class="action-button">
                     <button send class="small">Send from this account</button>
+                    <button payout class="small display-none">Pay out</button>
                 </div>
             </div>
         `
@@ -52,7 +53,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$balanceSection = this.$('.x-account-bottom');
         this.$vestingInfo = this.$('.vesting-info');
         this.$sendButton = this.$('button[send]');
-        this.$actionButton = this.$('.action-button');
+        this.$payoutButton = this.$('button[payout]');
 
         this.$renameButton = this.$('button[rename]');
         this.$backupWordsButton = this.$('button[backupWords]');
@@ -70,6 +71,17 @@ export default class XAccountModal extends MixinModal(XAccount) {
             'click button[backupWords]': _ => this.fire('x-account-modal-backup-words', this.properties.address),
             'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address),
+            'click button[payout]': _ => this.fire('x-account-modal-payout',
+                {
+                    vestingAccount: {
+                        address: this.properties.address,
+                        balance: this.$availableAmount.value,
+                        label: this.properties.label,
+                        type: this.properties.type
+                    },
+                    owner: this.properties.owner
+                }
+            ),
             'click button[confirmLedgerAddress]': () => this.fire('x-confirm-ledger-address', this.properties.address)
         }
     }
@@ -98,7 +110,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
              || changes.stepAmount
              || changes.stepBlocks
              || changes.totalAmount
-             || (changes.height && !this._height)
+             || changes.height
              || changes.balance
             ) {
                 this._height = this.properties.height;
@@ -128,8 +140,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 const futureSteps = steps.filter(step => step.heightDelta > 0);
 
                 this.$availableAmount.value = availableAmount;
-                if (availableAmount > 0) this.$sendButton.disabled = false;
-                else                     this.$sendButton.disabled = true;
+                if (availableAmount > 0) this.$payoutButton.disabled = false;
+                else                     this.$payoutButton.disabled = true;
 
                 // Remove all steps
                 while (this.$vestingInfo.querySelector('x-amount:not([available-amount])')) {
@@ -170,8 +182,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
         // Disable popup menu for Vesting
         this.$popupMenu.$el.classList.toggle('display-none', type === AccountType.VESTING);
 
-        // Disable send button for Vesting
-        this.$actionButton.classList.toggle('display-none', type === AccountType.VESTING);
+        // Disable send button, enable payout button for Vesting
+        this.$sendButton.classList.toggle('display-none', type === AccountType.VESTING);
+        this.$payoutButton.classList.toggle('display-none', type !== AccountType.VESTING);
 
         // Enable rename and backupWords button only for Safe
         this.$renameButton.classList.toggle('display-none', type !== AccountType.KEYGUARD_HIGH);

@@ -32,6 +32,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
             this.$input.setAttribute('name', this.attributes.name);
         }
         this.$account.addEventListener('x-account-selected', e => e.stopPropagation());
+        this._isDisabled = false;
         super.onCreate();
     }
 
@@ -51,12 +52,22 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
             return;
         }
 
-        this.$expandable.enable();
+        !this._isDisabled && this.$expandable.enable();
 
         if (changes.accounts && !this.selectedAccount) {
-            // pre select some arbitrary account
-            this.selectedAccount = changes.accounts.values().next().value;
+            this.selectDefaultAccount();
         }
+    }
+
+    selectDefaultAccount() {
+        if (!this.properties.accounts) return;
+        // pre select some arbitrary account
+        const accounts = this.properties.accounts.values();
+        let account;
+        do {
+            account = accounts.next().value;
+        } while (account === 4) // Do not auto-select vesting accounts
+        this.selectedAccount = account;
     }
 
     listeners() {
@@ -100,5 +111,15 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this.$account.setProperties(account);
         this.$input.value = account.address;
         this.$expandable.collapse();
+    }
+
+    disable() {
+        this._isDisabled = true;
+        this.$expandable.disable();
+    }
+
+    enable() {
+        this._isDisabled = false;
+        this.$expandable.enable();
     }
 }
