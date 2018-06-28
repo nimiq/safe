@@ -194,6 +194,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
+            'x-account-modal-payout': this._newPayoutTransaction.bind(this),
             'x-upgrade-account': this._clickedAccountUpgrade.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
@@ -307,6 +308,14 @@ export default class XSafe extends MixinRedux(XElement) {
         } else {
             XSendTransactionModal.show();
         }
+    }
+
+    _newPayoutTransaction(data) {
+        XSendTransactionModal.instance.listenOnce('x-send-transaction-cleared', function() {
+            XSendTransactionModal.instance.sender = data.vestingAccount;
+            XSendTransactionModal.instance.$accountsDropdown.disable();
+        });
+        XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
     }
 
     _clickedPreparedTransaction() {
