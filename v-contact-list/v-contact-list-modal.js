@@ -7,6 +7,7 @@ import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter
 import { setContact, removeContact } from './contacts-redux.js'
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js'
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
 
 export default class VContactListModal extends MixinModal(XElement) {
     html() {
@@ -45,6 +46,8 @@ export default class VContactListModal extends MixinModal(XElement) {
     onCreate() {
         super.onCreate()
         const self = this
+
+        if (BrowserDetection.isIOS()) this.$('button[export]').classList.add('display-none');
 
         Vue.prototype.$eventBus = new Vue({})
         Vue.prototype.$toast = XToast
