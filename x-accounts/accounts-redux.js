@@ -99,33 +99,27 @@ export function reducer(state, action) {
 }
 
 export function addAccount(key) {
-    return async dispatch => {
-        if (!Config.offline) {
-            // when adding a new account, subscribe at network
-            const rpcClient = await networkClient.rpcClient;
-            rpcClient.subscribe(key.address);
-        }
-
-        dispatch({
-            type: TypeKeys.ADD_KEY,
-            key
-        });
+    if (Config.online) {
+        // when adding a new account, subscribe at network
+        networkClient.rpcClient.then(rpcClient => rpcClient.subscribe(key.address));
     }
+
+    return {
+        type: TypeKeys.ADD_KEY,
+        key
+    };
 }
 
 export function setAllKeys(keys) {
-    return async dispatch => {
-        if (!Config.offline) {
-            // when adding a new account, subscribe at network.
-            const rpcClient = await networkClient.rpcClient;
-            rpcClient.subscribe(keys.map(key => key.address));
-        }
-
-        dispatch({
-            type: TypeKeys.SET_ALL_KEYS,
-            keys
-        });
+    if (Config.online) {
+        // when adding a new account, subscribe at network.
+        networkClient.rpcClient.then(rpcClient => rpcClient.subscribe(keys.map(key => key.address)));
     }
+
+    return {
+        type: TypeKeys.SET_ALL_KEYS,
+        keys
+    };
 }
 
 export function updateBalances(balances) {
