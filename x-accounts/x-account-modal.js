@@ -110,7 +110,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
              || changes.stepAmount
              || changes.stepBlocks
              || changes.totalAmount
-             || (changes.height && !this._height)
+             || changes.height
              || changes.balance
             ) {
                 this._height = this.properties.height;
