@@ -213,7 +213,12 @@ export default class XSafe extends MixinRedux(XElement) {
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
-            XToast.warning('Account was not created.');
+            if (e.code === 'K3' || e.code === 'K4') {
+                // Show Safari/iOS > 10 accounts error
+                XToast.warning(e.message);
+            } else {
+                XToast.warning('Account was not created.');
+            }
         }
     }
 
@@ -224,7 +229,12 @@ export default class XSafe extends MixinRedux(XElement) {
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
-            XToast.warning('Account was not imported.');
+            if (e.code === 'K3' || e.code === 'K4') {
+                // Show Safari/iOS > 10 accounts error
+                XToast.warning(e.message);
+            } else {
+                XToast.warning('Account was not imported.');
+            }
         }
     }
 
@@ -235,7 +245,12 @@ export default class XSafe extends MixinRedux(XElement) {
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
-            XToast.warning('Account was not imported.');
+            if (e.code === 'K3' || e.code === 'K4') {
+                // Show Safari/iOS > 10 accounts error
+                XToast.warning(e.message);
+            } else {
+                XToast.warning('Account was not imported.');
+            }
         }
     }
 
