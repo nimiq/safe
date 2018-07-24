@@ -18,7 +18,6 @@ import XSettings from '../settings/x-settings.js';
 import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
 import XWelcomeModal from './x-welcome-modal.js';
-import XWelcomeMinerModal from './x-welcome-miner-modal.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 import XUpgradeModal from './x-upgrade-modal.js';
@@ -104,7 +103,6 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-settings></x-settings>
                 </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
-                <x-welcome-miner-modal x-route-aside="welcome-miner"></x-welcome-miner-modal>
                 <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
@@ -129,7 +127,6 @@ export default class XSafe extends MixinRedux(XElement) {
             XNetworkIndicator,
             XTransactionModal,
             XWelcomeModal,
-            XWelcomeMinerModal,
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
