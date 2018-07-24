@@ -39,7 +39,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
                  <div class="options upgrade display-none">
                    <div class="spacing-bottom">
-                        <strong>You can upgrade your existing Miner Account for Nimiq Safe:</strong>
+                        <strong>You can upgrade your existing Account for Nimiq Safe:</strong>
                     </div>
 
                     <button class="upgrade spacing-bottom">Upgrade account</button>
