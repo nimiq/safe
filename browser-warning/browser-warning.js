@@ -23,6 +23,17 @@
         return navigator.userAgent.indexOf('Edge') !== -1;
     }
 
+    function isPrivateApple() {
+        let isPrivate = false;
+        try {
+            window.openDatabase(null, null, null, null);
+        } catch (_) {
+            isPrivate = true;
+        }
+
+        return isPrivate;
+    }
+
     function hasLocalStorage() {
         // taken from MDN
         var storage;
@@ -56,7 +67,7 @@
         document.body.setAttribute('browser-edge', '');
     } else if (isBrowserOutdated()) {
         document.body.setAttribute('browser-outdated', '');
-    } else if (!hasLocalStorage()) {
+    } else if (!hasLocalStorage() || isPrivateApple()) {
         document.body.setAttribute('no-local-storage', '');
     }
 })();
