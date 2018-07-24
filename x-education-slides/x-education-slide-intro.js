@@ -2,7 +2,6 @@ import XEducationSlide from './x-education-slide.js';
 import XEducationSlides from './x-education-slides.js';
 import XEducationSlideOutro from './x-education-slide-outro.js';
 import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
-import XWelcomeMinerModal from '/apps/safe/src/elements/x-welcome-miner-modal.js';
 
 export default class XEducationSlideIntro extends XEducationSlide {
     html() {
@@ -13,7 +12,7 @@ export default class XEducationSlideIntro extends XEducationSlide {
             <div class="modal-body">
                 <div class="has-side-image">
                     <div>
-                        <div class="spacing-bottom">
+                        <div class="spacing-bottom action-text-container">
                             Alright, you can soon <span class="action-text"></span>. Before that, we have some important information for you.
                         </div>
                         <div class="warning">
@@ -42,14 +41,19 @@ export default class XEducationSlideIntro extends XEducationSlide {
     onCreate() {
         super.onCreate();
 
-        // skip to outro slide
-        this.$('a[secondary]').onclick = () => XEducationSlides.currentSlide = XEducationSlideOutro.instance;
+        if (XEducationSlides.action === 'none') {
+            // skip = close
+            this.$('a[secondary]').onclick = XEducationSlides.hide
+        } else {
+            // skip to outro slide
+            this.$('a[secondary]').onclick = () => XEducationSlides.currentSlide = XEducationSlideOutro.instance;
+        }
     }
 
     onShow() {
         super.onShow();
 
-        let actionText;
+        let actionText = '';
         switch (XEducationSlides.action) {
             case 'create':
                 actionText = 'create a new account for Nimiq Safe';
@@ -71,18 +75,22 @@ export default class XEducationSlideIntro extends XEducationSlide {
                 actionText = 'upgrade your account for Nimiq Safe';
                 break;
 
+            case 'none':
+                this.$('.action-text-container').classList.add('display-none');
+                break;
+
             default:
                 this.onBack();
         }
-        this.$('.action-text').innerText = actionText;
+
+        if (actionText !== '') {
+            this.$('.action-text').innerText = actionText;
+            this.$('.action-text-container').classList.remove('display-none');
+        }
     }
 
     onBack() {
-        if (XEducationSlides.entry === 'miner') {
-            XWelcomeMinerModal.show();
-        } else {
-            XWelcomeModal.show();
-        }
+        XWelcomeModal.show();
     }
 }
 
