@@ -81,7 +81,11 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
             return true;
         }
 
-        XToast.warn('Please read through this important information.');
+        // executed when closing by clicking background
+        XEducationSlides.onFinished = XEducationSlides.hide;
+        XEducationSlides.action = 'none';
+        XEducationSlides._slides = XEducationSlides.allSlides.slice(0, XEducationSlides.length - 1);
+        XEducationSlides.start();
 
         return false;
     }
