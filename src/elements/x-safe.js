@@ -1,6 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import accountManager from '/libraries/account-manager/account-manager.js';
 import Config from '/libraries/secure-utils/config/config.js';
+import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
@@ -31,9 +32,13 @@ export default class XSafe extends MixinRedux(XElement) {
 
     html() {
         return `
-            <div class="header-warning display-none">
+            <div id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
+            </div>
+            <div id="private-warning" class="header-warning display-none">
+                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
+                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
             <header>
                 <div class="header-top content-width">
@@ -141,7 +146,11 @@ export default class XSafe extends MixinRedux(XElement) {
         XRouter.create();
 
         if (Config.network !== 'main') {
-            this.$('.header-warning').classList.remove('display-none');
+            this.$("#testnet-warning").classList.remove('display-none');
+        }
+
+        if (await BrowserDetection.isPrivateMode()) {
+            this.$("#private-warning").classList.remove('display-none');
         }
 
         this.$('[logo-link]').href = 'https://' + Config.tld;
