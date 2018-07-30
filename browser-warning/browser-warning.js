@@ -33,44 +33,44 @@
      * @returns {Promise}
      */
     function isPrivateMode() {
-      return new Promise(function(resolve) {
-        const on = function() { resolve(true) }; // is in private mode
-        const off = function() { resolve(false) }; // not private mode
-        const isSafari = function() {
-          return (
-              /Constructor/.test(window.HTMLElement) ||
-              (function (root) {
-                return (!root || root.pushNotification).toString() === '[object SafariRemoteNotification]';
-               }
-              )(window.safari)
-            );
-        };
-        // Chrome & Opera
-        if (window.webkitRequestFileSystem) {
-          return void window.webkitRequestFileSystem(0, 0, off, on);
-        }
-        // Firefox
-        if ('MozAppearance' in document.documentElement.style) {
-          const db = indexedDB.open(null);
-          db.onerror = on;
-          db.onsuccess = off;
-          return void 0;
-        }
-        // Safari
-        if ( isSafari() ) {
-          try {
-            window.openDatabase(null, null, null, null);
-          } catch (_) {
-            return on();
-          }
-        }
-        // IE10+ & Edge
-        if (!window.indexedDB && (window.PointerEvent || window.MSPointerEvent)) {
-          return on();
-        }
-        // others
-        return off();
-      });
+        return new Promise(function(resolve) {
+            const on = function() { resolve(true) }; // is in private mode
+            const off = function() { resolve(false) }; // not private mode
+            const isSafari = function() {
+                return (
+                    /Constructor/.test(window.HTMLElement) ||
+                    (function (root) {
+                        return (!root || root.pushNotification).toString() === '[object SafariRemoteNotification]';
+                    }
+                    )(window.safari)
+                );
+            };
+            // Chrome & Opera
+            if (window.webkitRequestFileSystem) {
+                return void window.webkitRequestFileSystem(0, 0, off, on);
+            }
+            // Firefox
+            if ('MozAppearance' in document.documentElement.style) {
+                const db = indexedDB.open(null);
+                db.onerror = on;
+                db.onsuccess = off;
+                return void 0;
+            }
+            // Safari
+            if ( isSafari() ) {
+                try {
+                    window.openDatabase(null, null, null, null);
+                } catch (_) {
+                    return on();
+                }
+            }
+            // IE10+ & Edge
+            if (!window.indexedDB && (window.PointerEvent || window.MSPointerEvent)) {
+                return on();
+            }
+            // others
+            return off();
+        });
     }
 
     function hasLocalStorage() {
@@ -109,12 +109,12 @@
     } else if (!hasLocalStorage()) {
         document.body.setAttribute('no-local-storage', '');
     } else {
-      // detect private browsing
-      isPrivateMode().then(function(msg) {
-        // Chrome is supported. All other browsers not.
-        if (msg && !isChrome()) {
-          document.body.setAttribute('private-mode', '');
-        }
-      });
+        // detect private browsing
+        isPrivateMode().then(function(msg) {
+            // Chrome is supported. All other browsers not.
+            if (msg && !isChrome()) {
+                document.body.setAttribute('private-mode', '');
+            }
+        });
     }
 })();
