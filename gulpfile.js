@@ -4,7 +4,7 @@ const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 
 gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
 
-gulp.task('build', ['clean'], () => NimiqBuild.build({
+gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     jsEntry: [
         '../../libraries/nimiq-utils/moment/moment.min.js',
         '../../elements/vue-components/lib/vue.min.js', // Production version
@@ -20,7 +20,7 @@ gulp.task('build', ['clean'], () => NimiqBuild.build({
     rootPath: `${__dirname}/../../`,
     distPath: 'deployment-safe/dist',
     minify: false
-}));
+})));
 
 gulp.task('build-network-client', () => NimiqBuild.bundleJs(
     './src/network-client.js',
@@ -30,4 +30,4 @@ gulp.task('build-network-client', () => NimiqBuild.bundleJs(
     'dist',
 ));
 
-gulp.task('default', ['build', 'build-network-client']);
+gulp.task('default', gulp.parallel('build', 'build-network-client'));
