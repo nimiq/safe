@@ -4,7 +4,8 @@ noscript {
 
 body[browser-outdated],
 body[browser-edge],
-body[no-local-storage] {
+body[no-local-storage],
+body[private-mode] {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,7 +17,8 @@ body[no-local-storage] {
 
 body[browser-outdated] > *,
 body[browser-edge] > *,
-body[no-local-storage] > * {
+body[no-local-storage] > *,
+body[private-mode] > * {
     display: none !important;
 }
 
@@ -30,4 +32,8 @@ body[browser-edge]::after {
 
 body[no-local-storage]::after {
     content: 'Local Storage not available. If you are in private browsing mode, try to run this page in normal mode.';
+}
+
+body[private-mode]::after {
+    content: 'This browser does not support running this page in private browsing mode. Try to run this page in normal mode.';
 }
