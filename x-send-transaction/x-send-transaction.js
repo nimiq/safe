@@ -1,3 +1,4 @@
+import UTF8Tools from '/libraries/secure-utils/utf8-tools/utf8-tools.js';
 import XElement from '/libraries/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
@@ -145,6 +146,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         if (!this._isValid()) return;
 
         const tx = this._getFormData(this.$form);
+        tx.extraData = UTF8Tools.stringToUtf8ByteArray(tx.extraData);
         tx.network = Config.network;
         this.fire('x-send-transaction', tx);
     }

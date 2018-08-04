@@ -1,3 +1,4 @@
+import UTF8Tools from '/libraries/secure-utils/utf8-tools/utf8-tools.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XTransaction from './x-transaction.js';
@@ -107,7 +108,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set extraData(extraData) {
         this.$('.extra-data-section').classList.toggle('display-none', !extraData);
-        this.$message.textContent = extraData;
+        this.$message.textContent = UTF8Tools.utf8ByteArrayToString(extraData);
     }
 
     set fee(fee) {

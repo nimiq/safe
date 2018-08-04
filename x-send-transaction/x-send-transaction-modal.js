@@ -1,4 +1,5 @@
-import XSendTransaction from './x-send-transaction.js';
+import UTF8Tools from '/libraries/secure-utils/utf8-tools/utf8-tools.js';
+import XSendTransaction from './x-send-transaction.js' ;
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
@@ -41,6 +42,11 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
 
         if (message) {
             this.message = decodeURIComponent(message);
+
+            if (typeof this.message === 'Uint8Array') {
+                this.message = UTF8Tools.utf8ByteArrayToString(message);
+            }
+
             this.$extraDataInput.$input.setAttribute('readonly', true);
         } else {
             this.$extraDataInput.$input.removeAttribute('readonly');
