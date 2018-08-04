@@ -29,6 +29,10 @@ body {
     /* font-weight: 600; */
 }
 
+.header-warning:not(.display-none) + .header-warning {
+    border-top: 1px solid #333;
+}
+
 .header-warning .close-warning {
     float: right;
     color: #3b3b3b;
