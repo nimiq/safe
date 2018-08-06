@@ -72,6 +72,10 @@ export default class XTransaction extends MixinRedux(XElement) {
                         this.$timestamp.textContent = 'pending...';
                         this.$timestamp.setAttribute('title', '');
                     }
+                case 'extraData':
+                    console.log('EXTRALIFE');
+                    this.extraData = [];
+                    break ;
                 default:
                     // console.warn('Possible unhandled reset of property', prop);
                     break;

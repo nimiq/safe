@@ -1,3 +1,5 @@
+import ConvertExtraData from './convert-extra-data.js';
+
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
     MARK_REMOVED: 'transactions/mark-removed',
@@ -27,6 +29,7 @@ export function reducer(state, action) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
+                    tx.extraData = ConvertExtraData(tx.extraData);
                     entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
                         entries,
@@ -35,7 +38,11 @@ export function reducer(state, action) {
                 }
             }
 
-            action.transactions.forEach(tx => entries.set(tx.hash, tx));
+            action.transactions.forEach(tx => {
+                tx.extraData = ConvertExtraData(tx.extraData);
+                entries.set(tx.hash, tx)
+            });
+
             // Sort as array
             entries = new Map([...entries].sort(_transactionSort));
 
