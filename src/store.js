@@ -13,12 +13,14 @@ export class Store {
     static _initialize() {
         // initialize from localStorage
         const stringifiedState = localStorage.getItem('persistedState');
+        const stringifiedContacts = localStorage.getItem('persistedContacts');
 
         if (!stringifiedState) {
             return configureStore();
         }
 
         let persistedState = JSON.parse(stringifiedState);
+        let persistedContacts = JSON.parse(stringifiedContacts);
 
         persistedState = Object.assign({},
             persistedState,
@@ -30,7 +32,8 @@ export class Store {
                     entries: new Map(persistedState.accounts.entries)
                 }),
                 network: Object.assign({}, initialNetworkState, persistedState.network),
-                settings: Object.assign({}, initialSettingsState, persistedState.settings)
+                settings: Object.assign({}, initialSettingsState, persistedState.settings),
+                contacts: Object.assign({}, persistedState.contacts || {}, persistedContacts || {}),
             }
         );
 
@@ -61,12 +64,14 @@ export class Store {
                 oldHeight: state.network.height
             },
             settings: state.settings,
-            contacts: state.contacts
         };
+        const persistentContacts = state.contacts;
 
         const stringifiedState = JSON.stringify(persistentState);
+        const stringifiedContacts = JSON.stringify(persistentContacts);
 
         localStorage.setItem('persistedState', stringifiedState);
+        localStorage.setItem('persistedContacts', stringifiedContacts);
     }
 }
 
