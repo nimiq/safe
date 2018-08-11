@@ -1,7 +1,7 @@
 @import "../mixin-modal/mixin-modal.css";
 
 .x-education-slide {
-    max-width: 800px;
+    max-width: 1000px !important;
 }
 
 .x-education-slide .has-side-image {
