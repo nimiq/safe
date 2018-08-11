@@ -11,11 +11,20 @@ export default class XEducationSlide extends MixinModal(XElement) {
         if (this.$nextButton) {
             this.$nextButton.addEventListener('click', this.onNext.bind(this));
         }
+
         this.$backButton = this.$('[back]');
         if (this.$backButton) {
             this.$backButton.addEventListener('click', this.onBack.bind(this));
         }
+
         this.container.addEventListener('keydown', e => this._onArrowNavigation(e));
+
+        this.$skip = this.$('a.skip');
+        if (this.$skip) {
+            this.$skip.addEventListener('click', (e) => {
+                e.stopPropagation(); XEducationSlides.skip()
+            });
+        }
     }
 
     styles() {

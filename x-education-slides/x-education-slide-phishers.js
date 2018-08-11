@@ -24,6 +24,9 @@ Always navigate directly to a site before you enter information. Do not enter in
                     <button back>What's the point?</button>
                     <button next>Protect from Scams</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }

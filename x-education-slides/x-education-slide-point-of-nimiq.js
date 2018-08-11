@@ -23,6 +23,9 @@ export default class XEducationSlidePointOfNimiq extends XEducationSlide {
                     <button back>But... Why?</button>
                     <button next>Protect your Funds</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }

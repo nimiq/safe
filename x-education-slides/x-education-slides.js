@@ -81,6 +81,15 @@ export default class XEducationSlides {
         return !!XEducationSlides._closingAllowed;
     }
 
+    static skip() {
+        if (XEducationSlides.action === 'none') {
+            XEducationSlides.hide();
+        } else {
+            // skip to outro slide
+            XEducationSlides.currentSlide = XEducationSlideOutro.instance;
+        }
+    }
+
     /* Override if needed */
     static onFinished() { }
 }

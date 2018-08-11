@@ -21,6 +21,9 @@ export default class XEducationSlideLoss extends XEducationSlide {
                     <button back>Scams</button>
                     <button next>Got it</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }

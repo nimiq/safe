@@ -27,6 +27,9 @@ export default class XEducationSlideNotABank extends XEducationSlide {
                     <button back>Introduction</button>
                     <button next>What is a Blockchain?</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }

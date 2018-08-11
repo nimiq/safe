@@ -32,6 +32,9 @@ export default class XEducationSlideWhy extends XEducationSlide {
                     <button back>What is a Blockchain?</button>
                     <button next>So what's the point?</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }

@@ -22,6 +22,9 @@ export default class XEducationSlideScams extends XEducationSlide {
                     <button back>Phishers</button>
                     <button next>Protect From Loss</button>
                 </div>
+                <div class="spacing-top center">
+                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
+                </div> 
             </div>
         `;
     }
