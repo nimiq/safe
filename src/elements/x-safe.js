@@ -38,7 +38,7 @@ export default class XSafe extends MixinRedux(XElement) {
             </div>
             <div id="private-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
+                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup / upgrade</strong>!
             </div>
             <header>
                 <div class="header-top content-width">
