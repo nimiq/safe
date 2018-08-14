@@ -1,8 +1,9 @@
 (function() {
     function isBrowserOutdated() {
         if (typeof Symbol === "undefined") return true;
+        /* // mediaDevices are not available in iOS webviews (maybe android also), e.g. in twitter or facebook app
         if (typeof navigator.mediaDevices === 'undefined'
-            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true;
+            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true; */
         try {
             eval("class Foo {}");
             eval("var bar = async (x) => x+1");
