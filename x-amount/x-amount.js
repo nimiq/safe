@@ -64,9 +64,8 @@ export default class XAmount extends XElement {
         return this._value;
     }
 
-    // _formatThousands(number, separator = '‘') {
-    // _formatThousands(number, separator = '\'') {
-    _formatThousands(number, separator = ' ') {
+    // _formatThousands(number, separator = '\u202F') { // Thin no-breaking space
+    _formatThousands(number, separator = '\u00A0') { // Regular no-breaking space
         let reversed = number.split('').reverse();
         for(let i = 3; i < reversed.length; i += 4) {
             reversed.splice(i, 0, separator);
