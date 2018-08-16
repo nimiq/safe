@@ -1,6 +1,7 @@
 body[browser-outdated],
 body[browser-edge],
 body[no-local-storage],
+body[web-view],
 body[private-mode] {
     display: flex;
     align-items: center;
@@ -13,6 +14,7 @@ body[private-mode] {
 body[browser-outdated] > *,
 body[browser-edge] > *,
 body[no-local-storage] > *,
+body[web-view] > *,
 body[private-mode] > * {
     display: none !important;
 }
@@ -39,4 +41,8 @@ body[no-local-storage]::after {
 
 body[private-mode]::after {
     content: 'This browser does not support running this page in private browsing mode. Try to run this page in normal mode.';
+}
+
+body[web-view]::after {
+    content: 'You are viewing this page from inside another app. Please use a real browser.'
 }

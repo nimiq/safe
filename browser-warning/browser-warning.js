@@ -1,9 +1,25 @@
-(function() {
+(function () {
+    function isWebView() {
+        if (typeof navigator.mediaDevices === 'undefined'
+            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true;
+
+        var userAgent = navigator.userAgent;
+
+        var inAppBrowsers = ['FB_IAB', 'Instagram'];
+
+        for (var i = 0; i < inAppBrowsers.length; i++) {
+            if (userAgent.indexOf(inAppBrowsers[i]) > -1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     function isBrowserOutdated() {
         if (typeof Symbol === "undefined") return true;
-        /* // mediaDevices are not available in iOS webviews (maybe android also), e.g. in twitter or facebook app
         if (typeof navigator.mediaDevices === 'undefined'
-            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true; */
+            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true;
         try {
             eval("class Foo {}");
             eval("var bar = async (x) => x+1");
@@ -28,24 +44,25 @@
         return navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     }
 
+    function isSafari() {
+        return (
+            /Constructor/.test(window.HTMLElement) ||
+            (function (root) {
+                return (!root || root.pushNotification).toString() === '[object SafariRemoteNotification]';
+            }
+            )(window.safari)
+        );
+    };
+
     /**
      * Detect if the browser is running in Private Browsing mode
      *
      * @returns {Promise}
      */
     function isPrivateMode() {
-        return new Promise(function(resolve) {
-            const on = function() { resolve(true) }; // is in private mode
-            const off = function() { resolve(false) }; // not private mode
-            const isSafari = function() {
-                return (
-                    /Constructor/.test(window.HTMLElement) ||
-                    (function (root) {
-                        return (!root || root.pushNotification).toString() === '[object SafariRemoteNotification]';
-                    }
-                    )(window.safari)
-                );
-            };
+        return new Promise(function (resolve) {
+            const on = function () { resolve(true) }; // is in private mode
+            const off = function () { resolve(false) }; // not private mode
             // Chrome & Opera
             if (window.webkitRequestFileSystem) {
                 return void window.webkitRequestFileSystem(0, 0, off, on);
@@ -58,7 +75,7 @@
                 return void 0;
             }
             // Safari
-            if ( isSafari() ) {
+            if (isSafari()) {
                 try {
                     window.openDatabase(null, null, null, null);
                 } catch (_) {
@@ -83,27 +100,29 @@
             storage.setItem(x, x);
             storage.removeItem(x);
             return true;
-        } catch(e) {
+        } catch (e) {
             // return false if the error is a QuotaExceededError and the storage length is 0.
             // If the length is > 0 then we really just exceed the storage limit.
             // If another exception is thrown then probably localStorage is undefined.
             return e instanceof DOMException && (
-                    // everything except Firefox
-                    e.code === 22 ||
-                    // Firefox
-                    e.code === 1014 ||
-                    // test name field too, because code might not be present
-                    // everything except Firefox
-                    e.name === 'QuotaExceededError' ||
-                    // Firefox
-                    e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
-                ) &&
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED'
+            ) &&
                 // acknowledge QuotaExceededError only if there's something already stored
                 storage.length !== 0;
         }
     }
 
-    if (isEdge()) {
+    if (isWebView()) {
+        document.body.setAttribute('web-view', '');
+    } else if (isEdge()) {
         document.body.setAttribute('browser-edge', '');
     } else if (isBrowserOutdated()) {
         document.body.setAttribute('browser-outdated', '');
@@ -111,7 +130,7 @@
         document.body.setAttribute('no-local-storage', '');
     } else {
         // detect private browsing
-        isPrivateMode().then(function(msg) {
+        isPrivateMode().then(function (msg) {
             // Chrome is supported. All other browsers not.
             if (msg && !isChrome()) {
                 document.body.setAttribute('private-mode', '');
