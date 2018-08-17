@@ -27,6 +27,7 @@ import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
+import { getString } from '../strings.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -34,17 +35,17 @@ export default class XSafe extends MixinRedux(XElement) {
         return `
             <div id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
+                ${getString('using_testnet')}
             </div>
             <div id="private-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup / upgrade</strong>!
+                ${getString('private_browsing')}
             </div>
             <header>
                 <div class="header-top content-width">
                     <div class="nimiq-app-name">
                         <nimiq-logo>
-                            NIMIQ SAFE<sup>BETA</sup>
+                            ${getString('nimiq_safe_name')}
                             <a logo-link href="#"></a>
                         </nimiq-logo>
                     </div>
@@ -57,9 +58,9 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom content-width">
                     <nav class="main">
-                        <a x-href="">Dashboard</a>
-                        <a x-href="history">History</a>
-                        <a x-href="settings">Settings</a>
+                        <a x-href="">${getString('dashboard')}</a>
+                        <a x-href="history">${getString('history')}</a>
+                        <a x-href="settings">${getString('settings')}</a>
                     </nav>
                 </div>
             </header>
@@ -67,16 +68,16 @@ export default class XSafe extends MixinRedux(XElement) {
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
-                        <button new-tx disabled><span>Send</span></button>
-                        <div class="btn-text">Send</div>
+                        <button new-tx disabled><span>${getString('send')}</span></button>
+                        <div class="btn-text">${getString('send')}</div>
                     </div>
                     <div class="floating-btn">
-                        <button receive disabled><span>Receive</span></button>
-                        <div class="btn-text">Receive</div>
+                        <button receive disabled><span>${getString('receive')}</span></button>
+                        <div class="btn-text">${getString('receive')}</div>
                     </div>
                     <div class="floating-btn">
-                        <button contacts><span>Contacts</span></button>
-                        <div class="btn-text">Contacts</div>
+                        <button contacts><span>${getString('contacts')}</span></button>
+                        <div class="btn-text">${getString('contacts')}</div>
                     </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
@@ -84,22 +85,22 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-dashboard x-route="" class="content-width">
                     <!-- <h1>Dashboard</h1> -->
                     <x-card style="max-width: 960px;">
-                        <h2>Recent Transactions</h2>
+                        <h2>${getString('recent_transactions')}</h2>
                         <x-transactions class="no-animation" only-recent no-menu></x-transactions>
                     </x-card>
                     <x-card style="max-width: 536px;">
-                        <h2>Your Accounts</h2>
+                        <h2>${getString('your_accounts')}</h2>
                         <x-accounts></x-accounts>
                     </x-card>
                     <x-card style="max-width: 344px;">
-                        <h2>Nimiq Network</h2>
+                        <h2>${getString('nimiq_network')}</h2>
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
                 <x-view-history x-route="history" class="content-width">
                     <!-- <h1>History</h1> -->
                     <x-card>
-                        <h2>Transaction history</h2>
+                        <h2>${getString('transaction_history')}</h2>
                         <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
@@ -115,9 +116,9 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
-                &copy; 2017-2018 Nimiq Foundation<br>
-                <a disclaimer>Disclaimer</a>
-                <a warnings>Show information slides</a>
+                ${getString('copyright_notice_short')}<br>
+                <a disclaimer>${getString('disclaimer_title')}</a>
+                <a warnings>${getString('show_info_slides')}</a>
             </footer>
             `
     }
@@ -215,7 +216,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedCreateAccount() {
         try {
             await accountManager.createSafe();
-            XToast.success('Account created successfully.');
+            XToast.success(getString('create_done'));
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
@@ -223,7 +224,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 // Show Safari/iOS > 10 accounts error
                 XToast.warning(e.message);
             } else {
-                XToast.warning('Account was not created.');
+                XToast.warning(getString('create_fail'));
             }
         }
     }
@@ -231,7 +232,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedImportAccountFile() {
         try {
             await accountManager.importFromFile();
-            XToast.success('Account imported successfully.');
+            XToast.success(getString('import_done'));
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
@@ -239,7 +240,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 // Show Safari/iOS > 10 accounts error
                 XToast.warning(e.message);
             } else {
-                XToast.warning('Account was not imported.');
+                XToast.warning(getString('import_fail'));
             }
         }
     }
@@ -247,7 +248,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedImportAccountWords() {
         try {
             await accountManager.importFromWords();
-            XToast.success('Account imported successfully.');
+            XToast.success(getString('import_done'));
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
@@ -255,7 +256,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 // Show Safari/iOS > 10 accounts error
                 XToast.warning(e.message);
             } else {
-                XToast.warning('Account was not imported.');
+                XToast.warning(getString('import_fail'));
             }
         }
     }
@@ -263,32 +264,32 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedAccountUpgrade(address) {
         try {
             await accountManager.upgrade(address);
-            XToast.success('Account upgraded successfully.');
+            XToast.success(getString('upgrade_done'));
             XUpgradeModal.hide();
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
-            XToast.warning('Upgrade not completed.');
+            XToast.warning(getString('upgrade_fail'));
         }
     }
 
     async _clickedAccountBackupWords(address) {
         try {
             await accountManager.backupWords(address);
-            XToast.success('Account backed up successfully.');
+            XToast.success(getString('backup_done'));
         } catch (e) {
             console.error(e);
-            XToast.warning('No backup created.');
+            XToast.warning(getString('backup_fail'));
         }
     }
 
     async _clickedAccountRename(address) {
         try {
             await accountManager.rename(address);
-            XToast.success('Account renamed successfully.');
+            XToast.success(getString('rename_done'));
         } catch (e) {
             console.error(e);
-            XToast.warning('Account was not renamed.');
+            XToast.warning(getString('rename_fail'));
         }
     }
 
@@ -296,12 +297,12 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             XEducationSlides.hide(); // hide x education slides before showing the ledger modal
             await accountManager.importLedger();
-            XToast.success('Account imported successfully.');
+            XToast.success(getString('import_done'));
         } catch(e) {
             if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+                XToast.warning(getString('import_no_ledger_support'));
             } else {
-                XToast.warning('Account was not imported.');
+                XToast.warning(getString('import_fail'));
             }
         }
     }
@@ -309,12 +310,12 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedConfirmLedgerAddress(address) {
         try {
             await accountManager.confirmLedgerAddress(address);
-            XToast.success('Ledger account confirmed.');
+            XToast.success(getString('ledger_confirmed'));
         } catch(e) {
             if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+                XToast.warning(getString('import_no_ledger_support'));
             } else {
-                XToast.warning('Ledger Account not confirmed.');
+                XToast.warning(getString('unconfirmed_ledger'));
             }
         }
     }
@@ -356,9 +357,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (isNaN(setValidityStartHeight) && !this.properties.height) {
             if (Config.offline) {
-                XToast.warning('In offline mode, the validity-start-height needs to be set (advanced settings).');
+                XToast.warning(getString('offline_start_height_needed'));
             } else {
-                XToast.warning('Consensus not yet established, please try again in a few seconds.');
+                XToast.warning(getString('no_consensus'));
             }
             return;
         }
@@ -395,7 +396,7 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             const relayedTx = new Promise((resolve, reject) => {
                 this.relayedTxResolvers.set(signedTx.hash, resolve);
-                setTimeout(reject, 8000, new Error('Transaction could not be sent'));
+                setTimeout(reject, 8000, new Error(getString('tx_send_fail')));
             });
 
             await network.relayTransaction(signedTx);
@@ -411,7 +412,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XSendTransactionModal.hide();
             XSendPreparedTransactionModal.hide();
 
-            XToast.success('Transaction sent!');
+            XToast.success(getString('tx_send_done'));
         } catch(e) {
             XToast.error(e.message || e);
             XSendTransactionModal.instance.loading = false;

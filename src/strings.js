@@ -20,6 +20,8 @@ const STRINGS = {
     "nimiq_network": "Nimiq Network",
     "transaction_history": "Transaction history",
     "show_info_slides": "Show information slides",
+    "create_done": "Account created successfully.",
+    "create_fail": "Account was not created.",
     "upgrade_done": "Account upgraded successfully.",
     "upgrade_fail": "Upgrade not completed.",
     "backup_done": "Account backed up successfully.",
@@ -65,7 +67,9 @@ const STRINGS = {
     "intro_upgrade_account": "You can upgrade your existing Account for Nimiq Safe",
     "intro_upgrade_button": "Upgrade account",
     "intro_existing_account_import_instead": "Or if you have 24 Recovery Words or an Access File, you can use those to import your account.",
-    "copyright_notice": "MIT License Copyright © 2018 Nimiq Foundation"
+    "copyright_notice": "MIT License Copyright © 2018 Nimiq Foundation",
+    "copyright_notice_short": "© 2017-2018 Nimiq Foundation",
+    "ledger_confirmed": "Ledger account confirmed."
 };
 export function getString(id) {
     return STRINGS[id] ? STRINGS[id] : "(missing translation: " + id + ")";
