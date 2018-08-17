@@ -4,20 +4,21 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XAccount from '/elements/x-accounts/x-account.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { upgradeCanceled } from '/elements/x-accounts/accounts-redux.js';
+import { getString } from '../strings.js';
 
 export default class XUpgradeModal extends MixinRedux(MixinModal(XElement)) {
     html() {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Please Upgrade your Account</h2>
+                <h2>${getString('upgrade_title')}</h2>
             </div>
             <div class="modal-body center">
                 <x-account></x-account>
                 <div class="spacing-bottom spacing-top -left">
-                    To protect your funds, please upgrade your account to a Nimiq Safe Account. You will create a backup and get a nice green checkmark.
+                    ${getString('upgrade_reason')}
                 </div>
-                <button>Upgrade now</button>
+                <button>${getString('upgrade_button')}</button>
             </div>
         `
     }

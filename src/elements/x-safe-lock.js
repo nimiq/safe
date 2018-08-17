@@ -1,7 +1,7 @@
 import XElement from '/libraries/x-element/x-element.js';
 import PatternLock from '/libraries/patternLock/patternLock.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
-import { getString } from '../strings.js'
+import { getString } from '../strings.js';
 
 export default class XSafeLock extends XElement {
     html() {
