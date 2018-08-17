@@ -4,22 +4,23 @@ import XSettingVisualLockModal from './x-setting-visual-lock-modal.js';
 import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from './settings-redux.js';
 import { Store } from '../store.js';
+import { getString } from '../strings.js';
 
 export default class XSettings extends MixinRedux(XElement) {
     html(){
         return `
              <x-card>
                 <h2>Settings</h2>
-                <span class="setting" show-all-decimals>
-                    Show all decimals
+                <span class='setting' show-all-decimals>
+                    ${getString('show_all_decimals')}
                     <input type="checkbox">
-                    <small>Show all five decimals when displaying balances.</small>
+                    <small>${getString('show_all_decimals_explain')}</small>
                 </span>
                 <!--
                 <span class="setting" visual-lock>
-                    Visual lock
+                    ${getString('visual_lock')}
                     <input type="checkbox" disabled>
-                    <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
+                    <small>${getString('visual_lock_explain')}</small>
                 </span>
                 -->
              </x-card>
@@ -27,12 +28,12 @@ export default class XSettings extends MixinRedux(XElement) {
              <x-card>
                 <h2>Advanced</h2>
                 <span class="setting" prepared-tx>
-                    Send prepared transaction
-                    <small>Send a transaction that was prepared offline.</small>
+                    ${getString('send_prepared_tx')}
+                    <small>${getString('send_prepared_tx_explain')}</small>
                 </span>
                 <span class="setting" remove-persistence>
-                    Delete cached data
-                    <small>This does not delete your accounts. It only deletes your transaction history and balances, which will be loaded again from the network.</small>
+                    ${getString('delete_cache')}
+                    <small>${getString('delete_cache_explain')}</small>
                 </span>
              </x-card>
         `
@@ -63,7 +64,7 @@ export default class XSettings extends MixinRedux(XElement) {
 
     _onClickVisualLock() {
         if (localStorage.lock) {
-            const remove = confirm('Do you want to remove the lock?');
+            const remove = confirm(getString('remove_lock_verify'));
             if (remove) {
                 localStorage.removeItem('lock');
                 this.$('[visual-lock] input').checked = false;
