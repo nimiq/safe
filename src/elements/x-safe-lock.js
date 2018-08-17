@@ -1,13 +1,14 @@
 import XElement from '/libraries/x-element/x-element.js';
 import PatternLock from '/libraries/patternLock/patternLock.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
+import { getString } from '../strings.js'
 
 export default class XSafeLock extends XElement {
     html() {
         return `
             <i class="material-icons">locked</i>
-            <h1>Your Nimiq Safe is locked</h1>
-            <p>Draw your pattern to unlock:</p>
+            <h1>${getString('safe_locked')}</h1>
+            <p>${getString('draw_pattern')}</p>
             <div id="unlock-patternLock"></div>
         `
     }
