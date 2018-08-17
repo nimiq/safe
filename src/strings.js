@@ -68,5 +68,5 @@ const STRINGS = {
     "copyright_notice": "MIT License Copyright © 2018 Nimiq Foundation"
 };
 export function getString(id) {
-    return STRINGS[id];
+    return STRINGS[id] ? STRINGS[id] : "(missing translation: " + id + ")";
 }
