@@ -6,7 +6,7 @@ export default class XDisclaimerModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
-                <i x-modal-close class="material-icons">${getString('close_modal')}</i>
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Disclaimer</h2>
             </div>
             <div class="modal-body">
