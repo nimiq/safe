@@ -1,21 +1,22 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
+import { getString } from '../strings.js';
 
 export default class XDisclaimerModal extends MixinModal(XElement) {
     html() {
         return `
             <div class="modal-header">
-                <i x-modal-close class="material-icons">close</i>
+                <i x-modal-close class="material-icons">${getString('close_modal')}</i>
                 <h2>Disclaimer</h2>
             </div>
             <div class="modal-body">
                 <!-- <p>Be safe & secure: <a href="">We highly recommend that you read our guide on How to Prevent Loss & Theft for some guidelines on how to be proactive about your security.</a></p> -->
 
-                <p>Always backup your recovery words, passphrase, pin and keys. Please note that safe.nimiq.com, keyguard.nimiq.com & miner.nimiq.com are not "web wallets". <strong>You do not create an account or give us your funds to hold onto.</strong> You hold your keys. We only make it easy for you, through a browser, to create, save, and access your information and interact with the blockchain.</p>
+                <p>${getString('not_web_wallet')}</p>
 
-                <p>We are not responsible for any loss. Nimiq, safe.nimiq.com, keyguard.nimiq.com & miner.nimiq.com, and some of the underlying libraries are under active development. While we thoroughly test, there is always the possibility something unexpected happens that causes your funds to be lost. Please do not place more than you are willing to lose, and please be careful.</p>
+                <p>${getString('safe_is_beta')}</p>
 
-                <p><strong>MIT License Copyright © 2018 Nimiq Foundation</strong></p>
+                <p><strong>${getString('copyright_notice')}</strong></p>
 
                 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 
