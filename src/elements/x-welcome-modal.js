@@ -4,53 +4,53 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import { upgradeableAccount$ } from '../selectors/needsUpgrade$.js';
+import { getString } from '../strings.js'
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
     html() {
         return `
             <div class="modal-header">
-                <h2>Welcome to Nimiq Safe</h2>
+                <h2>${getString('intro_title')}</h2>
             </div>
             <div class="modal-body center safe-logo-background">
-                <h3 class="logo-margin-top">What is the Nimiq Safe?</h3>
+                <h3 class="logo-margin-top">${getString('intro_subtitle')}</h3>
                 <ul>
-                    <li>Nimiq Safe lets you securely manage your Nimiq accounts, send and receive NIM and view your balances.</li>
-                    <li>Nimiq Safe is a free and open-source, client-side interface.</li>
-                    <li>Nimiq Safe allows you to interact directly with the blockchain while remaining in full control of your keys & your funds.</li>
+                    <li>${getString('intro_list_1')}</li>
+                    <li>${getString('intro_list_2')}</li>
+                    <li>${getString('intro_list_3')}</li>
                 </ul>
 
                 <div class="options new">
                     <div class="spacing-bottom">
-                        <strong>For using Nimiq Safe, you need an account:</strong>
+                        <strong>${getString('intro_create_account')}</strong>
                     </div>
 
-                    <button class="create waiting spacing-bottom">Create New Account</button>
+                    <button class="create waiting spacing-bottom">${getString('intro_create_account')}</button>
 
                     <div class="spacing-bottom">
-                        If you have 24 Recovery Words or an Access File,
-                        you can use those to import your existing account:
+                        ${getString('intro_recover')}
                     </div>
 
-                    <a secondary class="waiting" import-words-1>Import from 24 Words</a>
-                    <a secondary class="waiting" import-file-1>Import from Access File</a>
-                    <a secondary import-ledger-1>Import Ledger Account</a>
+                    <a secondary class="waiting" import-words-1>${getString('intro_24_words')}</a>
+                    <a secondary class="waiting" import-file-1>${getString('intro_access_file')}</a>
+                    <a secondary import-ledger-1>${getString('intro_ledger')}</a>
                 </div>
 
                  <div class="options upgrade display-none">
                    <div class="spacing-bottom">
-                        <strong>You can upgrade your existing Account for Nimiq Safe:</strong>
+                        <strong>${getString('intro_upgrade_account')}</strong>
                     </div>
 
-                    <button class="upgrade spacing-bottom">Upgrade account</button>
+                    <button class="upgrade spacing-bottom">${getString('intro_upgrade_button')}</button>
 
                     <div class="spacing-bottom">
-                        Or if you have 24 Recovery Words or an Access File, you can use those to import your account.
+                        ${getString('intro_existing_account_import_instead')}
                     </div>
 
-                    <a secondary import-words-2>Import from 24 Words</a>
-                    <a secondary import-file-2>Import from Access File</a>
-                    <a secondary import-ledger-2>Import Ledger Account</a>
+                    <a secondary import-words-2>${getString('intro_24_words')}</a>
+                    <a secondary import-file-2>${getString('intro_access_file')}</a>
+                    <a secondary import-ledger-2>${getString('intro_ledger')}</a>
                 </div>
             </div>
             `;
