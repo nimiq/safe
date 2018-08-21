@@ -3,7 +3,6 @@
 @import '/elements/x-transactions/x-transactions.css';
 @import '/secure-elements/x-toast/x-toast.css';
 @import '/elements/x-amount/x-amount.css';
-@import '/secure-elements/nimiq-logo/nimiq-logo.css';
 @import '/elements/x-network-indicator/x-network-indicator.css';
 @import '/elements/x-send-transaction/x-send-transaction-modal.css';
 @import '/elements/x-request-link/x-receive-request-link-modal.css';
@@ -60,6 +59,20 @@ header {
 
 .nimiq-app-name {
     float: left;
+}
+
+.safe-logo {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2352 439"><path fill="%23ffc107" d="M389 21c-6-12-23-21-36-21H145c-13 0-29 9-36 21L5 199c-6 11-6 30 0 41l104 178c7 12 23 21 36 21h208c14 0 30-9 36-21l104-178c7-11 7-30 0-41zM273 347v42h-39v-40c-24-3-52-13-70-30l25-39c21 15 38 23 57 23 23 0 33-9 33-28 0-40-106-39-106-111 0-38 23-65 61-73V51h39v40c25 3 44 16 59 32l-29 33c-15-13-27-20-44-20-19 0-29 8-29 26 0 37 105 34 105 110 0 37-21 67-62 75z"/><path fill="white" d="M2013 85v104h36l16-1 13-6a27 27 0 0 0 11-23c0-7-2-13-5-17-4-4-9-7-15-8v-1c5-1 8-4 11-9 3-4 4-9 4-14l-3-12c-2-3-4-6-8-8l-12-4-15-1zm96 0v104h64v-15h-46v-31h38v-16h-38v-27h45V85zm76 0v15h31v89h18v-89h30V85zm111 0l-34 104h19l8-28h35l9 28h19l-34-104zm-264 14h13c7 0 12 1 16 3 3 2 5 6 5 11s-2 8-5 11c-4 3-9 4-16 4h-13zm275 0a4083 4083 0 0 1 10 35l3 12h-26l3-12 5-17zm-1040 30a71 71 0 0 0-71 52 129 129 0 0 0-1 72 74 74 0 0 0 33 46c6 5 15 8 24 10 6 13 15 23 27 32 11 8 26 12 43 12a75 75 0 0 0 28-5l-5-23-9 2a60 60 0 0 1-34-4c-7-3-13-8-17-15 9-2 17-6 24-11 8-5 14-11 19-19 5-7 9-16 12-26 2-10 4-21 4-33 0-14-2-27-6-38-3-11-9-21-16-28-6-8-15-14-24-18s-20-6-31-6zm219 0c-8 0-16 1-23 4a50 50 0 0 0-31 26c-3 6-4 12-4 19s1 12 3 17 4 10 8 13l11 10 13 7 24 10a156 156 0 0 1 19 10l6 6 2 10c0 6-3 12-8 16s-13 6-23 6c-8 0-16-2-24-5-8-4-15-9-21-15l-18 21a89 89 0 0 0 89 22c8-3 14-7 20-11a49 49 0 0 0 14-54c-2-5-4-9-8-13-3-3-6-7-11-10l-14-7-23-10a623 623 0 0 1-20-9l-6-7-2-8c0-7 2-12 7-15 5-4 12-6 20-6s15 1 21 4l17 11 16-20c-7-7-15-12-24-16-10-4-20-6-30-6zm-810 3v175h29v-77l-1-29-3-29h1l18 37 55 98h31V132h-29v76a360 360 0 0 0 4 59h-1l-18-37-55-98zm175 0v175h31V132zm75 0v175h28v-80a181 181 0 0 0-2-28 332 332 0 0 0-2-27h1l14 40 28 78h19l28-78 14-40h2a564 564 0 0 1-3 27l-1 15v93h28V132h-35l-30 86a385 385 0 0 0-11 34h-1a637 637 0 0 1-11-34l-31-86zm198 0v175h31V132zm487 0l-56 175h31l14-47h58l14 47h32l-56-175zm115 0v175h31v-73h64v-26h-64v-50h75v-26zm136 0v175h108v-26h-77v-52h63v-26h-63v-45h74v-26zm170 10h15c8 0 14 1 18 4 4 2 6 6 6 12s-2 10-6 13-10 4-18 4h-15zm-765 14c14 0 25 6 33 17s12 26 12 46c0 10-1 19-3 27s-5 15-9 21a39 39 0 0 1-66 0c-4-6-7-13-9-21s-3-17-3-27c0-20 4-35 12-46s19-17 33-17zm361 0h1a6816 6816 0 0 1 16 58l6 21h-44l6-21 8-28z"/></svg>');
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 30px;
+    width: 182px;
+}
+
+.safe-logo [logo-link] {
+    display: block;
+    width: 34px;
+    height: 30px;
 }
 
 .secondary-links {
