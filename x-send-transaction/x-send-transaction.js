@@ -241,7 +241,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         const account = this.$accountsDropdown.selectedAccount;
 
         // TODO FIXME Move this somewhere more reasonable
-        if (account.type !== AccountType.KEYGUARD_HIGH && account.type !== AccountType.KEYGUARD_LOW) {
+        if (account.type !== AccountType.KEYGUARD_HIGH && account.type !== AccountType.KEYGUARD_LOW
+            && account.type !== AccountType.LEDGER) {
             this.$extraDataInput.value = '';
             this.$('.extra-data-section').classList.add('display-none');
         } else {
