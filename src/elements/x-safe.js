@@ -428,7 +428,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _showWarnings() {
         XEducationSlides.onFinished = XEducationSlides.hide;
-        XEducationSlides._slides = XEducationSlides.allSlides.slice(1, XEducationSlides.length - 1);
+        XEducationSlides._slides = XEducationSlides.allSlides.slice(1, -1);
         XEducationSlides.start(true);
     }
 }
