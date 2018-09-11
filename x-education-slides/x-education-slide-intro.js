@@ -38,8 +38,11 @@ export default class XEducationSlideIntro extends XEducationSlide {
     }
 
     onShow() {
-        XEducationSlides._slides = XEducationSlides.allSlides;
-
+        if (XEducationSlides.action !== 'none') {
+            XEducationSlides._slides = XEducationSlides.allSlides;
+        } else {
+            XEducationSlides._slides = XEducationSlides.allSlides.slice(0, -1);
+        }
         super.onShow();
 
         let actionText = '';
