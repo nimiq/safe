@@ -15,7 +15,7 @@ class AccountManager {
     }
 
     async launch() {
-        this.accountsManagerClient = new AccountsManagerClient.default('http://localhost:8080');
+        this.accountsManagerClient = new AccountsManagerClient.default();
 
         this.accounts = {
             get: (address) => MixinRedux.store.getState().accounts.entries.get(address),

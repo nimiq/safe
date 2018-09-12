@@ -2,7 +2,7 @@ const gulp = require('gulp');
 
 const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 
-gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
+gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe-next/dist'));
 
 gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     jsEntry: [
@@ -10,6 +10,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
         '../../elements/vue-components/lib/vue.min.js', // Production version
         '../../elements/vue-components/lib/vue-async-computed.js',
         '../../elements/vue-components/dist/NimiqComponents.umd.min.js',
+        './src/AccountsManagerClient.js',
         'src/safe.js'
     ],
     cssEntry: [
@@ -18,7 +19,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     ],
     htmlEntry: 'src/index.html',
     rootPath: `${__dirname}/../../`,
-    distPath: 'deployment-safe/dist',
+    distPath: 'deployment-safe-next/dist',
     minify: false
 })));
 
