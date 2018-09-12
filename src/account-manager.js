@@ -36,7 +36,6 @@ class AccountManager {
             addAccount,
             setAllKeys,
             updateLabel,
-            upgrade
         }, this.store.dispatch);
     }
 
@@ -81,17 +80,19 @@ class AccountManager {
     async createSafe() {
         await this._launched;
         // TODO Show UI for choice between Keyguard and Ledger account creation
-        const newKey = await this._invoke('createSafe', {type: AccountType.KEYGUARD_HIGH});
-        newKey.type = AccountType.KEYGUARD_HIGH;
-        this.actions.addAccount(newKey);
+        const newAccount = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
+            appName: 'Nimiq Safe',
+        });
+        newAccount.type = AccountType.KEYGUARD_HIGH;
+        this.actions.addAccount(newAccount);
     }
 
-    async createWallet(label) {
-        await this._launched;
-        const newKey = await this._invoke('createWallet', {type: AccountType.KEYGUARD_LOW}, label);
-        newKey.type = AccountType.KEYGUARD_LOW;
-        this.actions.addAccount(newKey);
-    }
+    // async createWallet(label) {
+    //     await this._launched;
+    //     const newKey = await this._invoke('createWallet', {type: AccountType.KEYGUARD_LOW}, label);
+    //     newKey.type = AccountType.KEYGUARD_LOW;
+    //     this.actions.addAccount(newKey);
+    // }
 
     async sign(tx) {
         await this._launched;
@@ -100,61 +101,52 @@ class AccountManager {
         return this._invoke('signTransaction', account, tx);
     }
 
-    async rename(address) {
-        await this._launched;
-        const account = this.accounts.get(address);
-        const label = await this._invoke('rename', account, address);
-        this.actions.updateLabel(account.address, label);
-    }
+    // async rename(address) {
+    //     await this._launched;
+    //     const account = this.accounts.get(address);
+    //     const label = await this._invoke('rename', account, address);
+    //     this.actions.updateLabel(account.address, label);
+    // }
 
-    async upgrade(address) {
-        await this._launched;
-        const account = this.accounts.get(address);
-        const success = await this._invoke('upgrade', account, address);
-        if (success) {
-            this.actions.upgrade(account.address);
-        }
-    }
+    // async backupFile(address) {
+    //     await this._launched;
+    //     const account = this.accounts.get(address);
+    //     return this._invoke('backupFile', account, address);
+    // }
 
-    async backupFile(address) {
-        await this._launched;
-        const account = this.accounts.get(address);
-        return this._invoke('backupFile', account, address);
-    }
+    // async backupWords(address) {
+    //     await this._launched;
+    //     const account = this.accounts.get(address);
+    //     this._invoke('backupWords', account, address);
+    // }
 
-    async backupWords(address) {
-        await this._launched;
-        const account = this.accounts.get(address);
-        this._invoke('backupWords', account, address);
-    }
+    // async importFromFile() {
+    //     await this._launched;
+    //     const newKey = await this.keyguard.importFromFile();
+    //     newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
+    //     return this._import(newKey);
+    // }
 
-    async importFromFile() {
-        await this._launched;
-        const newKey = await this.keyguard.importFromFile();
-        newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
-        return this._import(newKey);
-    }
+    // async importFromWords() {
+    //     await this._launched;
+    //     const newKey = await this.keyguard.importFromWords();
+    //     newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
+    //     return this._import(newKey);
+    // }
 
-    async importFromWords() {
-        await this._launched;
-        const newKey = await this.keyguard.importFromWords();
-        newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
-        return this._import(newKey);
-    }
+    // async importLedger() {
+    //     await this._launched;
+    //     const newKey = {
+    //         address: await this.ledger.getAddress(true),
+    //         type: AccountType.LEDGER,
+    //         label: 'Ledger Account'
+    //     };
+    //     return this._import(newKey);
+    // }
 
-    async importLedger() {
-        await this._launched;
-        const newKey = {
-            address: await this.ledger.getAddress(true),
-            type: AccountType.LEDGER,
-            label: 'Ledger Account'
-        };
-        return this._import(newKey);
-    }
-
-    async confirmLedgerAddress(address) {
-        return this.ledger.confirmAddress(address);
-    }
+    // async confirmLedgerAddress(address) {
+    //     return this.ledger.confirmAddress(address);
+    // }
 
     // signMessage(msg, address) {
     //     throw new Error('Not implemented!'); return;
@@ -163,19 +155,19 @@ class AccountManager {
     //     this._invoke('signMessage', account);
     // }
 
-    async _import(key) {
-        this.actions.addAccount(key);
+    // async _import(key) {
+    //     this.actions.addAccount(key);
 
-        // Find and add vesting accounts
-        (await this.vesting.find([key.address]))
-            .forEach((vestingKey) => {
-                const k = Object.assign({}, vestingKey, {
-                    type: AccountType.VESTING,
-                    label: `Vesting Contract`
-                });
-                this.actions.addAccount(k);
-            });
-    }
+    //     // Find and add vesting accounts
+    //     (await this.vesting.find([key.address]))
+    //         .forEach((vestingKey) => {
+    //             const k = Object.assign({}, vestingKey, {
+    //                 type: AccountType.VESTING,
+    //                 label: `Vesting Contract`
+    //             });
+    //             this.actions.addAccount(k);
+    //         });
+    // }
 
     _invoke(method, account, ...args) {
         return this.accountsManagerClient[method](...args);
@@ -213,33 +205,3 @@ const AccountType = {
     LEDGER: 3,
     VESTING: 4
 };
-
-export const TypeKeys = {
-    SET_KEYGUARD: 'connection/set-keyguard'
-};
-
-export function reducer(state, action) {
-    if (state === undefined) {
-        return {
-            keyguard: false
-        }
-    }
-
-    switch (action.type) {
-        case TypeKeys.SET_KEYGUARD:
-            return Object.assign({}, state,
-                {
-                    keyguard: action.connected
-                });
-
-        default:
-            return state;
-    }
-}
-
-export function setKeyguardConnection(connected) {
-   return {
-       type: TypeKeys.SET_KEYGUARD,
-       connected
-   }
-}
