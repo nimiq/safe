@@ -10,8 +10,8 @@ export default class XAccounts extends MixinRedux(XElement) {
     html() {
         return `
             <x-popup-menu x-icon="add">
-                <button class="waiting create"><i class="material-icons">add</i> Create New Account</button>
-                <button class="import-ledger"><i class="material-icons ledger-icon">&nbsp;</i> Import Ledger Account</button>
+                <button class="create"><i class="material-icons">add</i> Create New Account</button>
+                <button class="waiting import-ledger"><i class="material-icons ledger-icon">&nbsp;</i> Import Ledger Account</button>
                 <button class="waiting import-words"><i class="material-icons">text_format</i> Import Recovery Words</button>
                 <button class="waiting import-file"><i class="material-icons">crop_portrait</i> Import Access File</button>
             </x-popup-menu>

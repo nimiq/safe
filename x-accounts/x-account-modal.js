@@ -180,7 +180,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         super.type = type;
 
         // Disable popup menu for Vesting
-        this.$popupMenu.$el.classList.toggle('display-none', type === AccountType.VESTING);
+        this.$popupMenu.$el.classList.toggle('display-none', true); // type === AccountType.VESTING);
 
         // Disable send button, enable payout button for Vesting
         this.$sendButton.classList.toggle('display-none', type === AccountType.VESTING);
