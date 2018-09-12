@@ -15,7 +15,11 @@ class AccountManager {
     }
 
     async launch() {
-        this._client = new AccountsManagerClient.default('http://localhost:8080');
+        this.accountsManagerClient = new AccountsManagerClient.default('http://localhost:8080');
+
+        this.accounts = {
+            get: (address) => MixinRedux.store.getState().accounts.entries.get(address),
+        };
 
         this._bindStore();
 
@@ -47,7 +51,7 @@ class AccountManager {
          * }
          */
 
-        const keys = await this._client.list();
+        const keys = await this.accountsManagerClient.list();
 
         const accounts = [];
 
@@ -55,11 +59,10 @@ class AccountManager {
             Array.from(key.addresses.keys()).forEach(address => {
                 const entry = {
                     address,
+                    label: key.addresses.get(address).label,
+                    type: AccountType.KEYGUARD_HIGH,
+                    keyId: key.id,
                 };
-
-                entry.label = key.addresses.get(address).label;
-                entry.type = AccountType.KEYGUARD_HIGH;
-
                 accounts.push(entry);
             });
         });
@@ -93,7 +96,8 @@ class AccountManager {
     async sign(tx) {
         await this._launched;
         const account = this.accounts.get(tx.sender);
-        return this._invoke('sign', account, tx);
+        tx.keyId = account.keyId;
+        return this._invoke('signTransaction', account, tx);
     }
 
     async rename(address) {
@@ -174,23 +178,7 @@ class AccountManager {
     }
 
     _invoke(method, account, ...args) {
-        // method = methodDict[method][account.type];
-        // if (!method) throw new Error(`Method >${method}< not defined for accounts of type ${account.type}!`);
-
-        switch (account.type) {
-            case AccountType.KEYGUARD_HIGH:
-                if (method === 'sign') method = 'signSafe';
-                return this.keyguard[method](...args);
-            case AccountType.KEYGUARD_LOW:
-                if (method === 'sign') method = 'signWallet';
-                return this.keyguard[method](...args);
-            case AccountType.LEDGER:
-                return this.ledger[method](...args);
-            case AccountType.VESTING:
-                return this.vesting[method](...args);
-            default:
-                throw new Error(`Account type ${account.type} not in use!`);
-        }
+        return this.accountsManagerClient[method](...args);
     }
 }
 

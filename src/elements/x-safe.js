@@ -362,10 +362,12 @@ export default class XSafe extends MixinRedux(XElement) {
             return;
         }
 
-        tx.value = Number(tx.value);
-        tx.fee = Number(tx.fee) || 0;
+        tx.value = Number(tx.value) * 1e5;
+        tx.fee = (Number(tx.fee) || 0) * 1e5;
         tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
+
+        tx.appName = 'Nimiq Safe';
 
         const signedTx = await accountManager.sign(tx);
 
