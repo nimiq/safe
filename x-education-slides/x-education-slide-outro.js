@@ -10,10 +10,10 @@ export default class XEducationSlideOutro extends XEducationSlide {
             <div class="modal-body">
                 <div class="has-side-image">
                     <div>
-                        Thanks for your patience! Now you are prepared to <span class="action-text"></span>.
+                        Thanks for your attention! Now onwards to <span class="action-text"></span>.
                         <span class="keyguard-popup-info">
-                            For that purpose, in the next step a popup window will open which contains the Keyguard app.
-                            Just follow the steps there and see you very soon in Nimiq Safe!
+                            In the next step a popup window will open that contains the Nimiq Keyguard.
+                            Just follow the steps and see you very soon in the Nimiq Safe!
                         </span>
                     </div>
                 </div>
@@ -31,25 +31,25 @@ export default class XEducationSlideOutro extends XEducationSlide {
         let actionText;
         switch (XEducationSlides.action) {
             case 'create':
-                actionText = 'create a new account for Nimiq Safe';
+                actionText = 'creating a new account for the Nimiq Safe';
                 break;
 
             case 'import-words':
-                actionText = 'import an existing account';
+                actionText = 'importing your existing account';
                 break;
 
             case 'import-file':
-                actionText = 'import an existing account';
+                actionText = 'importing your existing account';
                 break;
 
             case 'import-ledger':
-                actionText = 'import an existing account from your ledger';
+                actionText = 'importing an existing account from your ledger';
                 this.$nextButton.textContent = 'Import from Ledger';
                 this.$('.keyguard-popup-info').style.display = 'none';
                 break;
 
             case 'upgrade':
-                actionText = 'upgrade your account for Nimiq Safe';
+                actionText = 'upgrading your existing account for the Nimiq Safe';
                 break;
         }
         this.$('.action-text').innerText = actionText;
