@@ -11,9 +11,8 @@ export default class XAccounts extends MixinRedux(XElement) {
         return `
             <x-popup-menu x-icon="add">
                 <button class="create"><i class="material-icons">add</i> Create New Account</button>
+                <button class="import"><i class="material-icons">crop_portrait</i> Import Wallet/Account</button>
                 <button class="waiting import-ledger"><i class="material-icons ledger-icon">&nbsp;</i> Import Ledger Account</button>
-                <button class="waiting import-words"><i class="material-icons">text_format</i> Import Recovery Words</button>
-                <button class="waiting import-file"><i class="material-icons">crop_portrait</i> Import Access File</button>
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
             <x-account-modal x-route-aside="account"></x-account-modal>
@@ -34,7 +33,7 @@ export default class XAccounts extends MixinRedux(XElement) {
         if (changes.keyguardReady) {
             this.$('.create').classList.remove('waiting');
             this.$('.import-words').classList.remove('waiting');
-            this.$('.import-file').classList.remove('waiting');
+            this.$('.import').classList.remove('waiting');
         }
     }
 
@@ -42,8 +41,7 @@ export default class XAccounts extends MixinRedux(XElement) {
         return {
             'click button.create': this._onCreateAccount,
             'click button.import-ledger': this._onImportLedger,
-            'click button.import-words': this._onImportFromWords,
-            'click button.import-file': this._onImportFromFile,
+            'click button.import': this._onImport,
             'x-account-selected': this._onAccountSelected
         };
     }
@@ -56,12 +54,8 @@ export default class XAccounts extends MixinRedux(XElement) {
         this.fire('x-accounts-import-ledger');
     }
 
-    _onImportFromWords() {
-        this.fire('x-accounts-import-words');
-    }
-
-    _onImportFromFile() {
-        this.fire('x-accounts-import-file');
+    _onImport() {
+        this.fire('x-accounts-import');
     }
 
     _onAccountSelected(address) {
