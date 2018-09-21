@@ -190,8 +190,7 @@ export default class XSafe extends MixinRedux(XElement) {
     listeners() {
         return {
             'x-accounts-create': this._clickedCreateAccount.bind(this),
-            'x-accounts-import-file': this._clickedImportAccountFile.bind(this),
-            'x-accounts-import-words': this._clickedImportAccountWords.bind(this),
+            'x-accounts-import': this._clickedImportAccount.bind(this),
             'x-accounts-import-ledger': this._clickedImportAccountLedger.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
@@ -227,25 +226,9 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedImportAccountFile() {
+    async _clickedImportAccount() {
         try {
-            await accountManager.importFromFile();
-            XToast.success('Account imported successfully.');
-            XEducationSlides.hide();
-        } catch (e) {
-            console.error(e);
-            if (e.code === 'K3' || e.code === 'K4') {
-                // Show Safari/iOS > 10 accounts error
-                XToast.warning(e.message);
-            } else {
-                XToast.warning('Account was not imported.');
-            }
-        }
-    }
-
-    async _clickedImportAccountWords() {
-        try {
-            await accountManager.importFromWords();
+            await accountManager.login();
             XToast.success('Account imported successfully.');
             XEducationSlides.hide();
         } catch (e) {

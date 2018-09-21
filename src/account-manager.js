@@ -79,7 +79,6 @@ class AccountManager {
 
     async createSafe() {
         await this._launched;
-        // TODO Show UI for choice between Keyguard and Ledger account creation
         const newAccount = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
             appName: 'Nimiq Safe',
         });
@@ -120,19 +119,16 @@ class AccountManager {
     //     this._invoke('backupWords', account, address);
     // }
 
-    // async importFromFile() {
-    //     await this._launched;
-    //     const newKey = await this.keyguard.importFromFile();
-    //     newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
-    //     return this._import(newKey);
-    // }
-
-    // async importFromWords() {
-    //     await this._launched;
-    //     const newKey = await this.keyguard.importFromWords();
-    //     newKey.type = newKey.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
-    //     return this._import(newKey);
-    // }
+    async login() {
+        await this._launched;
+        const result = await this._invoke('login', {type: AccountType.KEYGUARD_HIGH}, {
+            appName: 'Nimiq Safe',
+        });
+        result.addresses.forEach(newAccount => {
+            newAccount.type = AccountType.KEYGUARD_HIGH;
+            this.actions.addAccount(newAccount);
+        });
+    }
 
     // async importLedger() {
     //     await this._launched;

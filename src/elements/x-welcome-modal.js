@@ -25,16 +25,15 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                         <strong>For using Nimiq Safe, you need an account:</strong>
                     </div>
 
-                    <button class="create waiting spacing-bottom">Create New Account</button>
+                    <button class="create spacing-bottom">Create New Account</button>
 
                     <div class="spacing-bottom">
                         If you have 24 Recovery Words or an Access File,
                         you can use those to import your existing account:
                     </div>
 
-                    <a secondary class="waiting" import-words-1>Import from 24 Words</a>
-                    <a secondary class="waiting" import-file-1>Import from Access File</a>
-                    <a secondary import-ledger-1>Import Ledger Account</a>
+                    <a secondary import-1>Import Wallet/Account</a>
+                    <a secondary import-ledger-1 class="waiting">Import Ledger Account</a>
                 </div>
 
                  <div class="options upgrade display-none">
@@ -48,8 +47,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                         Or if you have 24 Recovery Words or an Access File, you can use those to import your account.
                     </div>
 
-                    <a secondary import-words-2>Import from 24 Words</a>
-                    <a secondary import-file-2>Import from Access File</a>
+                    <a secondary import-2>Import Wallet/Account</a>
                     <a secondary import-ledger-2>Import Ledger Account</a>
                 </div>
             </div>
@@ -66,8 +64,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     _onPropertiesChanged(changes) {
         if (changes.keyguardReady && !this.properties.upgradedableAccount) {
             this.$('.create').classList.remove('waiting');
-            this.$('[import-words-1]').classList.remove('waiting');
-            this.$('[import-file-1]').classList.remove('waiting');
+            this.$('[import-1]').classList.remove('waiting');
         }
 
         if (changes.upgradedableAccount) {
@@ -95,11 +92,9 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
             'click button.create': this._onCreateAccount.bind(this),
             'click button.upgrade': this._onUpgradeAccount.bind(this),
             'click [import-ledger-1]': this._onImportLedger.bind(this),
-            'click [import-words-1]': this._onImportWords.bind(this),
-            'click [import-file-1]': this._onImportFile.bind(this),
+            'click [import-1]': this._onImportFile.bind(this),
             'click [import-ledger-2]': this._onImportLedger.bind(this),
-            'click [import-words-2]': this._onImportWords.bind(this),
-            'click [import-file-2]': this._onImportFile.bind(this)
+            'click [import-2]': this._onImportFile.bind(this)
         };
     }
 
@@ -115,14 +110,8 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
         XEducationSlides.start();
     }
 
-    _onImportWords() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-import-words');
-        XEducationSlides.action = 'import-words';
-        XEducationSlides.start();
-    }
-
     _onImportFile() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-import-file');
+        XEducationSlides.onFinished = () => this.fire('x-accounts-import');
         XEducationSlides.action = 'import-file';
         XEducationSlides.start();
     }
