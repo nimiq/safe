@@ -1,7 +1,7 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys, updateLabel, upgrade } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-// import AccountsManagerClient from './AccountsManagerClient.js'; // Is loaded via script tag currently
+import AccountsManagerClient from './AccountsManagerClient.es.js';
 
 class AccountManager {
     static getInstance() {
@@ -15,7 +15,7 @@ class AccountManager {
     }
 
     async launch() {
-        this.accountsManagerClient = new AccountsManagerClient.default();
+        this.accountsManagerClient = new AccountsManagerClient();
 
         this.accounts = {
             get: (address) => MixinRedux.store.getState().accounts.entries.get(address),

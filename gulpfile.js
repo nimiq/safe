@@ -10,7 +10,6 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
         '../../elements/vue-components/lib/vue.min.js', // Production version
         '../../elements/vue-components/lib/vue-async-computed.js',
         '../../elements/vue-components/dist/NimiqComponents.umd.min.js',
-        './src/AccountsManagerClient.js',
         'src/safe.js'
     ],
     cssEntry: [
