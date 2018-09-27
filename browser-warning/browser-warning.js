@@ -32,12 +32,6 @@
 
     function isBrowserOutdated() {
         if (typeof Symbol === "undefined") return true;
-        /*
-        if (typeof navigator.mediaDevices === 'undefined'
-            || typeof navigator.mediaDevices.getUserMedia === 'undefined')
-            // iOS Chrome is a Web View (or at least doesn't support media devices), but still a browser
-            && !/CriOS/i.test(navigator.userAgent)) return true;
-        */
         try {
             eval("class Foo {}");
             eval("var bar = async (x) => x+1");
