@@ -1,5 +1,17 @@
 (function () {
+
+    function isWebApp() {
+      isIOS = (window.navigator.standalone == true);
+      isChrome = (window.matchMedia('(display-mode: standalone)').matches);
+
+      return isIOS || isChrome;
+    }
+
     function isWebView() {
+        if (isWebApp()) {
+          return false;
+        }
+
         var userAgent = navigator.userAgent;
 
         if ((typeof navigator.mediaDevices === 'undefined'
