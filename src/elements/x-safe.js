@@ -44,10 +44,10 @@ export default class XSafe extends MixinRedux(XElement) {
             <header>
                 <div class="header-top content-width">
                     <div class="nimiq-app-name">
-                        <nimiq-logo>
-                            ${getString('nimiq_safe_name')}
+                        ${getString('nimiq_safe_name')}
+                        <div class="safe-logo">
                             <a logo-link href="#"></a>
-                        </nimiq-logo>
+                        </div>
                     </div>
                     <nav class="secondary-links">
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
@@ -430,7 +430,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _showWarnings() {
         XEducationSlides.onFinished = XEducationSlides.hide;
-        XEducationSlides._slides = XEducationSlides.allSlides.slice(1, XEducationSlides.length - 1);
+        XEducationSlides._slides = XEducationSlides.allSlides.slice(1, -1);
         XEducationSlides.start(true);
     }
 }

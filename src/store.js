@@ -13,14 +13,21 @@ export class Store {
     static _initialize() {
         // initialize from localStorage
         const stringifiedState = localStorage.getItem('persistedState');
+
         const stringifiedContacts = localStorage.getItem('persistedContacts');
+        const persistedContacts = JSON.parse(stringifiedContacts);
 
         if (!stringifiedState) {
+            if (persistedContacts) {
+                return configureStore({
+                    contacts: Object.assign({}, persistedContacts),
+                });
+            }
+
             return configureStore();
         }
 
         let persistedState = JSON.parse(stringifiedState);
-        let persistedContacts = JSON.parse(stringifiedContacts);
 
         persistedState = Object.assign({},
             persistedState,

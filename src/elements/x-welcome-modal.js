@@ -84,7 +84,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
         // executed when closing by clicking background
         XEducationSlides.onFinished = XEducationSlides.hide;
         XEducationSlides.action = 'none';
-        XEducationSlides._slides = XEducationSlides.allSlides.slice(0, XEducationSlides.length - 1);
+        XEducationSlides._slides = XEducationSlides.allSlides.slice(0, -1);
         XEducationSlides.start();
 
         return false;
