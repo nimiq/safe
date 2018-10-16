@@ -406,7 +406,7 @@ class PostMessageRpcClient extends RpcClient {
             // Periodically check if recepient window is still open
             const checkIfServerWasClosed = () => {
                 if (this._target.closed) {
-                    reject(new Error('window was closed'));
+                    reject(new Error('Window was closed'));
                 }
                 setTimeout(checkIfServerWasClosed, 500);
             };
@@ -516,8 +516,8 @@ class RedirectRpcClient extends RpcClient {
 
 class RequestBehavior {
     static getAllowedOrigin(endpoint) {
-        // FIXME derive from endpoint url
-        return '*';
+        const url = new URL(endpoint);
+        return url.origin;
     }
     constructor(type) {
         this._type = type;
@@ -548,7 +548,7 @@ class PopupRequestBehavior extends RequestBehavior {
         try {
             const result = await client.call(command, ...args);
             client.close();
-            // popup.close(); // Do not close to enable the popup displaying the success page
+            popup.close();
             return result;
         }
         catch (e) {
@@ -573,7 +573,7 @@ class IFrameRequestBehavior extends RequestBehavior {
         this._client = null;
     }
     async request(endpoint, command, args) {
-        if (this._iframe && this._iframe.src !== `${endpoint}/iframe.html`) {
+        if (this._iframe && this._iframe.src !== `${endpoint}${IFrameRequestBehavior.IFRAME_PATH_SUFFIX}`) {
             throw new Error('Accounts Manager iframe is already opened with another endpoint');
         }
         const origin = RequestBehavior.getAllowedOrigin(endpoint);
@@ -595,12 +595,13 @@ class IFrameRequestBehavior extends RequestBehavior {
             $iframe.name = 'NimiqAccountsIFrame';
             $iframe.style.display = 'none';
             document.body.appendChild($iframe);
-            $iframe.src = `${endpoint}/iframe.html`;
+            $iframe.src = `${endpoint}${IFrameRequestBehavior.IFRAME_PATH_SUFFIX}`;
             $iframe.onload = () => resolve($iframe);
             $iframe.onerror = reject;
         });
     }
 }
+IFrameRequestBehavior.IFRAME_PATH_SUFFIX = '/iframe.html';
 
 class Observable {
     static get WILDCARD() {
@@ -683,6 +684,7 @@ var RequestType;
     RequestType["SIGNTRANSACTION"] = "sign-transaction";
     RequestType["SIGNUP"] = "signup";
     RequestType["LOGIN"] = "login";
+    RequestType["LOGOUT"] = "logout";
 })(RequestType || (RequestType = {}));
 
 class AccountsManagerClient {
@@ -690,17 +692,15 @@ class AccountsManagerClient {
         this._endpoint = endpoint;
         this._defaultBehavior = defaultBehavior || new PopupRequestBehavior(`left=${window.innerWidth / 2 - 500},top=50,width=1000,height=900,location=yes,dependent=yes`);
         this._iframeBehavior = new IFrameRequestBehavior();
-        // Only initiated to check for RPC results in the URL
+        // Check for RPC results in the URL
         this._redirectClient = new RedirectRpcClient('', RequestBehavior.getAllowedOrigin(this._endpoint));
-        this._redirectClient.onResponse('request', this._onResolve.bind(this), this._onReject.bind(this));
         this._observable = new Observable();
     }
     init() {
         return this._redirectClient.init();
     }
     on(command, resolve, reject) {
-        this._observable.on(`${command}-resolve`, resolve);
-        this._observable.on(`${command}-reject`, reject);
+        this._redirectClient.onResponse(command, resolve, reject);
     }
     signup(request, requestBehavior = this._defaultBehavior) {
         return this._request(requestBehavior, RequestType.SIGNUP, [request]);
@@ -714,6 +714,9 @@ class AccountsManagerClient {
     login(request, requestBehavior = this._defaultBehavior) {
         return this._request(requestBehavior, RequestType.LOGIN, [request]);
     }
+    logout(request, requestBehavior = this._defaultBehavior) {
+        return this._request(requestBehavior, RequestType.LOGOUT, [request]);
+    }
     list(requestBehavior = this._iframeBehavior) {
         return this._request(requestBehavior, RequestType.LIST, []);
     }
@@ -721,22 +724,6 @@ class AccountsManagerClient {
     /* PRIVATE METHODS */
     _request(behavior, command, args) {
         return behavior.request(this._endpoint, command, args);
-    }
-    _onReject(error, id, state) {
-        const command = state.__command;
-        if (!command) {
-            throw new Error('Invalid state after RPC request');
-        }
-        delete state.__command;
-        this._observable.fire(`${command}-reject`, error, state);
-    }
-    _onResolve(result, id, state) {
-        const command = state.__command;
-        if (!command) {
-            throw new Error('Invalid state after RPC request');
-        }
-        delete state.__command;
-        this._observable.fire(`${command}-resolve`, result, state);
     }
 }
 AccountsManagerClient.DEFAULT_ENDPOINT = window.location.origin === 'https://safe-next.nimiq.com' ? 'https://accounts.nimiq.com'
