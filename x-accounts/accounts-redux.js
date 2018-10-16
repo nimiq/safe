@@ -12,7 +12,8 @@ export const TypeKeys = {
     UPDATE_BALANCES: 'accounts/update-balances',
     UPDATE_LABEL: 'accounts/update-label',
     UPGRADE_CANCELED: 'accounts/upgrade-canceled',
-    UPGRADE: 'accounts/upgrade'
+    UPGRADE: 'accounts/upgrade',
+    REMOVE_KEY: 'accounts/remove-key',
 };
 
 export function reducer(state, action) {
@@ -93,6 +94,29 @@ export function reducer(state, action) {
             });
         }
 
+        case TypeKeys.REMOVE_KEY: {
+            const filteredEntries = new Map();
+            const removedEntries = new Map();
+
+            let iterator;
+            const addressIterator = state.entries.keys();
+            while ((iterator = addressIterator.next()) && !iterator.done) {
+                const address = iterator.value;
+                const entry = state.entries.get(address);
+                if (entry.keyId === action.keyId) {
+                    removedEntries.set(address, entry);
+                } else {
+                    filteredEntries.set(address, entry);
+                }
+            }
+
+            // TODO: Remove all transactions of removedEntries from transaction store
+
+            return Object.assign({}, state, {
+                entries: filteredEntries
+            });
+        }
+
         default:
             return state
     }
@@ -148,5 +172,12 @@ export function upgrade(address) {
     return {
         type: TypeKeys.UPGRADE,
         address
+    }
+}
+
+export function removeKey(keyId) {
+    return {
+        type: TypeKeys.REMOVE_KEY,
+        keyId
     }
 }
