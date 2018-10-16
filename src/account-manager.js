@@ -1,5 +1,5 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import { addAccount, setAllKeys, updateLabel, upgrade } from '/elements/x-accounts/accounts-redux.js';
+import { addAccount, setAllKeys, updateLabel, removeKey } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsManagerClient from './AccountsManagerClient.es.js';
 
@@ -36,6 +36,7 @@ class AccountManager {
             addAccount,
             setAllKeys,
             updateLabel,
+            removeKey,
         }, this.store.dispatch);
     }
 
@@ -77,7 +78,7 @@ class AccountManager {
     //     return defaultAccount;
     // }
 
-    async createSafe() {
+    async create() {
         await this._launched;
         const newAccount = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
             appName: 'Nimiq Safe',
@@ -85,13 +86,6 @@ class AccountManager {
         newAccount.type = AccountType.KEYGUARD_HIGH;
         this.actions.addAccount(newAccount);
     }
-
-    // async createWallet(label) {
-    //     await this._launched;
-    //     const newKey = await this._invoke('createWallet', {type: AccountType.KEYGUARD_LOW}, label);
-    //     newKey.type = AccountType.KEYGUARD_LOW;
-    //     this.actions.addAccount(newKey);
-    // }
 
     async sign(tx) {
         await this._launched;
@@ -128,6 +122,16 @@ class AccountManager {
             newAccount.type = AccountType.KEYGUARD_HIGH;
             this.actions.addAccount(newAccount);
         });
+    }
+
+    async logout(keyId) {
+        await this._launched;
+        const result = await this._invoke('logout', {type: AccountType.KEYGUARD_HIGH}, {
+            appName: 'Nimiq Safe',
+            keyId: keyId,
+        });
+        if (result.success === true) this.actions.removeKey(keyId);
+        else throw new Error('Logout failed');
     }
 
     // async importLedger() {

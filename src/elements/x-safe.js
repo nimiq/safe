@@ -212,7 +212,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedCreateAccount() {
         try {
-            await accountManager.createSafe();
+            await accountManager.create();
             XToast.success('Account created successfully.');
             XEducationSlides.hide();
         } catch (e) {
