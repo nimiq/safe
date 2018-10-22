@@ -377,6 +377,11 @@ class Config {
         }
     }
 
+    static get productionMode() {
+        if (Config.tld === 'nimiq.com') return true;
+        return false;
+    }
+
     static origin(subdomain) {
         return Config._origin(subdomain);
     }
