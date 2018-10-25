@@ -2,7 +2,7 @@ import XSafe from './elements/x-safe.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
-import { updateBalances, setAllKeys } from '/elements/x-accounts/accounts-redux.js';
+import { updateBalances } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from './account-manager.js';
@@ -47,7 +47,6 @@ class Safe {
         this._xApp = new XSafe($appContainer);
 
         this.actions = bindActionCreators({
-            setAllKeys,
             updateBalances,
             addTransactions,
             markRemoved,
