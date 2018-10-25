@@ -1,4 +1,5 @@
 import ConvertExtraData from './convert-extra-data.js';
+import { TypeKeys as WalletTypeKeys } from '/apps/safe/src/wallet-redux.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
@@ -119,6 +120,21 @@ export function reducer(state, action) {
             return Object.assign({}, state, {
                 isRequestingHistory: action.isRequestingHistory
             });
+
+        case WalletTypeKeys.LOGOUT: {
+            const entries = new Map(state.entries);
+            const entriesArray = [...state.entries.values()];
+
+            for (const tx of entriesArray) {
+                if (action.addresses.includes(tx.sender) || action.addresses.includes(tx.recipient)) {
+                    entries.delete(tx.hash);
+                }
+            }
+
+            return Object.assign({}, state, {
+                entries
+            });
+        }
 
         default:
             return state

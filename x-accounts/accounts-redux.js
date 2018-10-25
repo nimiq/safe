@@ -5,6 +5,7 @@
 import networkClient from '/apps/safe/src/network-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '/libraries/account-manager/account-type.js';
+import { TypeKeys as WalletTypeKeys } from '/apps/safe/src/wallet-redux.js';
 
 export const TypeKeys = {
     ADD_KEY: 'accounts/add-key',
@@ -13,7 +14,6 @@ export const TypeKeys = {
     UPDATE_LABEL: 'accounts/update-label',
     UPGRADE_CANCELED: 'accounts/upgrade-canceled',
     UPGRADE: 'accounts/upgrade',
-    REMOVE_KEY: 'accounts/remove-key',
 };
 
 export function reducer(state, action) {
@@ -94,26 +94,14 @@ export function reducer(state, action) {
             });
         }
 
-        case TypeKeys.REMOVE_KEY: {
-            const filteredEntries = new Map();
-            const removedEntries = new Map();
-
-            let iterator;
-            const addressIterator = state.entries.keys();
-            while ((iterator = addressIterator.next()) && !iterator.done) {
-                const address = iterator.value;
-                const entry = state.entries.get(address);
-                if (entry.keyId === action.keyId) {
-                    removedEntries.set(address, entry);
-                } else {
-                    filteredEntries.set(address, entry);
-                }
+        case WalletTypeKeys.LOGOUT: {
+            const entries = new Map(state.entries);
+            for (const address of action.addresses) {
+                entries.delete(address);
             }
 
-            // TODO: Remove all transactions of removedEntries from transaction store
-
             return Object.assign({}, state, {
-                entries: filteredEntries
+                entries
             });
         }
 
@@ -172,12 +160,5 @@ export function upgrade(address) {
     return {
         type: TypeKeys.UPGRADE,
         address
-    }
-}
-
-export function removeKey(keyId) {
-    return {
-        type: TypeKeys.REMOVE_KEY,
-        keyId
     }
 }
