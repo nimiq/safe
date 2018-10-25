@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XAccount from './x-account.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XNoAccounts from './x-no-accounts.js';
+import { activeAccounts$ } from '/apps/safe/src/selectors/account$.js';
 
 export default class XAccountsList extends MixinRedux(XElement) {
     html() {
@@ -18,7 +19,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            accounts: state.accounts.entries,
+            accounts: activeAccounts$(state),
             hasContent: state.accounts.hasContent
         };
     }
