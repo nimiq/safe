@@ -1,6 +1,7 @@
 import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from '/elements/x-network-indicator/network-redux.js';
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
+import { initialState as initialWalletState } from './wallet-redux.js';
 
 /* Redux store as singleton */
 export class Store {
@@ -35,6 +36,9 @@ export class Store {
                 transactions: Object.assign({}, persistedState.transactions, {
                     entries: new Map(persistedState.transactions.entries)
                 }),
+                wallets: Object.assign({}, initialWalletState, persistedState.wallets, {
+                    entries: new Map(persistedState.wallets ? persistedState.wallets.entries : [])
+                }),
                 accounts: Object.assign({}, persistedState.accounts, {
                     entries: new Map(persistedState.accounts.entries)
                 }),
@@ -59,6 +63,11 @@ export class Store {
             }
         );
 
+        const wallets =  Object.assign({},
+            state.wallets,
+            { entries: [...state.wallets.entries.entries()] }
+        );
+
         const accounts =  Object.assign({},
             state.accounts,
             { entries: [...state.accounts.entries.entries()] }
@@ -66,6 +75,7 @@ export class Store {
 
         const persistentState = {
             transactions,
+            wallets,
             accounts,
             network: {
                 oldHeight: state.network.height
