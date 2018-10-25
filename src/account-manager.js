@@ -2,6 +2,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys, updateLabel, removeKey } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsManagerClient from './AccountsManagerClient.es.js';
+import { WalletType } from './wallet-redux.js';
 
 class AccountManager {
     static getInstance() {
@@ -61,6 +62,7 @@ class AccountManager {
                     address,
                     label: key.addresses.get(address).label,
                     type: AccountType.KEYGUARD_HIGH,
+                    isLegacy: key.type === WalletType.LEGACY,
                     keyId: key.id,
                 };
                 accounts.push(entry);
