@@ -1,5 +1,6 @@
 export const TypeKeys = {
     LOGIN: 'wallet/login',
+    SWITCH: 'wallet/switch',
     SET_ALL_KEYS: 'wallet/set-all-keys',
     UPDATE_LABEL: 'wallet/update-label',
     UPDATE_NUMBER_ACCOUNTS: 'accounts/update-number-accounts',
@@ -31,7 +32,13 @@ export function reducer(state, action) {
             return Object.assign({}, state, {
                 hasContent: true,
                 entries: new Map(state.entries)
-                    .set(action.key.id, Object.assign({}, action.key))
+                    .set(action.key.id, Object.assign({}, action.key)),
+                activeKeyId: action.key.type === WalletType.LEGACY ? LEGACY : action.key.id,
+            });
+
+        case TypeKeys.SWITCH:
+            return Object.assign({}, state, {
+                activeKeyId: action.keyId,
             });
 
         case TypeKeys.SET_ALL_KEYS:
@@ -70,14 +77,13 @@ export function reducer(state, action) {
 
         case TypeKeys.LOGOUT: {
             const entries = new Map(state.entries);
-            const activeKeyId = state.activeKeyId;
+            let activeKeyId = state.activeKeyId;
             entries.delete(action.keyId);
 
-            // TODO Remove accounts of logged out key
-
-            if (state.activeKeyId === action.keyId) {
+            if (activeKeyId === action.keyId) { // TODO: Handle when removed wallet was the last legacy wallet
                 // If we logout of the current active key, log into the first available key
                 activeKeyId = entries.size > 0 ? entries.keys().next().value : null;
+                // TODO: Handle when first found keyId belongs to a legacy key
             }
 
             return Object.assign({}, state, {
@@ -105,16 +111,40 @@ export function login(key) {
     }
 }
 
-export function logout(keyId) {
+export function switchWallet(keyId) {
     return {
-        type: TypeKeys.LOGIN,
+        type: TypeKeys.SWITCH,
         keyId
+    }
+}
+
+export function logout(keyId) {
+    return async (dispatch, getState) => {
+        // TODO Generate list of addresses affected by logout,
+        // to enable transaction-redux to remove affected transactions
+        const state = getState();
+        const addressesToRemove = [];
+
+        let iterator;
+        const accountIterator = state.accounts.entries.values();
+        while ((iterator = accountIterator.next()) && !iterator.done) {
+            const account = iterator.value;
+            if (account.keyId === keyId) {
+                addressesToRemove.push(account.address);
+            }
+        }
+
+        dispatch({
+            type: TypeKeys.LOGOUT,
+            keyId,
+            addresses: addressesToRemove
+        });
     }
 }
 
 export function updateLabel(keyId, label) {
     return {
-        type: TypeKeys.LOGIN,
+        type: TypeKeys.UPDATE_LABEL,
         keyId,
         label
     }
@@ -122,7 +152,7 @@ export function updateLabel(keyId, label) {
 
 export function updateNumberAccounts(keyId, numberAccounts) {
     return {
-        type: TypeKeys.LOGIN,
+        type: TypeKeys.UPDATE_NUMBER_ACCOUNTS,
         keyId,
         numberAccounts
     }

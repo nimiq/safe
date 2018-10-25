@@ -1,8 +1,8 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import { addAccount, setAllKeys, updateLabel, removeKey } from '/elements/x-accounts/accounts-redux.js';
+import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsManagerClient from './AccountsManagerClient.es.js';
-import { WalletType } from './wallet-redux.js';
+import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, updateNumberAccounts } from './wallet-redux.js';
 
 class AccountManager {
     static getInstance() {
@@ -35,9 +35,13 @@ class AccountManager {
 
         this.actions = bindActionCreators({
             addAccount,
-            setAllKeys,
-            updateLabel,
-            removeKey,
+            setAllAccounts,
+            updateAccountLabel,
+            setAllWallets,
+            login,
+            logout,
+            updateWalletLabel,
+            updateNumberAccounts,
         }, this.store.dispatch);
     }
 
@@ -46,17 +50,27 @@ class AccountManager {
 
         /**
          * type key = {
-         *     address: string,
+         *     id: string
          *     label: string,
-         *     type: AccountType,
+         *     addresses: Map<string, AddressInfoEntry>,
+         *     contracts: [],
+         *     type: WalletType,
          * }
          */
 
         const keys = await this.accountsManagerClient.list();
 
+        const wallets = [];
         const accounts = [];
 
         keys.forEach(key => {
+            wallets.push({
+                id: key.id,
+                label: key.label,
+                type: key.type,
+                numberAccounts: key.addresses.size,
+            });
+
             Array.from(key.addresses.keys()).forEach(address => {
                 const entry = {
                     address,
@@ -69,7 +83,8 @@ class AccountManager {
             });
         });
 
-        this.actions.setAllKeys(accounts);
+        this.actions.setAllAccounts(accounts);
+        this.actions.setAllWallets(wallets);
     }
 
     /// PUBLIC API ///
@@ -82,11 +97,18 @@ class AccountManager {
 
     async create() {
         await this._launched;
-        const newAccount = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
+        const result = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
             appName: 'Nimiq Safe',
         });
+        const newAccount = result.address;
         newAccount.type = AccountType.KEYGUARD_HIGH;
         this.actions.addAccount(newAccount);
+        this.actions.login({
+            id: result.keyId,
+            label: result.label,
+            type: result.type,
+            numberAccounts: 1,
+        });
     }
 
     async sign(tx) {
@@ -100,7 +122,7 @@ class AccountManager {
     //     await this._launched;
     //     const account = this.accounts.get(address);
     //     const label = await this._invoke('rename', account, address);
-    //     this.actions.updateLabel(account.address, label);
+    //     this.actions.updateAccountLabel(account.address, label);
     // }
 
     // async backupFile(address) {
@@ -122,7 +144,15 @@ class AccountManager {
         });
         result.addresses.forEach(newAccount => {
             newAccount.type = AccountType.KEYGUARD_HIGH;
+            newAccount.keyId = result.keyId;
+            newAccount.isLegacy = result.type === WalletType.LEGACY;
             this.actions.addAccount(newAccount);
+        });
+        this.actions.login({
+            id: result.keyId,
+            label: result.label,
+            type: result.type,
+            numberAccounts: result.addresses.length,
         });
     }
 
@@ -132,7 +162,7 @@ class AccountManager {
             appName: 'Nimiq Safe',
             keyId: keyId,
         });
-        if (result.success === true) this.actions.removeKey(keyId);
+        if (result.success === true) this.actions.logout(keyId);
         else throw new Error('Logout failed');
     }
 
