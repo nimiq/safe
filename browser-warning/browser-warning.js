@@ -1,12 +1,11 @@
 (function () {
     function isWebView() {
-        if (typeof navigator.mediaDevices === 'undefined'
-            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true;
-
         var userAgent = navigator.userAgent;
 
-        // iOS Chrome is a Web View, but still a browser (sic!)
-        if (/CriOS/i.test(navigator.userAgent)) return false;
+        if ((typeof navigator.mediaDevices === 'undefined'
+            || typeof navigator.mediaDevices.getUserMedia === 'undefined')
+            // iOS Chrome is a Web View (or at least doesn't support media devices), but still a browser
+            && !/CriOS/i.test(userAgent)) return true;
 
         var inAppBrowsers = ['FB_IAB', 'Instagram'];
 
@@ -21,8 +20,12 @@
 
     function isBrowserOutdated() {
         if (typeof Symbol === "undefined") return true;
+        /*
         if (typeof navigator.mediaDevices === 'undefined'
-            || typeof navigator.mediaDevices.getUserMedia === 'undefined') return true;
+            || typeof navigator.mediaDevices.getUserMedia === 'undefined')
+            // iOS Chrome is a Web View (or at least doesn't support media devices), but still a browser
+            && !/CriOS/i.test(navigator.userAgent)) return true;
+        */
         try {
             eval("class Foo {}");
             eval("var bar = async (x) => x+1");
@@ -30,7 +33,7 @@
             return true;
         }
         return isOutdatedIos();
-    /CriOS/i.test(navigator.userAgent)}
+    }
 
     function isOutdatedIos() {
         if (!/iP(hone|od|ad)/.test(navigator.platform)) return false;
@@ -55,7 +58,7 @@
             }
             )(window.safari)
         );
-    };
+    }
 
     /**
      * Detect if the browser is running in Private Browsing mode
