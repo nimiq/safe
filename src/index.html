@@ -11,6 +11,18 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#536dfe">
     <!--
+      iOS devices should be served their own version of the manifest.
+      The best idea is to use a server-side transparent rewrite. An example
+      for nginx could be:
+
+      # redirect iOS users to a custom PWA manifest due to broken PWA.
+      location /manifest.json {
+        if ($http_user_agent ~* '(iPhone|iPod|iPad)') {
+          rewrite ^/manifest.json$ /manifest-ios.json;
+        }
+      }
+    -->
+    <!--
         @asset(/apps/safe/src/pwa/manifest.json)
         @asset(/apps/safe/src/pwa/manifest-ios.json)
         @asset(/apps/safe/src/pwa/icons/icon180.png)
