@@ -1,10 +1,10 @@
 (function () {
 
     function isWebApp() {
-      isIOS = (window.navigator.standalone == true);
-      isChrome = (window.matchMedia('(display-mode: standalone)').matches);
+      var isIOSWebApp = (window.navigator.standalone === true);
+      var isChromeWebApp = (window.matchMedia('(display-mode: standalone)').matches);
 
-      return isIOS || isChrome;
+      return isIOSWebApp || isChromeWebApp;
     }
 
     function isWebView() {
