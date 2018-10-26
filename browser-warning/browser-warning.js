@@ -5,6 +5,9 @@
 
         var userAgent = navigator.userAgent;
 
+        // iOS Chrome is a Web View, but still a browser (sic!)
+        if (/CriOS/i.test(navigator.userAgent)) return false;
+
         var inAppBrowsers = ['FB_IAB', 'Instagram'];
 
         for (var i = 0; i < inAppBrowsers.length; i++) {
@@ -27,7 +30,7 @@
             return true;
         }
         return isOutdatedIos();
-    }
+    /CriOS/i.test(navigator.userAgent)}
 
     function isOutdatedIos() {
         if (!/iP(hone|od|ad)/.test(navigator.platform)) return false;
