@@ -1,15 +1,15 @@
 import XElement from '/libraries/x-element/x-element.js'
 import MixinModal from '/elements/mixin-modal/mixin-modal.js'
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js'
-import { bindActionCreators } from '/libraries/redux/src/index.js'
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js'
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js'
 import { setContact, removeContact } from './contacts-redux.js'
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js'
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
+import ReduxProvider from '../node_modules/vuejs-redux/bundle.es.js';
 
-export default class VContactListModal extends MixinModal(XElement) {
+export default class VContactListModal extends MixinRedux(MixinModal(XElement)) {
     html() {
         return `
             <div class="modal-header">
@@ -24,8 +24,16 @@ export default class VContactListModal extends MixinModal(XElement) {
             </div>
             <div class="modal-body" id="vue-contact-list">
                 <!-- Vue template -->
-                <redux-provider :map-state-to-props="mapStateToProps" :map-dispatch-to-props="mapDispatchToProps" :store="store">
-                    <contact-list slot-scope="{contacts, actions}" :contacts="contacts" :actions="actions" ref="contactList"></contact-list>
+                <redux-provider :map-state-to-props="mapStateToProps" :store="store">
+                    <contact-list
+                        slot-scope="{contacts}"
+                        :contacts="contacts"
+                        @select-contact="selectContact"
+                        @set-contact="setContact"
+                        @remove-contact="removeContact"
+                        @notification="notification"
+                        ref="contactList"
+                    ></contact-list>
                 </redux-provider>
                 <!-- End Vue template -->
             </div>
@@ -33,6 +41,13 @@ export default class VContactListModal extends MixinModal(XElement) {
     }
 
     children() { return [ XPopupMenu ] }
+
+    static get actions() {
+        return {
+            setContact,
+            removeContact,
+        }
+    }
 
     listeners() {
         return {
@@ -49,36 +64,34 @@ export default class VContactListModal extends MixinModal(XElement) {
 
         if (BrowserDetection.isIOS()) this.$('button[export]').classList.add('display-none');
 
-        Vue.prototype.$eventBus = new Vue({})
-        Vue.prototype.$toast = XToast
-
         this.vue = new Vue({
             el: '#vue-contact-list',
             data: {
                 store: MixinRedux.store
             },
-            created() {
-                this.$eventBus.$on('contact-selected', address => {
-                    self._wasClosedByContactSelection = true
-                    self._onContactSelected(address)
-                })
-            },
             methods: {
                 mapStateToProps(state) {
                     return {
-                        contacts: state.contacts
+                        contacts: Object.values(state.contacts),
                     }
                 },
-
-                mapDispatchToProps(dispatch) {
-                    return {
-                        actions: bindActionCreators({ setContact, removeContact }, dispatch)
-                    }
-                }
+                selectContact(address) {
+                    self._wasClosedByContactSelection = true
+                    self._onContactSelected(address)
+                },
+                setContact(label, address) {
+                    self.actions.setContact(label, address)
+                },
+                removeContact(address) {
+                    self.actions.removeContact(address)
+                },
+                notification(msg, type) {
+                    XToast[type || 'show'](msg)
+                },
             },
             components: {
-                'redux-provider': NimiqComponents.ReduxProvider,
-                'contact-list': NimiqComponents.ContactList
+                'redux-provider': ReduxProvider,
+                'contact-list': NimiqVueComponents.ContactList,
             }
         })
     }
@@ -94,7 +107,6 @@ export default class VContactListModal extends MixinModal(XElement) {
     }
 
     onHide() {
-        this.vue.$eventBus.$emit('contact-list-closed')
         if (this._wasClosedByContactSelection) return
         if (!this._isStandalone) XSendTransactionModal.show('-', 'contact')
     }
