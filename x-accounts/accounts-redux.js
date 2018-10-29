@@ -113,7 +113,7 @@ export function reducer(state, action) {
 export function addAccount(key) {
     if (Config.online) {
         // when adding a new account, subscribe at network
-        networkClient.rpcClient.then(rpcClient => rpcClient.subscribe(key.address));
+        networkClient.client.then(client => client.subscribe(key.address));
     }
 
     return {
@@ -125,7 +125,7 @@ export function addAccount(key) {
 export function setAllKeys(keys) {
     if (Config.online) {
         // when adding a new account, subscribe at network.
-        networkClient.rpcClient.then(rpcClient => rpcClient.subscribe(keys.map(key => key.address)));
+        networkClient.client.then(client => client.subscribe(keys.map(key => key.address)));
     }
 
     return {

@@ -8,7 +8,7 @@ import XExtraDataInput from '../x-extra-data-input/x-extra-data-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
+// import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '../../libraries/account-manager/account-type.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
@@ -305,7 +305,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     async __validateRecipient(address) {
         this._validatingRecipientTimeout = setTimeout(() => this._setError('Validating address type, please wait...', 'recipient'), 1000);
 
-        const accountType = await (await networkClient.rpcClient).getAccountTypeString(address);
+        const accountType = await (await networkClient.client).getAccountTypeString(address);
 
         this._validRecipient = (accountType === 'basic');
 
