@@ -12,7 +12,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
         'src/safe.js'
     ],
     cssEntry: [
-        '../../elements/vue-components/dist/NimiqComponents.css',
+        'node_modules/@nimiq/vue-components/dist/NimiqVueComponents.css',
         'src/safe.css'
     ],
     htmlEntry: 'src/index.html',
