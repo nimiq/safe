@@ -83,25 +83,23 @@ class Safe {
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'initialize', Math.round(performance.now() / 100) / 10]);
         }
 
-        // launch network rpc client
-        this.network = await networkClient.rpcClient;
+        this.network = await networkClient.client;
         window.network = this.network; // for debugging
 
-        // launch network event client
-        this.networkListener = await networkClient.eventClient;
-        this.networkListener.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
-        this.networkListener.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
-        this.networkListener.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
-        this.networkListener.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
-        this.networkListener.on('nimiq-balances', this._onBalanceChanged.bind(this));
-        this.networkListener.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
-        this.networkListener.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
-        this.networkListener.on('nimiq-transaction-pending', this._onTransaction.bind(this));
-        this.networkListener.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
-        this.networkListener.on('nimiq-transaction-mined', this._onTransaction.bind(this));
-        this.networkListener.on('nimiq-transaction-relayed', this._onTransactionRelayed.bind(this));
-        this.networkListener.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
-        this.networkListener.on('nimiq-head-change', this._onHeadChange.bind(this));
+        // Subscribe to network events
+        this.network.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+        this.network.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
+        this.network.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+        this.network.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
+        this.network.on('nimiq-balances', this._onBalanceChanged.bind(this));
+        this.network.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
+        this.network.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
+        this.network.on('nimiq-transaction-pending', this._onTransaction.bind(this));
+        this.network.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
+        this.network.on('nimiq-transaction-mined', this._onTransaction.bind(this));
+        this.network.on('nimiq-transaction-relayed', this._onTransactionRelayed.bind(this));
+        this.network.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
+        this.network.on('nimiq-head-change', this._onHeadChange.bind(this));
     }
 
     // todo refactor: move following methods to new class NetworkHandler(?)

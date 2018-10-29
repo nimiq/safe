@@ -412,7 +412,7 @@ export default class XSafe extends MixinRedux(XElement) {
         XSendTransactionModal.instance.loading = true;
         XSendPreparedTransactionModal.instance.loading = true;
 
-        const network = await networkClient.rpcClient;
+        const network = await networkClient.client;
         try {
             const relayedTx = new Promise((resolve, reject) => {
                 this.relayedTxResolvers.set(signedTx.hash, resolve);
