@@ -8,8 +8,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     jsEntry: [
         '../../libraries/nimiq-utils/moment/moment.min.js',
         '../../elements/vue-components/lib/vue.min.js', // Production version
-        '../../elements/vue-components/lib/vue-async-computed.js',
-        '../../elements/vue-components/dist/NimiqComponents.umd.min.js',
+        'node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.min.js',
         'src/safe.js'
     ],
     cssEntry: [
