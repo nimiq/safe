@@ -97,7 +97,7 @@ class AccountManager {
 
     async create() {
         await this._launched;
-        const result = await this._invoke('signup', {type: AccountType.KEYGUARD_HIGH}, {
+        const result = await this._invoke('signup', null, {
             appName: 'Nimiq Safe',
         });
         const newAccount = result.address;
@@ -115,7 +115,7 @@ class AccountManager {
         await this._launched;
         const account = this.accounts.get(tx.sender);
         tx.keyId = account.keyId;
-        return this._invoke('signTransaction', account, tx);
+        return this._invoke('signTransaction', null, tx);
     }
 
     // async rename(address) {
@@ -125,21 +125,25 @@ class AccountManager {
     //     this.actions.updateAccountLabel(account.address, label);
     // }
 
-    // async backupFile(address) {
-    //     await this._launched;
-    //     const account = this.accounts.get(address);
-    //     return this._invoke('backupFile', account, address);
-    // }
+    async exportFile(keyId) {
+        await this._launched;
+        return this._invoke('exportFile', null, {
+            appName: 'Nimiq Safe',
+            keyId,
+        });
+    }
 
-    // async backupWords(address) {
-    //     await this._launched;
-    //     const account = this.accounts.get(address);
-    //     this._invoke('backupWords', account, address);
-    // }
+    async exportWords(keyId) {
+        await this._launched;
+        this._invoke('exportWords', null, {
+            appName: 'Nimiq Safe',
+            keyId,
+        });
+    }
 
     async login() {
         await this._launched;
-        const result = await this._invoke('login', {type: AccountType.KEYGUARD_HIGH}, {
+        const result = await this._invoke('login', null, {
             appName: 'Nimiq Safe',
         });
         result.addresses.forEach(newAccount => {
@@ -158,9 +162,9 @@ class AccountManager {
 
     async logout(keyId) {
         await this._launched;
-        const result = await this._invoke('logout', {type: AccountType.KEYGUARD_HIGH}, {
+        const result = await this._invoke('logout', null, {
             appName: 'Nimiq Safe',
-            keyId: keyId,
+            keyId,
         });
         if (result.success === true) this.actions.logout(keyId);
         else throw new Error('Logout failed');

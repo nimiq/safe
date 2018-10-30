@@ -684,6 +684,8 @@ var RequestType;
     RequestType["SIGNTRANSACTION"] = "sign-transaction";
     RequestType["SIGNUP"] = "signup";
     RequestType["LOGIN"] = "login";
+    RequestType["EXPORT_WORDS"] = "export-words";
+    RequestType["EXPORT_FILE"] = "export-file";
     RequestType["LOGOUT"] = "logout";
 })(RequestType || (RequestType = {}));
 
@@ -719,6 +721,12 @@ class AccountsManagerClient {
     }
     list(requestBehavior = this._iframeBehavior) {
         return this._request(requestBehavior, RequestType.LIST, []);
+    }
+    exportFile(request, requestBehavior = this._defaultBehavior) {
+        return this._request(requestBehavior, RequestType.EXPORT_FILE, [request]);
+    }
+    exportWords(request, requestBehavior = this._defaultBehavior) {
+        return this._request(requestBehavior, RequestType.EXPORT_WORDS, [request]);
     }
     // END API
     /* PRIVATE METHODS */
