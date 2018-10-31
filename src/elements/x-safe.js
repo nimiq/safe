@@ -27,8 +27,7 @@ import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
-import { walletsArray$, activeWalletId$ } from '../selectors/wallet$.js';
-import { WalletType, LEGACY, switchWallet } from '../wallet-redux.js';
+import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -53,7 +52,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <!-- <a href="https://nimiq.com">Homepage</a> -->
                         <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
                         <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
-                        <select wallet-switcher></select>
+                        <v-wallet-selector></v-wallet-selector>
                     </nav>
                 </div>
                 <x-total-amount></x-total-amount>
@@ -138,14 +137,9 @@ export default class XSafe extends MixinRedux(XElement) {
             XCreateRequestLinkModal,
             XDisclaimerModal,
             XUpgradeModal,
-            VContactListModal
+            VContactListModal,
+            VWalletSelector,
         ];
-    }
-
-    static get actions() {
-        return {
-            switchWallet,
-        }
     }
 
     async onCreate() {
@@ -174,8 +168,6 @@ export default class XSafe extends MixinRedux(XElement) {
             safeAccountsPresent: safeAccountsPresent$(state),
             totalAmount: totalAmount$(state),
             upgradeAccount: needsUpgrade$(state),
-            wallets: walletsArray$(state),
-            activeWalletId: activeWalletId$(state),
         }
     }
 
@@ -195,31 +187,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (changes.totalAmount !== undefined) {
             this.$('button[new-tx]').disabled = changes.totalAmount === 0;
-        }
-
-        if (changes.wallets) {
-            this.$('[wallet-switcher]').textContent = '';
-            const wallets = this.properties.wallets;
-            const activeWalletId = this.properties.activeWalletId;
-            let hasLegacyAccounts = false;
-            for (const wallet of wallets) {
-                if (wallet.type === WalletType.LEGACY) {
-                    hasLegacyAccounts = true;
-                    continue;
-                }
-                const option = document.createElement('option');
-                option.value = wallet.id;
-                option.textContent = wallet.label;
-                if (activeWalletId === wallet.id) option.selected = true;
-                this.$('[wallet-switcher]').appendChild(option);
-            }
-            if (hasLegacyAccounts) {
-                const option = document.createElement('option');
-                option.value = LEGACY;
-                option.textContent = 'Legacy Accounts';
-                if (activeWalletId === LEGACY) option.selected = true;
-                this.$('[wallet-switcher]').appendChild(option);
-            }
         }
     }
 
@@ -243,7 +210,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
             'click button[contacts]': () => VContactListModal.show(true),
-            'change select[wallet-switcher]': this._onSwitchWallet.bind(this),
         }
     }
 
@@ -452,10 +418,5 @@ export default class XSafe extends MixinRedux(XElement) {
         XEducationSlides.onFinished = XEducationSlides.hide;
         XEducationSlides._slides = XEducationSlides.allSlides.slice(1, -1);
         XEducationSlides.start(true);
-    }
-
-    _onSwitchWallet() {
-        const keyId = this.$('[wallet-switcher]').value;
-        this.actions.switchWallet(keyId);
     }
 }
