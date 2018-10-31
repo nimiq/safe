@@ -15,7 +15,7 @@
   "license": "MIT",
   "devDependencies": {
     "@nimiq/network-client": "^0.0.9",
-    "@nimiq/vue-components": "https://github.com/nimiq/vue-components#safe-build",
+    "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",
     "gulp": "^4.0.0"
   }

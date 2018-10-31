@@ -29,9 +29,9 @@
   version "0.0.0"
   resolved "https://github.com/nimiq/secure-utils.git#3937c23c2703d5359eebe2c3bf7b3c9290b26100"
 
-"@nimiq/vue-components@https://github.com/nimiq/vue-components#safe-build":
+"@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#f287dd822400fd4e8de820892cf4f2cc27418295"
+  resolved "https://github.com/nimiq/vue-components#812788ba3eec7b1f0608716a8b2b0beb0740168f"
   dependencies:
     "@nimiq/iqons" "https://github.com/nimiq/iqons.git#a3302e06b0a53b6daeb745d13dbfd930b304c791"
     "@nimiq/secure-utils" "https://github.com/nimiq/secure-utils.git#3937c23c2703d5359eebe2c3bf7b3c9290b26100"
