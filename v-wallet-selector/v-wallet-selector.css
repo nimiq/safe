@@ -1,0 +1,38 @@
+v-wallet-selector {
+    position: relative;
+    display: block;
+}
+
+v-wallet-selector [active-wallet-label] {
+    padding: 1em;
+    margin-top: -1em;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+v-wallet-selector.menu-active [active-wallet-label] {
+    background: white;
+    color: #1F2348;
+}
+
+v-wallet-selector #vue-wallet-menu {
+    position: absolute;
+    top: 3rem;
+    right: 0;
+    z-index: 1000;
+    color: #1F2348;
+    text-align: left;
+}
+
+v-wallet-selector .login-menu {
+    border-top-right-radius: 0 !important;
+}
+
+v-wallet-selector button {
+    box-shadow: none;
+    width: unset;
+    min-height: unset;
+    margin: 0;
+    text-transform: unset;
+}
