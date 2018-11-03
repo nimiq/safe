@@ -357,6 +357,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
         const signedTx = await accountManager.sign(tx);
 
+        signedTx.value = signedTx.value / 1e5;
+        signedTx.fee = signedTx.fee / 1e5;
+
         if (!this.properties.hasConsensus) {
             XSendTransactionOfflineModal.instance.transaction = signedTx;
             XSendTransactionOfflineModal.show();
