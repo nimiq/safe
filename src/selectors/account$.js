@@ -14,7 +14,7 @@ export const activeAccounts$ = createSelector(
     (accounts, hasContent, activeWalletId) => hasContent && new Map([...accounts.entries()].filter(entry => {
         const account = entry[1];
         if (activeWalletId === LEGACY) return account.isLegacy;
-        return account.keyId === activeWalletId
+        return account.keyId === activeWalletId;
     }))
 );
 
@@ -24,8 +24,13 @@ export const accountsArray$ = createSelector(
     activeWalletId$,
     (accounts, hasContent, activeWalletId) => hasContent && [...accounts.values()].filter(acc => {
         if (activeWalletId === LEGACY) return acc.isLegacy;
-        return acc.keyId === activeWalletId
+        return acc.keyId === activeWalletId;
     })
+);
+
+export const activeAddresses$ = createSelector(
+    accountsArray$,
+    (accounts) => accounts && accounts.map(acc => acc.address)
 );
 
 export const balancesLoaded$ = createSelector(
