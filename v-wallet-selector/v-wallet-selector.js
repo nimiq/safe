@@ -12,17 +12,17 @@ export default class VWalletSelector extends MixinRedux(XElement) {
             <div class="v-wallet-menu display-none" id="vue-wallet-menu">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
-                    <login-menu
+                    <wallet-menu
                         slot-scope="{wallets, activeWalletId}"
-                        :logins="wallets"
-                        :active-login-id="activeWalletId"
-                        @login-selected="walletSelected"
-                        @rename-login="renameWallet"
-                        @export-login="exportWallet"
-                        @logout-login="logoutWallet"
+                        :wallets="wallets"
+                        :active-wallet-id="activeWalletId"
+                        @wallet-selected="walletSelected"
+                        @rename-wallet="renameWallet"
+                        @export-wallet="exportWallet"
+                        @logout-wallet="logoutWallet"
                         @create="create"
                         @login="login"
-                    ></login-menu>
+                    ></wallet-menu>
                 </redux-provider>
                 <!-- End Vue template -->
             </div>
@@ -69,7 +69,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                 mapStateToProps(state) {
                     const wallets = walletsArray$(state).map(wallet => {
                         return Object.assign({}, wallet, {
-                            addresses: new Map(new Array(wallet.numberAccounts).fill(0).map((_, i) => [i.toString(), 'dummy'])),
+                            accounts: new Map(new Array(wallet.numberAccounts).fill(0).map((_, i) => [i.toString(), 'dummy'])),
                             contracts: [],
                         })
                     })
@@ -105,7 +105,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
             },
             components: {
                 'redux-provider': ReduxProvider,
-                'login-menu': NimiqVueComponents.LoginMenu,
+                'wallet-menu': NimiqVueComponents.WalletMenu,
             }
         })
     }

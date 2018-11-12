@@ -25,7 +25,7 @@ v-wallet-selector #vue-wallet-menu {
     text-align: left;
 }
 
-v-wallet-selector .login-menu {
+v-wallet-selector .wallet-menu {
     border-top-right-radius: 0 !important;
 }
 
