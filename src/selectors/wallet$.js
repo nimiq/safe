@@ -7,13 +7,21 @@ export const wallets$ = state => state.wallets.entries;
 
 export const hasContent$ = state => state.wallets.hasContent;
 
+export const activeWalletId$ = state => state.wallets.activeKeyId;
+
+const accountsArray$ = state => [...state.accounts.entries.values()];
+
 export const walletsArray$ = createSelector(
     wallets$,
     hasContent$,
-    (wallets, hasContent) => hasContent && [...wallets.values()]
+    accountsArray$,
+    (wallets, hasContent, accounts) => hasContent && [...wallets.values()].map(wallet => {
+        wallet.balance = accounts
+            .filter(acc => acc.keyId === wallet.id)
+            .reduce((sum, account) => sum + account.balance * 1e5, 0)
+        return wallet
+    })
 );
-
-export const activeWalletId$ = state => state.wallets.activeKeyId;
 
 export const activeWallet$ = createSelector(
     wallets$,

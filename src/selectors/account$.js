@@ -1,11 +1,12 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
 
-import { activeWalletId$ } from './wallet$.js';
 import { LEGACY } from '../wallet-redux.js';
 
 export const accounts$ = state => state.accounts.entries;
 
 export const hasContent$ = state => state.accounts.hasContent;
+
+const activeWalletId$ = state => state.wallets.activeKeyId;
 
 export const activeAccounts$ = createSelector(
     accounts$,

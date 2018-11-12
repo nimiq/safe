@@ -2,10 +2,6 @@
 # yarn lockfile v1
 
 
-"@nimiq/iqons@https://github.com/nimiq/iqons.git#a3302e06b0a53b6daeb745d13dbfd930b304c791":
-  version "1.0.0"
-  resolved "https://github.com/nimiq/iqons.git#a3302e06b0a53b6daeb745d13dbfd930b304c791"
-
 "@nimiq/network-client@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.0.9.tgz#d319fcc8711f8bd2da2b2040135dc24c31f657bc"
@@ -25,16 +21,10 @@
   resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.0.11.tgz#7230365640663827fb115e0d6456222de3b1c5e3"
   integrity sha512-aSTQwsTeSH46ubRDHqB7x82Alq5a9PlMYJUgDVd/4ET1dMTLm+4sjaFiWho3+SjG2n5/v09XKlDUBFDaENYT6w==
 
-"@nimiq/secure-utils@https://github.com/nimiq/secure-utils.git#3937c23c2703d5359eebe2c3bf7b3c9290b26100":
-  version "0.0.0"
-  resolved "https://github.com/nimiq/secure-utils.git#3937c23c2703d5359eebe2c3bf7b3c9290b26100"
-
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#812788ba3eec7b1f0608716a8b2b0beb0740168f"
+  resolved "https://github.com/nimiq/vue-components#d12c8a75409d394d196899f043bfa8bc33710448"
   dependencies:
-    "@nimiq/iqons" "https://github.com/nimiq/iqons.git#a3302e06b0a53b6daeb745d13dbfd930b304c791"
-    "@nimiq/secure-utils" "https://github.com/nimiq/secure-utils.git#3937c23c2703d5359eebe2c3bf7b3c9290b26100"
     vue "^2.5.17"
     vue-property-decorator "^7.0.0"
 
