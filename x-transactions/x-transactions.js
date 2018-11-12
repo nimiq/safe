@@ -9,6 +9,7 @@ import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import AddressBook from '/libraries/nimiq-utils/address-book/address-book.js';
+import { activeTransactions$ } from '../../apps/safe/src/selectors/transaction$.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -51,7 +52,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         return {
             transactions: XTransactions._labelTransactions(
                 XPaginator.getPagedItems(
-                    state.transactions.entries,
+                    activeTransactions$(state),
                     props.onlyRecent ? 1 : state.transactions.page,
                     props.onlyRecent ? 4 : state.transactions.itemsPerPage,
                     true
