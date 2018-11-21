@@ -4,15 +4,14 @@ import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
+import { activeWalletId$ } from '/apps/safe/src/selectors/wallet$.js';
 
 export default class XAccounts extends MixinRedux(XElement) {
 
     html() {
         return `
-            <x-popup-menu x-icon="add">
-                <button class="create"><i class="material-icons">add</i> Create New Account</button>
-                <button class="import"><i class="material-icons">crop_portrait</i> Import Wallet/Account</button>
-                <button class="waiting import-ledger"><i class="material-icons ledger-icon">&nbsp;</i> Import Ledger Account</button>
+            <x-popup-menu x-icon="add" class="hidden">
+                <button class="add"><i class="material-icons">add</i> Add New Account</button>
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
             <x-account-modal x-route-aside="account"></x-account-modal>
@@ -25,37 +24,30 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            keyguardReady: state.connection.keyguard
+            keyguardReady: state.connection.keyguard,
+            activeWalletId: activeWalletId$(state),
         }
     }
 
     _onPropertiesChanged(changes) {
         if (changes.keyguardReady) {
-            this.$('.create').classList.remove('waiting');
-            this.$('.import-words').classList.remove('waiting');
-            this.$('.import').classList.remove('waiting');
+            this.$('.add').classList.remove('waiting');
+        }
+
+        if (changes.activeWalletId) {
+            this.$('x-popup-menu').classList.toggle('hidden', this.properties.activeWalletId === 'LEGACY');
         }
     }
 
     listeners() {
         return {
-            'click button.create': this._onCreateAccount,
-            'click button.import-ledger': this._onImportLedger,
-            'click button.import': this._onImport,
+            'click button.add': this._onAddAccount,
             'x-account-selected': this._onAccountSelected
         };
     }
 
-    _onCreateAccount() {
-        this.fire('x-accounts-create');
-    }
-
-    _onImportLedger() {
-        this.fire('x-accounts-import-ledger');
-    }
-
-    _onImport() {
-        this.fire('x-accounts-import');
+    _onAddAccount() {
+        this.fire('x-accounts-add', this.properties.activeWalletId);
     }
 
     _onAccountSelected(address) {
