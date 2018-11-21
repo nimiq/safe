@@ -49,7 +49,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.activeWallet) {
-            this.$('[active-wallet-label]').textContent = changes.activeWallet.label + ' ▼'
+            this.$('[active-wallet-label]').textContent = this.properties.activeWallet.label + ' ▼'
         }
     }
 
