@@ -18,7 +18,7 @@ export const walletsArray$ = createSelector(
     (wallets, hasContent, accounts) => hasContent && [...wallets.values()].map(wallet => {
         wallet.balance = accounts
             .filter(acc => acc.walletId === wallet.id)
-            .reduce((sum, account) => sum + account.balance * 1e5, 0)
+            .reduce((sum, account) => sum + (account.balance || 0) * 1e5, 0)
         return wallet
     })
 );
