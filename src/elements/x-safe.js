@@ -194,6 +194,7 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             'x-accounts-create': this._clickedCreateAccount.bind(this),
             'x-accounts-import': this._clickedImportAccount.bind(this),
+            'x-accounts-add': this._clickedAddAccount.bind(this),
             'x-accounts-import-ledger': this._clickedImportAccountLedger.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
@@ -202,9 +203,9 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-payout': this._newPayoutTransaction.bind(this),
-            'x-upgrade-account': this._clickedAccountUpgrade.bind(this),
             'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
+            'x-account-modal-logout': this._clickedAccountLogout.bind(this),
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'x-setting-visual-lock-pin': this._onSetVisualLock,
@@ -216,7 +217,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedCreateAccount() {
         try {
             await accountManager.create();
-            XToast.success('Account created successfully.');
+            XToast.success('Wallet created successfully.');
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
@@ -224,7 +225,23 @@ export default class XSafe extends MixinRedux(XElement) {
                 // Show Safari/iOS > 10 accounts error
                 XToast.warning(e.message);
             } else {
-                XToast.warning('Account was not created.');
+                XToast.warning('Wallet was not created.');
+            }
+        }
+    }
+
+    async _clickedAddAccount(walletId) {
+        try {
+            await accountManager.addAccount(walletId);
+            XToast.success('Account added successfully.');
+            XEducationSlides.hide();
+        } catch (e) {
+            console.error(e);
+            if (e.code === 'K3' || e.code === 'K4') {
+                // Show Safari/iOS > 10 accounts error
+                XToast.warning(e.message);
+            } else {
+                XToast.warning('Account was not added.');
             }
         }
     }
@@ -232,7 +249,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedImportAccount() {
         try {
             await accountManager.login();
-            XToast.success('Account imported successfully.');
+            XToast.success('Wallet imported successfully.');
             XEducationSlides.hide();
         } catch (e) {
             console.error(e);
@@ -240,27 +257,15 @@ export default class XSafe extends MixinRedux(XElement) {
                 // Show Safari/iOS > 10 accounts error
                 XToast.warning(e.message);
             } else {
-                XToast.warning('Account was not imported.');
+                XToast.warning('Wallet was not imported.');
             }
         }
     }
 
-    async _clickedAccountUpgrade(address) {
+    async _clickedAccountBackupWords(walletId) {
         try {
-            await accountManager.upgrade(address);
-            XToast.success('Account upgraded successfully.');
-            XUpgradeModal.hide();
-            XEducationSlides.hide();
-        } catch (e) {
-            console.error(e);
-            XToast.warning('Upgrade not completed.');
-        }
-    }
-
-    async _clickedAccountBackupWords(address) {
-        try {
-            await accountManager.backupWords(address);
-            XToast.success('Account backed up successfully.');
+            await accountManager.exportWords(walletId);
+            XToast.success('Wallet backed up successfully.');
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
@@ -274,6 +279,16 @@ export default class XSafe extends MixinRedux(XElement) {
         } catch (e) {
             console.error(e);
             XToast.warning('Account was not renamed.');
+        }
+    }
+
+    async _clickedAccountLogout(walletId) {
+        try {
+            await accountManager.logout(walletId);
+            XToast.success('You successfully logged out.');
+        } catch (e) {
+            console.error(e);
+            XToast.warning('Logout failed.');
         }
     }
 
