@@ -9,6 +9,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
         return `
             <div active-wallet-label></div>
+            <div active-wallet-label-mobile>Wallets ▼</div>
             <div class="v-wallet-menu display-none" id="vue-wallet-menu">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
@@ -38,6 +39,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     listeners() {
         return {
             'click [active-wallet-label]': () => this._toggleMenu(),
+            'click [active-wallet-label-mobile]': () => this._toggleMenu(),
         }
     }
 
@@ -83,20 +85,20 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                         activeWalletId: activeWalletId$(state),
                     }
                 },
-                walletSelected(keyId) {
-                    self.actions.switchWallet(keyId)
+                walletSelected(walletId) {
+                    self.actions.switchWallet(walletId)
                     self._hideMenu()
                 },
-                renameWallet(keyId) {
+                renameWallet(walletId) {
                     alert("Renaming wallets is not yet available.")
                     self._hideMenu()
                 },
-                exportWallet(keyId) {
-                    accountManager.exportWords(keyId)
+                exportWallet(walletId) {
+                    accountManager.exportWords(walletId)
                     self._hideMenu()
                 },
-                logoutWallet(keyId) {
-                    accountManager.logout(keyId)
+                logoutWallet(walletId) {
+                    accountManager.logout(walletId)
                     self._hideMenu()
                 },
                 create() {

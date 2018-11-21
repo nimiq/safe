@@ -3,7 +3,8 @@ v-wallet-selector {
     display: block;
 }
 
-v-wallet-selector [active-wallet-label] {
+v-wallet-selector [active-wallet-label],
+v-wallet-selector [active-wallet-label-mobile] {
     padding: 1em;
     margin-top: -1em;
     cursor: pointer;
@@ -11,7 +12,12 @@ v-wallet-selector [active-wallet-label] {
     border-top-right-radius: 8px;
 }
 
-v-wallet-selector.menu-active [active-wallet-label] {
+v-wallet-selector [active-wallet-label-mobile] {
+    display: none;
+}
+
+v-wallet-selector.menu-active [active-wallet-label],
+v-wallet-selector.menu-active [active-wallet-label-mobile] {
     background: white;
     color: #1F2348;
 }
@@ -36,3 +42,12 @@ v-wallet-selector button {
     margin: 0;
     text-transform: unset;
 }
+
+@media (max-width: 620px) {
+    v-wallet-selector [active-wallet-label] {
+        display: none;
+    }
+
+    v-wallet-selector [active-wallet-label-mobile] {
+        display: block;
+    }
