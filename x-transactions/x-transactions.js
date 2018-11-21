@@ -52,7 +52,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         return {
             transactions: XTransactions._labelTransactions(
                 XPaginator.getPagedItems(
-                    activeTransactions$(state),
+                    activeTransactions$(state) || new Map(),
                     props.onlyRecent ? 1 : state.transactions.page,
                     props.onlyRecent ? 4 : state.transactions.itemsPerPage,
                     true
