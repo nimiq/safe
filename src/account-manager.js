@@ -1,7 +1,7 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import AccountsManagerClient from './AccountsManagerClient.es.js';
+import AccountsClient from './AccountsClient.standalone.es.js';
 import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, updateNumberAccounts } from './wallet-redux.js';
 
 class AccountManager {
@@ -16,7 +16,7 @@ class AccountManager {
     }
 
     async launch() {
-        this.accountsManagerClient = new AccountsManagerClient();
+        this.accountsClient = new AccountsClient();
 
         this.accounts = {
             get: (address) => MixinRedux.store.getState().accounts.entries.get(address),
@@ -52,32 +52,32 @@ class AccountManager {
          * type key = {
          *     id: string
          *     label: string,
-         *     addresses: Map<string, AddressInfoEntry>,
+         *     accounts: Map<string, AddressInfoEntry>,
          *     contracts: [],
          *     type: WalletType,
          * }
          */
 
-        const keys = await this.accountsManagerClient.list();
+        const listedWallets = await this.accountsClient.list();
 
         const wallets = [];
         const accounts = [];
 
-        keys.forEach(key => {
+        listedWallets.forEach(key => {
             wallets.push({
                 id: key.id,
                 label: key.label,
                 type: key.type,
-                numberAccounts: key.addresses.size,
+                numberAccounts: key.accounts.size,
             });
 
-            Array.from(key.addresses.keys()).forEach(address => {
+            Array.from(key.accounts.keys()).forEach(address => {
                 const entry = {
                     address,
-                    label: key.addresses.get(address).label,
+                    label: key.accounts.get(address).label,
                     type: AccountType.KEYGUARD_HIGH,
                     isLegacy: key.type === WalletType.LEGACY,
-                    keyId: key.id,
+                    walletId: key.id,
                 };
                 accounts.push(entry);
             });
@@ -100,11 +100,11 @@ class AccountManager {
         const result = await this._invoke('signup', null, {
             appName: 'Nimiq Safe',
         });
-        const newAccount = result.address;
+        const newAccount = result.account;
         newAccount.type = AccountType.KEYGUARD_HIGH;
         this.actions.addAccount(newAccount);
         this.actions.login({
-            id: result.keyId,
+            id: result.walletId,
             label: result.label,
             type: result.type,
             numberAccounts: 1,
@@ -114,7 +114,7 @@ class AccountManager {
     async sign(tx) {
         await this._launched;
         const account = this.accounts.get(tx.sender);
-        tx.keyId = account.keyId;
+        tx.walletId = account.walletId;
         return this._invoke('signTransaction', null, tx);
     }
 
@@ -125,19 +125,19 @@ class AccountManager {
     //     this.actions.updateAccountLabel(account.address, label);
     // }
 
-    async exportFile(keyId) {
+    async exportFile(walletId) {
         await this._launched;
         return this._invoke('exportFile', null, {
             appName: 'Nimiq Safe',
-            keyId,
+            walletId,
         });
     }
 
-    async exportWords(keyId) {
+    async exportWords(walletId) {
         await this._launched;
         this._invoke('exportWords', null, {
             appName: 'Nimiq Safe',
-            keyId,
+            walletId,
         });
     }
 
@@ -146,28 +146,40 @@ class AccountManager {
         const result = await this._invoke('login', null, {
             appName: 'Nimiq Safe',
         });
-        result.addresses.forEach(newAccount => {
+        result.accounts.forEach(newAccount => {
             newAccount.type = AccountType.KEYGUARD_HIGH;
-            newAccount.keyId = result.keyId;
+            newAccount.walletId = result.walletId;
             newAccount.isLegacy = result.type === WalletType.LEGACY;
             this.actions.addAccount(newAccount);
         });
         this.actions.login({
-            id: result.keyId,
+            id: result.walletId,
             label: result.label,
             type: result.type,
-            numberAccounts: result.addresses.length,
+            numberAccounts: result.accounts.length,
         });
     }
 
-    async logout(keyId) {
+    async logout(walletId) {
         await this._launched;
         const result = await this._invoke('logout', null, {
             appName: 'Nimiq Safe',
-            keyId,
+            walletId,
         });
-        if (result.success === true) this.actions.logout(keyId);
+        if (result.success === true) this.actions.logout(walletId);
         else throw new Error('Logout failed');
+    }
+
+    async addAccount(walletId) {
+        await this._launched;
+        const result = await this._invoke('addAccount', null, {
+            appName: 'Nimiq Safe',
+            walletId,
+        });
+        const newAccount = result.account;
+        newAccount.type = AccountType.KEYGUARD_HIGH;
+        newAccount.walletId = walletId;
+        this.actions.addAccount(newAccount);
     }
 
     // async importLedger() {
@@ -206,7 +218,7 @@ class AccountManager {
     // }
 
     _invoke(method, account, ...args) {
-        return this.accountsManagerClient[method](...args);
+        return this.accountsClient[method](...args);
     }
 }
 
