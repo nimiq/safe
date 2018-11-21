@@ -19,7 +19,7 @@ export const initialState = {
     entries: new Map(),
     loading: false,
     hasContent: false,
-    activeKeyId: LEGACY,
+    activeWalletId: LEGACY,
 };
 
 export function reducer(state, action) {
@@ -33,12 +33,12 @@ export function reducer(state, action) {
                 hasContent: true,
                 entries: new Map(state.entries)
                     .set(action.key.id, Object.assign({}, action.key)),
-                activeKeyId: action.key.type === WalletType.LEGACY ? LEGACY : action.key.id,
+                activeWalletId: action.key.type === WalletType.LEGACY ? LEGACY : action.key.id,
             });
 
         case TypeKeys.SWITCH:
             return Object.assign({}, state, {
-                activeKeyId: action.keyId,
+                activeWalletId: action.walletId,
             });
 
         case TypeKeys.SET_ALL_KEYS:
@@ -59,7 +59,7 @@ export function reducer(state, action) {
 
         case TypeKeys.UPDATE_LABEL: {
             const entries = new Map(state.entries);
-            entries.set(action.keyId, Object.assign({}, state.entries.get(action.keyId), { label: action.label }));
+            entries.set(action.walletId, Object.assign({}, state.entries.get(action.walletId), { label: action.label }));
 
             return Object.assign({}, state, {
                 entries
@@ -68,7 +68,7 @@ export function reducer(state, action) {
 
         case TypeKeys.UPDATE_NUMBER_ACCOUNTS: {
             const entries = new Map(state.entries);
-            entries.set(action.keyId, Object.assign({}, state.entries.get(action.keyId), { numberAccounts: action.numberAccounts }));
+            entries.set(action.walletId, Object.assign({}, state.entries.get(action.walletId), { numberAccounts: action.numberAccounts }));
 
             return Object.assign({}, state, {
                 entries
@@ -77,18 +77,18 @@ export function reducer(state, action) {
 
         case TypeKeys.LOGOUT: {
             const entries = new Map(state.entries);
-            let activeKeyId = state.activeKeyId;
-            entries.delete(action.keyId);
+            let activeWalletId = state.activeWalletId;
+            entries.delete(action.walletId);
 
-            if (activeKeyId === action.keyId) { // TODO: Handle when removed wallet was the last legacy wallet
+            if (activeWalletId === action.walletId) { // TODO: Handle when removed wallet was the last legacy wallet
                 // If we logout of the current active key, log into the first available key
-                activeKeyId = entries.size > 0 ? entries.keys().next().value : null;
-                // TODO: Handle when first found keyId belongs to a legacy key
+                activeWalletId = entries.size > 0 ? entries.keys().next().value : null;
+                // TODO: Handle when first found walletId belongs to a legacy key
             }
 
             return Object.assign({}, state, {
                 entries,
-                activeKeyId
+                activeWalletId
             });
         }
 
@@ -111,14 +111,14 @@ export function login(key) {
     }
 }
 
-export function switchWallet(keyId) {
+export function switchWallet(walletId) {
     return {
         type: TypeKeys.SWITCH,
-        keyId
+        walletId
     }
 }
 
-export function logout(keyId) {
+export function logout(walletId) {
     return async (dispatch, getState) => {
         // TODO Generate list of addresses affected by logout,
         // to enable transaction-redux to remove affected transactions
@@ -129,31 +129,31 @@ export function logout(keyId) {
         const accountIterator = state.accounts.entries.values();
         while ((iterator = accountIterator.next()) && !iterator.done) {
             const account = iterator.value;
-            if (account.keyId === keyId) {
+            if (account.walletId === walletId) {
                 addressesToRemove.push(account.address);
             }
         }
 
         dispatch({
             type: TypeKeys.LOGOUT,
-            keyId,
+            walletId,
             addresses: addressesToRemove
         });
     }
 }
 
-export function updateLabel(keyId, label) {
+export function updateLabel(walletId, label) {
     return {
         type: TypeKeys.UPDATE_LABEL,
-        keyId,
+        walletId,
         label
     }
 }
 
-export function updateNumberAccounts(keyId, numberAccounts) {
+export function updateNumberAccounts(walletId, numberAccounts) {
     return {
         type: TypeKeys.UPDATE_NUMBER_ACCOUNTS,
-        keyId,
+        walletId,
         numberAccounts
     }
 }
