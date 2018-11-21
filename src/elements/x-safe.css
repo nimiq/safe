@@ -54,7 +54,7 @@ header {
 }
 
 .header-top {
-    padding: 1em 1.8em;
+    padding: 1em 1.7em;
     height: 54px;
 }
 
@@ -296,6 +296,10 @@ nav.actions.floating-actions {
 }
 
 @media (max-width: 1000px) {
+    .header-top {
+        padding-right: 1em;
+    }
+
     x-view-dashboard {
         flex-direction: column;
     }
@@ -322,6 +326,10 @@ nav.actions.floating-actions {
     * in the header don't fit next to each other anymore
 */
 @media (max-width: 620px) {
+    .header-top {
+        padding: 1em;
+    }
+
     x-total-amount {
         margin: 0.5em auto;
     }
