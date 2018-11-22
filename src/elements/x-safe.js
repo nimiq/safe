@@ -203,8 +203,9 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-payout': this._newPayoutTransaction.bind(this),
-            'x-account-modal-backup-words': this._clickedAccountBackupWords.bind(this),
+            'x-account-modal-backup': this._clickedAccountBackup.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
+            'x-account-modal-change-passphrase': this._clickedAccountChangePassphrase.bind(this),
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
@@ -262,13 +263,23 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountBackupWords(walletId) {
+    async _clickedAccountBackup(walletId) {
         try {
-            await accountManager.exportWords(walletId);
+            await accountManager.export(walletId);
             XToast.success('Wallet backed up successfully.');
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
+        }
+    }
+
+    async _clickedAccountChangePassphrase(walletId) {
+        try {
+            await accountManager.changePassphrase(walletId);
+            XToast.success('Passphrase changed successfully.');
+        } catch (e) {
+            console.error(e);
+            XToast.warning('Passphrase not changed.');
         }
     }
 

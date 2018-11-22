@@ -141,6 +141,22 @@ class AccountManager {
         });
     }
 
+    async export(walletId) {
+        await this._launched;
+        this._invoke('export', null, {
+            appName: 'Nimiq Safe',
+            walletId,
+        });
+    }
+
+    async changePassphrase(walletId) {
+        await this._launched;
+        this._invoke('changePassphrase', null, {
+            appName: 'Nimiq Safe',
+            walletId,
+        });
+    }
+
     async login() {
         await this._launched;
         const result = await this._invoke('login', null, {
