@@ -19,6 +19,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                         :active-wallet-id="activeWalletId"
                         @wallet-selected="walletSelected"
                         @rename-wallet="renameWallet"
+                        @change-passphrase-wallet="changePassphraseWallet"
                         @export-wallet="exportWallet"
                         @logout-wallet="logoutWallet"
                         @create="create"
@@ -93,8 +94,12 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                     alert("Renaming wallets is not yet available.")
                     self._hideMenu()
                 },
+                changePassphraseWallet(walletId) {
+                    accountManager.changePassphrase(walletId)
+                    self._hideMenu()
+                },
                 exportWallet(walletId) {
-                    accountManager.exportWords(walletId)
+                    accountManager.export(walletId)
                     self._hideMenu()
                 },
                 logoutWallet(walletId) {
