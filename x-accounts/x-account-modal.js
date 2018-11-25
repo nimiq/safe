@@ -68,7 +68,10 @@ export default class XAccountModal extends MixinModal(XAccount) {
         return {
             'click button[backup]': _ => this.fire('x-account-modal-backup', this.properties.walletId),
             'click button[change-passphrase]': _ => this.fire('x-account-modal-change-passphrase', this.properties.walletId),
-            'click button[rename]': _ => this.fire('x-account-modal-rename', this.properties.address),
+            'click button[rename]': _ => this.fire('x-account-modal-rename', {
+                walletId: this.properties.walletId,
+                address: this.properties.address,
+            }),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address),
             'click button[payout]': _ => this.fire('x-account-modal-payout',
                 {
@@ -182,9 +185,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         // Disable send button, enable payout button for Vesting
         this.$sendButton.classList.toggle('display-none', type === AccountType.VESTING);
         this.$payoutButton.classList.toggle('display-none', type !== AccountType.VESTING);
-
-        // Enable rename button only for Safe
-        this.$renameButton.classList.toggle('display-none', true); // type !== AccountType.KEYGUARD_HIGH);
 
         // Enable confirm ledger address button only for ledger accounts
         this.$confirmLedgerAddressButton.classList.toggle('display-none', type !== AccountType.LEDGER);

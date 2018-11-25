@@ -91,7 +91,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                     self._hideMenu()
                 },
                 renameWallet(walletId) {
-                    alert("Renaming wallets is not yet available.")
+                    accountManager.rename(walletId)
                     self._hideMenu()
                 },
                 changePassphraseWallet(walletId) {
