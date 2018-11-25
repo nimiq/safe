@@ -414,10 +414,11 @@ export default class XSafe extends MixinRedux(XElement) {
                 setTimeout(reject, 8000, new Error('Transaction could not be sent'));
             });
 
-            await network.relayTransaction(signedTx);
+            network.relayTransaction(signedTx);
 
             try {
                 await relayedTx;
+                this.relayedTxResolvers.delete(signedTx.hash);
             } catch(e) {
                 this.relayedTxResolvers.delete(signedTx.hash);
                 network.removeTxFromMempool(signedTx);
