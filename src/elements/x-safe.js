@@ -283,9 +283,9 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountRename(address) {
+    async _clickedAccountRename(params) {
         try {
-            await accountManager.rename(address);
+            await accountManager.rename(params.walletId, params.address);
             XToast.success('Account renamed successfully.');
         } catch (e) {
             console.error(e);

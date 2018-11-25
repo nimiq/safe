@@ -118,12 +118,21 @@ class AccountManager {
         return this._invoke('signTransaction', null, tx);
     }
 
-    // async rename(address) {
-    //     await this._launched;
-    //     const account = this.accounts.get(address);
-    //     const label = await this._invoke('rename', account, address);
-    //     this.actions.updateAccountLabel(account.address, label);
-    // }
+    /**
+     * @param {string} walletId
+     * @param {string} [address]
+     */
+    async rename(walletId, address) {
+        await this._launched;
+        const result = await this._invoke('rename', null, {
+            appName: 'Nimiq Safe',
+            walletId,
+            address,
+        });
+
+        this.actions.updateWalletLabel(result.walletId, result.label);
+        result.accounts.forEach(account => this.actions.updateAccountLabel(account.address, account.label));
+    }
 
     async exportFile(walletId) {
         await this._launched;
