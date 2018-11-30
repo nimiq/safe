@@ -1,8 +1,8 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
-import XToast from '/secure-elements/x-toast/x-toast.js';
+// import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+// import XToast from '/secure-elements/x-toast/x-toast.js';
 import { upgradeableAccount$ } from '../selectors/needsUpgrade$.js';
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
@@ -76,19 +76,19 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
         }
     }
 
-    allowsHide(incomingModal) {
-        if (incomingModal && (XEducationSlides.currentSlide === incomingModal)) {
-            return true;
-        }
+    // allowsHide(incomingModal) {
+    //     if (incomingModal && (XEducationSlides.currentSlide === incomingModal)) {
+    //         return true;
+    //     }
 
-        // executed when closing by clicking background
-        XEducationSlides.onFinished = XEducationSlides.hide;
-        XEducationSlides.action = 'none';
-        XEducationSlides._slides = XEducationSlides.allSlides.slice(0, -1);
-        XEducationSlides.start();
+    //     // executed when closing by clicking background
+    //     XEducationSlides.onFinished = XEducationSlides.hide;
+    //     XEducationSlides.action = 'none';
+    //     XEducationSlides._slides = XEducationSlides.allSlides.slice(0, -1);
+    //     XEducationSlides.start();
 
-        return false;
-    }
+    //     return false;
+    // }
 
     listeners() {
         return {
@@ -104,33 +104,38 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     }
 
     _onCreateAccount() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-create');
-        XEducationSlides.action = 'create';
-        XEducationSlides.start();
+        this.fire('x-accounts-create');
+        // XEducationSlides.onFinished = () => this.fire('x-accounts-create');
+        // XEducationSlides.action = 'create';
+        // XEducationSlides.start();
     }
 
     _onImportLedger() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-import-ledger');
-        XEducationSlides.action = 'import-ledger';
-        XEducationSlides.start();
+        this.fire('x-accounts-import-ledger');
+        // XEducationSlides.onFinished = () => this.fire('x-accounts-import-ledger');
+        // XEducationSlides.action = 'import-ledger';
+        // XEducationSlides.start();
     }
 
     _onImportWords() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-import-words');
-        XEducationSlides.action = 'import-words';
-        XEducationSlides.start();
+        this.fire('x-accounts-import-words');
+        // XEducationSlides.onFinished = () => this.fire('x-accounts-import-words');
+        // XEducationSlides.action = 'import-words';
+        // XEducationSlides.start();
     }
 
     _onImportFile() {
-        XEducationSlides.onFinished = () => this.fire('x-accounts-import-file');
-        XEducationSlides.action = 'import-file';
-        XEducationSlides.start();
+        this.fire('x-accounts-import-file');
+        // XEducationSlides.onFinished = () => this.fire('x-accounts-import-file');
+        // XEducationSlides.action = 'import-file';
+        // XEducationSlides.start();
     }
 
     _onUpgradeAccount() {
-        XEducationSlides.onFinished = () => this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
-        XEducationSlides.action = 'upgrade';
-        XEducationSlides.start();
+        this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
+        // XEducationSlides.onFinished = () => this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
+        // XEducationSlides.action = 'upgrade';
+        // XEducationSlides.start();
     }
 }
 

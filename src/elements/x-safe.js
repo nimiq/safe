@@ -144,9 +144,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XRouter.create();
 
-        if (Config.network !== 'main') {
-            this.$("#testnet-warning").classList.remove('display-none');
-        }
+        // if (Config.network !== 'main') {
+        //     console.log("show testnet warning");
+        //     this.$("#testnet-warning").classList.remove('display-none');
+        // }
 
         if (await BrowserDetection.isPrivateMode()) {
             this.$("#private-warning").classList.remove('display-none');
@@ -170,11 +171,11 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.safeAccountsPresent) {
-            this.$welcomeModal.show();
+            this.$welcomeModal.show(); console.log('WelcomeModal show');
         }
 
         if (changes.safeAccountsPresent) {
-            this.$welcomeModal.hide();
+            this.$welcomeModal.hide();  console.log('WelcomeModal hide');
             this.$('button[receive]').disabled = false;
 
             if (Config.offline) {
@@ -215,7 +216,8 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.createSafe();
             XToast.success('Account created successfully.');
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -231,7 +233,8 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.importFromFile();
             XToast.success('Account imported successfully.');
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -247,7 +250,8 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.importFromWords();
             XToast.success('Account imported successfully.');
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -264,7 +268,8 @@ export default class XSafe extends MixinRedux(XElement) {
             await accountManager.upgrade(address);
             XToast.success('Account upgraded successfully.');
             XUpgradeModal.hide();
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             XToast.warning('Upgrade not completed.');
@@ -293,7 +298,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountLedger() {
         try {
-            XEducationSlides.hide(); // hide x education slides before showing the ledger modal
+            // XEducationSlides.hide(); // hide x education slides before showing the ledger modal
+            XWelcomeModal.hide();
             await accountManager.importLedger();
             XToast.success('Account imported successfully.');
         } catch(e) {
