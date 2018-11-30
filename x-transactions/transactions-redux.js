@@ -62,7 +62,7 @@ export function reducer(state, action) {
                         tx,
                         {
                             'removed': true,
-                            blockHeight: action.currentHeight
+                            // blockHeight: action.currentHeight
                         }
                     ));
                 }
