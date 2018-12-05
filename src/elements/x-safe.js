@@ -144,10 +144,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
         XRouter.create();
 
-        // if (Config.network !== 'main') {
-        //     console.log("show testnet warning");
-        //     this.$("#testnet-warning").classList.remove('display-none');
-        // }
+        if (Config.network !== 'main') {
+            this.$("#testnet-warning").classList.remove('display-none');
+        }
 
         if (await BrowserDetection.isPrivateMode()) {
             this.$("#private-warning").classList.remove('display-none');
