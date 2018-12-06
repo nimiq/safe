@@ -29,11 +29,8 @@ x-transaction-modal .row + .row {
 x-transaction-modal label {
     display: inline-block;
     width: 96px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
-    opacity: 0.76;
     flex-shrink: 0;
 }
 
@@ -105,7 +102,6 @@ x-transaction-modal .hash {
 
     x-transaction-modal label {
         margin-bottom: 6px;
-        font-size: 12px
     }
 
     x-transaction-modal .label {
