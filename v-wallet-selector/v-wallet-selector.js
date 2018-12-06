@@ -9,7 +9,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
         return `
             <div active-wallet-label></div>
-            <div active-wallet-label-mobile>Wallets ▼</div>
+            <div active-wallet-label-mobile>Wallets</div>
             <div class="v-wallet-menu display-none" id="vue-wallet-menu">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
@@ -52,7 +52,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.activeWallet) {
-            this.$('[active-wallet-label]').textContent = this.properties.activeWallet.label + ' ▼'
+            this.$('[active-wallet-label]').textContent = this.properties.activeWallet.label;
         }
     }
 
