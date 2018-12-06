@@ -100,14 +100,17 @@ class AccountManager {
         const result = await this._invoke('signup', null, {
             appName: 'Nimiq Safe',
         });
-        const newAccount = result.account;
-        newAccount.type = AccountType.KEYGUARD_HIGH;
-        this.actions.addAccount(newAccount);
+        result.accounts.forEach(newAccount => {
+            newAccount.type = AccountType.KEYGUARD_HIGH;
+            newAccount.walletId = result.walletId;
+            newAccount.isLegacy = result.type === WalletType.LEGACY;
+            this.actions.addAccount(newAccount);
+        });
         this.actions.login({
             id: result.walletId,
             label: result.label,
             type: result.type,
-            numberAccounts: 1,
+            numberAccounts: result.accounts.length,
         });
     }
 
