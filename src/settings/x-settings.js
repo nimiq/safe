@@ -4,12 +4,16 @@ import XSettingVisualLockModal from './x-setting-visual-lock-modal.js';
 import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from './settings-redux.js';
 import { Store } from '../store.js';
+import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 
-export default class XSettings extends MixinRedux(XElement) {
+export default class XSettings extends MixinModal(MixinRedux(XElement)) {
     html(){
         return `
-             <x-card>
+            <div class="modal-header">
+                <i x-modal-close class="material-icons">close</i>
                 <h2>Settings</h2>
+            </div>
+            <div class="modal-body">
                 <span class="setting" show-all-decimals>
                     Show all decimals
                     <input type="checkbox">
@@ -22,10 +26,8 @@ export default class XSettings extends MixinRedux(XElement) {
                     <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
                 </span>
                 -->
-             </x-card>
 
-             <x-card>
-                <h2>Advanced</h2>
+                <h2 class="advanced">Advanced</h2>
                 <span class="setting" prepared-tx>
                     Send prepared transaction
                     <small>Send a transaction that was prepared offline.</small>
@@ -34,7 +36,7 @@ export default class XSettings extends MixinRedux(XElement) {
                     Delete cached data
                     <small>This does not delete your accounts. It only deletes your transaction history and balances, which will be loaded again from the network.</small>
                 </span>
-             </x-card>
+            </div>
         `
     }
 
