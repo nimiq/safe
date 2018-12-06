@@ -20,7 +20,7 @@ import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
 import XWelcomeModal from './x-welcome-modal.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
-import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
+// import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
 import XUpgradeModal from './x-upgrade-modal.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
@@ -49,10 +49,11 @@ export default class XSafe extends MixinRedux(XElement) {
                         </div>
                     </div>
                     <nav class="secondary-links">
-                        <!-- <a href="https://nimiq.com">Homepage</a> -->
-                        <!-- <a href="https://medium.com/nimiq-network">Blog</a> -->
-                        <!-- <a href="https://nimiq.com/explorer">Explorer</a> -->
+                        <a class="get-nim" href="https://changelly.com/exchange/BTC/NIM?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
+                        <a class="apps" href="https://nimiq.com/#apps">Apps</a>
+                        <a class="settings" x-href="_settings_"></a>
                         <v-wallet-selector></v-wallet-selector>
+                        <x-settings x-route-aside="settings"></x-settings>
                     </nav>
                 </div>
                 <x-total-amount></x-total-amount>
@@ -60,7 +61,6 @@ export default class XSafe extends MixinRedux(XElement) {
                     <nav class="main">
                         <a x-href="">Dashboard</a>
                         <a x-href="history">History</a>
-                        <a x-href="settings">Settings</a>
                     </nav>
                 </div>
             </header>
@@ -104,10 +104,6 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-transactions class="no-animation" passive></x-transactions>
                     </x-card>
                 </x-view-history>
-                <x-view-settings x-route="settings" class="content-width">
-                    <!-- <h1>Settings</h1> -->
-                    <x-settings></x-settings>
-                </x-view-settings>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
@@ -173,11 +169,11 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.safeAccountsPresent) {
-            this.$welcomeModal.show();
+            this.$welcomeModal.show(); console.log('WelcomeModal show');
         }
 
         if (changes.safeAccountsPresent) {
-            this.$welcomeModal.hide();
+            this.$welcomeModal.hide();  console.log('WelcomeModal hide');
             this.$('button[receive]').disabled = false;
 
             if (Config.offline) {
@@ -209,7 +205,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
-            'x-setting-visual-lock-pin': this._onSetVisualLock,
+            // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
             'click button[contacts]': () => VContactListModal.show(true),
         }
@@ -219,7 +215,8 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.create();
             XToast.success('Wallet created successfully.');
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -235,7 +232,6 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.addAccount(walletId);
             XToast.success('Account added successfully.');
-            XEducationSlides.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -251,7 +247,8 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.login();
             XToast.success('Wallet imported successfully.');
-            XEducationSlides.hide();
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -305,7 +302,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedImportAccountLedger() {
         try {
-            XEducationSlides.hide(); // hide x education slides before showing the ledger modal
+            // XEducationSlides.hide(); // hide x education slides before showing the ledger modal
+            XWelcomeModal.hide();
             await accountManager.importLedger();
             XToast.success('Account imported successfully.');
         } catch(e) {
@@ -436,13 +434,13 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    _onSetVisualLock(pin) {
-        console.log(pin);
-        localStorage.setItem('lock', pin);
-        this.$('x-settings [visual-lock] input').checked = true;
-        XToast.success('Visual lock set!');
-        XSettingVisualLockModal.hide();
-    }
+    // _onSetVisualLock(pin) {
+    //     console.log(pin);
+    //     localStorage.setItem('lock', pin);
+    //     this.$('x-settings [visual-lock] input').checked = true;
+    //     XToast.success('Visual lock set!');
+    //     XSettingVisualLockModal.hide();
+    // }
 
     _showWarnings() {
         XEducationSlides.onFinished = XEducationSlides.hide;

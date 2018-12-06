@@ -1,12 +1,7 @@
 @import '/libraries/patternLock/patternLock.css';
 
 x-settings {
-    width: 100%;
-    max-width: 480px;
-}
-
-x-settings x-card {
-    width: auto;
+    width: 480px;
 }
 
 x-settings .setting {
@@ -28,4 +23,12 @@ x-settings small {
 
 x-settings input[type="checkbox"] {
     float: right;
+}
+
+x-settings h2.advanced {
+    margin: 40px 16px 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 13px;
+    font-weight: bold;
 }
