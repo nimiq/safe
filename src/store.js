@@ -59,7 +59,8 @@ export class Store {
             {
                 entries: [...state.transactions.entries.entries()],
                 isRequestingHistory: undefined,
-                page: 1
+                page: 1,
+                itemsPerPage: 4,
             }
         );
 

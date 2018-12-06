@@ -60,7 +60,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 <div class="header-bottom content-width">
                     <nav class="main">
                         <a x-href="">Dashboard</a>
-                        <a x-href="history">History</a>
                     </nav>
                 </div>
             </header>
@@ -86,7 +85,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <!-- <h1>Dashboard</h1> -->
                     <x-card style="max-width: 960px;">
                         <h2>Recent Transactions</h2>
-                        <x-transactions class="no-animation" only-recent no-menu></x-transactions>
+                        <x-transactions class="no-animation" only-recent></x-transactions>
                     </x-card>
                     <x-card style="max-width: 536px;">
                         <h2>Your Accounts</h2>
@@ -97,13 +96,6 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
-                <x-view-history x-route="history" class="content-width">
-                    <!-- <h1>History</h1> -->
-                    <x-card>
-                        <h2>Transaction history</h2>
-                        <x-transactions class="no-animation" passive></x-transactions>
-                    </x-card>
-                </x-view-history>
                 <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
                 <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
