@@ -17,3 +17,11 @@ x-create-request-link-modal ul {
     list-style: square;
     max-width: 100%;
 }
+
+x-create-request-link-modal .address-label {
+    margin-bottom: 4px;
+}
+
+x-create-request-link-modal ul .x-address {
+    margin-left: -15px;
+}

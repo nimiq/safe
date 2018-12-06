@@ -17,15 +17,15 @@
     padding-top: 16px;
     text-align: center;
     position: relative;
-    border-bottom: 1px solid #f3f3f3;
+    /* border-bottom: 1px solid #f3f3f3; */
+    padding-bottom: 16px;
 }
 
 .modal-header h2 {
     padding: 8px 46px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    font-size: 13px;
-    font-weight: bold;
+    font-size: 20px;
+    line-height: 18px;
+    font-weight: 600;
 }
 
 .modal-header x-popup-menu {
@@ -52,18 +52,14 @@
     background: rgba(0, 0, 0, 0.1);
 }
 
-.modal-header::after {
+/* .modal-header::after {
     content: "";
     height: 3px;
     background: var(--primary-background-progress);
     background-size: 200%;
     display: block;
     margin-top: 16px;
-}
-
-.x-modal.pending .modal-header::after {
-    /* animation: background-progress 2s linear infinite; */
-}
+} */
 
 @keyframes background-progress {
     0%  { background-position: 0% 0 }
