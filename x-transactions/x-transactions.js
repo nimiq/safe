@@ -4,7 +4,7 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoTransactions from './x-no-transactions.js';
 import XPaginator from '/elements/x-paginator/x-paginator.js';
-import { addTransactions, markRemoved, setRequestingHistory } from './transactions-redux.js';
+import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from './transactions-redux.js';
 import networkClient from '/apps/safe/src/network-client.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
@@ -21,8 +21,9 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
-            <x-paginator store-path="transactions"></x-paginator>
-            <a secondary x-href="history" class="display-none">View more</a>
+            <x-paginator store-path="transactions" class="display-none"></x-paginator>
+            <a secondary view-more>View more</a>
+            <a secondary view-less class="display-none">View less</a>
         `
     }
 
@@ -42,26 +43,28 @@ export default class XTransactions extends MixinRedux(XElement) {
     listeners() {
         return {
             'x-transaction-selected': this._onTransactionSelected,
-            'click button[refresh]': () => this.requestTransactionHistory()
+            'click button[refresh]': () => this.requestTransactionHistory(),
+            'click [view-more]': this._onViewMore,
+            'click [view-less]': this._onViewLess,
         }
     }
 
-    static get actions() { return { addTransactions, markRemoved, setRequestingHistory } }
+    static get actions() { return { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } }
 
     static mapStateToProps(state, props) {
         return {
             transactions: XTransactions._labelTransactions(
                 XPaginator.getPagedItems(
                     activeTransactions$(state) || new Map(),
-                    props.onlyRecent ? 1 : state.transactions.page,
-                    props.onlyRecent ? 4 : state.transactions.itemsPerPage,
+                    state.transactions.page,
+                    state.transactions.itemsPerPage,
                     true
                 ),
                 state.accounts ? state.accounts.entries : false,
                 state.contacts
             ),
             hasTransactions: state.transactions.hasContent,
-            totalTransactionCount: state.transactions.entries.size,
+            totalTransactionCount: (activeTransactions$(state) || new Map()).size,
             addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
             hasAccounts: state.accounts.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
@@ -196,10 +199,6 @@ export default class XTransactions extends MixinRedux(XElement) {
             const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);
         }
-
-        if (this.properties.onlyRecent) {
-            this.$('a[secondary]').classList.toggle('display-none', this.properties.totalTransactionCount <= 4);
-        }
     }
 
     /**
@@ -270,5 +269,20 @@ export default class XTransactions extends MixinRedux(XElement) {
             }
         }
         return knownReceipts;
+    }
+
+    _onViewMore() {
+        this.actions.setItemsPerPage(10);
+        this.$paginator.$el.classList.remove('display-none');
+        this.$('a[view-more]').classList.add('display-none');
+        this.$('a[view-less]').classList.remove('display-none');
+    }
+
+    _onViewLess() {
+        this.actions.setPage(1);
+        this.actions.setItemsPerPage(4);
+        this.$paginator.$el.classList.add('display-none');
+        this.$('a[view-more]').classList.remove('display-none');
+        this.$('a[view-less]').classList.add('display-none');
     }
 }

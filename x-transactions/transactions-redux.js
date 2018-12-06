@@ -18,7 +18,7 @@ export function reducer(state, action) {
             hasContent: false,
             error: null,
             page: 1,
-            itemsPerPage: 25
+            itemsPerPage: 4
         }
     }
 

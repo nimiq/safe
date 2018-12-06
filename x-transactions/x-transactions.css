@@ -13,8 +13,8 @@ x-transactions {
 
 x-transactions a[secondary] {
     padding: 1em;
-    margin-bottom: -1em;
-    margin-top: 5px;
+    margin-bottom: -1em !important;
+    margin-top: 5px !important;
     text-align: center;
 }
 
