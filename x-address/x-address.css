@@ -7,8 +7,9 @@ x-address, .x-address{
     box-sizing: border-box;
     padding: 8px 16px;
     font-size: 14px;
-    font-weight: 600;
+    word-spacing: -0.15em;
     white-space: nowrap;
+    font-family: 'Fira Mono', monospace;
 }
 
 @media (max-width: 460px) {
