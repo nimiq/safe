@@ -88,7 +88,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-transactions class="no-animation" only-recent></x-transactions>
                     </x-card>
                     <x-card style="max-width: 536px;">
-                        <h2>Your Accounts</h2>
+                        <h2>Your Addresses</h2>
                         <x-accounts></x-accounts>
                     </x-card>
                     <x-card style="max-width: 344px;">
