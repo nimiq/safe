@@ -1,9 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-// import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
-// import XToast from '/secure-elements/x-toast/x-toast.js';
-import { upgradeableAccount$ } from '../selectors/needsUpgrade$.js';
 
 export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
 
@@ -21,34 +18,7 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
                 </ul>
 
                 <div class="options new">
-                    <div class="spacing-bottom">
-                        <strong>For using Nimiq Safe, you need an account:</strong>
-                    </div>
-
-                    <button class="create spacing-bottom">Create New Account</button>
-
-                    <div class="spacing-bottom">
-                        If you have 24 Recovery Words or an Access File,
-                        you can use those to import your existing account:
-                    </div>
-
-                    <a secondary import-1>Import Wallet/Account</a>
-                    <a secondary import-ledger-1 class="waiting">Import Ledger Account</a>
-                </div>
-
-                 <div class="options upgrade display-none">
-                   <div class="spacing-bottom">
-                        <strong>You can upgrade your existing Account for Nimiq Safe:</strong>
-                    </div>
-
-                    <button class="upgrade spacing-bottom">Upgrade account</button>
-
-                    <div class="spacing-bottom">
-                        Or if you have 24 Recovery Words or an Access File, you can use those to import your account.
-                    </div>
-
-                    <a secondary import-2>Import Wallet/Account</a>
-                    <a secondary import-ledger-2>Import Ledger Account</a>
+                    <button class="onboard">Start here</button>
                 </div>
             </div>
             `;
@@ -57,74 +27,22 @@ export default class XWelcomeModal extends MixinRedux(MixinModal(XElement)) {
     static mapStateToProps(state) {
         return {
             keyguardReady: state.connection.keyguard,
-            upgradedableAccount: upgradeableAccount$(state)
         };
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.keyguardReady && !this.properties.upgradedableAccount) {
-            this.$('.create').classList.remove('waiting');
-            this.$('[import-1]').classList.remove('waiting');
-        }
-
-        if (changes.upgradedableAccount) {
-            this.$('.options.new').classList.add('display-none');
-            this.$('.options.upgrade').classList.remove('display-none');
+        if (changes.keyguardReady) {
+            this.$('.onboard').classList.remove('waiting');
         }
     }
-
-    // allowsHide(incomingModal) {
-    //     if (incomingModal && (XEducationSlides.currentSlide === incomingModal)) {
-    //         return true;
-    //     }
-
-    //     // executed when closing by clicking background
-    //     XEducationSlides.onFinished = XEducationSlides.hide;
-    //     XEducationSlides.action = 'none';
-    //     XEducationSlides._slides = XEducationSlides.allSlides.slice(0, -1);
-    //     XEducationSlides.start();
-
-    //     return false;
-    // }
 
     listeners() {
         return {
-            'click button.create': this._onCreateAccount.bind(this),
-            'click button.upgrade': this._onUpgradeAccount.bind(this),
-            'click [import-ledger-1]': this._onImportLedger.bind(this),
-            'click [import-1]': this._onImportFile.bind(this),
-            'click [import-ledger-2]': this._onImportLedger.bind(this),
-            'click [import-2]': this._onImportFile.bind(this)
+            'click button.onboard': this._onOnboard.bind(this),
         };
     }
 
-    _onCreateAccount() {
-        this.fire('x-accounts-create');
-        // XEducationSlides.onFinished = () => this.fire('x-accounts-create');
-        // XEducationSlides.action = 'create';
-        // XEducationSlides.start();
-    }
-
-    _onImportLedger() {
-        this.fire('x-accounts-import-ledger');
-        // XEducationSlides.onFinished = () => this.fire('x-accounts-import-ledger');
-        // XEducationSlides.action = 'import-ledger';
-        // XEducationSlides.start();
-    }
-
-    _onImportFile() {
-        this.fire('x-accounts-import');
-        // XEducationSlides.onFinished = () => this.fire('x-accounts-import');
-        // XEducationSlides.action = 'import-file';
-        // XEducationSlides.start();
-    }
-
-    _onUpgradeAccount() {
-        this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
-        // XEducationSlides.onFinished = () => this.fire('x-upgrade-account', this.properties.upgradedableAccount.address);
-        // XEducationSlides.action = 'upgrade';
-        // XEducationSlides.start();
+    _onOnboard() {
+        this.fire('x-welcome-onboard');
     }
 }
-
-// Todo: wording, content of this element

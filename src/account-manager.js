@@ -95,23 +95,20 @@ class AccountManager {
     //     return defaultAccount;
     // }
 
+    async onboard() {
+        await this._launched;
+        const result = await this._invoke('onboard', null, {
+            appName: 'Nimiq Safe',
+        });
+        this._onOnboardingResult(result);
+    }
+
     async create() {
         await this._launched;
         const result = await this._invoke('signup', null, {
             appName: 'Nimiq Safe',
         });
-        result.accounts.forEach(newAccount => {
-            newAccount.type = AccountType.KEYGUARD_HIGH;
-            newAccount.walletId = result.walletId;
-            newAccount.isLegacy = result.type === WalletType.LEGACY;
-            this.actions.addAccount(newAccount);
-        });
-        this.actions.login({
-            id: result.walletId,
-            label: result.label,
-            type: result.type,
-            numberAccounts: result.accounts.length,
-        });
+        this._onOnboardingResult(result);
     }
 
     async sign(tx) {
@@ -174,18 +171,7 @@ class AccountManager {
         const result = await this._invoke('login', null, {
             appName: 'Nimiq Safe',
         });
-        result.accounts.forEach(newAccount => {
-            newAccount.type = AccountType.KEYGUARD_HIGH;
-            newAccount.walletId = result.walletId;
-            newAccount.isLegacy = result.type === WalletType.LEGACY;
-            this.actions.addAccount(newAccount);
-        });
-        this.actions.login({
-            id: result.walletId,
-            label: result.label,
-            type: result.type,
-            numberAccounts: result.accounts.length,
-        });
+        this._onOnboardingResult(result);
     }
 
     async logout(walletId) {
@@ -230,6 +216,21 @@ class AccountManager {
     //     const account = this.accounts.get(address);
     //     this._invoke('signMessage', account);
     // }
+
+    _onOnboardingResult(result) {
+        result.accounts.forEach(newAccount => {
+            newAccount.type = AccountType.KEYGUARD_HIGH;
+            newAccount.walletId = result.walletId;
+            newAccount.isLegacy = result.type === WalletType.LEGACY;
+            this.actions.addAccount(newAccount);
+        });
+        this.actions.login({
+            id: result.walletId,
+            label: result.label,
+            type: result.type,
+            numberAccounts: result.accounts.length,
+        });
+    }
 
     // async _import(key) {
     //     this.actions.addAccount(key);

@@ -39,7 +39,7 @@ export default class XSafe extends MixinRedux(XElement) {
             </div>
             <div id="private-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup / upgrade</strong>!
+                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
             <header>
                 <div class="header-top content-width">
@@ -180,10 +180,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
     listeners() {
         return {
+            'x-welcome-onboard': this._clickedOnboarding.bind(this),
             'x-accounts-create': this._clickedCreateAccount.bind(this),
             'x-accounts-import': this._clickedImportAccount.bind(this),
             'x-accounts-add': this._clickedAddAccount.bind(this),
-            'x-accounts-import-ledger': this._clickedImportAccountLedger.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
@@ -200,6 +200,23 @@ export default class XSafe extends MixinRedux(XElement) {
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
             'click button[contacts]': () => VContactListModal.show(true),
+        }
+    }
+
+    async _clickedOnboarding() {
+        try {
+            await accountManager.onboard();
+            XToast.success('Welcome to Nimiq!');
+            // XEducationSlides.hide();
+            XWelcomeModal.hide();
+        } catch (e) {
+            console.error(e);
+            if (e.code === 'K3' || e.code === 'K4') {
+                // Show Safari/iOS > 10 accounts error
+                XToast.warning(e.message);
+            } else {
+                // XToast.warning('Ups, that didn\'t work');
+            }
         }
     }
 
