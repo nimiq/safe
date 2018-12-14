@@ -144,7 +144,7 @@ class AccountManager {
 
     async exportWords(walletId) {
         await this._launched;
-        this._invoke('exportWords', null, {
+        await this._invoke('exportWords', null, {
             appName: 'Nimiq Safe',
             walletId,
         });
@@ -152,7 +152,7 @@ class AccountManager {
 
     async export(walletId) {
         await this._launched;
-        this._invoke('export', null, {
+        await this._invoke('export', null, {
             appName: 'Nimiq Safe',
             walletId,
         });
@@ -160,7 +160,7 @@ class AccountManager {
 
     async changePassphrase(walletId) {
         await this._launched;
-        this._invoke('changePassphrase', null, {
+        await this._invoke('changePassphrase', null, {
             appName: 'Nimiq Safe',
             walletId,
         });
