@@ -70,7 +70,7 @@ class Safe {
 
         // cancel request and close window when there is an unhandled promise rejection
         self.onunhandledrejection = (event) => {
-            if (error.message === 'CANCELED') return;
+            if (event.reason.message === 'CANCELED') return;
             XToast.show(event.reason, 'error');
         };
     }

@@ -58,7 +58,20 @@ class AccountManager {
          * }
          */
 
-        const listedWallets = await this.accountsClient.list();
+        let listedWallets;
+        try {
+            listedWallets = await this.accountsClient.list();
+        } catch (error) {
+            if (error.message === 'MIGRATION_REQUIRED') {
+                this.accountsClient.migrate(new AccountsClient.RedirectRequestBehavior());
+                return;
+            }
+
+            // TODO: Handle this case with a user notification?
+            if (error.message === 'WALLETS_LOST') return;
+
+            throw error;
+        }
 
         const wallets = [];
         const accounts = [];
