@@ -19,7 +19,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <button logout><i class="material-icons">exit_to_app</i> Logout</button>
                 </x-popup-menu>
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Account</h2>
+                <h2>Address</h2>
             </div>
             <div class="modal-body">
                 <div class="center">
@@ -40,7 +40,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 </div>
 
                 <div class="action-button">
-                    <button send class="small">Send from this account</button>
+                    <button send class="small">Send from this address</button>
                     <button payout class="small display-none">Pay out</button>
                 </div>
             </div>
