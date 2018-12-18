@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>Nimiq Safe</title>
@@ -50,27 +51,44 @@
             /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
             _paq.push(['trackPageView']);
             _paq.push(['enableLinkTracking']);
-            (function() {
-                var u="//stats.nimiq-network.com/";
-                _paq.push(['setTrackerUrl', u+'nimiq.php']);
+            (function () {
+                var u = "//stats.nimiq-network.com/";
+                _paq.push(['setTrackerUrl', u + 'nimiq.php']);
                 _paq.push(['setSiteId', '3']);
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'nimiq.js'; s.parentNode.insertBefore(g,s);
+                var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'nimiq.js'; s.parentNode.insertBefore(g, s);
             })();
         }
     </script>
-  <!-- End Matomo Code -->
+    <!-- End Matomo Code -->
 </head>
-<body class="preparing">
-<div id="app"></div>
 
-<!-- @asset(/apps/safe/node_modules/@nimiq/vue-components/dist/img/iqons.min.cc877caa.svg,img) -->
-<!-- build:js -->
-<script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
-<script src="/elements/vue-components/lib/vue.js"></script>
-<script src="../node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.js"></script>
-<script src="safe.js" type="module"></script>
-<!-- endbuild -->
-<!-- build:browser-warning --><!-- endbuild -->
+<body class="preparing">
+    <noscript>
+        <strong>We're sorry, but our interface doesn't work properly without JavaScript enabled. Please enable it to
+            continue.</strong>
+    </noscript>
+    <div id="app">
+        <header class="logo-container">
+            <div class="logo icon-logo"><span class="nq-icon nimiq-logo"></span>
+                <strong>Nimiq</strong>
+            </div>
+        </header>
+        <div class="loading">
+            <div class="loading-animation"></div>
+            <h2>Loading, hold on</h2>
+        </div>
+    </div>
+
+    <!-- @asset(/apps/safe/node_modules/@nimiq/vue-components/dist/img/iqons.min.cc877caa.svg,img) -->
+    <!-- build:js -->
+    <script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
+    <script src="/elements/vue-components/lib/vue.js"></script>
+    <script src="../node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.js"></script>
+    <script src="safe.js" type="module"></script>
+    <!-- endbuild -->
+    <!-- build:browser-warning -->
+    <!-- endbuild -->
 </body>
+
 </html>

@@ -26,22 +26,26 @@ class Safe {
             this.launchApp();
         }
 
-        // FIXME
-        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
-    launchApp() {
-        const $appContainer = document.getElementById('app');
-
+    async launchApp() {
         // set redux store
         this.store = store;
         MixinRedux.store = this.store;
 
-        // set singleton app container
-        MixinSingleton.appContainer = $appContainer;
-
         // Launch account manager
         accountManager.launch();
+        await accountManager.accountsLoaded;
+
+        if (store.getState().wallets.entries.size === 0) {
+            accountManager.onboard();
+            return;
+        }
+
+        const $appContainer = document.getElementById('app');
+
+        // set singleton app container
+        MixinSingleton.appContainer = $appContainer;
 
         // start UI
         this._xApp = new XSafe($appContainer);
@@ -73,6 +77,9 @@ class Safe {
             if (event.reason.message === 'CANCELED') return;
             XToast.show(event.reason, 'error');
         };
+
+        // FIXME
+        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     async launchNetwork() {
