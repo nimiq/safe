@@ -161,7 +161,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.accountsInitialized && !this.properties.safeAccountsPresent) {
-            this.$welcomeModal.show(); console.log('WelcomeModal show');
+            console.log('should not happen');
+            //accountManager.onboard();
+            // this.$welcomeModal.show(); console.log('WelcomeModal show');
         }
 
         if (changes.safeAccountsPresent) {

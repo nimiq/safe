@@ -1,7 +1,7 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import AccountsClient from './AccountsClient.standalone.es.js';
+import { AccountsClient, RedirectRequestBehavior, RequestType } from './AccountsClient.standalone.es.js';
 import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, updateNumberAccounts } from './wallet-redux.js';
 
 class AccountManager {
@@ -13,6 +13,7 @@ class AccountManager {
 
     constructor() {
         this._launched = new Promise(res => this._resolveLaunched = res);
+        this.accountsLoaded = new Promise(res => this._resolveAccountsLoaded = res);
     }
 
     async launch() {
@@ -23,6 +24,15 @@ class AccountManager {
         };
 
         this._bindStore();
+
+        // listen to response from onboarding
+        this.accountsClient.on(RequestType.ONBOARD, (result, state) => {
+            this._onOnboardingResult(result);
+        }, (error, state) => {
+            console.error('AccountsManager error', error);
+            console.log('State', state);
+        });
+        this.accountsClient.checkRedirectResponse();
 
         // Kick off writing accounts to the store
         this._populateAccounts();
@@ -85,6 +95,8 @@ class AccountManager {
 
         this.actions.setAllAccounts(accounts);
         this.actions.setAllWallets(wallets);
+
+        this._resolveAccountsLoaded();
     }
 
     /// PUBLIC API ///
@@ -97,10 +109,14 @@ class AccountManager {
 
     async onboard() {
         await this._launched;
-        const result = await this._invoke('onboard', null, {
-            appName: 'Nimiq Safe',
-        });
-        this._onOnboardingResult(result);
+        const result = this._invoke(
+            'onboard',
+            null,
+            {
+                appName: 'Nimiq Safe',
+            },
+            new RedirectRequestBehavior()
+        );
     }
 
     async create() {
@@ -218,6 +234,8 @@ class AccountManager {
     // }
 
     _onOnboardingResult(result) {
+        console.log('onboarding result:');
+        console.log(result);
         result.accounts.forEach(newAccount => {
             newAccount.type = AccountType.KEYGUARD_HIGH;
             newAccount.walletId = result.walletId;
