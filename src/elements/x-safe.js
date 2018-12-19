@@ -18,10 +18,7 @@ import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-p
 import XSettings from '../settings/x-settings.js';
 import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
-import XWelcomeModal from './x-welcome-modal.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
-// import XSettingVisualLockModal from '../settings/x-setting-visual-lock-modal.js';
-import XUpgradeModal from './x-upgrade-modal.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import needsUpgrade$ from '../selectors/needsUpgrade$.js';
 import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
@@ -96,8 +93,6 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-network-indicator></x-network-indicator>
                     </x-card>
                 </x-view-dashboard>
-                <x-welcome-modal x-route-aside="welcome"></x-welcome-modal>
-                <x-upgrade-modal x-route-aside="please-upgrade"></x-upgrade-modal>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe-next')}"></x-create-request-link-modal>
@@ -120,11 +115,9 @@ export default class XSafe extends MixinRedux(XElement) {
             XSettings,
             XNetworkIndicator,
             XTransactionModal,
-            XWelcomeModal,
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,
             XDisclaimerModal,
-            XUpgradeModal,
             VContactListModal,
             VWalletSelector,
         ];
@@ -137,6 +130,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (Config.network !== 'main') {
             this.$("#testnet-warning").classList.remove('display-none');
+            this.$("a.apps").href = 'https://nimiq-testnet.com/#apps';
+            this.$("a.get-nim").href = 'https://getsome.nimiq-testnet.com';
         }
 
         if (await BrowserDetection.isPrivateMode()) {
@@ -160,14 +155,7 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.accountsInitialized && !this.properties.safeAccountsPresent) {
-            console.log('should not happen');
-            //accountManager.onboard();
-            // this.$welcomeModal.show(); console.log('WelcomeModal show');
-        }
-
         if (changes.safeAccountsPresent) {
-            this.$welcomeModal.hide();  console.log('WelcomeModal hide');
             this.$('button[receive]').disabled = false;
 
             if (Config.offline) {
@@ -182,9 +170,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'x-welcome-onboard': this._clickedOnboarding.bind(this),
-            'x-accounts-create': this._clickedCreateAccount.bind(this),
-            'x-accounts-import': this._clickedImportAccount.bind(this),
             'x-accounts-add': this._clickedAddAccount.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
@@ -205,40 +190,6 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedOnboarding() {
-        try {
-            await accountManager.onboard();
-            XToast.success('Welcome to Nimiq!');
-            // XEducationSlides.hide();
-            XWelcomeModal.hide();
-        } catch (e) {
-            console.error(e);
-            if (e.code === 'K3' || e.code === 'K4') {
-                // Show Safari/iOS > 10 accounts error
-                XToast.warning(e.message);
-            } else {
-                // XToast.warning('Ups, that didn\'t work');
-            }
-        }
-    }
-
-    async _clickedCreateAccount() {
-        try {
-            await accountManager.create();
-            XToast.success('Wallet created successfully.');
-            // XEducationSlides.hide();
-            XWelcomeModal.hide();
-        } catch (e) {
-            console.error(e);
-            if (e.code === 'K3' || e.code === 'K4') {
-                // Show Safari/iOS > 10 accounts error
-                XToast.warning(e.message);
-            } else {
-                XToast.warning('Wallet was not created.');
-            }
-        }
-    }
-
     async _clickedAddAccount(walletId) {
         try {
             await accountManager.addAccount(walletId);
@@ -250,23 +201,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 XToast.warning(e.message);
             } else {
                 XToast.warning('Account was not added.');
-            }
-        }
-    }
-
-    async _clickedImportAccount() {
-        try {
-            await accountManager.login();
-            XToast.success('Wallet imported successfully.');
-            // XEducationSlides.hide();
-            XWelcomeModal.hide();
-        } catch (e) {
-            console.error(e);
-            if (e.code === 'K3' || e.code === 'K4') {
-                // Show Safari/iOS > 10 accounts error
-                XToast.warning(e.message);
-            } else {
-                XToast.warning('Wallet was not imported.');
             }
         }
     }
@@ -308,21 +242,6 @@ export default class XSafe extends MixinRedux(XElement) {
         } catch (e) {
             console.error(e);
             XToast.warning('Logout failed.');
-        }
-    }
-
-    async _clickedImportAccountLedger() {
-        try {
-            // XEducationSlides.hide(); // hide x education slides before showing the ledger modal
-            XWelcomeModal.hide();
-            await accountManager.importLedger();
-            XToast.success('Account imported successfully.');
-        } catch(e) {
-            if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
-            } else {
-                XToast.warning('Account was not imported.');
-            }
         }
     }
 
