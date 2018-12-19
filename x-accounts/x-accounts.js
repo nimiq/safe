@@ -11,7 +11,7 @@ export default class XAccounts extends MixinRedux(XElement) {
     html() {
         return `
             <x-popup-menu x-icon="add" class="hidden">
-                <button class="add"><i class="material-icons">add</i> Add Address to your Wallet</button>
+                <button class="add"><i class="material-icons">add</i> Add Address to your Account</button>
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
             <x-account-modal x-route-aside="account"></x-account-modal>
