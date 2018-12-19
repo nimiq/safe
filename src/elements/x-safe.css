@@ -375,6 +375,36 @@ nav.actions.floating-actions {
     nav.main a {
         margin: 18px 0.5em 0;
     }
+
+    .header-top {
+        height: 108px;
+    }
+
+    .secondary-links {
+        margin-top: 2rem;
+    }
+
+    .secondary-links a {
+        margin-left: 12px;
+    }
+
+    .secondary-links a:first-child {
+        margin-left: 0;
+    }
+
+    v-wallet-selector [active-wallet-label],
+    v-wallet-selector [active-wallet-label-mobile] {
+        padding: 14px 8px;
+        margin-left: 6px;
+    }
+
+    v-wallet-selector #vue-wallet-menu {
+        top: 4.5rem;
+    }
+
+    .secondary-links .settings {
+        margin-left: 6px;
+    }
 }
 
 @media (max-width: 660px) {
