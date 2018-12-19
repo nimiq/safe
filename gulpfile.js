@@ -14,7 +14,6 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     cssEntry: [
         'node_modules/@nimiq/vue-components/dist/NimiqVueComponents.css',
         'src/safe.css',
-        'src/blocking.css'
     ],
     htmlEntry: 'src/index.html',
     rootPath: `${__dirname}/../../`,
