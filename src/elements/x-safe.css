@@ -144,8 +144,54 @@ x-total-amount {
 }
 
 .header-bottom {
-    overflow: hidden;
+    overflow: visible;
     padding: 0.5em 1em;
+    text-align: left;
+}
+
+.backup-reminder {
+    font-size: 16px;
+}
+
+.backup-reminder .action {
+    color: var(--nimiq-orange);
+    cursor: pointer;
+}
+
+.backup-reminder .icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-bottom: -24px;
+    box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2);
+    margin-right: 13px;
+}
+
+.backup-reminder .icon.words {
+    background: var(--nimiq-orange);
+    background-image: var(--nimiq-orange-bg);
+}
+
+.backup-reminder .icon svg {
+    margin: 12px 0 -16px 12px;
+}
+
+.backup-reminder .dismiss {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.backup-reminder .dismiss span {
+    display: none;
+}
+
+.backup-reminder .dismiss:hover {
+    opacity: 0.8;
+}
+
+.backup-reminder .dismiss:hover span {
+    display: inline;
 }
 
 x-view-dashboard,
