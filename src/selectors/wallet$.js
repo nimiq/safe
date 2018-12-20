@@ -1,7 +1,7 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
 
 const LEGACY_ID = 'LEGACY';
-const LEGACY_LABEL = 'Single-Account Wallets';
+const LEGACY_LABEL = 'Single-Address Accounts';
 
 export const wallets$ = state => state.wallets.entries;
 
