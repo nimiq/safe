@@ -91,6 +91,8 @@ class AccountManager {
                 id: key.id,
                 label: key.label,
                 type: key.type,
+                hasFile: !!key.hasFile,
+                hasWords: !!key.hasWords,
                 numberAccounts: key.accounts.size,
             });
 
@@ -247,8 +249,6 @@ class AccountManager {
     // }
 
     _onOnboardingResult(result) {
-        console.log('onboarding result:');
-        console.log(result);
         result.accounts.forEach(newAccount => {
             newAccount.type = AccountType.KEYGUARD_HIGH;
             newAccount.walletId = result.walletId;
@@ -259,6 +259,8 @@ class AccountManager {
             id: result.walletId,
             label: result.label,
             type: result.type,
+            hasFile: !!result.hasFile,
+            hasWords: !!result.hasWords,
             numberAccounts: result.accounts.length,
         });
     }
