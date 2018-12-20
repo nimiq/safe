@@ -148,23 +148,6 @@ x-total-amount {
     padding: 0.5em 1em;
 }
 
-nav.main {
-    float: left;
-    height: 44px;
-}
-
-nav.main a {
-    display: inline-block;
-    margin: 18px 1em 0 0.5em;
-    text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.16em;
-    padding: 0 4px 15px;
-    font-weight: bold;
-    opacity: 0.6;
-    line-height: 16px;
-}
-
 x-view-dashboard,
 x-view-history,
 x-view-settings {
@@ -172,11 +155,6 @@ x-view-settings {
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-start;
-}
-
-nav.main a[x-href].current {
-    opacity: 1;
-    border-bottom: 2px solid var(--nimiq-green);
 }
 
 x-card {
@@ -372,10 +350,6 @@ nav.actions.floating-actions {
 }
 
 @media (max-width: 690px) {
-    nav.main a {
-        margin: 18px 0.5em 0;
-    }
-
     .header-top {
         height: 108px;
     }
@@ -407,12 +381,6 @@ nav.actions.floating-actions {
     }
 }
 
-@media (max-width: 660px) {
-    nav.main a {
-        margin: 18px 0.1em 0;
-    }
-}
-
 /**
     * The point at which the main nav and the action buttons
     * in the header don't fit next to each other anymore
@@ -424,13 +392,6 @@ nav.actions.floating-actions {
 
     x-total-amount {
         margin: 0.5em auto;
-    }
-    nav.main {
-        float: none;
-    }
-
-    nav.main a {
-        line-height: 17px;
     }
 
     nav.actions.floating-actions {
@@ -477,14 +438,6 @@ nav.actions.floating-actions {
 
     x-total-amount {
         font-size: 2em;
-    }
-
-    nav.main a {
-        margin: 20px 0 0 0.5em;
-        font-size: 12px;
-        letter-spacing: 1px;
-        padding: 0 4px 14px;
-        line-height: 15px;
     }
 
     .floating-btn button[contacts] {

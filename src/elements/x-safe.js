@@ -55,9 +55,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom content-width">
-                    <nav class="main">
-                        <a x-href="">Dashboard</a>
-                    </nav>
                 </div>
             </header>
 
