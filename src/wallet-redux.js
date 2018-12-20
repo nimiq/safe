@@ -5,6 +5,7 @@ export const TypeKeys = {
     UPDATE_LABEL: 'wallet/update-label',
     UPDATE_NUMBER_ACCOUNTS: 'accounts/update-number-accounts',
     LOGOUT: 'wallet/logout',
+    SET_DEFAULT: 'wallet/set-default',
 };
 
 export const LEGACY = 'LEGACY';
@@ -66,14 +67,10 @@ export function reducer(state, action) {
             });
         }
 
-        case TypeKeys.UPDATE_NUMBER_ACCOUNTS: {
-            const entries = new Map(state.entries);
-            entries.set(action.walletId, Object.assign({}, state.entries.get(action.walletId), { numberAccounts: action.numberAccounts }));
-
+        case TypeKeys.SET_DEFAULT:
             return Object.assign({}, state, {
-                entries
+                activeWalletId: action.id
             });
-        }
 
         case TypeKeys.LOGOUT: {
             const entries = new Map(state.entries);
@@ -150,10 +147,9 @@ export function updateLabel(walletId, label) {
     }
 }
 
-export function updateNumberAccounts(walletId, numberAccounts) {
+export function setDefaultAccount(id) {
     return {
-        type: TypeKeys.UPDATE_NUMBER_ACCOUNTS,
-        walletId,
-        numberAccounts
-    }
+        type: TypeKeys.SET_DEFAULT,
+        id
+    };
 }

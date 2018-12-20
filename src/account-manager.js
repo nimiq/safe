@@ -2,7 +2,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { AccountsClient, RedirectRequestBehavior, RequestType } from './AccountsClient.standalone.es.js';
-import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, updateNumberAccounts } from './wallet-redux.js';
+import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultAccount, LEGACY } from './wallet-redux.js';
 
 class AccountManager {
     static getInstance() {
@@ -48,10 +48,10 @@ class AccountManager {
             setAllAccounts,
             updateAccountLabel,
             setAllWallets,
+            setDefaultAccount,
             login,
             logout,
             updateWalletLabel,
-            updateNumberAccounts,
         }, this.store.dispatch);
     }
 
@@ -93,7 +93,6 @@ class AccountManager {
                 type: key.type,
                 hasFile: !!key.hasFile,
                 hasWords: !!key.hasWords,
-                numberAccounts: key.accounts.size,
             });
 
             Array.from(key.accounts.keys()).forEach(address => {
@@ -110,6 +109,23 @@ class AccountManager {
 
         this.actions.setAllAccounts(accounts);
         this.actions.setAllWallets(wallets);
+
+        // if empty legacy account is set as default, set the account with the most addresses as default instead
+        const state = MixinRedux.store.getState();
+        const legacyIsDefault = state.wallets.activeWalletId === LEGACY;
+        const legacyIsEmpty = [...state.accounts.entries.values()]
+            .filter(x => x.walletId === LEGACY)
+            .length === 0;
+
+         if (legacyIsDefault && legacyIsEmpty) {
+             const accountWithMostAddresses = listedWallets.sort(
+                (a, b) => a.accounts.length > b.accounts.length ? a : b
+             )[0];
+             
+             if (accountWithMostAddresses) {
+                 this.actions.setDefaultAccount(accountWithMostAddresses.id);
+             }
+         }
 
         this._resolveAccountsLoaded();
     }
@@ -261,7 +277,6 @@ class AccountManager {
             type: result.type,
             hasFile: !!result.hasFile,
             hasWords: !!result.hasWords,
-            numberAccounts: result.accounts.length,
         });
     }
 
