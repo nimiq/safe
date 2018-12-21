@@ -78,9 +78,9 @@ class AccountManager {
             }
 
             // TODO: Handle this case with a user notification?
-            if (error.message === 'WALLETS_LOST') return;
+            else if (error.message === 'WALLETS_LOST') listedWallets = [];
 
-            throw error;
+            else throw error;
         }
 
         const wallets = [];
