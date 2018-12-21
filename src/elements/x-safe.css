@@ -157,6 +157,9 @@ x-total-amount {
 .backup-reminder .action {
     color: var(--nimiq-orange);
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
 }
 
 .backup-reminder .icon {
@@ -167,6 +170,7 @@ x-total-amount {
     margin-bottom: -24px;
     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2);
     margin-right: 13px;
+    flex-shrink: 0;
 }
 
 .backup-reminder .icon.words {
@@ -419,10 +423,6 @@ nav.actions.floating-actions {
         margin-left: 6px;
     }
 
-    v-wallet-selector #vue-wallet-menu {
-        top: 4.5rem;
-    }
-
     .secondary-links .settings {
         margin-left: 6px;
     }
@@ -432,7 +432,7 @@ nav.actions.floating-actions {
     * The point at which the main nav and the action buttons
     * in the header don't fit next to each other anymore
 */
-@media (max-width: 620px) {
+@media (max-width: 730px) {
     .header-top {
         padding: 1em;
     }
@@ -499,5 +499,20 @@ nav.actions.floating-actions {
 
     x-view-dashboard > * {
         max-width: calc(100% - 1em) !important;
+    }
+}
+
+@media (max-width: 450px) {
+    v-wallet-selector #vue-wallet-menu {
+        top: 4.5rem;
+    }
+
+    .header-bottom {
+        padding: 0 1em;
+        height: 56px;
+    }
+
+    .backup-reminder .icon {
+        margin-bottom: -8px;
     }
 }
