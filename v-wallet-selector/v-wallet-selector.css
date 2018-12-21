@@ -55,7 +55,7 @@ v-wallet-selector.menu-active [active-wallet-label-mobile]::after {
 
 v-wallet-selector #vue-wallet-menu {
     position: absolute;
-    top: 2rem;
+    top: 4.25rem;
     right: 0;
     z-index: 1000;
     color: var(--nimiq-blue);
