@@ -113,19 +113,25 @@ class AccountManager {
         // if empty legacy account is set as default, set the account with the most addresses as default instead
         const state = MixinRedux.store.getState();
         const legacyIsDefault = state.wallets.activeWalletId === LEGACY;
-        const legacyIsEmpty = [...state.accounts.entries.values()]
-            .filter(x => x.walletId === LEGACY)
-            .length === 0;
+        if (legacyIsDefault) {
+            const legacyIsEmpty = Array.from(state.accounts.entries.values())
+                .filter(a => a.isLegacy)
+                .length === 0;
 
-         if (legacyIsDefault && legacyIsEmpty) {
-             const accountWithMostAddresses = listedWallets.sort(
-                (a, b) => a.accounts.length > b.accounts.length ? a : b
-             )[0];
-             
-             if (accountWithMostAddresses) {
-                 this.actions.setDefaultAccount(accountWithMostAddresses.id);
-             }
-         }
+            if (legacyIsEmpty) {
+                const accountWithMostAddresses = listedWallets.sort(
+                    (a, b) => a.accounts.size > b.accounts.size
+                        ? -1
+                        : a.accounts.size < b.accounts.size
+                            ? 1
+                            : 0
+                )[0];
+
+                if (accountWithMostAddresses) {
+                    this.actions.setDefaultAccount(accountWithMostAddresses.id);
+                }
+            }
+        }
 
         this._resolveAccountsLoaded();
     }
