@@ -22,6 +22,8 @@ import XDisclaimerModal from './x-disclaimer-modal.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
+import { LEGACY } from '../wallet-redux.js';
+import { activeWallet$ } from '../selectors/wallet$.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -52,6 +54,15 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom content-width">
+                    <div class="backup-reminder words">
+                        <a class="action" backup-words>
+                            <div class="icon words">
+                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.1343 33.1508L17.9379 35.3472C17.7358 35.5494 17.408 35.5494 17.2058 35.3472L15.0094 33.1508C14.9121 33.0539 14.8573 32.9222 14.8571 32.7848V30.8915L13.1623 29.9375C12.8108 29.7401 12.6059 29.3567 12.637 28.9549C12.6681 28.553 12.9296 28.2057 13.3072 28.0647L14.8579 27.4834L14.8579 26.4204L12.8248 24.9158C12.5354 24.7026 12.3774 24.3546 12.4072 23.9964C12.4371 23.6382 12.6506 23.3211 12.9712 23.1587L14.8579 22.215L14.8571 18.8289C11.3372 17.5159 9.26205 13.8714 9.92915 10.1743C10.5963 6.47721 13.8143 3.78784 17.5711 3.78784C21.328 3.78784 24.546 6.47721 25.2131 10.1743C25.8802 13.8714 23.805 17.5159 20.2851 18.8289L20.2859 32.784C20.2861 32.9216 20.2316 33.0536 20.1343 33.1508ZM16.4738 7.52626C15.8673 8.13277 15.8673 9.11613 16.4738 9.72264C17.0803 10.3292 18.0637 10.3292 18.6702 9.72264C19.2767 9.11613 19.2767 8.13277 18.6702 7.52626C18.0637 6.91974 17.0803 6.91974 16.4738 7.52626Z" fill="white"/></svg>
+                            </div>
+                            <strong class="text">Backup your Account with Recovery Words.</strong>
+                        </a>
+                        <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
+                    </div>
                 </div>
             </header>
 
@@ -141,10 +152,15 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
+            activeWallet: activeWallet$(state),
         }
     }
 
     _onPropertiesChanged(changes) {
+        if (changes.activeWallet) {
+            const shouldDisplay = this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.hasWords;
+            this.$('.backup-reminder').classList.toggle('display-none', !shouldDisplay);
+        }
     }
 
     listeners() {
@@ -166,6 +182,7 @@ export default class XSafe extends MixinRedux(XElement) {
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
             'click button[contacts]': () => VContactListModal.show(true),
+            'click [backup-words]': this._clickedAccountBackupReminder.bind(this),
         }
     }
 
@@ -184,6 +201,11 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
+    async _clickedAccountBackupReminder() {
+        if (this.properties.activeWallet.id === LEGACY) return;
+        return this._clickedAccountBackup(this.properties.activeWallet.id);
+    }
+
     async _clickedAccountBackup(walletId) {
         try {
             await accountManager.export(walletId);
@@ -193,6 +215,8 @@ export default class XSafe extends MixinRedux(XElement) {
             XToast.warning('No backup created.');
         }
     }
+
+    // TODO: Add dismiss-backup-words click handler
 
     async _clickedAccountChangePassphrase(walletId) {
         try {
