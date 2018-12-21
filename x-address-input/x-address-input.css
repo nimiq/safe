@@ -60,8 +60,9 @@ x-address-input .prefix {
 
 x-address-input input[type="text"]::placeholder,
 x-address-input input[type="text"]::-webkit-input-placeholder {
+    font-family: 'Muli', system-ui, sans-serif;
     text-align: left;
-    padding-left: 5px;
+    padding-left: 8px;
 }
 
 x-address-input.multiline .input-row {
