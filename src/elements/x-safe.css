@@ -147,6 +147,7 @@ x-total-amount {
     overflow: visible;
     padding: 0.5em 1em;
     text-align: left;
+    height: 51px; /* To not collapse when backup-reminder is not displayed */
 }
 
 .backup-reminder {
