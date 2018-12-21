@@ -19,9 +19,6 @@ import XSettings from '../settings/x-settings.js';
 import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
-import totalAmount$ from '../selectors/totalAmount$.js';
-import needsUpgrade$ from '../selectors/needsUpgrade$.js';
-import { safeAccountsPresent$ } from '../selectors/safeAccounts$.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
@@ -61,11 +58,11 @@ export default class XSafe extends MixinRedux(XElement) {
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
-                        <button new-tx disabled><span>Send</span></button>
+                        <button new-tx><span>Send</span></button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
-                        <button receive disabled><span>Receive</span></button>
+                        <button receive><span>Receive</span></button>
                         <div class="btn-text">Receive</div>
                     </div>
                     <div class="floating-btn">
@@ -144,25 +141,10 @@ export default class XSafe extends MixinRedux(XElement) {
         return {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
-            accountsInitialized: state.accounts.hasContent,
-            safeAccountsPresent: safeAccountsPresent$(state),
-            totalAmount: totalAmount$(state),
-            upgradeAccount: needsUpgrade$(state),
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.safeAccountsPresent) {
-            this.$('button[receive]').disabled = false;
-
-            if (Config.offline) {
-                this.$('button[new-tx]').disabled = false;
-            }
-        }
-
-        if (changes.totalAmount !== undefined) {
-            this.$('button[new-tx]').disabled = changes.totalAmount === 0;
-        }
     }
 
     listeners() {
