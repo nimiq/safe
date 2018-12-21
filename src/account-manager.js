@@ -187,28 +187,39 @@ class AccountManager {
         result.accounts.forEach(account => this.actions.updateAccountLabel(account.address, account.label));
     }
 
-    async exportFile(walletId) {
-        await this._launched;
-        return this._invoke('exportFile', null, {
-            appName: 'Nimiq Safe',
-            walletId,
-        });
-    }
+    // async exportFile(walletId) {
+    //     await this._launched;
+    //     return this._invoke('exportFile', null, {
+    //         appName: 'Nimiq Safe',
+    //         walletId,
+    //     });
+    // }
 
-    async exportWords(walletId) {
-        await this._launched;
-        await this._invoke('exportWords', null, {
-            appName: 'Nimiq Safe',
-            walletId,
-        });
-    }
+    // async exportWords(walletId) {
+    //     await this._launched;
+    //     await this._invoke('exportWords', null, {
+    //         appName: 'Nimiq Safe',
+    //         walletId,
+    //     });
+    // }
 
     async export(walletId) {
         await this._launched;
-        await this._invoke('export', null, {
+        const result = await this._invoke('export', null, {
             appName: 'Nimiq Safe',
             walletId,
         });
+
+        // Update hasFile/hasWords flags
+        const wallet = MixinRedux.store.getState().wallets.entries.get(walletId);
+        if (!wallet) return;
+        const updatedWallet = Object.assign({}, wallet, {
+            hasFile: result.hasFile,
+            hasWords: result.hasWords,
+        });
+
+        // FIXME: Use a dedicated action to just update flags
+        this.actions.login(updatedWallet);
     }
 
     async changePassphrase(walletId) {

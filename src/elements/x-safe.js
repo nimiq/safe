@@ -61,7 +61,7 @@ export default class XSafe extends MixinRedux(XElement) {
                             </div>
                             <strong class="text">Backup your Account with Recovery Words.</strong>
                         </a>
-                        <a class="dismiss" dismiss-backup-words>&times;<span> dismiss</span></a>
+                        <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
                     </div>
                 </div>
             </header>
@@ -210,7 +210,6 @@ export default class XSafe extends MixinRedux(XElement) {
         try {
             await accountManager.export(walletId);
             XToast.success('Wallet backed up successfully.');
-            // TODO: Set hasWords to true
         } catch (e) {
             console.error(e);
             XToast.warning('No backup created.');
