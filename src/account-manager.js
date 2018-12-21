@@ -2,7 +2,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { AccountsClient, RedirectRequestBehavior, RequestType } from './AccountsClient.standalone.es.js';
-import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultAccount, LEGACY } from './wallet-redux.js';
+import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultWallet, LEGACY } from './wallet-redux.js';
 
 class AccountManager {
     static getInstance() {
@@ -48,7 +48,7 @@ class AccountManager {
             setAllAccounts,
             updateAccountLabel,
             setAllWallets,
-            setDefaultAccount,
+            setDefaultWallet,
             login,
             logout,
             updateWalletLabel,
@@ -110,7 +110,7 @@ class AccountManager {
         this.actions.setAllAccounts(accounts);
         this.actions.setAllWallets(wallets);
 
-        // if empty legacy account is set as default, set the account with the most addresses as default instead
+        // if empty legacy wallet is set as default, set the wallet with the most accounts as default instead
         const state = MixinRedux.store.getState();
         const legacyIsDefault = state.wallets.activeWalletId === LEGACY;
         if (legacyIsDefault) {
@@ -119,7 +119,7 @@ class AccountManager {
                 .length === 0;
 
             if (legacyIsEmpty) {
-                const accountWithMostAddresses = listedWallets.sort(
+                const walletWithMostAccounts = listedWallets.sort(
                     (a, b) => a.accounts.size > b.accounts.size
                         ? -1
                         : a.accounts.size < b.accounts.size
@@ -127,8 +127,8 @@ class AccountManager {
                             : 0
                 )[0];
 
-                if (accountWithMostAddresses) {
-                    this.actions.setDefaultAccount(accountWithMostAddresses.id);
+                if (walletWithMostAccounts) {
+                    this.actions.setDefaultWallet(walletWithMostAccounts.id);
                 }
             }
         }

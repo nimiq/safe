@@ -3,7 +3,6 @@ export const TypeKeys = {
     SWITCH: 'wallet/switch',
     SET_ALL_KEYS: 'wallet/set-all-keys',
     UPDATE_LABEL: 'wallet/update-label',
-    UPDATE_NUMBER_ACCOUNTS: 'accounts/update-number-accounts',
     LOGOUT: 'wallet/logout',
     SET_DEFAULT: 'wallet/set-default',
 };
@@ -147,7 +146,7 @@ export function updateLabel(walletId, label) {
     }
 }
 
-export function setDefaultAccount(id) {
+export function setDefaultWallet(id) {
     return {
         type: TypeKeys.SET_DEFAULT,
         id
