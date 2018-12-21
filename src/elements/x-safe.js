@@ -19,6 +19,7 @@ import XSettings from '../settings/x-settings.js';
 import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
+import XFaucetModal from './x-faucet-modal.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
@@ -136,7 +137,9 @@ export default class XSafe extends MixinRedux(XElement) {
         if (Config.network !== 'main') {
             this.$("#testnet-warning").classList.remove('display-none');
             this.$("a.apps").href = 'https://nimiq-testnet.com/#apps';
-            this.$("a.get-nim").href = 'https://getsome.nimiq-testnet.com';
+            const getNimButton = this.$("a.get-nim");
+            getNimButton.href = 'javascript:';
+            getNimButton.addEventListener('click', () => XFaucetModal.show());
         }
 
         if (await BrowserDetection.isPrivateMode()) {
