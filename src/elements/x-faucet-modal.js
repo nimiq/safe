@@ -2,6 +2,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '/elements/mixin-modal/mixin-modal.js';
 import { default as store } from '../store.js';
 import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
+import { activeAddresses$ } from '../selectors/account$.js';
 
 class Faucet {
     static async tap(recipientAddress, captchaToken) {
@@ -89,7 +90,7 @@ export default class XFaucetModal extends MixinModal(XElement) {
         this._setState('loading');
         super.onShow();
         Faucet.getDispenseAmount().then(dispenseAmount => this.$dispenseAmount.textContent = `${dispenseAmount} NIM`);
-        const firstAddress = store.getState().accounts.entries.keys().next().value;
+        const firstAddress = activeAddresses$(store.getState())[0];
         if (!firstAddress) {
             this.$errorMessage.textContent = 'Please first add an address to your account.';
             this._setState('error');
