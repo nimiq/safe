@@ -41,7 +41,7 @@ class Faucet {
     }
 }
 Faucet.FAUCET_BACKEND = window.location.origin.indexOf('nimiq.com') !== -1
-    ? 'https://faucet.nimiq-network.com/' : 'http://45.79.76.222:3000/';
+    ? 'https://faucet.nimiq-network.com/' : 'https://faucet.nimiq-testnet.com/';
 Faucet.FAUCET_ENDPOINT_TAP = 'tapit';
 Faucet.FAUCET_ENDPOINT_INFO = 'info';
 
