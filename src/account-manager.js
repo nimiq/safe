@@ -1,7 +1,7 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import { AccountsClient, RedirectRequestBehavior, RequestType } from './AccountsClient.standalone.es.js';
+import AccountsClient from './AccountsClient.standalone.es.js';
 import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultWallet, LEGACY } from './wallet-redux.js';
 
 class AccountManager {
@@ -26,7 +26,7 @@ class AccountManager {
         this._bindStore();
 
         // listen to response from onboarding
-        this.accountsClient.on(RequestType.ONBOARD, (result, state) => {
+        this.accountsClient.on(AccountsClient.RequestType.ONBOARD, (result, state) => {
             this._onOnboardingResult(result);
         }, (error, state) => {
             console.error('AccountsManager error', error);
@@ -152,7 +152,7 @@ class AccountManager {
             {
                 appName: 'Nimiq Safe',
             },
-            new RedirectRequestBehavior()
+            new AccountsClient.RedirectRequestBehavior()
         );
     }
 
