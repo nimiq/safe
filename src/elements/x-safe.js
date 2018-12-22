@@ -101,7 +101,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 </x-view-dashboard>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
-                <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe-next')}"></x-create-request-link-modal>
+                <x-create-request-link-modal x-route-aside="receive" data-x-root="${Config.src('safe')}"></x-create-request-link-modal>
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
