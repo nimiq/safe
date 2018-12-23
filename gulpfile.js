@@ -2,7 +2,7 @@ const gulp = require('gulp');
 
 const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
 
-gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe-next/dist'));
+gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
 
 gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     jsEntry: [
@@ -17,7 +17,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     ],
     htmlEntry: 'src/index.html',
     rootPath: `${__dirname}/../../`,
-    distPath: 'deployment-safe-next/dist',
+    distPath: 'deployment-safe/dist',
     minify: false
 })));
 
