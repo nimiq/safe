@@ -46,7 +46,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         </div>
                     </div>
                     <nav class="secondary-links">
-                        <a class="get-nim" href="https://changelly.com/exchange/BTC/NIM?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
+                        <a class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a class="apps" href="https://nimiq.com/#apps">Apps</a>
                         <v-wallet-selector></v-wallet-selector>
                         <a class="settings" x-href="_settings_"></a>
