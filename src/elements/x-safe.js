@@ -160,6 +160,11 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
+        if (changes.activeWallet === null) {
+            // user logged out of all wallets
+            accountManager.onboard();
+        }
+
         if (changes.activeWallet) {
             const shouldDisplay = this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.hasWords;
             this.$('.backup-reminder').classList.toggle('display-none', !shouldDisplay);

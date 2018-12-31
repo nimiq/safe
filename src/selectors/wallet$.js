@@ -29,6 +29,7 @@ export const activeWallet$ = createSelector(
     wallets$,
     activeWalletId$,
     (wallets, activeWalletId) => {
+        if (wallets.size === 0) return null;
         if (activeWalletId === LEGACY_ID) {
             return {
                 id: LEGACY_ID,
