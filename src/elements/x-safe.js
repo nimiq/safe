@@ -163,6 +163,7 @@ export default class XSafe extends MixinRedux(XElement) {
         if (changes.activeWallet === null) {
             // user logged out of all wallets
             accountManager.onboard();
+            return;
         }
 
         if (changes.activeWallet) {
