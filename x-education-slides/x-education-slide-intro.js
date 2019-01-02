@@ -1,6 +1,5 @@
 import XEducationSlide from './x-education-slide.js';
 import XEducationSlides from './x-education-slides.js';
-import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
 
 export default class XEducationSlideIntro extends XEducationSlide {
     html() {
@@ -80,10 +79,4 @@ export default class XEducationSlideIntro extends XEducationSlide {
             this.$('.action-text-container').classList.remove('display-none');
         }
     }
-
-    onBack() {
-        XWelcomeModal.show();
-    }
 }
-
-// Todo: Fix import situation (import from apps/safe)

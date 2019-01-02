@@ -2,7 +2,6 @@ import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XEducationSlides from './x-education-slides.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
-import XWelcomeModal from '/apps/safe/src/elements/x-welcome-modal.js';
 
 export default class XEducationSlide extends MixinModal(XElement) {
     onCreate() {
@@ -51,8 +50,7 @@ export default class XEducationSlide extends MixinModal(XElement) {
 
     allowsHide(incomingModal) {
         if (XEducationSlides.closingAllowed
-            || incomingModal instanceof XEducationSlide
-            || incomingModal === XWelcomeModal.instance) {
+            || incomingModal instanceof XEducationSlide) {
             return true;
         }
 
