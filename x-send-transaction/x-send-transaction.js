@@ -134,6 +134,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     set amount(amount) {
+        if (!amount) amount = '';
         this.$amountInput.value = amount;
     }
 
