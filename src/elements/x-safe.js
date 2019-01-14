@@ -48,8 +48,8 @@ export default class XSafe extends MixinRedux(XElement) {
                         </div>
                     </div>
                     <nav class="secondary-links">
-                        <a class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
-                        <a class="apps" href="https://nimiq.com/#apps">Apps</a>
+                        <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
+                        <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
                         <a class="settings" x-href="_settings_"></a>
                         <x-settings x-route-aside="settings"></x-settings>
                     </nav>
