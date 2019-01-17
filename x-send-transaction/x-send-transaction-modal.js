@@ -54,4 +54,8 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
 
         this.validateAllFields();
     }
+
+    onHide() {
+        this._closeQrScanner();
+    }
 }

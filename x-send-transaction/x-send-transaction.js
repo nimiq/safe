@@ -12,6 +12,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '../../libraries/account-manager/account-type.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
+import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -20,6 +21,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <!-- <x-popup-menu left-align>
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
                 </x-popup-menu> -->
+                <a button-open-qr-scanner href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>New Transaction</h2>
             </div>
@@ -70,6 +72,17 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                     <button send>Send</button>
                 </div>
             </form>
+            <!-- Vue template -->
+            <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
+                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner" :validate="validateAddress">
+                    <template slot="intro-header">
+                        <h1 class="nq-h1">Address Scanner</h1>
+                        <h2 class="nq-h2">Use your camera to scan an address.</h2>
+                    </template>
+                    <div slot="overlay" class="qr-scanner-hexagon-overlay"></div>
+                </qr-scanner>
+            </transition>
+            <!-- End Vue template -->
         `
     }
 
@@ -121,7 +134,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'x-amount-input-set-max': this._onAmountSetMax,
             'x-fee-input-changed': this._onFeeChanged,
             'x-extra-data-input-changed-size': this._onExtraDataChangedSize,
-            'click .link-contact-list': this._onClickContactList
+            'click .link-contact-list': this._onClickContactList,
+            'click [button-open-qr-scanner]': this._openQrScanner,
         }
     }
 
@@ -203,6 +217,39 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     _onClickContactList() {
         VContactListModal.show();
+    }
+
+    _getQrScanner() {
+        if (this._qrScanner) return this._qrScanner;
+        this._qrScanner = new Vue({
+            el: this.$('.qr-scanner'),
+            data: () => ({
+                shown: false,
+            }),
+            methods: {
+                validateAddress: ValidationUtils.isValidAddress.bind(ValidationUtils),
+                onQrScanned: this._onQrScanned.bind(this),
+                closeQrScanner: this._closeQrScanner.bind(this),
+            },
+            components: {
+                'qr-scanner': NimiqVueComponents.QrScanner,
+            }
+        });
+        return this._qrScanner;
+    }
+
+    _openQrScanner() {
+        this._getQrScanner().shown = true;
+    }
+
+    _closeQrScanner() {
+        if (!this._qrScanner) return;
+        this._qrScanner.shown = false;
+    }
+
+    _onQrScanned(address) {
+        this.recipient = address;
+        this._closeQrScanner();
     }
 
     /**
