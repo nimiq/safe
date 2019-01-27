@@ -40,11 +40,10 @@ export default class XSafe extends MixinRedux(XElement) {
             </div>
             <header>
                 <div class="header-top content-width">
-                    <div class="nimiq-app-name">
-                        <div class="safe-logo">
-                            <a logo-link href="#"></a>
-                        </div>
-                    </div>
+                    <a class="logo" href="#">
+                        <div class="nq-icon nimiq-logo"></div>
+                        <span class="logo-wordmark">Nimiq</span>
+                    </a>
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
@@ -146,7 +145,7 @@ export default class XSafe extends MixinRedux(XElement) {
             this.$("#private-warning").classList.remove('display-none');
         }
 
-        this.$('[logo-link]').href = 'https://' + Config.tld;
+        this.$('.logo').href = 'https://' + Config.tld;
 
         this.relayedTxResolvers = new Map();
     }
