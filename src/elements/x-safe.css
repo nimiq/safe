@@ -243,7 +243,6 @@ body.preparing footer {
     opacity: 0;
 }
 
-
 x-disclaimer-modal {
     width: 690px;
 }
@@ -285,10 +284,6 @@ x-safe-lock .patt-holder {
     margin: auto;
     margin-top: 40px;
 }
-
-
-
-
 
 nav.actions.floating-actions {
     margin-bottom: -16px;
@@ -341,10 +336,6 @@ nav.actions.floating-actions {
     opacity: 0.6;
 }
 
-.light-blue {
-    fill: var(--nimiq-light-blue);
-}
-
 .floating-btn button {
     display: inline-flex;
     justify-content: center;
@@ -375,6 +366,20 @@ nav.actions.floating-actions {
     opacity: 1;
 }
 
+.mobile-only {
+    display: none !important;
+}
+
+@media (max-width: 620px) {
+    .mobile-hidden {
+        display: none;
+    }
+
+    .mobile-only {
+        display: initial !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .header-top {
         padding-right: 1em;
@@ -395,7 +400,7 @@ nav.actions.floating-actions {
     }
 
     .secondary-links {
-        margin-top: 2rem;
+        margin-top: 0.5rem;
     }
 
     .secondary-links a {
