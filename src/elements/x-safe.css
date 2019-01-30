@@ -366,7 +366,7 @@ nav.actions.floating-actions {
     opacity: 1;
 }
 
-.mobile-only {
+.mobile-inline-block {
     display: none !important;
 }
 
@@ -375,8 +375,8 @@ nav.actions.floating-actions {
         display: none;
     }
 
-    .mobile-only {
-        display: initial !important;
+    .mobile-inline-block {
+        display: inline-block !important;
     }
 }
 
@@ -396,7 +396,7 @@ nav.actions.floating-actions {
 
 @media (max-width: 690px) {
     .header-top {
-        height: 108px;
+        height: 10rem;
     }
 
     .secondary-links {
@@ -432,7 +432,7 @@ nav.actions.floating-actions {
     }
 
     x-total-amount {
-        margin: 0.5em auto;
+        margin: 0.3em auto;
     }
 
     nav.actions.floating-actions {
@@ -478,7 +478,7 @@ nav.actions.floating-actions {
     }
 
     x-total-amount {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
     .floating-btn button[contacts] {

@@ -47,12 +47,12 @@ export default class XSafe extends MixinRedux(XElement) {
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <v-wallet-selector class="mobile-hidden"></v-wallet-selector>
+                        <v-wallet-selector class="mobile-hidden" instance="desktop"></v-wallet-selector>
                         <a class="settings" x-href="_settings_"></a>
                         <x-settings x-route-aside="settings"></x-settings>
                     </nav>
                 </div>
-                <v-wallet-selector class="mobile-only"></v-wallet-selector>
+                <v-wallet-selector class="mobile-inline-block" instance="mobile"></v-wallet-selector>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom content-width">
                     <div class="backup-reminder words">
