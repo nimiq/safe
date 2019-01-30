@@ -71,14 +71,18 @@ export default class XSafe extends MixinRedux(XElement) {
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
                         <button new-tx>
-                            <svg xmlns="http://www.w3.org/2000/svg"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+                            </div>
                             <span>Send</span>
                         </button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
                         <button receive>
-                            <svg xmlns="http://www.w3.org/2000/svg"><path d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg"><path d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>
+                            </div>
                             <span>Receive</span>
                         </button>
                         <div class="btn-text">Receive</div>
