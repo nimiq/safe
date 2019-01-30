@@ -497,13 +497,10 @@ nav.actions.floating-actions {
 }
 
 @media (max-width: 450px) {
-    v-wallet-selector #vue-wallet-menu {
-        top: 4.5rem;
-    }
-
     .header-bottom {
         padding: 0 1em;
-        height: 56px;
+        height: 11rem;
+        width: 40rem;
     }
 
     .backup-reminder .icon {
