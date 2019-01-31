@@ -13,6 +13,7 @@ import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '../../libraries/account-manager/account-type.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
+import { parseRequestLink } from '/libraries/nimiq-utils/request-link-encoding/request-link-encoding.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -74,7 +75,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             </form>
             <!-- Vue template -->
             <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
-                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner" :validate="validateAddress">
+                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner">
                     <template slot="intro-header">
                         <h1 class="nq-h1">Address Scanner</h1>
                         <h2 class="nq-h2">Use your camera to scan an address.</h2>
@@ -227,7 +228,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 shown: false,
             }),
             methods: {
-                validateAddress: ValidationUtils.isValidAddress.bind(ValidationUtils),
                 onQrScanned: this._onQrScanned.bind(this),
                 closeQrScanner: this._closeQrScanner.bind(this),
             },
@@ -247,8 +247,19 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this._qrScanner.shown = false;
     }
 
-    _onQrScanned(address) {
-        this.recipient = address;
+    _onQrScanned(scanResult) {
+        let recipient, amount, message;
+        const parsedRequestLink = parseRequestLink(scanResult);
+        if (parsedRequestLink) {
+            ({ recipient, amount, message } = parsedRequestLink);
+        } else if (ValidationUtils.isValidAddress(scanResult)) {
+            recipient = scanResult;
+        } else {
+            return;
+        }
+        this.recipient = recipient; // required
+        if (amount) this.amount = amount;
+        if (message) this.message = message;
         this._closeQrScanner();
     }
 
