@@ -3,7 +3,7 @@ import XElement from '/libraries/x-element/x-element.js';
 import XAddress from '/elements/x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAmountInput from '/elements/x-amount-input/x-amount-input.js';
-import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
+import { createRequestLink } from '/libraries/nimiq-utils/request-link-encoding/request-link-encoding.js';
 import share from '/libraries/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '/libraries/secure-utils/config/config.js';
 
@@ -41,6 +41,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
     onCreate() {
         navigator.share = share;
+        this.$requestLink = this.$('.x-request-link');
         super.onCreate();
     }
 
@@ -52,7 +53,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                 text: 'Please send me Nimiq using this link:',
                 url: this._link
             }),
-            'input x-amount-input input': this._updateLink.bind(this)
+            'input x-amount-input': this._updateLink.bind(this)
         }
     }
 
@@ -67,10 +68,10 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     }
 
     _updateLink() {
-        const amount = this.$amountInput.value > 0 ? `/${this.$amountInput.value}` : '';
-
-        this._link = `${ Config.offlinePackaged ? 'https://safe.nimiq.com' : this.attributes.dataXRoot }#_request/${spaceToDash(this._address)}${amount}_`;
-        const $requestLink = this.$('.x-request-link');
-        $requestLink.textContent = this._link;
+        const baseUrl = Config.offlinePackaged
+            ? 'https://safe.nimiq.com'
+            : (this.attributes.dataXRoot || window.location.host);
+        this._link = createRequestLink(this._address, this.$amountInput.value, null, baseUrl);
+        this.$requestLink.textContent = this._link;
     }
 }

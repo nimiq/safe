@@ -43,22 +43,27 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
         this.$identicon.address = address;
         this.$address.address = address;
         this._address = address;
-        this._message = message;
+        this._message = decodeURIComponent(message || '');
         this._amount = amount;
     }
 
     listeners() {
-
         return {
             'click a.cancel': () => this.hide(),
             'click button.confirm': async () => {
-                 // encode parameters if needed
-                const amount = this._amount > 0 ? `/${this._amount}` : '';
-                const message = this._message ? `/${this._message}` : '';
+                // encode parameters
+                const params = [
+                    spaceToDash(this._address),
+                    'recipient', // mode of x-send-transaction-modal
+                    this._amount || '',
+                    encodeURIComponent(this._message || ''),
+                ];
+                // don't encode unnecessary empty params if they are not followed by non-empty params
+                while (params[params.length - 1] === '') params.pop();
                 (await XRouter.instance).replaceAside(
                     'request',
                     'new-transaction',
-                    `${spaceToDash(this._address)}/recipient${amount}${message}`,
+                    params.join('/'),
                 );
             }
         }
