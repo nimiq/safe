@@ -243,7 +243,6 @@ body.preparing footer {
     opacity: 0;
 }
 
-
 x-disclaimer-modal {
     width: 690px;
 }
@@ -285,10 +284,6 @@ x-safe-lock .patt-holder {
     margin: auto;
     margin-top: 40px;
 }
-
-
-
-
 
 nav.actions.floating-actions {
     margin-bottom: -16px;
@@ -341,20 +336,23 @@ nav.actions.floating-actions {
     opacity: 0.6;
 }
 
-.floating-btn [new-tx] {
-    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>');
+.floating-btn button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.floating-btn [new-tx]:disabled {
-    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%234463D7" opacity="0.6" d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>');
+.floating-btn button > div {
+    display: flex;
 }
 
-.floating-btn [receive] {
-    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>');
+.floating-btn svg {
+    width: 24px;
+    height: 24px;
 }
 
-.floating-btn [receive]:disabled {
-    background-image: url('data:image/svg+xml,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path fill="%239548EF" opacity="0.6" d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>');
+.floating-btn svg path {
+    fill: var(--nimiq-light-blue);
 }
 
 .floating-btn [contacts] {
@@ -373,6 +371,20 @@ nav.actions.floating-actions {
     opacity: 1;
 }
 
+.mobile-inline-block {
+    display: none !important;
+}
+
+@media (max-width: 620px) {
+    .mobile-hidden {
+        display: none;
+    }
+
+    .mobile-inline-block {
+        display: inline-block !important;
+    }
+}
+
 @media (max-width: 1000px) {
     .header-top {
         padding-right: 1em;
@@ -389,11 +401,11 @@ nav.actions.floating-actions {
 
 @media (max-width: 690px) {
     .header-top {
-        height: 108px;
+        height: 10rem;
     }
 
     .secondary-links {
-        margin-top: 2rem;
+        margin-top: 0.5rem;
     }
 
     .secondary-links a {
@@ -425,7 +437,7 @@ nav.actions.floating-actions {
     }
 
     x-total-amount {
-        margin: 0.5em auto;
+        margin: 0.3em auto;
     }
 
     nav.actions.floating-actions {
@@ -439,15 +451,15 @@ nav.actions.floating-actions {
     }
 
     .floating-btn button {
+        justify-content: left;
         width: 120px !important;
         height: 40px !important;
         border-radius: 20px;
         min-height: 40px;
-        padding: 0 24px;
         box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.2);
         background-position: 12px center !important;
         line-height: 38px;
-        padding-left: 40px;
+        padding-left: 6px;
     }
 
     .floating-btn button span {
@@ -458,6 +470,12 @@ nav.actions.floating-actions {
         text-transform: none;
         letter-spacing: 0;
         font-family: inherit;
+    }
+
+    .floating-btn button > div {
+        display: flex;
+        justify-content: center;
+        width: 36px;
     }
 
     .floating-btn .btn-text {
@@ -471,7 +489,7 @@ nav.actions.floating-actions {
     }
 
     x-total-amount {
-        font-size: 2em;
+        font-size: 1.8em;
     }
 
     .floating-btn button[contacts] {
@@ -490,13 +508,10 @@ nav.actions.floating-actions {
 }
 
 @media (max-width: 450px) {
-    v-wallet-selector #vue-wallet-menu {
-        top: 4.5rem;
-    }
-
     .header-bottom {
         padding: 0 1em;
-        height: 56px;
+        height: 11rem;
+        width: 40rem;
     }
 
     .backup-reminder .icon {

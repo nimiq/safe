@@ -47,11 +47,12 @@ export default class XSafe extends MixinRedux(XElement) {
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <v-wallet-selector></v-wallet-selector>
+                        <v-wallet-selector class="mobile-hidden" instance="desktop"></v-wallet-selector>
                         <a class="settings" x-href="_settings_"></a>
                         <x-settings x-route-aside="settings"></x-settings>
                     </nav>
                 </div>
+                <v-wallet-selector class="mobile-inline-block" instance="mobile"></v-wallet-selector>
                 <x-total-amount></x-total-amount>
                 <div class="header-bottom content-width">
                     <div class="backup-reminder words">
@@ -69,11 +70,21 @@ export default class XSafe extends MixinRedux(XElement) {
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
-                        <button new-tx><span>Send</span></button>
+                        <button new-tx>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg"><path d="M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z" /></svg>
+                            </div>
+                            <span>Send</span>
+                        </button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
-                        <button receive><span>Receive</span></button>
+                        <button receive>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg"><path d="M9,4H15V12H19.84L12,19.84L4.16,12H9V4Z" /></svg>
+                            </div>
+                            <span>Receive</span>
+                        </button>
                         <div class="btn-text">Receive</div>
                     </div>
                     <div class="floating-btn">
