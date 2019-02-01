@@ -24,10 +24,9 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                         </li>
                         <li>
                             <div>Or create a transaction request link:</div>
-                            <div class="spacing-top"><x-amount-input></x-amount-input></div>
+                            <div class="spacing-top"><x-amount-input no-screen-keyboard></x-amount-input></div>
                             <div class="spacing-top">Copy your link:</div>
                             <div class="x-request-link"></div>
-                        </div>
                         </li>
                     </ul>
                 </div>
