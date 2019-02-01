@@ -4,7 +4,7 @@ import Config from '/libraries/secure-utils/config/config.js';
 export default class XAmount extends XElement {
     html(){
         return `
-            <label class="display-none"></label>
+            <label class="display-none mobile-hidden"></label>
             <span class="dot-loader"></span>
             <x-currency-nim>
                 <span class="integers"></span>.<span class="main-decimals"></span><span class="rest-decimals"></span> <span class="ticker">NIM</span>

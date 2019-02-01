@@ -9,8 +9,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
         return `
             <div active-wallet-label></div>
-            <div active-wallet-label-mobile>Accounts</div>
-            <div class="v-wallet-menu display-none" id="vue-wallet-menu">
+            <div class="v-wallet-menu display-none" id="vue-wallet-menu-${this.attributes.instance}">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                     <wallet-menu
@@ -39,8 +38,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'click [active-wallet-label]': () => this._toggleMenu(),
-            'click [active-wallet-label-mobile]': () => this._toggleMenu(),
+            'click [active-wallet-label]': () => this._toggleMenu()
         }
     }
 
@@ -64,7 +62,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
         this._isMenuActive = false
 
         this.vue = new Vue({
-            el: '#vue-wallet-menu',
+            el: `#vue-wallet-menu-${this.attributes.instance}`,
             data: {
                 store: MixinRedux.store
             },
@@ -126,7 +124,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
         if (this._isMenuActive) return this._hideMenu()
 
         this.$el.classList.add('menu-active')
-        this.$('#vue-wallet-menu').classList.remove('display-none')
+        this.$('.v-wallet-menu').classList.remove('display-none')
         this._isMenuActive = true
 
         document.addEventListener('click', this._documentListener)
@@ -134,7 +132,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
 
     _hideMenu() {
         this.$el.classList.remove('menu-active')
-        this.$('#vue-wallet-menu').classList.add('display-none')
+        this.$('.v-wallet-menu').classList.add('display-none')
         this._isMenuActive = false
 
         document.removeEventListener('click', this._documentListener)

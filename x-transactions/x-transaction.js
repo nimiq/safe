@@ -7,10 +7,10 @@ export default class XTransaction extends MixinRedux(XElement) {
     html() {
         return `
             <div class="timestamp" title="">pending...</div>
-            <x-identicon sender></x-identicon>
+            <div class="identicon"><x-identicon sender></x-identicon></div>
             <div class="label" sender></div>
             <div><i class="material-icons">arrow_forward</i></div>
-            <x-identicon recipient></x-identicon>
+            <div class="identicon"><x-identicon recipient></x-identicon></div>
             <div class="label" recipient></div>
             <x-amount></x-amount>
         `

@@ -11,7 +11,7 @@ x-amount {
 }
 
 x-amount.incoming x-currency-nim {
-    color: #2e7d32;
+    color: var(--nimiq-green);
 }
 
 x-amount.incoming .integers::before {
@@ -19,7 +19,7 @@ x-amount.incoming .integers::before {
 }
 
 x-amount.outgoing x-currency-nim {
-    color: #d32f2f;
+    color: var(--nimiq-red);
 }
 
 x-amount.outgoing .integers::before {
