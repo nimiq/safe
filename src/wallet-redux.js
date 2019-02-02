@@ -51,11 +51,17 @@ export function reducer(state, action) {
                 ];
             });
 
-            return Object.assign({}, state, {
+            const newState = Object.assign({}, state, {
                 hasContent: true,
                 // converts array to map with id as key
                 entries: new Map(newEntries)
             });
+
+            if (state.activeWalletId !== LEGACY && newEntries.length > 0 && !newState.entries.get(state.activeWalletId)) {
+                newState.activeWalletId = [ ...newState.entries.values() ][0].id;
+            }
+
+            return newState;
 
         case TypeKeys.UPDATE_LABEL: {
             const entries = new Map(state.entries);
