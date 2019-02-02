@@ -163,20 +163,13 @@ span[error] {
     padding-top: 1rem;
 }
 
-.x-send-transaction .qr-scanner-hexagon-overlay {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="400" width="400"><path d="M0 0v400h400V0zm171.3 134.5h57.5a15.7 15.7 0 0 1 13.5 7.9l28.8 49.8a15.7 15.7 0 0 1 0 15.6l-28.8 49.8a15.7 15.7 0 0 1-13.6 7.9h-57.5a15.7 15.7 0 0 1-13.5-7.9l-28.8-49.8a15.7 15.7 0 0 1 0-15.6l28.8-49.8a15.7 15.7 0 0 1 13.6-7.9z" opacity=".5"/></svg>');
-    background-size: cover;
+.x-send-transaction .qr-scanner .overlay {
     animation: qr-scanner-animation 400ms infinite alternate ease-in-out;
 }
 
 @keyframes qr-scanner-animation {
     from {
-        transform: scale(1.1);
+        transform: scale(.98);
     }
     to {
         transform: scale(1.01);
