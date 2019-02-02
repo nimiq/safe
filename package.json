@@ -4,8 +4,7 @@
   "description": "Nimiq Safe",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd .. && git submodule foreach --recursive 'git checkout intermediate || git checkout master' && cd safe && yarn gulp"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "nimiq",
@@ -14,7 +13,7 @@
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
-    "@nimiq/network-client": "^0.0.9",
+    "@nimiq/network-client": "^0.1.4",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",
     "gulp": "^4.0.0"
