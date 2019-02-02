@@ -6,7 +6,7 @@ import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter
 import XRouter from '/secure-elements/x-router/x-router.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-// import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
+import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
@@ -102,12 +102,6 @@ export default class XSafe extends MixinRedux(XElement) {
                     <x-card style="max-width: 344px;">
                         <v-contact-list></v-contact-list>
                     </x-card>
-                    <!--
-                    <x-card style="max-width: 344px;">
-                        <h2>Nimiq Network</h2>
-                        <x-network-indicator></x-network-indicator>
-                    </x-card>
-                    -->
                 </x-view-dashboard>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
@@ -115,7 +109,8 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
-                &copy; 2017-2018 Nimiq Foundation<br>
+                <x-network-indicator></x-network-indicator>
+                <div>&copy; 2017-2018 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>
                 <a warnings>Show information slides</a>
             </footer>
@@ -129,7 +124,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XAccounts,
             XTransactions,
             XSettings,
-            // XNetworkIndicator,
+            XNetworkIndicator,
             XTransactionModal,
             XReceiveRequestLinkModal,
             XCreateRequestLinkModal,

@@ -3,7 +3,7 @@
 @import '/elements/x-transactions/x-transactions.css';
 @import '/secure-elements/x-toast/x-toast.css';
 @import '/elements/x-amount/x-amount.css';
-/*@import '/elements/x-network-indicator/x-network-indicator.css';*/
+@import '/elements/x-network-indicator/x-network-indicator.css';
 @import '/elements/x-send-transaction/x-send-transaction-modal.css';
 @import '/elements/x-request-link/x-receive-request-link-modal.css';
 @import '/elements/x-request-link/x-create-request-link-modal.css';
@@ -225,13 +225,17 @@ x-card h2 {
 footer {
     text-align: center;
     padding: 1em;
-    opacity: 0.6;
     transition: opacity 0.5s linear 0.1s;
     font-size: 13px;
     margin-top:  80px;
 }
 
-footer a {
+footer > a,
+footer > div {
+    opacity: .6;
+}
+
+footer > a {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -510,5 +514,9 @@ nav.actions.floating-actions {
 
     .backup-reminder .icon {
         margin-bottom: -8px;
+    }
+
+    footer {
+        margin-top: 32px;
     }
 }
