@@ -28,11 +28,13 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.ADD_KEY:
+            const oldEntry = state.entries.get(action.key.address);
+
             return Object.assign({}, state, {
                 hasContent: true,
                 entries: new Map(state.entries)
                     .set(action.key.address, Object.assign({}, action.key, {
-                        balance: undefined
+                        balance: oldEntry ? oldEntry.balance : undefined
                     }))
             });
 
