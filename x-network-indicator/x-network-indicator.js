@@ -6,9 +6,9 @@ export default class XNetworkIndicator extends MixinRedux(XElement) {
     html() {
         return `
             <div><label>Consensus</label> <span consensus></span></div>
-            <div><label>Connected peers</label> <span peerCount></span></div>
-            <div><label>Blockchain height</label> <span height></span></div>
-            <div><label>Global hashrate</label> <span globalHashrate></span></div>
+            <div><label>Connected Peers</label> <span peerCount></span></div>
+            <div><label>Blockchain Height</label> <span height></span></div>
+            <div><label>Global Hashrate</label> <span globalHashrate></span></div>
         `;
     }
 

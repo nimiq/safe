@@ -1,24 +1,27 @@
 x-network-indicator {
-    display: block;
-    margin-top: -4px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 13px;
+    padding: 24px 0;
 }
 
 x-network-indicator div {
-    line-height: 45px;
-}
-
-x-network-indicator label,
-x-network-indicator span {
-    display: inline-block;
-    width: 49%;
+    padding: 4px 20px;
+    flex-shrink: 0;
 }
 
 x-network-indicator label {
-    opacity: 0.6;
+    opacity: .6;
+    padding-right: 10px;
 }
 
 x-network-indicator span {
-    text-align: right;
-    font-size: 15px;
     text-transform: capitalize;
+}
+
+@media (max-width: 420px) {
+    x-network-indicator div {
+        padding: 2px 20px;
+    }
 }
