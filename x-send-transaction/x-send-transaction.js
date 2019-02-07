@@ -75,13 +75,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             </form>
             <!-- Vue template -->
             <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
-                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner">
-                    <template slot="intro-header">
-                        <h1 class="nq-h1">Address Scanner</h1>
-                        <h2 class="nq-h2">Use your camera to scan an address.</h2>
-                    </template>
-                    <div slot="overlay" class="qr-scanner-hexagon-overlay"></div>
-                </qr-scanner>
+                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner"></qr-scanner>
             </transition>
             <!-- End Vue template -->
         `
@@ -233,6 +227,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             },
             components: {
                 'qr-scanner': NimiqVueComponents.QrScanner,
+                // @asset(/apps/safe/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
             }
         });
         return this._qrScanner;

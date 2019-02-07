@@ -152,27 +152,39 @@ span[error] {
     top: 0;
     width: 100%;
     height: 100%;
-    background: white;
 }
 
-.x-send-transaction .qr-scanner * {
-    box-sizing: border-box;
+.x-send-transaction .qr-scanner .cancel-button {
+    height: unset;
+    min-height: unset;
+    width: unset;
+    line-height: 2;
+    color: var(--nimiq-blue);
+    font-size: 14px;
+    text-transform: unset;
+    letter-spacing: unset;
 }
 
-.x-send-transaction .qr-scanner .nq-link {
-    padding-top: 1rem;
-}
-
-.x-send-transaction .qr-scanner .overlay {
-    animation: qr-scanner-animation 400ms infinite alternate ease-in-out;
-}
-
-@keyframes qr-scanner-animation {
-    from {
-        transform: scale(.98);
+@media (max-width: 480px) {
+    /* make qr scanner full screen */
+    .x-send-transaction {
+        overflow: visible;
     }
-    to {
-        transform: scale(1.01);
+
+    .x-send-transaction .qr-scanner {
+        position: fixed;
+    }
+
+    /* full screen interfering with overlay centering. Therefore, we manually center via css. */
+    .x-send-transaction .qr-scanner .overlay {
+        width: 66vmin !important;
+        height: 66vmin !important;
+        left: calc(50% - 33vmin) !important;
+        top: calc(50% - 33vmin) !important;
+    }
+
+    .x-send-transaction .qr-scanner .access-denied-instructions {
+        bottom: 11rem;
     }
 }
 
