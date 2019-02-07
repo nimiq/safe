@@ -55,7 +55,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
                         <h3>Fee</h3>
                         <div class="row">
-                            <x-fee-input name="fee" max-sats="2"></x-fee-input>
+                            <x-fee-input name="fee" max-sats="10" default-sats="0"></x-fee-input>
                         </div>
                         <span error fees class="display-none"></span>
 
@@ -165,7 +165,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$addressInput.value = '';
         this.$amountInput.value = '';
         this.$extraDataInput.value = '';
-        this.$feeInput.value = 0;
+        this.$feeInput.reset();
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
         this.$accountsDropdown.selectDefaultAccount();

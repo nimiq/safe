@@ -26,8 +26,10 @@ export default class XFeeInput extends XInput {
         this.$nim = this.$('x-currency-nim');
         this.$fiat = this.$('x-currency-fiat');
         this._previousValue = '';
-        this._maxSats = this.attributes.maxSats || 2;
+        this._maxSats = this.attributes.maxSats || 1e5;
         this.txSize = 138; // BasicTransaction, bytes
+
+        this.reset();
     }
 
     listeners() {
@@ -36,6 +38,11 @@ export default class XFeeInput extends XInput {
             'click label[low]': () => this._clickedLabel('low'),
             'click label[high]': () => this._clickedLabel('high'),
         }
+    }
+
+    reset() {
+        // Set default value
+        this.value = this.txSize * (this.attributes.defaultSats || 0) / 1e5;
     }
 
     set value(value) {
@@ -47,11 +54,15 @@ export default class XFeeInput extends XInput {
     }
 
     set txSize(size) {
-        const step = this.value / this._txSize;
+        const currentSats = this.value / this._txSize;
         this._txSize = size;
         this.$input.setAttribute('max', this._txSize * this._maxSats / 1e5);
         this.$input.setAttribute('step', this._txSize / 1e5);
-        this.value = step * this._txSize;
+        this.value = currentSats * this._txSize;
+    }
+
+    get txSize() {
+        return this._txSize;
     }
 
     /** @overwrites */
