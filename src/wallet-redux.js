@@ -116,8 +116,6 @@ export function switchWallet(walletId) {
 
 export function logout(walletId) {
     return async (dispatch, getState) => {
-        // TODO Generate list of addresses affected by logout,
-        // to enable transaction-redux to remove affected transactions
         const state = getState();
         const addressesToRemove = [];
 
