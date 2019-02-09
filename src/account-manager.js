@@ -111,6 +111,7 @@ class AccountManager {
         this.actions.setAllWallets(wallets);
 
         // if empty legacy wallet is set as default, set the wallet with the most accounts as default instead
+        // TODO ideally, this should be solved in reducer code alone to avoid this kind of invalid state
         const state = MixinRedux.store.getState();
         const legacyIsDefault = state.wallets.activeWalletId === LEGACY;
         if (legacyIsDefault) {
