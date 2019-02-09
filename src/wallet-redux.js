@@ -42,6 +42,8 @@ export function reducer(state, action) {
             });
 
         case TypeKeys.SET_ALL_KEYS:
+            if (action.keys.length === 0) return state;
+
             const newEntries = action.keys.map(x => {
                 const oldEntry = state.entries.get(x.id);
 
@@ -57,7 +59,7 @@ export function reducer(state, action) {
                 entries: new Map(newEntries)
             });
 
-            if (state.activeWalletId !== LEGACY && newEntries.length > 0 && !newState.entries.get(state.activeWalletId)) {
+            if (state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId)) {
                 newState.activeWalletId = [ ...newState.entries.values() ][0].id;
             }
 
