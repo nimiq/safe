@@ -1,0 +1,46 @@
+.v-qr-code-overlay {
+    display: none;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    background: white;
+    padding: 32px;
+    border: 50vmax solid #1f2348cc; /* border that covers the whole screen, --nimiq-blue with 80% opacity */
+    border-radius: calc(50vmax + 8px);
+    background-clip: padding-box;
+    box-sizing: content-box;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.v-qr-code-overlay.show {
+    animation: fade .3s;
+}
+
+.v-qr-code-overlay.hide {
+    animation: fade .3s reverse;
+    pointer-events: none;
+}
+
+.v-qr-code-overlay [message] {
+    white-space: pre-line;
+}
+
+.v-qr-code-overlay canvas {
+    display: block;
+    margin: 0 auto 32px auto;
+}
+
+@media (max-width: 420px) {
+    /* on mobile fill full screen */
+    .v-qr-code-overlay {
+        width: calc(90% - 64px); /* minus padding */
+    }
+
+    .v-qr-code-overlay canvas {
+        width: 100%;
+    }
+}
