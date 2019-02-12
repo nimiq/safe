@@ -83,7 +83,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <div class="btn-text">Receive</div>
                     </div>
                     <div class="floating-btn">
-                        <button scan><span>Scan</span></button>
+                        <button icon-qr><span>Scan</span></button>
                         <div class="btn-text">Scan</div>
                     </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
@@ -183,7 +183,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-add': this._clickedAddAccount.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
-            'click button[scan]': this._clickedScan.bind(this),
+            'click button[icon-qr]': this._clickedScan.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
