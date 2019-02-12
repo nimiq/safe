@@ -22,7 +22,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <!-- <x-popup-menu left-align>
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
                 </x-popup-menu> -->
-                <a icon-qr href="javascript:void(0)"></a>
+                <a icon-qr class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>New Transaction</h2>
             </div>

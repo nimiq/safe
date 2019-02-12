@@ -66,7 +66,7 @@ export default class XModals extends MixinSingleton(XElement) {
         // show background
         this.$el.style.display = 'block';
         this.$el.offsetWidth; // style update
-        this.$el.style.background = 'rgba(0,0,0,0.5)';
+        this.$el.style.background = '#1f2348cc'; // --nimiq-blue with 80% opacity
 
         // avoid page scroll below the modal
         // TODO this leads to a jumping of the page cause by the disappearing scroll bar. Test whether we can

@@ -36,20 +36,32 @@
     margin: 11px;
 }
 
+.modal-header .header-button,
 .modal-header [x-modal-close] {
     position: absolute;
-    right: 0;
     top: 0;
     cursor: pointer;
     width: 40px;
     height: 40px;
     line-height: 40px;
-    border-radius: 50%;
     margin: 13px;
+    border-radius: 50%;
 }
 
-.modal-header [x-modal-close]:hover {
-    background: rgba(0, 0, 0, 0.1);
+.modal-header .header-button:hover,
+.modal-header .header-button:focus,
+.modal-header [x-modal-close]:hover,
+.modal-header [x-modal-close]:focus {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.modal-header .header-button {
+    left: 0;
+    background-size: 24px;
+}
+
+.modal-header [x-modal-close] {
+    right: 0;
 }
 
 /* .modal-header::after {

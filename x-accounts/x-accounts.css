@@ -3,6 +3,7 @@
 @import '/secure-elements/x-loading-animation/x-loading-animation.css';
 @import '/elements/x-amount/x-amount.css';
 @import '/elements/x-popup-menu/x-popup-menu.css';
+@import '/elements/v-qr-code-overlay/v-qr-code-overlay.css';
 
 x-accounts {
     text-align: right;
@@ -199,8 +200,10 @@ x-popup-menu .ledger-icon {
     background-image: url('/elements/x-accounts/icons/ledger_icon_24px.svg');
 }
 
-x-popup-menu .ledger-icon {
+x-popup-menu .ledger-icon,
+x-popup-menu [icon-qr] {
     width: 24px;
+    vertical-align: middle;
 }
 
 x-account-modal .x-account-label {
