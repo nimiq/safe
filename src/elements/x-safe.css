@@ -212,7 +212,7 @@ x-card {
     box-shadow: 0 4px 24px -8px rgba(0, 0, 0, 0.25);
 }
 
-@media (min-width: 480px) {
+@media (min-width: 481px) {
     x-card {
         padding: 24px ;
         margin: 16px;
@@ -468,6 +468,12 @@ nav.actions.floating-actions {
         text-align: left;
     }
 
+    .floating-btn button[icon-qr] {
+        width: 100px !important;
+        background-position: 16px center !important;
+        padding-left: 44px;
+    }
+
     .floating-btn button span {
         display: inline;
         color: #3b3b3b;
@@ -487,42 +493,60 @@ nav.actions.floating-actions {
     }
 }
 
+@media (max-width: 650px) {
+    .header-bottom {
+        margin-top: 32px;
+        padding: 0 1em;
+        height: 8rem;
+        width: 40rem;
+    }
+
+    .backup-reminder .icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 0;
+    }
+
+    .backup-reminder .icon svg {
+        width: 26px;
+        height: 26px;
+        margin: 7px;
+    }
+}
+
 @media (max-width: 480px) {
     header {
         padding: 0;
+    }
+
+    nav.actions.floating-actions {
+        justify-content: space-between;
     }
 
     x-total-amount {
         font-size: 1.8em;
     }
 
+    x-view-dashboard > * {
+        max-width: calc(100% - 1em) !important;
+    }
+
+    footer {
+        margin-top: 32px;
+    }
+}
+
+@media (max-width: 400px) {
+    nav.actions.floating-actions .floating-btn:last-child {
+        flex-grow: 1;
+    }
+
     .floating-btn button[icon-qr] {
-        width: 40px !important;
-        padding: 0;
+        width: 100% !important;
         background-position: center !important;
     }
 
     .floating-btn button[icon-qr] span {
         display: none;
-    }
-
-    x-view-dashboard > * {
-        max-width: calc(100% - 1em) !important;
-    }
-}
-
-@media (max-width: 450px) {
-    .header-bottom {
-        padding: 0 1em;
-        height: 11rem;
-        width: 40rem;
-    }
-
-    .backup-reminder .icon {
-        margin-bottom: -8px;
-    }
-
-    footer {
-        margin-top: 32px;
     }
 }
