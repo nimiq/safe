@@ -2,16 +2,6 @@ x-create-request-link-modal {
     width: 600px;
 }
 
-x-create-request-link-modal .x-request-link {
-    cursor: pointer;
-    font-weight: bold;
-    overflow-wrap: break-word;
-}
-
-x-create-request-link-modal .x-request-link:hover {
-    background: rgba(0, 0, 0, 0.2);
-}
-
 x-create-request-link-modal ul {
     padding-left: 20px;
     list-style: square;
@@ -24,4 +14,64 @@ x-create-request-link-modal .address-label {
 
 x-create-request-link-modal ul .x-address {
     margin-left: -15px;
+}
+
+x-create-request-link-modal ul li:last-child {
+    padding-bottom: 0;
+}
+
+x-create-request-link-modal .request-link-container {
+    display: flex;
+    align-items: center;
+}
+
+x-create-request-link-modal .request-link-container > * {
+    overflow: auto;
+    /* to have enough space to render request link hover background overflow */
+    padding-left: 8px;
+    margin-left: -8px;
+}
+
+x-create-request-link-modal .x-request-link {
+    cursor: pointer;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    padding: 8px;
+    margin-left: -8px;
+}
+
+x-create-request-link-modal .qr-code-container {
+    margin-left: 32px;
+    padding: 12px;
+    margin-right: -12px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+x-create-request-link-modal .qr-code-container canvas {
+    display: block;
+}
+
+x-create-request-link-modal .x-request-link:hover,
+x-create-request-link-modal .qr-code-container:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+@media (max-width: 420px) {
+    x-create-request-link-modal .request-link-container {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+
+    x-create-request-link-modal .request-link-container > * {
+        max-width: 100%;
+    }
+
+    x-create-request-link-modal .qr-code-container {
+        margin: 0 0 32px 0;
+        background: transparent !important;
+        cursor: auto;
+        padding: 0;
+    }
 }
