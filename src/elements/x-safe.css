@@ -187,6 +187,7 @@ x-total-amount {
     display: inline;
 }
 
+
 x-view-dashboard,
 x-view-history,
 x-view-settings {
@@ -194,6 +195,10 @@ x-view-settings {
     justify-content: center;
     flex-wrap: wrap;
     align-items: flex-start;
+}
+
+x-view-dashboard {
+    align-items: stretch;
 }
 
 x-card {
@@ -220,6 +225,11 @@ x-card h2 {
     letter-spacing: 0.16em;
     font-size: 13px;
     font-weight: bold;
+}
+
+x-card .contact-list .list {
+    overflow: auto;
+    max-height: 150px;
 }
 
 footer {

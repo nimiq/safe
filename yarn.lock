@@ -23,7 +23,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#7918ecff80dbee8a8db42a40fcbc9494a88af2a1"
+  resolved "https://github.com/nimiq/vue-components#81994ffc1985b2d7dd067471590c8df85adffc66"
   dependencies:
     vue "^2.5.17"
     vue-property-decorator "^7.0.0"
