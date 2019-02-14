@@ -15,6 +15,7 @@ x-popup-menu {
 
 x-card x-popup-menu {
     top: -11px;
+    right: -8px;
 }
 
 x-popup-menu[left-align] {
