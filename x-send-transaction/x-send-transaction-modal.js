@@ -9,7 +9,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
         return address === '-' || !address || ValidationUtils.isValidAddress(dashToSpace(address));
     }
 
-    /* mode: 'sender'|'recipient'|'contact'|'vesting' */
+    /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message, freeze) {
 
         if (mode !== 'contact') this.clear();
@@ -50,6 +50,10 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
             this.$extraDataInput.$input.setAttribute('readonly', true);
         } else {
             this.$extraDataInput.$input.removeAttribute('readonly');
+        }
+
+        if (mode === 'scan') {
+            this._openQrScanner();
         }
 
         this.validateAllFields();

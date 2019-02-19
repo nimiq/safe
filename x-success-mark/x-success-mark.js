@@ -13,7 +13,7 @@ export default class XSuccessMark extends XElement {
                         keySplines=".42 0 .58 1"
                         calcMode="spline" />
                     </stop>
-                    <stop offset="1" stop-color="#64FFDA">
+                    <stop offset="1" stop-color="#21BCA5">
                         <animate dur="0.4s" attributeName="offset" begin="indefinite" fill="freeze" from="1" to="0"
                         values="1;0"
                         keyTimes="0;1"

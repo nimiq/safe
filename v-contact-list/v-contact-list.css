@@ -1,0 +1,29 @@
+/* style header for stand alone v-contact-list similar to modal header */
+
+.v-contact-list .header {
+    position: relative;
+    padding-left: 32px;
+}
+
+/* align popup menu button (three dots) to borders of header and center to title */
+.v-contact-list .header x-popup-menu {
+    position: absolute;
+    left: -14px;
+    top: -14px;
+    width: 100%; /* to render the list correctly */
+}
+
+/* similar style to x-popup-menu trigger */
+.v-contact-list .header > [add] {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    cursor: pointer;
+}
+.v-contact-list .header > [add]:hover {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .075);
+}

@@ -13,6 +13,7 @@ import Config from '/libraries/secure-utils/config/config.js';
 import AccountType from '../../libraries/account-manager/account-type.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
+import { parseRequestLink } from '/libraries/nimiq-utils/request-link-encoding/request-link-encoding.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -21,7 +22,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <!-- <x-popup-menu left-align>
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
                 </x-popup-menu> -->
-                <a button-open-qr-scanner href="javascript:void(0)"></a>
+                <a icon-qr class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>New Transaction</h2>
             </div>
@@ -74,13 +75,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             </form>
             <!-- Vue template -->
             <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
-                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner" :validate="validateAddress">
-                    <template slot="intro-header">
-                        <h1 class="nq-h1">Address Scanner</h1>
-                        <h2 class="nq-h2">Use your camera to scan an address.</h2>
-                    </template>
-                    <div slot="overlay" class="qr-scanner-hexagon-overlay"></div>
-                </qr-scanner>
+                <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner"></qr-scanner>
             </transition>
             <!-- End Vue template -->
         `
@@ -135,7 +130,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'x-fee-input-changed': this._onFeeChanged,
             'x-extra-data-input-changed-size': this._onExtraDataChangedSize,
             'click .link-contact-list': this._onClickContactList,
-            'click [button-open-qr-scanner]': this._openQrScanner,
+            'click [icon-qr]': this._openQrScanner,
         }
     }
 
@@ -227,12 +222,12 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 shown: false,
             }),
             methods: {
-                validateAddress: ValidationUtils.isValidAddress.bind(ValidationUtils),
                 onQrScanned: this._onQrScanned.bind(this),
                 closeQrScanner: this._closeQrScanner.bind(this),
             },
             components: {
                 'qr-scanner': NimiqVueComponents.QrScanner,
+                // @asset(/apps/safe/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
             }
         });
         return this._qrScanner;
@@ -247,8 +242,19 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this._qrScanner.shown = false;
     }
 
-    _onQrScanned(address) {
-        this.recipient = address;
+    _onQrScanned(scanResult) {
+        let recipient, amount, message;
+        const parsedRequestLink = parseRequestLink(scanResult);
+        if (parsedRequestLink) {
+            ({ recipient, amount, message } = parsedRequestLink);
+        } else if (ValidationUtils.isValidAddress(scanResult)) {
+            recipient = scanResult;
+        } else {
+            return;
+        }
+        this.recipient = recipient; // required
+        if (amount) this.amount = amount;
+        if (message) this.message = message;
         this._closeQrScanner();
     }
 

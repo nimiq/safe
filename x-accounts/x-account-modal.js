@@ -6,18 +6,21 @@ import ValidationUtils from '/libraries/secure-utils/validation-utils/validation
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import AccountType from '/libraries/account-manager/account-type.js';
+import VQrCodeOverlay from '/elements/v-qr-code-overlay/v-qr-code-overlay.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
-                <x-popup-menu left-align>
+                <x-popup-menu left-align class="display-none">
+                    <button show-qr><i icon-qr></i> Show QR Code</button>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backup><i class="material-icons">vertical_align_bottom</i> Backup</button>
                     <button change-passphrase><i class="material-icons">swap_horiz</i> Change Passphrase</button>
                     <button confirmLedgerAddress><i class="material-icons">check_circle</i> Check Address on Ledger</button>
                     <button logout><i class="material-icons">exit_to_app</i> Logout</button>
                 </x-popup-menu>
+                <a icon-qr class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Address</h2>
             </div>
@@ -44,10 +47,11 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <button payout class="small display-none">Pay out</button>
                 </div>
             </div>
-        `
+            <v-qr-code-overlay></v-qr-code-overlay>
+        `;
     }
 
-    children() { return [ ...super.children(), XPopupMenu ] }
+    children() { return [ ...super.children(), XPopupMenu, VQrCodeOverlay ] }
 
     onCreate() {
         this.$availableAmount = this.$amount[1];
@@ -66,6 +70,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
+            'click .header-button[icon-qr]': () => this._showQrCode(),
+            'click button[show-qr]': () => this._showQrCode(),
             'click button[backup]': _ => this.fire('x-account-modal-backup', this.properties.walletId),
             'click button[change-passphrase]': _ => this.fire('x-account-modal-change-passphrase', this.properties.walletId),
             'click button[rename]': _ => this.fire('x-account-modal-rename', {
@@ -191,8 +197,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     set isLegacy(isLegacy) {
-        // Disable popup menu for multi-wallet accounts
+        // Disable popup menu for multi-address accounts
         this.$popupMenu.$el.classList.toggle('display-none', !isLegacy);
+        this.$('.header-button[icon-qr]').classList.toggle('display-none', isLegacy);
     }
 
     set account(account) {
@@ -200,6 +207,11 @@ export default class XAccountModal extends MixinModal(XAccount) {
         account.height = this.properties.height;
 
         super.account = account;
+    }
+
+    // has to define getter because setter is defined
+    get account() {
+        return super.account;
     }
 
     allowsShow(address) {
@@ -217,5 +229,9 @@ export default class XAccountModal extends MixinModal(XAccount) {
         let account = MixinRedux.store.getState().accounts.entries.get(address);
         if (!account) account = { address };
         this.account = account;
+    }
+
+    _showQrCode() {
+        this.$vQrCodeOverlay.show(this.account.address, 'Scan this QR code\nto send to this address');
     }
 }

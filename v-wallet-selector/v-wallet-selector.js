@@ -69,16 +69,21 @@ export default class VWalletSelector extends MixinRedux(XElement) {
             methods: {
                 mapStateToProps(state) {
                     let wallets = walletsArray$(state)
-                    if (!wallets) return {
-                        wallets: [],
-                        activeWalletId: 'LEGACY',
-                    }
+
+                    /*if (!wallets) {
+                        return {
+                            wallets: [],
+                            activeWalletId: 'LEGACY',
+                        }
+                    }*/
+
                     wallets = wallets.map(wallet => {
                         return Object.assign({}, wallet, {
                             accounts: new Map(new Array(wallet.numberAccounts).fill(0).map((_, i) => [i.toString(), 'dummy'])),
                             contracts: [],
                         })
                     })
+
                     return {
                         wallets,
                         activeWalletId: activeWalletId$(state),

@@ -3,7 +3,7 @@
     stroke-dashoffset: 498;
     stroke-width: 6;
     stroke-miterlimit: 30;
-    stroke: var(--success-color);
+    stroke: var(--nimiq-green);
     /*fill: none;*/
 }
 
@@ -12,10 +12,9 @@
     height: 56px;
     display: block;
     stroke-width: 6;
-    stroke: var(--secondary-text-color);
+    stroke: white;
     stroke-miterlimit: 30;
     margin: 10% auto;
-    box-shadow: inset 0px 0px 0px var(--success-color);
 }
 
 .checkmark__check {
@@ -25,7 +24,7 @@
 }
 
 .animate-success-mark > .checkmark {
-    animation: /*x-success-markfill .4s ease-in-out .4s forwards, */x-success-mark-scale .3s ease-in-out .9s both;
+    animation: x-success-mark-scale .3s ease-in-out .9s both;
 }
 
 .animate-success-mark > .checkmark > .checkmark__circle {
@@ -42,9 +41,6 @@
 @keyframes x-success-mark-scale {
     0%, 100% { transform: none; }
     50% { transform: scale3d(1.1, 1.1, 1); }
-}
-@keyframes x-success-markfill {
-    100% { box-shadow: inset 0px 0px 0px 30px var(--success-color); }
 }
 
 x-success-mark + h2{
