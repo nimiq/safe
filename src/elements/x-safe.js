@@ -21,6 +21,7 @@ import networkClient from '../network-client.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XFaucetModal from './x-faucet-modal.js';
 import XEducationSlides from '/elements/x-education-slides/x-education-slides.js';
+import VContactList from '/elements/v-contact-list/v-contact-list.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
 import { LEGACY } from '../wallet-redux.js';
@@ -82,8 +83,8 @@ export default class XSafe extends MixinRedux(XElement) {
                         <div class="btn-text">Receive</div>
                     </div>
                     <div class="floating-btn">
-                        <button contacts><span>Contacts</span></button>
-                        <div class="btn-text">Contacts</div>
+                        <button icon-qr><span>Scan</span></button>
+                        <div class="btn-text">Scan</div>
                     </div>
                     <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
                     <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
@@ -99,8 +100,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <x-accounts></x-accounts>
                     </x-card>
                     <x-card style="max-width: 344px;">
-                        <h2>Nimiq Network</h2>
-                        <x-network-indicator></x-network-indicator>
+                        <v-contact-list></v-contact-list>
                     </x-card>
                 </x-view-dashboard>
                 <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
@@ -109,7 +109,8 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
-                &copy; 2017-2018 Nimiq Foundation<br>
+                <x-network-indicator></x-network-indicator>
+                <div>&copy; 2017-2019 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>
                 <a warnings>Show information slides</a>
             </footer>
@@ -129,6 +130,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XCreateRequestLinkModal,
             XDisclaimerModal,
             VContactListModal,
+            VContactList,
             VWalletSelector,
         ];
     }
@@ -181,6 +183,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-accounts-add': this._clickedAddAccount.bind(this),
             'click button[new-tx]': this._clickedNewTransaction.bind(this),
             'click button[receive]': this._clickedReceive.bind(this),
+            'click button[icon-qr]': this._clickedScan.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
@@ -194,7 +197,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
-            'click button[contacts]': () => VContactListModal.show(true),
             'click [backup-words]': this._clickedAccountBackupReminder.bind(this),
         }
     }
@@ -300,6 +302,10 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _clickedReceive() {
         XCreateRequestLinkModal.show();
+    }
+
+    _clickedScan() {
+        XSendTransactionModal.show(/* address */ null, 'scan');
     }
 
     async _signTransaction(tx) {

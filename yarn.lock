@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@nimiq/network-client@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.0.9.tgz#d319fcc8711f8bd2da2b2040135dc24c31f657bc"
-  integrity sha512-z9C1mxe49kvEqbdQpxyk9OVE++W8rt/4AU5+klC2e/byC8OpPS30aIb4syqHMqlnmUPIBxT7xXm3QXEfSk8njw==
+"@nimiq/network-client@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.1.4.tgz#f9d16e767cfe8d70d1bae7262cfefa0c71fb7648"
+  integrity sha512-xoDecxKtv9qLgYhymlgq4WxXbEXTstY1EYaw+N2X1D0TzhjnOr2YE81Jo/YaqOXvcOsKpH8coApVTgJUeEdiKA==
   dependencies:
     "@nimiq/rpc-events" "^0.0.5"
 
@@ -23,7 +23,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#a774139c8e33e0fb99dc9f14abd627b1e37a25ad"
+  resolved "https://github.com/nimiq/vue-components#81994ffc1985b2d7dd067471590c8df85adffc66"
   dependencies:
     vue "^2.5.17"
     vue-property-decorator "^7.0.0"
