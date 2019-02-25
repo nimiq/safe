@@ -98,7 +98,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                     self._hideMenu()
                 },
                 changePassphraseWallet(walletId) {
-                    accountManager.changePassphrase(walletId)
+                    accountManager.changePassword(walletId)
                     self._hideMenu()
                 },
                 exportWallet(walletId) {
