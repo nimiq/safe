@@ -223,9 +223,9 @@ class AccountManager {
         this.actions.login(updatedWallet);
     }
 
-    async changePassphrase(walletId) {
+    async changePassword(walletId) {
         await this._launched;
-        await this._invoke('changePassphrase', null, {
+        await this._invoke('changePassword', null, {
             appName: 'Nimiq Safe',
             walletId,
         });

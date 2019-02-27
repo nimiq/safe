@@ -191,7 +191,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-payout': this._newPayoutTransaction.bind(this),
             'x-account-modal-backup': this._clickedAccountBackup.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
-            'x-account-modal-change-passphrase': this._clickedAccountChangePassphrase.bind(this),
+            'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
             'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
@@ -233,9 +233,9 @@ export default class XSafe extends MixinRedux(XElement) {
 
     // TODO: Add dismiss-backup-words click handler
 
-    async _clickedAccountChangePassphrase(walletId) {
+    async _clickedAccountChangePassword(walletId) {
         try {
-            await accountManager.changePassphrase(walletId);
+            await accountManager.changePassword(walletId);
             XToast.success('Passphrase changed successfully.');
         } catch (e) {
             console.error(e);
