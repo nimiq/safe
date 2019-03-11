@@ -381,6 +381,20 @@ nav.actions.floating-actions {
     display: none !important;
 }
 
+v-wallet-selector.desktop .v-wallet-menu {
+    top: 4.25rem;
+    right: 0;
+}
+
+v-wallet-selector.mobile .v-wallet-menu {
+    left: 0;
+}
+
+v-wallet-selector.mobile .wallet-menu {
+    width: 100vw;
+    max-width: unset;
+}
+
 @media (max-width: 620px) {
     .mobile-hidden {
         display: none;
