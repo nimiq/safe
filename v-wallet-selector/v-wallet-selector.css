@@ -1,6 +1,5 @@
 v-wallet-selector {
     display: inline-block;
-    height: fit-content;
 }
 
 
@@ -56,20 +55,6 @@ v-wallet-selector .v-wallet-menu {
     z-index: 1000;
     color: var(--nimiq-blue);
     text-align: left;
-}
-
-v-wallet-selector #vue-wallet-menu-desktop {
-    top: 4.25rem;
-    right: 0;
-}
-
-v-wallet-selector #vue-wallet-menu-mobile {
-    left: 0;
-}
-
-v-wallet-selector #vue-wallet-menu-mobile .wallet-menu {
-    width: 100vw;
-    max-width: unset;
 }
 
 v-wallet-selector .wallet-menu {

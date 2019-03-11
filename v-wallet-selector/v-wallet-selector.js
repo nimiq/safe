@@ -9,7 +9,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
         return `
             <div active-wallet-label></div>
-            <div class="v-wallet-menu display-none" id="vue-wallet-menu-${this.attributes.instance}">
+            <div class="v-wallet-menu display-none">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                     <wallet-menu
@@ -62,7 +62,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
         this._isMenuActive = false
 
         this.vue = new Vue({
-            el: `#vue-wallet-menu-${this.attributes.instance}`,
+            el: this.$('.v-wallet-menu'),
             data: {
                 store: MixinRedux.store
             },
