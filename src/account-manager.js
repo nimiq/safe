@@ -62,9 +62,19 @@ class AccountManager {
          * type key = {
          *     id: string
          *     label: string,
-         *     accounts: Map<string, AddressInfoEntry>,
+         *     accounts: Map<string, AccountInfoEntry>,
          *     contracts: [],
          *     type: WalletType,
+         *     keyMissing: boolean,
+         *     fileExported: boolean,
+         *     wordsExported: boolean,
+         * }
+         *
+         * interface AccountInfoEntry {
+         *     path: string;
+         *     label: string;
+         *     address: Uint8Array;
+         *     balance?: number;
          * }
          */
 
@@ -91,8 +101,8 @@ class AccountManager {
                 id: key.id,
                 label: key.label,
                 type: key.type,
-                hasFile: !!key.hasFile,
-                hasWords: !!key.hasWords,
+                hasFile: key.fileExported,
+                hasWords: key.wordsExported,
             });
 
             Array.from(key.accounts.keys()).forEach(address => {
@@ -139,15 +149,9 @@ class AccountManager {
 
     /// PUBLIC API ///
 
-    // async getDefaultAccount() {
-    //     const defaultAccount = await this.keyguard.getDefaultAccount();
-    //     defaultAccount.type = defaultAccount.type === 'high' ? AccountType.KEYGUARD_HIGH : AccountType.KEYGUARD_LOW;
-    //     return defaultAccount;
-    // }
-
     async onboard() {
         await this._launched;
-        const result = this._invoke(
+        this._invoke(
             'onboard',
             null,
             {
@@ -168,66 +172,57 @@ class AccountManager {
     async sign(tx) {
         await this._launched;
         const account = this.accounts.get(tx.sender);
-        tx.walletId = account.walletId;
-        return this._invoke('signTransaction', null, tx);
+        tx.accountId = account.walletId;
+
+        const signedTransaction = await this._invoke('signTransaction', null, tx);
+
+        const rawTx = signedTransaction.raw;
+        rawTx.hash = this._hexToBase64(signedTransaction.hash);
+        return rawTx;
     }
 
     /**
-     * @param {string} walletId
+     * @param {string} accountId
      * @param {string} [address]
      */
-    async rename(walletId, address) {
+    async rename(accountId, address) {
         await this._launched;
         const result = await this._invoke('rename', null, {
             appName: 'Nimiq Safe',
-            walletId,
+            accountId,
             address,
         });
 
-        this.actions.updateWalletLabel(result.walletId, result.label);
-        result.accounts.forEach(account => this.actions.updateAccountLabel(account.address, account.label));
+        this.actions.updateWalletLabel(result.accountId, result.label);
+        result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
+
+        // TODO: Remove unreturned addresses and add new returned addresses
     }
 
-    // async exportFile(walletId) {
-    //     await this._launched;
-    //     return this._invoke('exportFile', null, {
-    //         appName: 'Nimiq Safe',
-    //         walletId,
-    //     });
-    // }
-
-    // async exportWords(walletId) {
-    //     await this._launched;
-    //     await this._invoke('exportWords', null, {
-    //         appName: 'Nimiq Safe',
-    //         walletId,
-    //     });
-    // }
-
-    async export(walletId) {
+    async export(accountId) {
         await this._launched;
         const result = await this._invoke('export', null, {
             appName: 'Nimiq Safe',
-            walletId,
+            accountId,
         });
 
         // Update hasFile/hasWords flags
-        const wallet = MixinRedux.store.getState().wallets.entries.get(walletId);
+        const wallet = MixinRedux.store.getState().wallets.entries.get(accountId);
         if (!wallet) return;
         const updatedWallet = Object.assign({}, wallet, {
-            hasFile: result.hasFile,
-            hasWords: result.hasWords,
+            hasFile: result.fileExported,
+            hasWords: result.wordsExported,
         });
 
         // FIXME: Use a dedicated action to just update flags
         this.actions.login(updatedWallet);
     }
 
-    async changePassword(walletId) {
+    async changePassword(accountId) {
         await this._launched;
         await this._invoke('changePassword', null, {
             appName: 'Nimiq Safe',
-            walletId,
+            accountId,
         });
     }
 
@@ -239,26 +234,26 @@ class AccountManager {
         this._onOnboardingResult(result);
     }
 
-    async logout(walletId) {
+    async logout(accountId) {
         await this._launched;
         const result = await this._invoke('logout', null, {
             appName: 'Nimiq Safe',
-            walletId,
+            accountId,
         });
-        if (result.success === true) this.actions.logout(walletId);
+        if (result.success === true) this.actions.logout(accountId);
         else throw new Error('Logout failed');
     }
 
-    async addAccount(walletId) {
+    async addAccount(accountId) {
         await this._launched;
-        const result = await this._invoke('addAccount', null, {
+        const newAddress = await this._invoke('addAddress', null, {
             appName: 'Nimiq Safe',
-            walletId,
+            accountId,
         });
-        const newAccount = result.account;
-        newAccount.type = AccountType.KEYGUARD_HIGH;
-        newAccount.walletId = walletId;
-        this.actions.addAccount(newAccount);
+        newAddress.type = AccountType.KEYGUARD_HIGH;
+        newAddress.walletId = accountId;
+        newAddress.isLegacy = false;
+        this.actions.addAccount(newAddress);
     }
 
     // async importLedger() {
@@ -283,64 +278,34 @@ class AccountManager {
     // }
 
     _onOnboardingResult(result) {
-        result.accounts.forEach(newAccount => {
-            newAccount.type = AccountType.KEYGUARD_HIGH;
-            newAccount.walletId = result.walletId;
-            newAccount.isLegacy = result.type === WalletType.LEGACY;
-            this.actions.addAccount(newAccount);
+        result.addresses.forEach(newAddress => {
+            newAddress.type = AccountType.KEYGUARD_HIGH;
+            newAddress.walletId = result.accountId;
+            newAddress.isLegacy = result.type === WalletType.LEGACY;
+            this.actions.addAccount(newAddress);
         });
         this.actions.login({
-            id: result.walletId,
+            id: result.accountId,
             label: result.label,
             type: result.type,
-            hasFile: !!result.hasFile,
-            hasWords: !!result.hasWords,
+            hasFile: result.fileExported,
+            hasWords: result.wordsExported,
         });
     }
-
-    // async _import(key) {
-    //     this.actions.addAccount(key);
-
-    //     // Find and add vesting accounts
-    //     (await this.vesting.find([key.address]))
-    //         .forEach((vestingKey) => {
-    //             const k = Object.assign({}, vestingKey, {
-    //                 type: AccountType.VESTING,
-    //                 label: `Vesting Contract`
-    //             });
-    //             this.actions.addAccount(k);
-    //         });
-    // }
 
     _invoke(method, account, ...args) {
         return this.accountsClient[method](...args);
     }
+
+    // https://stackoverflow.com/a/41797377/4204380
+    _hexToBase64(hexstring) {
+        return btoa(hexstring.match(/\w{2}/g).map(function(a) {
+            return String.fromCharCode(parseInt(a, 16));
+        }).join(""));
+    }
 }
 
 export default AccountManager.getInstance();
-
-// export default methodDict = {
-//     'sign': {
-//         1: 'sign',
-//         2: null,
-//         3: null
-//     },
-//     'rename': {
-//         1: 'rename',
-//         2: null,
-//         3: null
-//     },
-//     'export': {
-//         1: 'export',
-//         2: null,
-//         3: null
-//     },
-//     'signMessage': {
-//         1: 'signMessage',
-//         2: null,
-//         3: null
-//     }
-// }
 
 const AccountType = {
     KEYGUARD_HIGH: 1,
