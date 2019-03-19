@@ -7,25 +7,25 @@
   resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.4.3.tgz#190d7390324623672fafbbc93841bcf215d2af01"
   integrity sha512-47JMAx8bFcr2uev+QgX4saBUvRQo/8akQdpvf0z1F5N3I8FPyIfEWRjPW2Xu28C+MOdIZ/VkHL/YmMiGBBtEMA==
 
-"@nimiq/network-client@^0.1.4":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.1.5.tgz#18420de8c8c342a4762bf533ffc358c96cc8adca"
-  integrity sha512-PFZhCTbh50g91T1Dnq4dFhfQRjTvch267JYbobcgdtAjq/EGxnXhs6BG/O2G/4jS7MaApIw6eRnU4FODXeQQlg==
+"@nimiq/network-client@^0.1.7":
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.1.7.tgz#70fc9505540b110efa6adb51fa2b9f4a54b1ff48"
+  integrity sha512-JDdZjsOVLIhWvVEIDeSoNCiDvqQA5dICoNxvAD0BxhPuCwjKcyOvZDZcXfsKyLioZuCZDBpO8lAu1h6hkxGDjg==
   dependencies:
     "@nimiq/core-web" "1.4.3"
-    "@nimiq/rpc-events" "^0.0.5"
+    "@nimiq/rpc-events" "^0.0.8"
 
-"@nimiq/rpc-events@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@nimiq/rpc-events/-/rpc-events-0.0.5.tgz#7face10c875956aeee8f9b44e2184bcde5b6b203"
-  integrity sha512-eXZjpUgcJf6M4QBQ3ZcIpw5ZOcbVxdalmR0Q9UuWXXHlDSDrfrLcioNWCOm0FKD71mfluoR9SeLZoC72JBxNQw==
+"@nimiq/rpc-events@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@nimiq/rpc-events/-/rpc-events-0.0.8.tgz#bb03bb98e6450de3b858260c73dfabca0e4cbce8"
+  integrity sha512-2KYmey23WD1yV/61N+ZdUmHsxXhhie9kZOwDf1PqKbYBEHHJaoqyQb1fEptja6yyVlnZc5tv806JhHWBjJNCVA==
   dependencies:
-    "@nimiq/rpc" "^0.0.11"
+    "@nimiq/rpc" "^0.1.4"
 
-"@nimiq/rpc@^0.0.11":
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.0.11.tgz#7230365640663827fb115e0d6456222de3b1c5e3"
-  integrity sha512-aSTQwsTeSH46ubRDHqB7x82Alq5a9PlMYJUgDVd/4ET1dMTLm+4sjaFiWho3+SjG2n5/v09XKlDUBFDaENYT6w==
+"@nimiq/rpc@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.1.4.tgz#ff6608255f23bb80079e10b23b7b74c35190e9da"
+  integrity sha512-vKU8zw8aHabGBaRTvf31MeVaByhkEChkdlx6IYw555XH5TitYQO6XYfTpoDelXUOG/xX4BQrCMV6NnLKY5yN0Q==
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
