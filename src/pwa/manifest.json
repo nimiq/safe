@@ -3,8 +3,8 @@
     "short_name": "Nimiq Safe",
     "start_url": "..",
     "display": "standalone",
-    "background_color": "#fff",
-    "theme_color": "#fff",
+    "background_color": "#F4F4F5",
+    "theme_color": "#1F2348",
     "description": "The Nimiq Safe app to manage your NIM",
     "icons": [
       {
