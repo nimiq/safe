@@ -23,7 +23,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#81994ffc1985b2d7dd067471590c8df85adffc66"
+  resolved "https://github.com/nimiq/vue-components#d7c5eea2e4eb9003ba40ac49cf57d4220141decf"
   dependencies:
     vue "^2.5.17"
     vue-property-decorator "^7.0.0"
@@ -2640,16 +2640,16 @@ vue-class-component@^6.2.0:
   integrity sha512-cH208IoM+jgZyEf/g7mnFyofwPDJTM/QvBNhYMjqGB8fCsRyTf68rH2ISw/G20tJv+5mIThQ3upKwoL4jLTr1A==
 
 vue-property-decorator@^7.0.0:
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-7.2.0.tgz#8e6b0f4dcc630c357135f76366ba7bd91f1db015"
-  integrity sha512-sCI6NVM3tEDg+mpZrQlgkddtxd9LbFWetue8D+nqO3agfSLz0KoC/UIi2P1l5E0TDhcUeIXS9rasuP2HWg+L4w==
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/vue-property-decorator/-/vue-property-decorator-7.3.0.tgz#d50d67f0b0f1c814f9f2fba36d6eeccbcc62dbb6"
+  integrity sha512-HarXfTQ/Nxm4s/APpAaGIGHq5ZzslApImQy8ZrtkfGamw8rUFAVgMS5C50/AQ80+wfw3Wpnf4bNzbmj75m/k2Q==
   dependencies:
     vue-class-component "^6.2.0"
 
 vue@^2.5.17:
-  version "2.5.21"
-  resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.21.tgz#3d33dcd03bb813912ce894a8303ab553699c4a85"
-  integrity sha512-Aejvyyfhn0zjVeLvXd70h4hrE4zZDx1wfZqia6ekkobLmUZ+vNFQer53B4fu0EjWBSiqApxPejzkO1Znt3joxQ==
+  version "2.6.9"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.9.tgz#415c1cc1a5ed00c8f0acdd0a948139d12b7ea6b3"
+  integrity sha512-t1+tvH8hybPM86oNne3ZozCD02zj/VoZIiojOBPJLjwBn7hxYU5e1gBObFpq8ts1NEn1VhPf/hVXBDAJ3X5ljg==
 
 which-module@^1.0.0:
   version "1.0.0"
