@@ -10,9 +10,9 @@ export const TypeKeys = {
 export const LEGACY = 'LEGACY';
 
 export const WalletType = {
-    LEGACY: 0,
-    BIP39: 1,
-    LEDGER: 2,
+    LEGACY: 1,
+    BIP39: 2,
+    LEDGER: 3,
 };
 
 export const initialState = {
