@@ -193,7 +193,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
-            'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
+            // 'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
@@ -263,18 +263,18 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedConfirmLedgerAddress(address) {
-        try {
-            await accountManager.confirmLedgerAddress(address);
-            XToast.success('Ledger account confirmed.');
-        } catch(e) {
-            if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
-            } else {
-                XToast.warning('Ledger Account not confirmed.');
-            }
-        }
-    }
+    // async _clickedConfirmLedgerAddress(address) {
+    //     try {
+    //         await accountManager.confirmLedgerAddress(address);
+    //         XToast.success('Ledger account confirmed.');
+    //     } catch(e) {
+    //         if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
+    //             XToast.warning(e.message || e);
+    //         } else {
+    //             XToast.warning('Ledger Account not confirmed.');
+    //         }
+    //     }
+    // }
 
     _clickedNewTransaction() {
         this._newTransactionFrom();
