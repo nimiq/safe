@@ -15,7 +15,7 @@ export default class XDisclaimerModal extends MixinModal(XElement) {
 
                 <p>We are not responsible for any loss. Nimiq, safe.nimiq.com, keyguard.nimiq.com & miner.nimiq.com, and some of the underlying libraries are under active development. While we thoroughly test, there is always the possibility something unexpected happens that causes your funds to be lost. Please do not place more than you are willing to lose, and please be careful.</p>
 
-                <p><strong>MIT License Copyright © 2018 Nimiq Foundation</strong></p>
+                <p><strong>MIT License Copyright © 2019 Nimiq Foundation</strong></p>
 
                 <p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
 

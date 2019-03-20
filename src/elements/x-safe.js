@@ -110,7 +110,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
             </section>
             <footer class="nimiq-dark">
-                &copy; 2017-2018 Nimiq Foundation<br>
+                &copy; 2017-2019 Nimiq Foundation<br>
                 <a disclaimer>Disclaimer</a>
                 <a warnings>Show information slides</a>
             </footer>
