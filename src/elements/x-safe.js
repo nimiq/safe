@@ -299,7 +299,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XToast.success('Account imported successfully.');
         } catch(e) {
             if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+                XToast.warning(e.message || e);
             } else {
                 XToast.warning('Account was not imported.');
             }
@@ -312,7 +312,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XToast.success('Ledger account confirmed.');
         } catch(e) {
             if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-                XToast.warning('Your browser does not have Ledger support or it is not enabled.');
+                XToast.warning(e.message || e);
             } else {
                 XToast.warning('Ledger Account not confirmed.');
             }
