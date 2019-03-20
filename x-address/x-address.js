@@ -14,7 +14,7 @@ export default class XAddress extends XElement {
 
     _onCopy() {
         Clipboard.copy(this.$el.textContent);
-        XToast.show('Account number copied to clipboard!')
+        XToast.show('Address copied to clipboard!')
     }
 
     set address(address) {
