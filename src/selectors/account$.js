@@ -29,6 +29,12 @@ export const accountsArray$ = createSelector(
     })
 );
 
+export const legacyAccounts$ = createSelector(
+    accounts$,
+    hasContent$,
+    (accounts, hasContent) => hasContent ? [...accounts.values()].filter(account => account.isLegacy) : []
+);
+
 export const activeAddresses$ = createSelector(
     accountsArray$,
     (accounts) => accounts && accounts.map(acc => acc.address)

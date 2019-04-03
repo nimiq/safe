@@ -2,7 +2,7 @@ import { createSelector } from '/libraries/reselect/src/index.js';
 
 import { accountsArray$ } from './account$.js';
 
-import AccountType from '/libraries/account-manager/account-type.js';
+import AccountType from '../lib/account-type.js';
 
 export const safeAccounts$ = createSelector(
     accountsArray$,

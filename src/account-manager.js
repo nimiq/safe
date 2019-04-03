@@ -1,8 +1,25 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
+import {
+    addAccount,
+    setAllAccounts,
+    updateLabel as updateAccountLabel,
+    logoutLegacy
+} from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsClient from './AccountsClient.standalone.es.js';
-import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultWallet, LEGACY, setFileFlag, setWordsFlag  } from './wallet-redux.js';
+import {
+    WalletType,
+    setAllWallets,
+    login,
+    logout,
+    updateLabel as updateWalletLabel,
+    setDefaultWallet,
+    switchWallet,
+    setFileFlag,
+    setWordsFlag,
+    LEGACY
+} from './wallet-redux.js';
+import AccountType from './lib/account-type.js';
 
 class AccountManager {
     static getInstance() {
@@ -51,7 +68,9 @@ class AccountManager {
             setDefaultWallet,
             login,
             logout,
+            logoutLegacy,
             updateWalletLabel,
+            switchWallet,
             setFileFlag,
             setWordsFlag
         }, this.store.dispatch);
@@ -98,22 +117,25 @@ class AccountManager {
         const wallets = [];
         const accounts = [];
 
-        listedWallets.forEach(key => {
-            wallets.push({
-                id: key.id,
-                label: key.label,
-                type: key.type,
-                fileExported: key.fileExported,
-                wordsExported: key.wordsExported,
-            });
+        listedWallets.forEach(wallet => {
 
-            Array.from(key.accounts.keys()).forEach(address => {
+            if (wallet.type !== WalletType.LEGACY) {
+                wallets.push({
+                    id: wallet.id,
+                    label: wallet.label,
+                    type: wallet.type,
+                    fileExported: wallet.fileExported,
+                    wordsExported: wallet.wordsExported,
+                });
+            }
+
+            Array.from(wallet.accounts.keys()).forEach(address => {
                 const entry = {
                     address,
-                    label: key.accounts.get(address).label,
+                    label: wallet.accounts.get(address).label,
                     type: AccountType.KEYGUARD_HIGH,
-                    isLegacy: key.type === WalletType.LEGACY,
-                    walletId: key.id,
+                    isLegacy: wallet.type === WalletType.LEGACY,
+                    walletId: wallet.id,
                 };
                 accounts.push(entry);
             });
@@ -122,30 +144,6 @@ class AccountManager {
         this.actions.setAllAccounts(accounts);
         this.actions.setAllWallets(wallets);
 
-        // if empty legacy wallet is set as default, set the wallet with the most accounts as default instead
-        // TODO ideally, this should be solved in reducer code alone to avoid this kind of invalid state
-        const state = MixinRedux.store.getState();
-        const legacyIsDefault = state.wallets.activeWalletId === LEGACY;
-        if (legacyIsDefault) {
-            const legacyIsEmpty = Array.from(state.accounts.entries.values())
-                .filter(a => a.isLegacy)
-                .length === 0;
-
-            if (legacyIsEmpty) {
-                const walletWithMostAccounts = listedWallets.sort(
-                    (a, b) => a.accounts.size > b.accounts.size
-                        ? -1
-                        : a.accounts.size < b.accounts.size
-                            ? 1
-                            : 0
-                )[0];
-
-                if (walletWithMostAccounts) {
-                    this.actions.setDefaultWallet(walletWithMostAccounts.id);
-                }
-            }
-        }
-
         this._resolveAccountsLoaded();
     }
 
@@ -153,14 +151,14 @@ class AccountManager {
 
     async onboard() {
         await this._launched;
-        this._invoke(
+        /*this._invoke(
             'onboard',
             null,
             {
                 appName: 'Nimiq Safe',
             },
             new AccountsClient.RedirectRequestBehavior()
-        );
+        );*/
     }
 
     async create() {
@@ -250,7 +248,15 @@ class AccountManager {
             accountId,
         });
         if (result.success === true) this.actions.logout(accountId);
-        else throw new Error('Logout failed');
+    }
+
+    async logoutLegacy(accountId) {
+        await this._launched;
+        const result = await this._invoke('logout', null, {
+            appName: 'Nimiq Safe',
+            accountId,
+        });
+        if (result.success === true) this.actions.logoutLegacy(accountId);
     }
 
     async addAccount(accountId) {
@@ -264,20 +270,6 @@ class AccountManager {
         newAddress.isLegacy = false;
         this.actions.addAccount(newAddress);
     }
-
-    // async importLedger() {
-    //     await this._launched;
-    //     const newKey = {
-    //         address: await this.ledger.getAddress(true),
-    //         type: AccountType.LEDGER,
-    //         label: 'Ledger Account'
-    //     };
-    //     return this._import(newKey);
-    // }
-
-    // async confirmLedgerAddress(address) {
-    //     return this.ledger.confirmAddress(address);
-    // }
 
     // signMessage(msg, address) {
     //     throw new Error('Not implemented!'); return;
@@ -294,14 +286,14 @@ class AccountManager {
             this.actions.addAccount(newAddress);
         });
         if (result.type === WalletType.LEGACY) {
-            this.actions.login({ id: LEGACY });
+            this.actions.switchWallet(LEGACY);
         } else {
             this.actions.login({
                 id: result.accountId,
                 label: result.label,
                 type: result.type,
                 fileExported: result.fileExported,
-                hasWords: undefined,
+                wordsExported: result.wordsExported,
             });
         }
     }
@@ -312,17 +304,10 @@ class AccountManager {
 
     // https://stackoverflow.com/a/41797377/4204380
     _hexToBase64(hexstring) {
-        return btoa(hexstring.match(/\w{2}/g).map(function(a) {
-            return String.fromCharCode(parseInt(a, 16));
-        }).join(""));
+        return btoa(hexstring.match(/\w{2}/g)
+            .map(a => String.fromCharCode(parseInt(a, 16)))
+            .join(''));
     }
 }
 
 export default AccountManager.getInstance();
-
-const AccountType = {
-    KEYGUARD_HIGH: 1,
-    KEYGUARD_LOW: 2,
-    LEDGER: 3,
-    VESTING: 4
-};

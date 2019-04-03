@@ -9,6 +9,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
+import XAccountModal from '/elements/x-accounts/x-account-modal.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
@@ -262,27 +263,14 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountLogout(walletId) {
+    async _clickedAccountLogout(accountId) {
         try {
-            await accountManager.logout(walletId);
+            await accountManager.logoutLegacy(accountId);
+            XAccountModal.instance.hide();
         } catch (e) {
             console.error(e);
-            XToast.warning('Logout failed.');
         }
     }
-
-    // async _clickedConfirmLedgerAddress(address) {
-    //     try {
-    //         await accountManager.confirmLedgerAddress(address);
-    //         XToast.success('Ledger account confirmed.');
-    //     } catch(e) {
-    //         if ((e.message || e).toLowerCase().indexOf('not supported') !== -1) {
-    //             XToast.warning(e.message || e);
-    //         } else {
-    //             XToast.warning('Ledger Account not confirmed.');
-    //         }
-    //     }
-    // }
 
     _clickedNewTransaction() {
         this._newTransactionFrom();
