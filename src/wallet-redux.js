@@ -5,6 +5,8 @@ export const TypeKeys = {
     UPDATE_LABEL: 'wallet/update-label',
     LOGOUT: 'wallet/logout',
     SET_DEFAULT: 'wallet/set-default',
+    SET_FILE_FLAG: 'wallet/set-file-flag',
+    SET_WORDS_FLAG: 'wallet/set-words-flag',
 };
 
 export const LEGACY = 'LEGACY';
@@ -96,6 +98,22 @@ export function reducer(state, action) {
             });
         }
 
+        case TypeKeys.SET_FILE_FLAG:
+            return Object.assign({}, state, {
+                entries: new Map(state.entries).set(
+                    action.id,
+                    Object.assign({}, state.entries.get(action.id), { fileExported: action.value }),
+                ),
+            });
+
+        case TypeKeys.SET_FILE_WORDS:
+            return Object.assign({}, state, {
+                entries: new Map(state.entries).set(
+                    action.id,
+                    Object.assign({}, state.entries.get(action.id), { wordsExported: action.value }),
+                ),
+            });
+
         default:
             return state
     }
@@ -156,5 +174,21 @@ export function setDefaultWallet(id) {
     return {
         type: TypeKeys.SET_DEFAULT,
         id
+    };
+}
+
+export function setFileFlag(id, value) {
+    return {
+        type: TypeKeys.SET_FILE_FLAG,
+        id,
+        value
+    };
+}
+
+export function setWordsFlag(id, value) {
+    return {
+        type: TypeKeys.SET_WORDS_FLAG,
+        id,
+        value
     };
 }

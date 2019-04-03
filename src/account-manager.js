@@ -2,7 +2,7 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import { addAccount, setAllKeys as setAllAccounts, updateLabel as updateAccountLabel } from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsClient from './AccountsClient.standalone.es.js';
-import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultWallet, LEGACY } from './wallet-redux.js';
+import { WalletType, setAllKeys as setAllWallets, login, logout, updateLabel as updateWalletLabel, setDefaultWallet, LEGACY, setFileFlag, setWordsFlag  } from './wallet-redux.js';
 
 class AccountManager {
     static getInstance() {
@@ -52,6 +52,8 @@ class AccountManager {
             login,
             logout,
             updateWalletLabel,
+            setFileFlag,
+            setWordsFlag
         }, this.store.dispatch);
     }
 
@@ -101,8 +103,8 @@ class AccountManager {
                 id: key.id,
                 label: key.label,
                 type: key.type,
-                hasFile: key.fileExported,
-                hasWords: key.wordsExported,
+                fileExported: key.fileExported,
+                wordsExported: key.wordsExported,
             });
 
             Array.from(key.accounts.keys()).forEach(address => {
@@ -199,23 +201,30 @@ class AccountManager {
         // TODO: Remove unreturned addresses and add new returned addresses
     }
 
-    async export(accountId) {
+    async exportFile(accountId) {
         await this._launched;
-        const result = await this._invoke('export', null, {
+        const result = await this._invoke('exportFile', null, {
             appName: 'Nimiq Safe',
             accountId,
         });
 
-        // Update hasFile/hasWords flags
-        const wallet = MixinRedux.store.getState().wallets.entries.get(accountId);
-        if (!wallet) return;
-        const updatedWallet = Object.assign({}, wallet, {
-            hasFile: result.fileExported,
-            hasWords: result.wordsExported,
+        if (result.success) {
+            // Update fileExported flag
+            this.actions.setFileFlag(accountId, true);
+        }
+    }
+
+    async exportWords(accountId) {
+        await this._launched;
+        const result = await this._invoke('exportWords', null, {
+            appName: 'Nimiq Safe',
+            accountId,
         });
 
-        // FIXME: Use a dedicated action to just update flags
-        this.actions.login(updatedWallet);
+        if (result.success) {
+            // Update wordsExported flags
+            this.actions.setWordsFlag(accountId, true);
+        }
     }
 
     async changePassword(accountId) {
@@ -284,13 +293,17 @@ class AccountManager {
             newAddress.isLegacy = result.type === WalletType.LEGACY;
             this.actions.addAccount(newAddress);
         });
-        this.actions.login({
-            id: result.accountId,
-            label: result.label,
-            type: result.type,
-            hasFile: result.fileExported,
-            hasWords: result.wordsExported,
-        });
+        if (result.type === WalletType.LEGACY) {
+            this.actions.login({ id: LEGACY });
+        } else {
+            this.actions.login({
+                id: result.accountId,
+                label: result.label,
+                type: result.type,
+                fileExported: result.fileExported,
+                hasWords: undefined,
+            });
+        }
     }
 
     _invoke(method, account, ...args) {

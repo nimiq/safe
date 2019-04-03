@@ -59,11 +59,20 @@ export default class XSafe extends MixinRedux(XElement) {
                     <div class="backup-reminder words">
                         <a class="action" backup-words>
                             <div class="icon words">
-                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.1343 33.1508L17.9379 35.3472C17.7358 35.5494 17.408 35.5494 17.2058 35.3472L15.0094 33.1508C14.9121 33.0539 14.8573 32.9222 14.8571 32.7848V30.8915L13.1623 29.9375C12.8108 29.7401 12.6059 29.3567 12.637 28.9549C12.6681 28.553 12.9296 28.2057 13.3072 28.0647L14.8579 27.4834L14.8579 26.4204L12.8248 24.9158C12.5354 24.7026 12.3774 24.3546 12.4072 23.9964C12.4371 23.6382 12.6506 23.3211 12.9712 23.1587L14.8579 22.215L14.8571 18.8289C11.3372 17.5159 9.26205 13.8714 9.92915 10.1743C10.5963 6.47721 13.8143 3.78784 17.5711 3.78784C21.328 3.78784 24.546 6.47721 25.2131 10.1743C25.8802 13.8714 23.805 17.5159 20.2851 18.8289L20.2859 32.784C20.2861 32.9216 20.2316 33.0536 20.1343 33.1508ZM16.4738 7.52626C15.8673 8.13277 15.8673 9.11613 16.4738 9.72264C17.0803 10.3292 18.0637 10.3292 18.6702 9.72264C19.2767 9.11613 19.2767 8.13277 18.6702 7.52626C18.0637 6.91974 17.0803 6.91974 16.4738 7.52626Z" fill="white"/></svg>
+                                <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
                             </div>
                             <strong class="text">Backup your Account with Recovery Words.</strong>
                         </a>
                         <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
+                    </div>
+                    <div class="backup-reminder file">
+                        <a class="action" backup-file>
+                            <div class="icon file">
+                                <svg width="36" height="36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
+                            </div>
+                            <strong class="text">Download your Login File to save your Account.</strong>
+                        </a>
+                        <a class="dismiss display-none" dismiss-backup-file>&times;<span> dismiss</span></a>
                     </div>
                 </div>
             </header>
@@ -173,8 +182,10 @@ export default class XSafe extends MixinRedux(XElement) {
         }
 
         if (changes.activeWallet) {
-            const shouldDisplay = this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.hasWords;
-            this.$('.backup-reminder').classList.toggle('display-none', !shouldDisplay);
+            const shouldDisplayFile = this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.fileExported;
+            const shouldDisplayWords = !shouldDisplayFile && this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.wordsExported;
+            this.$('.backup-reminder.file').classList.toggle('display-none', !shouldDisplayFile);
+            this.$('.backup-reminder.words').classList.toggle('display-none', !shouldDisplayWords);
         }
     }
 
@@ -189,7 +200,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
             'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
             'x-account-modal-payout': this._newPayoutTransaction.bind(this),
-            'x-account-modal-backup': this._clickedAccountBackup.bind(this),
+            'x-account-modal-backup': this._clickedExportWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
@@ -197,14 +208,14 @@ export default class XSafe extends MixinRedux(XElement) {
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
-            'click [backup-words]': this._clickedAccountBackupReminder.bind(this),
+            'click [backup-words]': this._clickedExportWords.bind(this),
+            'click [backup-file]': this._clickedExportFile.bind(this),
         }
     }
 
     async _clickedAddAccount(walletId) {
         try {
             await accountManager.addAccount(walletId);
-            XToast.success('Account added successfully.');
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -216,27 +227,27 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAccountBackupReminder() {
-        if (this.properties.activeWallet.id === LEGACY) return;
-        return this._clickedAccountBackup(this.properties.activeWallet.id);
-    }
-
-    async _clickedAccountBackup(walletId) {
+    async _clickedExportFile() {
+        const walletId = this.properties.activeWallet.id;
         try {
-            await accountManager.export(walletId);
-            XToast.success('Wallet backed up successfully.');
+            await accountManager.exportFile(walletId);
         } catch (e) {
             console.error(e);
-            XToast.warning('No backup created.');
         }
     }
 
-    // TODO: Add dismiss-backup-words click handler
+    async _clickedExportWords(givenWalletId = null) {
+        const walletId = givenWalletId || this.properties.activeWallet.id;
+        try {
+            await accountManager.exportWords(walletId);
+        } catch (e) {
+            console.error(e);
+        }
+    }
 
     async _clickedAccountChangePassword(walletId) {
         try {
             await accountManager.changePassword(walletId);
-            XToast.success('Passphrase changed successfully.');
         } catch (e) {
             console.error(e);
             XToast.warning('Passphrase not changed.');
@@ -246,17 +257,14 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedAccountRename(params) {
         try {
             await accountManager.rename(params.walletId, params.address);
-            XToast.success('Account renamed successfully.');
         } catch (e) {
             console.error(e);
-            XToast.warning('Account was not renamed.');
         }
     }
 
     async _clickedAccountLogout(walletId) {
         try {
             await accountManager.logout(walletId);
-            XToast.success('You successfully logged out.');
         } catch (e) {
             console.error(e);
             XToast.warning('Logout failed.');
@@ -377,8 +385,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
             XSendTransactionModal.hide();
             XSendPreparedTransactionModal.hide();
-
-            XToast.success('Transaction sent!');
         } catch(e) {
             XToast.error(e.message || e);
             XSendTransactionModal.instance.loading = false;
