@@ -4,16 +4,16 @@
 
 import networkClient from '/apps/safe/src/network-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
-import AccountType from '/libraries/account-manager/account-type.js';
-import { TypeKeys as WalletTypeKeys } from '/apps/safe/src/wallet-redux.js';
+import { TypeKeys as WalletTypeKeys, WalletType } from '/apps/safe/src/wallet-redux.js';
+import { legacyAccounts$ } from '/apps/safe/src/selectors/account$.js';
 
 export const TypeKeys = {
-    ADD_KEY: 'accounts/add-key',
-    SET_ALL_KEYS: 'accounts/set-all-keys',
+    ADD: 'accounts/add',
+    SET_ALL: 'accounts/set-all',
     UPDATE_BALANCES: 'accounts/update-balances',
     UPDATE_LABEL: 'accounts/update-label',
-    UPGRADE_CANCELED: 'accounts/upgrade-canceled',
-    UPGRADE: 'accounts/upgrade',
+    REMOVE: 'accounts/remove',
+    LOGOUT_LEGACY: 'accounts/logout-legacy',
 };
 
 export function reducer(state, action) {
@@ -27,19 +27,19 @@ export function reducer(state, action) {
     }
 
     switch (action.type) {
-        case TypeKeys.ADD_KEY:
-            const oldEntry = state.entries.get(action.key.address);
+        case TypeKeys.ADD:
+            const oldEntry = state.entries.get(action.account.address);
 
             return Object.assign({}, state, {
                 hasContent: true,
                 entries: new Map(state.entries)
-                    .set(action.key.address, Object.assign({}, action.key, {
+                    .set(action.account.address, Object.assign({}, action.account, {
                         balance: oldEntry ? oldEntry.balance : undefined
                     }))
             });
 
-        case TypeKeys.SET_ALL_KEYS:
-            const newEntries = action.keys.map(x => {
+        case TypeKeys.SET_ALL:
+            const newEntries = action.accounts.map(x => {
                 const oldEntry = state.entries.get(x.address);
 
                 return [
@@ -74,23 +74,11 @@ export function reducer(state, action) {
             });
         }
 
-        case TypeKeys.UPGRADE_CANCELED: {
+        // LOGOUT_LEGACY is also handled by wallet reducer
+        case TypeKeys.REMOVE:
+        case TypeKeys.LOGOUT_LEGACY: {
             const entries = new Map(state.entries);
-            entries.set(action.address, Object.assign({}, state.entries.get(action.address), {
-                upgradeCanceled: Date.now()
-            }));
-
-            return Object.assign({}, state, {
-                entries
-            });
-        }
-
-        case TypeKeys.UPGRADE: {
-            const entries = new Map(state.entries);
-            entries.set(action.address, Object.assign({}, state.entries.get(action.address), {
-                type: AccountType.KEYGUARD_HIGH
-            }));
-
+            entries.delete(action.address);
             return Object.assign({}, state, {
                 entries
             });
@@ -112,27 +100,27 @@ export function reducer(state, action) {
     }
 }
 
-export function addAccount(key) {
+export function addAccount(account) {
     if (Config.online) {
         // when adding a new account, subscribe at network
-        networkClient.client.then(client => client.subscribe(key.address));
+        networkClient.client.then(client => client.subscribe(account.address));
     }
 
     return {
-        type: TypeKeys.ADD_KEY,
-        key
+        type: TypeKeys.ADD,
+        account
     };
 }
 
-export function setAllKeys(keys) {
+export function setAllAccounts(accounts) {
     if (Config.online) {
         // when adding a new account, subscribe at network.
-        networkClient.client.then(client => client.subscribe(keys.map(key => key.address)));
+        networkClient.client.then(client => client.subscribe(accounts.map(account => account.address)));
     }
 
     return {
-        type: TypeKeys.SET_ALL_KEYS,
-        keys
+        type: TypeKeys.SET_ALL,
+        accounts
     };
 }
 
@@ -151,16 +139,27 @@ export function updateLabel(address, label) {
     }
 }
 
-export function upgradeCanceled(address) {
+export function removeAccount(address) {
     return {
-        type: TypeKeys.UPGRADE_CANCELED,
-        address
+        type: TypeKeys.REMOVE,
+        address,
     }
 }
 
-export function upgrade(address) {
-    return {
-        type: TypeKeys.UPGRADE,
-        address
+export function logoutLegacy(walletId) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const account = [...state.accounts.entries.values() ].find(account => account.walletId === walletId);
+        if (!account.isLegacy) throw new Error('Tried to log out an address');
+
+        const legacyAccounts = legacyAccounts$(state); 
+
+        const isLastLegacy = legacyAccounts.length === 1;
+
+        dispatch({
+            type: TypeKeys.LOGOUT_LEGACY,
+            address: account.address,
+            isLastLegacy // for wallet reducer
+        });
     }
 }

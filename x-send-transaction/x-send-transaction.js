@@ -10,7 +10,7 @@ import networkClient from '/apps/safe/src/network-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 // import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import Config from '/libraries/secure-utils/config/config.js';
-import AccountType from '../../libraries/account-manager/account-type.js';
+import AccountType from '/apps/safe/src/lib/account-type.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { parseRequestLink } from '/libraries/nimiq-utils/request-link-encoding/request-link-encoding.js';

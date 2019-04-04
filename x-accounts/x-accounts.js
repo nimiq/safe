@@ -24,16 +24,11 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            keyguardReady: state.connection.keyguard,
             activeWalletId: activeWalletId$(state),
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.keyguardReady) {
-            this.$('.add').classList.remove('waiting');
-        }
-
         if (changes.activeWalletId) {
             this.$('x-popup-menu').classList.toggle('hidden', this.properties.activeWalletId === 'LEGACY');
         }

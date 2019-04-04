@@ -5,7 +5,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
-import AccountType from '/libraries/account-manager/account-type.js';
+import AccountType from '/apps/safe/src/lib/account-type.js';
 import VQrCodeOverlay from '/elements/v-qr-code-overlay/v-qr-code-overlay.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
