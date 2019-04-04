@@ -151,14 +151,14 @@ class AccountManager {
 
     async onboard() {
         await this._launched;
-        /*this._invoke(
+        this._invoke(
             'onboard',
             null,
             {
                 appName: 'Nimiq Safe',
             },
             new AccountsClient.RedirectRequestBehavior()
-        );*/
+        );
     }
 
     async create() {
