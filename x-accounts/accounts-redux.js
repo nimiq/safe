@@ -98,7 +98,7 @@ export function reducer(state, action) {
 
         case WalletTypeKeys.LOGOUT: {
             const entries = new Map(state.entries);
-            for (const address of action.addresses) {
+            for (const address of action.addressesToRemove) {
                 entries.delete(address);
             }
 

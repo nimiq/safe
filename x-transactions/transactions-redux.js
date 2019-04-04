@@ -126,7 +126,7 @@ export function reducer(state, action) {
             const entriesArray = [...state.entries.values()];
 
             for (const tx of entriesArray) {
-                if (action.addresses.includes(tx.sender) || action.addresses.includes(tx.recipient)) {
+                if (!action.addressesToKeep.includes(tx.sender) && !action.addressesToKeep.includes(tx.recipient)) {
                     entries.delete(tx.hash);
                 }
             }
