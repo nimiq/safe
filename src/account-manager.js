@@ -201,26 +201,26 @@ class AccountManager {
 
     async exportFile(accountId) {
         await this._launched;
-        const result = await this._invoke('exportFile', null, {
+        const result = await this._invoke('export', null, {
             appName: 'Nimiq Safe',
             accountId,
+            fileOnly: true,
         });
 
-        if (result.success) {
-            // Update fileExported flag
+        if (result.fileExported) {
             this.actions.setFileFlag(accountId, true);
         }
     }
 
     async exportWords(accountId) {
         await this._launched;
-        const result = await this._invoke('exportWords', null, {
+        const result = await this._invoke('export', null, {
             appName: 'Nimiq Safe',
             accountId,
+            wordsOnly: true,
         });
 
-        if (result.success) {
-            // Update wordsExported flags
+        if (result.wordsExported) {
             this.actions.setWordsFlag(accountId, true);
         }
     }
