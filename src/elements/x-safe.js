@@ -209,8 +209,8 @@ export default class XSafe extends MixinRedux(XElement) {
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
-            'click [backup-words]': this._clickedExportWords.bind(this),
-            'click [backup-file]': this._clickedExportFile.bind(this),
+            'click [backup-words]': () => this._clickedExportWords(),
+            'click [backup-file]': () => this._clickedExportFile(),
         }
     }
 

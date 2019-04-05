@@ -21,6 +21,8 @@ import {
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
+const APP_NAME = 'Nimiq Safe';
+
 class AccountManager {
     static getInstance() {
         this._instance = this._instance || new AccountManager();
@@ -56,6 +58,133 @@ class AccountManager {
 
         this._resolveLaunched();
     }
+
+    async onboard() {
+        await this._launched;
+        this.accountsClient.onboard({ appName: APP_NAME, }, new AccountsClient.RedirectRequestBehavior());
+    }
+
+    async create() {
+        await this._launched;
+        const result = await this.accountsClient.signup({ appName: APP_NAME });
+        this._onOnboardingResult(result);
+    }
+
+    async sign(tx) {
+        await this._launched;
+        const account = this.accounts.get(tx.sender);
+        tx.accountId = account.walletId;
+
+        const signedTransaction = await this.accountsClient.signTransaction(tx);
+
+        const rawTx = signedTransaction.raw;
+        rawTx.hash = this._hexToBase64(signedTransaction.hash);
+        return rawTx;
+    }
+
+    /**
+     * @param {string} accountId
+     * @param {string} [address]
+     */
+    async rename(accountId, address) {
+        await this._launched;
+        const result = await this.accountsClient.rename({
+            appName: APP_NAME,
+            accountId,
+            address,
+        });
+
+        this.actions.updateWalletLabel(result.accountId, result.label);
+        result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
+
+        // TODO: Remove unreturned addresses and add new returned addresses
+    }
+  
+    async export(accountId, options = {}) {
+        await this._launched;
+
+        const request = {
+            appName: APP_NAME,
+            accountId,
+            fileOnly: options.fileOnly,
+            wordsOnly: options.wordsOnly,
+        };
+
+        const result = await this.accountsClient.export(request);
+
+        if (result.wordsExported) {
+            this.actions.setWordsFlag(accountId, true);
+        }
+
+        if (result.fileExported) {
+            this.actions.setWordsFlag(accountId, true);
+        }
+    }
+
+    exportFile(accountId) {
+        this.export(accountId, { fileOnly: true });
+    }
+
+    async exportWords(accountId) {
+        this.export(accountId, { wordsOnly: true });
+    }
+
+    async changePassword(accountId) {
+        await this._launched;
+        await this.accountsClient.changePassword({
+            appName: APP_NAME,
+            accountId,
+        });
+    }
+
+    async login() {
+        await this._launched;
+        const result = await this.accountsClient.login({
+            appName: APP_NAME,
+        });
+        this._onOnboardingResult(result);
+    }
+
+    async logout(accountId) {
+        await this._launched;
+        const result = await this.accountsClient.logout({
+            appName: APP_NAME,
+            accountId,
+        });
+        if (result.success === true) {
+            this.actions.logout(accountId);
+        }
+    }
+
+    async logoutLegacy(accountId) {
+        await this._launched;
+        const result = await this.accountsClient.logout({
+            appName: APP_NAME,
+            accountId,
+        });
+        if (result.success === true) {
+            this.actions.logoutLegacy(accountId);
+        }
+    }
+
+    async addAccount(accountId) {
+        await this._launched;
+        const newAddress = await this.accountsClient.addAddress({
+            appName: APP_NAME,
+            accountId,
+        });
+        newAddress.type = AccountType.KEYGUARD_HIGH;
+        newAddress.walletId = accountId;
+        newAddress.isLegacy = false;
+        this.actions.addAccount(newAddress);
+    }
+
+    // signMessage(msg, address) {
+    //     throw new Error('Not implemented!'); return;
+
+    //     const account = this.accounts.get(address);
+    //     this._invoke('signMessage', account);
+    // }
 
     _bindStore() {
         this.store = MixinRedux.store;
@@ -147,137 +276,6 @@ class AccountManager {
         this._resolveAccountsLoaded();
     }
 
-    /// PUBLIC API ///
-
-    async onboard() {
-        await this._launched;
-        this._invoke(
-            'onboard',
-            null,
-            {
-                appName: 'Nimiq Safe',
-            },
-            new AccountsClient.RedirectRequestBehavior()
-        );
-    }
-
-    async create() {
-        await this._launched;
-        const result = await this._invoke('signup', null, {
-            appName: 'Nimiq Safe',
-        });
-        this._onOnboardingResult(result);
-    }
-
-    async sign(tx) {
-        await this._launched;
-        const account = this.accounts.get(tx.sender);
-        tx.accountId = account.walletId;
-
-        const signedTransaction = await this._invoke('signTransaction', null, tx);
-
-        const rawTx = signedTransaction.raw;
-        rawTx.hash = this._hexToBase64(signedTransaction.hash);
-        return rawTx;
-    }
-
-    /**
-     * @param {string} accountId
-     * @param {string} [address]
-     */
-    async rename(accountId, address) {
-        await this._launched;
-        const result = await this._invoke('rename', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-            address,
-        });
-
-        this.actions.updateWalletLabel(result.accountId, result.label);
-        result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
-
-        // TODO: Remove unreturned addresses and add new returned addresses
-    }
-
-    async exportFile(accountId) {
-        await this._launched;
-        const result = await this._invoke('export', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-            fileOnly: true,
-        });
-
-        if (result.fileExported) {
-            this.actions.setFileFlag(accountId, true);
-        }
-    }
-
-    async exportWords(accountId) {
-        await this._launched;
-        const result = await this._invoke('export', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-            wordsOnly: true,
-        });
-
-        if (result.wordsExported) {
-            this.actions.setWordsFlag(accountId, true);
-        }
-    }
-
-    async changePassword(accountId) {
-        await this._launched;
-        await this._invoke('changePassword', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-        });
-    }
-
-    async login() {
-        await this._launched;
-        const result = await this._invoke('login', null, {
-            appName: 'Nimiq Safe',
-        });
-        this._onOnboardingResult(result);
-    }
-
-    async logout(accountId) {
-        await this._launched;
-        const result = await this._invoke('logout', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-        });
-        if (result.success === true) this.actions.logout(accountId);
-    }
-
-    async logoutLegacy(accountId) {
-        await this._launched;
-        const result = await this._invoke('logout', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-        });
-        if (result.success === true) this.actions.logoutLegacy(accountId);
-    }
-
-    async addAccount(accountId) {
-        await this._launched;
-        const newAddress = await this._invoke('addAddress', null, {
-            appName: 'Nimiq Safe',
-            accountId,
-        });
-        newAddress.type = AccountType.KEYGUARD_HIGH;
-        newAddress.walletId = accountId;
-        newAddress.isLegacy = false;
-        this.actions.addAccount(newAddress);
-    }
-
-    // signMessage(msg, address) {
-    //     throw new Error('Not implemented!'); return;
-
-    //     const account = this.accounts.get(address);
-    //     this._invoke('signMessage', account);
-    // }
-
     _onOnboardingResult(result) {
         result.addresses.forEach(newAddress => {
             newAddress.type = AccountType.KEYGUARD_HIGH;
@@ -296,10 +294,6 @@ class AccountManager {
                 wordsExported: result.wordsExported,
             });
         }
-    }
-
-    _invoke(method, account, ...args) {
-        return this.accountsClient[method](...args);
     }
 
     // https://stackoverflow.com/a/41797377/4204380
