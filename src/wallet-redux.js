@@ -121,7 +121,7 @@ export function reducer(state, action) {
                 ),
             });
 
-        case TypeKeys.SET_FILE_WORDS:
+        case TypeKeys.SET_WORDS_FLAG:
             return Object.assign({}, state, {
                 entries: new Map(state.entries).set(
                     action.id,

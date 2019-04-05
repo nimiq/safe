@@ -117,7 +117,7 @@ class AccountManager {
         }
 
         if (result.fileExported) {
-            this.actions.setWordsFlag(accountId, true);
+            this.actions.setFileFlag(accountId, true);
         }
     }
 
