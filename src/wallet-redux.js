@@ -1,10 +1,16 @@
+import { TypeKeys as AccountTypeKeys } from '/elements/x-accounts/accounts-redux.js';
+import { legacyAccounts$ } from './selectors/account$.js';
+import { walletsArray$ } from './selectors/wallet$.js';
+
 export const TypeKeys = {
     LOGIN: 'wallet/login',
     SWITCH: 'wallet/switch',
-    SET_ALL_KEYS: 'wallet/set-all-keys',
+    SET_ALL: 'wallet/set-all',
     UPDATE_LABEL: 'wallet/update-label',
     LOGOUT: 'wallet/logout',
     SET_DEFAULT: 'wallet/set-default',
+    SET_FILE_FLAG: 'wallet/set-file-flag',
+    SET_WORDS_FLAG: 'wallet/set-words-flag',
 };
 
 export const LEGACY = 'LEGACY';
@@ -32,8 +38,8 @@ export function reducer(state, action) {
             return Object.assign({}, state, {
                 hasContent: true,
                 entries: new Map(state.entries)
-                    .set(action.key.id, Object.assign({}, action.key)),
-                activeWalletId: action.key.type === WalletType.LEGACY ? LEGACY : action.key.id,
+                    .set(action.wallet.id, Object.assign({}, action.wallet)),
+                activeWalletId: action.wallet.id,
             });
 
         case TypeKeys.SWITCH:
@@ -41,10 +47,10 @@ export function reducer(state, action) {
                 activeWalletId: action.walletId,
             });
 
-        case TypeKeys.SET_ALL_KEYS:
-            if (action.keys.length === 0) return state;
+        case TypeKeys.SET_ALL:
+            if (action.wallets.length === 0) return state;
 
-            const newEntries = action.keys.map(x => {
+            const newEntries = action.wallets.map(x => {
                 const oldEntry = state.entries.get(x.id);
 
                 return [
@@ -59,8 +65,11 @@ export function reducer(state, action) {
                 entries: new Map(newEntries)
             });
 
-            if (state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId)) {
-                newState.activeWalletId = [ ...newState.entries.values() ][0].id;
+            const activeWalletIsEmptyLegacy = state.activeWalletId === LEGACY && !action.hasLegacyAccounts;
+            const activeWalletWasDeleted = state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId);
+
+            if (activeWalletIsEmptyLegacy || activeWalletWasDeleted) {
+                newState.activeWalletId = action.walletWithMostAccounts.id;
             }
 
             return newState;
@@ -84,10 +93,9 @@ export function reducer(state, action) {
             let activeWalletId = state.activeWalletId;
             entries.delete(action.walletId);
 
-            if (activeWalletId === action.walletId) { // TODO: Handle when removed wallet was the last legacy wallet
+            if (activeWalletId === action.walletId) {
                 // If we logout of the current active key, log into the first available key
                 activeWalletId = entries.size > 0 ? entries.keys().next().value : null;
-                // TODO: Handle when first found walletId belongs to a legacy key
             }
 
             return Object.assign({}, state, {
@@ -96,22 +104,61 @@ export function reducer(state, action) {
             });
         }
 
+        case AccountTypeKeys.LOGOUT_LEGACY: {
+            if (!action.isLastLegacy) return state;
+
+            // Last legacy account was logged out, so choose some other active wallet
+            return Object.assign({}, state, {
+                activeWalletId: state.entries.size > 0 ? state.entries.keys().next().value : null,
+            });
+        }
+
+        case TypeKeys.SET_FILE_FLAG:
+            return Object.assign({}, state, {
+                entries: new Map(state.entries).set(
+                    action.id,
+                    Object.assign({}, state.entries.get(action.id), { fileExported: action.value }),
+                ),
+            });
+
+        case TypeKeys.SET_WORDS_FLAG:
+            return Object.assign({}, state, {
+                entries: new Map(state.entries).set(
+                    action.id,
+                    Object.assign({}, state.entries.get(action.id), { wordsExported: action.value }),
+                ),
+            });
+
         default:
             return state
     }
 }
 
-export function setAllKeys(keys) {
-    return {
-        type: TypeKeys.SET_ALL_KEYS,
-        keys
-    };
+export function setAllWallets(wallets) {
+    return async (dispatch, getState) => {
+        const state = getState();
+        const hasLegacyAccounts = legacyAccounts$(state).length > 0;
+        const walletWithMostAccounts = walletsArray$(state).sort(
+            (a, b) => a.accounts.size > b.accounts.size
+                ? -1
+                : a.accounts.size < b.accounts.size
+                    ? 1
+                    : 0
+        )[0];
+
+        return dispatch({
+            type: TypeKeys.SET_ALL,
+            wallets,
+            hasLegacyAccounts,
+            walletWithMostAccounts,
+        });
+    }
 }
 
-export function login(key) {
+export function login(wallet) {
     return {
         type: TypeKeys.LOGIN,
-        key
+        wallet
     }
 }
 
@@ -162,3 +209,21 @@ export function setDefaultWallet(id) {
         id
     };
 }
+
+export function setFileFlag(id, value) {
+    return {
+        type: TypeKeys.SET_FILE_FLAG,
+        id,
+        value
+    };
+}
+
+export function setWordsFlag(id, value) {
+    return {
+        type: TypeKeys.SET_WORDS_FLAG,
+        id,
+        value
+    };
+}
+
+// todo move populateWallets() here

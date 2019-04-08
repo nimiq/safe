@@ -140,14 +140,26 @@ x-total-amount {
 
 .backup-reminder {
     font-size: 16px;
+    transition: transform 200ms;
+}
+
+.backup-reminder:hover {
+    transform: translateY(2px);
 }
 
 .backup-reminder .action {
-    color: var(--nimiq-orange);
     cursor: pointer;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+}
+
+.backup-reminder.words .action {
+    color: var(--nimiq-orange);
+}
+
+.backup-reminder.file .action {
+    color: var(--nimiq-green);
 }
 
 .backup-reminder .icon {
@@ -166,8 +178,13 @@ x-total-amount {
     background-image: var(--nimiq-orange-bg);
 }
 
+.backup-reminder .icon.file {
+    background: var(--nimiq-green);
+    background-image: var(--nimiq-green-bg);
+}
+
 .backup-reminder .icon svg {
-    margin: 12px 0 -16px 12px;
+    margin: 12px 0 -16px 13px;
 }
 
 .backup-reminder .dismiss {
