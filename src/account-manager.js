@@ -209,25 +209,34 @@ class AccountManager {
         await this._launched;
 
         /**
-         * type key = {
-         *     id: string
+         * interface Account = {
+         *     accountId: string
          *     label: string,
-         *     accounts: Map<string, AccountInfoEntry>,
-         *     contracts: [],
          *     type: WalletType,
-         *     keyMissing: boolean,
          *     fileExported: boolean,
          *     wordsExported: boolean,
+         *     addresses: Address[],
+         *     contracts: Contract[],
          * }
          *
-         * interface AccountInfoEntry {
-         *     path: string;
-         *     label: string;
-         *     address: Uint8Array;
-         *     balance?: number;
+         * interface Address {
+         *     label: string,
+         *     address: string,
+         * }
+         *
+         * interface Contract {
+         *     label: string,
+         *     address: string;
+         * }
+         *
+         * interface VestingContract extends Contract {
+         *     owner: string,
+         *     start: number,
+         *     stepAmount: number,
+         *     stepBlocks: number,
+         *     totalAmount: number,
          * }
          */
-
         let listedWallets;
         try {
             listedWallets = await this.accountsClient.list();
@@ -250,7 +259,7 @@ class AccountManager {
 
             if (wallet.type !== WalletType.LEGACY) {
                 wallets.push({
-                    id: wallet.id,
+                    id: wallet.accountId,
                     label: wallet.label,
                     type: wallet.type,
                     fileExported: wallet.fileExported,
@@ -258,14 +267,25 @@ class AccountManager {
                 });
             }
 
-            Array.from(wallet.accounts.keys()).forEach(address => {
+            wallet.addresses.forEach(address => {
                 const entry = {
-                    address,
-                    label: wallet.accounts.get(address).label,
+                    address: address.address,
+                    label: address.label,
                     type: AccountType.KEYGUARD_HIGH,
                     isLegacy: wallet.type === WalletType.LEGACY,
-                    walletId: wallet.id,
+                    walletId: wallet.accountId,
                 };
+                accounts.push(entry);
+            });
+
+            wallet.contracts.forEach(contract => {
+                const entry = Object.assign({}, contract, {
+                    type: AccountType.VESTING,
+                    stepAmount: contract.stepAmount / 1e5,
+                    totalAmount: contract.totalAmount / 1e5,
+                    isLegacy: wallet.type === WalletType.LEGACY,
+                    walletId: wallet.accountId,
+                });
                 accounts.push(entry);
             });
         });
