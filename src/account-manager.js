@@ -72,11 +72,7 @@ class AccountManager {
 
     async sign(tx) {
         await this._launched;
-        const account = this.accounts.get(tx.sender);
-        tx.accountId = account.walletId;
-
         const signedTransaction = await this.accountsClient.signTransaction(tx);
-
         const rawTx = signedTransaction.raw;
         rawTx.hash = this._hexToBase64(signedTransaction.hash);
         return rawTx;
