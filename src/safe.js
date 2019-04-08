@@ -11,6 +11,7 @@ import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import XSafeLock from './elements/x-safe-lock.js';
+import { walletsArray$ } from './selectors/wallet$.js'
 
 class Safe {
     constructor() {
@@ -37,7 +38,7 @@ class Safe {
         accountManager.launch();
         await accountManager.accountsLoaded;
 
-        if (store.getState().wallets.entries.size === 0) {
+        if (walletsArray$(store.getState()).length === 0) {
             accountManager.onboard();
             return;
         }

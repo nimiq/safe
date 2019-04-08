@@ -21,7 +21,7 @@ export const legacyWallet$ = createSelector(
         label: LEGACY_LABEL,
         type: WalletType.LEGACY,
         numberAccounts: accounts.length,
-    }) : undefined 
+    }) : undefined
 );
 
 export const walletsArray$ = createSelector(
@@ -43,8 +43,8 @@ export const activeWallet$ = createSelector(
     legacyWallet$,
     activeWalletId$,
     (wallets, legacyWallet, activeWalletId) => {
-        if (wallets.size === 0) return null;
         if (activeWalletId === LEGACY) return legacyWallet;
+        if (wallets.size === 0) return null;
         return wallets.get(activeWalletId);
     }
 );
