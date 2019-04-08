@@ -21,7 +21,7 @@ import {
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
-const APP_NAME = 'Nimiq Safe';
+const APP_NAME = 'Accounts';
 
 class AccountManager {
     static getInstance() {
@@ -99,7 +99,7 @@ class AccountManager {
 
         // TODO: Remove unreturned addresses and add new returned addresses
     }
-  
+
     async export(accountId, options = {}) {
         await this._launched;
 
