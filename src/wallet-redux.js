@@ -173,6 +173,7 @@ export function logout(walletId) {
     return async (dispatch, getState) => {
         const state = getState();
         const addressesToRemove = [];
+        const addressesToKeep = [];
 
         let iterator;
         const accountIterator = state.accounts.entries.values();
@@ -180,13 +181,16 @@ export function logout(walletId) {
             const account = iterator.value;
             if (account.walletId === walletId) {
                 addressesToRemove.push(account.address);
+            } else {
+                addressesToKeep.push(account.address);
             }
         }
 
         dispatch({
             type: TypeKeys.LOGOUT,
             walletId,
-            addresses: addressesToRemove,
+            addressesToRemove,
+            addressesToKeep,
         });
     }
 }
