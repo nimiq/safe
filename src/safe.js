@@ -6,7 +6,7 @@ import { updateBalances } from '/elements/x-accounts/accounts-redux.js';
 import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from './account-manager.js';
-import Config from '/libraries/secure-utils/config/config.js'; // Config needs to be imported before networkClient
+import Config from '/libraries/secure-utils/config/config.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
