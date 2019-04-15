@@ -172,12 +172,12 @@ export default class XSafe extends MixinRedux(XElement) {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
             activeWallet: activeWallet$(state),
+            walletsLoaded: state.wallets.hasContent,
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.activeWallet === null) {
-            // user logged out of all wallets
+        if (this.properties.walletsLoaded && !this.properties.activeWallet) {
             accountManager.onboard();
             return;
         }

@@ -1,6 +1,6 @@
 import { TypeKeys as AccountTypeKeys } from '/elements/x-accounts/accounts-redux.js';
-import { legacyAccounts$ } from './selectors/account$.js';
-import { walletsArray$ } from './selectors/wallet$.js';
+import AccountType from './lib/account-type.js';
+import networkClient from '/apps/safe/src/network-client.js';
 
 export const TypeKeys = {
     LOGIN: 'wallet/login',
@@ -65,11 +65,11 @@ export function reducer(state, action) {
                 entries: new Map(newEntries)
             });
 
-            const activeWalletIsEmptyLegacy = state.activeWalletId === LEGACY && !action.hasLegacyAccounts;
+            const activeWalletIsEmptyLegacy = state.activeWalletId === LEGACY && !action.accounts.some(account => account.isLegacy);
             const activeWalletWasDeleted = state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId);
 
             if (activeWalletIsEmptyLegacy || activeWalletWasDeleted) {
-                newState.activeWalletId = action.walletWithMostAccounts.id;
+                newState.activeWalletId = action.walletIdWithMostAccounts;
             }
 
             return newState;
@@ -131,27 +131,6 @@ export function reducer(state, action) {
 
         default:
             return state
-    }
-}
-
-export function setAllWallets(wallets) {
-    return async (dispatch, getState) => {
-        const state = getState();
-        const hasLegacyAccounts = legacyAccounts$(state).length > 0;
-        const walletWithMostAccounts = walletsArray$(state).sort(
-            (a, b) => a.accounts.size > b.accounts.size
-                ? -1
-                : a.accounts.size < b.accounts.size
-                    ? 1
-                    : 0
-        )[0];
-
-        return dispatch({
-            type: TypeKeys.SET_ALL,
-            wallets,
-            hasLegacyAccounts,
-            walletWithMostAccounts,
-        });
     }
 }
 
@@ -226,4 +205,66 @@ export function setWordsFlag(id, value) {
     };
 }
 
-// todo move populateWallets() here
+export function populate(listedWallets) {
+    return async (dispatch, getState) => {
+        const wallets = [];
+        const accounts = [];
+
+        listedWallets.forEach(wallet => {
+
+            if (wallet.type !== WalletType.LEGACY) {
+                wallets.push({
+                    id: wallet.accountId,
+                    label: wallet.label,
+                    type: wallet.type,
+                    fileExported: wallet.fileExported,
+                    wordsExported: wallet.wordsExported,
+                });
+            }
+
+            wallet.addresses.forEach(address => {
+                const entry = {
+                    address: address.address,
+                    label: address.label,
+                    type: AccountType.KEYGUARD_HIGH,
+                    isLegacy: wallet.type === WalletType.LEGACY,
+                    walletId: wallet.accountId,
+                };
+                accounts.push(entry);
+            });
+
+            wallet.contracts.forEach(contract => {
+                const entry = Object.assign({}, contract, {
+                    type: AccountType.VESTING,
+                    stepAmount: contract.stepAmount / 1e5,
+                    totalAmount: contract.totalAmount / 1e5,
+                    isLegacy: wallet.type === WalletType.LEGACY,
+                    walletId: wallet.accountId,
+                });
+                accounts.push(entry);
+            });
+        });
+
+        const walletWithMostAccounts = listedWallets.sort(
+            (a, b) => a.addresses.length > b.addresses.length
+                ? -1
+                : a.addresses.length < b.addresses.length
+                    ? 1
+                    : 0
+        )[0];
+
+        const walletIdWithMostAccounts = walletWithMostAccounts
+            ? walletWithMostAccounts.accountId
+            : LEGACY;
+
+        // subscribe at network.
+        networkClient.client.then(client => client.subscribe(accounts.map(account => account.address)));
+
+        dispatch({
+            type: TypeKeys.SET_ALL,
+            wallets,
+            accounts,
+            walletIdWithMostAccounts,
+        });
+    }
+}

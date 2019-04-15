@@ -36,12 +36,13 @@ class Safe {
 
         // Launch account manager
         accountManager.launch();
-        await accountManager.accountsLoaded;
 
+        /*
         if (walletsArray$(store.getState()).length === 0) {
             accountManager.onboard();
             return;
         }
+        */
 
         const $appContainer = document.getElementById('app');
 
