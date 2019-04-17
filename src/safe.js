@@ -1,4 +1,4 @@
-import XSafe from './elements/x-safe.js';
+import XLoader from './elements/x-loader.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
@@ -11,13 +11,18 @@ import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
 import XSafeLock from './elements/x-safe-lock.js';
-import { walletsArray$ } from './selectors/wallet$.js'
 
 class Safe {
     constructor() {
         this._networkLaunched = false;
         this._consensusSyncing = false;
         this._consensusEstablished = false;
+
+        // if browser warning is active, abort
+        const warningTags = ['browser-outdated', 'browser-edge', 'no-local-stoage', 'web-view', 'private-mode'];
+        for (let warningTag of warningTags) {
+            //if (document.body.hasAttribute(warningTag)) return;
+        }
 
         if (localStorage.getItem('lock')) {
             const $safeLock = XSafeLock.createElement();
@@ -26,7 +31,6 @@ class Safe {
         } else {
             this.launchApp();
         }
-
     }
 
     async launchApp() {
@@ -37,20 +41,13 @@ class Safe {
         // Launch account manager
         accountManager.launch();
 
-        /*
-        if (walletsArray$(store.getState()).length === 0) {
-            accountManager.onboard();
-            return;
-        }
-        */
-
         const $appContainer = document.getElementById('app');
 
         // set singleton app container
         MixinSingleton.appContainer = $appContainer;
 
         // start UI
-        this._xApp = new XSafe($appContainer);
+        this._xApp = new XLoader($appContainer);
 
         this.actions = bindActionCreators({
             updateBalances,

@@ -1,3 +1,5 @@
+// FIXME merge with accounts-redux
+
 import { TypeKeys as AccountTypeKeys } from '/elements/x-accounts/accounts-redux.js';
 import AccountType from './lib/account-type.js';
 import networkClient from '/apps/safe/src/network-client.js';
@@ -25,7 +27,6 @@ export const initialState = {
     entries: new Map(),
     loading: false,
     hasContent: false,
-    activeWalletId: LEGACY,
 };
 
 export function reducer(state, action) {
@@ -48,16 +49,10 @@ export function reducer(state, action) {
             });
 
         case TypeKeys.SET_ALL:
-            if (action.wallets.length === 0) return state;
-
-            const newEntries = action.wallets.map(x => {
-                const oldEntry = state.entries.get(x.id);
-
-                return [
-                    x.id,
-                    Object.assign({}, oldEntry, x)
-                ];
-            });
+            const newEntries = action.wallets.map(x => [
+                x.id,
+                Object.assign({}, state.entries.get(x.id), x)
+            ]);
 
             const newState = Object.assign({}, state, {
                 hasContent: true,
@@ -66,9 +61,9 @@ export function reducer(state, action) {
             });
 
             const activeWalletIsEmptyLegacy = state.activeWalletId === LEGACY && !action.accounts.some(account => account.isLegacy);
-            const activeWalletWasDeleted = state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId);
+            const noActiveWallet = state.activeWalletId !== LEGACY && !newState.entries.get(state.activeWalletId);
 
-            if (activeWalletIsEmptyLegacy || activeWalletWasDeleted) {
+            if (activeWalletIsEmptyLegacy || noActiveWallet) {
                 newState.activeWalletId = action.walletIdWithMostAccounts;
             }
 
@@ -255,7 +250,9 @@ export function populate(listedWallets) {
 
         const walletIdWithMostAccounts = walletWithMostAccounts
             ? walletWithMostAccounts.accountId
-            : LEGACY;
+            : accounts.some(account => account.isLegacy)
+                ? LEGACY
+                : undefined;
 
         // subscribe at network.
         networkClient.client.then(client => client.subscribe(accounts.map(account => account.address)));
