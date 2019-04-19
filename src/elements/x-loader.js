@@ -1,6 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import accountManager from '../account-manager.js';
-import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import XSafe from './x-safe.js';
