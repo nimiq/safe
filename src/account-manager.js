@@ -1,22 +1,19 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import {
-    addAccount,
-    updateLabel as updateAccountLabel,
-    logoutLegacy
-} from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsClient from './AccountsClient.standalone.es.js';
 import {
-    WalletType,
+    addAccount,
+    LEGACY,
     login,
     logout,
-    updateLabel as updateWalletLabel,
-    setDefaultWallet,
-    switchWallet,
+    logoutLegacy,
+    populate,
     setFileFlag,
     setWordsFlag,
-    populate,
-    LEGACY
+    switchWallet,
+    updateWalletLabel,
+    updateAccountLabel,
+    WalletType,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
@@ -37,7 +34,7 @@ class AccountManager {
         this.accountsClient = new AccountsClient();
 
         this.accounts = {
-            get: (address) => MixinRedux.store.getState().accounts.entries.get(address),
+            get: (address) => MixinRedux.store.getState().wallets.accounts.get(address),
         };
 
         this._bindStore();
@@ -89,6 +86,7 @@ class AccountManager {
         });
 
         this.actions.updateWalletLabel(result.accountId, result.label);
+
         result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
 
         // TODO: Remove unreturned addresses and add new returned addresses
@@ -185,16 +183,15 @@ class AccountManager {
 
         this.actions = bindActionCreators({
             addAccount,
-            updateAccountLabel,
-            setDefaultWallet,
             login,
             logout,
             logoutLegacy,
-            updateWalletLabel,
-            switchWallet,
+            populate,
             setFileFlag,
             setWordsFlag,
-            populate
+            switchWallet,
+            updateAccountLabel,
+            updateWalletLabel,
         }, this.store.dispatch);
     }
 

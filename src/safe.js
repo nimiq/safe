@@ -2,7 +2,7 @@ import XLoader from './elements/x-loader.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { default as store, Store } from './store.js';
-import { updateBalances } from '/elements/x-accounts/accounts-redux.js';
+import { updateBalances } from './wallet-redux.js';
 import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
 import accountManager from './account-manager.js';
@@ -21,7 +21,7 @@ class Safe {
         // if browser warning is active, abort
         const warningTags = ['browser-outdated', 'browser-edge', 'no-local-stoage', 'web-view', 'private-mode'];
         for (let warningTag of warningTags) {
-            //if (document.body.hasAttribute(warningTag)) return;
+            if (document.body.hasAttribute(warningTag)) return;
         }
 
         if (localStorage.getItem('lock')) {
@@ -141,7 +141,7 @@ class Safe {
 
     _onTransaction(tx) {
         // Check if we know the sender or recipient of the tx
-        const accounts = this.store.getState().accounts.entries;
+        const accounts = this.store.getState().wallets.accounts;
         if (!accounts.has(tx.sender) && !accounts.has(tx.recipient)) {
             console.warn('Not displaying transaction because sender and recipient are unknown:', tx);
             return;

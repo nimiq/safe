@@ -4,13 +4,13 @@ import { legacyAccounts$ } from './account$.js';
 
 const LEGACY_LABEL = 'Single-Address Accounts';
 
-export const wallets$ = state => state.wallets.entries;
+export const wallets$ = state => state.wallets.wallets;
 
 export const hasContent$ = state => state.wallets.hasContent;
 
 export const activeWalletId$ = state => state.wallets.activeWalletId;
 
-const accountsArray$ = state => [...state.accounts.entries.values()];
+const accountsArray$ = state => [...state.wallets.accounts.values()];
 
 export const legacyWallet$ = createSelector(
     legacyAccounts$,
