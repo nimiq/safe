@@ -20,7 +20,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
     static mapStateToProps(state) {
         return {
             accounts: activeAccounts$(state),
-            hasContent: state.accounts.hasContent
+            hasContent: state.wallets.hasContent
         };
     }
 

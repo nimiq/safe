@@ -38,9 +38,9 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            accounts: state.accounts.entries,
-            hasContent: state.accounts.hasContent,
-            loading: state.accounts.loading
+            accounts: state.wallets.accounts,
+            hasContent: state.wallets.hasContent,
+            loading: state.wallets.loading
         };
     }
 
