@@ -4,7 +4,6 @@ import { TypeKeys as WalletTypeKeys } from '/apps/safe/src/wallet-redux.js';
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
     MARK_REMOVED: 'transactions/mark-removed',
-    REMOVE_TXS: 'transactions/remove-transactions',
     UPDATE_BLOCK: 'transactions/updateBlock',
     SET_PAGE: 'transactions/set-page',
     SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
@@ -85,17 +84,6 @@ export function reducer(state, action) {
                 entries
             });
         }
-        case TypeKeys.REMOVE_TXS: {
-            const entries = new Map(state.entries);
-
-            action.hashes.forEach(hash => {
-                entries.delete(hash);
-            });
-
-            return Object.assign({}, state, {
-                entries
-            });
-        }
         case TypeKeys.UPDATE_BLOCK:
             const oldEntry = state.entries.get(action.hash);
             return Object.assign({}, state, {
@@ -121,7 +109,8 @@ export function reducer(state, action) {
                 isRequestingHistory: action.isRequestingHistory
             });
 
-        case WalletTypeKeys.LOGOUT: {
+        case WalletTypeKeys.LOGOUT:
+        case WalletTypeKeys.REMOVE_ACCOUNT: {
             const entries = new Map(state.entries);
             const entriesArray = [...state.entries.values()];
 
@@ -158,17 +147,6 @@ export function addTransactions(transactions) {
 export function markRemoved(hashes, currentHeight) {
     return {
         type: TypeKeys.MARK_REMOVED,
-        hashes,
-        currentHeight
-    }
-}
-
-/**
- * @param {Array<string>} hashes
- */
-export function removeTransactions(hashes) {
-    return {
-        type: TypeKeys.REMOVE_TXS,
         hashes,
         currentHeight
     }
