@@ -33,8 +33,11 @@ export default class XLoader extends MixinRedux(XElement) {
         }
 
         if (changes.walletsLoaded) {
-            const xSafe = new XSafe(this.$el);
-            this.relayedTxResolvers = xSafe.relayedTxResolvers;
+            this._xSafe = new XSafe(this.$el);
         }
+    }
+
+    get relayedTxResolvers() {
+        return this._xSafe.relayedTxResolvers;
     }
 }

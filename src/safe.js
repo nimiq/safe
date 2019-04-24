@@ -19,11 +19,10 @@ class Safe {
         this._consensusEstablished = false;
 
         // if browser warning is active, abort
-        const warningTags = ['browser-outdated', 'browser-edge', 'no-local-stoage', 'web-view', 'private-mode'];
+        const warningTags = ['browser-outdated', 'browser-edge', 'no-local-storage', 'web-view', 'private-mode'];
         for (let warningTag of warningTags) {
             if (document.body.hasAttribute(warningTag)) return;
         }
-
         if (localStorage.getItem('lock')) {
             const $safeLock = XSafeLock.createElement();
             $safeLock.$el.classList.add('nimiq-dark');

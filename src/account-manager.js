@@ -13,6 +13,7 @@ import {
     switchWallet,
     updateWalletLabel,
     updateAccountLabel,
+    removeAccount,
     WalletType,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
@@ -90,6 +91,12 @@ class AccountManager {
         result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
 
         // TODO: Remove unreturned addresses and add new returned addresses
+    }
+
+    // for testing
+    async removeAccount(address) {
+        await this._launched;
+        this.actions.removeAccount(address);
     }
 
     async export(accountId, options = {}) {
@@ -192,6 +199,7 @@ class AccountManager {
             switchWallet,
             updateAccountLabel,
             updateWalletLabel,
+            removeAccount,
         }, this.store.dispatch);
     }
 

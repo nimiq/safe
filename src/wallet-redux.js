@@ -2,11 +2,10 @@ import AccountType from './lib/account-type.js';
 import networkClient from './network-client.js';
 
 export const TypeKeys = {
-    ADD_ACCOUNT: 'wallet/add',
+    ADD_ACCOUNT: 'wallet/add-account',
     LOGIN: 'wallet/login',
     LOGOUT: 'wallet/logout',
-    LOGOUT_LEGACY: 'wallet/logout-legacy',
-    REMOVE_ACCOUNT: 'wallet/remove',
+    REMOVE_ACCOUNT: 'wallet/remove-account',
     POPULATE: 'wallet/populate',
     SET_WORDS_FLAG: 'wallet/set-words-flag',
     SET_FILE_FLAG: 'wallet/set-file-flag',
@@ -106,7 +105,7 @@ export function reducer(state, action) {
             const wallets = new Map(state.wallets);
             wallets.delete(action.walletId);
 
-            // Remove wallet's accounts
+            // Remove wallet's accounts (including contracts)
             const accounts = new Map(state.accounts);
             for (const account of [...state.accounts.values()]) {
                 if (account.walletId === action.walletId) {
@@ -118,13 +117,6 @@ export function reducer(state, action) {
                 wallets,
                 accounts,
             });
-        }
-
-        case TypeKeys.LOGOUT_LEGACY: {
-            const accounts = new Map(state.accounts);
-            accounts.delete(action.address);
-
-            return updateState({ accounts });
         }
 
         case TypeKeys.POPULATE: {
@@ -152,7 +144,7 @@ export function reducer(state, action) {
                     const entry = {
                         address: address.address,
                         label: address.label,
-                        type: AccountType.KEYGUARD_HIGH,
+                        type: wallet.type === WalletType.LEDGER ? AccountType.LEDGER : AccountType.KEYGUARD_HIGH,
                         isLegacy: wallet.type === WalletType.LEGACY,
                         walletId: wallet.accountId,
                     };
@@ -166,9 +158,13 @@ export function reducer(state, action) {
 
                 wallet.contracts.forEach(contract => {
                     const entry = Object.assign({}, contract, {
-                        type: AccountType.VESTING,
+                        type: contract.type === 1 /* Nimiq.Account.Type.VESTING */ ? AccountType.VESTING : AccountType.HTLC,
                         stepAmount: contract.stepAmount / 1e5,
                         totalAmount: contract.totalAmount / 1e5,
+                        label: contract.label,
+                        owner: contract.owner, // vesting only
+                        sender: contract.sender, // HTLC only
+                        recipient: contract.recipient, // HTLC only
                         isLegacy: wallet.type === WalletType.LEGACY,
                         walletId: wallet.accountId,
                     });
@@ -191,6 +187,26 @@ export function reducer(state, action) {
         case TypeKeys.REMOVE_ACCOUNT: {
             const accounts = new Map(state.accounts);
             accounts.delete(action.address);
+
+            const accountArray = [...accounts.values()];
+
+            const affectedVestingContracts = accountArray.filter(account =>
+                account.type === AccountType.VESTING && account.owner === action.address
+            );
+
+            const affectedHTLCContracts = accountArray.filter(account =>
+                account.type === AccountType.HTLC
+                && !accounts.get(account.sender)
+                && !accounts.get(account.recipient)
+            );
+
+            for (const contract of affectedVestingContracts) {
+                accounts.delete(contract.address);
+            }
+
+            for (const contract of affectedHTLCContracts) {
+                accounts.delete(contract.address);
+            }
 
             return updateState({ accounts });
         }
@@ -273,12 +289,9 @@ export function logoutLegacy(walletId) {
     return async (dispatch, getState) => {
         const state = getState();
         const account = [...state.wallets.accounts.values()].find(account => account.walletId === walletId);
-        if (!account.isLegacy) throw new Error('Tried to log out an address');
+        if (!account.isLegacy) throw new Error('Called legacyLogout for non-legacy wallet');
 
-        dispatch({
-            type: TypeKeys.LOGOUT_LEGACY,
-            address: account.address,
-        });
+        removeAccount(account.address)(dispatch, getState);
     }
 }
 
@@ -295,9 +308,27 @@ export function populate(listedWallets) {
 }
 
 export function removeAccount(address) {
-    return {
-        type: TypeKeys.REMOVE,
-        address,
+    return async (dispatch, getState) => {
+        const state = getState();
+        const accountArray = [...state.wallets.accounts.values()];
+
+        // For transactions store: Keep transactions with all addresses...
+        const addressesToKeep = accountArray.filter(account => {
+            if (account.address === address) return false; // ...but the one to be deleted...
+            if (account.type === AccountType.VESTING && account.owner === address) return false; // ...and its contracts
+            if (account.type === AccountType.HTLC) {
+                const sender = state.wallet.accounts.get(account.sender);
+                const recipient = state.wallet.accounts.get(account.recipient);
+                if ((!sender || sender.address === address) && (!recipient || recipient.address === address)) return false;
+            }
+            return true;
+        }).map(account => account.address);
+
+        dispatch({
+            type: TypeKeys.REMOVE_ACCOUNT,
+            address,
+            addressesToKeep,
+        });
     }
 }
 

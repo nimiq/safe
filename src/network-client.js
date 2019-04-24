@@ -1,9 +1,8 @@
 import { NetworkClient as NimiqNetworkClient } from '../node_modules/@nimiq/network-client/dist/NetworkClient.standalone.es.js';
-import Config from '/libraries/secure-utils/config/config.js';
 
 class NetworkClient {
     static getInstance() {
-        this._instance = this._instance || new NetworkClient(Config.src('network'));
+        this._instance = this._instance || new NetworkClient();
         return this._instance;
     }
 
