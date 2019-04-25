@@ -60,13 +60,13 @@ export default class XTransactions extends MixinRedux(XElement) {
                     state.transactions.itemsPerPage,
                     true
                 ),
-                state.accounts ? state.accounts.entries : false,
+                state.wallets.accounts ? state.wallets.accounts : false,
                 state.contacts
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: (activeTransactions$(state) || new Map()).size,
-            addresses: state.accounts ? [...state.accounts.entries.keys()] : [],
-            hasAccounts: state.accounts.hasContent,
+            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()] : [],
+            hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
             isRequestingHistory: state.transactions.isRequestingHistory
         }

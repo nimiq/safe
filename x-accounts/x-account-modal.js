@@ -97,7 +97,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     static mapStateToProps(state, props) {
         return Object.assign({},
-            state.accounts.entries.get(props.address),
+            state.wallets.accounts.get(props.address),
             {
                 height: state.network.height
             }
@@ -226,7 +226,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
         address = dashToSpace(address);
 
-        let account = MixinRedux.store.getState().accounts.entries.get(address);
+        let account = MixinRedux.store.getState().wallets.accounts.get(address);
         if (!account) account = { address };
         this.account = account;
     }

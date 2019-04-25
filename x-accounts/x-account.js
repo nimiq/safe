@@ -36,7 +36,7 @@ export default class XAccount extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         const newProps = Object.assign({},
-            state.accounts.entries.get(props.address)
+            state.wallets.accounts.get(props.address)
         );
         if (props.type === 4 && newProps.type === 4) { // Vesting
             // Keep "available balance"
