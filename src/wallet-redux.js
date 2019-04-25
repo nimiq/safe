@@ -161,10 +161,6 @@ export function reducer(state, action) {
                         type: contract.type === 1 /* Nimiq.Account.Type.VESTING */ ? AccountType.VESTING : AccountType.HTLC,
                         stepAmount: contract.stepAmount / 1e5,
                         totalAmount: contract.totalAmount / 1e5,
-                        label: contract.label,
-                        owner: contract.owner, // vesting only
-                        sender: contract.sender, // HTLC only
-                        recipient: contract.recipient, // HTLC only
                         isLegacy: wallet.type === WalletType.LEGACY,
                         walletId: wallet.accountId,
                     });
@@ -186,26 +182,11 @@ export function reducer(state, action) {
 
         case TypeKeys.REMOVE_ACCOUNT: {
             const accounts = new Map(state.accounts);
-            accounts.delete(action.address);
 
-            const accountArray = [...accounts.values()];
-
-            const affectedVestingContracts = accountArray.filter(account =>
-                account.type === AccountType.VESTING && account.owner === action.address
-            );
-
-            const affectedHTLCContracts = accountArray.filter(account =>
-                account.type === AccountType.HTLC
-                && !accounts.get(account.sender)
-                && !accounts.get(account.recipient)
-            );
-
-            for (const contract of affectedVestingContracts) {
-                accounts.delete(contract.address);
-            }
-
-            for (const contract of affectedHTLCContracts) {
-                accounts.delete(contract.address);
+            for (const address of [...accounts.keys()]) {
+                if (!action.addressesToKeep.includes(address)) {
+                    accounts.delete(address);
+                }
             }
 
             return updateState({ accounts });
@@ -297,7 +278,7 @@ export function logoutLegacy(walletId) {
 
 export function populate(listedWallets) {
     // subscribe addresses at network
-    const addresses = listedWallets.map(wallet => wallet.addresses.map(account => account.address))
+    const addresses = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts).map(account => account.address))
         .reduce((acc, addresses) => acc.concat(addresses), []);
     networkClient.client.then(client => client.subscribe(addresses));
 
