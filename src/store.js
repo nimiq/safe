@@ -37,10 +37,8 @@ export class Store {
                     entries: new Map(persistedState.transactions.entries)
                 }),
                 wallets: Object.assign({}, initialWalletState, persistedState.wallets, {
-                    entries: new Map(persistedState.wallets ? persistedState.wallets.entries : [])
-                }),
-                accounts: Object.assign({}, persistedState.accounts, {
-                    entries: new Map(persistedState.accounts.entries)
+                    wallets: new Map(persistedState.wallets ? persistedState.wallets.wallets : []),
+                    accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: [])
                 }),
                 network: Object.assign({}, initialNetworkState, persistedState.network),
                 settings: Object.assign({}, initialSettingsState, persistedState.settings),
@@ -66,18 +64,15 @@ export class Store {
 
         const wallets =  Object.assign({},
             state.wallets,
-            { entries: [...state.wallets.entries.entries()] }
-        );
-
-        const accounts =  Object.assign({},
-            state.accounts,
-            { entries: [...state.accounts.entries.entries()] }
+            {
+                wallets: [...state.wallets.wallets.entries()],
+                accounts: [...state.wallets.accounts.entries()],
+            }
         );
 
         const persistentState = {
             transactions,
             wallets,
-            accounts,
             network: {
                 oldHeight: state.network.height
             },

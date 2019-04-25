@@ -1,23 +1,20 @@
 import { bindActionCreators } from '/libraries/redux/src/index.js';
-import {
-    addAccount,
-    setAllAccounts,
-    updateLabel as updateAccountLabel,
-    logoutLegacy
-} from '/elements/x-accounts/accounts-redux.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import AccountsClient from './AccountsClient.standalone.es.js';
 import {
-    WalletType,
-    setAllWallets,
+    addAccount,
+    LEGACY,
     login,
     logout,
-    updateLabel as updateWalletLabel,
-    setDefaultWallet,
-    switchWallet,
+    logoutLegacy,
+    populate,
     setFileFlag,
     setWordsFlag,
-    LEGACY
+    switchWallet,
+    updateWalletLabel,
+    updateAccountLabel,
+    removeAccount,
+    WalletType,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
@@ -32,14 +29,13 @@ class AccountManager {
 
     constructor() {
         this._launched = new Promise(res => this._resolveLaunched = res);
-        this.accountsLoaded = new Promise(res => this._resolveAccountsLoaded = res);
     }
 
     async launch() {
         this.accountsClient = new AccountsClient();
 
         this.accounts = {
-            get: (address) => MixinRedux.store.getState().accounts.entries.get(address),
+            get: (address) => MixinRedux.store.getState().wallets.accounts.get(address),
         };
 
         this._bindStore();
@@ -91,9 +87,16 @@ class AccountManager {
         });
 
         this.actions.updateWalletLabel(result.accountId, result.label);
+
         result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
 
         // TODO: Remove unreturned addresses and add new returned addresses
+    }
+
+    // for testing
+    async removeAccount(address) {
+        await this._launched;
+        this.actions.removeAccount(address);
     }
 
     async export(accountId, options = {}) {
@@ -187,17 +190,16 @@ class AccountManager {
 
         this.actions = bindActionCreators({
             addAccount,
-            setAllAccounts,
-            updateAccountLabel,
-            setAllWallets,
-            setDefaultWallet,
             login,
             logout,
             logoutLegacy,
-            updateWalletLabel,
-            switchWallet,
+            populate,
             setFileFlag,
-            setWordsFlag
+            setWordsFlag,
+            switchWallet,
+            updateAccountLabel,
+            updateWalletLabel,
+            removeAccount,
         }, this.store.dispatch);
     }
 
@@ -248,48 +250,7 @@ class AccountManager {
             else throw error;
         }
 
-        const wallets = [];
-        const accounts = [];
-
-        listedWallets.forEach(wallet => {
-
-            if (wallet.type !== WalletType.LEGACY) {
-                wallets.push({
-                    id: wallet.accountId,
-                    label: wallet.label,
-                    type: wallet.type,
-                    fileExported: wallet.fileExported,
-                    wordsExported: wallet.wordsExported,
-                });
-            }
-
-            wallet.addresses.forEach(address => {
-                const entry = {
-                    address: address.address,
-                    label: address.label,
-                    type: AccountType.KEYGUARD_HIGH,
-                    isLegacy: wallet.type === WalletType.LEGACY,
-                    walletId: wallet.accountId,
-                };
-                accounts.push(entry);
-            });
-
-            wallet.contracts.forEach(contract => {
-                const entry = Object.assign({}, contract, {
-                    type: AccountType.VESTING,
-                    stepAmount: contract.stepAmount / 1e5,
-                    totalAmount: contract.totalAmount / 1e5,
-                    isLegacy: wallet.type === WalletType.LEGACY,
-                    walletId: wallet.accountId,
-                });
-                accounts.push(entry);
-            });
-        });
-
-        this.actions.setAllAccounts(accounts);
-        this.actions.setAllWallets(wallets);
-
-        this._resolveAccountsLoaded();
+        this.actions.populate(listedWallets);
     }
 
     _onOnboardingResult(result) {
