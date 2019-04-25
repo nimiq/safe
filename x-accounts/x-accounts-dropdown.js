@@ -3,6 +3,8 @@ import XExpandable from '../x-expandable/x-expandable.js';
 import XAccount from './x-account.js';
 import XAccountsList from './x-accounts-list.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import AccountType from '../../apps/safe/src/lib/account-type.js';
+import { activeAccounts$ } from '../../apps/safe/src/selectors/account$.js';
 
 export default class XAccountsDropdown extends MixinRedux(XElement) {
 
@@ -38,7 +40,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            accounts: state.wallets.accounts,
+            accounts: activeAccounts$(state),
             hasContent: state.wallets.hasContent,
             loading: state.wallets.loading
         };
@@ -54,7 +56,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
 
         !this._isDisabled && this.$expandable.enable();
 
-        if (changes.accounts && !this.selectedAccount) {
+        if (changes.accounts) {
             this.selectDefaultAccount();
         }
     }
@@ -66,7 +68,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         let account;
         do {
             account = accounts.next().value;
-        } while (account === 4) // Do not auto-select vesting accounts
+        } while (account === AccountType.VESTING || account === AccountType.HTLC) // Do not auto-select contracts
         this.selectedAccount = account;
     }
 
@@ -93,6 +95,8 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this.$account.account = account;
         this.$input.value = account.address;
         this.fire('x-account-selected', account.address);
+        // hide selected account 
+        this.$accountsList.selectedAccount = account.address;
     }
 
     _showStatusMessage() {
@@ -111,6 +115,8 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this.$account.setProperties(account);
         this.$input.value = account.address;
         this.$expandable.collapse();
+        // hide selected account 
+        this.$accountsList.selectedAccount = account.address;
     }
 
     disable() {

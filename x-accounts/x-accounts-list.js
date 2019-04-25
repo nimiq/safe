@@ -42,6 +42,10 @@ export default class XAccountsList extends MixinRedux(XElement) {
                 } else if (!$account) {
                     // new entry
                     this._addAccountEntry(account);
+                    // hide if selected
+                    if (this._selectedAccount === address) {
+                        this._accountEntries.get(address).$el.classList.add('display-none');
+                    }
                 }
             }
         }
@@ -51,6 +55,14 @@ export default class XAccountsList extends MixinRedux(XElement) {
             const $noContent = XNoAccounts.createElement();
             this.$el.appendChild($noContent.$el);
         }
+    }
+
+    set selectedAccount(address) {
+        if (this._selectedAccount) {
+            this._accountEntries.get(this._selectedAccount).$el.classList.remove('display-none');
+        }
+        this._accountEntries.get(address).$el.classList.add('display-none');
+        this._selectedAccount = address;
     }
 
     /**
