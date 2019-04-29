@@ -100,8 +100,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         this._errorElements = {};
 
-        this._isSetMax = false;
-
         this.clear();
 
         super.onCreate();
@@ -161,8 +159,9 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.fire('x-send-transaction', tx);
     }
 
-    clear() {
-        this.$addressInput.value = '';
+    clear(isFromContactList) {
+        if (!isFromContactList) this.$addressInput.value = '';
+        this._isSetMax = false;
         this.$amountInput.value = '';
         this.$extraDataInput.value = '';
         this.$feeInput.reset();

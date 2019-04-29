@@ -12,7 +12,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
     /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message, freeze) {
 
-        if (mode !== 'contact') this.clear();
+        this.clear(mode === 'contact');
 
         this.$amountInput.maxDecimals = document.body.classList.contains('setting-show-all-decimals') ? 5 : 2;
 
