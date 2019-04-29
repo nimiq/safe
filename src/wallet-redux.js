@@ -109,7 +109,7 @@ export function reducer(state, action) {
             const accounts = new Map(state.accounts);
             for (const account of [...state.accounts.values()]) {
                 if (account.walletId === action.walletId) {
-                    accounts.delete(account);
+                    accounts.delete(account.address);
                 }
             }
 
