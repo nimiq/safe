@@ -251,7 +251,7 @@ export default class XSafe extends MixinRedux(XElement) {
             await accountManager.changePassword(walletId);
         } catch (e) {
             console.error(e);
-            XToast.warning('Passphrase not changed.');
+            XToast.warning('Password not changed.');
         }
     }
 
