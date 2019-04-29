@@ -143,7 +143,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     set amount(amount) {
-        if (!amount) amount = '';
+        if (!amount || amount === '0') amount = '';
         this.$amountInput.value = amount;
     }
 
@@ -197,7 +197,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     _onAmountSetMax() {
         const account = this.$accountsDropdown.selectedAccount;
         this.$amountInput.maxDecimals = 5;
-        this.$amountInput.value = account.balance - this.$feeInput.value;
+        this.$amountInput.value = (account.balance - this.$feeInput.value) || '';
         this._isSetMax = true;
     }
 
