@@ -57,11 +57,17 @@ export default class XElement {
         if (parentNode) parentNode.removeChild(this.$el);
 
         // destroy children
-        for (const property of Object.getOwnPropertyNames(this)) {
-           if (property.destroy) {
-               property.destroy();
-           }
-        }
+        Object.getOwnPropertyNames(this)
+            .reduce((children, propertyName) => {
+                if (propertyName[0] !== '$') return children;
+                if (Array.isArray(this[propertyName])) return children.concat(this[propertyName]);
+                children.push(this[propertyName]);
+                return children;
+            }, [])
+            .forEach((child) => {
+                if (!(child instanceof XElement)) return;
+                child.destroy();
+            });
 
         this.__removeListeners();
 
@@ -143,7 +149,7 @@ export default class XElement {
         const foundChildren = this.$$(tagName + ':not([data-x-initialized])');
 
         if (foundChildren.length < 1) {
-            throw new Error(`Child could not be created: No tag found with name ${name}`);
+            throw new Error(`Child could not be created: No tag found with name ${tagName}`);
         }
 
         this[name] = [];
