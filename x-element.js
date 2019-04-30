@@ -53,7 +53,8 @@ export default class XElement {
     }
 
     destroy() {
-        this.$el.parentNode.removeChild(this.$el);
+        const parentNode = this.$el.parentNode;
+        if (parentNode) parentNode.removeChild(this.$el);
 
         // destroy children
         for (const property of Object.getOwnPropertyNames(this)) {
