@@ -1,9 +1,9 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
 
-import { accountsArray$, balancesLoaded$ } from './account$.js';
+import { activeAccountsArray$, balancesLoaded$ } from './account$.js';
 
 export default createSelector(
-    accountsArray$,
+    activeAccountsArray$,
     balancesLoaded$,
     (accounts, balancesLoaded) => {
         if (!balancesLoaded) return undefined;
