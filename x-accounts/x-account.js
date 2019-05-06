@@ -3,6 +3,7 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XAmount from '/elements/x-amount/x-amount.js';
 import XIdenticon from '../../secure-elements/x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
+import { accounts$ } from '/apps/safe/src/selectors/account$.js';
 
 export default class XAccount extends MixinRedux(XElement) {
     html() {
@@ -35,14 +36,7 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     static mapStateToProps(state, props) {
-        const newProps = Object.assign({},
-            state.wallets.accounts.get(props.address)
-        );
-        if (props.type === 4 && newProps.type === 4) { // Vesting
-            // Keep "available balance"
-            newProps.balance = props.balance;
-        }
-        return newProps;
+        return accounts$(state).get(props.address);
     }
 
     _onPropertiesChanged(changes) {
