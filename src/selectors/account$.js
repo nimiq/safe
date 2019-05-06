@@ -45,16 +45,6 @@ export const accounts$ = createSelector(
     }
 );
 
-export const activeAccounts$ = createSelector(
-    accounts$,
-    activeWalletId$,
-    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
-        const account = entry[1];
-        if (activeWalletId === LEGACY) return account.isLegacy;
-        return account.walletId === activeWalletId;
-    }))
-);
-
 export const accountsArray$ = createSelector(
     accounts$,
     (accounts) => [...accounts.values()]
@@ -65,13 +55,19 @@ export const legacyAccounts$ = createSelector(
     (accounts) => accounts.filter(account => account.isLegacy)
 );
 
-export const activeAccountsArray$ = createSelector(
-    accountsArray$,
+export const activeAccounts$ = createSelector(
+    accounts$,
     activeWalletId$,
-    (accounts, activeWalletId) => accounts.filter(acc => {
-        if (activeWalletId === LEGACY) return acc.isLegacy;
-        return acc.walletId === activeWalletId;
-    })
+    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
+        const account = entry[1];
+        if (activeWalletId === LEGACY) return account.isLegacy;
+        return account.walletId === activeWalletId;
+    }))
+);
+
+export const activeAccountsArray$ = createSelector(
+    activeAccounts$,
+    (activeAccounts) => [...activeAccounts.values()]
 );
 
 export const activeAddresses$ = createSelector(
