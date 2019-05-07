@@ -4,6 +4,7 @@ import { switchWallet } from '/apps/safe/src/wallet-redux.js'
 import ReduxProvider from '../node_modules/vuejs-redux/bundle.es.js'
 import { walletsArray$, activeWalletId$, activeWallet$ } from '/apps/safe/src/selectors/wallet$.js'
 import accountManager from '/apps/safe/src/account-manager.js'
+import XSettings from '/apps/safe/src/settings/x-settings.js';
 
 export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
@@ -17,12 +18,13 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                         :wallets="wallets"
                         :active-wallet-id="activeWalletId"
                         @wallet-selected="walletSelected"
-                        @rename-wallet="renameWallet"
-                        @change-passphrase-wallet="changePassphraseWallet"
-                        @export-wallet="exportWallet"
-                        @logout-wallet="logoutWallet"
-                        @create="create"
-                        @login="login"
+                        @rename="rename"
+                        @change-password="changePassword"
+                        @export-file="exportFile"
+                        @export-words="exportWords"
+                        @logout="logout"
+                        @add-account="addAccount"
+                        @settings="settings"
                     ></wallet-menu>
                 </redux-provider>
                 <!-- End Vue template -->
@@ -68,10 +70,8 @@ export default class VWalletSelector extends MixinRedux(XElement) {
             },
             methods: {
                 mapStateToProps(state) {
-                    let wallets = walletsArray$(state)
-
                     return {
-                        wallets,
+                        wallets: walletsArray$(state),
                         activeWalletId: activeWalletId$(state),
                     }
                 },
@@ -79,28 +79,32 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                     self.actions.switchWallet(walletId)
                     self._hideMenu()
                 },
-                renameWallet(walletId) {
+                rename(walletId) {
                     accountManager.rename(walletId)
                     self._hideMenu()
                 },
-                changePassphraseWallet(walletId) {
+                changePassword(walletId) {
                     accountManager.changePassword(walletId)
                     self._hideMenu()
                 },
-                exportWallet(walletId) {
-                    accountManager.export(walletId)
+                exportFile(walletId) {
+                    accountManager.export(walletId, {fileOnly: true})
                     self._hideMenu()
                 },
-                logoutWallet(walletId) {
+                exportWords(walletId) {
+                    accountManager.export(walletId, {wordsOnly: true})
+                    self._hideMenu()
+                },
+                logout(walletId) {
                     accountManager.logout(walletId)
                     self._hideMenu()
                 },
-                create() {
-                    accountManager.create()
+                addAccount() {
+                    accountManager.onboard()
                     self._hideMenu()
                 },
-                login() {
-                    accountManager.login()
+                settings() {
+                    XSettings.show()
                     self._hideMenu()
                 },
             },
