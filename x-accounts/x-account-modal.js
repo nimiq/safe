@@ -14,7 +14,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         return `
             <div class="modal-header">
                 <x-popup-menu left-align class="display-none">
-                    <button show-qr><i icon-qr></i> Show QR Code</button>
+                    <button show-qr><i class="material-icons" icon-qr></i> Show QR Code</button>
                     <button rename><i class="material-icons">mode_edit</i> Rename</button>
                     <button backup><i class="material-icons">vertical_align_bottom</i> Backup</button>
                     <button change-passphrase><i class="material-icons">swap_horiz</i> Change Passphrase</button>
@@ -98,7 +98,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     _onPropertiesChanged(changes) {
         super._onPropertiesChanged(changes);
-        
+
         const { type, balance, futureSteps } = this.properties;
 
         if (type === AccountType.VESTING && futureSteps && (changes.address || changes.balance)) {
