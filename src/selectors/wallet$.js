@@ -25,7 +25,6 @@ export const legacyWallet$ = createSelector(
         accounts,
         label: LEGACY_LABEL,
         type: WalletType.LEGACY,
-        numberAccounts: accounts.length,
     }) : undefined
 );
 
@@ -36,10 +35,8 @@ export const walletsArray$ = createSelector(
     accountsArray$,
     (wallets, legacyWallet, hasContent, accounts) => (hasContent ? [...wallets.values()].map(wallet => {
         const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
-        wallet.accounts = new Map(walletAccounts.map((account) => [account.address, account]));
+        wallet.accounts = walletAccounts;
         wallet.balance = calculateTotalBalance(walletAccounts);
-        wallet.numberAccounts = walletAccounts.length;
-        wallet.contracts = [];
         return wallet;
     }) : []).concat(legacyWallet || [])
 );

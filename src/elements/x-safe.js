@@ -50,7 +50,6 @@ export default class XSafe extends MixinRedux(XElement) {
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
                         <v-wallet-selector class="desktop mobile-hidden"></v-wallet-selector>
-                        <a class="settings" x-href="_settings_"></a>
                         <x-settings x-route-aside="settings"></x-settings>
                     </nav>
                 </div>
