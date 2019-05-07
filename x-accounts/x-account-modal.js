@@ -6,6 +6,7 @@ import ValidationUtils from '/libraries/secure-utils/validation-utils/validation
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import AccountType from '/apps/safe/src/lib/account-type.js';
+import { accounts$ } from '/apps/safe/src/selectors/account$.js';
 import VQrCodeOverlay from '/elements/v-qr-code-overlay/v-qr-code-overlay.js';
 
 export default class XAccountModal extends MixinModal(XAccount) {
@@ -95,79 +96,31 @@ export default class XAccountModal extends MixinModal(XAccount) {
         }
     }
 
-    static mapStateToProps(state, props) {
-        return Object.assign({},
-            state.wallets.accounts.get(props.address),
-            {
-                height: state.network.height
-            }
-        )
-    }
-
     _onPropertiesChanged(changes) {
-        for (const prop in changes) {
-            if (changes[prop] !== undefined) {
-                // Update display
-                this[prop] = changes[prop];
-            }
-        }
+        super._onPropertiesChanged(changes);
+        
+        const { type, balance, futureSteps } = this.properties;
 
-        if (changes.type === AccountType.VESTING || (!changes.type && this.properties.type === AccountType.VESTING)) {
+        if (type === AccountType.VESTING && futureSteps && (changes.address || changes.balance)) {
             this.$balanceSection.classList.add('display-none');
-            // Is a vesting contract
-            if (changes.start
-             || changes.stepAmount
-             || changes.stepBlocks
-             || changes.totalAmount
-             || changes.height
-             || changes.balance
-            ) {
-                this._height = this.properties.height;
-                const balance = changes.balance || this.properties.balance || 0;
-                const start = changes.start || this.properties.start || 0;
-                const stepAmount = changes.stepAmount || this.properties.stepAmount;
-                const stepBlocks = changes.stepBlocks || this.properties.stepBlocks;
-                const totalAmount = changes.totalAmount || this.properties.totalAmount;
+            this.$availableAmount.value = balance;
+            this.$payoutButton.disabled = balance === 0;
 
-                const steps = [];
-
-                const numberSteps = Math.ceil(totalAmount/stepAmount);
-
-                for (let i = 1; i <= numberSteps; i++) {
-                    const stepHeight = start + stepBlocks * i;
-                    const stepHeightDelta = stepHeight - this._height;
-                    steps.push({
-                        height: stepHeight,
-                        heightDelta: stepHeightDelta,
-                        amount: i < numberSteps ? stepAmount : totalAmount - stepAmount * (i - 1),
-                    });
-                }
-
-                const pastSteps = steps.filter(step => step.heightDelta <= 0);
-
-                const availableAmount = (balance - totalAmount) + pastSteps.reduce((acc, step) => acc + step.amount, 0);
-                const futureSteps = steps.filter(step => step.heightDelta > 0);
-
-                this.$availableAmount.value = availableAmount;
-                if (availableAmount > 0) this.$payoutButton.disabled = false;
-                else                     this.$payoutButton.disabled = true;
-
-                // Remove all steps
-                while (this.$vestingInfo.querySelector('x-amount:not([available-amount])')) {
-                    this.$vestingInfo.removeChild(this.$vestingInfo.querySelector('x-amount:not([available-amount])'));
-                }
-
-                // Add future steps
-                futureSteps.forEach(step => {
-                    const time = Date.now() / 1000 + step.heightDelta * 60;
-                    const timeString = moment.unix(time).calendar();
-                    const $amount = XAmount.createElement([['label', `Available ${timeString}`]]);
-                    $amount.value = step.amount;
-                    this.$vestingInfo.appendChild($amount.$el);
-                });
-
-                this.$vestingInfo.classList.remove('display-none');
+            // Remove all steps
+            while (this.$vestingInfo.querySelector('x-amount:not([available-amount])')) {
+                this.$vestingInfo.removeChild(this.$vestingInfo.querySelector('x-amount:not([available-amount])'));
             }
+
+            // Add future steps
+            futureSteps.forEach(step => {
+                const time = Date.now() / 1000 + step.heightDelta * 60;
+                const timeString = moment.unix(time).calendar();
+                const $amount = XAmount.createElement([['label', `Available ${timeString}`]]);
+                $amount.value = step.amount;
+                this.$vestingInfo.appendChild($amount.$el);
+            });
+
+            this.$vestingInfo.classList.remove('display-none');
         }
         else {
             this.$vestingInfo.classList.add('display-none');
@@ -181,8 +134,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
     set balance(balance) {
         super.balance = balance;
 
-        if (balance > 0) this.$sendButton.disabled = false;
-        else             this.$sendButton.disabled = true;
+        this.$sendButton.disabled = balance === 0;
     }
 
     set type(type) {
@@ -202,18 +154,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$('.header-button[icon-qr]').classList.toggle('display-none', isLegacy);
     }
 
-    set account(account) {
-        // Preserve height property through hard setting
-        account.height = this.properties.height;
-
-        super.account = account;
-    }
-
-    // has to define getter because setter is defined
-    get account() {
-        return super.account;
-    }
-
     allowsShow(address) {
         if (!address) return true;
 
@@ -226,7 +166,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
         address = dashToSpace(address);
 
-        let account = MixinRedux.store.getState().wallets.accounts.get(address);
+        let account = accounts$(MixinRedux.store.getState()).get(address);
         if (!account) account = { address };
         this.account = account;
     }
