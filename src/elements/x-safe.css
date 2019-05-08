@@ -399,11 +399,12 @@ v-wallet-selector.desktop .v-wallet-menu {
 
 v-wallet-selector.mobile .v-wallet-menu {
     left: 0;
+    padding: 0 1rem;
+    width: 100vw;
 }
 
 v-wallet-selector.mobile .wallet-menu {
-    width: 100vw;
-    max-width: unset;
+    margin: auto;
 }
 
 @media (max-width: 620px) {
