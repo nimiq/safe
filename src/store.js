@@ -3,6 +3,8 @@ import { initialState as initialNetworkState } from '/elements/x-network-indicat
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
 
+const CACHE_VERSION = 1;
+
 /* Redux store as singleton */
 export class Store {
     static get instance() {
@@ -18,35 +20,35 @@ export class Store {
         const stringifiedContacts = localStorage.getItem('persistedContacts');
         const persistedContacts = JSON.parse(stringifiedContacts);
 
-        if (!stringifiedState) {
-            if (persistedContacts) {
-                return configureStore({
-                    contacts: Object.assign({}, persistedContacts),
-                });
-            }
+        const initialState = {};
+  
+        if (stringifiedState) {
+            const persistedState = JSON.parse(stringifiedState);
 
-            return configureStore();
-        }
-
-        let persistedState = JSON.parse(stringifiedState);
-
-        persistedState = Object.assign({},
-            persistedState,
-            {
-                transactions: Object.assign({}, persistedState.transactions, {
+            // ignore outdated cache
+            if (persistedState.cacheVersion === CACHE_VERSION) {
+                initialState.transactions = Object.assign({}, persistedState.transactions, {
                     entries: new Map(persistedState.transactions.entries)
-                }),
-                wallets: Object.assign({}, initialWalletState, persistedState.wallets, {
+                });
+                initialState.wallets = Object.assign({}, initialWalletState, persistedState.wallets, {
                     wallets: new Map(persistedState.wallets ? persistedState.wallets.wallets : []),
                     accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: [])
-                }),
-                network: Object.assign({}, initialNetworkState, persistedState.network),
-                settings: Object.assign({}, initialSettingsState, persistedState.settings),
-                contacts: Object.assign({}, persistedState.contacts || {}, persistedContacts || {}),
+                });
+                initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
+                initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
+                
+                // support legacy version of persisted contacts
+                if (persistedState.contacts) {
+                    initialState.contacts = Object.assign({}, persistedState.contacts);
+                }
             }
-        );
+        }
 
-        return configureStore(persistedState);
+        if (persistedContacts) {
+            initialState.contacts = Object.assign({}, persistedContacts);
+        }
+
+        return configureStore(initialState);
     }
 
     static persist() {
@@ -71,6 +73,7 @@ export class Store {
         );
 
         const persistentState = {
+            cacheVersion: CACHE_VERSION,
             transactions,
             wallets,
             network: {
