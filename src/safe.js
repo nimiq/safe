@@ -10,7 +10,6 @@ import Config from '/libraries/secure-utils/config/config.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
 import XToast from '/secure-elements/x-toast/x-toast.js';
-import XSafeLock from './elements/x-safe-lock.js';
 
 class Safe {
     constructor() {

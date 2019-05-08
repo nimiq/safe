@@ -1,6 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XSettingVisualLockModal from './x-setting-visual-lock-modal.js';
 import XSendPreparedTransactionModal from '/elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from './settings-redux.js';
 import { Store } from '../store.js';
@@ -19,14 +18,6 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
                     <input type="checkbox">
                     <small>Show all five decimals when displaying balances.</small>
                 </span>
-                <!--
-                <span class="setting" visual-lock>
-                    Visual lock
-                    <input type="checkbox" disabled>
-                    <small>Lock access to the Safe with a pattern whenever the website is visited.</small>
-                </span>
-                -->
-
                 <h2 class="advanced">Advanced</h2>
                 <span class="setting" prepared-tx>
                     Send prepared transaction
@@ -40,16 +31,10 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
         `
     }
 
-    onCreate() {
-        if (localStorage.lock) this.$('[visual-lock] input').checked = true;
-        super.onCreate();
-    }
-
     listeners() {
         return {
             'click [show-all-decimals]': this._onClickShowAllDecimals,
             'change [show-all-decimals]>input': this._onClickShowAllDecimals,
-            //'click [visual-lock]': this._onClickVisualLock,
             'click [prepared-tx]': () => XSendPreparedTransactionModal.show(),
             'click [remove-persistence]': this._onClickRemovePersistence,
         }
@@ -61,19 +46,6 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
         // Handle click events from the text, but only the change event of the checkbox
         if(e.type === 'click' && e.target.matches('input')) return;
         this.actions.showAllDecimals(!this.settings.showAllDecimals);
-    }
-
-    _onClickVisualLock() {
-        if (localStorage.lock) {
-            const remove = confirm('Do you want to remove the lock?');
-            if (remove) {
-                localStorage.removeItem('lock');
-                this.$('[visual-lock] input').checked = false;
-            }
-            return;
-        }
-
-        XSettingVisualLockModal.show();
     }
 
     _onClickRemovePersistence() {
