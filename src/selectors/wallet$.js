@@ -31,14 +31,14 @@ export const legacyWallet$ = createSelector(
 export const walletsArray$ = createSelector(
     wallets$,
     legacyWallet$,
-    hasContent$,
     accountsArray$,
-    (wallets, legacyWallet, hasContent, accounts) => (hasContent ? [...wallets.values()].map(wallet => {
+    (wallets, legacyWallet, accounts) => [...wallets.values()].map(wallet => {
         const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
-        wallet.accounts = walletAccounts;
-        wallet.balance = calculateTotalBalance(walletAccounts);
-        return wallet;
-    }) : []).concat(legacyWallet || [])
+        return Object.assign({}, wallet, {
+            accounts: walletAccounts,
+            balance: calculateTotalBalance(walletAccounts),
+        });
+    }).concat(legacyWallet || [])
 );
 
 export const activeWallet$ = createSelector(
