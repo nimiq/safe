@@ -26,7 +26,7 @@ export class Store {
             const persistedState = JSON.parse(stringifiedState);
 
             // ignore outdated cache
-            if (persistedState.cacheVersion === CACHE_VERSION) {
+            if (persistedState.version === CACHE_VERSION) {
                 initialState.transactions = Object.assign({}, persistedState.transactions, {
                     entries: new Map(persistedState.transactions.entries)
                 });
@@ -73,7 +73,7 @@ export class Store {
         );
 
         const persistentState = {
-            cacheVersion: CACHE_VERSION,
+            version: CACHE_VERSION,
             transactions,
             wallets,
             network: {
