@@ -206,7 +206,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-logout': this._clickedAccountLogout.bind(this),
             // 'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
-            // 'x-setting-visual-lock-pin': this._onSetVisualLock,
             'click a[warnings]': this._showWarnings,
             'click [backup-words]': () => this._clickedExportWords(),
             'click [backup-file]': () => this._clickedExportFile(),
@@ -378,14 +377,6 @@ export default class XSafe extends MixinRedux(XElement) {
             XSendPreparedTransactionModal.instance.loading = false;
         }
     }
-
-    // _onSetVisualLock(pin) {
-    //     console.log(pin);
-    //     localStorage.setItem('lock', pin);
-    //     this.$('x-settings [visual-lock] input').checked = true;
-    //     XToast.success('Visual lock set!');
-    //     XSettingVisualLockModal.hide();
-    // }
 
     _showWarnings() {
         XEducationSlides.onFinished = XEducationSlides.hide;
