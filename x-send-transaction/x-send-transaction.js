@@ -100,8 +100,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         this._errorElements = {};
 
-        this.clear();
-
         super.onCreate();
     }
 
@@ -159,16 +157,14 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.fire('x-send-transaction', tx);
     }
 
-    clear(isFromContactList) {
-        if (!isFromContactList) this.$addressInput.value = '';
+    clear() {
+        this.$addressInput.value = '';
         this._isSetMax = false;
         this.$amountInput.value = '';
         this.$extraDataInput.value = '';
         this.$feeInput.reset();
         this.$form.querySelector('input[name="validityStartHeight"]').value = '';
         this.$expandable.collapse();
-        this.$accountsDropdown.selectDefaultAccount();
-        this.$accountsDropdown.enable();
         this.loading = false;
         this.fire('x-send-transaction-cleared');
     }
@@ -183,7 +179,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     set loading(isLoading) {
         this._isLoading = !!isLoading;
-        this.$button.textContent = this._isLoading ? 'Loading' : 'Send';
+        this.$button.textContent = this._isLoading ? 'Sending...' : 'Send';
         this.setButton();
     }
 
