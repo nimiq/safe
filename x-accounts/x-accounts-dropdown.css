@@ -11,10 +11,6 @@ x-accounts-dropdown x-expandable:not([disabled]) [status-message] {
     display: none;
 }
 
-x-accounts-dropdown x-expandable[disabled] x-account {
-    opacity: 0.7;
-}
-
 x-accounts-dropdown [status-message]:not(:empty) {
     margin: 20px !important;
 }

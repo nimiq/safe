@@ -38,6 +38,11 @@ x-expandable [expandable-trigger] {
     }
 }
 
+x-expandable[disabled] {
+    pointer-events: none;
+    box-shadow: none;
+}
+
 x-expandable[disabled] [expandable-trigger] {
     padding-right: 0;
 }
