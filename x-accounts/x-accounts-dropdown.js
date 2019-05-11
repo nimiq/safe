@@ -16,7 +16,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
                     <x-account></x-account>
                 </div>
                 <div expandable-content>
-                    <x-accounts-list no-vesting></x-accounts-list>
+                    <x-accounts-list></x-accounts-list>
                 </div>
             </x-expandable>
             <input type="hidden">
@@ -69,7 +69,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         let account;
         do {
             account = accounts.next().value;
-        } while (account === AccountType.VESTING || account === AccountType.HTLC) // Do not auto-select contracts
+        } while (account.type === AccountType.VESTING || account.type === AccountType.HTLC) // Do not auto-select contracts
         this.selectedAccount = account;
     }
 
@@ -96,7 +96,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this.$account.account = account;
         this.$input.value = account.address;
         this.fire('x-account-selected', account.address);
-        // hide selected account 
+        // hide selected account
         this.$accountsList.selectedAccount = account.address;
     }
 
@@ -116,7 +116,7 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         this.$account.setProperties(account);
         this.$input.value = account.address;
         this.$expandable.collapse();
-        // hide selected account 
+        // hide selected account
         this.$accountsList.selectedAccount = account.address;
     }
 

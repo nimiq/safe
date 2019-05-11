@@ -20,6 +20,9 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
 
         if (address && (mode === 'recipient' || mode === 'vesting')) {
             this.recipient = dashToSpace(address);
+        }
+
+        if (mode === 'recipient') {
             this.$addressInput.$input.setAttribute('readonly', true);
             this.$('.link-contact-list').classList.add('display-none');
         } else {

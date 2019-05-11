@@ -3,6 +3,7 @@ import XAccount from './x-account.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XNoAccounts from './x-no-accounts.js';
 import { activeAccounts$ } from '/apps/safe/src/selectors/account$.js';
+import AccountType from '../../apps/safe/src/lib/account-type.js';
 
 export default class XAccountsList extends MixinRedux(XElement) {
     html() {
@@ -72,7 +73,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
      * @param {object} account
      */
     _addAccountEntry(account) {
-        if (this.attributes.noVesting && account.type === 4) {
+        if (this.attributes.noVesting && account.type === AccountType.VESTING) {
             // Do not display vesting accounts
             this._accountEntries.set(account.address, true);
             return;
