@@ -283,11 +283,8 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _newPayoutTransaction(data) {
-        XSendTransactionModal.instance.listenOnce('x-send-transaction-cleared', function() {
-            XSendTransactionModal.instance.sender = data.vestingAccount;
-            XSendTransactionModal.instance.$accountsDropdown.disable();
-        });
         XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
+        XSendTransactionModal.instance.sender = data.vestingAccount;
     }
 
     _clickedPreparedTransaction() {
