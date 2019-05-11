@@ -42,7 +42,8 @@ class AccountManager {
 
         // listen to response from onboarding
         this.accountsClient.on(AccountsClient.RequestType.ONBOARD, (result, state) => {
-            this._onOnboardingResult(result);
+            if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
+            else this._onOnboardingResult(result);
         }, (error, state) => {
             console.error('AccountsManager error', error);
             console.log('State', state);
@@ -141,7 +142,7 @@ class AccountManager {
         const result = await this.accountsClient.login({
             appName: APP_NAME,
         });
-        this._onOnboardingResult(result);
+        result.forEach(account => this._onOnboardingResult(account));
     }
 
     async logout(accountId) {
