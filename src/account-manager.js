@@ -246,7 +246,7 @@ class AccountManager {
             }
 
             // TODO: Handle this case with a user notification?
-            else if (error.message === 'WALLETS_LOST') listedWallets = [];
+            else if (error.message === 'ACCOUNTS_LOST') listedWallets = [];
 
             else throw error;
         }
