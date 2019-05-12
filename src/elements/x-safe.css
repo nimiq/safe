@@ -240,7 +240,7 @@ x-card h2 {
 
 x-card .contact-list .list {
     overflow: auto;
-    max-height: 150px;
+    min-height: 150px;
 }
 
 footer {
