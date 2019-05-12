@@ -34,7 +34,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#96280fc74c417a3d7db7eb87aebb0717c2db1268"
+  resolved "https://github.com/nimiq/vue-components#1be91fac710503d7d049c1716c42496c02f34f7a"
   dependencies:
     "@nimiq/style" "^0.6.4"
     vue "^2.5.17"
