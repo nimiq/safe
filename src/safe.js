@@ -22,13 +22,8 @@ class Safe {
         for (let warningTag of warningTags) {
             if (document.body.hasAttribute(warningTag)) return;
         }
-        if (localStorage.getItem('lock')) {
-            const $safeLock = XSafeLock.createElement();
-            $safeLock.$el.classList.add('nimiq-dark');
-            document.getElementById('app').appendChild($safeLock.$el);
-        } else {
-            this.launchApp();
-        }
+
+        this.launchApp();
     }
 
     async launchApp() {
