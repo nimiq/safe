@@ -229,7 +229,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedExportFile() {
         const walletId = this.properties.activeWallet.id;
         try {
-            await accountManager.exportFile(walletId);
+            await accountManager.export(walletId);
         } catch (e) {
             console.error(e);
         }
@@ -319,8 +319,6 @@ export default class XSafe extends MixinRedux(XElement) {
         tx.fee = (Number(tx.fee) || 0) * 1e5;
         tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
-
-        tx.appName = 'Nimiq Safe';
 
         const signedTx = await accountManager.sign(tx);
 

@@ -69,6 +69,7 @@ class AccountManager {
 
     async sign(tx) {
         await this._launched;
+        tx.appName = APP_NAME;
         const signedTransaction = await this.accountsClient.signTransaction(tx);
         const rawTx = signedTransaction.raw;
         rawTx.hash = this._hexToBase64(signedTransaction.hash);
@@ -121,12 +122,12 @@ class AccountManager {
         }
     }
 
-    exportFile(accountId) {
-        this.export(accountId, { fileOnly: true });
+    async exportFile(accountId) {
+        await this.export(accountId, { fileOnly: true });
     }
 
     async exportWords(accountId) {
-        this.export(accountId, { wordsOnly: true });
+        await this.export(accountId, { wordsOnly: true });
     }
 
     async changePassword(accountId) {
