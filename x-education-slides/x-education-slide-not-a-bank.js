@@ -6,6 +6,7 @@ export default class XEducationSlideNotABank extends XEducationSlide {
         return `
             <h1 class="modal-header">
                 Nimiq Safe is <strong>not</strong> part of a bank
+                <i x-modal-close class="material-icons">close</i>
             </h1>
             <div class="modal-body">
                 <div class="has-side-image">
@@ -24,12 +25,8 @@ export default class XEducationSlideNotABank extends XEducationSlide {
                 </div>
 
                 <div class="button-bar">
-                    <button back>Introduction</button>
                     <button next>What is a Blockchain?</button>
                 </div>
-                <div class="spacing-top center">
-                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
-                </div> 
             </div>
         `;
     }

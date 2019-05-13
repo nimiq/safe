@@ -5,6 +5,7 @@ export default class XEducationSlideLoss extends XEducationSlide {
         return `
             <h1 class="modal-header">
                 How To Protect Yourself from Loss
+                <i x-modal-close class="material-icons">close</i>
             </h1>
             <div class="modal-body">
                 <h3>If you lose your 24 Recovery Words, Pass Phrase or PIN, they are gone forever. Don't lose them.</h3>
@@ -21,9 +22,6 @@ export default class XEducationSlideLoss extends XEducationSlide {
                     <button back>Scams</button>
                     <button next>Got it</button>
                 </div>
-                <div class="spacing-top center">
-                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
-                </div> 
             </div>
         `;
     }

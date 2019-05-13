@@ -5,6 +5,7 @@ export default class XEducationSlidePhishers extends XEducationSlide {
         return `
             <h1 class="modal-header">
                 How To Protect Yourself from Phishers
+                <i x-modal-close class="material-icons">close</i>
             </h1>
             <div class="modal-body">
                 <h3>Phishers send you a message with a link to a website that looks just like the Nimiq Safe, Paypal, or your bank, but is not the real website. They steal your information and then steal your money.</h3>
@@ -24,9 +25,6 @@ Always navigate directly to a site before you enter information. Do not enter in
                     <button back>What's the point?</button>
                     <button next>Protect from Scams</button>
                 </div>
-                <div class="spacing-top center">
-                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
-                </div> 
             </div>
         `;
     }

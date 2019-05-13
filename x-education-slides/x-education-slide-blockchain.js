@@ -5,6 +5,7 @@ export default class XEducationSlideBlockchain extends XEducationSlide {
         return `
             <h1 class="modal-header">
                 Wait, what is a Blockchain?
+                <i x-modal-close class="material-icons">close</i>
             </h1>
             <div class="modal-body">
                 <div class="has-side-image">
@@ -22,9 +23,6 @@ export default class XEducationSlideBlockchain extends XEducationSlide {
                     <button back>Not a Bank</button>
                     <button next>But... Why?</button>
                 </div>
-                <div class="spacing-top center">
-                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
-                </div> 
             </div>
         `;
     }
