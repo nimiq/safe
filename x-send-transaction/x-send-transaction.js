@@ -100,6 +100,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         this._errorElements = {};
 
+        this._isQrScanMode = false;
+
         super.onCreate();
     }
 
@@ -232,9 +234,13 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this._getQrScanner().shown = true;
     }
 
-    _closeQrScanner() {
+    _closeQrScanner(codeFound = false) {
         if (!this._qrScanner) return;
-        this._qrScanner.shown = false;
+        if (codeFound || !this._isQrScanMode) {
+            this._isQrScanMode = false;
+            this._qrScanner.shown = false;
+        }
+        else if (this.hide) this.hide();
     }
 
     _onQrScanned(scanResult) {
@@ -250,7 +256,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.recipient = recipient; // required
         if (amount) this.amount = amount;
         if (message) this.message = message;
-        this._closeQrScanner();
+        this._closeQrScanner(true);
     }
 
     /**

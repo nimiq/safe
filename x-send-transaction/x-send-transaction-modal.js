@@ -55,12 +55,15 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
 
         if (mode === 'scan') {
             this._openQrScanner();
+            this._isQrScanMode = true;
+        } else {
+            this._isQrScanMode = false;
         }
 
         this.validateAllFields();
     }
 
     onHide() {
-        this._closeQrScanner();
+        setTimeout(() => this._closeQrScanner(true), 400);
     }
 }
