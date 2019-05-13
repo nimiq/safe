@@ -362,7 +362,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 this.relayedTxResolvers.delete(signedTx.hash);
             } catch(e) {
                 this.relayedTxResolvers.delete(signedTx.hash);
-                network.removeTxFromMempool(signedTx);
+                try { network.removeTxFromMempool(signedTx); } catch(e) {}
                 throw e;
             }
 
