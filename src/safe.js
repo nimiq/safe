@@ -64,14 +64,15 @@ class Safe {
             if (!window.skipPersistingState) Store.persist();
         };
 
+        const errorBlacklist = ['CANCELED', 'Request aborted', 'Connection was closed'];
         self.onerror = (error) => {
-            if (error.message === 'CANCELED') return;
+            if (errorBlacklist.indexOf(error.message) >= 0) return;
             XToast.show(error.message || error, 'error');
         };
 
         // cancel request and close window when there is an unhandled promise rejection
         self.onunhandledrejection = (event) => {
-            if (event.reason.message === 'CANCELED') return;
+            if (errorBlacklist.indexOf(event.reason.message) >= 0) return;
             XToast.show(event.reason, 'error');
         };
 
