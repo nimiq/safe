@@ -7,7 +7,7 @@ export const TypeKeys = {
     UPDATE_BLOCK: 'transactions/updateBlock',
     SET_PAGE: 'transactions/set-page',
     SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
-    SET_REQUESTING_HISTORY: 'transactions/set-requesting-history'
+    SET_REQUESTING_HISTORY: 'transactions/set-requesting-history',
 };
 
 export function reducer(state, action) {
@@ -17,7 +17,7 @@ export function reducer(state, action) {
             hasContent: false,
             error: null,
             page: 1,
-            itemsPerPage: 4
+            itemsPerPage: 4,
         }
     }
 
@@ -33,14 +33,14 @@ export function reducer(state, action) {
                     entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
                         entries,
-                        hasContent: true
+                        hasContent: true,
                     });
                 }
             }
 
             action.transactions.forEach(tx => {
                 tx.extraData = ConvertExtraData(tx.extraData);
-                entries.set(tx.hash, tx)
+                entries.set(tx.hash, tx);
             });
 
             // Sort as array
@@ -48,7 +48,7 @@ export function reducer(state, action) {
 
             return Object.assign({}, state, {
                 entries,
-                hasContent: true
+                hasContent: true,
             });
         }
         case TypeKeys.MARK_REMOVED: {
@@ -74,14 +74,14 @@ export function reducer(state, action) {
                         tx,
                         {
                             'expired': true,
-                            blockHeight: action.currentHeight
+                            blockHeight: action.currentHeight,
                         }
                     ));
                 }
             });
 
             return Object.assign({}, state, {
-                entries
+                entries,
             });
         }
         case TypeKeys.UPDATE_BLOCK:
@@ -90,23 +90,23 @@ export function reducer(state, action) {
                 entries: new Map(state.entries)
                     .set(action.hash, Object.assign({}, oldEntry, {
                         blockHeight: action.blockHeight,
-                        timestamp: action.timestamp
+                        timestamp: action.timestamp,
                     }))
             });
 
         case TypeKeys.SET_PAGE:
             return Object.assign({}, state, {
-                page: action.page
+                page: action.page,
             });
 
         case TypeKeys.SET_ITEMS_PER_PAGE:
             return Object.assign({}, state, {
-                itemsPerPage: action.itemsPerPage
+                itemsPerPage: action.itemsPerPage,
             });
 
         case TypeKeys.SET_REQUESTING_HISTORY:
             return Object.assign({}, state, {
-                isRequestingHistory: action.isRequestingHistory
+                isRequestingHistory: action.isRequestingHistory,
             });
 
         case WalletTypeKeys.LOGOUT:
@@ -121,12 +121,18 @@ export function reducer(state, action) {
             }
 
             return Object.assign({}, state, {
-                entries
+                entries,
+                page: 1,
             });
         }
 
+        case WalletTypeKeys.SWITCH:
+            return Object.assign({}, state, {
+                page: 1,
+            });
+
         default:
-            return state
+            return state;
     }
 }
 
@@ -136,7 +142,7 @@ export function reducer(state, action) {
 export function addTransactions(transactions) {
     return {
         type: TypeKeys.ADD_TXS,
-        transactions
+        transactions,
     }
 }
 
@@ -148,7 +154,7 @@ export function markRemoved(hashes, currentHeight) {
     return {
         type: TypeKeys.MARK_REMOVED,
         hashes,
-        currentHeight
+        currentHeight,
     }
 }
 
@@ -157,28 +163,28 @@ export function updateBlock(hash, blockHeight, timestamp) {
         type: TypeKeys.UPDATE_BLOCK,
         hash,
         blockHeight,
-        timestamp
+        timestamp,
     }
 }
 
 export function setPage(page) {
     return {
         type: TypeKeys.SET_PAGE,
-        page
+        page,
     }
 }
 
 export function setItemsPerPage(itemsPerPage) {
     return {
         type: TypeKeys.SET_ITEMS_PER_PAGE,
-        itemsPerPage
+        itemsPerPage,
     }
 }
 
 export function setRequestingHistory(isRequestingHistory) {
     return {
         type: TypeKeys.SET_REQUESTING_HISTORY,
-        isRequestingHistory
+        isRequestingHistory,
     }
 }
 
