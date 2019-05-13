@@ -1,4 +1,3 @@
-import XEducationSlideIntro from './x-education-slide-intro.js';
 import XEducationSlideNotABank from './x-education-slide-not-a-bank.js';
 import XEducationSlideBlockchain from './x-education-slide-blockchain.js';
 import XEducationSlideWhy from './x-education-slide-why.js';
@@ -6,21 +5,18 @@ import XEducationSlidePointOfNimiq from './x-education-slide-point-of-nimiq.js';
 import XEducationSlidePhishers from './x-education-slide-phishers.js';
 import XEducationSlideScams from './x-education-slide-scams.js';
 import XEducationSlideLoss from './x-education-slide-loss.js';
-import XEducationSlideOutro from './x-education-slide-outro.js';
 
 export default class XEducationSlides {
     static get slides() {
         return XEducationSlides._slides;
     }
 
-    static start(closingAllowed = false) {
-        XEducationSlides._closingAllowed = closingAllowed;
+    static start() {
         XEducationSlides.currentSlideIndex = 0;
         XEducationSlides.currentSlide.show();
     }
 
-    static resume(closingAllowed = false) {
-        XEducationSlides._closingAllowed = closingAllowed;
+    static resume() {
         XEducationSlides.currentSlide.show();
     }
 
@@ -58,7 +54,7 @@ export default class XEducationSlides {
     }
 
     static get lastSlide() {
-        return XEducationSlides.slides[XEducationSlides.slides.length - 1];
+        return XEducationSlides.slides[XEducationSlides.slides.length];
     }
 
     static set currentSlide(slide) {
@@ -78,16 +74,7 @@ export default class XEducationSlides {
     }
 
     static get closingAllowed() {
-        return !!XEducationSlides._closingAllowed;
-    }
-
-    static skip() {
-        if (XEducationSlides.action === 'none') {
-            XEducationSlides.hide();
-        } else {
-            // skip to outro slide
-            XEducationSlides.currentSlide = XEducationSlideOutro.instance;
-        }
+        return true;
     }
 
     /* Override if needed */
@@ -95,9 +82,8 @@ export default class XEducationSlides {
 }
 XEducationSlides.KEY_CURRENT_SLIDE = 'education-slides-current-slide';
 
-XEducationSlides.allSlides = [ XEducationSlideIntro, XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
-    XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss,
-    XEducationSlideOutro ];
+XEducationSlides.allSlides = [ XEducationSlideNotABank, XEducationSlideBlockchain, XEducationSlideWhy,
+    XEducationSlidePointOfNimiq, XEducationSlidePhishers, XEducationSlideScams, XEducationSlideLoss ];
 
 XEducationSlides._slides = XEducationSlides.allSlides;
 

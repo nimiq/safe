@@ -1,7 +1,6 @@
 import XElement from '/libraries/x-element/x-element.js';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XEducationSlides from './x-education-slides.js';
-import XToast from '/secure-elements/x-toast/x-toast.js';
 
 export default class XEducationSlide extends MixinModal(XElement) {
     onCreate() {
@@ -17,13 +16,6 @@ export default class XEducationSlide extends MixinModal(XElement) {
         }
 
         this.container.addEventListener('keydown', e => this._onArrowNavigation(e));
-
-        this.$skip = this.$('a.skip');
-        if (this.$skip) {
-            this.$skip.addEventListener('click', (e) => {
-                e.stopPropagation(); XEducationSlides.skip()
-            });
-        }
     }
 
     styles() {
@@ -46,17 +38,6 @@ export default class XEducationSlide extends MixinModal(XElement) {
             // right arrow
             this.onNext();
         }
-    }
-
-    allowsHide(incomingModal) {
-        if (XEducationSlides.closingAllowed
-            || incomingModal instanceof XEducationSlide) {
-            return true;
-        }
-
-        XToast.warn('Please read through this important information.');
-
-        return false;
     }
 
     onShow() {

@@ -5,6 +5,7 @@ export default class XEducationSlideScams extends XEducationSlide {
         return `
             <h1 class="modal-header">
                 How To Protect Yourself from Scams
+                <i x-modal-close class="material-icons">close</i>
             </h1>
             <div class="modal-body">
                 <h3>People will try to get you to give them money in return for nothing.</h3>
@@ -22,9 +23,6 @@ export default class XEducationSlideScams extends XEducationSlide {
                     <button back>Phishers</button>
                     <button next>Protect From Loss</button>
                 </div>
-                <div class="spacing-top center">
-                    <a secondary class="skip">Skip AT YOUR OWN RISK</a>
-                </div> 
             </div>
         `;
     }
