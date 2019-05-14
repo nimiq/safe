@@ -80,7 +80,7 @@ class Safe {
 
         // Launch network
         networkClient.launch();
-        if (location.origin === 'https://safe.nimiq.com' && !this._networkLaunched) {
+        if (location.origin === 'https://my.nimiq.com' && !this._networkLaunched) {
             this._networkLaunched = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'initialize', Math.round(performance.now() / 100) / 10]);
         }
@@ -109,7 +109,7 @@ class Safe {
     _onConsensusSyncing() {
         console.log('Consensus syncing');
         this.actions.setConsensus('syncing');
-        if (location.origin === 'https://safe.nimiq.com' && !this._consensusSyncing) {
+        if (location.origin === 'https://my.nimiq.com' && !this._consensusSyncing) {
             this._consensusSyncing = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'start-syncing', Math.round(performance.now() / 100) / 10]);
         }
@@ -118,7 +118,7 @@ class Safe {
     _onConsensusEstablished() {
         console.log('Consensus established');
         this.actions.setConsensus('established');
-        if (location.origin === 'https://safe.nimiq.com' && !this._consensusEstablished) {
+        if (location.origin === 'https://my.nimiq.com' && !this._consensusEstablished) {
             this._consensusEstablished = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'established', Math.round(performance.now() / 100) / 10]);
         }

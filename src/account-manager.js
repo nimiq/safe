@@ -1,4 +1,4 @@
-import AccountsClient from '../node_modules/@nimiq/accounts-client/dist/standalone/AccountsClient.standalone.es.js';
+import HubApi from '../node_modules/@nimiq/hub-api/dist/standalone/HubApi.standalone.es.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import {
@@ -32,7 +32,7 @@ class AccountManager {
     }
 
     async launch() {
-        this.accountsClient = new AccountsClient();
+        this.hubApi = new HubApi();
 
         this.accounts = {
             get: (address) => MixinRedux.store.getState().wallets.accounts.get(address),
@@ -41,14 +41,14 @@ class AccountManager {
         this._bindStore();
 
         // listen to response from onboarding
-        this.accountsClient.on(AccountsClient.RequestType.ONBOARD, (result, state) => {
+        this.hubApi.on(HubApi.RequestType.ONBOARD, (result, state) => {
             if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
             else this._onOnboardingResult(result);
         }, (error, state) => {
             console.error('AccountsManager error', error);
             console.log('State', state);
         });
-        this.accountsClient.checkRedirectResponse();
+        this.hubApi.checkRedirectResponse();
 
         // Kick off writing accounts to the store
         this._populateAccounts();
@@ -58,19 +58,19 @@ class AccountManager {
 
     async onboard() {
         await this._launched;
-        this.accountsClient.onboard({ appName: APP_NAME, }, new AccountsClient.RedirectRequestBehavior());
+        this.hubApi.onboard({ appName: APP_NAME, }, new HubApi.RedirectRequestBehavior());
     }
 
     async create() {
         await this._launched;
-        const result = await this.accountsClient.signup({ appName: APP_NAME });
+        const result = await this.hubApi.signup({ appName: APP_NAME });
         this._onOnboardingResult(result);
     }
 
     async sign(tx) {
         await this._launched;
         tx.appName = APP_NAME;
-        const signedTransaction = await this.accountsClient.signTransaction(tx);
+        const signedTransaction = await this.hubApi.signTransaction(tx);
         const rawTx = signedTransaction.raw;
         rawTx.hash = this._hexToBase64(signedTransaction.hash);
         return rawTx;
@@ -82,7 +82,7 @@ class AccountManager {
      */
     async rename(accountId, address) {
         await this._launched;
-        const result = await this.accountsClient.rename({
+        const result = await this.hubApi.rename({
             appName: APP_NAME,
             accountId,
             address,
@@ -111,7 +111,7 @@ class AccountManager {
             wordsOnly: options.wordsOnly,
         };
 
-        const result = await this.accountsClient.export(request);
+        const result = await this.hubApi.export(request);
 
         if (result.wordsExported) {
             this.actions.setWordsFlag(accountId, true);
@@ -132,7 +132,7 @@ class AccountManager {
 
     async changePassword(accountId) {
         await this._launched;
-        await this.accountsClient.changePassword({
+        await this.hubApi.changePassword({
             appName: APP_NAME,
             accountId,
         });
@@ -140,7 +140,7 @@ class AccountManager {
 
     async login() {
         await this._launched;
-        const result = await this.accountsClient.login({
+        const result = await this.hubApi.login({
             appName: APP_NAME,
         });
         result.forEach(account => this._onOnboardingResult(account));
@@ -148,7 +148,7 @@ class AccountManager {
 
     async logout(accountId) {
         await this._launched;
-        const result = await this.accountsClient.logout({
+        const result = await this.hubApi.logout({
             appName: APP_NAME,
             accountId,
         });
@@ -159,7 +159,7 @@ class AccountManager {
 
     async logoutLegacy(accountId) {
         await this._launched;
-        const result = await this.accountsClient.logout({
+        const result = await this.hubApi.logout({
             appName: APP_NAME,
             accountId,
         });
@@ -170,7 +170,7 @@ class AccountManager {
 
     async addAccount(accountId) {
         await this._launched;
-        const newAddress = await this.accountsClient.addAddress({
+        const newAddress = await this.hubApi.addAddress({
             appName: APP_NAME,
             accountId,
         });
@@ -239,10 +239,10 @@ class AccountManager {
          */
         let listedWallets;
         try {
-            listedWallets = await this.accountsClient.list();
+            listedWallets = await this.hubApi.list();
         } catch (error) {
             if (error.message === 'MIGRATION_REQUIRED') {
-                this.accountsClient.migrate(new AccountsClient.RedirectRequestBehavior());
+                this.hubApi.migrate(new HubApi.RedirectRequestBehavior());
                 return;
             }
 
