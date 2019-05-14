@@ -101,11 +101,11 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-view-dashboard x-route="" class="content-width">
                     <!-- <h1>Dashboard</h1> -->
                     <x-card style="max-width: 960px;">
-                        <h2>Recent Transactions</h2>
+                        <h2>Transactions</h2>
                         <x-transactions class="no-animation" only-recent></x-transactions>
                     </x-card>
                     <x-card style="max-width: 552px;">
-                        <h2>Your Addresses</h2>
+                        <h2>Addresses</h2>
                         <x-accounts></x-accounts>
                     </x-card>
                     <x-card style="max-width: 344px;">
