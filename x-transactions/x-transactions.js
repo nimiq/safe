@@ -21,9 +21,9 @@ export default class XTransactions extends MixinRedux(XElement) {
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
             </x-transactions-list>
-            <x-paginator store-path="transactions" class="display-none"></x-paginator>
-            <a secondary view-more>View more</a>
-            <a secondary view-less class="display-none">View less</a>
+            <x-paginator store-path="transactions"></x-paginator>
+            <a secondary class="view-more">View more</a>
+            <a secondary class="view-less">View less</a>
         `
     }
 
@@ -33,9 +33,6 @@ export default class XTransactions extends MixinRedux(XElement) {
         this._$transactions = new Map();
         this.$transactionsList = this.$('x-transactions-list');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
-        if (this.properties.onlyRecent) {
-            this.$paginator.$el.classList.add('display-none');
-        }
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
     }
@@ -44,8 +41,8 @@ export default class XTransactions extends MixinRedux(XElement) {
         return {
             'x-transaction-selected': this._onTransactionSelected,
             'click button[refresh]': () => this.requestTransactionHistory(),
-            'click [view-more]': this._onViewMore,
-            'click [view-less]': this._onViewLess,
+            'click .view-more': this._onViewMore,
+            'click .view-less': this._onViewLess,
         }
     }
 
@@ -199,6 +196,12 @@ export default class XTransactions extends MixinRedux(XElement) {
             const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);
         }
+
+        if (this.properties.totalTransactionCount <= 4) {
+            this.$el.classList.add('few-transactions');
+        } else {
+            this.$el.classList.remove('few-transactions');
+        }
     }
 
     /**
@@ -273,16 +276,12 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     _onViewMore() {
         this.actions.setItemsPerPage(10);
-        this.$paginator.$el.classList.remove('display-none');
-        this.$('a[view-more]').classList.add('display-none');
-        this.$('a[view-less]').classList.remove('display-none');
+        this.$el.classList.add('view-more');
     }
 
     _onViewLess() {
         this.actions.setPage(1);
         this.actions.setItemsPerPage(4);
-        this.$paginator.$el.classList.add('display-none');
-        this.$('a[view-more]').classList.remove('display-none');
-        this.$('a[view-less]').classList.add('display-none');
+        this.$el.classList.remove('view-more');
     }
 }

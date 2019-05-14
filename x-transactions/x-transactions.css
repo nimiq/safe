@@ -7,7 +7,6 @@
 x-transactions {
     display: block;
     width: 100%;
-    text-align: right;
     margin-top: -2.8em;
 }
 
@@ -179,13 +178,37 @@ x-transactions-list x-no-transactions span {
     opacity: 0.6;
 }
 
-x-paginator {
+x-transactions x-paginator {
     display: block;
     text-align: center;
 }
 
-x-paginator button {
+x-transactions x-paginator button {
     display: inline;
     padding: 0 7px !important;
     line-height: 40px !important;
+}
+
+x-transactions[only-recent] x-paginator {
+    display: none;
+}
+
+x-transactions .view-more,
+x-transactions .view-less {
+    width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+x-transactions a.view-less, /* specificity needed to override a[secondary] rule */
+x-transactions.few-transactions .view-more,
+x-transactions.view-more .view-more {
+    display: none;
+}
+
+x-transactions.view-more x-paginator,
+x-transactions.view-more .view-less {
+    display: block;
+}
+
 }
