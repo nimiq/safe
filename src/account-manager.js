@@ -1,6 +1,6 @@
+import AccountsClient from '../node_modules/@nimiq/accounts-client/dist/standalone/AccountsClient.standalone.es.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import AccountsClient from './AccountsClient.standalone.es.js';
 import {
     addAccount,
     LEGACY,

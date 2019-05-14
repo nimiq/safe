@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@nimiq/accounts-client@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nimiq/accounts-client/-/accounts-client-0.4.0.tgz#dd58b43b4d04affdbc50753d73e32766a4145990"
+  integrity sha512-VlvJs4zHso3q9nd4J3oZuWXLjNzZI/9QFAdUv0Tk34HlOgJ+DUR0z01E+xYhRl/CQo/lrMAhLUH9DefhrzELrg==
+  dependencies:
+    "@nimiq/rpc" "^0.2.1"
+
 "@nimiq/core-web@1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.4.3.tgz#190d7390324623672fafbbc93841bcf215d2af01"
@@ -26,6 +33,11 @@
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.1.5.tgz#53919b0a3a9abcdfebee0e865f4c663f72a8b8c2"
   integrity sha512-oTRThXzpbQOY8jz8h+2KXucWzW40nVfYBWROKXKBrSozhTG0nR+rzCbEm4ZyTC26b4RnmB6y4nYabUXi7gNWcA==
+
+"@nimiq/rpc@^0.2.1":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.2.2.tgz#4d47e892f275821584dd8d58ec58de59dc05c459"
+  integrity sha512-KnyZC9rewuDolRgBfAsa98h7q1hB3MU8Eb9Hzd3vcykhM+SqnFLUwxr8N9ma7KzXIiSVHUsyqlHBEXyDmCKLjg==
 
 "@nimiq/style@^0.6.4":
   version "0.6.4"
