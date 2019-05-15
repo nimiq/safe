@@ -15,7 +15,7 @@
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
-    "@nimiq/hub-api": "^0.4.0",
+    "@nimiq/hub-api": "^0.4.1",
     "@nimiq/network-client": "^0.1.7",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",
