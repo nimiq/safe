@@ -1,4 +1,4 @@
-import HubApi from '../node_modules/@nimiq/hub-api/dist/standalone/HubApi.standalone.es.js';
+import HubApi from '@nimiq/hub-api/dist/standalone/HubApi.standalone.es';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import {
@@ -9,8 +9,8 @@ import {
     setFileFlag,
     setWordsFlag,
     switchWallet,
+    rename,
     removeAccount,
-    WalletType,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
@@ -179,8 +179,7 @@ class HubClient {
             setFileFlag,
             setWordsFlag,
             switchWallet,
-            updateAccountLabel,
-            updateWalletLabel,
+            rename,
             removeAccount,
         }, this.store.dispatch);
     }

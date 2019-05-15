@@ -119,9 +119,11 @@ export function reducer(state, action) {
             const accounts = new Map(state.accounts);
 
             action.listedWallets.forEach(wallet => {
+                const walletLabel = wallet.type === WalletType.LEGACY ? wallet.addresses[0].label : wallet.label;
+
                 const entry = {
                     id: wallet.accountId,
-                    label: wallet.label,
+                    label: walletLabel,
                     type: wallet.type,
                     fileExported: wallet.fileExported,
                     wordsExported: wallet.wordsExported,
@@ -216,14 +218,16 @@ export function reducer(state, action) {
             // TODO: Remove unreturned addresses and add new returned addresses
             const accounts = new Map(state.accounts);
 
-            for (const address of [...accounts.keys()]) {
-                if (!action.addressesToKeep.includes(address)) {
-                    accounts.delete(address);
+            for (const address of action.accounts) {
+                let entry = accounts.get(address.address);
+                if (entry) {
+                    accounts.set(address.address, Object.assign({}, accounts.get(address), address));
                 }
             }
+
             return updateState({
                 wallets: updateMapItem(state.wallets, action.walletId, { label: action.label }),
-                accounts: 
+                accounts
             });
 
         default:
@@ -330,11 +334,11 @@ export function updateBalances(balances) {
     }
 }
 
-export function rename(walletId, label, accountLabels) {
+export function rename(walletId, label, accounts) {
     return {
         type: TypeKeys.UPDATE_WALLET_LABEL,
         walletId,
         label,
-        accountLabels,
+        accounts,
     }
 }

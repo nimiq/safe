@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import accountManager from '../account-manager.js';
+import accountManager from '../hub-client.js/index.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
