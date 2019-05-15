@@ -212,11 +212,19 @@ export function reducer(state, action) {
             return updateState({ accounts });
         }
 
-        case TypeKeys.UPDATE_WALLET_LABEL:
+        case TypeKeys.RENAME:
+            // TODO: Remove unreturned addresses and add new returned addresses
+            const accounts = new Map(state.accounts);
+
+            for (const address of [...accounts.keys()]) {
+                if (!action.addressesToKeep.includes(address)) {
+                    accounts.delete(address);
+                }
+            }
             return updateState({
                 wallets: updateMapItem(state.wallets, action.walletId, { label: action.label }),
+                accounts: 
             });
-
 
         default:
             return state

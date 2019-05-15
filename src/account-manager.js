@@ -9,8 +9,6 @@ import {
     setFileFlag,
     setWordsFlag,
     switchWallet,
-    updateWalletLabel,
-    updateAccountLabel,
     removeAccount,
     WalletType,
 } from './wallet-redux.js';
@@ -18,9 +16,9 @@ import AccountType from './lib/account-type.js';
 
 const APP_NAME = 'Accounts';
 
-class AccountManager {
+class HubClient {
     static getInstance() {
-        this._instance = this._instance || new AccountManager();
+        this._instance = this._instance || new HubClient();
         window.accountManager = this._instance;
         return this._instance;
     }
@@ -43,7 +41,7 @@ class AccountManager {
             if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
             else this._onOnboardingResult(result);
         }, (error, state) => {
-            console.error('AccountsManager error', error);
+            console.error('HubApi error', error);
             console.log('State', state);
         });
         this.hubApi.checkRedirectResponse();
@@ -260,4 +258,4 @@ class AccountManager {
     }
 }
 
-export default AccountManager.getInstance();
+export default HubClient.getInstance();
