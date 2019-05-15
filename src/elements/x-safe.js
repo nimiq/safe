@@ -25,8 +25,8 @@ import XEducationSlides from '/elements/x-education-slides/x-education-slides.js
 import VContactList from '/elements/v-contact-list/v-contact-list.js';
 import VContactListModal from '/elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '/elements/v-wallet-selector/v-wallet-selector.js';
-import { LEGACY } from '../wallet-redux.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
+import { WalletType } from '../wallet-redux.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
@@ -182,8 +182,8 @@ export default class XSafe extends MixinRedux(XElement) {
         }
 
         if (changes.activeWallet) {
-            const shouldDisplayFile = this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.fileExported;
-            const shouldDisplayWords = !shouldDisplayFile && this.properties.activeWallet.id !== LEGACY && !this.properties.activeWallet.wordsExported;
+            const shouldDisplayFile = this.properties.activeWallet.type !== WalletType.LEGACY && !this.properties.activeWallet.fileExported;
+            const shouldDisplayWords = !shouldDisplayFile && this.properties.activeWallet.type !== WalletType.LEGACY && !this.properties.activeWallet.wordsExported;
             this.$('.backup-reminder.file').classList.toggle('display-none', !shouldDisplayFile);
             this.$('.backup-reminder.words').classList.toggle('display-none', !shouldDisplayWords);
         }
@@ -203,8 +203,6 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-backup': this._clickedExportWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
-            'x-account-modal-logout': this._clickedAccountLogout.bind(this),
-            // 'x-confirm-ledger-address': this._clickedConfirmLedgerAddress.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'click a[warnings]': this._showWarnings,
             'click [backup-words]': () => this._clickedExportWords(),
@@ -256,15 +254,6 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedAccountRename(params) {
         try {
             await accountManager.rename(params.walletId, params.address);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    async _clickedAccountLogout(accountId) {
-        try {
-            await accountManager.logoutLegacy(accountId);
-            XAccountModal.instance.hide();
         } catch (e) {
             console.error(e);
         }

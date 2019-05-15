@@ -3,7 +3,7 @@ import { initialState as initialNetworkState } from '/elements/x-network-indicat
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
 
-const CACHE_VERSION = 1;
+const CACHE_VERSION = 2;
 
 /* Redux store as singleton */
 export class Store {
