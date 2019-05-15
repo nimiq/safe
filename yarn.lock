@@ -2,17 +2,17 @@
 # yarn lockfile v1
 
 
-"@nimiq/accounts-client@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@nimiq/accounts-client/-/accounts-client-0.4.0.tgz#dd58b43b4d04affdbc50753d73e32766a4145990"
-  integrity sha512-VlvJs4zHso3q9nd4J3oZuWXLjNzZI/9QFAdUv0Tk34HlOgJ+DUR0z01E+xYhRl/CQo/lrMAhLUH9DefhrzELrg==
-  dependencies:
-    "@nimiq/rpc" "^0.2.1"
-
 "@nimiq/core-web@1.4.3":
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.4.3.tgz#190d7390324623672fafbbc93841bcf215d2af01"
   integrity sha512-47JMAx8bFcr2uev+QgX4saBUvRQo/8akQdpvf0z1F5N3I8FPyIfEWRjPW2Xu28C+MOdIZ/VkHL/YmMiGBBtEMA==
+
+"@nimiq/hub-api@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@nimiq/hub-api/-/hub-api-0.4.0.tgz#ed28fe89b73597033a592f161c3e90498b099580"
+  integrity sha512-6Ql3KCwhHB9K3it7nWfAPDgyZ80uLuxaW9vnP79wpF59f7MtYd/O1dEPLTCxTgdMFVDahbbRZSW6/Ww+XGOQ8Q==
+  dependencies:
+    "@nimiq/rpc" "^0.2.1"
 
 "@nimiq/network-client@^0.1.7":
   version "0.1.8"
