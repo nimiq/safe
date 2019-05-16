@@ -373,14 +373,21 @@ nav.actions.floating-actions {
 }
 
 v-wallet-selector.desktop .v-wallet-menu {
-    top: 4.25rem;
     right: 0;
+}
+
+v-wallet-selector.menu-active.desktop .v-wallet-menu {
+    top: 4.25rem;
 }
 
 v-wallet-selector.mobile .v-wallet-menu {
     left: 0;
     padding: 0 1rem;
     width: 100vw;
+}
+
+v-wallet-selector.menu-active.mobile .v-wallet-menu {
+    top: unset;
 }
 
 v-wallet-selector.mobile .wallet-menu {
