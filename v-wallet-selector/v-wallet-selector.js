@@ -4,13 +4,14 @@ import { switchWallet } from '/apps/safe/src/wallet-redux.js'
 import ReduxProvider from '../node_modules/vuejs-redux/bundle.es.js'
 import { walletsArray$, activeWalletId$, activeWallet$ } from '/apps/safe/src/selectors/wallet$.js'
 import accountManager from '/apps/safe/src/account-manager.js'
-import XSettings from '/apps/safe/src/settings/x-settings.js';
+import XSettings from '/apps/safe/src/settings/x-settings.js'
 
 export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
         return `
+            <div class="v-wallet-selector-backdrop"></div>
             <div active-wallet-label></div>
-            <div class="v-wallet-menu display-none">
+            <div class="v-wallet-menu">
                 <!-- Vue template -->
                 <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                     <wallet-menu
@@ -52,7 +53,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.activeWallet) {
-            this.$('[active-wallet-label]').textContent = this.properties.activeWallet.label;
+            this.$('[active-wallet-label]').textContent = this.properties.activeWallet.label
         }
     }
 
@@ -60,7 +61,8 @@ export default class VWalletSelector extends MixinRedux(XElement) {
         super.onCreate()
         const self = this
 
-        this._documentListener = this.__documentListener.bind(this)
+        this._$backdrop = this.$('.v-wallet-selector-backdrop')
+        this._backdropListener = this.__backdropListener.bind(this)
         this._isMenuActive = false
 
         this.vue = new Vue({
@@ -118,23 +120,25 @@ export default class VWalletSelector extends MixinRedux(XElement) {
     _toggleMenu() {
         if (this._isMenuActive) return this._hideMenu()
 
+        this._$backdrop.style.display = 'block'
+        this._$backdrop.offsetWidth // style update
+
         this.$el.classList.add('menu-active')
-        this.$('.v-wallet-menu').classList.remove('display-none')
         this._isMenuActive = true
 
-        document.addEventListener('click', this._documentListener)
+        this._$backdrop.addEventListener('click', this._backdropListener)
     }
 
     _hideMenu() {
+        this._hideTimer = setTimeout(() => this._$backdrop.style.display = 'none', 400);
+
         this.$el.classList.remove('menu-active')
-        this.$('.v-wallet-menu').classList.add('display-none')
         this._isMenuActive = false
 
-        document.removeEventListener('click', this._documentListener)
+        this._$backdrop.removeEventListener('click', this._backdropListener)
     }
 
-    __documentListener(event) {
-        if (event.target.matches('v-wallet-selector, v-wallet-selector *')) return
+    __backdropListener() {
         this._hideMenu()
     }
 }

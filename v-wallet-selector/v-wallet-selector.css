@@ -10,6 +10,7 @@ v-wallet-selector {
 }
 
 v-wallet-selector [active-wallet-label] {
+    position: relative;
     padding: 14px;
     margin-top: -14px;
     margin-left: 10px;
@@ -38,20 +39,30 @@ v-wallet-selector [active-wallet-label]::after {
     display: inline-block;
     background-size: 100%;
     background-size: contain;
-    background-image: url('data:image/svg+xml,<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="path-1-inside-1" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.10417 12.7904C6.84277 13.0518 6.41895 13.0518 6.15755 12.7904L0.657029 7.28984C0.395625 7.02844 0.395625 6.60462 0.657029 6.34322C0.918433 6.08181 1.34225 6.08181 1.60366 6.34322L6.27731 11.0169C6.47257 11.2121 6.78915 11.2121 6.98441 11.0169L11.6581 6.34321C11.9195 6.08181 12.3433 6.08181 12.6047 6.34321C12.8661 6.60462 12.8661 7.02844 12.6047 7.28984L7.10417 12.7904Z"/></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M7.10417 12.7904C6.84277 13.0518 6.41895 13.0518 6.15755 12.7904L0.657029 7.28984C0.395625 7.02844 0.395625 6.60462 0.657029 6.34322C0.918433 6.08181 1.34225 6.08181 1.60366 6.34322L6.27731 11.0169C6.47257 11.2121 6.78915 11.2121 6.98441 11.0169L11.6581 6.34321C11.9195 6.08181 12.3433 6.08181 12.6047 6.34321C12.8661 6.60462 12.8661 7.02844 12.6047 7.28984L7.10417 12.7904Z" fill="white"/><path d="M4.74333 14.2046C5.78578 15.247 7.47593 15.247 8.51839 14.2046L5.68996 11.3761C6.2096 10.8565 7.05211 10.8565 7.57176 11.3761L4.74333 14.2046ZM-0.757184 8.70406L4.74333 14.2046L7.57176 11.3761L2.07124 5.87563L-0.757184 8.70406ZM-0.757185 4.929C-1.79964 5.97145 -1.79964 7.6616 -0.757184 8.70406L2.07124 5.87563C2.59089 6.39527 2.59089 7.23778 2.07124 7.75743L-0.757185 4.929ZM3.01787 4.929C1.97542 3.88655 0.285267 3.88655 -0.757185 4.929L2.07124 7.75743C1.5516 8.27707 0.709087 8.27707 0.189442 7.75743L3.01787 4.929ZM7.69152 9.60265L3.01787 4.929L0.189442 7.75743L4.86309 12.4311L7.69152 9.60265ZM10.2438 4.929L5.5702 9.60265L8.39863 12.4311L13.0723 7.75743L10.2438 4.929ZM14.0189 4.929C12.9764 3.88655 11.2863 3.88655 10.2438 4.929L13.0723 7.75743C12.5526 8.27707 11.7101 8.27707 11.1905 7.75743L14.0189 4.929ZM14.0189 8.70406C15.0614 7.6616 15.0614 5.97145 14.0189 4.929L11.1905 7.75743C10.6708 7.23778 10.6708 6.39527 11.1905 5.87563L14.0189 8.70406ZM8.51839 14.2046L14.0189 8.70406L11.1905 5.87563L5.68996 11.3761L8.51839 14.2046ZM4.86309 12.4311C5.8394 13.4074 7.42231 13.4074 8.39863 12.4311L5.5702 9.60265C6.15599 9.01686 7.10573 9.01687 7.69152 9.60265L4.86309 12.4311Z" fill="white" mask="url(%23path-1-inside-1)"/></svg>');
+    background-image: url('data:image/svg+xml,<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="a" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.1 12.8c-.3.3-.7.3-1 0L.8 7.3a.7.7 0 1 1 .9-1L6.3 11c.2.2.5.2.7 0l4.7-4.7a.7.7 0 1 1 .9 1l-5.5 5.5z"/></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M7.1 12.8c-.3.3-.7.3-1 0L.8 7.3a.7.7 0 1 1 .9-1L6.3 11c.2.2.5.2.7 0l4.7-4.7a.7.7 0 1 1 .9 1l-5.5 5.5z" fill="white"/><path d="M4.7 14.2c1 1 2.8 1 3.8 0l-2.8-2.8c.5-.5 1.4-.5 1.9 0l-2.9 2.8zM-.8 8.7l5.5 5.5 2.9-2.8L2 5.9-.8 8.7zm0-3.8c-1 1-1 2.8 0 3.8l2.9-2.8c.5.5.5 1.3 0 1.9L-.8 4.9zM3 5C2 4 .3 4-.8 5l2.9 2.9c-.5.5-1.4.5-2 0l3-2.9zm4.7 4.7L3 4.9.2 7.8l4.7 4.6 2.8-2.8zm2.5-4.7L5.6 9.6l2.8 2.8 4.7-4.6-2.9-2.9zM14 5c-1-1-2.7-1-3.8 0l2.9 2.9c-.5.5-1.4.5-2 0l3-2.9zm0 3.8c1-1 1-2.7 0-3.8l-2.8 2.9c-.5-.6-.5-1.4 0-2L14 8.8zm-5.5 5.5L14 8.7l-2.8-2.8-5.5 5.5 2.8 2.8zM5 12.4c1 1 2.5 1 3.5 0L5.6 9.6c.6-.6 1.5-.6 2 0L5 12.4z" fill="white" mask="url(%23a)"/></svg>');
     transition: transform .3s, margin .3s;
+    transform-origin: 50% 67%;
 }
 
 v-wallet-selector.menu-active [active-wallet-label]::after {
     transform: rotate(180deg);
-    margin-bottom: -5px;
 }
 
 v-wallet-selector .v-wallet-menu {
     position: absolute;
+    top: -9999rem;
     z-index: 1000;
     color: var(--nimiq-blue);
     text-align: left;
+    opacity: 0;
+    transform: translateY(-1rem);
+    transition: opacity .3s ease-out, transform .3s ease-out, top 0s .3s;
+}
+
+v-wallet-selector.menu-active .v-wallet-menu {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .3s ease-out, transform .3s ease-out;
 }
 
 v-wallet-selector .wallet-menu {
@@ -132,3 +143,25 @@ v-wallet-selector button {
     color: var(--nimiq-light-blue);
     background-color: rgba(5, 130, 202, 0.16); /* Based on Nimiq Light Blue */
 }
+
+.v-wallet-selector-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    -webkit-tap-highlight-color: transparent;
+    background: rgba(31, 35, 72, 0); /* Nimiq Indigo 0% */
+    z-index: 1;
+    transition: background .4s ease-in-out;
+}
+
+v-wallet-selector.menu-active [active-wallet-label] {
+    z-index: 1000;
+}
+
+v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+    background: rgba(31, 35, 72, .8); /* Nimiq Indigo 80% */
+}
+
