@@ -3,10 +3,10 @@
   font-style: normal;
   font-weight: 400;
   /*
-  @asset(/libraries/nimiq-style/material-icons/MaterialIcons-Regular.eot)
-  @asset(/libraries/nimiq-style/material-icons/MaterialIcons-Regular.woff2)
-  @asset(/libraries/nimiq-style/material-icons/MaterialIcons-Regular.woff)
-  @asset(/libraries/nimiq-style/material-icons/MaterialIcons-Regular.ttf)
+  @asset(src/lib//nimiq-style/material-icons/MaterialIcons-Regular.eot)
+  @asset(src/lib/nimiq-style/material-icons/MaterialIcons-Regular.woff2)
+  @asset(src/lib/nimiq-style/material-icons/MaterialIcons-Regular.woff)
+  @asset(src/lib/nimiq-style/material-icons/MaterialIcons-Regular.ttf)
    */
   src: url(./MaterialIcons-Regular.eot); /* For IE6-8 */
   src: local('Material Icons'),

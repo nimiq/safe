@@ -196,7 +196,7 @@ x-account-modal .vesting-icon::after {
 x-account .ledger-icon,
 x-account-modal .ledger-icon,
 x-popup-menu .ledger-icon {
-    /* @asset(/elements/x-accounts/icons/ledger_icon_24px.svg) */
+    /* @asset(src/elements/x-accounts/icons/ledger_icon_24px.svg) */
     background-image: url('../x-accounts/icons/ledger_icon_24px.svg');
 }
 

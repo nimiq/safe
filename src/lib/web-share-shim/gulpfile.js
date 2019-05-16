@@ -69,9 +69,9 @@ gulp.task('build-nimiq', () => {
     const templateStream = buildTemplate().pipe(gulp.dest('.'));
     let nimiqStream = gulp.src(['src/*.js'])
         .pipe(replace("fetch('../src/template.html').then(response => response.text())",
-            "fetch('/libraries/web-share-shim/web-share-shim.html').then(response => response.text())"));
+            "fetch('src/lib/web-share-shim/web-share-shim.html').then(response => response.text())"));
     nimiqStream = minifyJs(nimiqStream)
-        .pipe(insert.prepend('// @asset(/libraries/web-share-shim/web-share-shim.html)\n'))
+        .pipe(insert.prepend('// @asset(src/lib/web-share-shim/web-share-shim.html)\n'))
         .pipe(insert.append('export default navigator.share;\n'))
         .pipe(rename(componenentName + '.nimiq.min.js'))
         .pipe(gulp.dest('.'));

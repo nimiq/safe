@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-/* @asset(/apps/safe/node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.min.qr-encoder.js) */
+/* @asset(node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.min.qr-encoder.js) */
 
 export default class VQrCodeOverlay extends XElement {
     html() {

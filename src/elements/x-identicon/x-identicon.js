@@ -2,8 +2,6 @@ import XElement from '../../lib/x-element/x-element.js';
 import Iqons from '../../../node_modules/@nimiq/iqons/dist/iqons.min.js';
 import ValidationUtils from '../../lib/validation-utils.js';
 
-Iqons.svgPath = '../node_modules/@nimiq/iqons/dist/iqons.min.svg';
-
 export default class XIdenticon extends XElement {
 
     html() {
