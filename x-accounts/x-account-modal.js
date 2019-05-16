@@ -4,7 +4,6 @@ import XAmount from '/elements/x-amount/x-amount.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import ValidationUtils from '/libraries/secure-utils/validation-utils/validation-utils.js';
 import { dashToSpace } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
-import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
 import AccountType from '/apps/safe/src/lib/account-type.js';
 import { accounts$ } from '/apps/safe/src/selectors/account$.js';
 import VQrCodeOverlay from '/elements/v-qr-code-overlay/v-qr-code-overlay.js';
@@ -13,14 +12,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
-                <x-popup-menu left-align class="display-none">
-                    <button show-qr><i class="material-icons" icon-qr></i> Show QR Code</button>
-                    <button rename><i class="material-icons">mode_edit</i> Rename</button>
-                    <button backup><i class="material-icons">vertical_align_bottom</i> Backup</button>
-                    <button change-passphrase><i class="material-icons">swap_horiz</i> Change Passphrase</button>
-                    <button confirmLedgerAddress><i class="material-icons">check_circle</i> Check Address on Ledger</button>
-                    <button logout><i class="material-icons">exit_to_app</i> Logout</button>
-                </x-popup-menu>
                 <a icon-qr class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Address</h2>
@@ -147,13 +138,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         // Enable confirm ledger address button only for ledger accounts
         this.$confirmLedgerAddressButton.classList.toggle('display-none', type !== AccountType.LEDGER);
     }
-
-    set isLegacy(isLegacy) {
-        // Disable popup menu for multi-address accounts
-        this.$popupMenu.$el.classList.toggle('display-none', !isLegacy);
-        this.$('.header-button[icon-qr]').classList.toggle('display-none', isLegacy);
-    }
-
     allowsShow(address) {
         if (!address) return true;
 

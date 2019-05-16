@@ -4,7 +4,8 @@ import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
 import XPopupMenu from '/elements/x-popup-menu/x-popup-menu.js';
-import { activeWalletId$ } from '/apps/safe/src/selectors/wallet$.js';
+import { activeWallet$, activeWalletId$ } from '/apps/safe/src/selectors/wallet$.js';
+import { WalletType }  from '/apps/safe/src/wallet-redux.js';
 
 export default class XAccounts extends MixinRedux(XElement) {
 
@@ -24,13 +25,14 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
+            activeWallet: activeWallet$(state),
             activeWalletId: activeWalletId$(state),
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (changes.activeWalletId) {
-            this.$('x-popup-menu').classList.toggle('hidden', this.properties.activeWalletId === 'LEGACY');
+        if (changes.activeWallet) {
+            this.$('x-popup-menu').classList.toggle('hidden', this.properties.activeWallet.type === WalletType.LEGACY);
         }
     }
 
