@@ -117,7 +117,7 @@ class NimiqBuild {
             bundles.css = cssBundle + '?t=' + timestamp;
         }
 
-        bundles['browser-warning'] = gulp.src(rootPath + '/elements/browser-warning/browser-warning.html.template');
+        bundles['browser-warning'] = gulp.src('src/elements/browser-warning/browser-warning.html.template');
 
         let stream = gulp.src(htmlEntry)
             .pipe(htmlReplace(bundles));
