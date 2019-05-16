@@ -52,7 +52,7 @@ function parseAssets(file, reference, opts, push) {
 
 function staticAssets(opts) {
 	opts = opts || {};
-	var rootPath = opts['rootPath'] || `${__dirname}/../../`;
+	var rootPath = opts['rootPath'] || __dirname;
 
 	return through.obj(function (file, enc, cb) {
 		if (file.isNull()) {

@@ -224,7 +224,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             },
             components: {
                 'qr-scanner': NimiqVueComponents.QrScanner,
-                // @asset(node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
+                // @asset(/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
             }
         });
         return this._qrScanner;

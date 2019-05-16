@@ -16,5 +16,5 @@
         }
     </style>
 </noscript>
-<!-- @asset(src/elements/browser-warning/browser-warning.js) -->
-<script type="text/javascript" src="src/elements/browser-warning/browser-warning.js" async></script>
+<!-- @asset(/src/elements/browser-warning/browser-warning.js) -->
+<script type="text/javascript" src="/src/elements/browser-warning/browser-warning.js" async></script>

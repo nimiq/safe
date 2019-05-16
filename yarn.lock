@@ -14,10 +14,10 @@
   dependencies:
     "@nimiq/rpc" "^0.3.0"
 
-"@nimiq/iqons@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@nimiq/iqons/-/iqons-1.5.0.tgz#55d68dc4a83c7c4251fea65745889b2a5ab6341f"
-  integrity sha512-Gon590UTpZSdoD2aM8T7YywVzulgFm+SuVloZSqR4V6CUemDaf2y0R9Y/Onf1Ac60haiorRfmUwOZKQWIBD1dw==
+"@nimiq/iqons@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@nimiq/iqons/-/iqons-1.5.1.tgz#3af164380c4bd6effeee24abf36cba42574714fd"
+  integrity sha512-A4fQZdF0uLklAa0eIpSeEM+SxEf1Q6OcxlkfHKdYozmuADvOu92y+FoXEJ1rIqtViXmQv1j8SviDL+X+VVb1bA==
   dependencies:
     dom-parser "^0.1.5"
 
