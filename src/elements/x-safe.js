@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import accountManager from '../hub-client.js/index.js';
+import hubClient from '../hub-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
 import { spaceToDash } from '/libraries/nimiq-utils/parameter-encoding/parameter-encoding.js';
@@ -9,7 +9,6 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import XNetworkIndicator from '/elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionModal from '/elements/x-send-transaction/x-send-transaction-modal.js';
 import XAccounts from '/elements/x-accounts/x-accounts.js';
-import XAccountModal from '/elements/x-accounts/x-account-modal.js';
 import XTransactions from '/elements/x-transactions/x-transactions.js';
 import XTransactionModal from '/elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from '/elements/x-request-link/x-receive-request-link-modal.js';
@@ -177,7 +176,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (this.properties.walletsLoaded && !this.properties.activeWallet) {
-            accountManager.onboard();
+            hubClient.onboard();
             return;
         }
 
@@ -212,7 +211,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAddAccount(walletId) {
         try {
-            await accountManager.addAccount(walletId);
+            await hubClient.addAccount(walletId);
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
@@ -227,7 +226,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedExportFile() {
         const walletId = this.properties.activeWallet.id;
         try {
-            await accountManager.export(walletId);
+            await hubClient.export(walletId);
         } catch (e) {
             console.error(e);
         }
@@ -236,7 +235,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async _clickedExportWords(givenWalletId = null) {
         const walletId = givenWalletId || this.properties.activeWallet.id;
         try {
-            await accountManager.exportWords(walletId);
+            await hubClient.exportWords(walletId);
         } catch (e) {
             console.error(e);
         }
@@ -244,7 +243,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountChangePassword(walletId) {
         try {
-            await accountManager.changePassword(walletId);
+            await hubClient.changePassword(walletId);
         } catch (e) {
             console.error(e);
             XToast.warning('Password not changed.');
@@ -253,7 +252,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async _clickedAccountRename(params) {
         try {
-            await accountManager.rename(params.walletId, params.address);
+            await hubClient.rename(params.walletId, params.address);
         } catch (e) {
             console.error(e);
         }
@@ -309,7 +308,7 @@ export default class XSafe extends MixinRedux(XElement) {
         tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
 
-        const signedTx = await accountManager.sign(tx);
+        const signedTx = await hubClient.sign(tx);
 
         signedTx.value = signedTx.value / 1e5;
         signedTx.fee = signedTx.fee / 1e5;

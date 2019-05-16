@@ -173,6 +173,26 @@ export function reducer(state, action) {
             });
         }
 
+        case TypeKeys.RENAME:
+            // TODO: Remove unreturned addresses and add new returned addresses
+            const accounts = new Map(state.accounts);
+
+            for (const address of action.accounts) {
+                let entry = accounts.get(address.address);
+                if (entry) {
+                    accounts.set(address.address, Object.assign({}, entry, {
+                        label: address.label
+                    }));
+                }
+            }
+
+            const walletLabel = action.walletType === WalletType.LEGACY ? action.accounts[0].label : action.label;
+
+            return updateState({
+                wallets: updateMapItem(state.wallets, action.walletId, { label: walletLabel }),
+                accounts
+            });
+
         case TypeKeys.REMOVE_ACCOUNT: {
             const accounts = new Map(state.accounts);
 
@@ -213,22 +233,6 @@ export function reducer(state, action) {
 
             return updateState({ accounts });
         }
-
-        case TypeKeys.RENAME:
-            // TODO: Remove unreturned addresses and add new returned addresses
-            const accounts = new Map(state.accounts);
-
-            for (const address of action.accounts) {
-                let entry = accounts.get(address.address);
-                if (entry) {
-                    accounts.set(address.address, Object.assign({}, accounts.get(address), address));
-                }
-            }
-
-            return updateState({
-                wallets: updateMapItem(state.wallets, action.walletId, { label: action.label }),
-                accounts
-            });
 
         default:
             return state
@@ -277,6 +281,16 @@ export function populate(listedWallets) {
         type: TypeKeys.POPULATE,
         listedWallets,
     };
+}
+
+export function rename(walletId, label, walletType, accounts) {
+    return {
+        type: TypeKeys.RENAME,
+        walletId, 
+        walletType,
+        label,
+        accounts,
+    }
 }
 
 export function removeAccount(address) {
@@ -331,14 +345,5 @@ export function updateBalances(balances) {
     return {
         type: TypeKeys.UPDATE_BALANCES,
         balances
-    }
-}
-
-export function rename(walletId, label, accounts) {
-    return {
-        type: TypeKeys.UPDATE_WALLET_LABEL,
-        walletId,
-        label,
-        accounts,
     }
 }

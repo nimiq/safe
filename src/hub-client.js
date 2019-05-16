@@ -1,4 +1,4 @@
-import HubApi from '@nimiq/hub-api/dist/standalone/HubApi.standalone.es';
+import HubApi from '../node_modules/@nimiq/hub-api/dist/standalone/HubApi.standalone.es.js';
 import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import {
@@ -84,7 +84,7 @@ class HubClient {
             address,
         });
 
-        this.actions.rename(result.accountId, result.label, result.addresses);
+        this.actions.rename(result.accountId, result.label, result.type, result.addresses.concat(result.contracts));
     }
 
     // for testing

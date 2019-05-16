@@ -1,5 +1,5 @@
 import XElement from '/libraries/x-element/x-element.js';
-import accountManager from '../account-manager.js';
+import hubClient from '../hub-client.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import XSafe from './x-safe.js';
@@ -28,7 +28,7 @@ export default class XLoader extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (this.properties.walletsLoaded && !this.properties.activeWallet) {
-            accountManager.onboard();
+            hubClient.onboard();
             return;
         }
 

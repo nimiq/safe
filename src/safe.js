@@ -5,7 +5,7 @@ import { default as store, Store } from './store.js';
 import { updateBalances } from './wallet-redux.js';
 import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
-import accountManager from './account-manager.js';
+import hubClient from './hub-client.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import networkClient from './network-client.js';
 import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
@@ -32,7 +32,7 @@ class Safe {
         MixinRedux.store = this.store;
 
         // Launch account manager
-        accountManager.launch();
+        hubClient.launch();
 
         const $appContainer = document.getElementById('app');
 
