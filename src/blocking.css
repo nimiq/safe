@@ -10,21 +10,11 @@ html {
     --nimiq-gray-bg: radial-gradient(circle at bottom right, #F4F4F4, var(--nimiq-gray));
 }
 
-body.preparing > #app > .logo,
-body.preparing > #app > .loading {
-    height: 100%;
-    visibility: visible;
+.loading-screen {
+    display: none;
 }
 
-body.preparing > #app {
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 1rem;
-}
-
-body.preparing .loading {
+.loading-screen > .loading {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,7 +23,17 @@ body.preparing .loading {
     padding-bottom: 9.5rem /* height of header */
 }
 
-#app > .logo {
+body.preparing > .loading-screen {
+    display: flex;
+    visibility: visible !important;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+#app > .logo, .loading-screen > .logo {
     box-sizing: content-box;
     width: calc(100% - 2 * 2rem); /* minus padding */
     padding: 3rem 2rem;
