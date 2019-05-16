@@ -17,6 +17,8 @@ export default class XPopupMenu extends XElement {
         this.$loader = this.$('.dot-loader');
         this.$('i').textContent = this.attributes.xIcon || 'more_vert';
         this.$loader.setAttribute('title', this.attributes.xLoadingTooltip);
+        // disable menu, just keep icon and styles
+        this._mainActionOnly = this.attributes.xMainActionOnly || false;
         this._noMenu = false;
 
         this._handleiOS();
@@ -46,6 +48,7 @@ export default class XPopupMenu extends XElement {
     }
 
     _buttonClicked(_, e) {
+        if (this._mainActionOnly) return;
         e.stopPropagation();
         this.$el.classList.add('active');
         document.body.addEventListener('click', this._bodyClicked);

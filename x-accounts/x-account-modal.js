@@ -43,7 +43,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
         `;
     }
 
-    children() { return [ ...super.children(), XPopupMenu, VQrCodeOverlay ] }
+    children() { return [ ...super.children(), VQrCodeOverlay ] }
 
     onCreate() {
         this.$availableAmount = this.$amount[1];
@@ -52,10 +52,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         this.$sendButton = this.$('button[send]');
         this.$payoutButton = this.$('button[payout]');
 
-        this.$renameButton = this.$('button[rename]');
-
-        this.$confirmLedgerAddressButton = this.$('button[confirmLedgerAddress]');
-
         this._height = 0;
         super.onCreate();
     }
@@ -63,13 +59,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
     listeners() {
         return {
             'click .header-button[icon-qr]': () => this._showQrCode(),
-            'click button[show-qr]': () => this._showQrCode(),
-            'click button[backup]': _ => this.fire('x-account-modal-backup', this.properties.walletId),
-            'click button[change-passphrase]': _ => this.fire('x-account-modal-change-passphrase', this.properties.walletId),
-            'click button[rename]': _ => this.fire('x-account-modal-rename', {
-                walletId: this.properties.walletId,
-                address: this.properties.address,
-            }),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address),
             'click button[payout]': _ => this.fire('x-account-modal-payout',
                 {
@@ -82,8 +71,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     owner: this.properties.owner
                 }
             ),
-            'click button[confirmLedgerAddress]': () => this.fire('x-confirm-ledger-address', this.properties.address),
-            'click button[logout]': () => this.fire('x-account-modal-logout', this.properties.walletId),
         }
     }
 
@@ -134,9 +121,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
         // Disable send button, enable payout button for Vesting
         this.$sendButton.classList.toggle('display-none', type === AccountType.VESTING);
         this.$payoutButton.classList.toggle('display-none', type !== AccountType.VESTING);
-
-        // Enable confirm ledger address button only for ledger accounts
-        this.$confirmLedgerAddressButton.classList.toggle('display-none', type !== AccountType.LEDGER);
     }
     allowsShow(address) {
         if (!address) return true;
