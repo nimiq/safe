@@ -29,13 +29,13 @@ export default class XTotalAmount extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
-        const { totalAmount, isLegacy } = changes;
+        const { totalAmount } = changes;
 
         if (totalAmount !== undefined) {
             this.value = totalAmount;
         }
 
-        this.$amount.label = isLegacy ? 'Legacy Account Balance' : 'Account Balance';
+        this.$amount.label = this.properties.isLegacy ? 'Legacy Account Balance' : 'Account Balance';
     }
 
     set value(value) {
