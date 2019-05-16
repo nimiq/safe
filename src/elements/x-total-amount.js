@@ -1,6 +1,6 @@
-import XElement from '/libraries/x-element/x-element.js';
-import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
-import XAmount from '/elements/x-amount/x-amount.js';
+import XElement from '../lib/x-element/x-element.js';
+import MixinRedux from './mixin-redux.js';
+import XAmount from './x-amount/x-amount.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import { WalletType } from '../wallet-redux.js';

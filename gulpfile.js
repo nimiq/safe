@@ -1,13 +1,13 @@
 const gulp = require('gulp');
 
-const NimiqBuild = require('../../meta/build-process/nimiq-base-gulpfile.js');
+const NimiqBuild = require('./build-process/nimiq-base-gulpfile.js');
 
 gulp.task('clean', () => NimiqBuild.cleanBuild('deployment-safe/dist'));
 
 gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
     jsEntry: [
-        '../../libraries/nimiq-utils/moment/moment.min.js',
-        '../../elements/vue-components/lib/vue.min.js', // Production version
+        'src/lib/moment.min.js',
+        'src/lib/vue.min.js', // Production version
         'node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.min.js',
         'src/safe.js'
     ],

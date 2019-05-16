@@ -1,0 +1,191 @@
+@import "../mixin-modal/mixin-modal.css";
+
+.x-education-slide {
+    max-width: 1000px !important;
+}
+
+.x-education-slide .has-side-image {
+    display: flex;
+}
+
+.x-education-slide [class^="side-image"] {
+    width: 35%;
+    min-width: 35%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.x-education-slide [class^="side-image"]:first-child {
+    margin-right: 32px;
+}
+.x-education-slide [class^="side-image"]:last-child {
+    margin-left: 32px;
+}
+
+.x-education-slide p {
+    text-align: left;
+    line-height: 1.2;
+}
+
+.x-education-slide h3:not(:first-child) {
+    margin-top: 32px;
+}
+
+.x-education-slide .button-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.x-education-slide button {
+    margin: 24px auto 0;
+    position: relative;
+}
+
+.x-education-slide button[back] {
+    background: transparent;
+    color: rgba(0, 0, 0, 0.48);
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    width: 48%;
+    float: left;
+}
+
+.x-education-slide button[back] ~ button[next] {
+    width: 48%;
+    float: right;
+}
+
+.x-education-slide button[next]::after,
+.x-education-slide button[back]::before {
+    /* Copied from /libraries/nimiq-style/material-icons/material-icons.css */
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    vertical-align: middle;
+    margin-top: -0.1em;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+.x-education-slide button[next]::after {
+    content: "navigate_next";
+    right: 8px;
+    top: 10px;
+    position: absolute;
+    opacity: .9;
+    font-size: 40px;
+}
+
+.x-education-slide button[back]::before {
+    content: "navigate_before";
+    left: 8px;
+    top: 10px;
+    position: absolute;
+    opacity: .7;
+    font-size: 40px;
+}
+
+.x-education-slide .warning {
+    padding: 12px;
+    padding-left: 64px;
+    box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),
+        0 1px 8px 0 rgba(0, 0, 0, 0.12),
+        0 3px 3px -2px rgba(0, 0, 0, 0.4);
+    margin-bottom: 24px;
+    border-top: 2px solid #ea4b40;
+    font-size: 16px;
+    font-weight: 500;
+    position: relative;
+    line-height: 1.2;
+}
+
+.x-education-slide .important {
+    color: red;
+}
+
+@media screen and (max-width: 800px) {
+    .x-education-slide .has-side-image {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .x-education-slide [class^="side-image"] {
+        height: 200px;
+        width: 50%;
+        order: 0;
+        margin: 32px 0 !important;
+    }
+
+    .x-education-slide .has-side-image > :not([class^="side-image"]) {
+        order: 1;
+    }
+
+    .x-education-slide .button-bar {
+        flex-direction: column;
+    }
+
+    .x-education-slide button {
+        width: 100% !important;
+    }
+}
+
+.x-education-slide .warning:before {
+    content: "";
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' width='32' height='32'%3E%3Cpath d='M505.403 406.394L295.389 58.102c-8.274-13.721-23.367-22.245-39.39-22.245s-31.116 8.524-39.391 22.246L6.595 406.394c-8.551 14.182-8.804 31.95-.661 46.37 8.145 14.42 23.491 23.378 40.051 23.378h420.028c16.56 0 31.907-8.958 40.052-23.379 8.143-14.421 7.89-32.189-.662-46.369zm-28.364 29.978a12.684 12.684 0 0 1-11.026 6.436H45.985a12.68 12.68 0 0 1-11.025-6.435 12.683 12.683 0 0 1 .181-12.765L245.156 75.316A12.732 12.732 0 0 1 256 69.192c4.41 0 8.565 2.347 10.843 6.124l210.013 348.292a12.677 12.677 0 0 1 .183 12.764z' fill='%23ea4b40'/%3E%3Cpath d='M256.154 173.005c-12.68 0-22.576 6.804-22.576 18.866 0 36.802 4.329 89.686 4.329 126.489.001 9.587 8.352 13.607 18.248 13.607 7.422 0 17.937-4.02 17.937-13.607 0-36.802 4.329-89.686 4.329-126.489 0-12.061-10.205-18.866-22.267-18.866zm.311 180.301c-13.607 0-23.814 10.824-23.814 23.814 0 12.68 10.206 23.814 23.814 23.814 12.68 0 23.505-11.134 23.505-23.814 0-12.99-10.826-23.814-23.505-23.814z' fill='%23ea4b40'/%3E%3C/svg%3E");
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    width: 64px;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.x-education-slide .side-image-intro {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.4 140.1"><defs><linearGradient id="a" x1="63.2" x2="63.2" y2="140.1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M99.6 91.6h22.7V45H99.6zm19.1-14v10.5h-10.4a10.4 10.4 0 0 1 10.4-10.4zm7.7-75.5V9a14.3 14.3 0 0 1-.6 4.2l-9 28.2h-11.9l7.4-27.3a1.6 1.6 0 0 0-1.5-2H35a1.6 1.6 0 0 0-1.5 2l7 27.3H28.7L20 13.3a14 14 0 0 1-.6-4.3V2.2A2.1 2.1 0 0 1 21.5 0h102.8a2.1 2.1 0 0 1 2.1 2.1zM103.7 28l-4.6 1.8-.4 1-.6 1.7-.7 1.8a.1.1 0 0 1-.2 0l-.7-1.8-.7-1.8-.4-1-4.6-1.6a.1.1 0 0 1 0-.2l4.6-1.8 1.7-4.6a.1.1 0 0 1 .3 0L99 26l4.6 1.7a.1.1 0 0 1 0 .2zm-50.3-9a.1.1 0 0 1 0 .2l-2.9 1.1-1 2.9a.1.1 0 0 1-.3 0l-1-2.9-3-1a.1.1 0 0 1 0-.2l1-.4 2-.7 1-3a.1.1 0 0 1 .1 0l1.1 3 2 .7zm36.3.1l-2.8-1a.1.1 0 0 1 0-.2l1-.3 1.8-.7 1-2.8a.1.1 0 0 1 .2 0l1 2.8 1.9.7.8.3a.1.1 0 0 1 0 .2l-2.7 1-1 2.7a.1.1 0 0 1-.2 0l-1-2.7zm-3.4 3.8L95 38.1a4.5 4.5 0 0 1 .5 1.8H77.6c-2.6-2-6.3-2.5-6.3-5.1a2.5 2.5 0 0 1 2.8-2.7 5.1 5.1 0 0 1 3.8 1.8l1.9-2.3a7.5 7.5 0 0 0-4.7-2.6v-3.4h-2.6V29a5.6 5.6 0 0 0-4.8 5.9c0 2.5 1.4 4 3 5H52a4.6 4.6 0 0 1 .6-1.7L61 22.8a4.5 4.5 0 0 1 4-2.3h17.3a4.5 4.5 0 0 1 4 2.3zM57.2 70a1.9 1.9 0 0 0-.3 0 40 40 0 0 1-10.2-1.4 30.4 30.4 0 0 1-3.1-1l-3.2-1.5a49.7 49.7 0 0 1-8.1-5.6L30.5 59a2 2 0 0 0-1.3-.4H29a2 2 0 0 0-.9.4l-1.8 1.5a37 37 0 0 1-17.6 8.8 45.9 45.9 0 0 1-7 .6 1.9 1.9 0 0 0-.3 0A1.7 1.7 0 0 0 0 71.7v31.1c0 15.2 10.1 25 27.9 37a2.7 2.7 0 0 0 2.7 0c17.8-12 28-21.8 28-37V71.7a1.7 1.7 0 0 0-1.4-1.6zm-21 25.5a10.8 10.8 0 0 1-1.6 2.4 11.7 11.7 0 0 1-1.3 1.2L34 111a2.4 2.4 0 0 1-.4 1.3 2.4 2.4 0 0 1-.7.7 2.3 2.3 0 0 1-.4.2 2.4 2.4 0 0 1-1 .2H27a2.4 2.4 0 0 1-2.4-2.4l1-11.7-.7-.5-1-1-.3-.4a9.4 9.4 0 0 1-.6-.9 9 9 0 0 1-.8-1.3 6.4 6.4 0 0 1-.4-1.3 4.9 4.9 0 0 1 0-1A7.7 7.7 0 0 1 37 93a6 6 0 0 1-.7 2.7zM23 45h22.6v19.6A42.6 42.6 0 0 1 33 56.4a5.3 5.3 0 0 0-6.9 0c-1 1-2.2 1.8-3.2 2.6zm26.2 0h47v46.7H61.8V71.8a5 5 0 0 0-5-5 41 41 0 0 1-7.7-.8z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-not-a-bank {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.06 126.06"><defs><linearGradient id="a" x1="63.03" x2="63.03" y2="126.06" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M101.78 46.86v5H97zm-71 5h-5.66v-6.7L63.4 19.91 84.83 34 67 51.82zm23.6-13.17a8 8 0 1 0 7.95-7.95 8 8 0 0 0-7.95 7.91zM27 91.86l16.3-16.33V60c0-.85 1.26-1.55 2.11-1.55s1.88.7 1.88 1.55v11.54l16.36-16.36H30.78v25.58h-2a3.61 3.61 0 0 0-3.61 3.61v4.36A3.59 3.59 0 0 0 27 91.86zm71.18-11.1h-2V55.18h-2.72L84 64.65v16.08h-3.69V68.34l-24 24h41.84a3.61 3.61 0 0 0 3.61-3.62v-4.35a3.61 3.61 0 0 0-3.61-3.61zM126.06 63A63 63 0 1 1 63 0a63.11 63.11 0 0 1 63.06 63zM26.92 97.64l70.72-70.72a50 50 0 0 0-70.72 70.72zM113.09 63a49.84 49.84 0 0 0-7.26-25.95l-68.75 68.78a50 50 0 0 0 76-42.8zM63.42 42.93a2.67 2.67 0 0 0 2.27-2.62c0-1.3-.7-2.12-2.35-2.73-1.1-.45-1.46-.71-1.46-1.08s.38-.67 1-.67a3.67 3.67 0 0 1 1.65.4l.35.16.52-1.75-.2-.1a4.61 4.61 0 0 0-1.71-.46v-1.26h-1.63v1.37a2.55 2.55 0 0 0-2.17 2.5c0 1.55 1.27 2.21 2.51 2.66s1.29.78 1.29 1.11c0 .49-.46.8-1.16.8a4 4 0 0 1-2-.55l-.29-.18-.51 1.78.16.11a4.6 4.6 0 0 0 2.06.63v1.32h1.64v-1.44" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-blockchain {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112.6 104"><defs><linearGradient id="a" x1="56.3" x2="56.3" y2="104" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M107.5 0H5a5.1 5.1 0 0 0-5 5.1V14h112.6V5a5.1 5.1 0 0 0-5.1-5.1zm-95 10.2A3.2 3.2 0 1 1 16 6.9a3.2 3.2 0 0 1-3.3 3.3zm12.5 0a3.2 3.2 0 1 1 3.2-3.3 3.2 3.2 0 0 1-3.3 3.3zM0 17.6V99a5.1 5.1 0 0 0 5.1 5.1h102.4a5.1 5.1 0 0 0 5-5.1V17.7zm73.4 17.5v17.3a2.1 2.1 0 0 1-1 1.6l-14.8 8.5h-.1V45.4a2.2 2.2 0 0 1 1-1.6l14.8-8.5zm-38.8 61l-15-8.5a2.1 2.1 0 0 1-.9-1.6V68.8l15 8.6a2.2 2.2 0 0 1 .9 1.6zm.8-21.8l-14.9-8.6 15-8.6a2.1 2.1 0 0 1 1.7 0l15 8.5-15 8.7a2.1 2.1 0 0 1-1.8 0zM54 86a2.1 2.1 0 0 1-1 1.5l-14.8 8.6H38V79a2.1 2.1 0 0 1 .9-1.6l14.9-8.6v17.3zm0-23.5L39 54a2.1 2.1 0 0 1-1-1.6V35.2h.2L53 43.8a2.1 2.1 0 0 1 1 1.6zm.8-21.8L40 32.2l15-8.6a2.2 2.2 0 0 1 1.8 0l14.8 8.6h.1l-15 8.6a2.2 2.2 0 0 1-1.8 0zm18.6 55.4h-.1l-14.9-8.5a2.2 2.2 0 0 1-1-1.6V68.8h.2l14.8 8.6a2.2 2.2 0 0 1 1 1.6zm.8-21.8l-14.9-8.6 15-8.6a2.1 2.1 0 0 1 1.7 0l15 8.5-15 8.7a2.1 2.1 0 0 1-1.8 0zM92.8 86a2.1 2.1 0 0 1-1 1.5L77 96.2V79a2.1 2.1 0 0 1 .8-1.6l15-8.6v17.3z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-why {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147.2 138.5"><defs><linearGradient id="a" x2="147.2" y1="69.3" y2="69.3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M124.6 22.7H73.9l39.8-8.4 3.9-.8.8-.2a3.8 3.8 0 0 1 4.6 2.9zM106.6 2a3.8 3.8 0 0 0-5.3-1.4L66.9 20.3l44.7-9.4zm40.6 50.5V64a3.8 3.8 0 0 1-3.8 3.8h-21.1a3.8 3.8 0 0 1-3.8-3.8V52.4a3.8 3.8 0 0 1 3.8-3.8h21a3.8 3.8 0 0 1 3.9 3.8zm-15.7 5.8a4.3 4.3 0 1 0-4.3 4.3 4.3 4.3 0 0 0 4.3-4.3zm-57 5.8a5.9 5.9 0 1 0 0 8.3 5.9 5.9 0 0 0 0-8.3zm10.7 1.2a27.6 27.6 0 0 1-36.8 37.4L40 111h-8.2v8.2h-8.1v8h-8v8.1l-3.2 3.2-11-1.6-.6-4.3 37.9-37.9-1-1.4L.6 130.4 0 126l36-35.9a27.6 27.6 0 0 1 43.5-32.4l1.8 1.8a28.3 28.3 0 0 1 2.6 3.4zm37-20.4h17.6V30.4a3.8 3.8 0 0 0-3.9-3.8H61.3a3.8 3.8 0 0 0-2.1.6 3.9 3.9 0 0 0-.9.8 3.8 3.8 0 0 0-.9 2.4v15.9a30.6 30.6 0 0 1 25.1 8l.1.2 2 2a30.4 30.4 0 0 1 2.8 3.6v.2l1.4 2.3a30.6 30.6 0 0 1 .6 27.1h46.5a3.8 3.8 0 0 0 3.9-3.8V71.6h-17.5a7.7 7.7 0 0 1-7.7-7.7V52.4a7.7 7.7 0 0 1 7.7-7.6z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-point-of-nimiq {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125 99.8"><defs><linearGradient id="a" x2="125" y1="49.9" y2="49.9" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M50.5 48.3a3.6 3.6 0 1 1-3.6 3.6 3.6 3.6 0 0 1 3.6-3.6zm32.8 51.3a8.2 8.2 0 0 1-.6-.9l-7.6-13.5H18.3a7.8 7.8 0 0 1-7.9-7.9v-6.6h-2v-10h2v-28h-2v-10h2v-5.6a7.8 7.8 0 0 1 7.9-7.9h62.2a7.8 7.8 0 0 1 7.8 7.9v34.4a8.8 8.8 0 0 1 2.2-.3h6.8V15A15 15 0 0 0 82.4 0H15A15 15 0 0 0 0 15v65.3a15 15 0 0 0 14.5 15v4.3h20.7v-4.3H63v4.3zM72.8 81H18.3a3.6 3.6 0 0 1-3.6-3.6v-6.6h2.7v-10h-2.7v-28h2.7v-10h-2.7v-5.6a3.6 3.6 0 0 1 3.6-3.6h62.2a3.6 3.6 0 0 1 3.5 3.6V54a8.7 8.7 0 0 0-1.3 1.8l-9.5 17a9.3 9.3 0 0 0-.4 8zm-2.6-12.7a4.7 4.7 0 1 0 0-9.3 4.7 4.7 0 0 0-1.8.4l-9.8-5.7a8.6 8.6 0 0 0 .2-1.5 8.4 8.4 0 0 0-5.6-8v-11a4.7 4.7 0 1 0-5.6.1v10.9A8.4 8.4 0 0 0 42 52a8.6 8.6 0 0 0 .1 1.5l-9.7 5.6a4.7 4.7 0 1 0 3 4.8l9.6-5.6a8.4 8.4 0 0 0 10.9 0l9.8 5.7a4.7 4.7 0 0 0 4.5 4.2zm54.2 12.1l-9.5 17a5 5 0 0 1-4.3 2.5h-19a5 5 0 0 1-4.3-2.5l-9.4-17a5.2 5.2 0 0 1 0-5l9.4-17a5 5 0 0 1 4.3-2.5h19a5 5 0 0 1 4.3 2.5l9.5 17a5.3 5.3 0 0 1 0 5zm-16.4 2c0-7.4-9.7-6.5-9.7-10.9 0-2 1.2-3 3.1-3a5.6 5.6 0 0 1 4.1 2l2.1-2.5a8.2 8.2 0 0 0-5.1-2.8v-3.7h-2.8v3.8a6.2 6.2 0 0 0-5.3 6.4c0 6.9 9.7 6.2 9.7 11 0 2-1.2 3.1-3.5 3.1a8.4 8.4 0 0 1-5.3-2.2l-1.8 2.8a10.9 10.9 0 0 0 6.2 2.8V93h2.8v-4a6.4 6.4 0 0 0 5.5-6.7z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-phishers {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.08 122.5"><defs><linearGradient id="a" x2="126.08" y1="61.25" y2="61.25" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M101.52 119.31v2.1c0 .6-.3 1.09-.68 1.09h-75.6c-.37 0-.68-.49-.68-1.09v-2.1c0-.59.31-1.08.68-1.08h75.6c.38 0 .68.49.68 1.08zM119.77 108s-9 1.92-14.8 2.67V69.94a5.17 5.17 0 0 0-5.16-5.16H26.28a5.17 5.17 0 0 0-5.17 5.16v40.69c-5.76-.75-14.8-2.67-14.8-2.67-17.31-3.75 6-45.73 10.89-52.62 7.61-10.59 14.8-6.4 24.33-12.26-1.2.74-4.87-5.77-5.08-6.47-1.06-3.39-.05-6.23 1.19-9.38A68.94 68.94 0 0 1 48.71 8.49C52.27 4.28 56.66.52 62.38 0c6.06-.51 11.33 4.13 15 8.45a68.79 68.79 0 0 1 11.06 18.78c1.24 3.15 2.25 6 1.2 9.38-.22.7-3.88 7.21-5.09 6.47C94 48.83 101.43 45 108.87 55.33c4.95 6.9 28.21 48.88 10.9 52.67zM78 31H48.07c-2.41.06-1.78 1.43-1.78 1.43S53.75 52.71 63 52.71s16.75-20.3 16.75-20.3S80.42 31 78 31zM67.63 88.91c1.75 0 3.16.24 3.16-1s-1.41-3.56-3.16-3.56-3.16 1-3.16 2.29 1.42 2.27 3.16 2.27zm-7.64 0c1.74 0 3.16-1 3.16-2.3s-1.42-2.29-3.15-2.29-3.16 2.29-3.16 3.56 1.41 1.03 3.16 1.03zm2.28 1.75c0 1-.33 1.73 1.48 1.73s1.47-.78 1.47-1.73a1.5 1.5 0 1 0-2.95 0zm39.25-20.72V114a1.73 1.73 0 0 1-1.71 1.73H26.28a1.73 1.73 0 0 1-1.72-1.73V69.94a1.73 1.73 0 0 1 1.72-1.72h73.53a1.72 1.72 0 0 1 1.71 1.72zM54.81 91.83v.31l3.7.72.49 3.73h2.21v-1.1h1.07v1.07h1v-1.04h1.05v1.07h.88v-1.07h1v1.07h2.32l.5-3.73 3.7-.72v-.31a75.84 75.84 0 0 0 0-10.25c-.44-5.35-7.59-6.44-7.86-6.48a7.3 7.3 0 0 0-2.26 0 14.43 14.43 0 0 0-3.9 1.25 6.54 6.54 0 0 0-4 5.23 74 74 0 0 0 .1 10.25zm12 10.26l5.53-3a1.93 1.93 0 1 0 3.39-1.86 1.91 1.91 0 0 0-1.28-1 2 2 0 0 0-.12-1.6A1.93 1.93 0 0 0 71 96.51l-7.16 3.92-7.16-3.92a1.93 1.93 0 1 0-3.5-.26 1.91 1.91 0 0 0-1.29 1 1.93 1.93 0 1 0 3.39 1.86l5.54 3-5.54 3a1.93 1.93 0 0 0-3.42 1.89 2 2 0 0 0 1.29 1 1.9 1.9 0 0 0 .11 1.59 1.93 1.93 0 0 0 3.39-1.85l7.16-3.93 7.19 3.87a1.93 1.93 0 1 0 3.51.26 2 2 0 0 0 1.28-1 1.93 1.93 0 1 0-3.39-1.85z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-scams {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 147.3 126.5"><defs><linearGradient id="a" x2="147.3" y1="63.3" y2="63.3" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" fill-rule="evenodd" d="M111.8 89.4v-8.2h7.2l3-5.4a9 9 0 0 0 0-8.8l-16.4-29.2a8.5 8.5 0 0 0-7.4-4.4H65.5a8.5 8.5 0 0 0-7.4 4.4L41.7 67a9 9 0 0 0 0 8.8L58 105a8.5 8.5 0 0 0 7.4 4.4h24.8zm-32.3 8.1v-6.3a18.7 18.7 0 0 1-10.6-4.8l3.1-5c3 2.4 5.8 4 9.1 4 4 0 6-2 6-5.5 0-8.3-16.6-7.1-16.6-19-.1-5.9 3.5-10 9-11v-6.5h4.9v6.3a14.1 14.1 0 0 1 8.9 5l-3.6 4.2c-2.3-2.2-4.2-3.4-7.2-3.4-3.3 0-5.3 1.8-5.3 5 0 7.7 16.7 6.2 16.7 19A11 11 0 0 1 84.4 91v6.5zm35.3 6h11.7V118h-13.8v8.5L96 110.7l3.6-3.4 13.3-12.4v8.5zm15.6 5v-8.6h-13.6V85.3h13.7v-8.5l16.8 15.8zm-78.6-82a98.8 98.8 0 0 1-21.6 2 99.5 99.5 0 0 1-21.6-2L6.8 39.6a3.4 3.4 0 0 0 2.8 3.8c3.6.4 8.8.8 13.4 1a4.3 4.3 0 0 0 3-1.3l1.4-1.5a3.8 3.8 0 0 1 2.9-1.3 4 4 0 0 1 2.9 1.3l1.4 1.3a4.3 4.3 0 0 0 3 1.3c4.4-.1 9.4-.6 12.8-1a3.2 3.2 0 0 0 2.8-3.6zm-27 10.1a9.1 9.1 0 0 1-5.3 2 9.6 9.6 0 0 1-5.3-2 1.2 1.2 0 0 1 0-1.8 9.2 9.2 0 0 1 5.3-1.9 9.5 9.5 0 0 1 5.3 2 1.2 1.2 0 0 1 0 1.8zm21.3 0a9.1 9.1 0 0 1-5.3 2 9.6 9.6 0 0 1-5.2-2 1.2 1.2 0 0 1 0-1.8 9.2 9.2 0 0 1 5.2-1.9 9.5 9.5 0 0 1 5.3 2 1.2 1.2 0 0 1 0 1.8zm-16-11c16.8 0 30.4-3.2 30.4-7.2 0-2-3.5-3.7-9-5.1l.8 4.1-2.8.7L46.2 4a5.2 5.2 0 0 0-6-3.9l-5.5 1.3a20.1 20.1 0 0 1-9.1 0L20.2 0a5 5 0 0 0-6 3.9l-3.4 14-2.8-.6 1-4c-5.5 1.3-9 3.1-9 5.2-.1 3.8 13.4 7 30.2 7z" data-name="Layer 1"/></g></svg>');
+}
+
+.x-education-slide .side-image-loss {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126.95 109.02"><defs><linearGradient id="a" x2="126.95" y1="54.51" y2="54.51" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="%23a352fd"/><stop offset="1" stop-color="%23566bfd"/></linearGradient></defs><g data-name="Layer 2"><path fill="url(%23a)" d="M.26 75.52v9.76a3.62 3.62 0 0 0 3.63 3.6l100.18-.37a3.61 3.61 0 0 0 3.6-3.62v-9.46zM53.94 84a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm22.24 20H69.8a1.68 1.68 0 0 1-1.45-1l-3-10.35-22.65.08-3 10.38a1.56 1.56 0 0 1-1.44 1.09h-6.38a1.38 1.38 0 0 0-1.44 1.45v1.93a1.4 1.4 0 0 0 1.42 1.42l44.34-.16a1.4 1.4 0 0 0 1.44-1.45v-1.93a1.38 1.38 0 0 0-1.46-1.46zM127 19.75l-1.7 20.19h-6l-1.84-20.18zm-9 23.84h8.73v7.57h-8.72zm-64.95 5.76l-.69 3a1.29 1.29 0 0 1-2.52-.58l.69-3a1.29 1.29 0 1 1 2.52.57zm5.4 2.41a1.28 1.28 0 0 1-1 1.56 1.3 1.3 0 0 1-1.56-1l-.71-3a1.3 1.3 0 0 1 2.52-.6zm49-48.16a3.81 3.81 0 0 0-3.79-3.6L3.6.37A3.61 3.61 0 0 0 0 4l.25 68.82 107.42-.1zM19.12 54.66l-.51-.5a23.14 23.14 0 0 1 0-32.89l.51-.51 2.33 2.36-.51.51A19.82 19.82 0 0 0 21 51.8l.51.5zm4.16-4.19l-.51-.5a17.24 17.24 0 0 1 0-24.51l.51-.51 2.34 2.36-.51.51a13.91 13.91 0 0 0 0 19.79l.51.51zm6-7l.51.51-2.34 2.36-.51-.51a11.35 11.35 0 0 1 0-16.13l.51-.51 2.34 2.36-.51.51a8 8 0 0 0 0 11.41zm41.65 8.72v1.13a3.17 3.17 0 0 1-3.16 3.18h-4.62l-.58 6.8-17.27.06-.63-6.8h-4.62a3.18 3.18 0 0 1-3.19-3.16v-1.14a3.17 3.17 0 0 1 1.81-2.87 20 20 0 1 1 30.43-.11 3.18 3.18 0 0 1 1.81 2.86zm9.63-6l-2.36-2.34.51-.51a8 8 0 0 0-.09-11.41l-.52-.5L80.41 29l.51.5A11.34 11.34 0 0 1 81 45.58zm4.19 4.16l-2.36-2.34.5-.51a13.91 13.91 0 0 0-.15-19.79l-.51-.5 2.32-2.38.51.5a17.24 17.24 0 0 1 .19 24.51zM89.44 54l-.51.51-2.36-2.35.51-.5a19.81 19.81 0 0 0-.22-28.17l-.51-.5 2.32-2.38.51.5A23.14 23.14 0 0 1 89.44 54zM45.6 45.51a6 6 0 0 1-5.17-9.21 37.11 37.11 0 0 0 11.11 2.27 5.06 5.06 0 0 1 .07.88 6 6 0 0 1-6.01 6.06zm21.6-9.31a6 6 0 1 1-11.15 3.23 6.4 6.4 0 0 1 .06-.88A37.23 37.23 0 0 0 67.2 36.2z" data-name="Layer 1"/></g></svg>');
+}

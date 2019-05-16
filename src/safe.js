@@ -1,15 +1,15 @@
 import XLoader from './elements/x-loader.js';
-import { bindActionCreators } from '/libraries/redux/src/index.js';
-import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import { bindActionCreators } from './lib/redux/src/index.js';
+import MixinRedux from './elements/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances } from './wallet-redux.js';
-import { addTransactions, markRemoved } from '/elements/x-transactions/transactions-redux.js';
-import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from '/elements/x-network-indicator/network-redux.js';
+import { addTransactions, markRemoved } from './elements/x-transactions/transactions-redux.js';
+import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from './elements/x-network-indicator/network-redux.js';
 import hubClient from './hub-client.js';
-import Config from '/libraries/secure-utils/config/config.js';
+import Config from './lib/config.js';
 import networkClient from './network-client.js';
-import MixinSingleton from '/secure-elements/mixin-singleton/mixin-singleton.js';
-import XToast from '/secure-elements/x-toast/x-toast.js';
+import MixinSingleton from './elements/mixin-singleton.js';
+import XToast from './elements/x-toast/x-toast.js';
 
 class Safe {
     constructor() {

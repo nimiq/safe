@@ -1,7 +1,7 @@
-import XElement from '/libraries/x-element/x-element.js';
-import MixinModal from '/elements/mixin-modal/mixin-modal.js';
+import XElement from '../lib/x-element/x-element.js';
+import MixinModal from './mixin-modal/mixin-modal.js';
 import { default as store } from '../store.js';
-import XSuccessMark from '/elements/x-success-mark/x-success-mark.js';
+import XSuccessMark from './x-success-mark/x-success-mark.js';
 import { activeAddresses$ } from '../selectors/account$.js';
 
 class Faucet {

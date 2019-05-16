@@ -1,6 +1,6 @@
-@import '/libraries/nimiq-style/nimiq-style.css';
+@import './lib/nimiq-style/nimiq-style.css';
 @import './elements/x-safe.css';
-@import '/elements/browser-warning/browser-warning.css';
+@import './elements/browser-warning/browser-warning.css';
 
 html {
     /* Nimiq color palette */

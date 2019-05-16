@@ -1,6 +1,6 @@
 import HubApi from '../node_modules/@nimiq/hub-api/dist/standalone/HubApi.standalone.es.js';
-import { bindActionCreators } from '/libraries/redux/src/index.js';
-import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
+import { bindActionCreators } from './lib/redux/src/index.js';
+import MixinRedux from './elements/mixin-redux.js';
 import {
     addAccount,
     login,

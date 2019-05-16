@@ -1,5 +1,5 @@
-import XElement from '/libraries/x-element/x-element.js';
-import MixinModal from '/elements/mixin-modal/mixin-modal.js';
+import XElement from '../lib/x-element/x-element.js';
+import MixinModal from './mixin-modal/mixin-modal.js';
 
 export default class XDisclaimerModal extends MixinModal(XElement) {
     html() {

@@ -1,0 +1,39 @@
+<h1>Authorize Transaction</h1>
+<h2>Enter your passphrase below to authorize this transaction:</h2>
+
+<div class="transaction">
+    <div class="center">
+        <x-identicon sender></x-identicon>
+        <i class="arrow material-icons">arrow_forward</i>
+        <x-identicon recipient></x-identicon>
+    </div>
+
+    <div class="center">
+        <div class="x-value"><span class="value"></span> NIM</div>
+    </div>
+
+    <div class="row">
+        <label>From</label>
+        <div class="row-data">
+            <div class="label" sender></div>
+            <x-address-no-copy sender></x-address-no-copy>
+        </div>
+    </div>
+
+    <div class="row">
+        <label>To</label>
+        <div class="row-data">
+            <div class="label" recipient></div>
+            <x-address-no-copy recipient></x-address-no-copy>
+        </div>
+    </div>
+
+    <div class="fee-section display-none row">
+        <label>Fee</label>
+        <div class="row-data">
+            <div class="fee"></div>
+        </div>
+    </div>
+</div>
+
+<x-authenticate button-label="Confirm"></x-authenticate>

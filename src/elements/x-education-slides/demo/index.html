@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>XEducationSlides Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="../x-education-slides.css" rel="stylesheet">
+    <link href="/secure-elements/x-toast/x-toast.css" rel="stylesheet">
+</head>
+
+<body>
+<button id="start">Start slides</button>
+<button id="resume">Resume slides</button>
+<button id="delete">Delete Persitent State</button>
+
+<script type="module">
+    import XEducationSlides from "../x-education-slides.js";
+    import XToast from "/secure-elements/x-toast/x-toast.js";
+
+    window.XEducationSlides = XEducationSlides;
+
+    document.querySelector('#start').addEventListener('click', XEducationSlides.start);
+    document.querySelector('#resume').addEventListener('click', XEducationSlides.resume);
+    document.querySelector('#delete').addEventListener('click', () => {
+        delete localStorage[XEducationSlides.KEY_CURRENT_SLIDE];
+        delete localStorage[XEducationSlides.KEY_FINISHED];
+        XToast.show('Persistent Slide State Deleted');
+    });
+</script>
+</body>
+
+</html>

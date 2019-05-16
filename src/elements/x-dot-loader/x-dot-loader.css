@@ -1,0 +1,55 @@
+.dot-loader,
+.dot-loader::before,
+.dot-loader::after {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    /* background: white; */
+    box-shadow: 10px 0 #3b3b3b;
+    animation: dot-loader-animation 1s ease-in-out 0s infinite;
+}
+
+.dot-loader.white,
+.dot-loader.white::before,
+.dot-loader.white::after {
+    box-shadow: 10px 0 white;
+    animation: dot-loader-animation-white 1s ease-in-out 0s infinite;
+}
+
+.dot-loader,
+.dot-loader.white {
+    position: relative;
+    animation-delay: 0.1s;
+    margin: 0 24px 0.16em -5px;
+}
+
+.dot-loader::before,
+.dot-loader::after {
+    content: '';
+    position: absolute;
+}
+
+.dot-loader::before,
+.dot-loader.white::before {
+    left: -13px;
+    animation-delay: 0s;
+}
+
+.dot-loader::after,
+.dot-loader.white::after {
+    left: 13px;
+    animation-delay: 0.2s;
+}
+
+@keyframes dot-loader-animation {
+    15% { box-shadow: 10px -3px #3b3b3b; }
+    30% { box-shadow: 10px 3px #3b3b3b; }
+    0%, 45%, 100% { box-shadow: 10px 0 #3b3b3b; }
+}
+
+@keyframes dot-loader-animation-white {
+    15% { box-shadow: 10px -3px white; }
+    30% { box-shadow: 10px 3px white; }
+    0%, 45%, 100% { box-shadow: 10px 0 white; }
+}

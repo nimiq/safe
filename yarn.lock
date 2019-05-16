@@ -14,6 +14,13 @@
   dependencies:
     "@nimiq/rpc" "^0.3.0"
 
+"@nimiq/iqons@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@nimiq/iqons/-/iqons-1.5.0.tgz#55d68dc4a83c7c4251fea65745889b2a5ab6341f"
+  integrity sha512-Gon590UTpZSdoD2aM8T7YywVzulgFm+SuVloZSqR4V6CUemDaf2y0R9Y/Onf1Ac60haiorRfmUwOZKQWIBD1dw==
+  dependencies:
+    dom-parser "^0.1.5"
+
 "@nimiq/network-client@^0.1.7":
   version "0.1.8"
   resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.1.8.tgz#483c78b4673e74b48fc6266221121c595fe3fbe0"
@@ -745,6 +752,11 @@ detect-libc@^1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
   integrity sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
+
+dom-parser@^0.1.5:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/dom-parser/-/dom-parser-0.1.6.tgz#696c633b535ab3291424eb5bf58ee426f64632ca"
+  integrity sha512-3nVRKbLEwmGfghLoeT1dxlK/0votalnOfasP+8VCHYDfDuCETY4LeMblfOeqww6XZk2ymZ1Uewy/hVad6Dy3yw==
 
 duplexify@^3.6.0:
   version "3.7.1"
@@ -2614,6 +2626,10 @@ vue@^2.5.17:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
+
+"vuejs-redux@https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2":
+  version "2.2.0"
+  resolved "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
 
 which-module@^1.0.0:
   version "1.0.0"

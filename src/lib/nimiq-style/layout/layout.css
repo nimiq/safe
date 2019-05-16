@@ -1,0 +1,146 @@
+html,
+body {
+    overflow-x: hidden;
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* stretch as far as possible on iPhone */
+    margin: 0;
+    color: white;
+    background: var(--primary-background);
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch;
+}
+
+body .nimiq-dark {
+    color: #3b3b3b;
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+x-grow,
+[x-grow] {
+    flex-grow: 1;
+}
+
+x-grow[x-grow="0.5"],
+[x-grow="0.5"] {
+    flex-grow: 0.5;
+}
+
+x-grow[x-grow="2"],
+[x-grow="2"] {
+    flex-grow: 2;
+}
+
+.center,
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+
+.fit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+x-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    box-sizing: border-box;
+    padding: 16px;
+}
+
+@media (min-width: 420px) {
+    .x-view {
+        padding: 32px 88px 48px;
+        width: 100%;
+        max-width: 800px;
+        max-height: 672px;
+    }
+
+    .x-view x-header {
+        padding: 8px 16px;
+    }
+}
+
+@media (min-width: 1280px) and (min-height: 800px) {
+    .x-view {
+        width: 100%;
+        max-width: 1028px;
+        max-height: 672px;
+    }
+}
+
+/* Lists */
+
+ul, ol{
+    padding-left: 24px;
+}
+
+ul > li, ol >li {
+    padding-bottom: 8px;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.display-none {
+    display: none !important;
+}
+
+iframe[name="keyguard"],
+iframe[name="network"] {
+    display: none;
+}
+
+.spacing-top {
+    margin-top: 36px;
+}
+
+.spacing-bottom {
+    margin-bottom: 36px;
+}
+
+.-left {
+    text-align: left;
+}
+
+.-center {
+    text-align: center;
+}
+
+.-right {
+    text-align: right;
+}

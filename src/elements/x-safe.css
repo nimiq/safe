@@ -1,19 +1,18 @@
-@import '/secure-elements/x-router/x-router.css';
-@import '/elements/x-accounts/x-accounts.css';
-@import '/elements/x-transactions/x-transactions.css';
-@import '/secure-elements/x-toast/x-toast.css';
-@import '/elements/x-amount/x-amount.css';
-@import '/elements/x-network-indicator/x-network-indicator.css';
-@import '/elements/x-send-transaction/x-send-transaction-modal.css';
-@import '/elements/x-request-link/x-receive-request-link-modal.css';
-@import '/elements/x-request-link/x-create-request-link-modal.css';
-@import '/elements/v-contact-list/v-contact-list.css';
+@import './x-router/x-router.css';
+@import './x-accounts/x-accounts.css';
+@import './x-transactions/x-transactions.css';
+@import './x-toast/x-toast.css';
+@import './x-amount/x-amount.css';
+@import './x-network-indicator/x-network-indicator.css';
+@import './x-send-transaction/x-send-transaction-modal.css';
+@import './x-request-link/x-receive-request-link-modal.css';
+@import './x-request-link/x-create-request-link-modal.css';
+@import './v-contact-list/v-contact-list.css';
 @import '../settings/x-settings.css';
-@import '/elements/x-education-slides/x-education-slides.css';
-@import '/elements/x-ledger-ui/x-ledger-ui-modal.css';
+@import './x-education-slides/x-education-slides.css';
 @import './x-faucet-modal.css';
-@import '/secure-elements/x-loader/x-loader.css';
-@import '/elements/v-wallet-selector/v-wallet-selector.css';
+@import './x-loader/x-loader.css';
+@import './v-wallet-selector/v-wallet-selector.css';
 
 html,
 body {

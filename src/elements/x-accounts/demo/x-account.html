@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+    <link href="/secure-elements/x-toast/x-toast.css" rel="stylesheet">
+    <link href="../x-accounts.css" rel="stylesheet">
+
+    <script src="/libraries/nimiq-utils/moment/moment.min.js"></script>
+
+    <style>
+        body {
+            padding: 0.5em;
+            background: rgb(245, 245, 245);
+        }
+
+        x-card {
+            display: block;
+            width: 100%;
+            max-width: 530px;
+            border-radius: 0.4em;
+            padding: 1em;
+            margin: 0.5em;
+            background: white;
+            box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+            0 1px 5px 0 rgba(0, 0, 0, 0.12),
+            0 3px 1px -2px rgba(0, 0, 0, 0.2);
+        }
+
+        x-card h2 {
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        x-card hr {
+            border: 0;
+            height: 1px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0;
+        }
+
+        @media (min-width: 480px) {
+            x-card {
+                padding: 24px ;
+                margin: 16px;
+            }
+        }
+
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <x-card class="nimiq-dark">
+        <h2>Your Accounts</h2>
+        <x-accounts-list>
+            <x-account></x-account>
+            <x-account></x-account>
+            <x-account></x-account>
+            <x-account></x-account>
+            <x-account></x-account>
+        </x-accounts-list>
+    </x-card>
+
+    <script type="module">
+        import XAccount from '../x-account.js';
+        import XAccountModal from '../x-account-modal.js';
+
+        const demoAccounts = [
+            {
+                address: 'NQ02 2Q42 7BVN F9NN RJE7 JLMP FKVC B00J THFD',
+                label: 'Activation Account',
+                balance: 276872,
+                type: 1
+            },
+            {
+                address: 'NQ57 2CTN 72AK GR4K P6FC 46HS SRPU MTF3 0AXF',
+                label: 'Vesting Account',
+                balance: 0,
+                type: 1
+            },
+            {
+                address: 'NQ77 X5GR VCE5 AQYB J3YJ VE7V 15L2 8EXY ECYU',
+                label: 'Vesting Contract 1',
+                balance: 1500000,
+                owner: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+                start: 1,
+                stepAmount: 750000,
+                stepBlocks: 129600,
+                totalAmount: 1500000,
+                type: 4,
+                height: 11000
+            },
+            {
+                address: 'NQ91 GN8V XQV1 M779 8U1A VAKN 2YR9 XLAV FM53',
+                label: 'My Ledger',
+                balance: 1000000,
+                type: 3
+            },
+            {
+                address: 'NQ06 1YLF KX34 E5DM 4Y7D 03JC 0PLE LRLQ 20UH',
+                label: 'Main Account',
+                balance: 238.12432,
+                type: 2
+            }
+        ];
+        window.demoAccounts = demoAccounts;
+
+        document.querySelectorAll('x-account').forEach(($el, i) => {
+            const $account = new XAccount($el);
+            $account.account = demoAccounts[i];
+        });
+
+        document.addEventListener('x-account-selected', e => {
+            const account = demoAccounts.find(acc => acc.address === e.detail);
+            XAccountModal.instance.account = account;
+            XAccountModal.show();
+        });
+    </script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-import { createSelector } from '/libraries/reselect/src/index.js';
+import { createSelector } from '../lib/reselect/src/index.js';
 
 import { activeAddresses$ } from './account$.js';
 

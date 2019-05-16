@@ -1,0 +1,19 @@
+:root {
+    --primary-color: #536dfe; /* YML: #3A3EDD */
+    --secondary-color: #a553fe; /* YML: #BF00F5 */
+    --main-button-background: var(--nimiq-blue);
+    --primary-background: linear-gradient(var(--primary-color), var(--secondary-color));
+    --primary-background-toright: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    --primary-background-progress: linear-gradient(90deg, var(--primary-color), var(--secondary-color), var(--secondary-color));
+    /* teal-a200 */
+    --success-color: #64FFDA; /* YML: #00E7B8 */
+    /* red-a400 */
+    --error-color: #FF1744;
+    /* amber a400 */
+    --warning-color: #FFC400;
+    --secondary-text-color: rgba(0, 0, 0, 0.7);
+    --secondary-cta-color: rgba(255, 255, 255, 0.7);
+    --box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+    --max-width: 368px;
+    --max-content-width: 960px;
+}
