@@ -1,8 +1,6 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
-import { LEGACY, WalletType } from '../wallet-redux.js';
-import { legacyAccounts$, accountsArray$ } from './account$.js';
-
-const LEGACY_LABEL = 'Single-Address Accounts';
+import { WalletType } from '../wallet-redux.js';
+import { accountsArray$ } from './account$.js';
 
 export const wallets$ = state => state.wallets.wallets;
 
@@ -17,37 +15,28 @@ function calculateTotalBalance(accounts) {
     return accounts.reduce((sum, account) => sum + (account.balance || 0) * 1e5, 0);
 }
 
-export const legacyWallet$ = createSelector(
-    legacyAccounts$,
-    (accounts) => accounts.length > 0 ? ({
-        id: LEGACY,
-        balance: calculateTotalBalance(accounts),
-        accounts,
-        label: LEGACY_LABEL,
-        type: WalletType.LEGACY,
-    }) : undefined
-);
-
 export const walletsArray$ = createSelector(
     wallets$,
-    legacyWallet$,
     accountsArray$,
-    (wallets, legacyWallet, accounts) => [...wallets.values()].map(wallet => {
+    (wallets, accounts) => [...wallets.values()].map(wallet => {
         const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
         return Object.assign({}, wallet, {
             accounts: walletAccounts,
             balance: calculateTotalBalance(walletAccounts),
         });
-    }).concat(legacyWallet || [])
+    }).concat([])
 );
 
 export const activeWallet$ = createSelector(
     wallets$,
-    legacyWallet$,
     activeWalletId$,
-    (wallets, legacyWallet, activeWalletId) => {
-        if (activeWalletId === LEGACY) return legacyWallet;
+    (wallets, activeWalletId) => {
         if (wallets.size === 0) return null;
         return wallets.get(activeWalletId);
     }
 );
+
+export const hasNewWallet$ = createSelector(
+    walletsArray$,
+    (wallets) => wallets.some(wallet => wallet.type !== WalletType.LEGACY)
+); 

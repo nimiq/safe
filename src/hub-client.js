@@ -3,26 +3,22 @@ import { bindActionCreators } from '/libraries/redux/src/index.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import {
     addAccount,
-    LEGACY,
     login,
     logout,
-    logoutLegacy,
     populate,
     setFileFlag,
     setWordsFlag,
     switchWallet,
-    updateWalletLabel,
-    updateAccountLabel,
+    rename,
     removeAccount,
-    WalletType,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
 const APP_NAME = 'Accounts';
 
-class AccountManager {
+class HubClient {
     static getInstance() {
-        this._instance = this._instance || new AccountManager();
+        this._instance = this._instance || new HubClient();
         window.accountManager = this._instance;
         return this._instance;
     }
@@ -45,7 +41,7 @@ class AccountManager {
             if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
             else this._onOnboardingResult(result);
         }, (error, state) => {
-            console.error('AccountsManager error', error);
+            console.error('HubApi error', error);
             console.log('State', state);
         });
         this.hubApi.checkRedirectResponse();
@@ -88,11 +84,7 @@ class AccountManager {
             address,
         });
 
-        this.actions.updateWalletLabel(result.accountId, result.label);
-
-        result.addresses.forEach(address => this.actions.updateAccountLabel(address.address, address.label));
-
-        // TODO: Remove unreturned addresses and add new returned addresses
+        this.actions.rename(result.accountId, result.label, result.type, result.addresses.concat(result.contracts));
     }
 
     // for testing
@@ -157,17 +149,6 @@ class AccountManager {
         }
     }
 
-    async logoutLegacy(accountId) {
-        await this._launched;
-        const result = await this.hubApi.logout({
-            appName: APP_NAME,
-            accountId,
-        });
-        if (result.success === true) {
-            this.actions.logoutLegacy(accountId);
-        }
-    }
-
     async addAccount(accountId) {
         await this._launched;
         const newAddress = await this.hubApi.addAddress({
@@ -194,13 +175,11 @@ class AccountManager {
             addAccount,
             login,
             logout,
-            logoutLegacy,
             populate,
             setFileFlag,
             setWordsFlag,
             switchWallet,
-            updateAccountLabel,
-            updateWalletLabel,
+            rename,
             removeAccount,
         }, this.store.dispatch);
     }
@@ -259,20 +238,15 @@ class AccountManager {
         result.addresses.forEach(newAddress => {
             newAddress.type = AccountType.KEYGUARD_HIGH;
             newAddress.walletId = result.accountId;
-            newAddress.isLegacy = result.type === WalletType.LEGACY;
             this.actions.addAccount(newAddress);
         });
-        if (result.type === WalletType.LEGACY) {
-            this.actions.switchWallet(LEGACY);
-        } else {
-            this.actions.login({
-                id: result.accountId,
-                label: result.label,
-                type: result.type,
-                fileExported: result.fileExported,
-                wordsExported: result.wordsExported,
-            });
-        }
+        this.actions.login({
+            id: result.accountId,
+            label: result.label,
+            type: result.type,
+            fileExported: result.fileExported,
+            wordsExported: result.wordsExported,
+        });
     }
 
     // https://stackoverflow.com/a/41797377/4204380
@@ -283,4 +257,4 @@ class AccountManager {
     }
 }
 
-export default AccountManager.getInstance();
+export default HubClient.getInstance();

@@ -10,12 +10,9 @@ export const TypeKeys = {
     SET_WORDS_FLAG: 'wallet/set-words-flag',
     SET_FILE_FLAG: 'wallet/set-file-flag',
     SWITCH: 'wallet/switch',
-    UPDATE_ACCOUNT_LABEL: 'wallet/update-account-label',
+    RENAME: 'wallet/rename',
     UPDATE_BALANCES: 'wallet/update-balances',
-    UPDATE_WALLET_LABEL: 'wallet/update-wallet-label',
 };
-
-export const LEGACY = 'LEGACY';
 
 export const WalletType = {
     LEGACY: 1,
@@ -41,14 +38,12 @@ function updateMapItem(map, id, update) {
 }
 
 function sanitizeActiveWalletId(state) {
-    const activeWalletIsEmptyLegacy = state.activeWalletId === LEGACY
-        && ![...state.accounts.values()].some(account => account.isLegacy);
-    const noActiveWallet = state.activeWalletId !== LEGACY && !state.wallets.get(state.activeWalletId);
+    const noActiveWallet = !state.wallets.get(state.activeWalletId);
 
-    if (activeWalletIsEmptyLegacy || noActiveWallet) {
+    if (noActiveWallet) {
         // Determine wallet with most accounts and set it as new active wallet
         const walletIdsWithCount = [...state.accounts.values()]
-            .map(account => account.isLegacy ? LEGACY : account.walletId)
+            .map(account => account.walletId)
             .reduce((acc, id) => {
                 acc[id] = acc[id] || 0;
                 acc[id]++;
@@ -124,28 +119,27 @@ export function reducer(state, action) {
             const accounts = new Map(state.accounts);
 
             action.listedWallets.forEach(wallet => {
-                if (wallet.type !== WalletType.LEGACY) {
-                    const entry = {
-                        id: wallet.accountId,
-                        label: wallet.label,
-                        type: wallet.type,
-                        fileExported: wallet.fileExported,
-                        wordsExported: wallet.wordsExported,
-                    };
+                const walletLabel = wallet.type === WalletType.LEGACY ? wallet.addresses[0].label : wallet.label;
 
-                    // merge with previous information
-                    wallets.set(
-                        wallet.accountId,
-                        Object.assign({}, wallets.get(wallet.accountId), entry)
-                    );
-                }
+                const entry = {
+                    id: wallet.accountId,
+                    label: walletLabel,
+                    type: wallet.type,
+                    fileExported: wallet.fileExported,
+                    wordsExported: wallet.wordsExported,
+                };
+
+                // merge with previous information
+                wallets.set(
+                    wallet.accountId,
+                    Object.assign({}, wallets.get(wallet.accountId), entry)
+                );
 
                 wallet.addresses.forEach(address => {
                     const entry = {
                         address: address.address,
                         label: address.label,
                         type: wallet.type === WalletType.LEDGER ? AccountType.LEDGER : AccountType.KEYGUARD_HIGH,
-                        isLegacy: wallet.type === WalletType.LEGACY,
                         walletId: wallet.accountId,
                     };
 
@@ -161,7 +155,6 @@ export function reducer(state, action) {
                         type: contract.type === 1 /* Nimiq.Account.Type.VESTING */ ? AccountType.VESTING : AccountType.HTLC,
                         stepAmount: contract.stepAmount / 1e5,
                         totalAmount: contract.totalAmount / 1e5,
-                        isLegacy: wallet.type === WalletType.LEGACY,
                         walletId: wallet.accountId,
                     });
 
@@ -179,6 +172,26 @@ export function reducer(state, action) {
                 accounts,
             });
         }
+
+        case TypeKeys.RENAME:
+            // TODO: Remove unreturned addresses and add new returned addresses
+            const accounts = new Map(state.accounts);
+
+            for (const address of action.accounts) {
+                let entry = accounts.get(address.address);
+                if (entry) {
+                    accounts.set(address.address, Object.assign({}, entry, {
+                        label: address.label
+                    }));
+                }
+            }
+
+            const walletLabel = action.walletType === WalletType.LEGACY ? action.accounts[0].label : action.label;
+
+            return updateState({
+                wallets: updateMapItem(state.wallets, action.walletId, { label: walletLabel }),
+                accounts
+            });
 
         case TypeKeys.REMOVE_ACCOUNT: {
             const accounts = new Map(state.accounts);
@@ -221,15 +234,6 @@ export function reducer(state, action) {
             return updateState({ accounts });
         }
 
-        case TypeKeys.UPDATE_WALLET_LABEL:
-            // Only update labels of existing entries (prevents adding legacy accounts)
-            if (!state.wallets.get(action.walletId)) return state;
-
-            return updateState({
-                wallets: updateMapItem(state.wallets, action.walletId, { label: action.label }),
-            });
-
-
         default:
             return state
     }
@@ -253,6 +257,7 @@ export function login(wallet) {
         wallet
     }
 }
+
 export function logout(walletId) {
     return async (dispatch, getState) => {
         const state = getState();
@@ -266,16 +271,6 @@ export function logout(walletId) {
     }
 }
 
-export function logoutLegacy(walletId) {
-    return async (dispatch, getState) => {
-        const state = getState();
-        const account = [...state.wallets.accounts.values()].find(account => account.walletId === walletId);
-        if (!account.isLegacy) throw new Error('Called legacyLogout for non-legacy wallet');
-
-        removeAccount(account.address)(dispatch, getState);
-    }
-}
-
 export function populate(listedWallets) {
     // subscribe addresses at network
     const addresses = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts).map(account => account.address))
@@ -286,6 +281,16 @@ export function populate(listedWallets) {
         type: TypeKeys.POPULATE,
         listedWallets,
     };
+}
+
+export function rename(walletId, label, walletType, accounts) {
+    return {
+        type: TypeKeys.RENAME,
+        walletId, 
+        walletType,
+        label,
+        accounts,
+    }
 }
 
 export function removeAccount(address) {
@@ -336,25 +341,9 @@ export function switchWallet(walletId) {
     }
 }
 
-export function updateAccountLabel(address, label) {
-    return {
-        type: TypeKeys.UPDATE_ACCOUNT_LABEL,
-        address,
-        label
-    }
-}
-
 export function updateBalances(balances) {
     return {
         type: TypeKeys.UPDATE_BALANCES,
         balances
-    }
-}
-
-export function updateWalletLabel(walletId, label) {
-    return {
-        type: TypeKeys.UPDATE_WALLET_LABEL,
-        walletId,
-        label
     }
 }

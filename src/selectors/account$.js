@@ -1,6 +1,5 @@
 import { createSelector } from '/libraries/reselect/src/index.js';
 
-import { LEGACY } from '../wallet-redux.js';
 import AccountType from '../lib/account-type.js';
 
 const simpleAccounts$ = state => state.wallets.accounts;
@@ -50,17 +49,11 @@ export const accountsArray$ = createSelector(
     (accounts) => [...accounts.values()]
 );
 
-export const legacyAccounts$ = createSelector(
-    accountsArray$,
-    (accounts) => accounts.filter(account => account.isLegacy)
-);
-
 export const activeAccounts$ = createSelector(
     accounts$,
     activeWalletId$,
     (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
         const account = entry[1];
-        if (activeWalletId === LEGACY) return account.isLegacy;
         return account.walletId === activeWalletId;
     }))
 );
