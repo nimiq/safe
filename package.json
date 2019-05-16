@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd .. && git submodule foreach --recursive 'git checkout intermediate || git checkout master' && cd safe && yarn gulp"
+    "build": "yarn gulp"
   },
   "keywords": [
     "nimiq",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "devDependencies": {
     "@nimiq/hub-api": "^0.4.2",
-    "@nimiq/iqons": "^1.5.0",
+    "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.1.7",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",

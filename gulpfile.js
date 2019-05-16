@@ -16,7 +16,7 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
         'src/safe.css',
     ],
     htmlEntry: 'src/index.html',
-    rootPath: `${__dirname}/../../`,
+    rootPath: __dirname,
     distPath: 'deployment-safe/dist',
     minify: false
 })));
