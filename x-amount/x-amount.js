@@ -22,8 +22,7 @@ export default class XAmount extends XElement {
         if (this.attributes.white !== undefined) this.$('.dot-loader').classList.add('white');
         this.$label = this.$('label');
         if (this.attributes.label !== undefined) {
-            this.$label.textContent = this.attributes.label;
-            this.$label.classList.remove('display-none');
+            this.label = this.attributes.label;
         }
         this.$integers = this.$('span.integers');
         this.$mainDecimals = this.$('span.main-decimals');
@@ -58,6 +57,11 @@ export default class XAmount extends XElement {
         this.$mainDecimals.textContent = mainDecimals;
         this.$restDecimals.textContent = restDecimals;
         this.$currencyNim.style.display = 'inline';
+    }
+
+    set label(label) {
+        this.$label.textContent = label;
+        this.$label.classList.remove('display-none');
     }
 
     get value() {

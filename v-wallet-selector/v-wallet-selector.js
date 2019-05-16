@@ -3,8 +3,8 @@ import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js'
 import { switchWallet } from '/apps/safe/src/wallet-redux.js'
 import ReduxProvider from '../node_modules/vuejs-redux/bundle.es.js'
 import { walletsArray$, activeWalletId$, activeWallet$ } from '/apps/safe/src/selectors/wallet$.js'
-import accountManager from '/apps/safe/src/account-manager.js'
-import XSettings from '/apps/safe/src/settings/x-settings.js'
+import hubClient from '/apps/safe/src/hub-client.js'
+import XSettings from '/apps/safe/src/settings/x-settings.js';
 
 export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
@@ -82,27 +82,27 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                     self._hideMenu()
                 },
                 rename(walletId) {
-                    accountManager.rename(walletId)
+                    hubClient.rename(walletId)
                     self._hideMenu()
                 },
                 changePassword(walletId) {
-                    accountManager.changePassword(walletId)
+                    hubClient.changePassword(walletId)
                     self._hideMenu()
                 },
                 exportFile(walletId) {
-                    accountManager.export(walletId, {fileOnly: true})
+                    hubClient.export(walletId, {fileOnly: true})
                     self._hideMenu()
                 },
                 exportWords(walletId) {
-                    accountManager.export(walletId, {wordsOnly: true})
+                    hubClient.export(walletId, {wordsOnly: true})
                     self._hideMenu()
                 },
                 logout(walletId) {
-                    accountManager.logout(walletId)
+                    hubClient.logout(walletId)
                     self._hideMenu()
                 },
                 addAccount() {
-                    accountManager.onboard()
+                    hubClient.onboard()
                     self._hideMenu()
                 },
                 settings() {
