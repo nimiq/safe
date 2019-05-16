@@ -45,6 +45,7 @@ header {
     width: 100%;
     background: var(--nimiq-blue);
     background-image: var(--nimiq-blue-bg);
+    color: white;
     text-align: center;
     padding: 0 0.5em;
     /* border-bottom: 3px solid var(--success-color); */

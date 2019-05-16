@@ -32,8 +32,7 @@ html, body {
     background: var(--nimiq-gray);
 }
 
-body .nimiq-dark,
-.nimiq-dark .material-icons {
+body {
     color: var(--nimiq-blue);
 }
 

@@ -164,6 +164,9 @@ export default class XSafe extends MixinRedux(XElement) {
         this.$('.logo').href = 'https://' + Config.tld;
 
         this.relayedTxResolvers = new Map();
+
+        // App finished loading
+        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     static mapStateToProps(state) {

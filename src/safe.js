@@ -70,9 +70,6 @@ class Safe {
             if (errorBlacklist.indexOf(event.reason.message) >= 0) return;
             XToast.show(event.reason, 'error');
         };
-
-        // FIXME
-        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     async launchNetwork() {
