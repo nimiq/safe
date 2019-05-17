@@ -2,7 +2,7 @@ import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
 import XAmount from '../x-amount/x-amount.js';
 import MixinRedux from '../mixin-redux.js';
-import ValidationUtils from '../../lib/validation-utils.js';
+import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
 import AccountType from '../../lib/account-type.js';
 import { accounts$ } from '../../selectors/account$.js';

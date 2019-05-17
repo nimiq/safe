@@ -1,7 +1,7 @@
 import XElement from '../lib/x-element/x-element.js';
 import hubClient from '../hub-client.js';
 import Config from '../lib/config.js';
-import BrowserDetection from '../lib/browser-detection.js';
+import BrowserDetection from '../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
 import { spaceToDash } from '../lib/parameter-encoding.js';
 import XRouter from '../elements/x-router/x-router.js';
 import XToast from '../elements/x-toast/x-toast.js';

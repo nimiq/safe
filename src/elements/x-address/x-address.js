@@ -1,7 +1,7 @@
 import XElement from '../../lib/x-element/x-element.js';
 import Clipboard from '../../lib/clipboard.js';
 import XToast from '../x-toast/x-toast.js';
-import ValidationUtils from '../../lib/validation-utils.js';
+import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 
 export default class XAddress extends XElement {
     styles() { return ['x-address'] }

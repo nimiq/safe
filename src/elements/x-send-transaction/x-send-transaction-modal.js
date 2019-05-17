@@ -1,7 +1,7 @@
-import UTF8Tools from '../../lib/utf8-tools.js';
+import { Utf8Tools } from '../../../node_modules/@nimiq/utils/dist/module/Utf8Tools.js';
 import XSendTransaction from './x-send-transaction.js' ;
 import MixinModal from '../mixin-modal/mixin-modal.js';
-import ValidationUtils from '../../lib/validation-utils.js';
+import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
 
 export default class XSendTransactionModal extends MixinModal(XSendTransaction) {

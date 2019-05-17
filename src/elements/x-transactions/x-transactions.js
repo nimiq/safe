@@ -8,7 +8,7 @@ import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPe
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
-import AddressBook from '../../lib/address-book.js';
+import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
