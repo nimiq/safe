@@ -5,7 +5,8 @@
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "yarn gulp"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --modern App"
   },
   "keywords": [
     "nimiq",
@@ -15,31 +16,24 @@
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
+    "@nimiq/browser-warning": "^0.4.0",
     "@nimiq/hub-api": "^0.4.2",
     "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.1.7",
     "@nimiq/utils": "^0.3.3",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
-    "babel-core": "^6.26.0",
-    "babel-preset-minify": "^0.3.0",
-    "gulp": "^4.0.0",
-    "gulp-babel": "^7.0.1",
-    "gulp-better-rollup": "^4.0.0",
-    "gulp-clean": "^0.4.0",
-    "gulp-clean-css": "^3.9.2",
-    "gulp-concat": "^2.6.1",
-    "gulp-cssimport": "^6.0.0",
-    "gulp-html-replace": "^1.6.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.6.1",
-    "gulp-sourcemaps": "^2.6.4",
-    "merge2": "^1.2.1",
+    "@vue/babel-preset-app": "^3.4.1",
+    "@vue/cli-plugin-typescript": "^3.4.1",
+    "@vue/cli-service": "^3.4.1",
     "moment": "^2.24.0",
-    "plugin-error": "^1.0.1",
-    "rollup": "^1.4.1",
-    "rollup-plugin-root-import": "^0.2.2",
-    "through2": "^2.0.3",
-    "vinyl": "^2.1.0",
-    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+    "vue-template-compiler": "^2.6.6",
+    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2",
+    "write-file-webpack-plugin": "^4.5.0"
+  },
+  "dependencies": {
+    "typescript": "^3.4.5",
+    "vue": "^2.6.10",
+    "vue-class-component": "^7.1.0",
+    "vue-property-decorator": "^8.1.1"
   }
 }
