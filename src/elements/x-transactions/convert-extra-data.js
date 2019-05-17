@@ -33,6 +33,6 @@ export default function convertExtradata(extraData) {
     } else if (_arrayEquals(extraData, TransactionTags.ReceiveCashlink)) {
         return 'Redeeming cashlink';
     } else {
-        return UTF8Tools.utf8ByteArrayToString(extraData);
+        return Utf8Tools.utf8ByteArrayToString(extraData);
     }
 }
