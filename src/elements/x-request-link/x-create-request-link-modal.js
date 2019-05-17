@@ -4,7 +4,7 @@ import XAddress from '../x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
-import { createRequestLink } from '../../lib/request-link-encoding.js';
+import { createRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
 import share from '../../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../../lib/config.js';
 
