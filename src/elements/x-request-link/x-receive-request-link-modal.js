@@ -40,6 +40,7 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
 
     onShow(address, amount, message) {
         address = dashToSpace(address);
+        address = address.replace(/[\+ ]/g, '').match(/.{4}/g).join(' '); // Format address in blocks of 4
         this.$identicon.address = address;
         this.$address.address = address;
         this._address = address;
