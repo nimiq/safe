@@ -45,7 +45,7 @@ export default class XSendTransactionModal extends MixinModal(XSendTransaction) 
             this.message = decodeURIComponent(message);
 
             if (typeof this.message === 'Uint8Array') {
-                this.message = UTF8Tools.utf8ByteArrayToString(message);
+                this.message = Utf8Tools.utf8ByteArrayToString(message);
             }
 
             this.$extraDataInput.$input.setAttribute('readonly', true);
