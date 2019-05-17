@@ -1,5 +1,5 @@
 import XInput from '../x-input/x-input.js';
-import ValidationUtils from '../../lib/validation-utils.js';
+import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import PasteHandler from '../../lib/paste-handler.js';
 import KeyboardHandler from '../../lib/keyboard-handler.js';
 import InputFormat from '../../lib/input-format/index.js';

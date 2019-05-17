@@ -5,7 +5,7 @@ import { spaceToDash } from '../../lib/parameter-encoding.js'
 import { setContact, removeContact } from './contacts-redux.js'
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js'
 import XToast from '../x-toast/x-toast.js';
-import BrowserDetection from '../../lib/browser-detection.js';
+import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
 import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
 
 export default class VContactList extends MixinRedux(XElement) {
