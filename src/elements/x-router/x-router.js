@@ -1,6 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import Router from '../../lib/es6-router/src/index.js';
-import Config from '../../lib/config.js';
+import Config from '../../config/config.js';
 
 const _waitingForInit = [];
 const DEFAULT_CLASSES = ['from-right-in', 'in', 'from-left-out', 'visible', 'from-left-in', 'from-right-out'];
