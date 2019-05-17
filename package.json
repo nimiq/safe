@@ -21,6 +21,23 @@
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",
     "gulp": "^4.0.0",
-    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2",
+    "babel-core": "^6.26.0",
+    "gulp-babel": "^7.0.1",
+    "gulp-better-rollup": "^4.0.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^3.9.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssimport": "^6.0.0",
+    "gulp-html-replace": "^1.6.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.6.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "merge2": "^1.2.1",
+    "plugin-error": "^1.0.1",
+    "rollup": "^1.4.1",
+    "rollup-plugin-root-import": "^0.2.2",
+    "through2": "^2.0.3",
+    "vinyl": "^2.1.0"
   }
 }
