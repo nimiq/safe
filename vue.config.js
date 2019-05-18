@@ -48,7 +48,7 @@ module.exports = {
     pages: {
         index: {
             // entry for the page
-            entry: 'src/safe.js',
+            entry: 'src/main.js',
             // the source template
             template: 'src/index.html',
             // insert browser warning html templates
