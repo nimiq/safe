@@ -1,5 +1,5 @@
+import { Utf8Tools } from '@nimiq/utils';
 import XInput from '../x-input/x-input.js';
-import { Utf8Tools } from '../../../node_modules/@nimiq/utils/dist/module/Utf8Tools.js';
 
 export default class XExtraDataInput extends XInput {
     html() {

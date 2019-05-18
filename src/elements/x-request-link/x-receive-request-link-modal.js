@@ -1,8 +1,8 @@
+import { ValidationUtils } from '@nimiq/utils';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
-import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { dashToSpace, spaceToDash } from '../../lib/parameter-encoding.js';
 import XRouter from '../x-router/x-router.js';
 

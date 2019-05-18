@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import { WalletMenu } from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js'
 import MixinRedux from '../mixin-redux.js'
 import { switchWallet } from '../../wallet-redux.js'
@@ -112,7 +114,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
             },
             components: {
                 'redux-provider': ReduxProvider,
-                'wallet-menu': NimiqVueComponents.WalletMenu,
+                'wallet-menu': WalletMenu,
             }
         })
     }

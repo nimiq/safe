@@ -1,4 +1,4 @@
-import { createSelector } from '../lib/reselect/src/index.js';
+import { createSelector } from 'reselect';
 
 import AccountType from '../lib/account-type.js';
 

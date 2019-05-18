@@ -1,4 +1,4 @@
-import { Utf8Tools } from '../../../node_modules/@nimiq/utils/dist/module/Utf8Tools.js';
+import { Utf8Tools } from '@nimiq/utils';
 
 const TransactionTags = {
     SendCashlink: new Uint8Array([0, 130, 128, 146, 135]),

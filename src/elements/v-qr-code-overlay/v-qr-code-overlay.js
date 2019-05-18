@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-/* @asset(/node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.min.qr-encoder.js) */
+import { QrCode } from '@nimiq/vue-components';
 
 export default class VQrCodeOverlay extends XElement {
     html() {
@@ -35,7 +35,7 @@ export default class VQrCodeOverlay extends XElement {
 
         // lazily create qr code only if needed (to avoid unnecessary memory for qr canvas)
         if (!this._qrCode) {
-            this._qrCode = new NimiqVueComponents.QrCode();
+            this._qrCode = new QrCode();
             this._qrCode.$mount(this.$('[qr-code]'));
         }
 

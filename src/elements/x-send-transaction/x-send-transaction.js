@@ -1,4 +1,6 @@
-import { Utf8Tools } from '../../../node_modules/@nimiq/utils/dist/module/Utf8Tools.js';
+import Vue from 'vue';
+import { Utf8Tools, ValidationUtils, parseRequestLink } from '@nimiq/utils';
+import { QrScanner } from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
@@ -9,11 +11,9 @@ import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '../../network-client.js';
 import MixinRedux from '../mixin-redux.js';
 // import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
-import Config from '../../lib/config.js';
+import Config from '../../config/config.js';
 import AccountType from '../../lib/account-type.js';
 import VContactListModal from '../v-contact-list/v-contact-list-modal.js';
-import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
-import { parseRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -223,8 +223,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 closeQrScanner: this._closeQrScanner.bind(this),
             },
             components: {
-                'qr-scanner': NimiqVueComponents.QrScanner,
-                // @asset(/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
+                'qr-scanner': QrScanner,
             }
         });
         return this._qrScanner;

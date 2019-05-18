@@ -6,47 +6,24 @@
     <title>Nimiq Accounts</title>
     <!-- PWA Configs -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- @asset(/src/favicon.ico) -->
-    <link rel="shortcut icon" href="/src/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
     <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1F2348"> <!-- Nimiq Blue -->
-    <!--
-      iOS devices should be served their own version of the manifest.
-      The best idea is to use a server-side transparent rewrite. An example
-      for nginx could be:
-
-      # redirect iOS users to a custom PWA manifest due to broken PWA.
-      location /manifest.json {
-        if ($http_user_agent ~* '(iPhone|iPod|iPad)') {
-          rewrite ^/manifest.json$ /manifest-ios.json;
-        }
-      }
-    -->
-    <!--
-        @asset(/src/pwa/manifest.json)
-        @asset(/src/pwa/manifest-ios.json)
-        @asset(/src/pwa/icon180.png)
-        @asset(/src/pwa/icon192.png)
-    -->
-    <link rel="manifest" href="/src/pwa/manifest.json">
+    <link rel="manifest" href="pwa/manifest.json">
     <meta name="google" content="notranslate">
     <!-- iOS ( See: https://developer.apple.com/libraries/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html ) -->
     <meta name="apple-mobile-web-app-title" content="Nimiq Safe">
     <meta name="apple-mobile-web-app-status-bar-style" content="translucent">
-    <link rel="apple-touch-icon" sizes="180x180" href="/src/pwa/icon180.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="pwa/icon180.png">
     <meta name="application-name" content="Nimiq Safe">
 
-    <!-- @asset(/src/blocking.css) -->
+    <script type="text/javascript" src="/browser-warning.js" defer></script>
+
     <link rel="stylesheet" href="blocking.css">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,600,700">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono&text=0123456789ABCDEFGHJKLMNPQRSTUVXY">
-
-    <!-- build:css -->
-    <link rel="stylesheet" href="../node_modules/@nimiq/vue-components/dist/NimiqVueComponents.css">
-    <link rel="stylesheet" href="safe.css">
-    <!-- endbuild -->
 
     <title>Nimiq Safe</title>
 
@@ -89,16 +66,8 @@
     </div>
     <div id="app">
     </div>
-
-    <!-- @asset(/node_modules/@nimiq/vue-components/dist/img/iqons.min.72f3b689.svg,img) -->
-    <!-- build:js -->
-    <script src="/node_modules/moment/min/moment.min.js"></script>
-    <script src="./lib/vue.js"></script>
-    <script src="/node_modules/@nimiq/vue-components/dist/NimiqVueComponents.umd.js"></script>
-    <script src="safe.js" type="module"></script>
-    <!-- endbuild -->
-    <!-- build:browser-warning -->
-    <!-- endbuild -->
+    <%= htmlWebpackPlugin.options.browserWarning %>
+    <!-- built files will be auto injected -->
 </body>
 
 </html>

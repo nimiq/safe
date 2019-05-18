@@ -1,3 +1,4 @@
+import moment from 'moment';
 import XElement from '../../lib/x-element/x-element.js';
 import MixinRedux from '../mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';

@@ -16,7 +16,7 @@ const configureWebpack = {
     plugins: [
         new CopyWebpackPlugin([
             { from: 'node_modules/@nimiq/vue-components/dist/img', to: 'img' },
-            { from: 'node_modules/@nimiq/browser-warning/dist', to: './' },
+            { from: 'node_modules/@nimiq/browser-warning/dist', to: './' }
         ]),
         new WriteFileWebpackPlugin()
     ],
@@ -36,8 +36,12 @@ const configureWebpack = {
             }
             return $filename;
         },
-        devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]',
+        devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]'
     },
+    devServer: {
+        port: 8081,
+        clientLogLevel: 'warn'
+    }
 };
 
 module.exports = {
@@ -63,8 +67,8 @@ module.exports = {
             .use('ts-loader')
             .loader('ts-loader')
             .tap(options => {
-                options.configFile = `tsconfig.${buildName}.json`
-                return options
+                options.configFile = `tsconfig.${buildName}.json`;
+                return options;
         })
     }
 }

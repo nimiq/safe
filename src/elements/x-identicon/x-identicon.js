@@ -1,6 +1,6 @@
+import { ValidationUtils } from '@nimiq/utils';
+import Iqons from '@nimiq/iqons';
 import XElement from '../../lib/x-element/x-element.js';
-import Iqons from '../../../node_modules/@nimiq/iqons/dist/iqons.min.js';
-import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 
 export default class XIdenticon extends XElement {
 

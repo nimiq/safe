@@ -1,4 +1,4 @@
-import { bindActionCreators } from '../lib/redux/src/index.js';
+import { bindActionCreators } from 'redux';
 
 const MixinRedux = XElementBase => class extends XElementBase {
     onCreate() {
