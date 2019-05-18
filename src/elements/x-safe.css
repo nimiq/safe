@@ -135,18 +135,16 @@ x-total-amount {
 
 .backup-reminder {
     font-size: 16px;
-    transition: transform 200ms;
-}
-
-.backup-reminder:hover {
-    transform: translateY(2px);
 }
 
 .backup-reminder .action {
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
-    align-items: flex-end;
+    align-items: center;
+    height: 60px;
+    position: relative;
+    z-index: 1;
 }
 
 .backup-reminder.words .action {
@@ -162,10 +160,14 @@ x-total-amount {
     height: 60px;
     border-radius: 50%;
     display: inline-block;
-    margin-bottom: -24px;
     box-shadow: 0 5px 15px 0px rgba(0, 0, 0, 0.2);
     margin-right: 13px;
     flex-shrink: 0;
+    transition: transform 200ms;
+}
+
+.backup-reminder .action:hover .icon {
+    transform: translateY(2px);
 }
 
 .backup-reminder .icon.words {
