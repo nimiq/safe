@@ -1,0 +1,121 @@
+x-toast {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    z-index: 3;
+    transform: translateY(-110%);
+    text-align: center;
+}
+
+x-toast [toast-content] {
+    min-height: 20px;
+    padding: 14px 24px 14px 16px;
+    background: #333;
+    color: white;
+    border-radius: 3px;
+    animation-fill-mode: backwards;
+    box-shadow: var(--box-shadow);
+    margin: 24px;
+    pointer-events: initial;
+}
+
+x-toast [toast-content]::before {
+    content: "info";
+    color: inherit;
+    margin-right: 8px;
+    opacity: 0.8;
+
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+
+    vertical-align: middle;
+    margin-top: -0.1em;
+
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}
+
+/* types */
+
+x-toast [toast-content].success {
+    /* use default design for success */
+    /* background: var(--success-color);
+    color: black; */
+}
+
+x-toast [toast-content].error {
+    background: var(--error-color);
+}
+
+x-toast [toast-content].warning {
+    background: var(--warning-color);
+    color: #333;
+}
+
+x-toast [toast-content].success::before {
+    content: "check_circle";
+}
+
+x-toast [toast-content].error::before {
+    content: "cancel";
+}
+
+x-toast [toast-content].warning::before {
+    content: "warning";
+}
+
+/* animation */
+
+x-toast.x-toast-show {
+    animation: x-toast-show 3s;
+}
+
+@keyframes x-toast-show {
+    from {
+        transform: translateY(-110%);
+        opacity: 0;
+    }
+
+    5% {
+        opacity: 1;
+        transform: none;
+    }
+
+    95% {
+        opacity: 1;
+        transform: none;
+    }
+
+    100% {
+        transform: translateY(-110%);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 420px) {
+    x-toast [toast-content] {
+        margin: 0px;
+        width: 100vw;
+        border-radius: 0;
+    }
+}

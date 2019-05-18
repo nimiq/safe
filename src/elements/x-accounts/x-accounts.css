@@ -1,0 +1,272 @@
+@import '/elements/x-address/x-address.css';
+@import '/elements/mixin-modal/mixin-modal.css';
+@import '/secure-elements/x-loading-animation/x-loading-animation.css';
+@import '/elements/x-amount/x-amount.css';
+@import '/elements/x-popup-menu/x-popup-menu.css';
+@import '/elements/v-qr-code-overlay/v-qr-code-overlay.css';
+
+x-accounts {
+    text-align: right;
+    width: 100%;
+    display: block;
+    margin-top: -2.8em;
+}
+
+x-accounts-list {
+	display: flex;
+	width: 100%;
+	/* min-height: 177px; */ /* height of two XAccount elements */
+	flex-grow: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex-direction: column;
+}
+
+x-accounts-list x-loading-animation {
+    margin: 0 auto;
+    margin-top: 2em;
+    display: none;
+}
+
+x-accounts-list h2 {
+    text-align: center;
+}
+
+x-account {
+    display: flex;
+    padding: 8px 0;
+    cursor: pointer;
+    position: relative;
+    border-radius: 4px;
+}
+
+x-account-modal .x-modal-body {
+    text-align: center;
+}
+
+x-account-modal x-account {
+    cursor: auto;
+    animation: none;
+    margin-bottom: 1em;
+}
+
+x-account:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+x-account-modal x-account:hover {
+    background-color: transparent;
+}
+
+x-account x-identicon {
+    /* display: block; */
+    width: 80px;
+    min-width: 50px;
+    height: 71px;
+}
+
+x-account-modal x-identicon {
+    display: block;
+    width: 160px;
+    margin: 0 auto;
+}
+
+x-account .x-account-info {
+    text-align: left;
+    width: 100%;
+    padding-left: 16px;
+    max-width: calc(100% - 88px);
+}
+
+x-account .x-account-label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+x-account .x-account-bottom {
+    text-align: right;
+    margin-top: 12px;
+}
+
+x-account-modal .x-account-bottom {
+    text-align: center;
+}
+
+x-account x-amount {
+    display: block;
+    font-size: 16px;
+    margin-top: -0.25em;
+}
+
+@media (max-width: 480px) {
+    x-account x-amount {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 350px) {
+    x-account x-amount {
+        font-size: 1em;
+    }
+}
+
+x-account-modal x-amount {
+    display: block;
+    font-size: 1.5em;
+    margin: 0.5em 0 1em;
+}
+
+x-account-modal x-amount[display] {
+    font-size: 2em;
+    margin: 0.5em 0 1em;
+}
+
+x-account .x-address {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* max-width: calc(100% - 96px); */
+    pointer-events: none;
+    padding: 0;
+    min-width: auto;
+    font-weight: normal;
+    opacity: 0.6;
+}
+
+x-account-modal .x-address {
+    display: inline-block;
+    margin: 0.5em 0;
+}
+
+x-account .account-icon,
+x-account-modal .account-icon {
+    display: block;
+    position: absolute;
+    left: 66px;
+    top: 48px;
+    width: 1.4em;
+    height: 1.4em;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 85%;
+    background-color: white;
+    padding: 12px;
+    border: 0.5px solid lightgray;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+x-account-modal .account-icon {
+    padding: 22px;
+    left: calc(50% + 40px);
+    top: 128px;
+    background-size: 80%;
+    font-size: 32px;
+}
+
+x-account .account-icon::after {
+    position: relative;
+    left: -8.5px;
+    top: -9px;
+}
+
+x-account-modal .account-icon::after {
+    position: relative;
+    left: -16px;
+    top: -15.5px;
+}
+
+x-account .secure-icon::after,
+x-account-modal .secure-icon::after {
+    content: 'check_circle';
+    color: #2e7d32;
+}
+
+x-account .vesting-icon::after,
+x-account-modal .vesting-icon::after {
+    content: 'access_time';
+}
+
+x-account .ledger-icon,
+x-account-modal .ledger-icon,
+x-popup-menu .ledger-icon {
+    /* @asset(/elements/x-accounts/icons/ledger_icon_24px.svg) */
+    background-image: url('/elements/x-accounts/icons/ledger_icon_24px.svg');
+}
+
+x-popup-menu .ledger-icon,
+x-popup-menu [icon-qr] {
+    width: 24px;
+    vertical-align: middle;
+}
+
+x-account-modal .x-account-label {
+    font-size: 1.2em;
+}
+
+x-account-modal hr {
+    background: rgba(0, 0, 0, 0.1);
+    height: 1px;
+    border: 0;
+}
+
+x-account-modal .action-button {
+    text-align: center;
+}
+
+/* Responsiveness */
+@media (min-width: 481px) {
+    x-account {
+        justify-content: center;
+        padding: 8px 16px;
+    }
+
+    x-account .account-icon {
+        left: 70px;
+    }
+
+    x-account-modal .account-icon {
+        left: calc(50% + 40px);
+        top: 135px;
+    }
+}
+
+/* Empty Accounts List */
+x-accounts-list:empty{
+	display: flex;
+}
+
+x-accounts-list:empty:before {
+	display: flex;
+	flex-grow: 1;
+	content: 'Click above to add an account';
+	font-size: 20px;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+}
+
+x-accounts-list x-no-accounts {
+	font-size: 16px;
+    display: block;
+    padding: 1.5em;
+    text-align: center;
+    opacity: 0.6;
+}
+
+x-accounts-list x-no-accounts h1.material-icons {
+    display: block;
+    font-size: 120px;
+    opacity: 0.3;
+    margin-bottom: 0.1em;
+}
+
+x-accounts-list x-account {
+    padding: 8px;
+}

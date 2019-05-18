@@ -1,0 +1,27 @@
+x-network-indicator {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 13px;
+    padding: 24px 0;
+}
+
+x-network-indicator div {
+    padding: 4px 20px;
+    flex-shrink: 0;
+}
+
+x-network-indicator label {
+    opacity: .6;
+    padding-right: 10px;
+}
+
+x-network-indicator span {
+    text-transform: capitalize;
+}
+
+@media (max-width: 420px) {
+    x-network-indicator div {
+        padding: 2px 20px;
+    }
+}

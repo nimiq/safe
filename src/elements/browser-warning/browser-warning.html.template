@@ -1,0 +1,20 @@
+<noscript>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: linear-gradient(30deg, #3023AE, #9C58CB);
+            height: 100vh;
+            max-height: 100%;
+        }
+        body > * {
+            display: none !important;
+        }
+        body::after {
+            content: 'Please enable Javascript.';
+        }
+    </style>
+</noscript>
+<!-- @asset(/elements/browser-warning/browser-warning.js) -->
+<script type="text/javascript" src="/elements/browser-warning/browser-warning.js" async></script>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <script src="../x-identicon.js" type="module"></script>
+    <link href="/libraries/nimiq-style/nimiq-style.css" rel="stylesheet">
+</head>
+
+<body>
+    <x-identicon style="width:300px;height:300px;"></x-identicon>
+    <input placeholder="Input a valid address.">
+    <script type="module">
+    	import XIdenticon from '../x-identicon.js';
+        const $identicon = new XIdenticon();
+
+        document.querySelector('input').addEventListener('input', e => $identicon.address = e.target.value);
+    </script>
+</body>
+
+</html>

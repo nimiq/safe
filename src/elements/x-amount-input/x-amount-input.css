@@ -1,0 +1,99 @@
+@import '../../secure-elements/x-input/x-input.css';
+@import '../x-numpad/x-numpad.css';
+
+x-amount-input input {
+    font-size: 3em !important;
+    line-height: 54px;
+    font-weight: 300;
+    padding-bottom: 0;
+    width: 100% !important;
+}
+
+@media (max-width: 620px) {
+    x-amount-input input {
+        font-size: 2.5em !important;
+    }
+}
+
+@media (max-width: 515px) {
+    x-amount-input input {
+        font-size: 2em !important;
+    }
+}
+
+@media (max-width: 410px) {
+    x-amount-input input {
+        font-size: 1.5em !important;
+    }
+}
+
+x-amount-input input::placeholder {
+    font-size: 1em !important;
+}
+
+x-amount-input button.set-max {
+    display: none;
+}
+
+x-amount-input[enable-set-max] input {
+    padding-left: 96px;
+    padding-right: 96px;
+}
+
+x-amount-input[enable-set-max] button.set-max {
+    display: initial;
+    background: white;
+    position: absolute;
+    right: 4px;
+    bottom: 4px;
+    opacity: 0;
+    transition: opacity 0.1s ease-out;
+    pointer-events: none;
+}
+
+x-amount-input[enable-set-max].show-set-max-button button.set-max,
+x-amount-input button.set-max:active/*,
+x-amount-input button.set-max:focus*/ {
+    opacity: 1;
+    pointer-events: all;
+}
+
+x-amount-input input + .ticker {
+    display: block;
+    position: absolute;
+    right: 22px;
+    bottom: 0.65em;
+    margin: 0;
+    padding: 0;
+    font-size: 1.5em;
+    letter-spacing: 0.08em;
+    opacity: 0.4;
+    transition: opacity 0.2s ease-out;
+}
+
+x-amount-input input:focus + .ticker {
+    opacity: 1;
+}
+
+@media (min-width: 420px) {
+    x-amount-input x-numpad {
+        display: none;
+    }
+}
+
+x-amount-input input[disabled] {
+    opacity: 1;
+    cursor: default;
+}
+
+x-amount-input form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+x-amount-input x-currency-nim {
+    display: block;
+    position: relative;
+}

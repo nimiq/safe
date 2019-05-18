@@ -1,0 +1,18 @@
+x-route, [x-route] {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.x-route-parent {
+    position: relative;
+}
+
+x-route.visible, [x-route].visible {
+    display: flex;
+}
+
+x-route.current, [x-route].current {
+    position: static;
+}

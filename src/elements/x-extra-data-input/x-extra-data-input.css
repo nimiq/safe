@@ -1,0 +1,19 @@
+@import '../../secure-elements/x-input/x-input.css';
+
+x-extra-data-input input[type="text"] {
+    width: 100%;
+    font-size: 1.2em;
+    padding: 4px;
+}
+
+x-extra-data-input .x-extra-data-info {
+    /* display: flex; */
+    /* justify-content: space-between; */
+    opacity: 0.7;
+    margin-top: 8px;
+    /* height: 1em; */
+}
+
+x-extra-data-input .x-extra-data-help {
+    display: none;
+}

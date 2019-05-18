@@ -1,0 +1,214 @@
+@import '../x-address/x-address.css';
+@import '../x-amount/x-amount.css';
+@import '/secure-elements/x-loading-animation/x-loading-animation.css';
+@import '/elements/x-popup-menu/x-popup-menu.css';
+@import './x-transaction-modal.css';
+
+x-transactions {
+    display: block;
+    width: 100%;
+    margin-top: -2.8em;
+}
+
+x-transactions a[secondary] {
+    padding: 1em;
+    margin-bottom: -1em !important;
+    margin-top: 5px !important;
+    text-align: center;
+}
+
+x-transactions-list {
+    display: table;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    text-align: left;
+}
+
+x-transactions-list x-loading-animation {
+    margin: 0 auto;
+    margin-top: 2em;
+    display: none;
+}
+
+x-transactions-list x-loading-animation + h2 {
+    text-align: center;
+}
+
+x-transaction {
+    display: table-row;
+    padding: 8px 0;
+    animation: from-right 500ms;
+    animation-fill-mode: backwards; /* Apply the animation's opacity: 0 when the animation property is applied */
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+x-transaction.removed,
+x-transaction.expired {
+    background: var(--warning-color);
+}
+
+x-transaction > * {
+    display: table-cell !important;
+    vertical-align: middle;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+x-transaction > *:first-child {
+    padding-left: 16px;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+x-transaction > *:last-child {
+    padding-right: 16px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+x-transaction:nth-child(1) { animation-delay: 0.0s }
+x-transaction:nth-child(2) { animation-delay: 0.1s }
+x-transaction:nth-child(3) { animation-delay: 0.2s }
+x-transaction:nth-child(4) { animation-delay: 0.3s }
+x-transaction:nth-child(5) { animation-delay: 0.4s }
+x-transaction:nth-child(6) { animation-delay: 0.5s }
+x-transaction:nth-child(7) { animation-delay: 0.6s }
+x-transaction:nth-child(8) { animation-delay: 0.7s }
+x-transaction:nth-child(9) { animation-delay: 0.8s }
+x-transaction:nth-child(10){ animation-delay: 0.9s }
+
+x-transactions.no-animation x-transaction {
+    animation: none !important;
+    animation-delay: 0s !important;
+}
+
+x-transaction:hover > * {
+    background-color: rgba(0, 0, 0, 0.075);
+}
+
+x-transaction.removed .timestamp,
+x-transaction.expired .timestamp {
+    font-weight: bold;
+}
+
+x-transaction .identicon {
+    width: 66px;
+    height: 75px;
+    padding: 0 8px;
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    x-transaction .label {
+        display: none !important;
+    }
+}
+
+x-transaction.incoming .label[recipient],
+x-transaction.outgoing .label[sender],
+x-transaction.transfer .label {
+    font-weight: bold;
+}
+
+x-transaction .timestamp {
+    /* text-transform: uppercase; */
+}
+
+x-transaction x-amount {
+    text-align: right;
+    font-size: 1.4em;
+}
+
+x-transaction.removed x-currency-nim,
+x-transaction.expired x-currency-nim {
+    text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+    x-transaction x-amount {
+        font-size: 1.2em;
+    }
+
+    x-transaction x-amount .rest-decimals {
+        display: none;
+    }
+
+    x-transaction x-amount .ticker {
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    x-transaction x-amount {
+        font-size: 1.1em;
+    }
+}
+
+@media (max-width: 350px) {
+    x-transaction x-amount {
+        font-size: 1em;
+    }
+}
+
+/* Responsiveness */
+@media (min-width: 480px) {
+    x-transaction {
+        padding: 8px 16px;
+    }
+}
+
+x-transactions-list x-no-transactions {
+	font-size: 16px;
+	display: block;
+	padding: 1.5em;
+	text-align: center;
+}
+
+x-transactions-list x-no-transactions h1.material-icons {
+    display: block;
+    font-size: 80px;
+    opacity: 0.3;
+    margin-bottom: 0.1em;
+}
+
+x-transactions-list x-no-transactions .material-icons,
+x-transactions-list x-no-transactions span {
+    opacity: 0.6;
+}
+
+x-transactions x-paginator {
+    display: block;
+    text-align: center;
+}
+
+x-transactions x-paginator button {
+    display: inline;
+    padding: 0 7px !important;
+    line-height: 40px !important;
+}
+
+x-transactions[only-recent] x-paginator {
+    display: none;
+}
+
+x-transactions .view-more,
+x-transactions .view-less {
+    width: 140px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+x-transactions a.view-less, /* specificity needed to override a[secondary] rule */
+x-transactions.few-transactions .view-more,
+x-transactions.view-more .view-more {
+    display: none;
+}
+
+x-transactions.view-more x-paginator,
+x-transactions.view-more .view-less {
+    display: block;
+}
+
+}
