@@ -1,5 +1,5 @@
-import ConvertExtraData from './convert-extra-data.js';
-import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
+import ConvertExtraData from '../elements/x-transactions/convert-extra-data.js';
+import { TypeKeys as WalletTypeKeys } from './wallet-redux.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',

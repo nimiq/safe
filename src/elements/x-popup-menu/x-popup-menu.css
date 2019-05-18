@@ -7,22 +7,22 @@
     cursor: pointer;
 }
 
-x-popup-menu {
+.x-popup-menu {
     display: block;
     position: relative;
     text-align: right;
 }
 
-x-card x-popup-menu {
+.x-card .x-popup-menu {
     top: -11px;
     right: -8px;
 }
 
-x-popup-menu[left-align] {
+.x-popup-menu[left-align] {
     text-align: left;
 }
 
-x-popup-menu button {
+.x-popup-menu button {
     /* border: 0; */
     background: transparent !important;
     color: #3b3b3b !important;
@@ -37,11 +37,11 @@ x-popup-menu button {
     box-sizing: border-box;
 }
 
-x-popup-menu button:hover {
+.x-popup-menu button:hover {
     background: rgba(0, 0, 0, 0.075) !important;
 }
 
-x-popup-menu > div {
+.x-popup-menu > div {
     display: none;
     position: absolute;
     right: 0;
@@ -53,12 +53,12 @@ x-popup-menu > div {
     box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.2);
 }
 
-x-popup-menu[left-align] > div {
+.x-popup-menu[left-align] > div {
     right: auto;
     left: 0;
 }
 
-x-popup-menu.active > div {
+.x-popup-menu.active > div {
     display: initial;
     /* We need to animate from below here, so that the popupmenu
        is on top of the button when the user clicks/touches. On
@@ -68,11 +68,11 @@ x-popup-menu.active > div {
     animation-duration: 0.3s;
 }
 
-x-popup-menu > button[disabled] + div {
+.x-popup-menu > button[disabled] + div {
     display: none !important;
 }
 
-x-popup-menu > div > button {
+.x-popup-menu > div > button {
     display: block;
     width: 100%;
     text-align: left;
@@ -82,7 +82,7 @@ x-popup-menu > div > button {
     height: 48px;
 }
 
-x-popup-menu > div > button .material-icons {
+.x-popup-menu > div > button .material-icons {
     margin-right: 9px;
 }
 

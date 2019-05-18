@@ -3,7 +3,7 @@ import MixinRedux from './mixin-redux.js';
 import XAmount from './x-amount/x-amount.js';
 import totalAmount$ from '../selectors/totalAmount$.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
-import { WalletType } from '../wallet-redux.js';
+import { WalletType } from '../redux/wallet-redux.js';
 
 export default class XTotalAmount extends MixinRedux(XElement) {
     html(){

@@ -3,8 +3,8 @@ import App from './App.vue';
 import MixinRedux from './elements/mixin-redux.js';
 import { default as store, Store } from './store.js';
 
+import '@nimiq/style/nimiq-style.min.css';
 import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
-import './safe.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
 // Set up Identicon SVG file path
