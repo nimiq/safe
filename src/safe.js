@@ -11,7 +11,18 @@ import networkClient from './network-client.js';
 import MixinSingleton from './elements/mixin-singleton.js';
 import XToast from './elements/x-toast/x-toast.js';
 
+import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
 import './safe.css';
+import '@nimiq/vue-components/dist/NimiqVueComponents.css';
+
+// Set up Identicon SVG file path
+if (IqonsSvg[0] === '"') {
+    // @ts-ignore
+    self.NIMIQ_IQONS_SVG_PATH = IqonsSvg.substring(1, IqonsSvg.length - 1);
+} else {
+    // @ts-ignore
+    self.NIMIQ_IQONS_SVG_PATH = IqonsSvg;
+}
 
 class Safe {
     constructor() {

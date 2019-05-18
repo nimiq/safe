@@ -204,6 +204,9 @@ export default class XElement {
      */
     static __toChildName() {
         let name = this.name;
+        // 'Survive' webpack bundling
+        const splitted = name.split('_');
+        name = splitted[splitted.length - 1];
         if (name.match(/^X[A-Z][a-z]*/)) name = name.substring(1); // replace XAnyConstructorName -> AnyConstructorName
         return '$' + name[0].toLowerCase() + name.substring(1); // AnyConstructorName -> $anyConstructorName
     }
@@ -240,7 +243,11 @@ export default class XElement {
      * @returns
      */
     static __toTagName(name) {
-        return name.split(/(?=[A-Z])/).join('-').toLowerCase(); // AnyConstructorName -> any-constructor-name
+        // 'Survive' webpack bundling
+        const splitted = name.split('_');
+        const realName = splitted[splitted.length - 1];
+        // AnyConstructorName -> any-constructor-name
+        return realName.split(/(?=[A-Z])/).join('-').toLowerCase();
     }
 
     /**

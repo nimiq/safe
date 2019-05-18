@@ -61,6 +61,13 @@ module.exports = {
         }
     },
     configureWebpack,
+    pluginOptions: {
+        uglifyOptions: {
+            mangle: false,
+            keep_classnames: true,
+            keep_fnames: true,
+        }
+    },
     chainWebpack: config => {
         config.module
             .rule('ts')
@@ -69,6 +76,6 @@ module.exports = {
             .tap(options => {
                 options.configFile = `tsconfig.${buildName}.json`;
                 return options;
-        })
+            });
     }
 }
