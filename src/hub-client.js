@@ -13,6 +13,7 @@ import {
     removeAccount,
 } from './wallet-redux.js';
 import AccountType from './lib/account-type.js';
+import VMigrationWelcome from './elements/v-migration-welcome/v-migration-welcome.js';
 
 const APP_NAME = 'Accounts';
 
@@ -44,6 +45,17 @@ class HubClient {
             console.error('HubApi error', error);
             console.log('State', state);
         });
+
+        // listen to response from migration
+        this.hubApi.on(HubApi.RequestType.MIGRATE, (result, state) => {
+            if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
+            else this._onOnboardingResult(result);
+            VMigrationWelcome.show();
+        }, (error, state) => {
+            console.error('HubApi error', error);
+            console.log('State', state);
+        });
+
         this.hubApi.checkRedirectResponse();
 
         // Kick off writing accounts to the store

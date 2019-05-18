@@ -1,0 +1,9 @@
+.small-page {
+    width: 52.5rem !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.small-page p {
+    text-align: left;
+}

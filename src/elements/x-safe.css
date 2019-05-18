@@ -12,6 +12,7 @@
 @import './x-education-slides/x-education-slides.css';
 @import './x-faucet-modal.css';
 @import './x-loader/x-loader.css';
+@import './v-migration-welcome/v-migration-welcome.css';
 @import './v-wallet-selector/v-wallet-selector.css';
 
 html,
@@ -259,6 +260,7 @@ footer > div {
 footer > a {
     text-decoration: underline;
     cursor: pointer;
+    margin: 0 1rem;
 }
 
 body.preparing > * {

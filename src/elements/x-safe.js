@@ -23,6 +23,7 @@ import XFaucetModal from './x-faucet-modal.js';
 import XEducationSlides from '../elements/x-education-slides/x-education-slides.js';
 import VContactList from '../elements/v-contact-list/v-contact-list.js';
 import VContactListModal from '../elements/v-contact-list/v-contact-list-modal.js';
+import VMigrationWelcome from '../elements/v-migration-welcome/v-migration-welcome.js';
 import VWalletSelector from '../elements/v-wallet-selector/v-wallet-selector.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import { WalletType } from '../wallet-redux.js';
@@ -121,6 +122,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>
                 <a warnings>Show information slides</a>
+                <a migration-welcome>Update Notes</a>
             </footer>
             `
     }
@@ -207,6 +209,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'click a[warnings]': this._showWarnings,
+            'click a[migration-welcome]': this._showMigrationWelcome,
             'click [backup-words]': () => this._clickedExportWords(),
             'click [backup-file]': () => this._clickedExportFile(),
         }
@@ -364,6 +367,10 @@ export default class XSafe extends MixinRedux(XElement) {
             XSendTransactionModal.instance.loading = false;
             XSendPreparedTransactionModal.instance.loading = false;
         }
+    }
+
+    _showMigrationWelcome() {
+        VMigrationWelcome.show();
     }
 
     _showWarnings() {
