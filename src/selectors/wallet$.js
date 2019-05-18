@@ -1,4 +1,4 @@
-import { createSelector } from '../lib/reselect/src/index.js';
+import { createSelector } from 'reselect';
 import { WalletType } from '../wallet-redux.js';
 import { accountsArray$ } from './account$.js';
 

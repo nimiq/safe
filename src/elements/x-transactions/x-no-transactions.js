@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-import Config from '../../lib/config.js';
+import Config from '../../config/config.js';
 import XFaucetModal from '../../elements/x-faucet-modal.js';
 
 export default class XNoTransactions extends XElement {

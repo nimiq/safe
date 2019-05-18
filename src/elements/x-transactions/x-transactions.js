@@ -1,3 +1,4 @@
+import { AddressBook } from '@nimiq/utils';
 import XElement from '../../lib/x-element/x-element.js';
 import MixinRedux from '../mixin-redux.js';
 import XTransaction from './x-transaction.js';
@@ -7,8 +8,7 @@ import XPaginator from '../x-paginator/x-paginator.js';
 import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from './transactions-redux.js';
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
-import Config from '../../lib/config.js';
-import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
+import Config from '../../config/config.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 
 export default class XTransactions extends MixinRedux(XElement) {

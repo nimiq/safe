@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware, compose, combineReducers } from './lib/redux/src/index.js';
-import { createLogger } from './lib/redux-logger/src/index.js';
-import thunk from './lib/redux/src/redux-thunk.js';
-import Config from './lib/config.js';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
+import Config from './config/config.js';
 import { reducer as transactionReducer } from './elements/x-transactions/transactions-redux.js';
 import { reducer as networkReducer } from './elements/x-network-indicator/network-redux.js';
 import { reducer as settingReducer } from './settings/settings-redux.js';

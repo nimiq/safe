@@ -1,3 +1,6 @@
+import Vue from 'vue';
+import { ContactList } from '@nimiq/vue-components';
+import { BrowserDetection } from '@nimiq/utils';
 import XElement from '../../lib/x-element/x-element.js'
 import MixinRedux from '../mixin-redux.js'
 import XSendTransactionModal from '../x-send-transaction/x-send-transaction-modal.js'
@@ -5,8 +8,7 @@ import { spaceToDash } from '../../lib/parameter-encoding.js'
 import { setContact, removeContact } from './contacts-redux.js'
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js'
 import XToast from '../x-toast/x-toast.js';
-import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
-import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
+import ReduxProvider from 'vuejs-redux';
 
 export default class VContactList extends MixinRedux(XElement) {
     html() {
@@ -94,7 +96,7 @@ export default class VContactList extends MixinRedux(XElement) {
             },
             components: {
                 'redux-provider': ReduxProvider,
-                'contact-list': NimiqVueComponents.ContactList,
+                'contact-list': ContactList,
             }
         })
     }

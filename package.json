@@ -1,7 +1,7 @@
 {
   "name": "my-nimiq",
   "version": "1.0.0",
-  "description": "My Nimiq",
+  "description": "Nimiq Safe",
   "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,30 +10,34 @@
   },
   "keywords": [
     "nimiq",
-    "my-nimiq",
-    "wallet"
+    "safe",
+    "browser wallet"
   ],
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
+    "@vue/babel-preset-app": "^3.4.1",
+    "@vue/cli-plugin-typescript": "^3.4.1",
+    "@vue/cli-service": "^3.4.1",
+    "vue-template-compiler": "^2.6.6",
+    "write-file-webpack-plugin": "^4.5.0"
+  },
+  "dependencies": {
     "@nimiq/browser-warning": "^0.4.0",
+    "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "@nimiq/hub-api": "^0.4.2",
     "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.1.7",
     "@nimiq/utils": "^0.3.3",
-    "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
-    "@vue/babel-preset-app": "^3.4.1",
-    "@vue/cli-plugin-typescript": "^3.4.1",
-    "@vue/cli-service": "^3.4.1",
     "moment": "^2.24.0",
-    "vue-template-compiler": "^2.6.6",
-    "vuejs-redux": "^2.4.1",
-    "write-file-webpack-plugin": "^4.5.0"
-  },
-  "dependencies": {
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "typescript": "^3.4.5",
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
+    "vuejs-redux": "^2.4.1",
     "vue-property-decorator": "^8.1.1"
   }
 }

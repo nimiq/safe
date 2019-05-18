@@ -1,12 +1,13 @@
+import { QrCode } from '@nimiq/vue-components';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XAddress from '../x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
-import { createRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
+import { createRequestLink } from '@nimiq/utils';
 import share from '../../lib/web-share-shim/web-share-shim.nimiq.min.js';
-import Config from '../../lib/config.js';
+import Config from '../../config/config.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -51,7 +52,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         this._shown = false;
         navigator.share = share;
         this.$requestLink = this.$('.x-request-link');
-        this._qrCode = new NimiqVueComponents.QrCode({
+        this._qrCode = new QrCode({
             propsData: {
                 size: this._isMobile()? this.$('.request-link-container').offsetWidth - 20 : 72
             }
