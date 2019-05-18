@@ -37,9 +37,17 @@
     "moment": "^2.24.0",
     "plugin-error": "^1.0.1",
     "rollup": "^1.4.1",
-    "rollup-plugin-root-import": "^0.2.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.0",
+    "rollup-plugin-replace": "^2.2.0",
     "through2": "^2.0.3",
     "vinyl": "^2.1.0",
     "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+  },
+  "dependencies": {
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
+    "vue": "^2.6.10"
   }
 }

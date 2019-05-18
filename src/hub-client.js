@@ -1,5 +1,5 @@
 import HubApi from '../node_modules/@nimiq/hub-api/dist/standalone/HubApi.standalone.es.js';
-import { bindActionCreators } from './lib/redux/src/index.js';
+import { bindActionCreators } from 'redux';
 import MixinRedux from './elements/mixin-redux.js';
 import {
     addAccount,

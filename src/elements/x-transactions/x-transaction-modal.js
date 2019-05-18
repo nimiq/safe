@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAddress from '../x-address/x-address.js';
 import XTransaction from './x-transaction.js';

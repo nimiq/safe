@@ -1,3 +1,4 @@
+import NimiqVueComponents from '@nimiq/vue-components';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XAddress from '../x-address/x-address.js';

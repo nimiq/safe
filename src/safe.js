@@ -1,5 +1,5 @@
+import { bindActionCreators } from 'redux';
 import XLoader from './elements/x-loader.js';
-import { bindActionCreators } from './lib/redux/src/index.js';
 import MixinRedux from './elements/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances } from './wallet-redux.js';

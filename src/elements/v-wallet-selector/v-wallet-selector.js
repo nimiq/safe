@@ -1,3 +1,5 @@
+import Vue from 'vue';
+import NimiqVueComponents from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js'
 import MixinRedux from '../mixin-redux.js'
 import { switchWallet } from '../../wallet-redux.js'

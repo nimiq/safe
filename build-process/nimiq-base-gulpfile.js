@@ -4,17 +4,18 @@ const clean = require('gulp-clean');
 const sourcemaps = require('gulp-sourcemaps');
 
 const rollup = require('gulp-better-rollup');
-const rollupRoot = require('rollup-plugin-root-import');
 const babel = require('gulp-babel'); // TODO do minification with uglify-es
+const resolve = require('rollup-plugin-node-resolve');
+const commonjs = require('rollup-plugin-commonjs');
+const rollupReplace = require('rollup-plugin-replace');
 
 const cssImport = require('gulp-cssimport'); // TODO apparently gulp-clean-css can also inline imports ?
-const cleanCss = require('gulp-clean-css');
 const concat = require('gulp-concat');
 
 const replace = require('gulp-replace');
 const htmlReplace = require('gulp-html-replace');
-const rename = require('gulp-rename');
 const merge = require('merge2');
+
 
 const staticAssets = require('./nimiq-static-assets');
 
@@ -32,16 +33,20 @@ class NimiqBuild {
         let jsStream = gulp.src(jsEntry)
             .pipe(sourcemaps.init())
             .pipe(rollup({
-                context: 'window',
                 plugins: [
-                    rollupRoot({
-                        // specify absolute paths in order for rollup plugins to match module IDs
-                        root: rootPath,
-                        extensions: '.js'
-                    })
+                    resolve({
+                        jsnext: true,
+                        main: true
+                    }),
+                    rollupReplace({
+                        'process.env.NODE_ENV': JSON.stringify('production')
+                    }),
+                    commonjs({
+                        include: 'node_modules/**',
+                    }),
                 ]
             }, {
-                format: 'iife'
+                format: 'umd'
             }))
             .pipe(concat(NimiqBuild.getFileName(jsEntry)));
         if (collectAssets) {
@@ -81,12 +86,7 @@ class NimiqBuild {
         if (collectAssets) {
             cssStream = cssStream.pipe(staticAssets({ rootPath }));
         }
-        /*
-        // TODO check whether actually needed... and check whether cleanCss messes the added assets up
-        // the css import will inline the same css multiple times if imported multiple times thus we'll clean it up.
-        cssStream = cssStream.pipe(cleanCss({
-            level: 2
-        }));*/
+
         if (distPath) {
             cssStream = NimiqBuild._writeStream(cssStream, distPath);
         }

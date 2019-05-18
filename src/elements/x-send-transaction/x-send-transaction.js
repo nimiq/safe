@@ -1,4 +1,5 @@
-import { Utf8Tools } from '../../../node_modules/@nimiq/utils/dist/module/Utf8Tools.js';
+import Vue from 'vue';
+import { Utf8Tools } from '@nimiq/utils';
 import XElement from '../../lib/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';

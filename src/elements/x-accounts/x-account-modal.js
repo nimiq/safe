@@ -1,3 +1,4 @@
+import moment from 'moment';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAccount from './x-account.js';
 import XAmount from '../x-amount/x-amount.js';

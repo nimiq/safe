@@ -8,13 +8,13 @@ export default class XLoader extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
-            activeWallet: activeWallet$(state),
-            walletsLoaded: state.wallets.hasContent,
+            walletsLoaded: state.wallets.hasContent && state.wallets.wallets.size > 0,
+            noWallets: state.wallets.hasContent && state.wallets.wallets.size === 0,
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (this.properties.walletsLoaded && !this.properties.activeWallet) {
+        if (this.properties.noWallets) {
             hubClient.onboard();
             return;
         }
