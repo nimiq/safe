@@ -1,4 +1,4 @@
-import { BrowserDetection } from '@nimiq/utils';
+/*import { BrowserDetection } from '@nimiq/utils';
 import XElement from '../lib/x-element/x-element.js';
 import hubClient from '../hub-client.js';
 import Config from '../config/config.js';
@@ -7,16 +7,8 @@ import XRouter from '../elements/x-router/x-router.js';
 import XToast from '../elements/x-toast/x-toast.js';
 import MixinRedux from '../elements/mixin-redux.js';
 import XNetworkIndicator from '../elements/x-network-indicator/x-network-indicator.js';
-import XSendTransactionModal from '../elements/x-send-transaction/x-send-transaction-modal.js';
-import XAccounts from '../elements/x-accounts/x-accounts.js';
-import XTransactions from '../elements/x-transactions/x-transactions.js';
-import XTransactionModal from '../elements/x-transactions/x-transaction-modal.js';
-import XReceiveRequestLinkModal from '../elements/x-request-link/x-receive-request-link-modal.js';
-import XCreateRequestLinkModal from '../elements/x-request-link/x-create-request-link-modal.js';
 import XSendTransactionOfflineModal from '../elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XSendPreparedTransactionModal from '../elements/x-send-transaction/x-send-prepared-transaction-modal.js';
-import XSettings from '../settings/x-settings.js';
-import XTotalAmount from './x-total-amount.js';
 import networkClient from '../network-client.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XFaucetModal from './x-faucet-modal.js';
@@ -28,102 +20,6 @@ import { activeWallet$ } from '../selectors/wallet$.js';
 import { WalletType } from '../redux/wallet-redux.js';
 
 export default class XSafe extends MixinRedux(XElement) {
-
-    html() {
-        return `
-            <div id="testnet-warning" class="header-warning display-none">
-                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
-            </div>
-            <div id="private-warning" class="header-warning display-none">
-                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
-                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
-            </div>
-            <header>
-                <div class="header-top content-width">
-                    <a class="logo" href="#">
-                        <div class="nq-icon nimiq-logo"></div>
-                        <span class="logo-wordmark">Nimiq</span>
-                    </a>
-                    <nav class="secondary-links">
-                        <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
-                        <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <v-wallet-selector class="desktop mobile-hidden"></v-wallet-selector>
-                        <x-settings x-route-aside="settings"></x-settings>
-                    </nav>
-                </div>
-                <v-wallet-selector class="mobile mobile-inline-block"></v-wallet-selector>
-                <x-total-amount></x-total-amount>
-                <div class="header-bottom content-width">
-                    <div class="backup-reminder words">
-                        <a class="action" backup-words>
-                            <div class="icon words">
-                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
-                            </div>
-                            <strong class="text">Backup your Account with Recovery Words.</strong>
-                        </a>
-                        <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
-                    </div>
-                    <div class="backup-reminder file">
-                        <a class="action" backup-file>
-                            <div class="icon file">
-                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
-                            </div>
-                            <strong class="text">Download your Login File to save your Account.</strong>
-                        </a>
-                        <a class="dismiss display-none" dismiss-backup-file>&times;<span> dismiss</span></a>
-                    </div>
-                </div>
-            </header>
-
-            <section class="content nimiq-dark content-width">
-                <nav class="actions floating-actions">
-                    <div class="floating-btn">
-                        <button new-tx>
-                            <span>Send</span>
-                        </button>
-                        <div class="btn-text">Send</div>
-                    </div>
-                    <div class="floating-btn">
-                        <button receive>
-                            <span>Receive</span>
-                        </button>
-                        <div class="btn-text">Receive</div>
-                    </div>
-                    <div class="floating-btn">
-                        <button icon-qr><span>Scan</span></button>
-                        <div class="btn-text">Scan</div>
-                    </div>
-                    <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
-                    <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
-                </nav>
-                <x-view-dashboard x-route="" class="content-width">
-                    <!-- <h1>Dashboard</h1> -->
-                    <x-card style="max-width: 960px;">
-                        <h2>Transactions</h2>
-                        <x-transactions class="no-animation" only-recent></x-transactions>
-                    </x-card>
-                    <x-card style="max-width: 552px;">
-                        <h2>Addresses</h2>
-                        <x-accounts></x-accounts>
-                    </x-card>
-                    <x-card style="max-width: 344px;">
-                        <v-contact-list></v-contact-list>
-                    </x-card>
-                </x-view-dashboard>
-                <x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
-                <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
-                <x-create-request-link-modal x-route-aside="receive" data-x-root="${window.location.host}/src"></x-create-request-link-modal>
-                <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
-            </section>
-            <footer class="nimiq-dark">
-                <x-network-indicator></x-network-indicator>
-                <div>&copy; 2017-2019 Nimiq Foundation</div>
-                <a disclaimer>Disclaimer</a>
-                <a warnings>Show information slides</a>
-            </footer>
-            `
-    }
 
     children() {
         return [
@@ -165,7 +61,6 @@ export default class XSafe extends MixinRedux(XElement) {
         this.relayedTxResolvers = new Map();
 
         // App finished loading
-        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     static mapStateToProps(state) {
@@ -287,7 +182,7 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _clickedScan() {
-        XSendTransactionModal.show(/* address */ null, 'scan');
+        XSendTransactionModal.show(null, 'scan');
     }
 
     async _signTransaction(tx) {
@@ -370,4 +265,4 @@ export default class XSafe extends MixinRedux(XElement) {
         XEducationSlides.onFinished = XEducationSlides.hide;
         XEducationSlides.start();
     }
-}
+}*/

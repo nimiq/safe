@@ -1,4 +1,4 @@
-import XElement from '../lib/x-element/x-element.js';
+/*import XElement from '../lib/x-element/x-element.js';
 import hubClient from '../hub-client.js';
 import MixinRedux from './mixin-redux.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
@@ -27,4 +27,4 @@ export default class XLoader extends MixinRedux(XElement) {
     get relayedTxResolvers() {
         return this._xSafe.relayedTxResolvers;
     }
-}
+}*/

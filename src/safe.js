@@ -1,4 +1,4 @@
-import { bindActionCreators } from 'redux';
+/*import { bindActionCreators } from 'redux';
 import XLoader from './elements/x-loader.js';
 import { default as store, Store } from './store.js';
 import { updateBalances } from './wallet-redux.js';
@@ -32,9 +32,6 @@ class Safe {
         hubClient.launch();
 
         const $appContainer = document.getElementById('app');
-
-        // set singleton app container
-        MixinSingleton.appContainer = $appContainer;
 
         // start UI
         this._xApp = new XLoader($appContainer);
@@ -159,4 +156,4 @@ class Safe {
     }
 }
 
-window.safe = new Safe();
+window.safe = new Safe();*/

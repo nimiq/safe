@@ -19,6 +19,7 @@
     "@vue/babel-preset-app": "^3.4.1",
     "@vue/cli-plugin-typescript": "^3.4.1",
     "@vue/cli-service": "^3.4.1",
+    "ts-loader": "^6.0.0",
     "typescript": "^3.4.5",
     "vue-template-compiler": "^2.6.6",
     "write-file-webpack-plugin": "^4.5.0"
@@ -28,6 +29,7 @@
     "@nimiq/hub-api": "^0.4.2",
     "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.1.7",
+    "@nimiq/style": "^0.7.1",
     "@nimiq/utils": "^0.3.3",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "moment": "^2.24.0",
