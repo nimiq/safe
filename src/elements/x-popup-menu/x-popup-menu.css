@@ -41,6 +41,10 @@ x-popup-menu button:hover {
     background: rgba(0, 0, 0, 0.075) !important;
 }
 
+x-popup-menu > button > .material-icons {
+    margin-top: -0.5rem;
+}
+
 x-popup-menu > div {
     display: none;
     position: absolute;
