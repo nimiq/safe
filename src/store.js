@@ -21,7 +21,7 @@ export class Store {
         const persistedContacts = JSON.parse(stringifiedContacts);
 
         const initialState = {};
-  
+
         if (stringifiedState) {
             const persistedState = JSON.parse(stringifiedState);
 
@@ -32,11 +32,12 @@ export class Store {
                 });
                 initialState.wallets = Object.assign({}, initialWalletState, persistedState.wallets, {
                     wallets: new Map(persistedState.wallets ? persistedState.wallets.wallets : []),
-                    accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: [])
+                    accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: []),
+                    hasContent: false,
                 });
                 initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
                 initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
-                
+
                 // support legacy version of persisted contacts
                 if (persistedState.contacts) {
                     initialState.contacts = Object.assign({}, persistedState.contacts);
