@@ -114,8 +114,9 @@ export function reducer(state, action) {
             const entries = new Map(state.entries);
             const entriesArray = [...state.entries.values()];
 
+            const userfriendlyAddressesToKeep = action.addressesToKeep.map(a => a.address);
             for (const tx of entriesArray) {
-                if (!action.addressesToKeep.includes(tx.sender) && !action.addressesToKeep.includes(tx.recipient)) {
+                if (!userfriendlyAddressesToKeep.includes(tx.sender) && !userfriendlyAddressesToKeep.includes(tx.recipient)) {
                     entries.delete(tx.hash);
                 }
             }
