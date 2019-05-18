@@ -1,6 +1,5 @@
 import { bindActionCreators } from 'redux';
 import XLoader from './elements/x-loader.js';
-import MixinRedux from './elements/mixin-redux.js';
 import { default as store, Store } from './store.js';
 import { updateBalances } from './wallet-redux.js';
 import { addTransactions, markRemoved } from './elements/x-transactions/transactions-redux.js';
@@ -10,19 +9,6 @@ import Config from './config/config.js';
 import networkClient from './network-client.js';
 import MixinSingleton from './elements/mixin-singleton.js';
 import XToast from './elements/x-toast/x-toast.js';
-
-import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
-import './safe.css';
-import '@nimiq/vue-components/dist/NimiqVueComponents.css';
-
-// Set up Identicon SVG file path
-if (IqonsSvg[0] === '"') {
-    // @ts-ignore
-    self.NIMIQ_IQONS_SVG_PATH = IqonsSvg.substring(1, IqonsSvg.length - 1);
-} else {
-    // @ts-ignore
-    self.NIMIQ_IQONS_SVG_PATH = IqonsSvg;
-}
 
 class Safe {
     constructor() {
@@ -40,9 +26,7 @@ class Safe {
     }
 
     async launchApp() {
-        // set redux store
         this.store = store;
-        MixinRedux.store = this.store;
 
         // Launch account manager
         hubClient.launch();

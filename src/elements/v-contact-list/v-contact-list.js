@@ -70,7 +70,7 @@ export default class VContactList extends MixinRedux(XElement) {
 
         if (BrowserDetection.isIOS()) this.$('button[export]').classList.add('display-none');
 
-        this.vue = new Vue({
+        /*this.vue = new Vue({
             el: this.$('.vue-contact-list'),
             data: {
                 store: MixinRedux.store
@@ -98,7 +98,7 @@ export default class VContactList extends MixinRedux(XElement) {
                 'redux-provider': ReduxProvider,
                 'contact-list': ContactList,
             }
-        })
+        })*/
     }
 
     _onContactSelected(address) {

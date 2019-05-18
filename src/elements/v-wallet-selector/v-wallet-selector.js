@@ -1,11 +1,11 @@
 import Vue from 'vue';
+import ReduxProvider from 'vuejs-redux';
 import { WalletMenu } from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js'
-import MixinRedux from '../mixin-redux.js'
-import { switchWallet } from '../../wallet-redux.js'
-import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js'
-import { walletsArray$, activeWalletId$, activeWallet$ } from '../../selectors/wallet$.js'
-import hubClient from '../../hub-client.js'
+import MixinRedux from '../mixin-redux.js';
+import { switchWallet } from '../../wallet-redux.js';
+import { walletsArray$, activeWalletId$, activeWallet$ } from '../../selectors/wallet$.js';
+import hubClient from '../../hub-client.js';
 import XSettings from '../../settings/x-settings.js';
 
 export default class VWalletSelector extends MixinRedux(XElement) {
@@ -67,7 +67,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
         this._backdropListener = this.__backdropListener.bind(this)
         this._isMenuActive = false
 
-        this.vue = new Vue({
+        /*this.vue = new Vue({
             el: this.$('.v-wallet-menu'),
             data: {
                 store: MixinRedux.store
@@ -116,7 +116,7 @@ export default class VWalletSelector extends MixinRedux(XElement) {
                 'redux-provider': ReduxProvider,
                 'wallet-menu': WalletMenu,
             }
-        })
+        })*/
     }
 
     _toggleMenu() {
