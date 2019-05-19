@@ -1,6 +1,6 @@
 <template>
   <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template slot-scope="{wallets, activeWallet}">
+    <template slot-scope="{wallets, activeWallet, actions}">
         <WalletSelectorContainer :wallets="wallets" :activeWallet="activeWallet" :actions="actions" />
     </template>
   </ReduxProvider>
@@ -16,7 +16,7 @@ import { walletsArray$, activeWallet$ } from '../selectors/wallet$.js';
 import ReduxProvider from './ReduxProvider.vue';
 
 @Component({ components: { ReduxProvider, WalletSelectorContainer } })
-export default class ContactListProvider extends Vue {
+export default class WalletSelectorProvider extends Vue {
     public mapStateToProps(state: any) {
         return {
             wallets: walletsArray$(state),
