@@ -13,7 +13,7 @@ import MixinRedux from '../mixin-redux.js';
 // import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../config/config.js';
 import AccountType from '../../lib/account-type.js';
-import VContactListModal from '../v-contact-list/v-contact-list-modal.js';
+//import VContactListModal from '../v-contact-list/v-contact-list-modal.js';
 
 export default class XSendTransaction extends MixinRedux(XElement) {
     html() {
@@ -208,7 +208,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
     }
 
     _onClickContactList() {
-        VContactListModal.show();
+        // VContactListModal.show();
     }
 
     _getQrScanner() {

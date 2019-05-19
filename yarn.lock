@@ -714,11 +714,13 @@
   resolved "https://registry.yarnpkg.com/@nimiq/utils/-/utils-0.3.3.tgz#883e50b466887748bd7bfc0b12eca16a084e9f70"
   integrity sha512-vqdkgvnT3Bq4GxcELuUdTONO/zRW4LK3MBbGxevgm/Y5IAVuVKJX6BPUFxowKmk43SNuMGPNi5SipdvdC6/6aw==
 
-"@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
+"@nimiq/vue-components@https://github.com/nimiq/vue-components#build/master":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#0deb1665a13370b745b78e46d3636d70fbf99133"
+  resolved "https://github.com/nimiq/vue-components#912b8cdb820f8c5cb3b96edf994a363d0e2e5b76"
   dependencies:
     "@nimiq/style" "^0.7.1"
+    qr-code "github:nimiq/qr-encoder"
+    qr-scanner "^1.1.1"
     vue "^2.5.17"
     vue-property-decorator "^7.0.0"
 
@@ -5812,6 +5814,15 @@ q@^1.1.2:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+
+"qr-code@github:nimiq/qr-encoder":
+  version "1.0.0"
+  resolved "https://codeload.github.com/nimiq/qr-encoder/tar.gz/d195110e3c3e44a3867fec878904181c6615899f"
+
+qr-scanner@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/qr-scanner/-/qr-scanner-1.1.1.tgz#49775d3992733b5198f01a9aa65225962b0cb17d"
+  integrity sha512-vZmtaIpxx4rqnrg4iX62pQJ12bcIpfTEe/hL4Pr5PwQ/fih8W+ErfAZVFnnrdipeDC6L+5BfzMIqs/s6SYi4WA==
 
 qs@6.7.0:
   version "6.7.0"
