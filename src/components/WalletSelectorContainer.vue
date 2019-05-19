@@ -1,15 +1,123 @@
-v-wallet-selector {
+<template>
+    <div class="v-wallet-selector">
+        <div ref="backdrop" @click="backdropListener" class="v-wallet-selector-backdrop"></div>
+        <div @click="toggleMenu" active-wallet-label></div>
+        <div class="v-wallet-menu">
+            <WalletMenu
+                :wallets="wallets"
+                :active-wallet-id="activeWalletId"
+                @wallet-selected="walletSelected"
+                @rename="rename"
+                @change-password="changePassword"
+                @export-file="exportFile"
+                @export-words="exportWords"
+                @logout="logout"
+                @add-account="addAccount"
+                @settings="settings"
+            />
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { WalletMenu } from '@nimiq/vue-components';
+import XSettings from '../elements/x-settings/x-settings.js';
+import hubClient from '../hub-client.js';
+
+@Component({ components: { WalletMenu } })
+export default class ContactListProvider extends Vue {
+    @Prop(Array) public wallets!: [];
+    @Prop(Object) public actions!: any;
+    @Prop(Object) public activeWallet: any;
+
+    private isMenuActive = false;
+
+    private get activeWalletId() {
+        return this.activeWallet.id;
+    }
+
+    private walletSelected(walletId: string) {
+        this.actions.switchWallet(walletId);
+        this.hideMenu();
+    }
+
+    private rename(walletId: string) {
+        hubClient.rename(walletId);
+        this.hideMenu();
+    }
+
+    private changePassword(walletId: string) {
+        hubClient.changePassword(walletId);
+        this.hideMenu();
+    }
+
+    private exportFile(walletId: string) {
+        hubClient.export(walletId, {fileOnly: true});
+        this.hideMenu();
+    }
+
+    private exportWords(walletId: string) {
+        hubClient.export(walletId, {wordsOnly: true});
+        this.hideMenu();
+    }
+
+    private logout(walletId: string) {
+        hubClient.logout(walletId);
+        this.hideMenu();
+    }
+
+    private addAccount() {
+        hubClient.onboard();
+        this.hideMenu();
+    }
+
+    private settings() {
+        XSettings.show();
+        this.hideMenu();
+    }
+
+    private toggleMenu() {
+        if (this.isMenuActive) return this.hideMenu();
+
+        // this.$refs.backdrop.style.display = 'block'
+        // this.$refs.backdrop.offsetWidth // style update
+
+        this.$el.classList.add('menu-active');
+        this.isMenuActive = true;
+    }
+
+    private hideMenu() {
+        // this.hideTimer = setTimeout(() => this.$refs.backdrop.style.display = 'none', 400);
+
+        this.$el.classList.remove('menu-active');
+        this.isMenuActive = false;
+
+        // this.$refs.backdrop.removeEventListener('click', this.backdropListener)
+    }
+
+    private backdropListener() {
+        if (this.isMenuActive) {
+            this.hideMenu();
+        }
+    }
+
+}
+</script>
+
+<style>
+.v-wallet-selector {
     display: inline-block;
 }
 
 
 @media (min-width: 621px) {
-    v-wallet-selector {
+    .v-wallet-selector {
         position: relative;
     }
 }
 
-v-wallet-selector [active-wallet-label] {
+.v-wallet-selector [active-wallet-label] {
     position: relative;
     padding: 14px;
     margin-top: -14px;
@@ -24,12 +132,12 @@ v-wallet-selector [active-wallet-label] {
     line-height: 20px;
 }
 
-v-wallet-selector [active-wallet-label]:hover,
-v-wallet-selector.menu-active [active-wallet-label] {
+.v-wallet-selector [active-wallet-label]:hover,
+.v-wallet-selector.menu-active [active-wallet-label] {
     opacity: 1;
 }
 
-v-wallet-selector [active-wallet-label]::after {
+.v-wallet-selector [active-wallet-label]::after {
     content: '';
     margin-left: 9px;
     width: 14px;
@@ -44,11 +152,15 @@ v-wallet-selector [active-wallet-label]::after {
     transform-origin: 50% 67%;
 }
 
-v-wallet-selector.menu-active [active-wallet-label]::after {
+.v-wallet-selector.menu-active [active-wallet-label]::after {
     transform: rotate(180deg);
 }
 
-v-wallet-selector .v-wallet-menu {
+.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+    display: block;
+}
+
+.v-wallet-selector .v-wallet-menu {
     position: absolute;
     top: -9999rem;
     z-index: 1000;
@@ -59,17 +171,17 @@ v-wallet-selector .v-wallet-menu {
     transition: opacity .3s ease-out, transform .3s ease-out, top 0s .3s;
 }
 
-v-wallet-selector.menu-active .v-wallet-menu {
+.v-wallet-selector.menu-active .v-wallet-menu {
     opacity: 1;
     transform: translateY(0);
     transition: opacity .3s ease-out, transform .3s ease-out;
 }
 
-v-wallet-selector .wallet-menu {
+.v-wallet-selector .wallet-menu {
     min-height: unset !important;
 }
 
-v-wallet-selector button {
+.v-wallet-selector button {
     box-shadow: unset;
     width: unset;
     min-height: unset;
@@ -157,11 +269,12 @@ v-wallet-selector button {
     transition: background .4s ease-in-out;
 }
 
-v-wallet-selector.menu-active [active-wallet-label] {
+.v-wallet-selector.menu-active [active-wallet-label] {
     z-index: 1000;
 }
 
-v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
     background: rgba(31, 35, 72, .8); /* Nimiq Indigo 80% */
 }
 
+</style>

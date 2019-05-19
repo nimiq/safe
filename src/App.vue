@@ -23,7 +23,7 @@
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <!--<v-wallet-selector class="desktop mobile-hidden"></v-wallet-selector> -->
+                        <WalletSelectorProvider class="desktop mobile-hidden" />
                         <div id="x-settings"></div>
                     </nav>
                 </div>
@@ -104,6 +104,7 @@ import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
 
 import ContactListProvider from './components/ContactListProvider.vue';
+import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 
 import MixinSingleton from './elements/mixin-singleton.js';
 import XAccounts from './elements/x-accounts/x-accounts.js';
@@ -119,7 +120,7 @@ import XElement from './lib/x-element/x-element';
 import '@nimiq/style/nimiq-style.min.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
-@Component({ components: { LoadingSpinner, ContactListProvider } })
+@Component({ components: { LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
 export default class App extends Vue {
     private _xElements: XElement[] = [];
 
@@ -492,25 +493,25 @@ nav.actions.floating-actions {
     display: none !important;
 }
 
-v-wallet-selector.desktop .v-wallet-menu {
+.v-wallet-selector.desktop .v-wallet-menu {
     right: 0;
 }
 
-v-wallet-selector.menu-active.desktop .v-wallet-menu {
+.v-wallet-selector.menu-active.desktop .v-wallet-menu {
     top: 4.25rem;
 }
 
-v-wallet-selector.mobile .v-wallet-menu {
+.v-wallet-selector.mobile .v-wallet-menu {
     left: 0;
     padding: 0 1rem;
     width: 100vw;
 }
 
-v-wallet-selector.menu-active.mobile .v-wallet-menu {
+.v-wallet-selector.menu-active.mobile .v-wallet-menu {
     top: unset;
 }
 
-v-wallet-selector.mobile .wallet-menu {
+.v-wallet-selector.mobile .wallet-menu {
     margin: auto;
 }
 
@@ -555,8 +556,8 @@ v-wallet-selector.mobile .wallet-menu {
         margin-left: 0;
     }
 
-    v-wallet-selector [active-wallet-label],
-    v-wallet-selector [active-wallet-label-mobile] {
+    .v-wallet-selector [active-wallet-label],
+    .v-wallet-selector [active-wallet-label-mobile] {
         padding: 14px 8px;
         margin-left: 6px;
     }
