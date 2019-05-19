@@ -8,7 +8,7 @@
                 <button import @click="importContacts"><i class="material-icons">insert_drive_file</i> Import contacts</button>
             </div>
             <h2>Contacts</h2>
-            <i add class="material-icons">add</i>
+            <i add @click="addNewContact" class="material-icons">add</i>
         </div>
         <div class="body vue-contact-list">
             <div class="contact-list">
@@ -59,10 +59,10 @@
 <script lang="ts">
 import { Component, Watch, Vue, Emit, Prop } from 'vue-property-decorator';
 import { ContactList } from '@nimiq/vue-components';
-import { bindActionCreators } from 'redux'
+import { bindActionCreators } from 'redux';
 import { Contact, NewContact } from '@nimiq/vue-components';
 import { BrowserDetection } from '@nimiq/utils';
-import { setContact, removeContact } from '../redux/contacts-redux.js'
+import { setContact, removeContact } from '../redux/contacts-redux.js';
 
 import ReduxProvider from './ReduxProvider.vue';
 import XPopupMenu from '../elements/x-popup-menu/x-popup-menu.js';
@@ -70,12 +70,17 @@ import '../elements/x-popup-menu/x-popup-menu.css';
 import XToast from '../elements/x-toast/x-toast.js';
 import '../elements/x-toast/x-toast.css';
 import XSendTransactionModal from '../elements/x-send-transaction/x-send-transaction-modal.js';
-import { spaceToDash } from '../lib/parameter-encoding.js'
+import { spaceToDash } from '../lib/parameter-encoding.js';
 
 @Component({ components: { Contact, NewContact } })
 export default class ContactListContainer extends Vue {
     @Prop(Array) public contacts!: Array<{ address: string, label: string }>;
     @Prop(Object) public actions!: any;
+
+    private searchTerm: string = '';
+    private isManaging: boolean = false;
+    private isAddingNewContact: boolean = false;
+    private abortTrigger: number = 0;
 
     public mounted() {
         /* tslint:disable:no-unused-expression */
@@ -88,17 +93,12 @@ export default class ContactListContainer extends Vue {
     }
 
     private selectContact(address: string) {
-        XSendTransactionModal.show(spaceToDash(address), 'contact')
+        XSendTransactionModal.show(spaceToDash(address), 'contact');
     }
 
     private notification(msg: string, type: string) {
         XToast[type || 'show'](msg);
     }
-
-    private searchTerm: string = '';
-    private isManaging: boolean = false;
-    private isAddingNewContact: boolean = false;
-    private abortTrigger: number = 0;
 
     private get filteredContacts() {
         const searchTerm = this.searchTerm.trim().toLowerCase();

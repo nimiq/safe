@@ -1,12 +1,8 @@
 <template>
+    <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
+    <template slot-scope="{showBackupWords, showBackupFile}">
     <div id="app">
-        <header class="logo">
-            <span class="nq-icon nimiq-logo"></span>
-            <span class="logo-wordmark">Nimiq</span>
-            <span class="logo-subtitle"></span>
-        </header>
-        <div>
-            <div id="testnet-warning" class="header-warning display-none">
+            <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
@@ -23,14 +19,14 @@
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <!--<v-wallet-selector class="desktop mobile-hidden"></v-wallet-selector> -->
+                        <WalletSelectorProvider class="desktop mobile-hidden" />
                         <div id="x-settings"></div>
                     </nav>
                 </div>
                 <!--<v-wallet-selector class="mobile mobile-inline-block"></v-wallet-selector> -->
                 <div id="x-total-amount"></div>
                 <div class="header-bottom content-width">
-                    <div class="backup-reminder words">
+                    <div v-if="showBackupWords" class="backup-reminder words">
                         <a class="action" backup-words>
                             <div class="icon words">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
@@ -39,7 +35,7 @@
                         </a>
                         <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
                     </div>
-                    <div class="backup-reminder file">
+                    <div v-if="showBackupFile" class="backup-reminder file">
                         <a class="action" backup-file>
                             <div class="icon file">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
@@ -96,14 +92,22 @@
                 <a disclaimer>Disclaimer</a>
             </footer>
         </div>
-    </div>
+    </template>
+    </ReduxProvider>
 </template>
 
 <script lang="ts">
 import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
+import { bindActionCreators } from 'redux';
 
+import hubClient from './hub-client.js';
+import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
+import { activeWallet$ } from './selectors/wallet$.js';
+import { WalletType } from './redux/wallet-redux.js';
+import ReduxProvider from './components/ReduxProvider.vue';
+import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 
 import MixinSingleton from './elements/mixin-singleton.js';
 import XAccounts from './elements/x-accounts/x-accounts.js';
@@ -113,14 +117,14 @@ import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-reques
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
-import XSettings from './settings/x-settings.js';
+import XSettings from './elements/x-settings/x-settings.js';
+import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
 
-import '@nimiq/style/nimiq-style.min.css';
+import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
-@Component({ components: { LoadingSpinner, ContactListProvider } })
+@Component({ components: { ReduxProvider, LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
 export default class App extends Vue {
-
     public async mounted() {
         const $appContainer = this.$el;
         MixinSingleton.appContainer = $appContainer;
@@ -131,14 +135,48 @@ export default class App extends Vue {
         new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal'));
         new XAccounts(this.$el.querySelector('#x-accounts'));
         new XSettings(this.$el.querySelector('#x-settings'));
+        new XNetworkIndicator(this.$el.querySelector('#x-network-indicator'));
         /* tslint:enable:no-unused-expression */
 
         setTimeout(() => document.body.classList.remove('preparing'));
+    }
+
+    private get isTestnet() {
+        return Config.network === 'test';
+    }
+
+    private mapStateToProps(state: any) {
+        const activeWallet = activeWallet$(state);
+        const showBackupFile = activeWallet.type !== WalletType.LEGACY && !activeWallet.fileExported;
+        const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
+                                && !activeWallet.wordsExported;
+        return {
+            height: state.network.height,
+            hasConsensus: state.network.consensus === 'established',
+            walletsLoaded: state.wallets.hasContent,
+            showBackupFile,
+            showBackupWords,
+        };
+    }
+
+    private mapDispatchToProps(dispatch: any) {
+        return { actions: bindActionCreators( { }, dispatch) };
     }
 }
 </script>
 
 <style>
+@import './elements/x-router/x-router.css';
+@import './elements/x-accounts/x-accounts.css';
+@import './elements/x-transactions/x-transactions.css';
+@import './elements/x-toast/x-toast.css';
+@import './elements/x-amount/x-amount.css';
+@import './elements/x-network-indicator/x-network-indicator.css';
+@import './elements/x-send-transaction/x-send-transaction-modal.css';
+@import './elements/x-request-link/x-receive-request-link-modal.css';
+@import './elements/x-request-link/x-create-request-link-modal.css';
+@import './elements/x-settings/x-settings.css';
+@import './elements/x-faucet-modal.css';
 
 html,
 body {
@@ -498,25 +536,25 @@ nav.actions.floating-actions {
     display: none !important;
 }
 
-v-wallet-selector.desktop .v-wallet-menu {
+.v-wallet-selector.desktop .v-wallet-menu {
     right: 0;
 }
 
-v-wallet-selector.menu-active.desktop .v-wallet-menu {
+.v-wallet-selector.menu-active.desktop .v-wallet-menu {
     top: 4.25rem;
 }
 
-v-wallet-selector.mobile .v-wallet-menu {
+.v-wallet-selector.mobile .v-wallet-menu {
     left: 0;
     padding: 0 1rem;
     width: 100vw;
 }
 
-v-wallet-selector.menu-active.mobile .v-wallet-menu {
+.v-wallet-selector.menu-active.mobile .v-wallet-menu {
     top: unset;
 }
 
-v-wallet-selector.mobile .wallet-menu {
+.v-wallet-selector.mobile .wallet-menu {
     margin: auto;
 }
 
@@ -561,8 +599,8 @@ v-wallet-selector.mobile .wallet-menu {
         margin-left: 0;
     }
 
-    v-wallet-selector [active-wallet-label],
-    v-wallet-selector [active-wallet-label-mobile] {
+    .v-wallet-selector [active-wallet-label],
+    .v-wallet-selector [active-wallet-label-mobile] {
         padding: 14px 8px;
         margin-left: 6px;
     }

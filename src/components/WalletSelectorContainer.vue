@@ -1,0 +1,280 @@
+<template>
+    <div class="v-wallet-selector">
+        <div ref="backdrop" @click="backdropListener" class="v-wallet-selector-backdrop"></div>
+        <div @click="toggleMenu" active-wallet-label></div>
+        <div class="v-wallet-menu">
+            <WalletMenu
+                :wallets="wallets"
+                :active-wallet-id="activeWalletId"
+                @wallet-selected="walletSelected"
+                @rename="rename"
+                @change-password="changePassword"
+                @export-file="exportFile"
+                @export-words="exportWords"
+                @logout="logout"
+                @add-account="addAccount"
+                @settings="settings"
+            />
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { WalletMenu } from '@nimiq/vue-components';
+import XSettings from '../elements/x-settings/x-settings.js';
+import hubClient from '../hub-client.js';
+
+@Component({ components: { WalletMenu } })
+export default class ContactListProvider extends Vue {
+    @Prop(Array) public wallets!: [];
+    @Prop(Object) public actions!: any;
+    @Prop(Object) public activeWallet: any;
+
+    private isMenuActive = false;
+
+    private get activeWalletId() {
+        return this.activeWallet.id;
+    }
+
+    private walletSelected(walletId: string) {
+        this.actions.switchWallet(walletId);
+        this.hideMenu();
+    }
+
+    private rename(walletId: string) {
+        hubClient.rename(walletId);
+        this.hideMenu();
+    }
+
+    private changePassword(walletId: string) {
+        hubClient.changePassword(walletId);
+        this.hideMenu();
+    }
+
+    private exportFile(walletId: string) {
+        hubClient.export(walletId, {fileOnly: true});
+        this.hideMenu();
+    }
+
+    private exportWords(walletId: string) {
+        hubClient.export(walletId, {wordsOnly: true});
+        this.hideMenu();
+    }
+
+    private logout(walletId: string) {
+        hubClient.logout(walletId);
+        this.hideMenu();
+    }
+
+    private addAccount() {
+        hubClient.onboard();
+        this.hideMenu();
+    }
+
+    private settings() {
+        XSettings.show();
+        this.hideMenu();
+    }
+
+    private toggleMenu() {
+        if (this.isMenuActive) return this.hideMenu();
+
+        // this.$refs.backdrop.style.display = 'block'
+        // this.$refs.backdrop.offsetWidth // style update
+
+        this.$el.classList.add('menu-active');
+        this.isMenuActive = true;
+    }
+
+    private hideMenu() {
+        // this.hideTimer = setTimeout(() => this.$refs.backdrop.style.display = 'none', 400);
+
+        this.$el.classList.remove('menu-active');
+        this.isMenuActive = false;
+
+        // this.$refs.backdrop.removeEventListener('click', this.backdropListener)
+    }
+
+    private backdropListener() {
+        if (this.isMenuActive) {
+            this.hideMenu();
+        }
+    }
+
+}
+</script>
+
+<style>
+.v-wallet-selector {
+    display: inline-block;
+}
+
+
+@media (min-width: 621px) {
+    .v-wallet-selector {
+        position: relative;
+    }
+}
+
+.v-wallet-selector [active-wallet-label] {
+    position: relative;
+    padding: 14px;
+    margin-top: -14px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+
+    opacity: 0.7;
+    transition: opacity 200ms;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.v-wallet-selector [active-wallet-label]:hover,
+.v-wallet-selector.menu-active [active-wallet-label] {
+    opacity: 1;
+}
+
+.v-wallet-selector [active-wallet-label]::after {
+    content: '';
+    margin-left: 9px;
+    width: 14px;
+    height: 14px;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    background-size: 100%;
+    background-size: contain;
+    background-image: url('data:image/svg+xml,<svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><mask id="a" fill="white"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.1 12.8c-.3.3-.7.3-1 0L.8 7.3a.7.7 0 1 1 .9-1L6.3 11c.2.2.5.2.7 0l4.7-4.7a.7.7 0 1 1 .9 1l-5.5 5.5z"/></mask><path fill-rule="evenodd" clip-rule="evenodd" d="M7.1 12.8c-.3.3-.7.3-1 0L.8 7.3a.7.7 0 1 1 .9-1L6.3 11c.2.2.5.2.7 0l4.7-4.7a.7.7 0 1 1 .9 1l-5.5 5.5z" fill="white"/><path d="M4.7 14.2c1 1 2.8 1 3.8 0l-2.8-2.8c.5-.5 1.4-.5 1.9 0l-2.9 2.8zM-.8 8.7l5.5 5.5 2.9-2.8L2 5.9-.8 8.7zm0-3.8c-1 1-1 2.8 0 3.8l2.9-2.8c.5.5.5 1.3 0 1.9L-.8 4.9zM3 5C2 4 .3 4-.8 5l2.9 2.9c-.5.5-1.4.5-2 0l3-2.9zm4.7 4.7L3 4.9.2 7.8l4.7 4.6 2.8-2.8zm2.5-4.7L5.6 9.6l2.8 2.8 4.7-4.6-2.9-2.9zM14 5c-1-1-2.7-1-3.8 0l2.9 2.9c-.5.5-1.4.5-2 0l3-2.9zm0 3.8c1-1 1-2.7 0-3.8l-2.8 2.9c-.5-.6-.5-1.4 0-2L14 8.8zm-5.5 5.5L14 8.7l-2.8-2.8-5.5 5.5 2.8 2.8zM5 12.4c1 1 2.5 1 3.5 0L5.6 9.6c.6-.6 1.5-.6 2 0L5 12.4z" fill="white" mask="url(%23a)"/></svg>');
+    transition: transform .3s, margin .3s;
+    transform-origin: 50% 67%;
+}
+
+.v-wallet-selector.menu-active [active-wallet-label]::after {
+    transform: rotate(180deg);
+}
+
+.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+    display: block;
+}
+
+.v-wallet-selector .v-wallet-menu {
+    position: absolute;
+    top: -9999rem;
+    z-index: 1000;
+    color: var(--nimiq-blue);
+    text-align: left;
+    opacity: 0;
+    transform: translateY(-1rem);
+    transition: opacity .3s ease-out, transform .3s ease-out, top 0s .3s;
+}
+
+.v-wallet-selector.menu-active .v-wallet-menu {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity .3s ease-out, transform .3s ease-out;
+}
+
+.v-wallet-selector .wallet-menu {
+    min-height: unset !important;
+}
+
+.v-wallet-selector button {
+    box-shadow: unset;
+    width: unset;
+    min-height: unset;
+    margin: unset;
+    text-transform: unset;
+    font-size: unset;
+    font-weight: unset;
+    letter-spacing: unset;
+    height: unset;
+    max-width: unset;
+    vertical-align: unset;
+    user-select: unset;
+    outline: unset;
+    line-height: unset;
+    border-radius: unset;
+    display: unset;
+}
+
+/** Some styles required from @nimiq/style, as not included in VueComponents **/
+
+.nq-orange {
+    color: var(--nimiq-orange) !important;
+}
+
+.nq-blue-bg {
+    background: var(--nimiq-blue);
+    background-image: var(--nimiq-blue-bg);
+}
+
+.nq-icon {
+    width: 1em;
+    height: 1em;
+}
+
+.nq-button-s {
+    display: inline-block;
+    font-size: 1.75rem;
+    line-height: 2rem;
+    height: 3.375rem;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 0.014em;
+    padding: 0 1.5rem;
+    background-color: rgba(31, 35, 72, 0.07); /* Based on Nimiq Blue */
+    color: var(--nimiq-blue);
+    border-radius: 1.6875rem;
+    transition: color 300ms ease, background-color 300ms ease;
+    will-change: color, background-color;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    font-family: inherit;
+}
+
+.nq-button-s::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: -1.5rem;
+    top: -1.5rem;
+    right: -1.5rem;
+    bottom: -1.5rem;
+}
+
+.nq-button-s.add-account:hover {
+    background-color: rgba(31, 35, 72, 0.12); /* Based on Nimiq Blue */
+}
+
+.nq-button-s.add-account:focus {
+    outline: none;
+    color: var(--nimiq-light-blue);
+    background-color: rgba(5, 130, 202, 0.16); /* Based on Nimiq Light Blue */
+}
+
+.v-wallet-selector-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    -webkit-tap-highlight-color: transparent;
+    background: rgba(31, 35, 72, 0); /* Nimiq Indigo 0% */
+    z-index: 1;
+    transition: background .4s ease-in-out;
+}
+
+.v-wallet-selector.menu-active [active-wallet-label] {
+    z-index: 1000;
+}
+
+.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+    background: rgba(31, 35, 72, .8); /* Nimiq Indigo 80% */
+}
+
+</style>

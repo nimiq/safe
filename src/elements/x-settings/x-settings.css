@@ -1,29 +1,29 @@
-x-settings {
+.x-settings {
     width: 480px;
 }
 
-x-settings .setting {
+.x-settings .setting {
     display: block;
     padding: 1em;
     cursor: pointer;
     border-radius: 4px;
 }
 
-x-settings .setting:hover {
+.x-settings .setting:hover {
     background: rgba(0, 0, 0, 0.075);
 }
 
-x-settings small {
+.x-settings small {
     display: block;
     opacity: 0.6;
     margin-top: 8px;
 }
 
-x-settings input[type="checkbox"] {
+.x-settings input[type="checkbox"] {
     float: right;
 }
 
-x-settings h2.advanced {
+.x-settings h2.advanced {
     margin: 40px 16px 16px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
