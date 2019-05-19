@@ -129,6 +129,10 @@ export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
 
+    private created() {
+        hubClient.launch();
+    }
+
     private mounted() {
         const $appContainer = this.$el;
         MixinSingleton.appContainer = $appContainer;
