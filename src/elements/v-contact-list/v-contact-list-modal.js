@@ -1,4 +1,4 @@
-import VContactList from '../v-contact-list/v-contact-list.js';
+//import VContactList from '../v-contact-list/v-contact-list.js';
 import MixinModal from '../mixin-modal/mixin-modal.js'
 import XSendTransactionModal from '../x-send-transaction/x-send-transaction-modal.js'
 

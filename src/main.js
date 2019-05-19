@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
 import MixinRedux from './elements/mixin-redux.js';
-import { default as store, Store } from './store.js';
+import store from './store.js';
 
 import '@nimiq/style/nimiq-style.min.css';
 import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
@@ -20,9 +20,9 @@ if (window.hasBrowserWarning) {
     throw new Error('Exeution aborted due to browser warning');
 }
 
-// Vue.config.productionTip = false;
+Vue.config.productionTip = false;
 
-// set redux store
+// set redux store for x-elements
 MixinRedux.store = store;
 
 const app = new Vue({

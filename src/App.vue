@@ -82,7 +82,7 @@
                         <div id="x-accounts"></div>
                     </div>
                     <div class="x-card" style="max-width: 344px;">
-                        <ContactListContainer class="v-contact-list" />
+                        <ContactListProvider class="v-contact-list" />
                     </div>
                 </div>
                 <!--<x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
@@ -101,9 +101,9 @@
 
 <script lang="ts">
 import { Component, Watch, Vue } from 'vue-property-decorator';
-import { LoadingSpinner } from '@nimiq/vue-components/dist/NimiqVueComponents.common.js';
+import { LoadingSpinner } from '@nimiq/vue-components';
 
-import ContactListContainer from './components/ContactListContainer.vue';
+import ContactListProvider from './components/ContactListProvider.vue';
 
 import MixinSingleton from './elements/mixin-singleton.js';
 import XAccounts from './elements/x-accounts/x-accounts.js';
@@ -118,20 +118,20 @@ import XSettings from './settings/x-settings.js';
 import '@nimiq/style/nimiq-style.min.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
-@Component({ components: { LoadingSpinner, ContactListContainer } })
+@Component({ components: { LoadingSpinner, ContactListProvider } })
 export default class App extends Vue {
 
     public async mounted() {
         const $appContainer = this.$el;
         MixinSingleton.appContainer = $appContainer;
 
-        // tslint:disable:no-unused-expressions
+        /* tslint:disable:no-unused-expression */
         new XTotalAmount(this.$el.querySelector('#x-total-amount'));
         new XTransactions(this.$el.querySelector('#x-transactions'));
         new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal'));
         new XAccounts(this.$el.querySelector('#x-accounts'));
         new XSettings(this.$el.querySelector('#x-settings'));
-        // tslint:enable:no-unused-expressions
+        /* tslint:enable:no-unused-expression */
 
         setTimeout(() => document.body.classList.remove('preparing'));
     }
