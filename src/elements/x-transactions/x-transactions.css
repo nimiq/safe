@@ -178,6 +178,11 @@ x-transactions-list x-no-transactions span {
     opacity: 0.6;
 }
 
+x-transactions-list x-no-transactions button {
+    margin-top: 4rem;
+    width: unset;
+}
+
 x-transactions x-paginator {
     display: block;
     text-align: center;
