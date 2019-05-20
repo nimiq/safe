@@ -24,8 +24,6 @@ body {
 
 .header-warning {
     padding: 15px;
-    background: var(--nimiq-gold);
-    background-image: var(--nimiq-gold-bg);
     color: #3b3b3b;
     text-align: center;
     /* font-weight: 600; */
@@ -39,6 +37,50 @@ body {
     float: right;
     color: #3b3b3b;
     cursor: pointer;
+}
+
+.header-info {
+    padding: 15px;
+    text-align: center;
+}
+
+#tracking-consensus button {
+    text-transform: unset;
+    letter-spacing: unset;
+    width: unset;
+    max-width: unset;
+    vertical-align: unset;
+    text-align: unset;
+    user-select: unset;
+    box-shadow: unset;
+    outline: unset;
+    margin-bottom: unset;
+    min-height: unset;
+}
+
+#tracking-consensus .button-group {
+    display: inline-block;
+    margin-left: 2rem;
+}
+
+@media (max-width: 720px) {
+    #tracking-consensus .button-group {
+        margin-top: 1.5rem;
+        margin-left: 0;
+    }
+}
+
+#tracking-consensus .button-group button {
+    margin: 0 .5rem;
+}
+
+#tracking-consensus .nq-button-s[browser-only] {
+    /* background: none !important; */
+    font-weight: normal;
+}
+
+.header-warning:not(.display-none) + .header-warning {
+    border-top: 1px solid #333;
 }
 
 header {

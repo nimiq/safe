@@ -27,18 +27,27 @@ import VMigrationWelcome from '../elements/v-migration-welcome/v-migration-welco
 import VWalletSelector from '../elements/v-wallet-selector/v-wallet-selector.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import { WalletType } from '../wallet-redux.js';
+import TrackingConsensus from '../lib/tracking-consensus.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 
     html() {
         return `
-            <div id="testnet-warning" class="header-warning display-none">
+            <div id="testnet-warning" class="nq-gold-bg header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
-            <div id="private-warning" class="header-warning display-none">
+            <div id="private-warning" class="nq-gold-bg header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
+            </div>
+            <div id="tracking-consensus" class="header-info display-none">
+                Share anonymized browser and usage data with Nimiq?
+                <div class="button-group">
+                    <button class="nq-button-s green" tracking-yes>OK</button>
+                    <button class="nq-button-s red" tracking-no>No</button>
+                    <button class="nq-button-s" tracking-browser-only>browser data only</button>
+                </div>
             </div>
             <header>
                 <div class="header-top content-width">
@@ -148,6 +157,8 @@ export default class XSafe extends MixinRedux(XElement) {
     async onCreate() {
         super.onCreate();
 
+        if (true || location.origin === 'https://safe.nimiq.com') TrackingConsensus.init();
+
         XRouter.create();
 
         if (Config.network !== 'main') {
@@ -212,6 +223,9 @@ export default class XSafe extends MixinRedux(XElement) {
             'click a[migration-welcome]': this._showMigrationWelcome,
             'click [backup-words]': () => this._clickedExportWords(),
             'click [backup-file]': () => this._clickedExportFile(),
+            'click [tracking-yes]': () => TrackingConsensus.update({ allowsBrowserData: true, allowsUsageData: true }),
+            'click [tracking-no]': () => TrackingConsensus.update({ allowsBrowserData: false, allowsUsageData: false }),
+            'click [tracking-browser-only]': () => TrackingConsensus.update({ allowsBrowserData: true, allowsUsageData: false }),
         }
     }
 
