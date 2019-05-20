@@ -127,6 +127,14 @@ span[error] {
     top: 0;
     width: 100%;
     height: 100%;
+    box-sizing: border-box;
+    background: white !important;
+    border: solid 0.75rem white;
+    border-radius: 1rem;
+}
+
+.x-send-transaction .qr-scanner video {
+    border-radius: 0.5rem;
 }
 
 .x-send-transaction .qr-scanner .cancel-button {
@@ -138,6 +146,8 @@ span[error] {
     font-size: 14px;
     text-transform: unset;
     letter-spacing: unset;
+    border-radius: 500px;
+    padding: 0 2.5rem;
 }
 
 @media (max-width: 480px) {

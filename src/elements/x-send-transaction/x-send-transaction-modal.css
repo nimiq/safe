@@ -2,6 +2,10 @@
 @import '../mixin-modal/mixin-modal.css';
 @import '../x-popup-menu/x-popup-menu.css';
 
+x-send-transaction-modal {
+    border-radius: 1rem !important;
+}
+
 x-send-transaction-modal h3 {
     opacity: .8;
 }
