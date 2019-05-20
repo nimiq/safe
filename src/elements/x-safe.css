@@ -39,9 +39,22 @@ body {
     cursor: pointer;
 }
 
-.header-info {
-    padding: 15px;
-    text-align: center;
+#tracking-consensus {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-content-width);
+    border-radius: 1rem;
+    margin: auto;
+    font-weight: 600;
+    position: fixed;
+    bottom: 2rem;
+    z-index: 1;
+    background: var(--nimiq-blue);
+    color: white;
 }
 
 #tracking-consensus button {
@@ -56,22 +69,47 @@ body {
     outline: unset;
     margin-bottom: unset;
     min-height: unset;
+    color: white;
+}
+
+#tracking-consensus button.plain {
+    background: rgba(255, 255, 255, .2);
+}
+
+#tracking-consensus button.plain:hover,
+#tracking-consensus button.plain:focus {
+    background: rgba(255, 255, 255, .3);
+}
+
+#tracking-consensus button[tracking-yes]:hover,
+#tracking-consensus button[tracking-yes]:focus {
+    background-color: var(--nimiq-light-blue-darkened);
+    background-image: var(--nimiq-light-blue-bg-darkened);
 }
 
 #tracking-consensus .button-group {
     display: inline-block;
-    margin-left: 2rem;
-}
-
-@media (max-width: 720px) {
-    #tracking-consensus .button-group {
-        margin-top: 1.5rem;
-        margin-left: 0;
-    }
 }
 
 #tracking-consensus .button-group button {
-    margin: 0 .5rem;
+    margin: 0 .25rem;
+}
+
+@media (max-width: 860px) {
+    #tracking-consensus {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 100%;
+        bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 2.5rem;
+    }
+
+    #tracking-consensus .button-group {
+        margin-top: 2rem;
+        margin-left: 0;
+    }
 }
 
 #tracking-consensus .nq-button-s[browser-only] {
@@ -95,6 +133,7 @@ header {
 }
 
 .content-width {
+    position: relative;
     max-width: var(--max-content-width);
     margin: 0 auto;
 }

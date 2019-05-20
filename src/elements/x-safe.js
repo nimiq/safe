@@ -41,14 +41,6 @@ export default class XSafe extends MixinRedux(XElement) {
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
-            <div id="tracking-consensus" class="header-info display-none">
-                Share anonymized browser and usage data with Nimiq?
-                <div class="button-group">
-                    <button class="nq-button-s green" tracking-yes>OK</button>
-                    <button class="nq-button-s red" tracking-no>No</button>
-                    <button class="nq-button-s" tracking-browser-only>browser data only</button>
-                </div>
-            </div>
             <header>
                 <div class="header-top content-width">
                     <a class="logo" href="#">
@@ -125,6 +117,14 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${window.location.host}/src"></x-create-request-link-modal>
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
+                <div id="tracking-consensus" class="display-none">
+                    Help Nimiq improve by sharing anonymized usage data. Thank you! ❤️
+                    <div class="button-group">
+                        <button class="nq-button-s nq-light-blue-bg" tracking-yes>Yes</button>
+                        <button class="nq-button-s plain" tracking-no>No</button>
+                        <button class="nq-button-s plain" tracking-browser-only>Browser-data only</button>
+                    </div>
+                </div>
             </section>
             <footer class="nimiq-dark">
                 <x-network-indicator></x-network-indicator>
@@ -157,7 +157,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async onCreate() {
         super.onCreate();
 
-        if (location.origin === 'https://safe.nimiq.com') TrackingConsensus.init();
+        if (true || location.origin === 'https://safe.nimiq.com') TrackingConsensus.init();
 
         XRouter.create();
 
