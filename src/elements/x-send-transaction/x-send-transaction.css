@@ -122,7 +122,7 @@ span[error] {
 }
 
 .x-send-transaction .qr-scanner {
-    position: absolute;
+    position: absolute !important;
     left: 0;
     top: 0;
     width: 100%;
