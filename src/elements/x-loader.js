@@ -9,17 +9,17 @@ export default class XLoader extends MixinRedux(XElement) {
     static mapStateToProps(state) {
         return {
             activeWallet: activeWallet$(state),
-            walletsLoaded: state.wallets.hasContent,
+            hasContent: state.wallets.hasContent,
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (this.properties.walletsLoaded && !this.properties.activeWallet) {
+        if (this.properties.hasContent && !this.properties.activeWallet) {
             hubClient.onboard();
             return;
         }
 
-        if (changes.walletsLoaded) {
+        if (changes.hasContent) {
             this._xSafe = new XSafe(this.$el);
         }
     }

@@ -118,6 +118,9 @@ export function reducer(state, action) {
             const wallets = new Map(state.wallets);
             const accounts = new Map(state.accounts);
 
+            const removedAccountIds = new Set(wallets.keys());
+            const removedAddresses = new Set(action.addressesToKeep);
+
             action.listedWallets.forEach(wallet => {
                 const walletLabel = wallet.type === WalletType.LEGACY ? wallet.addresses[0].label : wallet.label;
 
@@ -135,6 +138,8 @@ export function reducer(state, action) {
                     Object.assign({}, wallets.get(wallet.accountId), entry)
                 );
 
+                removedAccountIds.delete(wallet.accountId);
+
                 wallet.addresses.forEach(address => {
                     const entry = {
                         address: address.address,
@@ -148,6 +153,8 @@ export function reducer(state, action) {
                         address.address,
                         Object.assign({}, accounts.get(address.address), entry)
                     );
+
+                    removedAddresses.delete(address.address);
                 });
 
                 wallet.contracts.forEach(contract => {
@@ -163,8 +170,18 @@ export function reducer(state, action) {
                         contract.address,
                         Object.assign({}, accounts.get(contract.address), entry)
                     );
+
+                    removedAddresses.delete(contract.address);
                 });
             });
+
+            for (const id of removedAccountIds) {
+                wallets.delete(id);
+            }
+
+            for (const addr of removedAddresses) {
+                accounts.delete(addr);
+            }
 
             return updateState({
                 hasContent: true,
@@ -280,13 +297,14 @@ export function populate(listedWallets) {
     return {
         type: TypeKeys.POPULATE,
         listedWallets,
+        addressesToKeep: addresses,
     };
 }
 
 export function rename(walletId, label, walletType, accounts) {
     return {
         type: TypeKeys.RENAME,
-        walletId, 
+        walletId,
         walletType,
         label,
         accounts,
