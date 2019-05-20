@@ -1,9 +1,13 @@
-.small-page {
+v-migration-welcome .small-page {
     width: 52.5rem !important;
     max-width: 100% !important;
     margin: 0 !important;
 }
 
-.small-page p {
+v-migration-welcome .nq-text {
     text-align: left;
+}
+
+v-migration-welcome .nq-button {
+    width: unset;
 }
