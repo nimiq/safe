@@ -77,7 +77,7 @@ class NimiqBuild {
                 // transform absolute paths relative to root path
                 transform: path => path.startsWith('/')? rootPath + path : path
             }))
-            .pipe(concat(NimiqBuild.getFileName(cssEntry)));
+            .pipe(concat(NimiqBuild.getFileName(cssEntry, true)));
         if (collectAssets) {
             cssStream = cssStream.pipe(staticAssets({ rootPath }));
         }
@@ -189,7 +189,7 @@ class NimiqBuild {
         let jsStream = jsEntry? NimiqBuild.bundleJs(jsEntry, rootPath, minify) : null;
         let cssStream = cssEntry? NimiqBuild.bundleCss(cssEntry, rootPath) : null;
         let htmlStream = htmlEntry? NimiqBuild.bundleHtml(htmlEntry, jsEntry && NimiqBuild.getFileName(jsEntry),
-            cssEntry && NimiqBuild.getFileName(cssEntry), rootPath, replaceHTMLStrings) : null;
+            cssEntry && NimiqBuild.getFileName(cssEntry, true), rootPath, replaceHTMLStrings) : null;
         let assetsStream;
         [assetsStream, htmlStream, jsStream, cssStream] =
             NimiqBuild.moveAssets(assetPaths, htmlStream, jsStream, cssStream, rootPath);
@@ -210,8 +210,8 @@ class NimiqBuild {
             .pipe(clean());
     }
 
-    static getFileName(path) {
-        if (Object.prototype.toString.call(path) === '[object Array]') path = path[path.length - 1];
+    static getFileName(path, first) {
+        if (Object.prototype.toString.call(path) === '[object Array]') path = path[first ? 0 : path.length - 1];
         return path.substr(path.lastIndexOf('/') + 1);
     }
 
