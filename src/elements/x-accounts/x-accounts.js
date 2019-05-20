@@ -6,15 +6,16 @@ import { spaceToDash } from '../../lib/parameter-encoding.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import { activeWallet$, activeWalletId$ } from '../../selectors/wallet$.js';
 import { WalletType }  from '../../redux/wallet-redux.js';
+import hubClient from '../../hub-client.js';
 
 export default class XAccounts extends MixinRedux(XElement) {
 
     html() {
         return `
-            <x-popup-menu x-main-action-only x-icon="add" class="hidden add">
+            <x-popup-menu x-main-action-only x-icon="add" class="x-popup-menu hidden add">
             </x-popup-menu>
-            <x-accounts-list></x-accounts-list>
-            <x-account-modal x-route-aside="account"></x-account-modal>
+            <x-accounts-list class="x-accounts-list"></x-accounts-list>
+            <x-account-modal class="x-account-modal"></x-account-modal>
         `;
     }
 
@@ -43,7 +44,7 @@ export default class XAccounts extends MixinRedux(XElement) {
     }
 
     _onAddAccount() {
-        this.fire('x-accounts-add', this.properties.activeWalletId);
+        hubClient.addAccount(this.properties.activeWalletId);
     }
 
     _onAccountSelected(address) {
