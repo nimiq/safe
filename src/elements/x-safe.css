@@ -69,22 +69,6 @@ body {
     outline: unset;
     margin-bottom: unset;
     min-height: unset;
-    color: white;
-}
-
-#tracking-consensus button.plain {
-    background: rgba(255, 255, 255, .2);
-}
-
-#tracking-consensus button.plain:hover,
-#tracking-consensus button.plain:focus {
-    background: rgba(255, 255, 255, .3);
-}
-
-#tracking-consensus button[tracking-yes]:hover,
-#tracking-consensus button[tracking-yes]:focus {
-    background-color: var(--nimiq-light-blue-darkened);
-    background-image: var(--nimiq-light-blue-bg-darkened);
 }
 
 #tracking-consensus .button-group {

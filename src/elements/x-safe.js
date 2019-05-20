@@ -117,12 +117,12 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
                 <x-create-request-link-modal x-route-aside="receive" data-x-root="${window.location.host}/src"></x-create-request-link-modal>
                 <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>
-                <div id="tracking-consensus" class="display-none">
+                <div id="tracking-consensus" class="nq-shadow display-none">
                     Help Nimiq improve by sharing anonymized usage data. Thank you! ❤️
                     <div class="button-group">
-                        <button class="nq-button-s nq-light-blue-bg" tracking-yes>Yes</button>
-                        <button class="nq-button-s plain" tracking-no>No</button>
-                        <button class="nq-button-s plain" tracking-browser-only>Browser-data only</button>
+                        <button class="nq-button-pill light-blue inverse" tracking-yes>Yes</button>
+                        <button class="nq-button-s inverse" tracking-no>No</button>
+                        <button class="nq-button-s inverse" tracking-browser-only>Browser-data only</button>
                     </div>
                 </div>
             </section>
