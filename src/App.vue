@@ -1,6 +1,6 @@
 <template>
     <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template v-slot="{showBackupWords, showBackupFile}">
+    <template v-slot="{showBackupWords, showBackupFile, activeWallet}">
     <div id="app">
             <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
@@ -20,14 +20,14 @@
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
                         <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
-                        <div id="x-settings"></div>
+                        <div class="x-settings"></div>
                     </nav>
                 </div>
                 <WalletSelectorProvider v-if="useMobileWalletSelector" />
-                <div id="x-total-amount"></div>
+                <div class="x-total-amount"></div>
                 <div class="header-bottom content-width">
                     <div v-if="showBackupWords" class="backup-reminder words">
-                        <a class="action" backup-words>
+                        <a class="action" backup-words @click="exportWords(activeWallet.id)">
                             <div class="icon words">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
                             </div>
@@ -36,7 +36,7 @@
                         <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
                     </div>
                     <div v-if="showBackupFile" class="backup-reminder file">
-                        <a class="action" backup-file>
+                        <a class="action" backup-file @click="exportFile(activeWallet.id)">
                             <div class="icon file">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
                             </div>
@@ -50,46 +50,46 @@
             <section class="content nimiq-dark content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
-                        <button new-tx>
+                        <button new-tx @click="newTransactionFrom()">
                             <span>Send</span>
                         </button>
                         <div class="btn-text">Send</div>
                     </div>
                     <div class="floating-btn">
-                        <button receive>
+                        <button receive @click="receive()">
                             <span>Receive</span>
                         </button>
                         <div class="btn-text">Receive</div>
                     </div>
                     <div class="floating-btn">
-                        <button icon-qr><span>Scan</span></button>
+                        <button icon-qr @click="scan()"><span>Scan</span></button>
                         <div class="btn-text">Scan</div>
                     </div>
-                    <div id="x-send-transaction-modal"></div>
+                    <div class="x-send-transaction-modal"></div>
                     <!--<v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>-->
                 </nav>
                 <div class="x-view-dashboard content-width">
                     <div class="x-card" style="max-width: 960px;">
                         <h2>Transactions</h2>
-                        <div id="x-transactions" class="no-animation" only-recent></div>
+                        <div class="x-transactions no-animation" only-recent></div>
                     </div>
                     <div class="x-card" style="max-width: 552px;">
                         <h2>Addresses</h2>
-                        <div id="x-accounts"></div>
+                        <div class="x-accounts"></div>
                     </div>
                     <div class="x-card" style="max-width: 344px;">
                         <ContactListProvider class="v-contact-list" />
                     </div>
                 </div>
-                <!--<x-transaction-modal x-route-aside="transaction"></x-transaction-modal>
-                <x-receive-request-link-modal x-route-aside="request"></x-receive-request-link-modal>
-                <x-create-request-link-modal x-route-aside="receive" data-x-root="${window.location.host}/src"></x-create-request-link-modal>
-                <x-disclaimer-modal x-route-aside="disclaimer"></x-disclaimer-modal>-->
+                <div class="x-transaction-modal"></div>
+                <div class="x-receive-request-link-modal"></div>
+                <div class="x-create-request-link-modal" :data-x-root="root"></div>
+                <div class="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
-                <div id="x-network-indicator"></div>
+                <div class="x-network-indicator"></div>
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
-                <a disclaimer>Disclaimer</a>
+                <a disclaimer @click="showDisclaimer">Disclaimer</a>
             </footer>
         </div>
     </template>
@@ -115,6 +115,7 @@ import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
+import XDisclaimerModal from './elements/x-disclaimer-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
@@ -123,6 +124,7 @@ import XElement from './lib/x-element/x-element';
 
 import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
+import { spaceToDash } from './lib/parameter-encoding.js';
 
 @Component({ components: { ReduxProvider, LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
 export default class App extends Vue {
@@ -138,12 +140,16 @@ export default class App extends Vue {
         MixinSingleton.appContainer = $appContainer;
 
         this._xElements = [
-            new XTotalAmount(this.$el.querySelector('#x-total-amount')),
-            new XTransactions(this.$el.querySelector('#x-transactions')),
-            new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal')),
-            new XAccounts(this.$el.querySelector('#x-accounts')),
-            new XSettings(this.$el.querySelector('#x-settings')),
-            new XNetworkIndicator(this.$el.querySelector('#x-network-indicator')),
+            new XTotalAmount(this.$el.querySelector('.x-total-amount')),
+            new XTransactions(this.$el.querySelector('.x-transactions')),
+            new XSendTransactionModal(this.$el.querySelector('.x-send-transaction-modal')),
+            new XAccounts(this.$el.querySelector('.x-accounts')),
+            new XSettings(this.$el.querySelector('.x-settings')),
+            new XNetworkIndicator(this.$el.querySelector('.x-network-indicator')),
+            new XCreateRequestLinkModal(this.$el.querySelector('.x-create-request-link-modal')),
+            new XReceiveRequestLinkModal(this.$el.querySelector('.x-receive-request-link-modal')),
+            new XTransactionModal(this.$el.querySelector('.x-transaction-modal')),
+            new XDisclaimerModal(this.$el.querySelector('.x-disclaimer-modal')),
         ];
 
         this._onResize = this._onResize.bind(this);
@@ -159,6 +165,10 @@ export default class App extends Vue {
         this.useMobileWalletSelector = window.innerWidth <= 620;
     }
 
+    private get root() {
+        return `${window.location.host}`;
+    }
+
     private get isTestnet() {
         return Config.network === 'test';
     }
@@ -172,6 +182,7 @@ export default class App extends Vue {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
             walletsLoaded: state.wallets.hasContent,
+            activeWallet,
             showBackupFile,
             showBackupWords,
         };
@@ -179,6 +190,34 @@ export default class App extends Vue {
 
     private mapDispatchToProps(dispatch: any) {
         return { actions: bindActionCreators( { }, dispatch) };
+    }
+
+    private newTransactionFrom(address: string) {
+        if (address) {
+            XSendTransactionModal.show(`${ spaceToDash(address) }`, 'sender');
+        } else {
+            XSendTransactionModal.show();
+        }
+    }
+
+    private showDisclaimer() {
+        XDisclaimerModal.show();
+    }
+
+    private exportWords(id: number) {
+        hubClient.exportWords(id);
+    }
+
+    private exportFile(id: number) {
+        hubClient.exportWords(id);
+    }
+
+    private receive() {
+        XCreateRequestLinkModal.show();
+    }
+
+    private scan() {
+        XSendTransactionModal.show(null, 'scan');
     }
 }
 </script>

@@ -18,7 +18,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
             </div>
             <div class="modal-body">
                 <div class="center">
-                    <x-accounts-dropdown name="recipient"></x-accounts-dropdown>
+                    <x-accounts-dropdown name="recipient" class="x-accounts-dropdown"></x-accounts-dropdown>
                     <ul>
                         <li>
                             <div class="address-label">Copy your address:</div>

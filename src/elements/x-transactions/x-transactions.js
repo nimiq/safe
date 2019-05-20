@@ -14,7 +14,7 @@ import { activeTransactions$ } from '../../selectors/transaction$.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
+            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="x-popup-menu refresh">
             </x-popup-menu>
             <x-transactions-list>
                 <x-loading-animation></x-loading-animation>

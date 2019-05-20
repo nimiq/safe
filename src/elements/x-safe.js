@@ -87,10 +87,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
     listeners() {
         return {
-            'x-accounts-add': this._clickedAddAccount.bind(this),
-            'click button[new-tx]': this._clickedNewTransaction.bind(this),
-            'click button[receive]': this._clickedReceive.bind(this),
-            'click button[icon-qr]': this._clickedScan.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
@@ -99,42 +95,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-backup': this._clickedExportWords.bind(this),
             'x-account-modal-rename': this._clickedAccountRename.bind(this),
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
-            'click a[disclaimer]': () => XDisclaimerModal.show(),
             'click a[warnings]': this._showWarnings,
-            'click [backup-words]': () => this._clickedExportWords(),
-            'click [backup-file]': () => this._clickedExportFile(),
-        }
-    }
-
-    async _clickedAddAccount(walletId) {
-        try {
-            await hubClient.addAccount(walletId);
-        } catch (e) {
-            console.error(e);
-            if (e.code === 'K3' || e.code === 'K4') {
-                // Show Safari/iOS > 10 accounts error
-                XToast.warning(e.message);
-            } else {
-                XToast.warning('Account was not added.');
-            }
-        }
-    }
-
-    async _clickedExportFile() {
-        const walletId = this.properties.activeWallet.id;
-        try {
-            await hubClient.export(walletId);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    async _clickedExportWords(givenWalletId = null) {
-        const walletId = givenWalletId || this.properties.activeWallet.id;
-        try {
-            await hubClient.exportWords(walletId);
-        } catch (e) {
-            console.error(e);
         }
     }
 
@@ -155,18 +116,6 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    _clickedNewTransaction() {
-        this._newTransactionFrom();
-    }
-
-    _newTransactionFrom(address) {
-        if (address) {
-            XSendTransactionModal.show(`${ spaceToDash(address) }`, 'sender');
-        } else {
-            XSendTransactionModal.show();
-        }
-    }
-
     _newPayoutTransaction(data) {
         XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
         XSendTransactionModal.instance.sender = data.vestingAccount;
@@ -174,14 +123,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _clickedPreparedTransaction() {
         XSendPreparedTransactionModal.show();
-    }
-
-    _clickedReceive() {
-        XCreateRequestLinkModal.show();
-    }
-
-    _clickedScan() {
-        XSendTransactionModal.show(null, 'scan');
     }
 
     async _signTransaction(tx) {

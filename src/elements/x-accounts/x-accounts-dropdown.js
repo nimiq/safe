@@ -13,10 +13,10 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
             <x-expandable dropdown disabled>
                 <div expandable-trigger>
                     <h3 status-message></h3>
-                    <x-account></x-account>
+                    <x-account class="x-account"></x-account>
                 </div>
                 <div expandable-content>
-                    <x-accounts-list></x-accounts-list>
+                    <x-accounts-list class="x-accounts-list"></x-accounts-list>
                 </div>
             </x-expandable>
             <input type="hidden">
