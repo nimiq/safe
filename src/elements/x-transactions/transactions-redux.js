@@ -110,7 +110,8 @@ export function reducer(state, action) {
             });
 
         case WalletTypeKeys.LOGOUT:
-        case WalletTypeKeys.REMOVE_ACCOUNT: {
+        case WalletTypeKeys.REMOVE_ACCOUNT:
+        case WalletTypeKeys.POPULATE: {
             const entries = new Map(state.entries);
             const entriesArray = [...state.entries.values()];
 

@@ -186,16 +186,10 @@ export default class XSafe extends MixinRedux(XElement) {
             height: state.network.height,
             hasConsensus: state.network.consensus === 'established',
             activeWallet: activeWallet$(state),
-            walletsLoaded: state.wallets.hasContent,
         }
     }
 
     _onPropertiesChanged(changes) {
-        if (this.properties.walletsLoaded && !this.properties.activeWallet) {
-            hubClient.onboard();
-            return;
-        }
-
         if (changes.activeWallet) {
             const shouldDisplayFile = this.properties.activeWallet.type !== WalletType.LEGACY && !this.properties.activeWallet.fileExported;
             const shouldDisplayWords = !shouldDisplayFile && this.properties.activeWallet.type !== WalletType.LEGACY && !this.properties.activeWallet.wordsExported;
