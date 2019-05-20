@@ -121,7 +121,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <x-network-indicator></x-network-indicator>
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>
-                <a warnings>Show information slides</a>
+                <a warnings>Safety Primer</a>
                 <a migration-welcome>Update Notes</a>
             </footer>
             `
