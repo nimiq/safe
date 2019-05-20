@@ -77,12 +77,12 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#262f582ee849fec791ddb215c4405b006029380f"
+  resolved "https://github.com/nimiq/vue-components#3a177b7d2b16ed9e60b4b7ccf0335a884d076c94"
   dependencies:
     "@nimiq/style" "^0.7.2"
     qr-code "github:nimiq/qr-encoder"
     qr-scanner "^1.1.1"
-    vue "^2.5.17"
+    vue "^2.6.10"
     vue-property-decorator "^7.0.0"
 
 "@types/estree@0.0.39":
@@ -3603,7 +3603,7 @@ vue-property-decorator@^7.0.0:
   dependencies:
     vue-class-component "^6.2.0"
 
-vue@^2.5.17:
+vue@^2.6.10:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
