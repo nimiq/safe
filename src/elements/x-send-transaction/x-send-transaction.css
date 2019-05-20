@@ -157,7 +157,7 @@ span[error] {
     }
 
     .x-send-transaction .qr-scanner {
-        position: fixed;
+        position: fixed !important;
     }
 
     /* full screen interfering with overlay centering. Therefore, we manually center via css. */

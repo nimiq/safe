@@ -18,7 +18,7 @@
     "@nimiq/hub-api": "^0.4.2",
     "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.1.7",
-    "@nimiq/style": "^0.7.2",
+    "@nimiq/style": "^0.7.3",
     "@nimiq/utils": "^0.3.3",
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-core": "^6.26.0",
