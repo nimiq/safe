@@ -157,7 +157,7 @@ export default class XSafe extends MixinRedux(XElement) {
     async onCreate() {
         super.onCreate();
 
-        if (true || location.origin === 'https://safe.nimiq.com') TrackingConsensus.init();
+        if (location.origin === 'https://safe.nimiq.com') TrackingConsensus.init();
 
         XRouter.create();
 
