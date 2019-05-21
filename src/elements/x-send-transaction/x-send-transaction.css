@@ -148,6 +148,7 @@ span[error] {
     letter-spacing: unset;
     border-radius: 500px;
     padding: 0 2.5rem;
+    margin-bottom: 0;
 }
 
 @media (max-width: 480px) {
@@ -158,6 +159,9 @@ span[error] {
 
     .x-send-transaction .qr-scanner {
         position: fixed !important;
+        border: none;
+        border-radius: 0;
+        background: black !important;
     }
 
     /* full screen interfering with overlay centering. Therefore, we manually center via css. */
@@ -165,7 +169,9 @@ span[error] {
         width: 66vmin !important;
         height: 66vmin !important;
         left: calc(50% - 33vmin) !important;
-        top: calc(50% - 33vmin) !important;
+        /* The -3.25rem are ~half of the distance between bottom of screen and top of cancel-button,
+           to center the overlay between top-of-screen and cancel-button */
+        top: calc(50% - 33vmin - 3.25rem) !important;
     }
 
     .x-send-transaction .qr-scanner .access-denied-instructions {
