@@ -3,7 +3,7 @@ import MixinModal from '../mixin-modal/mixin-modal.js'
 
 export default class VMigrationWelcome extends MixinModal(XElement) {
     html() {
-        return '<div><migration-welcome @finished="finished" ref="migrationWelcome"></migration-welcome></div>'
+        return '<migration-welcome @finished="finished" ref="migrationWelcome"></migration-welcome>'
     }
 
     onCreate() {
@@ -11,7 +11,7 @@ export default class VMigrationWelcome extends MixinModal(XElement) {
         const self = this
 
         this.vue = new Vue({
-            el: this.$('div'),
+            el: this.$('migration-welcome'),
             methods: {
                 finished() {
                     self.hide()
