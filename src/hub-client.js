@@ -31,10 +31,6 @@ class HubClient {
     async launch() {
         this.hubApi = new HubApi();
 
-        this.accounts = {
-            get: (address) => MixinRedux.store.getState().wallets.accounts.get(address),
-        };
-
         this._bindStore();
 
         // listen to response from onboarding
@@ -173,12 +169,9 @@ class HubClient {
         this.actions.addAccount(newAddress);
     }
 
-    // signMessage(msg, address) {
-    //     throw new Error('Not implemented!'); return;
-
-    //     const account = this.accounts.get(address);
-    //     this._invoke('signMessage', account);
-    // }
+    signMessage(msg, address) {
+        throw new Error('Not implemented!'); return;
+    }
 
     _bindStore() {
         this.store = MixinRedux.store;

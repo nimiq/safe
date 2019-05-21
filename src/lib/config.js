@@ -79,29 +79,11 @@ export default class Config {
     }
 
     static _localhost(subdomain, withPath, ipMode) {
-        let path = '';
+        let path;
 
         if (withPath) {
-            if (Config.offlinePackaged) path = '/' + subdomain + '/';
-            else {
-                switch (subdomain) {
-                    case 'keyguard': path = '../../lib/keyguard/'; break;
-                    case 'network': path = '../../lib/network/'; break;
-                    case 'safe': path = '/apps/safe/'; break;
-                    case 'promo': path = '/apps/promo/'; break;
-                    case 'shop': path = '/'; break;
-                }
-
-                if (location.pathname.includes('/dist')) {
-                    path += `deployment-${subdomain}/dist/`;
-                }
-                else if (['keyguard', 'safe'].includes(subdomain)) {
-                    path += 'src/';
-                }
-                else if (['network'].includes(subdomain)) {
-                    path += 'nimiq-dist/';
-                }
-            }
+            if (Config.offlinePackaged) path = `/${subdomain}/`;
+            else path = `/${location.pathname.includes('/dist') ? `deployment-${subdomain}/dist/` : 'src/'}`;
         }
 
         subdomain = Config.offlinePackaged ? '' : subdomain + '.';
