@@ -24,8 +24,6 @@ body {
 
 .header-warning {
     padding: 15px;
-    background: var(--nimiq-gold);
-    background-image: var(--nimiq-gold-bg);
     color: #3b3b3b;
     text-align: center;
     /* font-weight: 600; */
@@ -41,6 +39,72 @@ body {
     cursor: pointer;
 }
 
+#tracking-consensus {
+    padding: 1.5rem 1.25rem 1.5rem 2.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: var(--max-content-width);
+    border-radius: 1rem;
+    margin: auto;
+    font-weight: 600;
+    position: fixed;
+    bottom: 2rem;
+    z-index: 1;
+    background: var(--nimiq-blue);
+    color: white;
+}
+
+#tracking-consensus button {
+    text-transform: unset;
+    letter-spacing: unset;
+    width: unset;
+    max-width: unset;
+    vertical-align: unset;
+    text-align: unset;
+    user-select: unset;
+    box-shadow: unset;
+    outline: unset;
+    margin-bottom: unset;
+    min-height: unset;
+}
+
+#tracking-consensus .button-group {
+    display: inline-block;
+}
+
+#tracking-consensus .button-group button {
+    margin: 0 .25rem;
+}
+
+@media (max-width: 860px) {
+    #tracking-consensus {
+        flex-direction: column;
+        align-items: flex-start;
+        max-width: 100%;
+        bottom: 0;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 2.5rem;
+    }
+
+    #tracking-consensus .button-group {
+        margin-top: 2rem;
+        margin-left: 0;
+    }
+}
+
+#tracking-consensus .nq-button-s[browser-only] {
+    /* background: none !important; */
+    font-weight: normal;
+}
+
+.header-warning:not(.display-none) + .header-warning {
+    border-top: 1px solid #333;
+}
+
 header {
     width: 100%;
     background: var(--nimiq-blue);
@@ -53,6 +117,7 @@ header {
 }
 
 .content-width {
+    position: relative;
     max-width: var(--max-content-width);
     margin: 0 auto;
 }

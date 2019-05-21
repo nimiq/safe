@@ -70,6 +70,11 @@
   resolved "https://registry.yarnpkg.com/@nimiq/style/-/style-0.7.3.tgz#4d867fa338242680c4ba9ffbe7ca0c4960bde7c3"
   integrity sha512-uwVVO1OepSb4GV/mbDvV06/zsMKiB3/+YWvKkgOHpHb+SvVvt4rTFBszoNTVN/rbdhDN25nI5sMSidsXZ9izPw==
 
+"@nimiq/style@^0.7.3":
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/@nimiq/style/-/style-0.7.3.tgz#4d867fa338242680c4ba9ffbe7ca0c4960bde7c3"
+  integrity sha512-uwVVO1OepSb4GV/mbDvV06/zsMKiB3/+YWvKkgOHpHb+SvVvt4rTFBszoNTVN/rbdhDN25nI5sMSidsXZ9izPw==
+
 "@nimiq/utils@^0.3.3":
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/@nimiq/utils/-/utils-0.3.3.tgz#883e50b466887748bd7bfc0b12eca16a084e9f70"

@@ -10,6 +10,7 @@ import Config from './lib/config.js';
 import networkClient from './network-client.js';
 import MixinSingleton from './elements/mixin-singleton.js';
 import XToast from './elements/x-toast/x-toast.js';
+import TrackingConsensus from './lib/tracking-consensus.js';
 
 class Safe {
     constructor() {
@@ -22,6 +23,8 @@ class Safe {
         for (let warningTag of warningTags) {
             if (document.body.hasAttribute(warningTag)) return;
         }
+
+        TrackingConsensus.initPaq();
 
         this.launchApp();
     }
@@ -77,7 +80,7 @@ class Safe {
 
         // Launch network
         networkClient.launch();
-        if (location.origin === 'https://safe.nimiq.com' && !this._networkLaunched) {
+        if (!this._networkLaunched && TrackingConsensus.allowsUsageData()) {
             this._networkLaunched = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'initialize', Math.round(performance.now() / 100) / 10]);
         }
@@ -106,7 +109,7 @@ class Safe {
     _onConsensusSyncing() {
         console.log('Consensus syncing');
         this.actions.setConsensus('syncing');
-        if (location.origin === 'https://safe.nimiq.com' && !this._consensusSyncing) {
+        if (!this._consensusSyncing && TrackingConsensus.allowsUsageData()) {
             this._consensusSyncing = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'start-syncing', Math.round(performance.now() / 100) / 10]);
         }
@@ -115,7 +118,7 @@ class Safe {
     _onConsensusEstablished() {
         console.log('Consensus established');
         this.actions.setConsensus('established');
-        if (location.origin === 'https://safe.nimiq.com' && !this._consensusEstablished) {
+        if (!this._consensusEstablished && TrackingConsensus.allowsUsageData()) {
             this._consensusEstablished = true;
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'established', Math.round(performance.now() / 100) / 10]);
         }
