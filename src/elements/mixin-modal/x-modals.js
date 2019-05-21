@@ -63,11 +63,6 @@ export default class XModals extends MixinSingleton(XElement) {
         clearTimeout(this._showTimer); // stop potential other incoming modal
         this._setIncomingModal(modal);
 
-        // show background
-        this.$el.style.display = 'block';
-        this.$el.offsetWidth; // style update
-        this.$el.style.background = '#1f2348cc'; // --nimiq-blue with 80% opacity
-
         // avoid page scroll below the modal
         // TODO this leads to a jumping of the page cause by the disappearing scroll bar. Test whether we can
         // block the scrolling by preventDefault of the scroll event
@@ -87,6 +82,10 @@ export default class XModals extends MixinSingleton(XElement) {
             modal.onShow(...parameters);
             modal.container.animateShow(this._isSwitchingModal, this._isSwitchingBack);
             this._clearIncomingModal();
+            // show background
+            this.$el.style.display = 'block';
+            this.$el.offsetWidth; // style update
+            this.$el.style.background = '#1f2348cc'; // --nimiq-blue with 80% opacity
         }, 20);
     }
 
