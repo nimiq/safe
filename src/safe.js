@@ -165,4 +165,8 @@ class Safe {
     }
 }
 
+if (window.self !== window.top) {
+    throw new Error('Forbidden to run in iframe');
+}
+
 window.safe = new Safe();
