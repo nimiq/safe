@@ -1,0 +1,19 @@
+x-captcha {
+    min-width: 304px; /* to avoid jumping when the captcha is loaded */
+    min-height: 80px;
+    position: relative;
+}
+
+x-captcha.vaptcha .captcha-container {
+    padding: 18px 0;
+    background: white;
+}
+
+x-captcha x-loading-animation {
+    position: absolute;
+    width: 80px;
+    height: 72px;
+    left: calc(50% - 40px);
+    top: calc(50% - 36px);
+    z-index: -1;
+}
