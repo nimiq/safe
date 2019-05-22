@@ -11,6 +11,6 @@ body {
     width: 100%;
 }
 
-iframe {
+body > iframe {
     display: none;
 }
