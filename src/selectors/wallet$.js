@@ -22,17 +22,25 @@ export const walletsArray$ = createSelector(
         const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
         return Object.assign({}, wallet, {
             accounts: walletAccounts,
+            activeAddressInfo: walletAccounts.find(account => account.address === wallet.activeAddress),
             balance: calculateTotalBalance(walletAccounts),
         });
     }).concat([])
 );
 
 export const activeWallet$ = createSelector(
-    wallets$,
+    walletsArray$,
     activeWalletId$,
     (wallets, activeWalletId) => {
-        if (wallets.size === 0) return null;
-        return wallets.get(activeWalletId);
+        if (wallets.length === 0) return null;
+        return wallets.find(wallet => wallet.id === activeWalletId);
+    }
+);
+
+export const activeAddressInfo$ = createSelector(
+    activeWallet$,
+    (wallet) => {
+        return wallet && wallet.activeAddressInfo;
     }
 );
 

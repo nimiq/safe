@@ -1,0 +1,167 @@
+<template>
+    <div class="request-link-modal x-modal nimiq-dark">
+        <div class="modal-header">
+            <i x-modal-close class="material-icons">close</i>
+            <h2>Transaction Request</h2>
+        </div>
+        <div class="modal-body">
+            <div class="center">
+                <ul>
+                    <li>
+                        <div class="address-label">Copy your address:</div>
+                        <div class="x-address"></div>
+                    </li>
+                    <li>
+                        <div>Or create a transaction request link:</div>
+                        <div class="spacing-top"><div class="x-amount-input" no-screen-keyboard></div></div>
+                        <div class="request-link-container spacing-top">
+                            <div>
+                                <div>Copy your link:</div>
+                                <div class="x-request-link">{{ link }}</div>
+                            </div>
+                            <div class="qr-code-container">
+                                <QrCode :size="qrSize" :data="link" />
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { QrCode } from '@nimiq/vue-components';
+import { createRequestLink } from '@nimiq/utils';
+import XAddress from '../elements/x-address/x-address.js';
+import '../elements/x-address/x-address.css';
+import XAmountInput from '../elements/x-amount-input/x-amount-input.js';
+import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
+import Config from '../config/config.js';
+
+@Component({ components: { QrCode } })
+export default class RequestLinkModal extends Vue {
+    @Prop(Object) public addressInfo!: any;
+
+    private xAmountInput: any = null;
+    private xAddress: any = null;
+
+    public mounted() {
+        /* tslint:disable:no-unused-expression */
+        this.xAddress = new XAddress(this.$el.querySelector('.x-address'));
+        this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input'));
+        /* tslint:enable:no-unused-expression */
+    }
+
+    public updated() {
+        if (!this.addressInfo) return;
+        this.xAddress.address = this.addressInfo.address;
+    }
+
+    private get qrSize() {
+        if (!this.isMobile()) return 72;
+        const qrContainer = document.querySelector('.request-link-container') as HTMLDivElement;
+        return qrContainer.offsetWidth - 20;
+    }
+
+    private get link() {
+        if (!this.addressInfo) return null;
+        const baseUrl = window.location.host;
+        return createRequestLink(this.addressInfo.address, this.xAmountInput!.value, undefined, baseUrl);
+    }
+
+    private isMobile() {
+        return window.innerWidth <= 420;
+    }
+}
+</script>
+
+<style scoped>
+.request-link-modal {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: background .4s ease-in-out;
+    z-index: 1;
+}
+.request-link-modal {
+    width: 600px;
+}
+
+.request-link-modal ul {
+    padding-left: 20px;
+    list-style: square;
+    max-width: 100%;
+}
+
+.request-link-modal .address-label {
+    margin-bottom: 4px;
+}
+
+.request-link-modal ul .x-address {
+    margin-left: -15px;
+}
+
+.request-link-modal ul li:last-child {
+    padding-bottom: 0;
+}
+
+.request-link-modal .request-link-container {
+    display: flex;
+    align-items: center;
+}
+
+.request-link-modal .request-link-container > * {
+    overflow: auto;
+    /* to have enough space to render request link hover background overflow */
+    padding-left: 8px;
+    margin-left: -8px;
+}
+
+.request-link-modal .x-request-link {
+    cursor: pointer;
+    font-weight: bold;
+    overflow-wrap: break-word;
+    padding: 8px;
+    margin-left: -8px;
+}
+
+.request-link-modal .qr-code-container {
+    margin-left: 32px;
+    padding: 12px;
+    margin-right: -12px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.request-link-modal .qr-code-container canvas {
+    display: block;
+}
+
+.request-link-modal .x-request-link:hover,
+.request-link-modal .qr-code-container:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+@media (max-width: 420px) {
+    .request-link-modal .request-link-container {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+
+    .request-link-modal .request-link-container > * {
+        max-width: 100%;
+    }
+
+    .request-link-modal .qr-code-container {
+        margin: 0 0 32px 0;
+        background: transparent !important;
+        cursor: auto;
+        padding: 0;
+    }
+}
+</style>

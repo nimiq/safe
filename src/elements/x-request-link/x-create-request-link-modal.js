@@ -1,53 +1,9 @@
-import { QrCode } from '@nimiq/vue-components';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+/*import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
-import XAddress from '../x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
-import XAmountInput from '../x-amount-input/x-amount-input.js';
 import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
-import { createRequestLink } from '@nimiq/utils';
-import share from '../../lib/web-share-shim/web-share-shim.nimiq.min.js';
-import Config from '../../config/config.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
-    html() {
-        return `
-            <div class="modal-header">
-                <i x-modal-close class="material-icons">close</i>
-                <h2>Transaction Request</h2>
-            </div>
-            <div class="modal-body">
-                <div class="center">
-                    <x-accounts-dropdown name="recipient" class="x-accounts-dropdown"></x-accounts-dropdown>
-                    <ul>
-                        <li>
-                            <div class="address-label">Copy your address:</div>
-                            <x-address></x-address>
-                        </li>
-                        <li>
-                            <div>Or create a transaction request link:</div>
-                            <div class="spacing-top"><x-amount-input no-screen-keyboard></x-amount-input></div>
-                            <div class="request-link-container spacing-top">
-                                <div>
-                                    <div>Copy your link:</div>
-                                    <div class="x-request-link"></div>
-                                </div>
-                                <div class="qr-code-container">
-                                    <div class="qr-code"></div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <v-qr-code-overlay></v-qr-code-overlay>
-        `;
-    }
-
-    children() {
-        return [ XAddress, XAccountsDropdown, XAmountInput, VQrCodeOverlay ];
-    }
-
     onCreate() {
         this._shown = false;
         navigator.share = share;
@@ -107,8 +63,4 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         if (this._isMobile()) return;
         this.$vQrCodeOverlay.show(this._link, 'Scan this QR code\nto send to this address');
     }
-
-    _isMobile() {
-        return window.innerWidth <= 420;
-    }
-}
+}*/
