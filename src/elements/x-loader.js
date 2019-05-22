@@ -15,7 +15,9 @@ export default class XLoader extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (this.properties.hasContent && !this.properties.activeWallet) {
-            hubClient.onboard();
+            hubClient.onboard({
+                disableBack: true,
+            });
             return;
         }
 
