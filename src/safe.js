@@ -14,6 +14,7 @@ import XToast from './elements/x-toast/x-toast.js';
 import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
 import './safe.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
+import NetworkHandler from './networkHandler.js';
 
 // Set up Identicon SVG file path
 if (IqonsSvg[0] === '"') {
@@ -35,6 +36,7 @@ class Safe {
         for (let warningTag of warningTags) {
             if (document.body.hasAttribute(warningTag)) return;
         }
+
 
         this.launchApp();
     }

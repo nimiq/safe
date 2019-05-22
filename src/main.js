@@ -3,6 +3,7 @@ import App from './App.vue';
 import MixinRedux from './elements/mixin-redux.js';
 import store from './store.js';
 
+import XToast from './elements/x-toast/x-toast.js';
 import '@nimiq/style/nimiq-style.min.css';
 import IqonsSvg from '@nimiq/iqons/dist/iqons.min.svg';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
@@ -24,6 +25,18 @@ Vue.config.productionTip = false;
 
 // set redux store for x-elements
 MixinRedux.store = store;
+
+const errorBlacklist = ['CANCELED', 'Request aborted', 'Connection was closed'];
+self.onerror = (error) => {
+    if (errorBlacklist.indexOf(error.message) >= 0) return;
+    XToast.show(error.message || error, 'error');
+};
+
+// cancel request and close window when there is an unhandled promise rejection
+self.onunhandledrejection = (event) => {
+    if (errorBlacklist.indexOf(event.reason.message) >= 0) return;
+    XToast.show(event.reason, 'error');
+};
 
 const app = new Vue({
     data: {

@@ -6,13 +6,13 @@
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
-            <div id="private-warning" class="header-warning display-none">
+            <div v-if="showPrivateBrowsingWarning" id="private-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
             <header>
                 <div class="header-top content-width">
-                    <a class="logo" href="#">
+                    <a class="logo" :href="logoUrl">
                         <div class="nq-icon nimiq-logo"></div>
                         <span class="logo-wordmark">Nimiq</span>
                     </a>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="x-transaction-modal"></div>
                 <div class="x-receive-request-link-modal"></div>
-                <RequestLinkModal :addressInfo="activeAddressInfo" v-show="showReceiveModal"/>
+                <div class="x-create-request-link-modal"></div>
                 <div class="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
@@ -100,21 +100,24 @@
 import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
 import { bindActionCreators } from 'redux';
+import { BrowserDetection } from '@nimiq/utils';
 
+import store from './store.js';
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
-import RequestLinkModal from './components/RequestLinkModal.vue';
 import { activeWallet$, activeAddressInfo$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
+import NetworkHandler from './NetworkHandler.js';
 
 import MixinSingleton from './elements/mixin-singleton.js';
 import XAccounts from './elements/x-accounts/x-accounts.js';
 import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
+import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XDisclaimerModal from './elements/x-disclaimer-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
@@ -130,13 +133,19 @@ import { spaceToDash } from './lib/parameter-encoding.js';
     LoadingSpinner,
     ContactListProvider,
     WalletSelectorProvider,
-    RequestLinkModal,
 } })
 export default class App extends Vue {
     private showReceiveModal = false;
+    private showPrivateBrowsingWarning = false;
+    private logoUrl = 'https://' + Config.tld;
 
-    public created() {
+    public async created() {
+        const networkHandler = new NetworkHandler(store);
+        networkHandler.launch();
         hubClient.launch();
+        if (await BrowserDetection.isPrivateMode()) {
+            this.showPrivateBrowsingWarning = true;
+        }
     }
 
     public async mounted() {
@@ -151,6 +160,7 @@ export default class App extends Vue {
         new XSettings(this.$el.querySelector('.x-settings'));
         new XNetworkIndicator(this.$el.querySelector('.x-network-indicator'));
         new XReceiveRequestLinkModal(this.$el.querySelector('.x-receive-request-link-modal'));
+        new XCreateRequestLinkModal(this.$el.querySelector('.x-create-request-link-modal'));
         new XTransactionModal(this.$el.querySelector('.x-transaction-modal'));
         new XDisclaimerModal(this.$el.querySelector('.x-disclaimer-modal'));
         /* tslint:enable:no-unused-expression */
@@ -208,7 +218,8 @@ export default class App extends Vue {
     }
 
     private receive() {
-        this.showReceiveModal = true;
+        XCreateRequestLinkModal.show();
+        // this.showReceiveModal = true;
     }
 
     private scan() {
@@ -252,12 +263,6 @@ export default class App extends Vue {
     async _sendTransactionNow(signedTx) {
         if (!signedTx) return;
 
-        if (Config.offline) {
-            XSendTransactionOfflineModal.instance.transaction = signedTx;
-            XSendTransactionOfflineModal.show();
-            return;
-        }
-
         // Give user feedback that something is happening
         XSendTransactionModal.instance.loading = true;
         XSendPreparedTransactionModal.instance.loading = true;
@@ -297,16 +302,8 @@ export default class App extends Vue {
             return;
         }
 
-       if (await BrowserDetection.isPrivateMode()) {
-            this.$("#private-warning").classList.remove('display-none');
-        }
-
-        this.$('.logo').href = 'https://' + Config.tld;
-
     listeners() {
         return {
-            'click button[receive]': this._clickedReceive.bind(this),
-            'click button[icon-qr]': this._clickedScan.bind(this),
             'x-send-transaction': this._signTransaction.bind(this),
             'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
