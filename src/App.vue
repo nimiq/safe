@@ -115,7 +115,7 @@ import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
-import XDisclaimerModal from './elements/x-disclaimer-modal.js'
+import XDisclaimerModal from './elements/x-disclaimer-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
@@ -130,7 +130,7 @@ export default class App extends Vue {
     public created() {
         hubClient.launch();
     }
-    
+
     public async mounted() {
         const $appContainer = this.$el;
         MixinSingleton.appContainer = $appContainer;
@@ -185,7 +185,7 @@ export default class App extends Vue {
             XSendTransactionModal.show();
         }
     }
-    
+
     private showDisclaimer() {
         XDisclaimerModal.show();
     }
@@ -303,7 +303,6 @@ export default class App extends Vue {
             'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
         }
     }*/
-
 
 }
 </script>
