@@ -1,6 +1,6 @@
 <template>
     <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template slot-scope="{showBackupWords, showBackupFile, activeWallet}">
+    <template slot-scope="{showBackupWords, showBackupFile, activeWallet, activeAddressInfo}">
     <div id="app">
             <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
@@ -23,7 +23,7 @@
                         <div class="x-settings"></div>
                     </nav>
                 </div>
-                <!--<v-wallet-selector class="mobile mobile-inline-block"></v-wallet-selector> -->
+                <WalletSelectorProvider class="mobile mobile-inline-block" />
                 <div class="x-total-amount"></div>
                 <div class="header-bottom content-width">
                     <div v-if="showBackupWords" class="backup-reminder words">
@@ -83,7 +83,7 @@
                 </div>
                 <div class="x-transaction-modal"></div>
                 <div class="x-receive-request-link-modal"></div>
-                <div class="x-create-request-link-modal" :data-x-root="root"></div>
+                <RequestLinkModal :addressInfo="activeAddressInfo" v-show="showReceiveModal"/>
                 <div class="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
@@ -104,7 +104,8 @@ import { bindActionCreators } from 'redux';
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
-import { activeWallet$ } from './selectors/wallet$.js';
+import RequestLinkModal from './components/RequestLinkModal.vue';
+import { activeWallet$, activeAddressInfo$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
@@ -114,7 +115,6 @@ import XAccounts from './elements/x-accounts/x-accounts.js';
 import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
-import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XDisclaimerModal from './elements/x-disclaimer-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
@@ -125,8 +125,16 @@ import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 import { spaceToDash } from './lib/parameter-encoding.js';
 
-@Component({ components: { ReduxProvider, LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
+@Component({ components: {
+    ReduxProvider,
+    LoadingSpinner,
+    ContactListProvider,
+    WalletSelectorProvider,
+    RequestLinkModal,
+} })
 export default class App extends Vue {
+    private showReceiveModal = false;
+
     public created() {
         hubClient.launch();
     }
@@ -142,7 +150,6 @@ export default class App extends Vue {
         new XAccounts(this.$el.querySelector('.x-accounts'));
         new XSettings(this.$el.querySelector('.x-settings'));
         new XNetworkIndicator(this.$el.querySelector('.x-network-indicator'));
-        new XCreateRequestLinkModal(this.$el.querySelector('.x-create-request-link-modal'));
         new XReceiveRequestLinkModal(this.$el.querySelector('.x-receive-request-link-modal'));
         new XTransactionModal(this.$el.querySelector('.x-transaction-modal'));
         new XDisclaimerModal(this.$el.querySelector('.x-disclaimer-modal'));
@@ -161,6 +168,7 @@ export default class App extends Vue {
 
     private mapStateToProps(state: any) {
         const activeWallet = activeWallet$(state);
+        const activeAddressInfo = activeAddressInfo$(state);
         const showBackupFile = activeWallet.type !== WalletType.LEGACY && !activeWallet.fileExported;
         const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
                                 && !activeWallet.wordsExported;
@@ -169,6 +177,7 @@ export default class App extends Vue {
             hasConsensus: state.network.consensus === 'established',
             walletsLoaded: state.wallets.hasContent,
             activeWallet,
+            activeAddressInfo,
             showBackupFile,
             showBackupWords,
         };
@@ -199,7 +208,7 @@ export default class App extends Vue {
     }
 
     private receive() {
-        XCreateRequestLinkModal.show();
+        this.showReceiveModal = true;
     }
 
     private scan() {

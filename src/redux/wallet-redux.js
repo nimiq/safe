@@ -9,7 +9,8 @@ export const TypeKeys = {
     POPULATE: 'wallet/populate',
     SET_WORDS_FLAG: 'wallet/set-words-flag',
     SET_FILE_FLAG: 'wallet/set-file-flag',
-    SWITCH: 'wallet/switch',
+    SWITCH_WALLET: 'wallet/switch-wallet',
+    SWITCH_ADDRESS: 'wallet/switch-account',
     RENAME: 'wallet/rename',
     UPDATE_BALANCES: 'wallet/update-balances',
 };
@@ -135,6 +136,11 @@ export function reducer(state, action) {
                     Object.assign({}, wallets.get(wallet.accountId), entry)
                 );
 
+                // choose first address as active address if it was not set before
+                if (!wallets.get(wallet.accountId).activeAddress) {
+                    wallets.get(wallet.accountId).activeAddress = wallet.addresses[0].address;
+                }
+
                 wallet.addresses.forEach(address => {
                     const entry = {
                         address: address.address,
@@ -215,9 +221,14 @@ export function reducer(state, action) {
                 wallets: updateMapItem(state.wallets, action.id, { wordsExported: action.value }),
             });
 
-        case TypeKeys.SWITCH:
+        case TypeKeys.SWITCH_WALLET:
             return updateState({
                 activeWalletId: action.walletId,
+            });
+
+        case TypeKeys.SWITCH_ADDRESS:
+            return updateState({
+                wallets: updateMapItem(state.wallets, action.walletId, { activeAddress: action.address }),
             });
 
         case TypeKeys.UPDATE_ACCOUNT_LABEL:
@@ -336,8 +347,15 @@ export function setWordsFlag(id, value) {
 
 export function switchWallet(walletId) {
     return {
-        type: TypeKeys.SWITCH,
+        type: TypeKeys.SWITCH_WALLET,
         walletId
+    }
+}
+
+export function switchAddress(address) {
+    return {
+        type: TypeKeys.SWITCH_ADDRESS,
+        address
     }
 }
 

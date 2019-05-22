@@ -22,7 +22,7 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                     <ul>
                         <li>
                             <div class="address-label">Copy your address:</div>
-                            <x-address></x-address>
+                            <x-address class="x-address"></x-address>
                         </li>
                         <li>
                             <div>Or create a transaction request link:</div>
