@@ -119,7 +119,7 @@ import XTransactionModal from './elements/x-transactions/x-transaction-modal.js'
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XDisclaimerModal from './elements/x-disclaimer-modal.js';
-import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
+import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
 import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
