@@ -275,13 +275,20 @@ export function populate(listedWallets) {
     // subscribe addresses at network
     const addresses = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts).map(account => account.address))
         .reduce((acc, addresses) => acc.concat(addresses), []);
-    networkClient.client.then(client => client.subscribe(addresses));
 
-    return {
-        type: TypeKeys.POPULATE,
-        listedWallets,
-        addressesToKeep: addresses,
-    };
+    return async (dispatch) => {
+        dispatch({
+            type: TypeKeys.POPULATE,
+            listedWallets,
+            addressesToKeep: addresses,
+        });
+
+        const client = await networkClient.client;
+        client.subscribe(addresses);
+
+        const balances = await client.connectPico(addresses, true);
+        dispatch(updateBalances(balances));
+    }
 }
 
 export function rename(walletId, label, walletType, accounts) {
