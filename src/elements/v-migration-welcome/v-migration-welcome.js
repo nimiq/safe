@@ -3,7 +3,7 @@ import MixinModal from '../mixin-modal/mixin-modal.js'
 
 export default class VMigrationWelcome extends MixinModal(XElement) {
     html() {
-        return '<migration-welcome @finished="finished" ref="migrationWelcome"></migration-welcome>'
+        return '<migration-welcome link="https://medium.com/nimiq-network" @finished="finished" ref="migrationWelcome"></migration-welcome>'
     }
 
     onCreate() {
