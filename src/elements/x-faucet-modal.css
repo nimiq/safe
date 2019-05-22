@@ -1,4 +1,5 @@
 @import '../elements/x-loading-animation/x-loading-animation.css';
+@import '../elements/x-captcha/x-captcha.css';
 @import '../elements/x-success-mark/x-success-mark.css';
 
 .x-faucet-modal .modal-body {
@@ -12,12 +13,16 @@
     animation: fade-in .3s;
 }
 
-.x-faucet-modal x-loading-animation,
+.x-faucet-modal .loading x-loading-animation,
 .x-faucet-modal x-success-mark,
 .x-faucet-modal .nq-icon.warning {
     margin: 10rem;
     width: 12rem;
     height: 12rem;
+}
+
+.x-faucet-modal .captcha x-captcha {
+    margin: 11rem 0;
 }
 
 .x-faucet-modal x-success-mark .checkmark {

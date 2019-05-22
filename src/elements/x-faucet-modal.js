@@ -1,20 +1,31 @@
 import XElement from '../lib/x-element/x-element.js';
 import MixinModal from './mixin-modal/mixin-modal.js';
 import { default as store } from '../store.js';
-import XSuccessMark from './x-success-mark/x-success-mark.js';
 import { activeAddresses$ } from '../selectors/account$.js';
+import XSuccessMark from './x-success-mark/x-success-mark.js';
+import XCaptcha from './x-captcha/x-captcha.js';
 
 class Faucet {
-    static async tap(recipientAddress, captchaToken) {
+    static async tap(recipientAddress, captcha) {
+        const responseBody = {
+            address: recipientAddress,
+        };
+        if (captcha) {
+            if (captcha.provider) {
+                responseBody['captcha-provider'] = captcha.provider;
+            }
+            if (captcha.provider === XCaptcha.Providers.RECAPTCHA) {
+                responseBody['g-recaptcha-response'] = captcha.token;
+            } else {
+                responseBody['vaptcha-response'] = captcha.token;
+            }
+        }
         const response = await fetch(`${Faucet.FAUCET_BACKEND}${Faucet.FAUCET_ENDPOINT_TAP}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                address: recipientAddress,
-                'g-recaptcha-response': captchaToken
-            })
+            body: JSON.stringify(responseBody)
         }).then(response => response.json());
         if (!response.success) {
             const error = new Error('Faucet error');
@@ -42,6 +53,7 @@ class Faucet {
 }
 Faucet.FAUCET_BACKEND = window.location.origin.indexOf('nimiq.com') !== -1
     ? 'https://faucet.nimiq-network.com/' : 'https://faucet.nimiq-testnet.com/';
+Faucet.CAPTCHA_REQUIRED = window.location.origin.indexOf('nimiq.com') !== -1;
 Faucet.FAUCET_ENDPOINT_TAP = 'tapit';
 Faucet.FAUCET_ENDPOINT_INFO = 'info';
 
@@ -53,6 +65,10 @@ export default class XFaucetModal extends MixinModal(XElement) {
                 <h2>Get Free Test Nim</h2>
             </div>
             <div class="modal-body center">
+                <div class="captcha">
+                    <x-captcha></x-captcha>
+                    <h3 class="status-message">Human after all?</h3>
+                </div>
                 <div class="loading">
                     <x-loading-animation></x-loading-animation>
                     <h3 class="status-message">Collecting Funds</h3>
@@ -60,7 +76,7 @@ export default class XFaucetModal extends MixinModal(XElement) {
                 <div class="success">
                     <x-success-mark></x-success-mark>
                     <h3 class="status-message">
-                        <span dispense-amount>Your funds</span> are on the way!
+                        <span dispense-amount>Your funds are</span> on the way!
                     </h3>
                 </div>
                 <div class="error">
@@ -76,7 +92,13 @@ export default class XFaucetModal extends MixinModal(XElement) {
     }
 
     children() {
-        return [ ...super.children(), XSuccessMark ];
+        return [ ...super.children(), XSuccessMark, XCaptcha ];
+    }
+
+    listeners() {
+        return {
+            [`${XCaptcha.Events.CAPTCHA_SOLVED} x-captcha`]: this._tapFaucet,
+        };
     }
 
     onCreate() {
@@ -87,18 +109,34 @@ export default class XFaucetModal extends MixinModal(XElement) {
     }
 
     async onShow() {
-        this._setState('loading');
         super.onShow();
-        Faucet.getDispenseAmount().then(dispenseAmount => this.$dispenseAmount.textContent = `${dispenseAmount} NIM`);
+        Faucet.getDispenseAmount().then(dispenseAmount =>
+            this.$dispenseAmount.textContent = `${dispenseAmount} NIM ${dispenseAmount !== 1 ? 'are' : 'is'}`);
+        if (Faucet.CAPTCHA_REQUIRED) {
+            this._setState('captcha');
+        } else {
+            this._tapFaucet(null);
+        }
+    }
+
+    _setState(state) {
+        Array.prototype.forEach.call(this.$modalBody.children, $child => {
+            if ($child.classList.contains(state)) $child.style.display = 'flex';
+            else $child.style.display = 'none';
+        });
+    }
+
+    async _tapFaucet(captcha) {
         const firstAddress = activeAddresses$(store.getState())[0];
         if (!firstAddress) {
             this.$errorMessage.textContent = 'Please first add an address to your account.';
             this._setState('error');
             return;
         }
-        // tap the faucet
+
         try {
-            await Faucet.tap(firstAddress, null); // currently no captcha required in testnet
+            this._setState('loading');
+            await Faucet.tap(firstAddress, captcha);
             this._setState('success');
             await new Promise(resolve => requestAnimationFrame(resolve));
             await this.$successMark.animate();
@@ -109,12 +147,5 @@ export default class XFaucetModal extends MixinModal(XElement) {
                 || 'Failed to claim funds.';
             this._setState('error');
         }
-    }
-
-    _setState(state) {
-        Array.prototype.forEach.call(this.$modalBody.children, $child => {
-            if ($child.classList.contains(state)) $child.style.display = 'flex';
-            else $child.style.display = 'none';
-        });
     }
 }
