@@ -100,6 +100,7 @@ import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
 import { bindActionCreators } from 'redux';
 
+import store from './store.js';
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
@@ -108,6 +109,7 @@ import { activeWallet$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
+import NetworkHandler from './NetworkHandler.js';
 
 import { setMixinSingletonAppContainer } from './elements/mixin-singleton';
 import XAccounts from './elements/x-accounts/x-accounts.js';
@@ -138,6 +140,8 @@ export default class App extends Vue {
     private _xElements: XElement[] = [];
 
     private created() {
+        const networkHandler = new NetworkHandler(store);
+        networkHandler.launch();
         hubClient.launch();
     }
 
