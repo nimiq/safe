@@ -273,15 +273,17 @@ export function logout(walletId) {
 
 export function populate(listedWallets) {
     // subscribe addresses at network
-    const addresses = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts).map(account => account.address))
+    const addressInfos = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts))
         .reduce((acc, addresses) => acc.concat(addresses), []);
 
     return async (dispatch) => {
         dispatch({
             type: TypeKeys.POPULATE,
             listedWallets,
-            addressesToKeep: addresses,
+            addressesToKeep: addressInfos,
         });
+
+        const addresses = addressInfos.map(addressInfo => addressInfo.address);
 
         const client = await networkClient.client;
         client.subscribe(addresses);
