@@ -33,25 +33,20 @@ class HubClient {
 
         this._bindStore();
 
+        const onOnboardingResult = (result) => {
+            if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
+            else this._onOnboardingResult(result);
+        };
+
+        const onOnboardingError = (error, state) => {
+            console.error('HubApi error', error);
+            console.log('State', state);
+        };
+
         // listen to response from onboarding
-        this.hubApi.on(HubApi.RequestType.ONBOARD, (result, state) => {
-            if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
-            else this._onOnboardingResult(result);
-        }, (error, state) => {
-            console.error('HubApi error', error);
-            console.log('State', state);
-        });
-
-        // listen to response from migration
-        this.hubApi.on(HubApi.RequestType.MIGRATE, (result, state) => {
-            if (Array.isArray(result)) result.forEach(account => this._onOnboardingResult(account));
-            else this._onOnboardingResult(result);
-            VMigrationWelcome.show();
-        }, (error, state) => {
-            console.error('HubApi error', error);
-            console.log('State', state);
-        });
-
+        this.hubApi.on(HubApi.RequestType.ONBOARD, onOnboardingResult, onOnboardingError);
+        this.hubApi.on(HubApi.RequestType.MIGRATE, onOnboardingResult, onOnboardingError);
+        this.hubApi.on(HubApi.RequestType.SIGNUP, onOnboardingResult, onOnboardingError);
         this.hubApi.checkRedirectResponse();
 
         // Kick off writing accounts to the store
