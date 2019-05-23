@@ -39,7 +39,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
                 <h3>Amount</h3>
                 <div class="row">
-                    <x-amount-input name="value" no-screen-keyboard enable-set-max></x-amount-input>
+                    <x-amount-input name="value" enable-set-max></x-amount-input>
                 </div>
                 <span error amount class="display-none"></span>
 
