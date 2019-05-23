@@ -62,7 +62,7 @@ export default class XFaucetModal extends MixinModal(XElement) {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Get Free Test Nim</h2>
+                <h2>Get Free <span class="testnet-nim-hint">Test</span> Nim</h2>
             </div>
             <div class="modal-body center">
                 <div class="captcha">
@@ -106,6 +106,9 @@ export default class XFaucetModal extends MixinModal(XElement) {
         this.$modalBody = this.$('.modal-body');
         this.$errorMessage = this.$('[error-message]');
         this.$dispenseAmount = this.$('[dispense-amount]');
+        if (window.location.origin.indexOf('nimiq.com') !== -1) {
+            this.$el.querySelector('.testnet-nim-hint').remove();
+        }
     }
 
     async onShow() {
