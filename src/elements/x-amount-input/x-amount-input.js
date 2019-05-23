@@ -62,6 +62,12 @@ export default class XAmountInput extends XInput {
         this._toggleMaxButton();
     }
 
+    _validate() {
+        if (!super._validate()) return false;
+        if (this.value > 0 && this.value < 1e-5) return false;
+        return true;
+    }
+
     /*
     set _currency2(value) {
         if (value === 0) {
