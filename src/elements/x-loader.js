@@ -14,6 +14,13 @@ export default class XLoader extends MixinRedux(XElement) {
     }
 
     _onPropertiesChanged(changes) {
+        // Allow for directly linking to Hub signup via the URL search params: .../?onboarding=signup
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('onboarding') === 'signup') {
+            hubClient.createViaRedirect();
+            return;
+        }
+
         if (this.properties.hasContent && !this.properties.activeWallet) {
             hubClient.onboard({
                 disableBack: true,

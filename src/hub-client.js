@@ -71,6 +71,11 @@ class HubClient {
         this._onOnboardingResult(result);
     }
 
+    async createViaRedirect() {
+        await this._launched;
+        this.hubApi.signup({ appName: APP_NAME }, new HubApi.RedirectRequestBehavior());
+    }
+
     async sign(tx) {
         await this._launched;
         tx.appName = APP_NAME;
