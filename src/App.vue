@@ -1,118 +1,109 @@
 <template>
-    <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template v-slot="{showBackupWords, showBackupFile, activeWallet}">
     <div id="app">
         <transition>
             <div v-if="showTestnetWarning" class="header-warning">
                 <i class="close-warning material-icons" @click="showTestnetWarning = false">close</i>
-                You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
-            </div>
+            You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
+        </div>
         </transition>
         <transition>
             <div v-if="showPrivateBrowsingWarning" class="header-warning">
                 <i class="close-warning material-icons" @click="showPrivateBrowsingWarning = false">close</i>
-                You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
-            </div>
-        </transition>
-            <header>
-                <div class="header-top content-width">
-                    <a class="logo" :href="logoUrl">
-                        <div class="nq-icon nimiq-logo"></div>
-                        <span class="logo-wordmark">Nimiq</span>
-                    </a>
-                    <nav class="secondary-links">
-                        <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
-                        <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
-                        <div ref="x-settings"></div>
-                    </nav>
-                </div>
-                <WalletSelectorProvider v-if="useMobileWalletSelector" />
-                <div ref="x-total-amount"></div>
-                <div class="header-bottom content-width">
-                    <div v-if="showBackupWords" class="backup-reminder words">
-                        <a class="action" backup-words @click="exportWords(activeWallet.id)">
-                            <div class="icon words">
-                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
-                            </div>
-                            <strong class="text">Backup your Account with Recovery Words.</strong>
-                        </a>
-                    </div>
-                    <div v-if="showBackupFile" class="backup-reminder file">
-                        <a class="action" backup-file @click="exportFile(activeWallet.id)">
-                            <div class="icon file">
-                                <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
-                            </div>
-                            <strong class="text">Download your Login File to save your Account.</strong>
-                        </a>
-                    </div>
-                </div>
-            </header>
-
-            <section class="content nimiq-dark content-width">
-                <nav class="actions floating-actions">
-                    <div class="floating-btn">
-                        <button new-tx @click="newTransactionFrom()">
-                            <span>Send</span>
-                        </button>
-                        <div class="btn-text">Send</div>
-                    </div>
-                    <div class="floating-btn">
-                        <button receive @click="receive()">
-                            <span>Receive</span>
-                        </button>
-                        <div class="btn-text">Receive</div>
-                    </div>
-                    <div class="floating-btn">
-                        <button icon-qr @click="scan()"><span>Scan</span></button>
-                        <div class="btn-text">Scan</div>
-                    </div>
-                    <div ref="x-send-transaction-modal"></div>
-                    <!--<v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>-->
-                </nav>
-                <div class="x-view-dashboard content-width">
-                    <div class="x-card" style="max-width: 960px;">
-                        <h2>Transactions</h2>
-                        <div ref="x-transactions" class="no-animation" only-recent></div>
-                    </div>
-                    <div class="x-card" style="max-width: 552px;">
-                        <h2>Addresses</h2>
-                        <div ref="x-accounts"></div>
-                    </div>
-                    <div class="x-card" style="max-width: 344px;">
-                        <ContactListProvider class="v-contact-list" />
-                    </div>
-                </div>
-                <div ref="x-transaction-modal"></div>
-                <div ref="x-receive-request-link-modal"></div>
-                <CreateRequestLinkModal ref="CreateRequestLinkModal"/>
-                <div ref="x-disclaimer-modal"></div>
-            </section>
-            <footer class="nimiq-dark">
-                <div ref="x-network-indicator"></div>
-                <div>&copy; 2017-2019 Nimiq Foundation</div>
-                <a @click="showDisclaimer">Disclaimer</a>
-                <a @click="_showEducationSlides">Safety Primer</a>
-            </footer>
+            You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
         </div>
-    </template>
-    </ReduxProvider>
+        </transition>
+        <header>
+            <div class="header-top content-width">
+                <a class="logo" :href="logoUrl">
+                    <div class="nq-icon nimiq-logo"></div>
+                    <span class="logo-wordmark">Nimiq</span>
+                </a>
+                <nav class="secondary-links">
+                    <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
+                    <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
+                    <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
+                    <div ref="x-settings"></div>
+                </nav>
+            </div>
+            <WalletSelectorProvider v-if="useMobileWalletSelector" />
+            <div ref="x-total-amount"></div>
+            <div class="header-bottom content-width">
+                <div v-if="showBackupWords" class="backup-reminder words">
+                    <a class="action" backup-words @click="exportWords(activeWallet.id)">
+                        <div class="icon words">
+                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
+                        </div>
+                        <strong class="text">Backup your Account with Recovery Words.</strong>
+                    </a>
+                </div>
+                <div v-if="showBackupFile" class="backup-reminder file">
+                    <a class="action" backup-file @click="exportFile(activeWallet.id)">
+                        <div class="icon file">
+                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
+                        </div>
+                        <strong class="text">Download your Login File to save your Account.</strong>
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <section class="content nimiq-dark content-width">
+            <nav class="actions floating-actions">
+                <div class="floating-btn">
+                    <button new-tx @click="newTransactionFrom()">
+                        <span>Send</span>
+                    </button>
+                    <div class="btn-text">Send</div>
+                </div>
+                <div class="floating-btn">
+                    <button receive @click="receive()">
+                        <span>Receive</span>
+                    </button>
+                    <div class="btn-text">Receive</div>
+                </div>
+                <div class="floating-btn">
+                    <button icon-qr @click="scan()"><span>Scan</span></button>
+                    <div class="btn-text">Scan</div>
+                </div>
+            </nav>
+            <div class="x-view-dashboard content-width">
+                <div class="x-card" style="max-width: 960px;">
+                    <h2>Transactions</h2>
+                    <div ref="x-transactions" class="no-animation" only-recent></div>
+                </div>
+                <div class="x-card" style="max-width: 552px;">
+                    <h2>Addresses</h2>
+                    <div ref="x-accounts"></div>
+                </div>
+                <div class="x-card" style="max-width: 344px;">
+                    <ContactListProvider class="v-contact-list" />
+                </div>
+            </div>
+            <!--<div class="v-contact-list-modal"></div>-->
+            <div ref="x-send-transaction-modal"></div>
+            <div ref="x-transaction-modal"></div>
+            <div ref="x-receive-request-link-modal"></div>
+            <CreateRequestLinkModal ref="CreateRequestLinkModal"/>
+            <div ref="x-disclaimer-modal"></div>
+        </section>
+        <footer class="nimiq-dark">
+            <div ref="x-network-indicator"></div>
+            <div>&copy; 2017-2019 Nimiq Foundation</div>
+            <a @click="showDisclaimer">Disclaimer</a>
+            <a @click="_showEducationSlides">Safety Primer</a>
+        </footer>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Watch, Vue } from 'vue-property-decorator';
+import { Component, Watch, Vue, Prop } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
-import { bindActionCreators } from 'redux';
 import { BrowserDetection } from '@nimiq/utils';
 
-import store from './store.js';
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
 import CreateRequestLinkModal from './components/CreateRequestLinkModal.vue';
-import { activeWallet$ } from './selectors/wallet$.js';
-import { WalletType } from './redux/wallet-redux.js';
-import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 import NetworkHandler from './NetworkHandler.js';
 
@@ -134,13 +125,16 @@ import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 import { spaceToDash } from './lib/parameter-encoding.js';
 
 @Component({ components: {
-    ReduxProvider,
     LoadingSpinner,
     ContactListProvider,
     WalletSelectorProvider,
     CreateRequestLinkModal,
 } })
 export default class App extends Vue {
+    @Prop(Boolean) public showBackupFile!: boolean;
+    @Prop(Boolean) public showBackupWords!: boolean;
+    @Prop(Object) public activeWallet!: any;
+
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
     private showTestnetWarning = Config.network === 'test';
@@ -148,7 +142,7 @@ export default class App extends Vue {
     private logoUrl = 'https://' + Config.tld;
 
     private async created() {
-        const networkHandler = new NetworkHandler(store);
+        const networkHandler = new NetworkHandler();
         networkHandler.launch();
         hubClient.launch();
         if (await BrowserDetection.isPrivateMode()) {
@@ -187,25 +181,6 @@ export default class App extends Vue {
 
     private get root() {
         return `${window.location.host}`;
-    }
-
-    private mapStateToProps(state: any) {
-        const activeWallet = activeWallet$(state);
-        const showBackupFile = activeWallet.type !== WalletType.LEGACY && !activeWallet.fileExported;
-        const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
-                                && !activeWallet.wordsExported;
-        return {
-            height: state.network.height,
-            hasConsensus: state.network.consensus === 'established',
-            walletsLoaded: state.wallets.hasContent,
-            activeWallet,
-            showBackupFile,
-            showBackupWords,
-        };
-    }
-
-    private mapDispatchToProps(dispatch: any) {
-        return { actions: bindActionCreators( { }, dispatch) };
     }
 
     private newTransactionFrom(address: string) {

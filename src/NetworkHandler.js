@@ -3,12 +3,12 @@ import { updateBalances } from './redux/wallet-redux.js';
 import { addTransactions, markRemoved } from './redux/transactions-redux.js';
 import { setConsensus, setHeight, setPeerCount, setGlobalHashrate,  } from './redux/network-redux.js';
 import networkClient from './network-client.js';
+import store from './store.js';
 
 const TRACKING = location.origin === 'https://safe.nimiq.com';
 
 export default class NetworkHandler {
-    constructor(store) {
-        this._store = store;
+    constructor() {
         this._actions = bindActionCreators({
             updateBalances,
             addTransactions,
@@ -72,7 +72,7 @@ export default class NetworkHandler {
 
     _onTransaction(tx) {
         // Check if we know the sender or recipient of the tx
-        const accounts = this._store.getState().wallets.accounts;
+        const accounts = store.getState().wallets.accounts;
         if (!accounts.has(tx.sender) && !accounts.has(tx.recipient)) {
             console.warn('Not displaying transaction because sender and recipient are unknown:', tx);
             return;
@@ -82,7 +82,7 @@ export default class NetworkHandler {
     }
 
     _onTransactionExpired(hash) {
-        this._actions.markRemoved([hash], this._store.getState().network.height + 1);
+        this._actions.markRemoved([hash], store.getState().network.height + 1);
     }
 
     _onTransactionRelayed(tx) {
