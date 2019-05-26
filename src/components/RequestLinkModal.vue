@@ -37,7 +37,6 @@ import { createRequestLink } from '@nimiq/utils';
 import XAddress from '../elements/x-address/x-address.js';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input.js';
-import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })

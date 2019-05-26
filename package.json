@@ -40,6 +40,7 @@
     "vue": "^2.6.10",
     "vue-class-component": "^7.1.0",
     "vue-property-decorator": "^8.1.1",
-    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2",
+    "web-share-shim": "github:nimiq/web-share-shim#nimiq"
   }
 }

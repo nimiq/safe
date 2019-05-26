@@ -1,12 +1,12 @@
 import { QrCode } from '@nimiq/vue-components';
+import { createRequestLink } from '@nimiq/utils';
+import share from 'web-share-shim';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XAddress from '../x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
-import { createRequestLink } from '@nimiq/utils';
-import share from '../../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../../config/config.js';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {

@@ -1,8 +1,8 @@
-//import VContactList from '../v-contact-list/v-contact-list.js';
 import MixinModal from '../mixin-modal/mixin-modal.js'
 import XSendTransactionModal from '../x-send-transaction/x-send-transaction-modal.js'
+import ContactListProvider from '../../components/ContactListProvider.vue';
 
-export default class VContactListModal extends MixinModal(VContactList) {
+export default class VContactListModal extends MixinModal(ContactListProvider) {
     onCreate() {
         this._wasClosedByContactSelection = false;
 
