@@ -255,6 +255,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         if (amount) this.amount = amount;
         if (message) this.message = message;
         this._closeQrScanner(true);
+        this.validateAllFields();
     }
 
     /**
