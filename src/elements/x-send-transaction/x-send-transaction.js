@@ -90,7 +90,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$button = this.$('button[send]');
         this.$addressInput.placeholderColor = '#bbb';
 
-        this.__debouncedValidateRecipient = this.debounce(this.__validateRecipient, 1000, true);
+        this.__debouncedValidateRecipientType = this.debounce(this._validateRecipientType, 1000, true);
 
         // To work around the double x-address-input-valid event
         // which happens because of the address formatting when
@@ -336,19 +336,15 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             return;
         }
 
-        // TODO Skip network request when doing airgapped tx creation
         if (address) {
+            // Already accept the recipient as valid and check the recipient type in background
+            this._validRecipient = true;
+            this._clearError('recipient');
+            if (Config.offline) return;
             if (!this.properties.hasConsensus) {
-                if (Config.offline) {
-                    this._setError('Cannot validate address in offline mode', 'recipient');
-                    this._validRecipient = true;
-                } else {
-                    this._setError('Cannot validate address (not connected). Retrying...', 'recipient');
-                    this.__validateRecipientTimeout = setInterval(this._validateRecipient.bind(this), 1000);
-                    this._validRecipient = true;
-                }
+                this.__validateRecipientTimeout = setTimeout(this._validateRecipient.bind(this), 1000);
             } else {
-                this.__debouncedValidateRecipient(address);
+                this.__debouncedValidateRecipientType(address);
             }
         } else if (value.length === 0) {
             this._clearError('recipient');
@@ -357,23 +353,28 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         }
     }
 
-    async __validateRecipient(address) {
-        this._validatingRecipientTimeout = setTimeout(() => this._setError('Validating address type, please wait...', 'recipient'), 1000);
+    _validateRecipientType(address) {
+        // validate recipient type in background
+        networkClient.client
+            .then((client) => client.getAccountTypeString(address))
+            .then((accountType) => {
+                const validRecipientType = accountType === 'basic';
+                this._validRecipient = this._validRecipient && validRecipientType;
+                if (!validRecipientType) {
+                    this._setError('This address is a contract, which cannot receive new funds.', 'recipient');
+                }
+            })
+            .catch((e) => {
+                // a valid basic account is the most likely case, therefore we silently ignore errors here
+                console.warn('Failed to validate recipient type:', e);
+            })
+            .finally(() => {
+                // update the button state
+                this.setButton();
+            });
 
-        const accountType = await (await networkClient.client).getAccountTypeString(address);
-
-        this._validRecipient = (accountType === 'basic');
-
-        clearTimeout(this._validatingRecipientTimeout);
-
-        if (this._validRecipient) {
-            this._clearError('recipient');
-        } else {
-            this._setError('Cannot send to this account type', 'recipient');
-        }
-
-        // Because this is a debounced async function, there is no external way
-        // no know if this function finished, so we need to do that action in here
+        // Because this is a debounced function, there is no external way
+        // to know if this function finished, so we need to do that action in here
         this.setButton();
     }
 
