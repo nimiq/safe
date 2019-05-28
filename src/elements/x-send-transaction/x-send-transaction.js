@@ -90,13 +90,11 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$button = this.$('button[send]');
         this.$addressInput.placeholderColor = '#bbb';
 
-        this.__debouncedValidateRecipientType = this.debounce(this._validateRecipientType, 1000, true);
-
         // To work around the double x-address-input-valid event
         // which happens because of the address formatting when
         // pasting a full address
-        this.__lastValidatedValue = null;
-        this.__validateRecipientTimeout = null;
+        this._lastValidatedRecipientInputValue = null;
+        this._validateRecipientTimeout = null;
 
         this._errorElements = {};
 
@@ -267,10 +265,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this.$button.disabled = !this._isValid() || this._isLoading;
     }
 
-    /**
-     * @returns {nothing valuable} The return statement is just used for quitting the function early
-     */
-    async _validateField(field) {
+    _validateField(field) {
         switch (field) {
             case 'recipient':
                 this._validateRecipient();
@@ -289,7 +284,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 break;
         }
 
-        return this.setButton();
+        this.setButton();
     }
 
     _validateSender() {
@@ -323,11 +318,13 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         const address = this.$addressInput.value;
         const value = this.$addressInput.$input.value;
 
-        if (value === this.__lastValidatedValue && !this.__validateRecipientTimeout && !forceValidate) return;
-        this.__lastValidatedValue = value;
+        if (value === this._lastValidatedRecipientInputValue && !this._validateRecipientTimeout && !forceValidate) {
+            return;
+        }
+        this._lastValidatedRecipientInputValue = value;
 
-        clearTimeout(this.__validateRecipientTimeout);
-        this.__validateRecipientTimeout = null;
+        clearTimeout(this._validateRecipientTimeout);
+        this._validateRecipientTimeout = null;
 
         this._validRecipient = false;
 
@@ -342,40 +339,30 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             this._clearError('recipient');
             if (Config.offline) return;
             if (!this.properties.hasConsensus) {
-                this.__validateRecipientTimeout = setTimeout(this._validateRecipient.bind(this), 1000);
+                this._validateRecipientTimeout = setTimeout(this._validateRecipient.bind(this), 300);
             } else {
-                this.__debouncedValidateRecipientType(address);
+                // background recipient type check
+                networkClient.client
+                    .then((client) => client.getAccountTypeString(address))
+                    .then((accountType) => {
+                        const validRecipientType = accountType === 'basic';
+                        this._validRecipient = this._validRecipient && validRecipientType;
+                        if (!validRecipientType) {
+                            this._setError('This address is a contract, which cannot receive new funds.', 'recipient');
+                            // update the button state
+                            this.setButton();
+                        }
+                    })
+                    .catch((e) => {
+                        // a valid basic account is the most likely case, therefore we silently ignore errors here
+                        console.warn('Failed to validate recipient type:', e);
+                    });
             }
         } else if (value.length === 0) {
             this._clearError('recipient');
         } else {
             this._setError('Invalid address', 'recipient');
         }
-    }
-
-    _validateRecipientType(address) {
-        // validate recipient type in background
-        networkClient.client
-            .then((client) => client.getAccountTypeString(address))
-            .then((accountType) => {
-                const validRecipientType = accountType === 'basic';
-                this._validRecipient = this._validRecipient && validRecipientType;
-                if (!validRecipientType) {
-                    this._setError('This address is a contract, which cannot receive new funds.', 'recipient');
-                }
-            })
-            .catch((e) => {
-                // a valid basic account is the most likely case, therefore we silently ignore errors here
-                console.warn('Failed to validate recipient type:', e);
-            })
-            .finally(() => {
-                // update the button state
-                this.setButton();
-            });
-
-        // Because this is a debounced function, there is no external way
-        // to know if this function finished, so we need to do that action in here
-        this.setButton();
     }
 
     _validateAmountAndFees() {
@@ -431,29 +418,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         //     "validityStartHeight", this._validValidityStartHeight
         // );
         return this._validSender && this._validRecipient && this._validAmountAndFees && this._validValidityStartHeight;
-    }
-
-    // Returns a function, that, as long as it continues to be invoked, will not
-    // be triggered. The function will be called after it stops being called for
-    // N milliseconds. If `immediate` is passed, trigger the function on the
-    // leading edge, instead of the trailing.
-    debounce(func, wait) {
-        var timeout;
-        return function() {
-            var context = this, args = arguments;
-            var later = function(isDummy) {
-                timeout = null;
-                if (!isDummy) func.apply(context, args);
-            };
-            var callNow = !timeout;
-            clearTimeout(timeout);
-            if (callNow) {
-                timeout = setTimeout(later, wait, true);
-                func.apply(context, args);
-            } else {
-                timeout = setTimeout(later, wait);
-            }
-        }
     }
 
     _setError(msg, field) {
