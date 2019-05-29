@@ -64,7 +64,7 @@
                     <div class="btn-text">Scan</div>
                 </div>
             </nav>
-            <div class="x-view-dashboard content-width">
+            <div class="x-view-dashboard content-width" x-route="">
                 <div class="x-card" style="max-width: 960px;">
                     <h2>Transactions</h2>
                     <div class="x-transactions no-animation" only-recent></div>
@@ -79,7 +79,7 @@
             </div>
             <div class="x-send-transaction-modal"></div>
             <div class="v-contact-list-modal"></div>
-            <div class="x-transaction-modal"></div>
+            <div class="x-transaction-modal" x-route-aside="request"></div>
             <div class="x-receive-request-link-modal"></div>
             <div class="x-create-request-link-modal"></div>
             <div class="x-disclaimer-modal"></div>
@@ -116,6 +116,7 @@ import XSendTransactionModal from './elements/x-send-transaction/x-send-transact
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
 import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
+import XRouter from './elements/x-router/x-router.js';
 import VContactListModal from './elements/v-contact-list/v-contact-list-modal.js';
 
 import './lib/nimiq-style/nimiq-style.css';
@@ -163,6 +164,8 @@ export default class App extends Vue {
         new XDisclaimerModal(this.$el.querySelector('.x-disclaimer-modal'));
         new VContactListModal(this.$el.querySelector('.v-contact-list-modal'));
         /* tslint:enable:no-unused-expression */
+
+        XRouter.create();
 
         setTimeout(() => document.body.classList.remove('preparing'));
     }

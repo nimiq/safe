@@ -16,11 +16,12 @@ import { Component, Vue } from 'vue-property-decorator';
 import { bindActionCreators } from 'redux';
 
 import ReduxProvider from './components/ReduxProvider.vue';
+import App from './App.vue';
 import store from './store.js';
 import { activeWallet$, activeAddressInfo$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 
-@Component({ components: { ReduxProvider } })
+@Component({ components: { ReduxProvider, App } })
 export default class AppProvider extends Vue {
     private mapStateToProps(state: any) {
         const activeWallet = activeWallet$(state);

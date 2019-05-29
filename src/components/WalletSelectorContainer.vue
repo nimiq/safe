@@ -1,7 +1,7 @@
 <template>
     <div class="v-wallet-selector">
         <div ref="backdrop" @click="backdropListener" class="v-wallet-selector-backdrop"></div>
-        <div @click="toggleMenu" active-wallet-label></div>
+        <div @click="toggleMenu" active-wallet-label>{{ activeWallet.label }}</div>
         <div class="v-wallet-menu">
             <WalletMenu
                 :wallets="wallets"

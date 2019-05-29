@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from './App.vue';
+import AppProvider from './AppProvider.vue';
 import MixinRedux from './elements/mixin-redux.js';
 import store from './store.js';
 
@@ -43,5 +43,5 @@ const app = new Vue({
         loading: true,
         store: MixinRedux.store,
     },
-    render: (h) => h(App),
+    render: (h) => h(AppProvider),
 }).$mount('#app');
