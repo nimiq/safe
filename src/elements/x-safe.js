@@ -317,8 +317,8 @@ export default class XSafe extends MixinRedux(XElement) {
             return;
         }
 
-        tx.value = Number(tx.value) * 1e5;
-        tx.fee = (Number(tx.fee) || 0) * 1e5;
+        tx.value = Math.round(Number(tx.value) * 1e5);
+        tx.fee = Math.round((Number(tx.fee) || 0) * 1e5);
         tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
         tx.recipient = 'NQ' + tx.recipient;
 
