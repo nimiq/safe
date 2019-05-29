@@ -66,7 +66,7 @@
                     <div class="btn-text">Scan</div>
                 </div>
             </nav>
-            <div class="x-view-dashboard content-width">
+            <div class="x-view-dashboard content-width" x-route="">
                 <div class="x-card" style="max-width: 960px;">
                     <h2>Transactions</h2>
                     <div ref="x-transactions" class="no-animation" only-recent></div>
@@ -80,7 +80,7 @@
                 </div>
             </div>
             <!--<div class="v-contact-list-modal"></div>-->
-            <div ref="x-send-transaction-modal"></div>
+            <div ref="x-send-transaction-modal" x-route-aside="request"></div>
             <div ref="x-transaction-modal"></div>
             <div ref="x-receive-request-link-modal"></div>
             <CreateRequestLinkModal ref="CreateRequestLinkModal"/>
@@ -118,6 +118,7 @@ import XSendTransactionModal from './elements/x-send-transaction/x-send-transact
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
 import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
+import XRouter from './elements/x-router/x-router.js';
 import XElement from './lib/x-element/x-element';
 
 import './lib/nimiq-style/nimiq-style.css';
@@ -168,6 +169,8 @@ export default class App extends Vue {
 
         this._onResize = this._onResize.bind(this);
         window.addEventListener('resize', this._onResize);
+
+        XRouter.create();
     }
 
     private destroyed() {
