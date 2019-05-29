@@ -43,10 +43,14 @@ class HubClient {
             console.log('State', state);
         };
 
-        // listen to response from onboarding
+        // Listen to response from onboarding/signup/migration
         this.hubApi.on(HubApi.RequestType.ONBOARD, onOnboardingResult, onOnboardingError);
-        this.hubApi.on(HubApi.RequestType.MIGRATE, onOnboardingResult, onOnboardingError);
         this.hubApi.on(HubApi.RequestType.SIGNUP, onOnboardingResult, onOnboardingError);
+        this.hubApi.on(HubApi.RequestType.MIGRATE, (result) => {
+            onOnboardingResult(result);
+            VMigrationWelcome.show();
+        }, onOnboardingError);
+
         this.hubApi.checkRedirectResponse();
 
         // Kick off writing accounts to the store
