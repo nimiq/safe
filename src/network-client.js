@@ -1,4 +1,7 @@
-import { NetworkClient as NimiqNetworkClient } from '../node_modules/@nimiq/network-client/dist/NetworkClient.standalone.es.js';
+import {
+    NetworkClient as NimiqNetworkClient,
+    ConsensusType,
+} from '../node_modules/@nimiq/network-client/dist/NetworkClient.standalone.es.js';
 
 class NetworkClient {
     static getInstance() {
@@ -6,13 +9,8 @@ class NetworkClient {
         return this._instance;
     }
 
-    /**
-     * @param {string} [endpoint]
-     */
-    constructor(endpoint) {
+    constructor() {
         this._isLaunched = false;
-
-        this._endpoint = endpoint;
 
         this.client = new Promise(res => {
             this.clientResolve = res;
@@ -23,7 +21,7 @@ class NetworkClient {
         if (this._isLaunched) return;
         this._isLaunched = true;
 
-        const client = new NimiqNetworkClient(this._endpoint);
+        const client = new NimiqNetworkClient(NimiqNetworkClient.DEFAULT_ENDPOINT, ConsensusType.NANO);
         await client.init();
 
         this.clientResolve(client);

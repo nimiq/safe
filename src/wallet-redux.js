@@ -287,9 +287,6 @@ export function populate(listedWallets) {
 
         const client = await networkClient.client;
         client.subscribe(addresses);
-
-        const balances = await client.connectPico(addresses, true);
-        dispatch(updateBalances(balances));
     }
 }
 
