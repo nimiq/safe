@@ -9,7 +9,6 @@ x-accounts {
     text-align: right;
     width: 100%;
     display: block;
-    margin-top: -2.8em;
 }
 
 x-accounts-list {
@@ -63,6 +62,7 @@ x-account x-identicon {
     width: 80px;
     min-width: 50px;
     height: 71px;
+    flex-shrink: 0;
 }
 
 x-account-modal x-identicon {
@@ -75,7 +75,7 @@ x-account .x-account-info {
     text-align: left;
     width: 100%;
     padding-left: 16px;
-    max-width: calc(100% - 88px);
+    max-width: calc(100% - 80px);
 }
 
 x-account .x-account-label {
@@ -114,6 +114,32 @@ x-account x-amount {
         font-size: 1em;
     }
 }
+
+x-accounts .add-address {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 8px;
+    font-weight: bold;
+    opacity: 0.7;
+    transition: opacity 250ms ease;
+    border-radius: .5rem;
+}
+
+x-accounts .add-address:hover,
+x-accounts .add-address:focus {
+    opacity: 1;
+}
+
+x-accounts .add-address [identicon-plus] {
+    display: block;
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    margin: 0 26px 0 10px;
+}
+
 
 x-account-modal x-amount {
     display: block;
@@ -222,11 +248,6 @@ x-account-modal .action-button {
 
 /* Responsiveness */
 @media (min-width: 481px) {
-    x-account {
-        justify-content: center;
-        padding: 8px 16px;
-    }
-
     x-account .account-icon {
         left: 70px;
     }

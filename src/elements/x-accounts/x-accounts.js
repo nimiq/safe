@@ -3,7 +3,6 @@ import MixinRedux from '../mixin-redux.js';
 import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '../../lib/parameter-encoding.js';
-import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import { activeWallet$, activeWalletId$ } from '../../selectors/wallet$.js';
 import { WalletType }  from '../../wallet-redux.js';
 
@@ -11,15 +10,17 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     html() {
         return `
-            <x-popup-menu x-main-action-only x-icon="add" class="hidden add">
-            </x-popup-menu>
             <x-accounts-list></x-accounts-list>
+            <a href="javascript:void(0)" class="add-address">
+                <span identicon-plus></span>
+                <span class="label">Add Address</span>
+            </a>
             <x-account-modal x-route-aside="account"></x-account-modal>
         `;
     }
 
     children() {
-        return [ XPopupMenu, XAccountsList, XAccountModal ];
+        return [ XAccountsList, XAccountModal ];
     }
 
     static mapStateToProps(state) {
@@ -31,13 +32,13 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     _onPropertiesChanged(changes) {
         if (changes.activeWallet) {
-            this.$('x-popup-menu').classList.toggle('hidden', this.properties.activeWallet.type === WalletType.LEGACY);
+            this.$('.add-address').classList.toggle('display-none', this.properties.activeWallet.type === WalletType.LEGACY);
         }
     }
 
     listeners() {
         return {
-            'click .add button': this._onAddAccount,
+            'click .add-address': this._onAddAccount,
             'x-account-selected': this._onAccountSelected
         };
     }

@@ -1,3 +1,4 @@
+[identicon-plus],
 [icon-qr-scan],
 [icon-qr-code] {
     width: 40px;
@@ -10,6 +11,10 @@
 [icon-qr-scan],
 [icon-qr-code] {
     cursor: pointer;
+}
+
+[identicon-plus] {
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 37 32" height="32" width="37"><g opacity=".5"><g opacity=".3" transform="matrix(1.00001 0 0 1 0 0)" fill="%23fff"><mask id="a"><path d="M35.6 14.5l-7.5-13A3 3 0 0 0 25.5 0h-15a3 3 0 0 0-2.6 1.5l-7.5 13a3 3 0 0 0 0 3l7.5 13a3 3 0 0 0 2.6 1.5h15a3 3 0 0 0 2.6-1.5l7.5-13a3 3 0 0 0 0-3z"/></mask><path mask="url(%23a)" d="M35.6 14.5l-7.5-13A3 3 0 0 0 25.5 0h-15a3 3 0 0 0-2.6 1.5l-7.5 13a3 3 0 0 0 0 3l7.5 13a3 3 0 0 0 2.6 1.5h15a3 3 0 0 0 2.6-1.5l7.5-13a3 3 0 0 0 0-3z" stroke="%231f2348" stroke-width="3"/></g></g><path d="M12 16c0 .41.34.75.75.75h4.38c.06 0 .12.06.12.13v4.37a.75.75 0 0 0 1.5 0v-4.38c0-.06.06-.12.13-.12h4.37a.75.75 0 0 0 0-1.5h-4.38a.12.12 0 0 1-.12-.13v-4.37a.75.75 0 0 0-1.5 0v4.38c0 .06-.06.12-.13.12h-4.37A.75.75 0 0 0 12 16z" fill="%231f2348" opacity=".5"/></svg>');
 }
 
 [icon-qr-scan] {
