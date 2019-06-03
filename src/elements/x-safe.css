@@ -546,7 +546,7 @@ v-wallet-selector.mobile .wallet-menu {
         text-align: left;
     }
 
-    .floating-btn button[icon-qr] {
+    .floating-btn button[icon-qr-scan] {
         width: 100px !important;
         background-position: 16px center !important;
         padding-left: 44px;
@@ -619,12 +619,12 @@ v-wallet-selector.mobile .wallet-menu {
         flex-grow: 1;
     }
 
-    .floating-btn button[icon-qr] {
+    .floating-btn button[icon-qr-scan] {
         width: 100% !important;
         background-position: center !important;
     }
 
-    .floating-btn button[icon-qr] span {
+    .floating-btn button[icon-qr-scan] span {
         display: none;
     }
 }

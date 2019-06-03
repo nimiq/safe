@@ -201,7 +201,7 @@ x-popup-menu .ledger-icon {
 }
 
 x-popup-menu .ledger-icon,
-x-popup-menu [icon-qr] {
+x-popup-menu [icon-qr-scan] {
     width: 24px;
     vertical-align: middle;
 }

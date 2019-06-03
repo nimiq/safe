@@ -22,7 +22,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
                 <!-- <x-popup-menu left-align>
                     <button prepared><i class="material-icons">unarchive</i> Prepared transaction</button>
                 </x-popup-menu> -->
-                <a icon-qr class="header-button" href="javascript:void(0)"></a>
+                <a icon-qr-scan class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>New Transaction</h2>
             </div>
@@ -126,7 +126,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'x-fee-input-changed': this._onFeeChanged,
             'x-extra-data-input-changed-size': this._onExtraDataChangedSize,
             'click .link-contact-list': this._onClickContactList,
-            'click [icon-qr]': this._openQrScanner,
+            'click [icon-qr-scan]': this._openQrScanner,
         }
     }
 

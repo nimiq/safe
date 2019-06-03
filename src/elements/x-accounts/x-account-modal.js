@@ -12,7 +12,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
     html() {
         return `
             <div class="modal-header">
-                <a icon-qr class="header-button" href="javascript:void(0)"></a>
+                <a icon-qr-code class="header-button" href="javascript:void(0)"></a>
                 <i x-modal-close class="material-icons">close</i>
                 <h2>Address</h2>
             </div>
@@ -58,7 +58,7 @@ export default class XAccountModal extends MixinModal(XAccount) {
 
     listeners() {
         return {
-            'click .header-button[icon-qr]': () => this._showQrCode(),
+            'click .header-button[icon-qr-code]': () => this._showQrCode(),
             'click button[send]': _ => this.fire('x-account-modal-new-tx', this.properties.address),
             'click button[payout]': _ => this.fire('x-account-modal-payout',
                 {
