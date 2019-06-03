@@ -7,15 +7,14 @@ export default class XExtraDataInput extends XInput {
             <form>
                 <input type="text" placeholder="Message">
                 <div class="x-extra-data-info">
-                    <span class="x-extra-data-help"></span>
-                    <span class="x-extra-data-remaining"></span>
+                    <div class="x-extra-data-warning nq-orange">Messages are public. Don't enter private information.</div>
+                    <p class="x-extra-data-remaining nq-text"></p>
                 </div>
             </form>`;
     }
 
     onCreate() {
         super.onCreate();
-        this.$help = this.$('.x-extra-data-help');
         this.$remaining = this.$('.x-extra-data-remaining');
         this._maxBytes = this.attributes.maxBytes || 64;
         this._onValueChanged();
