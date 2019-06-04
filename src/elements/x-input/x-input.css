@@ -4,6 +4,6 @@
 }
 
 .x-input.shake input {
-    border-bottom: 1px solid var(--error-color) !important;
+    border-bottom: 1px solid var(--nimiq-red) !important;
 }
 

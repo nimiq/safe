@@ -62,7 +62,7 @@ x-transaction-modal .fee {
 
 x-transaction-modal.removed .timestamp,
 x-transaction-modal.expired .timestamp {
-    background: var(--warning-color);
+    background: var(--nimiq-orange);
     padding: 4px 12px;
     border-radius: 3px;
     font-weight: 600;

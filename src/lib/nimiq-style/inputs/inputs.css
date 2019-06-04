@@ -7,9 +7,7 @@ button::-moz-focus-inner {
 button,
 [button] {
     font-size: 16px;
-    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
     height: 56px;
     width: 100%;
     max-width: 368px;
@@ -18,26 +16,27 @@ button,
     vertical-align: middle;
     display: table-cell;
     text-align: center;
-    background-color: white;
-    color: var(--primary-color);
     cursor: pointer;
     user-select: none;
     box-shadow: rgba(0, 0, 0, 0.5) 1px 2px 3px;
     outline: none;
-    border: none;
     line-height: 53px;
-    border: 1px solid white;
     margin-bottom: 4px;
     min-height: 56px;
     font-family: inherit;
+    background-color: var(--main-button-background);
+    border: 1px solid transparent;
+    color: white;
+    letter-spacing: 0.16em;
+    font-weight: bold;
 }
 
 button[disabled],
 [button][disabled] {
     background-color: transparent;
+    color: rgba(0, 0, 0, 0.48);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     box-shadow: none;
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.31);
     pointer-events: none;
 }
 
@@ -51,39 +50,12 @@ button.small,
     min-height: 40px;
 }
 
-button.small.fixed-size,
-[button].small.fixed-size {
-    width: 100%;
-}
-
 button.secondary,
 [button].secondary {
     background-color: transparent;
-    color: white;
-    box-shadow: none;
-}
-
-.nimiq-dark button,
-.nimiq-dark [button] {
-    background-color: var(--main-button-background);
-    border: 1px solid transparent;
-    color: white;
-    letter-spacing: 0.16em;
-    font-weight: bold;
-}
-
-.nimiq-dark button.secondary,
-.nimiq-dark [button].secondary {
-    background-color: transparent;
     color: #3b3b3b;
     border: 1px solid #3b3b3b;
-}
-
-.nimiq-dark button[disabled],
-.nimiq-dark [button][disabled] {
-    background-color: transparent;
-    color: rgba(0, 0, 0, 0.48);
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: none;
 }
 
 /* Text Inputs */
@@ -94,10 +66,10 @@ input[type="number"] {
     border: none;
     outline: none;
     background-color: transparent;
-    color: white;
+    color: #3b3b3b;
     width: 168px;
     text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 0;
     font-size: 15px;
     font-family: inherit;
@@ -106,37 +78,17 @@ input[type="number"] {
     padding: 1px;
 }
 
-.nimiq-dark input[type="text"],
-.nimiq-dark input.password,
-.nimiq-dark input[type="number"] {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    color: #3b3b3b;
-}
-
 input[type="text"]::placeholder,
 input.password::placeholder,
 input[type="number"]::placeholder,
 input[type="number"]::-webkit-input-placeholder {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(0, 0, 0, 0.3);
     text-align: center;
     display: block;
 }
 
-.nimiq-dark input[type="text"]::placeholder,
-.nimiq-dark input.password::placeholder,
-.nimiq-dark input[type="number"]::placeholder,
-.nimiq-dark input[type="number"]::-webkit-input-placeholder {
-    color: rgba(0, 0, 0, 0.3);
-}
-
 input[type="text"]:focus,
 input.password:focus {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
-
-.nimiq-dark input[type="text"]:focus,
-.nimiq-dark input[type="number"]:focus,
-.nimiq-dark input.password:focus {
     border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 }
 
@@ -156,11 +108,6 @@ input[type="number"] {
 input[type="number"]::-webkit-input-placeholder,
 input[type="number"]::placeholder {
     font-size: 56px;
-    color: rgba(255, 255, 255, 0.3);
-}
-
-.nimiq-dark input[type="number"]::-webkit-input-placeholder,
-.nimiq-dark input[type="number"]::placeholder {
     color: rgba(0, 0, 0, 0.3);
 }
 
@@ -173,14 +120,10 @@ input::-webkit-inner-spin-button {
 input.password {
     font-size: 18px;
     line-height: 32px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     width: 100%;
     max-width: 368px;
     margin: 16px 0;
-}
-
-.nimiq-dark input.password {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 select {

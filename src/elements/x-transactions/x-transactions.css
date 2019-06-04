@@ -46,7 +46,7 @@ x-transaction {
 
 x-transaction.removed,
 x-transaction.expired {
-    background: var(--warning-color);
+    background: var(--nimiq-orange);
 }
 
 x-transaction > * {

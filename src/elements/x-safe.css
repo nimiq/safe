@@ -112,7 +112,6 @@ header {
     color: white;
     text-align: center;
     padding: 0 0.5em;
-    /* border-bottom: 3px solid var(--success-color); */
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
 
