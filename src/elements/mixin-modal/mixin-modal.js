@@ -14,7 +14,7 @@ const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     }
 
     styles() {
-        return [ ...super.styles(), 'x-modal', 'nimiq-dark' ];
+        return [ ...super.styles(), 'x-modal' ];
     }
 
     static show(...parameters) {

@@ -57,18 +57,12 @@ x-toast [toast-content]::before {
 
 /* types */
 
-x-toast [toast-content].success {
-    /* use default design for success */
-    /* background: var(--success-color);
-    color: black; */
-}
-
 x-toast [toast-content].error {
-    background: var(--error-color);
+    background: var(--nimiq-red);
 }
 
 x-toast [toast-content].warning {
-    background: var(--warning-color);
+    background: var(--nimiq-orange);
     color: #333;
 }
 

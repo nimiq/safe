@@ -1,7 +1,7 @@
 @import '../../lib/nimiq-style/nimiq-style.css';
 
 body {
-    background: var(--primary-background);
+    background: var(--primary-color);
 }
 
 x-test {

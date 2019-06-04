@@ -44,8 +44,5 @@
   font-feature-settings: 'liga';
 }
 
-.material-icons { color: rgba(255, 255, 255, 1); }
-[disabled] .material-icons { color: rgba(255, 255, 255, 0.3); }
-
-.nimiq-dark .material-icons { color: #3b3b3b; }
-.nimiq-dark [disabled] .material-icons { color: rgba(0, 0, 0, 0.26); }
+.material-icons { color: #3b3b3b; }
+[disabled] .material-icons { color: rgba(0, 0, 0, 0.26); }

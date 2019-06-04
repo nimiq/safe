@@ -64,15 +64,6 @@
     right: 0;
 }
 
-/* .modal-header::after {
-    content: "";
-    height: 3px;
-    background: var(--primary-background-progress);
-    background-size: 200%;
-    display: block;
-    margin-top: 16px;
-} */
-
 @keyframes background-progress {
     0%  { background-position: 0% 0 }
     100%{ background-position: 200% 0 }
