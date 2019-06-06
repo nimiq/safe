@@ -258,36 +258,6 @@ x-account-modal .action-button {
     }
 }
 
-/* Empty Accounts List */
-x-accounts-list:empty{
-	display: flex;
-}
-
-x-accounts-list:empty:before {
-	display: flex;
-	flex-grow: 1;
-	content: 'Click above to add an account';
-	font-size: 20px;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-}
-
-x-accounts-list x-no-accounts {
-	font-size: 16px;
-    display: block;
-    padding: 1.5em;
-    text-align: center;
-    opacity: 0.6;
-}
-
-x-accounts-list x-no-accounts h1.material-icons {
-    display: block;
-    font-size: 120px;
-    opacity: 0.3;
-    margin-bottom: 0.1em;
-}
-
 x-accounts-list x-account {
     padding: 8px;
 }

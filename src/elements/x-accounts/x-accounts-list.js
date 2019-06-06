@@ -1,7 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import XAccount from './x-account.js';
 import MixinRedux from '../mixin-redux.js';
-import XNoAccounts from './x-no-accounts.js';
 import { activeAccounts$ } from '../../selectors/account$.js';
 import AccountType from '../../lib/account-type.js';
 
@@ -9,7 +8,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
     html() {
         return `
             <x-loading-animation></x-loading-animation>
-            <h2>Loading accounts...</h2>
+            <h2>Loading addresses...</h2>
         `;
     }
 
@@ -52,12 +51,6 @@ export default class XAccountsList extends MixinRedux(XElement) {
                     }
                 }
             }
-        }
-
-        if (accounts.size === 0) {
-            this.$el.textContent = '';
-            const $noContent = XNoAccounts.createElement();
-            this.$el.appendChild($noContent.$el);
         }
     }
 
