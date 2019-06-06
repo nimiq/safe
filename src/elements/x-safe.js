@@ -122,7 +122,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     <div class="button-group">
                         <button class="nq-button-pill light-blue inverse" tracking-yes>Yes</button>
                         <button class="nq-button-s inverse" tracking-no>No</button>
-                        <button class="nq-button-s inverse" tracking-browser-only>Browser-data only</button>
+                        <button class="nq-button-s inverse" tracking-browser-only>Browser-info only</button>
                     </div>
                 </div>
             </section>
