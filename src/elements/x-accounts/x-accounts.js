@@ -12,7 +12,7 @@ export default class XAccounts extends MixinRedux(XElement) {
         return `
             <x-accounts-list></x-accounts-list>
             <a href="javascript:void(0)" class="add-address">
-                <span identicon-plus></span>
+                <span icon-identicon-plus></span>
                 <span class="label">Add Address</span>
             </a>
             <x-account-modal x-route-aside="account"></x-account-modal>
