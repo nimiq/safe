@@ -132,7 +132,7 @@ x-accounts .add-address:focus {
     opacity: 1;
 }
 
-x-accounts .add-address [identicon-plus] {
+x-accounts .add-address [icon-identicon-plus] {
     display: block;
     width: 60px;
     height: 60px;
