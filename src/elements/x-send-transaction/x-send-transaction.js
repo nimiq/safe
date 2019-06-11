@@ -71,6 +71,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
                 <div class="center row">
                     <button send>Send</button>
+                    <span error consensus class="display-none"></span>
                 </div>
             </form>
             <!-- Vue template -->
@@ -109,7 +110,21 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
     static mapStateToProps(state) {
         return {
+            height: state.network.height,
             hasConsensus: state.network.consensus === 'established'
+        }
+    }
+
+    _onPropertiesChanged(changes) {
+        if (changes.hasConsensus) {
+            this._validateSender();
+            this._validateRecipient();
+            this._validateAmountAndFees();
+            this.setButton();
+        }
+
+        if (changes.height) {
+            this._validateField('validityStartHeight');
         }
     }
 
@@ -408,6 +423,13 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             this._clearError('start-height');
         } else {
             this._setError('Cannot set a negative start height', 'start-height');
+        }
+
+        if (value <= 0 && !this.properties.height) {
+            this._validValidityStartHeight = false;
+            this._setError('Waiting for current blockchain state, please wait.', 'consensus');
+        } else {
+            this._clearError('consensus');
         }
     }
 
