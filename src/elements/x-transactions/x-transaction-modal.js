@@ -9,12 +9,12 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Transaction</h2>
+                <h2 class="title">Transaction</h2>
             </div>
             <div class="modal-body">
                 <div class="center">
                     <x-identicon sender></x-identicon>
-                    <i class="arrow material-icons">arrow_forward</i>
+                    <i class="arrow material-icons" tx-icon>arrow_forward</i>
                     <x-identicon recipient></x-identicon>
                 </div>
 
@@ -80,18 +80,29 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$confirmations = this.$('span.confirmations');
         this.$fee = this.$('div.fee');
         this.$message = this.$('div.extra-data');
+        this.$title = this.$('h2.title');
         super.onCreate();
         this.$senderIdenticon.placeholderColor = '#bbb';
         this.$recipientIdenticon.placeholderColor = '#bbb';
     }
 
     set sender(address) {
-        this.$senderIdenticon.address = address;
+        if (this.properties.isCashlink && this.properties.senderLabel === 'Cashlink') {
+            this.$senderIdenticon.address = 'cashlink';
+        } else {
+            this.$senderIdenticon.address = address;
+        }
+
         this.$senderAddress.address = address;
     }
 
     set recipient(address) {
-        this.$recipientIdenticon.address = address;
+        if (this.properties.isCashlink && this.properties.recipientLabel === 'Cashlink') {
+            this.$recipientIdenticon.address = 'cashlink';
+        } else {
+            this.$recipientIdenticon.address = address;
+        }
+
         this.$recipientAddress.address = address;
     }
 
@@ -103,6 +114,12 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     set recipientLabel(label) {
         this.$recipientLabel.textContent = label;
         this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
+    }
+
+    set isCashlink(value) {
+        // TODO: Enable when we know the third party to the cashlink
+        // this.$txIcon.textContent = value ? 'link' : 'arrow_forward';
+        this.$title.textContent = value ? 'Cashlink' : 'Transaction';
     }
 
     set extraData(extraData) {

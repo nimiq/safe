@@ -27,11 +27,16 @@ function _toUint8View(arrayLike) {
     }
 }
 
-export default function convertExtradata(extraData) {
+export function isCashlink(extraData) {
+    return _arrayEquals(extraData, TransactionTags.SendCashlink)
+        || _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
+}
+
+export function convertExtradata(extraData) {
     if (_arrayEquals(extraData, TransactionTags.SendCashlink)) {
-        return 'Charging cashlink';
+        return 'Funding cashlink';
     } else if (_arrayEquals(extraData, TransactionTags.ReceiveCashlink)) {
-        return 'Redeeming cashlink';
+        return 'Claiming cashlink';
     } else {
         return Utf8Tools.utf8ByteArrayToString(extraData);
     }

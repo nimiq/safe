@@ -24,6 +24,13 @@ export default class XIdenticon extends XElement {
 
     set address(address) {
         this._address = address;
+
+        if (address === 'cashlink') {
+            // Render a special cashlink logo
+            this.$img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-15 -15 54 54" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+            return;
+        }
+
         if (ValidationUtils.isValidAddress(address)) {
             Iqons.toDataUrl(address.toUpperCase()).then(dataUrl => this.$img.src = dataUrl);
         } else {

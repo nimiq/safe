@@ -1,4 +1,4 @@
-import ConvertExtraData from './convert-extra-data.js';
+import { isCashlink, convertExtradata } from './convert-extra-data.js';
 import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
 
 export const TypeKeys = {
@@ -29,7 +29,8 @@ export function reducer(state, action) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
-                    tx.extraData = ConvertExtraData(tx.extraData);
+                    tx.isCashlink = isCashlink(tx.extraData);
+                    tx.extraData = convertExtradata(tx.extraData);
                     entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
                         entries,
@@ -39,7 +40,8 @@ export function reducer(state, action) {
             }
 
             action.transactions.forEach(tx => {
-                tx.extraData = ConvertExtraData(tx.extraData);
+                tx.isCashlink = isCashlink(tx.extraData);
+                tx.extraData = convertExtradata(tx.extraData);
                 entries.set(tx.hash, tx);
             });
 

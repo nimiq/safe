@@ -9,7 +9,7 @@ export default class XTransaction extends MixinRedux(XElement) {
             <div class="timestamp" title="">pending...</div>
             <div class="identicon"><x-identicon sender></x-identicon></div>
             <div class="label" sender></div>
-            <div><i class="material-icons">arrow_forward</i></div>
+            <div><i class="material-icons" tx-icon>arrow_forward</i></div>
             <div class="identicon"><x-identicon recipient></x-identicon></div>
             <div class="label" recipient></div>
             <x-amount></x-amount>
@@ -24,6 +24,8 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$senderLabel = this.$('div.label[sender]');
         this.$recipientIdenticon = this.$identicon[1];
         this.$recipientLabel = this.$('div.label[recipient]');
+
+        this.$txIcon = this.$('i[tx-icon]');
 
         this.$timestamp = this.$('div.timestamp');
     }
@@ -94,7 +96,11 @@ export default class XTransaction extends MixinRedux(XElement) {
 
 
     set sender(address) {
-        this.$senderIdenticon.address = address;
+        if (this.properties.isCashlink && this.properties.senderLabel === 'Cashlink') {
+            this.$senderIdenticon.address = 'cashlink';
+        } else {
+            this.$senderIdenticon.address = address;
+        }
     }
 
     set senderLabel(label) {
@@ -102,11 +108,20 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set recipient(address) {
-        this.$recipientIdenticon.address = address;
+        if (this.properties.isCashlink && this.properties.recipientLabel === 'Cashlink') {
+            this.$recipientIdenticon.address = 'cashlink';
+        } else {
+            this.$recipientIdenticon.address = address;
+        }
     }
 
     set recipientLabel(label) {
         this.$recipientLabel.textContent = label;
+    }
+
+    set isCashlink(value) {
+        // TODO: Enable when we know the third party to the cashlink
+        // this.$txIcon.textContent = value ? 'link' : 'arrow_forward';
     }
 
     set value(value) {

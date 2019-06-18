@@ -78,13 +78,37 @@ export default class XTransactions extends MixinRedux(XElement) {
                 sender.label :
                 contacts[tx.sender] ?
                     contacts[tx.sender].label :
-                    AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
+                    AddressBook.getLabel(tx.sender);
+
+            if (!tx.senderLabel) {
+                if (tx.isCashlink) {
+                    console.log("is cashlink!");
+                    // TODO: Search for cashlink funding tx
+                    // DISCUSS: Replace tx.sender with cashlink funding address, or reference funding tx from this tx?
+                    tx.senderLabel = 'Cashlink';
+                } else {
+                    // Fall back to shortened sender address
+                    tx.senderLabel = tx.sender.slice(0, 14) + '...';
+                }
+            }
 
             tx.recipientLabel = recipient ?
                 recipient.label :
                 contacts[tx.recipient] ?
                     contacts[tx.recipient].label :
-                    AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
+                    AddressBook.getLabel(tx.recipient);
+
+            if (!tx.recipientLabel) {
+                if (tx.isCashlink) {
+                    console.log("is cashlink!");
+                    // TODO: Search for cashlink claiming tx
+                    // DISCUSS: Replace tx.recipient with cashlink claiming address, or reference claiming tx from this tx?
+                    tx.recipientLabel = 'Cashlink';
+                } else {
+                    // Fall back to shortened recipient address
+                    tx.recipientLabel = tx.recipient.slice(0, 14) + '...';
+                }
+            }
 
             if (sender) tx.type = 'outgoing';
             if (recipient) tx.type = 'incoming';
