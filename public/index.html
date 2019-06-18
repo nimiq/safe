@@ -10,6 +10,21 @@
     <!-- Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#1F2348"> <!-- Nimiq Blue -->
+    <!--
+    PWA Standalone Mode doesn't work on iOS due to separated contexts between PWA and Safari.
+    Unfortunately, Safe and Keyguard live in different contexts on iOS Standalone PWA too.
+
+    Therefore disabled Standalone PWA and using In-Browser PWA instead through own manifest for iOS devices.
+    For that purpose we use a server-side transparent rewrite.
+    An example for nginx would be:
+
+    # redirect iOS users to a custom PWA manifest due to broken PWA.
+    location /manifest.json {
+      if ($http_user_agent ~* '(iPhone|iPod|iPad)') {
+        rewrite ^/pwa/manifest.json$ /pwa/manifest-ios.json;
+      }
+    }
+    -->
     <link rel="manifest" href="pwa/manifest.json">
     <meta name="google" content="notranslate">
     <!-- iOS ( See: https://developer.apple.com/libraries/content/documentation/AppleApplications/Reference/SafariWebContent/ConfiguringWebApplications/ConfiguringWebApplications.html ) -->

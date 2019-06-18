@@ -39,7 +39,7 @@ const configureWebpack = {
         devtoolFallbackModuleFilenameTemplate: 'webpack:///[resource-path]?[hash]'
     },
     devServer: {
-        port: 8081,
+        port: 8888,
         clientLogLevel: 'warn'
     }
 };
