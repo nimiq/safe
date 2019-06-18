@@ -5,7 +5,7 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoTransactions from './x-no-transactions.js';
 import XPaginator from '../x-paginator/x-paginator.js';
-import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from './transactions-redux.js';
+import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from '../../redux/transactions-redux.js';
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../config/config.js';

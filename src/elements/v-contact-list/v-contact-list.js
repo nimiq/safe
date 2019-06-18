@@ -5,7 +5,7 @@ import XElement from '../../lib/x-element/x-element.js'
 import MixinRedux from '../mixin-redux.js'
 import XSendTransactionModal from '../x-send-transaction/x-send-transaction-modal.js'
 import { spaceToDash } from '../../lib/parameter-encoding.js'
-import { setContact, removeContact } from './contacts-redux.js'
+import { setContact, removeContact } from '../../redux/contacts-redux.js'
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js'
 import XToast from '../x-toast/x-toast.js';
 import ReduxProvider from 'vuejs-redux';

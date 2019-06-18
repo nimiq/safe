@@ -11,7 +11,7 @@ import {
     switchWallet,
     rename,
     removeAccount,
-} from './wallet-redux.js';
+} from './redux/wallet-redux.js';
 import AccountType from './lib/account-type.js';
 
 const APP_NAME = 'Accounts';

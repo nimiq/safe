@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { WalletType } from '../wallet-redux.js';
+import { WalletType } from '../redux/wallet-redux.js';
 import { accountsArray$ } from './account$.js';
 
 export const wallets$ = state => state.wallets.wallets;

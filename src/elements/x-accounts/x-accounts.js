@@ -5,7 +5,7 @@ import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '../../lib/parameter-encoding.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import { activeWallet$, activeWalletId$ } from '../../selectors/wallet$.js';
-import { WalletType }  from '../../wallet-redux.js';
+import { WalletType }  from '../../redux/wallet-redux.js';
 
 export default class XAccounts extends MixinRedux(XElement) {
 

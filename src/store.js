@@ -1,7 +1,7 @@
 import configureStore from './configure-store.js';
-import { initialState as initialNetworkState } from './elements/x-network-indicator/network-redux.js';
-import { initialState as initialSettingsState } from './settings/settings-redux.js';
-import { initialState as initialWalletState } from './wallet-redux.js';
+import { initialState as initialNetworkState } from './redux/network-redux.js';
+import { initialState as initialSettingsState } from './redux/settings-redux.js';
+import { initialState as initialWalletState } from './redux/wallet-redux.js';
 
 const CACHE_VERSION = 2;
 

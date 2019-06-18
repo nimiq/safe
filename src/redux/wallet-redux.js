@@ -1,5 +1,5 @@
-import AccountType from './lib/account-type.js';
-import networkClient from './network-client.js';
+import AccountType from '../lib/account-type.js';
+import networkClient from '../network-client.js';
 
 export const TypeKeys = {
     ADD_ACCOUNT: 'wallet/add-account',

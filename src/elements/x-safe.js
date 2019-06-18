@@ -25,7 +25,7 @@ import VContactList from '../elements/v-contact-list/v-contact-list.js';
 import VContactListModal from '../elements/v-contact-list/v-contact-list-modal.js';
 import VWalletSelector from '../elements/v-wallet-selector/v-wallet-selector.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
-import { WalletType } from '../wallet-redux.js';
+import { WalletType } from '../redux/wallet-redux.js';
 
 export default class XSafe extends MixinRedux(XElement) {
 

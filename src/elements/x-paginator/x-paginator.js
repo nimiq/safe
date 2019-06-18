@@ -1,6 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import MixinRedux from '../mixin-redux.js';
-import { setPage } from '../x-transactions/transactions-redux.js';
+import { setPage } from '../../redux/transactions-redux.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 
 export default class XPaginator extends MixinRedux(XElement) {
