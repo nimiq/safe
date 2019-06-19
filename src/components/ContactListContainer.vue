@@ -71,16 +71,23 @@ import XToast from '../elements/x-toast/x-toast.js';
 import '../elements/x-toast/x-toast.css';
 import XSendTransactionModal from '../elements/x-send-transaction/x-send-transaction-modal.js';
 import { spaceToDash } from '../lib/parameter-encoding.js'
+import XElement from '../lib/x-element/x-element';
 
 @Component({ components: { Contact, NewContact } })
 export default class ContactListContainer extends Vue {
     @Prop(Array) public contacts!: Array<{ address: string, label: string }>;
     @Prop(Object) public actions!: any;
 
-    public mounted() {
+    private _xElements: XElement[] = [];
+
+    private mounted() {
         /* tslint:disable:no-unused-expression */
-        new XPopupMenu(this.$el.querySelector('.x-popup-menu'));
+        this._xElements = [ new XPopupMenu(this.$el.querySelector('.x-popup-menu')) ];
         /* tslint:enable:no-unused-expression */
+    }
+
+    private destroyed() {
+        this._xElements.forEach((xElement) => xElement.destroy());
     }
 
     private isIOS() {
