@@ -134,8 +134,6 @@ export default class App extends Vue {
             new XAccounts(this.$el.querySelector('#x-accounts')),
             new XSettings(this.$el.querySelector('#x-settings')),
         ];
-
-        setTimeout(() => document.body.classList.remove('preparing'));
     }
 
     private destroyed() {
@@ -149,8 +147,6 @@ export default class App extends Vue {
 html,
 body {
     overflow-x: hidden;
-    background: #fafafa;
-    display: initial;
 }
 
 .header-warning {
@@ -391,14 +387,6 @@ footer > div {
 footer > a {
     text-decoration: underline;
     cursor: pointer;
-}
-
-body.preparing > * {
-    visibility: hidden !important;
-}
-
-body.preparing footer {
-    opacity: 0;
 }
 
 .x-disclaimer-modal {
