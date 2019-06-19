@@ -247,89 +247,90 @@ export default class ContactListContainer extends Vue {
     padding: 8px;
     cursor: pointer;
 }
+
 .header > [add]:hover {
     border-radius: 50%;
     background-color: rgba(0, 0, 0, .075);
 }
 
- .contact-list {
-        position: relative;
-    }
+.contact-list {
+    position: relative;
+}
 
-    .contact-list .search-field {
-        width: 100%;
-        border: none !important;
-        padding: 1.5rem 5rem;
-        background: rgba(0, 0, 0, 0.05);
-        border-radius: 0.5rem;
-        text-align: left;
-    }
+.contact-list .search-field {
+    width: 100%;
+    border: none !important;
+    padding: 1.5rem 5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 0.5rem;
+    text-align: left;
+}
 
-    .contact-list .search-field:focus {
-        background: rgba(0, 0, 0, 0.075);
-    }
+.contact-list .search-field:focus {
+    background: rgba(0, 0, 0, 0.075);
+}
 
-    .contact-list .search-field::placeholder {
-        text-align: left;
-    }
+.contact-list .search-field::placeholder {
+    text-align: left;
+}
 
-    .contact-list .search-icon {
-        position: absolute;
-        left: 1rem;
-        top: 1.5rem;
-        opacity: 0.4;
-    }
+.contact-list .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    opacity: 0.4;
+}
 
-    .contact-list .search-field:focus ~ .search-icon {
-        opacity: 0.8;
-    }
+.contact-list .search-field:focus ~ .search-icon {
+    opacity: 0.8;
+}
 
-    .contact-list .search-clear {
-        position: absolute;
-        right: 0.5rem;
-        top: 1rem;
-        opacity: 0.4;
-        padding: 0.5rem;
-        border-radius: 50%;
-        cursor: pointer;
-    }
+.contact-list .search-clear {
+    position: absolute;
+    right: 0.5rem;
+    top: 1rem;
+    opacity: 0.4;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
 
-    .contact-list .search-clear:hover,
-    .contact-list .search-clear:focus {
-        background: rgba(0, 0, 0, 0.1);
-        opacity: 0.8;
-    }
+.contact-list .search-clear:hover,
+.contact-list .search-clear:focus {
+    background: rgba(0, 0, 0, 0.1);
+    opacity: 0.8;
+}
 
-    .contact-list .list {
-        margin-top: 2rem;
-    }
+.contact-list .list {
+    margin-top: 2rem;
+}
 
-    .contact-list .contact {
-        padding: 1rem;
-    }
+.contact-list .contact {
+    padding: 1rem;
+}
 
-    .contact-list .contact:hover {
-        background-color: rgba(0, 0, 0, 0.075);
-    }
+.contact-list .contact:hover {
+    background-color: rgba(0, 0, 0, 0.075);
+}
 
-    .contact-list .no-contacts {
-        text-align: center;
-        opacity: 0.6;
-    }
+.contact-list .no-contacts {
+    text-align: center;
+    opacity: 0.6;
+}
 
-    .contact-list .no-contacts .material-icons {
-        display: block;
-        font-size: 10rem;
-        line-height: 1.1;
-        opacity: 0.3;
-    }
+.contact-list .no-contacts .material-icons {
+    display: block;
+    font-size: 10rem;
+    line-height: 1.1;
+    opacity: 0.3;
+}
 
-    .contact-list .file-import {
-        width: 0;
-        height: 0;
-        opacity: 0;
-        position: absolute;
-        left: -9999px;
-        top: -9999px;
-    }
+.contact-list .file-import {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+    top: -9999px;
+}
 </style>

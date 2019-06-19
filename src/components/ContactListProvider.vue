@@ -1,9 +1,9 @@
 <template>
-  <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template slot-scope="{contacts, actions}">
-        <ContactListContainer :contacts="contacts" :actions="actions"  />
-    </template>
-  </ReduxProvider>
+    <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
+        <template v-slot="{contacts, actions}">
+            <ContactListContainer :contacts="contacts" :actions="actions"/>
+        </template>
+    </ReduxProvider>
 </template>
 
 <script lang="ts">
