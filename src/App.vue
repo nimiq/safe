@@ -114,26 +114,32 @@ import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './settings/x-settings.js';
+import XElement from './lib/x-element/x-element';
 
 import '@nimiq/style/nimiq-style.min.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
 @Component({ components: { LoadingSpinner, ContactListContainer } })
 export default class App extends Vue {
+    private _xElements: XElement[] = [];
 
-    public async mounted() {
+    private mounted() {
         const $appContainer = this.$el;
         MixinSingleton.appContainer = $appContainer;
 
-        // tslint:disable:no-unused-expressions
-        new XTotalAmount(this.$el.querySelector('#x-total-amount'));
-        new XTransactions(this.$el.querySelector('#x-transactions'));
-        new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal'));
-        new XAccounts(this.$el.querySelector('#x-accounts'));
-        new XSettings(this.$el.querySelector('#x-settings'));
-        // tslint:enable:no-unused-expressions
+        this._xElements = [
+            new XTotalAmount(this.$el.querySelector('#x-total-amount')),
+            new XTransactions(this.$el.querySelector('#x-transactions')),
+            new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal')),
+            new XAccounts(this.$el.querySelector('#x-accounts')),
+            new XSettings(this.$el.querySelector('#x-settings')),
+        ];
 
         setTimeout(() => document.body.classList.remove('preparing'));
+    }
+
+    private destroyed() {
+        this._xElements.forEach((xElement) => xElement.destroy());
     }
 }
 </script>
