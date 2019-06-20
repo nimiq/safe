@@ -1,9 +1,9 @@
-import XElement from '../lib/x-element/x-element.js';
-import MixinRedux from '../elements/mixin-redux.js';
-import XSendPreparedTransactionModal from '../elements/x-send-transaction/x-send-prepared-transaction-modal.js';
-import { showAllDecimals } from '../redux/settings-redux.js';
-import { Store } from '../store.js';
-import MixinModal from '../elements/mixin-modal/mixin-modal.js';
+import XElement from '../../lib/x-element/x-element.js';
+import MixinRedux from '../mixin-redux.js';
+import XSendPreparedTransactionModal from '../x-send-transaction/x-send-prepared-transaction-modal.js';
+import { showAllDecimals } from '../../redux/settings-redux.js';
+import { Store } from '../../store.js';
+import MixinModal from '../mixin-modal/mixin-modal.js';
 
 export default class XSettings extends MixinModal(MixinRedux(XElement)) {
     html(){

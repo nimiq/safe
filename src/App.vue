@@ -113,7 +113,7 @@ import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-reques
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
-import XSettings from './settings/x-settings.js';
+import XSettings from './elements/x-settings/x-settings.js';
 import XElement from './lib/x-element/x-element';
 
 import '@nimiq/style/nimiq-style.min.css';

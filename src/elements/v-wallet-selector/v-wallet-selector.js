@@ -6,7 +6,7 @@ import MixinRedux from '../mixin-redux.js';
 import { switchWallet } from '../../redux/wallet-redux.js';
 import { walletsArray$, activeWalletId$, activeWallet$ } from '../../selectors/wallet$.js';
 import hubClient from '../../hub-client.js';
-import XSettings from '../../settings/x-settings.js';
+import XSettings from '../x-settings/x-settings.js';
 
 export default class VWalletSelector extends MixinRedux(XElement) {
     html() {
