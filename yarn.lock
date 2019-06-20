@@ -2627,9 +2627,10 @@ vue@^2.5.17:
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
   integrity sha512-ImThpeNU9HbdZL3utgMCq0oiMzAkt1mcgy3/E6zWC/G6AaQoeuFdsl9nDhTDU3X1R6FK7nsIUuRACVcjI+A2GQ==
 
-"vuejs-redux@https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2":
-  version "2.2.0"
-  resolved "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+vuejs-redux@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/vuejs-redux/-/vuejs-redux-2.4.1.tgz#1aafdacb887fba26f7505ab16d3d73642453c38d"
+  integrity sha512-6oMpEW2wFWOAyixcJHTOjV60ZLX+UhjYt0MTOr5obi0wedon0giYvIzroXg+AWMVJLZaE/uyhRQalqo2YwQrjA==
 
 which-module@^1.0.0:
   version "1.0.0"

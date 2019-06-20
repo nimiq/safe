@@ -21,6 +21,6 @@
     "@nimiq/vue-components": "https://github.com/nimiq/vue-components#build/safe",
     "babel-preset-minify": "^0.3.0",
     "gulp": "^4.0.0",
-    "vuejs-redux": "https://github.com/nimiq/vuejs-redux#d62dda09e2417eb890e4ffa5c26ace2807661ec2"
+    "vuejs-redux": "^2.4.1"
   }
 }
