@@ -1,11 +1,5 @@
 <template>
     <div id="app">
-        <header class="logo">
-            <span class="nq-icon nimiq-logo"></span>
-            <span class="logo-wordmark">Nimiq</span>
-            <span class="logo-subtitle"></span>
-        </header>
-        <div>
             <div id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
@@ -96,7 +90,6 @@
                 <a disclaimer>Disclaimer</a>
             </footer>
         </div>
-    </div>
 </template>
 
 <script lang="ts">
@@ -115,9 +108,10 @@ import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
+import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
 import XElement from './lib/x-element/x-element';
 
-import '@nimiq/style/nimiq-style.min.css';
+import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
 @Component({ components: { LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
@@ -135,6 +129,7 @@ export default class App extends Vue {
             new XSendTransactionModal(this.$el.querySelector('#x-send-transaction-modal')),
             new XAccounts(this.$el.querySelector('#x-accounts')),
             new XSettings(this.$el.querySelector('#x-settings')),
+            new XNetworkIndicator(this.$el.querySelector('#x-network-indicator')),
         ];
 
         this._onResize = this._onResize.bind(this);
@@ -153,6 +148,17 @@ export default class App extends Vue {
 </script>
 
 <style>
+@import './elements/x-router/x-router.css';
+@import './elements/x-accounts/x-accounts.css';
+@import './elements/x-transactions/x-transactions.css';
+@import './elements/x-toast/x-toast.css';
+@import './elements/x-amount/x-amount.css';
+@import './elements/x-network-indicator/x-network-indicator.css';
+@import './elements/x-send-transaction/x-send-transaction-modal.css';
+@import './elements/x-request-link/x-receive-request-link-modal.css';
+@import './elements/x-request-link/x-create-request-link-modal.css';
+@import './elements/x-settings/x-settings.css';
+@import './elements/x-faucet-modal.css';
 
 html,
 body {
