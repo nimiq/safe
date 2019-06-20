@@ -1,6 +1,6 @@
 <template>
-    <div class="v-wallet-selector">
-        <div ref="backdrop" @click="backdropListener" class="v-wallet-selector-backdrop"></div>
+    <div class="wallet-selector">
+        <div ref="backdrop" @click="backdropListener" class="wallet-selector-backdrop"></div>
         <div @click="toggleMenu" active-wallet-label></div>
         <div class="v-wallet-menu">
             <WalletMenu
@@ -106,18 +106,18 @@ export default class ContactListProvider extends Vue {
 </script>
 
 <style>
-.v-wallet-selector {
+.wallet-selector {
     display: inline-block;
 }
 
 
 @media (min-width: 621px) {
-    .v-wallet-selector {
+    .wallet-selector {
         position: relative;
     }
 }
 
-.v-wallet-selector [active-wallet-label] {
+.wallet-selector [active-wallet-label] {
     position: relative;
     padding: 14px;
     margin-top: -14px;
@@ -132,12 +132,12 @@ export default class ContactListProvider extends Vue {
     line-height: 20px;
 }
 
-.v-wallet-selector [active-wallet-label]:hover,
-.v-wallet-selector.menu-active [active-wallet-label] {
+.wallet-selector [active-wallet-label]:hover,
+.wallet-selector.menu-active [active-wallet-label] {
     opacity: 1;
 }
 
-.v-wallet-selector [active-wallet-label]::after {
+.wallet-selector [active-wallet-label]::after {
     content: '';
     margin-left: 9px;
     width: 14px;
@@ -152,15 +152,15 @@ export default class ContactListProvider extends Vue {
     transform-origin: 50% 67%;
 }
 
-.v-wallet-selector.menu-active [active-wallet-label]::after {
+.wallet-selector.menu-active [active-wallet-label]::after {
     transform: rotate(180deg);
 }
 
-.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+.wallet-selector.menu-active .wallet-selector-backdrop {
     display: block;
 }
 
-.v-wallet-selector .v-wallet-menu {
+.wallet-selector .v-wallet-menu {
     position: absolute;
     top: -9999rem;
     z-index: 1000;
@@ -171,17 +171,17 @@ export default class ContactListProvider extends Vue {
     transition: opacity .3s ease-out, transform .3s ease-out, top 0s .3s;
 }
 
-.v-wallet-selector.menu-active .v-wallet-menu {
+.wallet-selector.menu-active .v-wallet-menu {
     opacity: 1;
     transform: translateY(0);
     transition: opacity .3s ease-out, transform .3s ease-out;
 }
 
-.v-wallet-selector .wallet-menu {
+.wallet-selector .wallet-menu {
     min-height: unset !important;
 }
 
-.v-wallet-selector button {
+.wallet-selector button {
     box-shadow: unset;
     width: unset;
     min-height: unset;
@@ -256,7 +256,7 @@ export default class ContactListProvider extends Vue {
     background-color: rgba(5, 130, 202, 0.16); /* Based on Nimiq Light Blue */
 }
 
-.v-wallet-selector-backdrop {
+.wallet-selector-backdrop {
     position: fixed;
     top: 0;
     left: 0;
@@ -269,11 +269,11 @@ export default class ContactListProvider extends Vue {
     transition: background .4s ease-in-out;
 }
 
-.v-wallet-selector.menu-active [active-wallet-label] {
+.wallet-selector.menu-active [active-wallet-label] {
     z-index: 1000;
 }
 
-.v-wallet-selector.menu-active .v-wallet-selector-backdrop {
+.wallet-selector.menu-active .wallet-selector-backdrop {
     background: rgba(31, 35, 72, .8); /* Nimiq Indigo 80% */
 }
 

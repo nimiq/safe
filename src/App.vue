@@ -493,25 +493,25 @@ nav.actions.floating-actions {
     display: none !important;
 }
 
-.v-wallet-selector.desktop .v-wallet-menu {
+.wallet-selector.desktop .v-wallet-menu {
     right: 0;
 }
 
-.v-wallet-selector.menu-active.desktop .v-wallet-menu {
+.wallet-selector.menu-active.desktop .v-wallet-menu {
     top: 4.25rem;
 }
 
-.v-wallet-selector.mobile .v-wallet-menu {
+.wallet-selector.mobile .v-wallet-menu {
     left: 0;
     padding: 0 1rem;
     width: 100vw;
 }
 
-.v-wallet-selector.menu-active.mobile .v-wallet-menu {
+.wallet-selector.menu-active.mobile .v-wallet-menu {
     top: unset;
 }
 
-.v-wallet-selector.mobile .wallet-menu {
+.wallet-selector.mobile .wallet-menu {
     margin: auto;
 }
 
@@ -556,8 +556,8 @@ nav.actions.floating-actions {
         margin-left: 0;
     }
 
-    .v-wallet-selector [active-wallet-label],
-    .v-wallet-selector [active-wallet-label-mobile] {
+    .wallet-selector [active-wallet-label],
+    .wallet-selector [active-wallet-label-mobile] {
         padding: 14px 8px;
         margin-left: 6px;
     }
