@@ -159,52 +159,6 @@ export default class ContactListProvider extends Vue {
     display: unset;
 }
 
-/** Some styles required from @nimiq/style, as not included in VueComponents **/
-
-.nq-orange {
-    color: var(--nimiq-orange) !important;
-}
-
-.nq-blue-bg {
-    background: var(--nimiq-blue);
-    background-image: var(--nimiq-blue-bg);
-}
-
-.nq-icon {
-    width: 1em;
-    height: 1em;
-}
-
-.nq-button-s {
-    display: inline-block;
-    font-size: 1.75rem;
-    line-height: 2rem;
-    height: 3.375rem;
-    text-decoration: none;
-    font-weight: bold;
-    letter-spacing: 0.014em;
-    padding: 0 1.5rem;
-    background-color: rgba(31, 35, 72, 0.07); /* Based on Nimiq Blue */
-    color: var(--nimiq-blue);
-    border-radius: 1.6875rem;
-    transition: color 300ms cubic-bezier(0.25, 0, 0, 1), background-color 300ms cubic-bezier(0.25, 0, 0, 1);
-    will-change: color, background-color;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    font-family: inherit;
-}
-
-.nq-button-s::after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: -1.5rem;
-    top: -1.5rem;
-    right: -1.5rem;
-    bottom: -1.5rem;
-}
-
 .nq-button-s.add-account:hover {
     background-color: rgba(31, 35, 72, 0.12); /* Based on Nimiq Blue */
 }
