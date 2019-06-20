@@ -1,6 +1,8 @@
 <template>
+    <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
+    <template v-slot="{showBackupWords, showBackupFile}">
     <div id="app">
-            <div id="testnet-warning" class="header-warning display-none">
+            <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
@@ -24,7 +26,7 @@
                 <WalletSelectorProvider v-if="useMobileWalletSelector" />
                 <div id="x-total-amount"></div>
                 <div class="header-bottom content-width">
-                    <div class="backup-reminder words">
+                    <div v-if="showBackupWords" class="backup-reminder words">
                         <a class="action" backup-words>
                             <div class="icon words">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
@@ -33,7 +35,7 @@
                         </a>
                         <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
                     </div>
-                    <div class="backup-reminder file">
+                    <div v-if="showBackupFile" class="backup-reminder file">
                         <a class="action" backup-file>
                             <div class="icon file">
                                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
@@ -90,13 +92,21 @@
                 <a disclaimer>Disclaimer</a>
             </footer>
         </div>
+    </template>
+    </ReduxProvider>
 </template>
 
 <script lang="ts">
 import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
+import { bindActionCreators } from 'redux';
 
+import hubClient from './hub-client.js';
+import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
+import { activeWallet$ } from './selectors/wallet$.js';
+import { WalletType } from './redux/wallet-redux.js';
+import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 
 import MixinSingleton from './elements/mixin-singleton.js';
@@ -114,7 +124,7 @@ import XElement from './lib/x-element/x-element';
 import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
-@Component({ components: { LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
+@Component({ components: { ReduxProvider, LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
 export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
@@ -143,6 +153,28 @@ export default class App extends Vue {
 
     private _onResize() {
         this.useMobileWalletSelector = window.innerWidth <= 620;
+    }
+
+    private get isTestnet() {
+        return Config.network === 'test';
+    }
+
+    private mapStateToProps(state: any) {
+        const activeWallet = activeWallet$(state);
+        const showBackupFile = activeWallet.type !== WalletType.LEGACY && !activeWallet.fileExported;
+        const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
+                                && !activeWallet.wordsExported;
+        return {
+            height: state.network.height,
+            hasConsensus: state.network.consensus === 'established',
+            walletsLoaded: state.wallets.hasContent,
+            showBackupFile,
+            showBackupWords,
+        };
+    }
+
+    private mapDispatchToProps(dispatch: any) {
+        return { actions: bindActionCreators( { }, dispatch) };
     }
 }
 </script>
