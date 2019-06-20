@@ -493,22 +493,14 @@ nav.actions.floating-actions {
     display: none !important;
 }
 
-.wallet-selector.desktop .v-wallet-menu {
+.wallet-selector.desktop .wallet-menu {
     right: 0;
 }
 
-.wallet-selector.menu-active.desktop .v-wallet-menu {
-    top: 4.25rem;
-}
-
-.wallet-selector.mobile .v-wallet-menu {
+.wallet-selector.mobile .wallet-menu {
     left: 0;
     padding: 0 1rem;
     width: 100vw;
-}
-
-.wallet-selector.menu-active.mobile .v-wallet-menu {
-    top: unset;
 }
 
 .wallet-selector.mobile .wallet-menu {
