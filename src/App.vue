@@ -209,7 +209,7 @@ export default class App extends Vue {
     }
 
     private exportFile(id: number) {
-        hubClient.exportWords(id);
+        hubClient.export(id);
     }
 
     private receive() {
