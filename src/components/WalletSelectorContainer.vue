@@ -84,13 +84,9 @@ export default class ContactListProvider extends Vue {
 
 <style>
 .wallet-selector {
-    display: inline-block;
-}
-
-@media (min-width: 621px) {
-    .wallet-selector {
-        position: relative;
-    }
+    display: inline-flex;
+    justify-content: center;
+    position: relative;
 }
 
 .wallet-selector .active-wallet-label {
@@ -133,6 +129,7 @@ export default class ContactListProvider extends Vue {
 
 .wallet-selector .wallet-menu {
     position: absolute;
+    top: 4rem;
     z-index: 1;
     color: var(--nimiq-blue);
     text-align: left;
@@ -195,5 +192,16 @@ export default class ContactListProvider extends Vue {
 .transition-from-top-leave-to {
     opacity: 0;
     transform: translateY(-1rem);
+}
+
+@media (max-width: 620px) {
+    .wallet-selector .wallet-menu {
+        width: calc(100vw - 4rem);
+    }
+
+    .wallet-selector [active-wallet-label] {
+        padding: 14px 8px;
+        margin-left: 6px;
+    }
 }
 </style>

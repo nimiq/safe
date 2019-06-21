@@ -23,11 +23,11 @@
                     <nav class="secondary-links">
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
-                        <WalletSelectorProvider class="desktop mobile-hidden" />
+                        <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
                         <div id="x-settings"></div>
                     </nav>
                 </div>
-                <!--<v-wallet-selector class="mobile mobile-inline-block"></v-wallet-selector> -->
+                <WalletSelectorProvider v-if="useMobileWalletSelector" />
                 <div id="x-total-amount"></div>
                 <div class="header-bottom content-width">
                     <div class="backup-reminder words">
@@ -122,6 +122,7 @@ import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 
 @Component({ components: { LoadingSpinner, ContactListProvider, WalletSelectorProvider } })
 export default class App extends Vue {
+    private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
 
     private mounted() {
@@ -135,10 +136,18 @@ export default class App extends Vue {
             new XAccounts(this.$el.querySelector('#x-accounts')),
             new XSettings(this.$el.querySelector('#x-settings')),
         ];
+
+        this._onResize = this._onResize.bind(this);
+        window.addEventListener('resize', this._onResize);
     }
 
     private destroyed() {
         this._xElements.forEach((xElement) => xElement.destroy());
+        window.removeEventListener('resize', this._onResize);
+    }
+
+    private _onResize() {
+        this.useMobileWalletSelector = window.innerWidth <= 620;
     }
 }
 </script>
@@ -489,31 +498,13 @@ nav.actions.floating-actions {
     opacity: 1;
 }
 
-.mobile-inline-block {
-    display: none !important;
-}
-
 .wallet-selector.desktop .wallet-menu {
     right: 0;
-}
-
-.wallet-selector.mobile .wallet-menu {
-    left: 0;
-    padding: 0 1rem;
-    width: 100vw;
-}
-
-.wallet-selector.mobile .wallet-menu {
-    margin: auto;
 }
 
 @media (max-width: 620px) {
     .mobile-hidden {
         display: none;
-    }
-
-    .mobile-inline-block {
-        display: inline-block !important;
     }
 }
 
@@ -546,12 +537,6 @@ nav.actions.floating-actions {
 
     .secondary-links a:first-child {
         margin-left: 0;
-    }
-
-    .wallet-selector [active-wallet-label],
-    .wallet-selector [active-wallet-label-mobile] {
-        padding: 14px 8px;
-        margin-left: 6px;
     }
 }
 
