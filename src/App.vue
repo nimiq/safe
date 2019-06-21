@@ -33,7 +33,6 @@
                             </div>
                             <strong class="text">Backup your Account with Recovery Words.</strong>
                         </a>
-                        <a class="dismiss display-none" dismiss-backup-words>&times;<span> dismiss</span></a>
                     </div>
                     <div v-if="showBackupFile" class="backup-reminder file">
                         <a class="action" backup-file @click="exportFile(activeWallet.id)">
@@ -42,7 +41,6 @@
                             </div>
                             <strong class="text">Download your Login File to save your Account.</strong>
                         </a>
-                        <a class="dismiss display-none" dismiss-backup-file>&times;<span> dismiss</span></a>
                     </div>
                 </div>
             </header>
@@ -407,24 +405,6 @@ x-total-amount {
 .backup-reminder .icon svg {
     margin: 12px 0 -16px 13px;
 }
-
-.backup-reminder .dismiss {
-    opacity: 0.5;
-    cursor: pointer;
-}
-
-.backup-reminder .dismiss span {
-    display: none;
-}
-
-.backup-reminder .dismiss:hover {
-    opacity: 0.8;
-}
-
-.backup-reminder .dismiss:hover span {
-    display: inline;
-}
-
 
 .x-view-dashboard,
 .x-view-history,
