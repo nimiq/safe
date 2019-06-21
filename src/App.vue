@@ -89,7 +89,8 @@
             <footer class="nimiq-dark">
                 <div class="x-network-indicator"></div>
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
-                <a disclaimer @click="showDisclaimer">Disclaimer</a>
+                <a @click="showDisclaimer">Disclaimer</a>
+                <a @click="_showEducationSlides">Safety Primer</a>
             </footer>
         </div>
     </template>
@@ -116,6 +117,7 @@ import XTransactionModal from './elements/x-transactions/x-transaction-modal.js'
 import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-request-link-modal.js';
 import XCreateRequestLinkModal from './elements/x-request-link/x-create-request-link-modal.js';
 import XDisclaimerModal from './elements/x-disclaimer-modal.js';
+import XEducationSlides from './elements/x-education-slides/x-education-slides.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
@@ -219,6 +221,11 @@ export default class App extends Vue {
     private scan() {
         XSendTransactionModal.show(null, 'scan');
     }
+
+    private _showEducationSlides() {
+        XEducationSlides.onFinished = XEducationSlides.hide;
+        XEducationSlides.start();
+    }
 }
 </script>
 
@@ -234,6 +241,7 @@ export default class App extends Vue {
 @import './elements/x-request-link/x-create-request-link-modal.css';
 @import './elements/x-settings/x-settings.css';
 @import './elements/x-faucet-modal.css';
+@import './elements/x-education-slides/x-education-slides.css';
 
 html,
 body {
