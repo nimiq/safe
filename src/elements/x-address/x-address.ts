@@ -4,20 +4,20 @@ import Clipboard from '../../lib/clipboard.js';
 import XToast from '../x-toast/x-toast.js';
 
 export default class XAddress extends XElement {
-    styles() { return ['x-address'] }
+    protected styles() { return ['x-address']; }
 
-    listeners() {
+    protected listeners() {
         return {
-            'click': this._onCopy
-        }
+            click: this._onCopy,
+        };
     }
 
-    _onCopy() {
+    private _onCopy() {
         Clipboard.copy(this.$el.textContent);
-        XToast.show('Address copied to clipboard!')
+        XToast.show('Address copied to clipboard!');
     }
 
-    set address(address) {
+    public set address(address: string) {
         if (ValidationUtils.isValidAddress(address)) {
             this.$el.textContent = address;
         } else {

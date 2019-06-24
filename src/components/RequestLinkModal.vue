@@ -34,7 +34,8 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { QrCode } from '@nimiq/vue-components';
 import { createRequestLink } from '@nimiq/utils';
-import XAddress from '../elements/x-address/x-address.js';
+import XElement from '../lib/x-element/x-element';
+import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input.js';
 import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
@@ -44,14 +45,12 @@ import Config from '../config/config.js';
 export default class RequestLinkModal extends Vue {
     @Prop(Object) public addressInfo!: any;
 
-    private xAmountInput: any = null;
-    private xAddress: any = null;
+    private xAmountInput!: any;
+    private xAddress!: XAddress;
 
     public mounted() {
-        /* tslint:disable:no-unused-expression */
-        this.xAddress = new XAddress(this.$el.querySelector('.x-address'));
+        this.xAddress = new XAddress(this.$el.querySelector('.x-address') as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input'));
-        /* tslint:enable:no-unused-expression */
     }
 
     public updated() {
