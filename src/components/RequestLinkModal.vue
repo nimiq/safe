@@ -19,7 +19,7 @@
                                 <div>Copy your link:</div>
                                 <div class="x-request-link">{{ link }}</div>
                             </div>
-                            <div class="qr-code-container">
+                            <div class="qr-code-container" @click="openQrCodeOverlay">
                                 <QrCode :size="qrSize" :data="link" />
                             </div>
                         </div>
@@ -27,6 +27,7 @@
                 </ul>
             </div>
         </div>
+        <div ref="qr-code-overlay" />
     </div>
 </template>
 
@@ -38,6 +39,7 @@ import XElement from '../lib/x-element/x-element';
 import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input';
+import XQrCodeOverlay from '../elements/x-qr-code-overlay/x-qr-code-overlay';
 import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../config/config.js';
 
@@ -47,10 +49,12 @@ export default class RequestLinkModal extends Vue {
 
     private xAmountInput!: XAmountInput;
     private xAddress!: XAddress;
+    private xQrCodeOverlay!: XQrCodeOverlay;
 
     public mounted() {
         this.xAddress = new XAddress(this.$el.querySelector('.x-address') as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input') as HTMLElement);
+        this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
     }
 
     public updated() {
@@ -68,6 +72,11 @@ export default class RequestLinkModal extends Vue {
         if (!this.addressInfo) return null;
         const baseUrl = window.location.host;
         return createRequestLink(this.addressInfo.address, this.xAmountInput!.value as number, undefined, baseUrl);
+    }
+
+    private openQrCodeOverlay() {
+        if (!this.link || this.isMobile()) return;
+        this.xQrCodeOverlay.show(this.link, 'Scan this QR code\nto send to this address');
     }
 
     private isMobile() {

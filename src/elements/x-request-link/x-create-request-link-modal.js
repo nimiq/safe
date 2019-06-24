@@ -1,7 +1,6 @@
 /*import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
-import XQrCodeOverlay from '../x-qr-code-overlay/x-qr-code-overlay';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     onCreate() {
@@ -26,7 +25,6 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
                 text: 'Please send me Nimiq using this link:',
                 url: this._link
             }),
-            'click .qr-code-container': () => this._openQrOverlay(),
         }
     }
 
@@ -57,10 +55,5 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         this._link = createRequestLink(this._address, this.$amountInput.value, null, baseUrl);
         this.$requestLink.textContent = this._link;
         this._qrCode.data = this._link;
-    }
-
-    _openQrOverlay() {
-        if (this._isMobile()) return;
-        this.$xQrCodeOverlay.show(this._link, 'Scan this QR code\nto send to this address');
     }
 }*/
