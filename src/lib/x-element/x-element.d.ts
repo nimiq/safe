@@ -32,7 +32,7 @@ export default class XElement {
     protected $(selector: string): HTMLElement | null;
     protected $$(selector: string): NodeList;
     protected clear(): void;
-    protected fire(type: string, detail: any, bubbles?: boolean): void;
+    protected fire(type: string, detail?: any, bubbles?: boolean): void;
     protected addStyle(styleClass: string): void;
     protected removeStyle(styleClass: string): void;
 }

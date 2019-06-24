@@ -4,11 +4,11 @@ export default class XInput extends XElement {
     protected $input!: HTMLInputElement;
     protected _oldValue!: string;
 
-    public get value(): string {
+    public get value(): any {
         return this.$input.value;
     }
 
-    public set value(value: string) {
+    public set value(value: any) {
         this._oldValue = this.$input.value;
         this.$input.value = value;
         if (value !== this._oldValue) {
@@ -85,7 +85,7 @@ export default class XInput extends XElement {
         this.value = '';
     }
 
-    protected _validate(value: string) { return this.$input.checkValidity(); }
+    protected _validate(value?: any) { return this.$input.checkValidity(); }
 
     protected _notifyValidity() {
         const isValid = this._validate(this.value);

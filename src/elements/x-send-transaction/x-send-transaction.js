@@ -4,7 +4,7 @@ import { QrScanner } from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAddressInput from '../x-address-input/x-address-input.js';
-import XAmountInput from '../x-amount-input/x-amount-input.js';
+import XAmountInput from '../x-amount-input/x-amount-input';
 import XFeeInput from '../x-fee-input/x-fee-input.js';
 import XExtraDataInput from '../x-extra-data-input/x-extra-data-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';

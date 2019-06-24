@@ -37,7 +37,7 @@ import { createRequestLink } from '@nimiq/utils';
 import XElement from '../lib/x-element/x-element';
 import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
-import XAmountInput from '../elements/x-amount-input/x-amount-input.js';
+import XAmountInput from '../elements/x-amount-input/x-amount-input';
 import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../config/config.js';
 
@@ -45,12 +45,12 @@ import Config from '../config/config.js';
 export default class RequestLinkModal extends Vue {
     @Prop(Object) public addressInfo!: any;
 
-    private xAmountInput!: any;
+    private xAmountInput!: XAmountInput;
     private xAddress!: XAddress;
 
     public mounted() {
         this.xAddress = new XAddress(this.$el.querySelector('.x-address') as HTMLElement);
-        this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input'));
+        this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input') as HTMLElement);
     }
 
     public updated() {
@@ -67,7 +67,7 @@ export default class RequestLinkModal extends Vue {
     private get link() {
         if (!this.addressInfo) return null;
         const baseUrl = window.location.host;
-        return createRequestLink(this.addressInfo.address, this.xAmountInput!.value, undefined, baseUrl);
+        return createRequestLink(this.addressInfo.address, this.xAmountInput!.value as number, undefined, baseUrl);
     }
 
     private isMobile() {
