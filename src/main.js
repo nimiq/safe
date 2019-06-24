@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App.vue';
-import MixinRedux from './elements/mixin-redux.js';
+import MixinRedux from './elements/mixin-redux';
 import store from './store.js';
 
 import '@nimiq/style/nimiq-style.min.css';

@@ -3,7 +3,7 @@ import { ValidationUtils } from '@nimiq/utils';
 import MixinModal from '../mixin-modal/mixin-modal.js';
 import XAddress from '../x-address/x-address';
 import XTransaction from './x-transaction.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {

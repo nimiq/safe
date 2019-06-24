@@ -5,7 +5,7 @@ import Config from '../config/config.js';
 import { spaceToDash } from '../lib/parameter-encoding.js';
 import XRouter from '../elements/x-router/x-router.js';
 import XToast from '../elements/x-toast/x-toast.js';
-import MixinRedux from '../elements/mixin-redux.js';
+import MixinRedux from '../elements/mixin-redux';
 import XNetworkIndicator from '../elements/x-network-indicator/x-network-indicator.js';
 import XSendTransactionOfflineModal from '../elements/x-send-transaction/x-send-transaction-offline-modal.js';
 import XSendPreparedTransactionModal from '../elements/x-send-transaction/x-send-prepared-transaction-modal.js';

@@ -18,7 +18,7 @@ export default class XElement {
 
     public destroy(): void;
     public setProperty(name: string, value: any): boolean;
-    public setProperties(properties: { [name: string]: any }, reset: boolean): boolean;
+    public setProperties(properties: { [name: string]: any }, reset?: boolean): boolean;
     public addEventListener(type: string, callback: Function): void;
     public removeEventListener(type: string, callback: Function): void;
     public listenOnce(type: string, callback: Function, $el?: HTMLElement): void;

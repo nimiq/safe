@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import HubApi from '@nimiq/hub-api';
-import MixinRedux from './elements/mixin-redux.js';
+import MixinRedux from './elements/mixin-redux';
 import {
     addAccount,
     login,

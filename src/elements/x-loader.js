@@ -1,6 +1,6 @@
 /*import XElement from '../lib/x-element/x-element.js';
 import hubClient from '../hub-client.js';
-import MixinRedux from './mixin-redux.js';
+import MixinRedux from './mixin-redux';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import XSafe from './x-safe.js';
 

@@ -1,6 +1,6 @@
 import { AddressBook } from '@nimiq/utils';
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoTransactions from './x-no-transactions.js';

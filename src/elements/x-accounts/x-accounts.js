@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '../../lib/parameter-encoding.js';

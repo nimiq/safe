@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XAmount from '../x-amount/x-amount.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address';

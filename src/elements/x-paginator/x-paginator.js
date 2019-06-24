@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import { setPage } from '../../redux/transactions-redux.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 

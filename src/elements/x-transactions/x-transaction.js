@@ -1,6 +1,6 @@
 import moment from 'moment';
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAmount from '../x-amount/x-amount.js';
 

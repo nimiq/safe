@@ -1,6 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import XAccount from './x-account.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XNoAccounts from './x-no-accounts.js';
 import { activeAccounts$ } from '../../selectors/account$.js';
 import AccountType from '../../lib/account-type.js';

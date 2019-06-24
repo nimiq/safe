@@ -9,7 +9,7 @@ import XFeeInput from '../x-fee-input/x-fee-input.js';
 import XExtraDataInput from '../x-extra-data-input/x-extra-data-input.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '../../network-client.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 // import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../config/config.js';
 import AccountType from '../../lib/account-type.js';

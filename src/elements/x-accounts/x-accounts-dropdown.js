@@ -2,7 +2,7 @@ import XElement from '../../lib/x-element/x-element.js';
 import XExpandable from '../x-expandable/x-expandable.js';
 import XAccount from './x-account.js';
 import XAccountsList from './x-accounts-list.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import AccountType from '../../lib/account-type.js';
 import { activeAccounts$ } from '../../selectors/account$.js';
 

@@ -1,5 +1,5 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinRedux from '../mixin-redux.js';
+import MixinRedux from '../mixin-redux';
 import XSendPreparedTransactionModal from '../x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from '../../redux/settings-redux.js';
 import { Store } from '../../store.js';
