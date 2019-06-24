@@ -1,7 +1,7 @@
 /*import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
-import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
+import XQrCodeOverlay from '../x-qr-code-overlay/x-qr-code-overlay';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     onCreate() {
@@ -61,6 +61,6 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
 
     _openQrOverlay() {
         if (this._isMobile()) return;
-        this.$vQrCodeOverlay.show(this._link, 'Scan this QR code\nto send to this address');
+        this.$xQrCodeOverlay.show(this._link, 'Scan this QR code\nto send to this address');
     }
 }*/

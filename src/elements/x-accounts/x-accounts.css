@@ -3,7 +3,7 @@
 @import '../x-loading-animation/x-loading-animation.css';
 @import '../x-amount/x-amount.css';
 @import '../x-popup-menu/x-popup-menu.css';
-@import '../v-qr-code-overlay/v-qr-code-overlay.css';
+@import '../x-qr-code-overlay/x-qr-code-overlay.css';
 
 .x-accounts {
     text-align: right;

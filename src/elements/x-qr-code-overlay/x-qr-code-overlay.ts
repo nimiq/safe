@@ -1,34 +1,11 @@
 import XElement from '../../lib/x-element/x-element.js';
 import { QrCode } from '@nimiq/vue-components';
 
-export default class VQrCodeOverlay extends XElement {
-    html() {
-        return `
-            <div qr-code></div>
-            <div message>
-                Scan this QR code to
-                send to this address
-            </div>
-        `;
-    }
+export default class XQrCodeOverlay extends XElement {
+    private _qrCode?: QrCode | null;
+    private $message!: HTMLElement;
 
-    onCreate() {
-        this.$message = this.$('[message]');
-        this._onHideEnd = this._onHideEnd.bind(this);
-    }
-
-    styles() {
-        return [ ...super.styles(), 'v-qr-code-overlay' ];
-    }
-
-    listeners() {
-        return {
-            'click': () => this.hide(),
-            'animationend': () => this.$el.classList.remove('hide', 'show'),
-        };
-    }
-
-    show(data = null, message = 'Scan this QR code') {
+    public show(data: string, message: string = 'Scan this QR code') {
         if (!data) {
             throw new Error('No data specified');
         }
@@ -36,7 +13,7 @@ export default class VQrCodeOverlay extends XElement {
         // lazily create qr code only if needed (to avoid unnecessary memory for qr canvas)
         if (!this._qrCode) {
             this._qrCode = new QrCode();
-            this._qrCode.$mount(this.$('[qr-code]'));
+            this._qrCode.$mount(this.$('[qr-code]')!);
         }
 
         this._qrCode.data = data;
@@ -46,21 +23,49 @@ export default class VQrCodeOverlay extends XElement {
         this.$el.removeEventListener('animationend', this._onHideEnd);
         if (this.$el.classList.contains('hide')) {
             this.$el.classList.remove('hide');
+            // tslint:disable:next-line no-unused-expression
             this.$el.offsetWidth; // style update
         }
         this.$el.classList.add('show');
     }
 
-    hide() {
+    public hide() {
         if (this.$el.classList.contains('show')) {
             this.$el.classList.remove('show');
+            // tslint:disable:next-line no-unused-expression
             this.$el.offsetWidth; // style update
         }
         this.$el.classList.add('hide');
         this.$el.addEventListener('animationend', this._onHideEnd);
     }
 
-    _onHideEnd() {
+    protected html() {
+        return `
+            <div qr-code></div>
+            <div message>
+                Scan this QR code to
+                send to this address
+            </div>
+        `;
+    }
+
+    protected onCreate() {
+        this.$message = this.$('[message]')!;
+        this._onHideEnd = this._onHideEnd.bind(this);
+    }
+
+    protected styles() {
+        return [ ...super.styles(), 'x-qr-code-overlay' ];
+    }
+
+    protected listeners() {
+        return {
+            click: () => this.hide(),
+            animationend: () => this.$el.classList.remove('hide', 'show'),
+        };
+    }
+
+    private _onHideEnd() {
         this.$el.removeEventListener('animationend', this._onHideEnd);
         this.$el.style.display = 'none';
         if (this._qrCode) {
@@ -70,7 +75,7 @@ export default class VQrCodeOverlay extends XElement {
             // replace the qr canvas by the placeholder div to free up the canvas memory
             const $placeholder = document.createElement('div');
             $placeholder.setAttribute('qr-code', '');
-            $qrCanvas.parentElement.replaceChild($placeholder, $qrCanvas);
+            $qrCanvas.parentElement!.replaceChild($placeholder, $qrCanvas);
         }
     }
 }

@@ -7,7 +7,7 @@ import MixinRedux from '../mixin-redux.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
 import AccountType from '../../lib/account-type.js';
 import { accounts$ } from '../../selectors/account$.js';
-import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
+import XQrCodeOverlay from '../x-qr-code-overlay/x-qr-code-overlay';
 
 export default class XAccountModal extends MixinModal(XAccount) {
     html() {
@@ -40,11 +40,11 @@ export default class XAccountModal extends MixinModal(XAccount) {
                     <button payout class="small display-none">Pay out</button>
                 </div>
             </div>
-            <v-qr-code-overlay></v-qr-code-overlay>
+            <x-qr-code-overlay></x-qr-code-overlay>
         `;
     }
 
-    children() { return [ ...super.children(), VQrCodeOverlay ] }
+    children() { return [ ...super.children(), XQrCodeOverlay ] }
 
     onCreate() {
         this.$availableAmount = this.$amount[1];
@@ -141,6 +141,6 @@ export default class XAccountModal extends MixinModal(XAccount) {
     }
 
     _showQrCode() {
-        this.$vQrCodeOverlay.show(this.account.address, 'Scan this QR code\nto send to this address');
+        this.$xQrCodeOverlay.show(this.account.address, 'Scan this QR code\nto send to this address');
     }
 }
