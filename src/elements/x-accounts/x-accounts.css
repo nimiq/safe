@@ -71,14 +71,14 @@
     margin: 0 auto;
 }
 
-.x-account ..x-account-info {
+.x-account .x-account-info {
     text-align: left;
     width: 100%;
     padding-left: 16px;
     max-width: calc(100% - 88px);
 }
 
-.x-account ..x-account-label {
+.x-account .x-account-label {
     display: block;
     text-align: left;
     font-weight: bold;
@@ -88,12 +88,12 @@
     text-overflow: ellipsis;
 }
 
-.x-account ..x-account-bottom {
+.x-account .x-account-bottom {
     text-align: right;
     margin-top: 12px;
 }
 
-.x-account-modal ..x-account-bottom {
+.x-account-modal .x-account-bottom {
     text-align: center;
 }
 
@@ -192,7 +192,7 @@
     vertical-align: middle;
 }
 
-.x-account-modal ..x-account-label {
+.x-account-modal .x-account-label {
     font-size: 1.2em;
 }
 
