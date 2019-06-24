@@ -1,4 +1,4 @@
-import XInput from '../x-input/x-input.js';
+import XInput from '../x-input/x-input';
 
 export default class XFeeInput extends XInput {
     html() {
