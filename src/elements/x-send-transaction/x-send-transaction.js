@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { Utf8Tools, ValidationUtils, parseRequestLink } from '@nimiq/utils';
 import { QrScanner } from '@nimiq/vue-components';
 import XElement from '../../lib/x-element/x-element.js';
-import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
+import XAccountsDropdown from '../x-accounts/x-accounts-dropdown';
 import XAddressInput from '../x-address-input/x-address-input.js';
 import XAmountInput from '../x-amount-input/x-amount-input';
 import XFeeInput from '../x-fee-input/x-fee-input.js';

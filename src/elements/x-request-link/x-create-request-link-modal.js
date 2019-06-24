@@ -1,6 +1,6 @@
 /*import MixinModal from '../mixin-modal/mixin-modal.js';
 import XElement from '../../lib/x-element/x-element.js';
-import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
+import XAccountsDropdown from '../x-accounts/x-accounts-dropdown';
 
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     onCreate() {
