@@ -1,6 +1,6 @@
 <template>
     <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-    <template v-slot="{showBackupWords, showBackupFile, activeWallet, activeAddressInfo}">
+    <template v-slot="{showBackupWords, showBackupFile, activeWallet}">
     <div id="app">
             <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
@@ -81,7 +81,7 @@
                 </div>
                 <div class="x-transaction-modal"></div>
                 <div class="x-receive-request-link-modal"></div>
-                <RequestLinkModal :addressInfo="activeAddressInfo" v-show="showReceiveModal"/>
+                <RequestLinkModal v-show="showReceiveModal"/>
                 <div class="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
@@ -104,7 +104,7 @@ import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
 import RequestLinkModal from './components/RequestLinkModal.vue';
-import { activeWallet$, activeAddressInfo$ } from './selectors/wallet$.js';
+import { activeWallet$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
@@ -181,7 +181,6 @@ export default class App extends Vue {
 
     private mapStateToProps(state: any) {
         const activeWallet = activeWallet$(state);
-        const activeAddressInfo = activeAddressInfo$(state);
         const showBackupFile = activeWallet.type !== WalletType.LEGACY && !activeWallet.fileExported;
         const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
                                 && !activeWallet.wordsExported;
@@ -190,7 +189,6 @@ export default class App extends Vue {
             hasConsensus: state.network.consensus === 'established',
             walletsLoaded: state.wallets.hasContent,
             activeWallet,
-            activeAddressInfo,
             showBackupFile,
             showBackupWords,
         };

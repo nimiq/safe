@@ -84,6 +84,10 @@ export default class XAccountsDropdown extends MixinRedux(XElement) {
         return [ XExpandable, XAccount, XAccountsList ];
     }
 
+    protected styles(): string[] {
+        return [ ...super.styles(), 'x-accounts-dropdown' ];
+    }
+
     protected onCreate() {
         this.$statusMessage = this.$('[status-message]')!;
         this.$input = this.$('input') as HTMLInputElement;

@@ -6,14 +6,17 @@
         </div>
         <div class="modal-body">
             <div class="center">
+                <div ref="x-accounts-dropdown" @x-account-selected.stop="_setAddress($event.detail)"></div>
                 <ul>
                     <li>
                         <div class="address-label">Copy your address:</div>
-                        <div class="x-address"></div>
+                        <div ref="x-address"></div>
                     </li>
                     <li>
                         <div>Or create a transaction request link:</div>
-                        <div class="spacing-top"><div class="x-amount-input" no-screen-keyboard></div></div>
+                        <div class="spacing-top">
+                            <div class="x-amount-input" no-screen-keyboard @input="amount = xAmountInput.value"></div>
+                        </div>
                         <div class="request-link-container spacing-top">
                             <div>
                                 <div>Copy your link:</div>
@@ -27,7 +30,7 @@
                 </ul>
             </div>
         </div>
-        <div ref="qr-code-overlay" />
+        <div ref="qr-code-overlay"></div>
     </div>
 </template>
 
@@ -35,7 +38,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import { QrCode } from '@nimiq/vue-components';
 import { createRequestLink } from '@nimiq/utils';
-import XElement from '../lib/x-element/x-element';
+import XAccountsDropdown from '../elements/x-accounts/x-accounts-dropdown';
 import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input';
@@ -45,21 +48,23 @@ import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })
 export default class RequestLinkModal extends Vue {
-    @Prop(Object) public addressInfo!: any;
-
+    private xAccountsDropdown!: XAccountsDropdown;
     private xAmountInput!: XAmountInput;
     private xAddress!: XAddress;
     private xQrCodeOverlay!: XQrCodeOverlay;
+    private address: string = '';
+    private amount: number = 0;
 
     public mounted() {
-        this.xAddress = new XAddress(this.$el.querySelector('.x-address') as HTMLElement);
+        this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
+        this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input') as HTMLElement);
         this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
     }
 
-    public updated() {
-        if (!this.addressInfo) return;
-        this.xAddress.address = this.addressInfo.address;
+    private _setAddress(address: string) {
+        this.xAddress.address = address;
+        this.address = address;
     }
 
     private get qrSize() {
@@ -69,9 +74,9 @@ export default class RequestLinkModal extends Vue {
     }
 
     private get link() {
-        if (!this.addressInfo) return null;
+        if (!this.address) return null;
         const baseUrl = window.location.host;
-        return createRequestLink(this.addressInfo.address, this.xAmountInput!.value as number, undefined, baseUrl);
+        return createRequestLink(this.address, this.amount, undefined, baseUrl);
     }
 
     private openQrCodeOverlay() {
