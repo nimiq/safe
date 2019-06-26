@@ -59,9 +59,9 @@ class HubClient {
         this._resolveLaunched();
     }
 
-    async onboard() {
+    async onboard(options = {}) {
         await this._launched;
-        this.hubApi.onboard({ appName: APP_NAME, }, new HubApi.RedirectRequestBehavior());
+        this.hubApi.onboard(Object.assign({ appName: APP_NAME }, options), new HubApi.RedirectRequestBehavior());
     }
 
     async create() {
