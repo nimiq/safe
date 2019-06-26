@@ -17,7 +17,7 @@
                         <div class="spacing-top">
                             <div ref="x-amount-input" no-screen-keyboard @input="amount = xAmountInput.value"></div>
                         </div>
-                        <div class="request-link-container spacing-top">
+                        <div ref="request-link-container" class="request-link-container spacing-top">
                             <div>
                                 <div>Copy your link:</div>
                                 <div class="request-link" @click="share">{{ link }}</div>
@@ -53,27 +53,27 @@ export default class RequestLinkModal extends Vue {
     private xQrCodeOverlay!: XQrCodeOverlay;
     private address: string = '';
     private amount: number = 0;
+    private qrSize: number = 72;
 
     private mounted() {
         this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
         this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$refs['x-amount-input'] as HTMLElement);
         this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
+
+        this._onResize = this._onResize.bind(this);
+        window.addEventListener('resize', this._onResize);
+        this._onResize();
     }
 
     private destroyed() {
         [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ].forEach((xE) => xE.destroy());
+        window.removeEventListener('resize', this._onResize);
     }
 
     private _setAddress(address: string) {
         this.xAddress.address = address;
         this.address = address;
-    }
-
-    private get qrSize() {
-        if (!this.isMobile()) return 72;
-        const qrContainer = document.querySelector('.request-link-container') as HTMLDivElement;
-        return qrContainer.offsetWidth - 20;
     }
 
     private get link() {
@@ -99,6 +99,15 @@ export default class RequestLinkModal extends Vue {
             text: 'Please send me NIM using this link:',
             url: this.link,
         });
+    }
+
+    private _onResize() {
+        if (!this.isMobile()) {
+            this.qrSize = 72;
+            return;
+        }
+        const qrContainer = this.$refs['request-link-container'] as HTMLDivElement;
+        this.qrSize = Math.max(qrContainer.offsetWidth - 20, 72);
     }
 }
 </script>
