@@ -1,4 +1,4 @@
-import MixinSingleton from '../mixin-singleton.js';
+import MixinSingleton from '../mixin-singleton.ts';
 import XModals from './x-modals.js';
 import XModalContainer from './x-modal-container.js';
 

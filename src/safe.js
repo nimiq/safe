@@ -7,7 +7,7 @@ import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from './elem
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import networkClient from './network-client.js';
-import MixinSingleton from './elements/mixin-singleton.js';
+import MixinSingleton from './elements/mixin-singleton';
 import XToast from './elements/x-toast/x-toast.js';
 
 class Safe {

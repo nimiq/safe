@@ -1,6 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import XRouter from '../x-router/x-router.js';
-import MixinSingleton from '../mixin-singleton.js';
+import MixinSingleton from '../mixin-singleton';
 
 export default class XModals extends MixinSingleton(XElement) {
     onCreate() {

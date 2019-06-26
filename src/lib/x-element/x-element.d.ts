@@ -5,7 +5,7 @@ export default class XElement {
     public static readonly tagName: string;
     public static readonly elementMap: Map<HTMLElement, XElement>;
 
-    public static createElement(attributes: Array<[string, string]>): XElement;
+    public static createElement<T extends XElement>(attributes?: Array<[string, string]>): T;
     public static camelize(input: string): string;
     public static get(node: HTMLElement): XElement | undefined;
 
