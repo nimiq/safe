@@ -74,7 +74,7 @@ export default class RequestLinkModal extends Vue {
 
     private get link() {
         if (!this.address) return null;
-        const baseUrl = window.location.host;
+        const baseUrl = Config.offlinePackaged ? 'https://safe.nimiq.com' : window.location.host;
         return createRequestLink(this.address, this.amount, undefined, baseUrl);
     }
 
