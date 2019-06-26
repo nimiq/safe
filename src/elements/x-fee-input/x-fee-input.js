@@ -14,8 +14,8 @@ export default class XFeeInput extends XInput {
 
                 <div class="x-fee-value">
                     <span class="x-fee-sats">0</span>
-                    <x-currency-nim>0.00</x-currency-nim> NIM
-                    <x-currency-fiat>($0.00)</x-currency-fiat>
+                    <span class="x-currency-nim">0.00</span> NIM
+                    <span class="x-currency-fiat">($0.00)</span>
                 </div>
             </form>`;
     }
@@ -23,8 +23,8 @@ export default class XFeeInput extends XInput {
     onCreate() {
         super.onCreate();
         this.$sats = this.$('.x-fee-sats');
-        this.$nim = this.$('x-currency-nim');
-        this.$fiat = this.$('x-currency-fiat');
+        this.$nim = this.$('.x-currency-nim');
+        this.$fiat = this.$('.x-currency-fiat');
         this._previousValue = '';
         this._maxSats = this.attributes.maxSats || 1e5;
         this.txSize = 138; // BasicTransaction, bytes

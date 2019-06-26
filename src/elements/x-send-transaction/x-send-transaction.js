@@ -28,7 +28,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             </div>
             <form class="modal-body">
                 <h3>Send from</h3>
-                <x-accounts-dropdown class="x-accounts-dropdown" name="sender"></x-accounts-dropdown>
+                <x-accounts-dropdown name="sender"></x-accounts-dropdown>
                 <span error sender class="display-none"></span>
 
                 <h3>Send to <span class="link-contact-list">Contact List</span></h3>
@@ -103,10 +103,6 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         this._isQrScanMode = false;
 
         super.onCreate();
-    }
-
-    styles() {
-        return [ ...super.styles(), 'x-send-transaction' ];
     }
 
     static mapStateToProps(state) {

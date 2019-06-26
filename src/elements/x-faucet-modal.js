@@ -54,7 +54,7 @@ export default class XFaucetModal extends MixinModal(XElement) {
             </div>
             <div class="modal-body center">
                 <div class="loading">
-                    <x-loading-animation></x-loading-animation>
+                    <div class="x-loading-animation"></div>
                     <h3 class="status-message">Collecting Funds</h3>
                 </div>
                 <div class="success">
@@ -69,10 +69,6 @@ export default class XFaucetModal extends MixinModal(XElement) {
                 </div>
             </div>
         `;
-    }
-
-    styles() {
-        return [ ...super.styles(), 'x-faucet-modal' ];
     }
 
     children() {

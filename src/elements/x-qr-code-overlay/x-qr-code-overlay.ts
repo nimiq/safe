@@ -54,10 +54,6 @@ export default class XQrCodeOverlay extends XElement {
         this._onHideEnd = this._onHideEnd.bind(this);
     }
 
-    protected styles() {
-        return [ ...super.styles(), 'x-qr-code-overlay' ];
-    }
-
     protected listeners() {
         return {
             click: () => this.hide(),

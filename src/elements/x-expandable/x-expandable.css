@@ -1,4 +1,4 @@
-x-expandable {
+.x-expandable {
     display: block;
     position: relative;
     background: white;
@@ -11,18 +11,18 @@ x-expandable {
         0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
-x-expandable[transparent] {
+.x-expandable[transparent] {
     background: none;
     box-shadow: none;
     color: inherit;
 }
 
-x-expandable > div {
+.x-expandable > div {
     width: 100%;
     height: 100%;
 }
 
-x-expandable [expandable-trigger] {
+.x-expandable [expandable-trigger] {
     display: inline-block;
     box-sizing: border-box;
     padding-right: 40px;
@@ -33,22 +33,22 @@ x-expandable [expandable-trigger] {
 }
 
 @media (max-width: 480px) {
-    x-expandable [expandable-trigger] {
+    .x-expandable [expandable-trigger] {
         padding-right: 30px;
     }
 }
 
-x-expandable[disabled] {
+.x-expandable[disabled] {
     pointer-events: none;
     box-shadow: none;
 }
 
-x-expandable[disabled] [expandable-trigger] {
+.x-expandable[disabled] [expandable-trigger] {
     padding-right: 0;
 }
 
-x-expandable [expandable-trigger]::before,
-x-expandable [expandable-trigger]::after {
+.x-expandable [expandable-trigger]::before,
+.x-expandable [expandable-trigger]::after {
     /* arrow icon on the right */
     content: '';
     position: absolute;
@@ -61,21 +61,21 @@ x-expandable [expandable-trigger]::after {
     transition: opacity .3s;
 }
 
-x-expandable [expandable-trigger]::before {
+.x-expandable [expandable-trigger]::before {
     transform: rotate(45deg);
     right: 16px;
 }
 
-x-expandable [expandable-trigger]::after {
+.x-expandable [expandable-trigger]::after {
     transform: rotate(-45deg);
 }
 
-x-expandable[disabled] [expandable-trigger]::before,
-x-expandable[disabled] [expandable-trigger]::after {
+.x-expandable[disabled] [expandable-trigger]::before,
+.x-expandable[disabled] [expandable-trigger]::after {
     opacity: 0;
 }
 
-x-expandable [expandable-content] {
+.x-expandable [expandable-content] {
     display: none;
     width: 100%;
     max-height: 0;
@@ -86,7 +86,7 @@ x-expandable [expandable-content] {
     padding-bottom: 3px;
 }
 
-x-expandable[dropdown] [expandable-content] {
+.x-expandable[dropdown] [expandable-content] {
     position: absolute;
     top: 100%;
     left: 0;

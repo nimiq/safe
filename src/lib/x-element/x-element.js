@@ -14,7 +14,6 @@ export default class XElement {
      */
     constructor(element) {
         /** @type {string} */
-        this.name = null;
         this._boundListeners = new Map();
         this._properties = {};
         this.__bindDOM(element);
@@ -42,7 +41,7 @@ export default class XElement {
         this.$el.xDebug = this; // get easy access to x-element for debugging. Not for production!
         XElement.elementMap.set(this.$el, this);
         this.__fromHtml();
-        this.__bindStyles(this.styles());
+        this.__bindStyles();
     }
 
     __removeListeners() {
@@ -330,12 +329,17 @@ export default class XElement {
     removeStyle(styleClass) { this.$el.classList.remove(styleClass) }
 
     /**
-     * @param {() => string[]} styles
      * @returns
      */
-    __bindStyles(styles) {
-        if (super.styles) super.__bindStyles(super.styles()); // Bind styles of all parent types recursively
-        styles.forEach(style => this.addStyle(style));
+    __bindStyles() {
+        this.styles().forEach(style => this.addStyle(style));
+        // add style classes for all classes on the prototype chain
+        let cls = this.constructor;
+        while (cls) {
+            const tagName = cls.tagName;
+            if (tagName) this.addStyle(cls.tagName); // a class that's not an anonymous class without name
+            cls = Object.getPrototypeOf(cls);
+        }
     }
 
     /**

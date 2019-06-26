@@ -1,6 +1,6 @@
 /* Numpad */
 
-x-numpad {
+.x-numpad {
     padding-bottom: 16px;
     text-align: center;
     touch-action: manipulation;
@@ -10,7 +10,7 @@ x-numpad {
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-x-numpad>* {
+.x-numpad>* {
     width: 32%;
     box-sizing: border-box;
     padding: 8px;
@@ -28,8 +28,8 @@ x-numpad>* {
     transition: opacity 0.7s;
 }
 
-x-numpad.max-decimals-reached > *:not([delete]),
-x-numpad.has-dot > [dot] {
+.x-numpad.max-decimals-reached > *:not([delete]),
+.x-numpad.has-dot > [dot] {
     opacity: 0.3;
     pointer-events: none;
 }

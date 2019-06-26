@@ -14,12 +14,12 @@ import { activeTransactions$ } from '../../selectors/transaction$.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="x-popup-menu refresh">
+            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
             </x-popup-menu>
-            <x-transactions-list>
-                <x-loading-animation></x-loading-animation>
+            <div class="x-transactions-list">
+                <div class="x-loading-animation"></div>
                 <h2>Loading transactions...</h2>
-            </x-transactions-list>
+            </div>
             <x-paginator store-path="transactions"></x-paginator>
             <a secondary class="view-more">View more</a>
             <a secondary class="view-less">View less</a>
@@ -30,7 +30,7 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     onCreate() {
         this._$transactions = new Map();
-        this.$transactionsList = this.$('x-transactions-list');
+        this.$transactionsList = this.$('.x-transactions-list');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
@@ -124,7 +124,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         if (!this.properties.hasTransactions) return;
 
         if (changes.transactions) {
-            if (this.$('x-loading-animation') || this.$('x-no-transactions')) {
+            if (this.$('.x-loading-animation') || this.$('x-no-transactions')) {
                 this.$transactionsList.textContent = '';
             }
 

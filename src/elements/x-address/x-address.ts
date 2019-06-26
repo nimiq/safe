@@ -4,8 +4,6 @@ import Clipboard from '../../lib/clipboard.js';
 import XToast from '../x-toast/x-toast.js';
 
 export default class XAddress extends XElement {
-    protected styles() { return ['x-address']; }
-
     protected listeners() {
         return {
             click: this._onCopy,

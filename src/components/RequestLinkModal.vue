@@ -15,12 +15,12 @@
                     <li>
                         <div>Or create a transaction request link:</div>
                         <div class="spacing-top">
-                            <div class="x-amount-input" no-screen-keyboard @input="amount = xAmountInput.value"></div>
+                            <div ref="x-amount-input" no-screen-keyboard @input="amount = xAmountInput.value"></div>
                         </div>
                         <div class="request-link-container spacing-top">
                             <div>
                                 <div>Copy your link:</div>
-                                <div class="x-request-link">{{ link }}</div>
+                                <div class="request-link">{{ link }}</div>
                             </div>
                             <div class="qr-code-container" @click="openQrCodeOverlay">
                                 <QrCode :size="qrSize" :data="link" />
@@ -58,7 +58,7 @@ export default class RequestLinkModal extends Vue {
     public mounted() {
         this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
         this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
-        this.xAmountInput = new XAmountInput(this.$el.querySelector('.x-amount-input') as HTMLElement);
+        this.xAmountInput = new XAmountInput(this.$refs['x-amount-input'] as HTMLElement);
         this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
     }
 
@@ -134,7 +134,7 @@ export default class RequestLinkModal extends Vue {
     margin-left: -8px;
 }
 
-.request-link-modal .x-request-link {
+.request-link-modal .request-link {
     cursor: pointer;
     font-weight: bold;
     overflow-wrap: break-word;
@@ -154,7 +154,7 @@ export default class RequestLinkModal extends Vue {
     display: block;
 }
 
-.request-link-modal .x-request-link:hover,
+.request-link-modal .request-link:hover,
 .request-link-modal .qr-code-container:hover {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 8px;

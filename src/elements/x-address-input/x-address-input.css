@@ -1,6 +1,6 @@
 @import '../x-address/x-address.css';
 
-x-address-input.x-address {
+.x-address-input.x-address {
     max-width: 600px;
     padding: 4px 0 4px 0;
     text-transform: uppercase;
@@ -11,17 +11,17 @@ x-address-input.x-address {
     font-size: 20px;
 }
 
-x-address-input.x-address[small] {
+.x-address-input.x-address[small] {
     max-width: 540px;
     font-size: 13px;
 }
 
-x-address-input form {
+.x-address-input form {
     min-width: 320px;
     flex-grow: 1;
 }
 
-x-address-input input[type="text"] {
+.x-address-input input[type="text"] {
     font-size: inherit;
     width: 100%;
     transition: opacity 300ms;
@@ -34,7 +34,7 @@ x-address-input input[type="text"] {
     margin-top: 16px;
 }
 
-x-address-input x-identicon {
+.x-address-input .x-identicon {
     width: 15%;
     min-width: 40px;
     max-width: 80px;
@@ -44,34 +44,34 @@ x-address-input x-identicon {
     margin-right: 2px;
 }
 
-x-address-input.multiline x-identicon {
+.x-address-input.multiline .x-identicon {
     display: block;
 }
 
-x-address-input[small] x-identicon {
+.x-address-input[small] .x-identicon {
     width: 28px;
     height: 28px;
 }
 
-x-address-input .prefix {
+.x-address-input .prefix {
     line-height: 72px;
     word-spacing: -1px;
 }
 
-x-address-input input[type="text"]::placeholder,
-x-address-input input[type="text"]::-webkit-input-placeholder {
+.x-address-input input[type="text"]::placeholder,
+.x-address-input input[type="text"]::-webkit-input-placeholder {
     font-family: 'Muli', system-ui, sans-serif;
     text-align: left;
     padding-left: 8px;
 }
 
-x-address-input.multiline .input-row {
+.x-address-input.multiline .input-row {
     width: 100%;
     display: flex;
     justify-content: center;
 }
 
-x-address-input.multiline .input-row input {
+.x-address-input.multiline .input-row input {
     width: auto;
     word-spacing: -1px;
 }

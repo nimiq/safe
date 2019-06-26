@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="header">
-            <div class="x-popup-menu" left-align>
+            <div ref="x-popup-menu" left-align>
                 <button add @click="addNewContact"><i class="material-icons">person_add</i> New contact</button>
                 <button manage @click="toggleManaging"><i class="material-icons">mode_edit</i> Manage contacts</button>
                 <button v-if="!isIOS" export @click="exportContacts"><i class="material-icons">save</i> Export contacts</button>
@@ -87,7 +87,7 @@ export default class ContactListContainer extends Vue {
 
     private mounted() {
         /* tslint:disable:no-unused-expression */
-        this._xElements = [ new XPopupMenu(this.$el.querySelector('.x-popup-menu')) ];
+        this._xElements = [ new XPopupMenu(this.$refs['x-popup-menu']) ];
         /* tslint:enable:no-unused-expression */
     }
 

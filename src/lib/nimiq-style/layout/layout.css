@@ -26,17 +26,17 @@ body {
     box-sizing: inherit;
 }
 
-x-grow,
+.x-grow,
 [x-grow] {
     flex-grow: 1;
 }
 
-x-grow[x-grow="0.5"],
+.x-grow[x-grow="0.5"],
 [x-grow="0.5"] {
     flex-grow: 0.5;
 }
 
-x-grow[x-grow="2"],
+.x-grow[x-grow="2"],
 [x-grow="2"] {
     flex-grow: 2;
 }
@@ -71,7 +71,7 @@ main {
     left: 0;
 }
 
-x-header {
+.x-header {
     position: absolute;
     top: 0;
     left: 0;
@@ -89,7 +89,7 @@ x-header {
         max-height: 672px;
     }
 
-    .x-view x-header {
+    .x-view .x-header {
         padding: 8px 16px;
     }
 }

@@ -39,12 +39,12 @@ export default class XAmountInput extends XInput {
     protected html() {
         return `
             <form>
-                <x-currency-nim>
+                <div class="x-currency-nim">
                     <input placeholder="0.00" type="number" min="0">
                     <span class="ticker">NIM</span>
                     <button class="small secondary set-max">Max</button>
-                </x-currency-nim>
-                <x-currency-fiat></x-currency-fiat>
+                </div>
+                <div class="x-currency-fiat"></div>
             </form>
             <x-numpad></x-numpad>`;
     }

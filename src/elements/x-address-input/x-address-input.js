@@ -29,7 +29,7 @@ export default class XAddressInput extends XInput {
         this.$el.addEventListener('click', () => this.$input.focus());
     }
 
-    styles() { return ['x-address']; }
+    styles() { return [ ...super.styles(), 'x-address' ]; }
 
     children() { return [XIdenticon]; }
 

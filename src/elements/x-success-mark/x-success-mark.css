@@ -43,6 +43,6 @@
     50% { transform: scale3d(1.1, 1.1, 1); }
 }
 
-x-success-mark + h2{
+.x-success-mark + h2{
     padding-top: 8px;
 }

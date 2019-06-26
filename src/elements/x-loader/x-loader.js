@@ -3,7 +3,7 @@ import XElement from '../../lib/x-element/x-element.js';
 export default class XLoader extends XElement {
 
     html() { return `
-        <x-loading-animation></x-loading-animation>
+        <div class="x-loading-animation"></div>
         <h2>Loading&hellip;</h2>
         `;
     }

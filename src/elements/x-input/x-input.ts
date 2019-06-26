@@ -27,8 +27,6 @@ export default class XInput extends XElement {
         requestAnimationFrame(() => this.$input.focus());
     }
 
-    protected styles() { return ['x-input']; }
-
     protected onCreate() {
         const input = this.$('input');
         if (!(input instanceof HTMLInputElement)) {

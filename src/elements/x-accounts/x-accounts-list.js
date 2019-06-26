@@ -8,7 +8,7 @@ import AccountType from '../../lib/account-type.js';
 export default class XAccountsList extends MixinRedux(XElement) {
     html() {
         return `
-            <x-loading-animation></x-loading-animation>
+            <div class="x-loading-animation"></div>
             <h2>Loading accounts...</h2>
         `;
     }
@@ -31,7 +31,7 @@ export default class XAccountsList extends MixinRedux(XElement) {
         if (!hasContent) return;
 
         if (changes.accounts) {
-            if (this.$('x-loading-animation') || this.$('x-no-accounts')) {
+            if (this.$('.x-loading-animation') || this.$('x-no-accounts')) {
                 this.$el.textContent = ''; // remove loading animation
             }
 

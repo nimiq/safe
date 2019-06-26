@@ -1,4 +1,4 @@
-x-toast {
+.x-toast {
     position: fixed;
     top: 0;
     width: 100%;
@@ -10,7 +10,7 @@ x-toast {
     text-align: center;
 }
 
-x-toast [toast-content] {
+.x-toast [toast-content] {
     min-height: 20px;
     padding: 14px 24px 14px 16px;
     background: #333;
@@ -22,7 +22,7 @@ x-toast [toast-content] {
     pointer-events: initial;
 }
 
-x-toast [toast-content]::before {
+.x-toast [toast-content]::before {
     content: "info";
     color: inherit;
     margin-right: 8px;
@@ -57,36 +57,36 @@ x-toast [toast-content]::before {
 
 /* types */
 
-x-toast [toast-content].success {
+.x-toast [toast-content].success {
     /* use default design for success */
     /* background: var(--success-color);
     color: black; */
 }
 
-x-toast [toast-content].error {
+.x-toast [toast-content].error {
     background: var(--error-color);
 }
 
-x-toast [toast-content].warning {
+.x-toast [toast-content].warning {
     background: var(--warning-color);
     color: #333;
 }
 
-x-toast [toast-content].success::before {
+.x-toast [toast-content].success::before {
     content: "check_circle";
 }
 
-x-toast [toast-content].error::before {
+.x-toast [toast-content].error::before {
     content: "cancel";
 }
 
-x-toast [toast-content].warning::before {
+.x-toast [toast-content].warning::before {
     content: "warning";
 }
 
 /* animation */
 
-x-toast.x-toast-show {
+.x-toast.x-toast-show {
     animation: x-toast-show 3s;
 }
 
@@ -113,7 +113,7 @@ x-toast.x-toast-show {
 }
 
 @media (max-width: 420px) {
-    x-toast [toast-content] {
+    .x-toast [toast-content] {
         margin: 0px;
         width: 100vw;
         border-radius: 0;

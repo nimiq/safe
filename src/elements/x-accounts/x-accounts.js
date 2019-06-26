@@ -12,10 +12,10 @@ export default class XAccounts extends MixinRedux(XElement) {
 
     html() {
         return `
-            <x-popup-menu x-main-action-only x-icon="add" class="x-popup-menu hidden add">
+            <x-popup-menu x-main-action-only x-icon="add" class="hidden add">
             </x-popup-menu>
-            <x-accounts-list class="x-accounts-list"></x-accounts-list>
-            <x-account-modal class="x-account-modal"></x-account-modal>
+            <x-accounts-list></x-accounts-list>
+            <x-account-modal></x-account-modal>
         `;
     }
 

@@ -18,10 +18,6 @@ export default class XEducationSlide extends MixinModal(XElement) {
         this.container.addEventListener('keydown', e => this._onArrowNavigation(e));
     }
 
-    styles() {
-        return [...super.styles(), 'x-education-slide'];
-    }
-
     onNext() {
         XEducationSlides.next();
     }

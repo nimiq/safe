@@ -1,6 +1,6 @@
 @import '../x-input/x-input.css';
 
-x-fee-input .x-fee-labels {
+.x-fee-input .x-fee-labels {
     max-width: 320px;
     margin: auto;
     display: flex;
@@ -9,15 +9,15 @@ x-fee-input .x-fee-labels {
     margin-bottom: -4px;
 }
 
-x-fee-input .x-fee-labels label {
+.x-fee-input .x-fee-labels label {
     padding: 4px;
     cursor: pointer;
 }
 
-x-fee-input .x-fee-sats {
+.x-fee-input .x-fee-sats {
     display: none;
 }
 
-x-fee-input x-currency-fiat {
+.x-fee-input .x-currency-fiat {
     display: none;
 }

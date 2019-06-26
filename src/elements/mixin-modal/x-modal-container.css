@@ -1,4 +1,4 @@
-x-modal-container {
+.x-modal-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -15,7 +15,7 @@ x-modal-container {
     padding: 24px 0 60px;
 }
 
-x-modal-container > * {
+.x-modal-container > * {
     animation-duration: .4s !important;
     animation-fill-mode: both;
 }

@@ -20,10 +20,6 @@ export default class VContactListModal extends MixinModal(VContactList) {
         super.onCreate();
     }
 
-    styles() {
-        return [ ...super.styles(), 'v-contact-list-modal' ];
-    }
-
     listeners() {
         const listeners = super.listeners();
         delete listeners['click i[add]'];

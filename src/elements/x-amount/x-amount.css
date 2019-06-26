@@ -1,6 +1,6 @@
 @import '../x-dot-loader/x-dot-loader.css';
 
-x-amount {
+.x-amount {
     display: inline;
     font-weight: 600;
     letter-spacing: 0.02em;
@@ -10,23 +10,23 @@ x-amount {
     font-variant-numeric: tabular-nums;
 }
 
-x-amount.incoming x-currency-nim {
+.x-amount.incoming .x-currency-nim {
     color: var(--nimiq-green);
 }
 
-x-amount.incoming .integers::before {
+.x-amount.incoming .integers::before {
     content: '+';
 }
 
-x-amount.outgoing x-currency-nim {
+.x-amount.outgoing .x-currency-nim {
     color: var(--nimiq-red);
 }
 
-x-amount.outgoing .integers::before {
+.x-amount.outgoing .integers::before {
     content: '-';
 }
 
-x-amount label {
+.x-amount label {
     display: block;
     font-size: 0.7em;
     font-weight: 300;
@@ -35,49 +35,49 @@ x-amount label {
     /* opacity: 0.8; */
 }
 
-x-amount x-currency-nim {
+.x-amount .x-currency-nim {
     display: none;
 }
 
-x-amount .integers {
+.x-amount .integers {
 
 }
 
-x-amount .integers::before {
+.x-amount .integers::before {
     font-weight: 400;
 }
 
-x-amount .main-decimals {
+.x-amount .main-decimals {
 
 }
 
-x-amount .rest-decimals,
-x-amount .ticker {
+.x-amount .rest-decimals,
+.x-amount .ticker {
     font-weight: 700;
     font-size: 0.75em;
 }
 
-x-amount .rest-decimals {
+.x-amount .rest-decimals {
     margin-left: 0.05em;
     display: none;
 }
 
-.setting-show-all-decimals x-amount .rest-decimals {
+.setting-show-all-decimals .x-amount .rest-decimals {
     display: initial;
 }
 
-x-amount[display] .ticker,
-x-amount[display] .rest-decimals,
-x-amount[display] label {
+.x-amount[display] .ticker,
+.x-amount[display] .rest-decimals,
+.x-amount[display] label {
     font-size: 0.5em;
 }
 
-x-amount[display] label {
+.x-amount[display] label {
     opacity: 0.7;
 }
 
 @media (max-width: 480px) {
-    x-amount .rest-decimals {
+    .x-amount .rest-decimals {
         display: none;
     }
 }

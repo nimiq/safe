@@ -20,11 +20,11 @@
                         <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                         <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
                         <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
-                        <div class="x-settings"></div>
+                        <div ref="x-settings"></div>
                     </nav>
                 </div>
                 <WalletSelectorProvider v-if="useMobileWalletSelector" />
-                <div class="x-total-amount"></div>
+                <div ref="x-total-amount"></div>
                 <div class="header-bottom content-width">
                     <div v-if="showBackupWords" class="backup-reminder words">
                         <a class="action" backup-words @click="exportWords(activeWallet.id)">
@@ -63,29 +63,29 @@
                         <button icon-qr @click="scan()"><span>Scan</span></button>
                         <div class="btn-text">Scan</div>
                     </div>
-                    <div class="x-send-transaction-modal"></div>
+                    <div ref="x-send-transaction-modal"></div>
                     <!--<v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>-->
                 </nav>
                 <div class="x-view-dashboard content-width">
                     <div class="x-card" style="max-width: 960px;">
                         <h2>Transactions</h2>
-                        <div class="x-transactions no-animation" only-recent></div>
+                        <div ref="x-transactions" class="no-animation" only-recent></div>
                     </div>
                     <div class="x-card" style="max-width: 552px;">
                         <h2>Addresses</h2>
-                        <div class="x-accounts"></div>
+                        <div ref="x-accounts"></div>
                     </div>
                     <div class="x-card" style="max-width: 344px;">
                         <ContactListProvider class="v-contact-list" />
                     </div>
                 </div>
-                <div class="x-transaction-modal"></div>
-                <div class="x-receive-request-link-modal"></div>
+                <div ref="x-transaction-modal"></div>
+                <div ref="x-receive-request-link-modal"></div>
                 <RequestLinkModal v-show="showReceiveModal"/>
-                <div class="x-disclaimer-modal"></div>
+                <div ref="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
-                <div class="x-network-indicator"></div>
+                <div ref="x-network-indicator"></div>
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
                 <a @click="showDisclaimer">Disclaimer</a>
                 <a @click="_showEducationSlides">Safety Primer</a>
@@ -147,15 +147,15 @@ export default class App extends Vue {
         MixinSingleton.appContainer = $appContainer;
 
         this._xElements = [
-            new XTotalAmount(this.$el.querySelector('.x-total-amount')),
-            new XTransactions(this.$el.querySelector('.x-transactions')),
-            new XSendTransactionModal(this.$el.querySelector('.x-send-transaction-modal')),
-            new XAccounts(this.$el.querySelector('.x-accounts')),
-            new XSettings(this.$el.querySelector('.x-settings')),
-            new XNetworkIndicator(this.$el.querySelector('.x-network-indicator')),
-            new XReceiveRequestLinkModal(this.$el.querySelector('.x-receive-request-link-modal')),
-            new XTransactionModal(this.$el.querySelector('.x-transaction-modal')),
-            new XDisclaimerModal(this.$el.querySelector('.x-disclaimer-modal')),
+            new XTotalAmount(this.$refs['x-total-amount']),
+            new XTransactions(this.$refs['x-transactions']),
+            new XSendTransactionModal(this.$refs['x-send-transaction-modal']),
+            new XAccounts(this.$refs['x-accounts']),
+            new XSettings(this.$refs['x-settings']),
+            new XNetworkIndicator(this.$refs['x-network-indicator']),
+            new XReceiveRequestLinkModal(this.$refs['x-receive-request-link-modal']),
+            new XTransactionModal(this.$refs['x-transaction-modal']),
+            new XDisclaimerModal(this.$refs['x-disclaimer-modal']),
         ];
 
         this._onResize = this._onResize.bind(this);
@@ -349,7 +349,7 @@ header {
     background-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><g><path d="M7.91139 3.22222L6.24472 0.333333C6.12583 0.126667 5.90472 0 5.66694 0H2.33361C2.09583 0 1.87583 0.127778 1.75694 0.333333L0.0891667 3.22222C-0.0297222 3.42889 -0.0297222 3.68222 0.0891667 3.88889L1.75583 6.77778C1.87472 6.98444 2.09583 7.11111 2.33361 7.11111H5.66694C5.90472 7.11111 6.12472 6.98333 6.24361 6.77778L7.91028 3.88889C8.03028 3.68333 8.03028 3.42889 7.91139 3.22222Z" fill="white"/><path d="M7.91139 12.1109L6.24472 9.22201C6.12583 9.01534 5.90472 8.88867 5.66694 8.88867H2.33361C2.09583 8.88867 1.87583 9.01645 1.75694 9.22201L0.0891667 12.1109C-0.0297222 12.3176 -0.0297222 12.5709 0.0891667 12.7776L1.75583 15.6664C1.87472 15.8731 2.09583 15.9998 2.33361 15.9998H5.66694C5.90472 15.9998 6.12472 15.872 6.24361 15.6664L7.91028 12.7776C8.03028 12.572 8.03028 12.3176 7.91139 12.1109Z" fill="white"/><path d="M15.9114 7.66656L14.2447 4.77767C14.1258 4.571 13.9047 4.44434 13.6669 4.44434H10.3336C10.0958 4.44434 9.87583 4.57211 9.75694 4.77767L8.08917 7.66656C7.97028 7.87322 7.97028 8.12656 8.08917 8.33322L9.75583 11.2221C9.87472 11.4288 10.0958 11.5554 10.3336 11.5554H13.6669C13.9047 11.5554 14.1247 11.4277 14.2436 11.2221L15.9103 8.33322C16.0303 8.12767 16.0303 7.87322 15.9114 7.66656Z" fill="white"/></g></svg>');
 }
 
-x-total-amount {
+.x-total-amount {
     display: block;
     font-size: 2.5em;
     margin: 0.5em auto 1em auto;

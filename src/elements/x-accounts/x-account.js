@@ -8,13 +8,13 @@ import { accounts$ } from '../../selectors/account$.js';
 export default class XAccount extends MixinRedux(XElement) {
     html() {
         return `
-            <x-identicon class="x-identicon"></x-identicon>
+            <x-identicon></x-identicon>
             <i class="account-icon material-icons"></i>
             <div class="x-account-info">
                 <span class="x-account-label"></span>
-                <x-address class="x-address"></x-address>
+                <x-address></x-address>
                 <div class="x-account-bottom">
-                    <x-amount class="x-amount"></x-amount>
+                    <x-amount></x-amount>
                 </div>
             </div>
         `
@@ -25,7 +25,6 @@ export default class XAccount extends MixinRedux(XElement) {
     onCreate() {
         this.$label = this.$('.x-account-label');
         this.$icon = this.$('.account-icon');
-        this.$el.classList.add('x-account');
         this.$balance = this.$amount[0] || this.$amount;
         super.onCreate();
     }

@@ -22,7 +22,7 @@
 	flex-direction: column;
 }
 
-.x-accounts-list x-loading-animation {
+.x-accounts-list .x-loading-animation {
     margin: 0 auto;
     margin-top: 2em;
     display: none;
@@ -58,14 +58,14 @@
     background-color: transparent;
 }
 
-.x-account x-identicon {
+.x-account .x-identicon {
     /* display: block; */
     width: 80px;
     min-width: 50px;
     height: 71px;
 }
 
-.x-account-modal x-identicon {
+.x-account-modal .x-identicon {
     display: block;
     width: 160px;
     margin: 0 auto;
@@ -97,31 +97,31 @@
     text-align: center;
 }
 
-.x-account x-amount {
+.x-account .x-amount {
     display: block;
     font-size: 16px;
     margin-top: -0.25em;
 }
 
 @media (max-width: 480px) {
-    .x-account x-amount {
+    .x-account .x-amount {
         font-size: 1.2em;
     }
 }
 
 @media (max-width: 350px) {
-    .x-account x-amount {
+    .x-account .x-amount {
         font-size: 1em;
     }
 }
 
-.x-account-modal x-amount {
+.x-account-modal .x-amount {
     display: block;
     font-size: 1.5em;
     margin: 0.5em 0 1em;
 }
 
-.x-account-modal x-amount[display] {
+.x-account-modal .x-amount[display] {
     font-size: 2em;
     margin: 0.5em 0 1em;
 }
@@ -238,7 +238,7 @@
 	height: 100%;
 }
 
-.x-accounts-list x-no-accounts {
+.x-accounts-list .x-no-accounts {
 	font-size: 16px;
     display: block;
     padding: 1.5em;
@@ -246,7 +246,7 @@
     opacity: 0.6;
 }
 
-.x-accounts-list x-no-accounts h1.material-icons {
+.x-accounts-list .x-no-accounts h1.material-icons {
     display: block;
     font-size: 120px;
     opacity: 0.3;

@@ -12,22 +12,22 @@
     animation: fade-in .3s;
 }
 
-.x-faucet-modal x-loading-animation,
-.x-faucet-modal x-success-mark,
+.x-faucet-modal .x-loading-animation,
+.x-faucet-modal .x-success-mark,
 .x-faucet-modal .nq-icon.warning {
     margin: 10rem;
     width: 12rem;
     height: 12rem;
 }
 
-.x-faucet-modal x-success-mark .checkmark {
+.x-faucet-modal .x-success-mark .checkmark {
     stroke: white;
     margin: 0;
     width: 100%;
     height: 100%;
 }
 
-.x-faucet-modal x-succes-mark .checkmark__check {
+.x-faucet-modal .x-succes-mark .checkmark__check {
     stroke: white;
 }
 

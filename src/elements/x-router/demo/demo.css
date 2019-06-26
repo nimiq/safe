@@ -4,7 +4,7 @@ body {
     background: var(--primary-background);
 }
 
-x-test {
+.x-test {
     flex-direction: column;
     justify-content: center;
     align-items: center;

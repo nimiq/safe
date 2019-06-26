@@ -28,7 +28,7 @@
     font-weight: 600;
 }
 
-.modal-header x-popup-menu {
+.modal-header .x-popup-menu {
     position: absolute;
     left: 0;
     top: 0;

@@ -6,9 +6,9 @@ export default class XAmount extends XElement {
         return `
             <label class="display-none mobile-hidden"></label>
             <span class="dot-loader"></span>
-            <x-currency-nim>
+            <span class="x-currency-nim">
                 <span class="integers"></span>.<span class="main-decimals"></span><span class="rest-decimals"></span> <span class="ticker">NIM</span>
-            </x-currency-nim>
+            </span>
         `
     }
 
@@ -27,7 +27,7 @@ export default class XAmount extends XElement {
         this.$integers = this.$('span.integers');
         this.$mainDecimals = this.$('span.main-decimals');
         this.$restDecimals = this.$('span.rest-decimals');
-        this.$currencyNim = this.$('x-currency-nim');
+        this.$currencyNim = this.$('.x-currency-nim');
         this._value = 0;
     }
 

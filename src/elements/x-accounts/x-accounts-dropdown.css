@@ -7,7 +7,7 @@
     height: 88px;
 }
 
-.x-accounts-dropdown x-expandable:not([disabled]) [status-message] {
+.x-accounts-dropdown .x-expandable:not([disabled]) [status-message] {
     display: none;
 }
 
@@ -15,7 +15,7 @@
     margin: 20px !important;
 }
 
-.x-accounts-dropdown x-expandable {
+.x-accounts-dropdown .x-expandable {
     height: 100%;
 }
 
@@ -30,7 +30,7 @@
     }
 }
 
-.x-accounts-dropdown x-expandable:not([disabled]) [expandable-trigger]:hover {
+.x-accounts-dropdown .x-expandable:not([disabled]) [expandable-trigger]:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
