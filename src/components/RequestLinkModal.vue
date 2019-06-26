@@ -54,11 +54,15 @@ export default class RequestLinkModal extends Vue {
     private address: string = '';
     private amount: number = 0;
 
-    public mounted() {
+    private mounted() {
         this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
         this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$refs['x-amount-input'] as HTMLElement);
         this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
+    }
+
+    private destroyed() {
+        [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ].forEach((xE) => xE.destroy());
     }
 
     private _setAddress(address: string) {
