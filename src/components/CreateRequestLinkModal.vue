@@ -1,5 +1,5 @@
 <template>
-    <div class="request-link-modal x-modal nimiq-dark">
+    <div class="create-request-link-modal x-modal nimiq-dark">
         <div class="modal-header">
             <i x-modal-close class="material-icons">close</i>
             <h2>Transaction Request</h2>
@@ -46,7 +46,7 @@ import XQrCodeOverlay from '../elements/x-qr-code-overlay/x-qr-code-overlay';
 import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })
-export default class RequestLinkModal extends Vue {
+export default class CreateRequestLinkModal extends Vue {
     private xAccountsDropdown!: XAccountsDropdown;
     private xAmountInput!: XAmountInput;
     private xAddress!: XAddress;
@@ -113,8 +113,8 @@ export default class RequestLinkModal extends Vue {
 </script>
 
 <style scoped>
-.request-link-modal {
-  position: fixed;
+.create-request-link-modal {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -122,41 +122,41 @@ export default class RequestLinkModal extends Vue {
     transition: background .4s ease-in-out;
     z-index: 1;
 }
-.request-link-modal {
+.create-request-link-modal {
     width: 600px;
 }
 
-.request-link-modal ul {
+ul {
     padding-left: 20px;
     list-style: square;
     max-width: 100%;
 }
 
-.request-link-modal .address-label {
+.address-label {
     margin-bottom: 4px;
 }
 
-.request-link-modal ul .x-address {
+ul .x-address {
     margin-left: -15px;
 }
 
-.request-link-modal ul li:last-child {
+ul li:last-child {
     padding-bottom: 0;
 }
 
-.request-link-modal .request-link-container {
+.request-link-container {
     display: flex;
     align-items: center;
 }
 
-.request-link-modal .request-link-container > * {
+.request-link-container > * {
     overflow: auto;
     /* to have enough space to render request link hover background overflow */
     padding-left: 8px;
     margin-left: -8px;
 }
 
-.request-link-modal .request-link {
+.request-link {
     cursor: pointer;
     font-weight: bold;
     overflow-wrap: break-word;
@@ -164,7 +164,7 @@ export default class RequestLinkModal extends Vue {
     margin-left: -8px;
 }
 
-.request-link-modal .qr-code-container {
+.qr-code-container {
     margin-left: 32px;
     padding: 12px;
     margin-right: -12px;
@@ -172,27 +172,27 @@ export default class RequestLinkModal extends Vue {
     cursor: pointer;
 }
 
-.request-link-modal .qr-code-container canvas {
+.qr-code-container canvas {
     display: block;
 }
 
-.request-link-modal .request-link:hover,
-.request-link-modal .qr-code-container:hover {
+.request-link:hover,
+.qr-code-container:hover {
     background: rgba(0, 0, 0, 0.1);
     border-radius: 8px;
 }
 
 @media (max-width: 420px) {
-    .request-link-modal .request-link-container {
+    .request-link-container {
         flex-direction: column-reverse;
         align-items: flex-start;
     }
 
-    .request-link-modal .request-link-container > * {
+    .request-link-container > * {
         max-width: 100%;
     }
 
-    .request-link-modal .qr-code-container {
+    .qr-code-container {
         margin: 0 0 32px 0;
         background: transparent !important;
         cursor: auto;

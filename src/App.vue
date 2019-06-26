@@ -81,7 +81,7 @@
                 </div>
                 <div ref="x-transaction-modal"></div>
                 <div ref="x-receive-request-link-modal"></div>
-                <RequestLinkModal v-show="showReceiveModal"/>
+                <CreateRequestLinkModal v-show="showReceiveModal"/>
                 <div ref="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
@@ -103,7 +103,7 @@ import { bindActionCreators } from 'redux';
 import hubClient from './hub-client.js';
 import Config from './config/config.js';
 import ContactListProvider from './components/ContactListProvider.vue';
-import RequestLinkModal from './components/RequestLinkModal.vue';
+import CreateRequestLinkModal from './components/CreateRequestLinkModal.vue';
 import { activeWallet$ } from './selectors/wallet$.js';
 import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
@@ -131,7 +131,7 @@ import { spaceToDash } from './lib/parameter-encoding.js';
     LoadingSpinner,
     ContactListProvider,
     WalletSelectorProvider,
-    RequestLinkModal,
+    CreateRequestLinkModal,
 } })
 export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
