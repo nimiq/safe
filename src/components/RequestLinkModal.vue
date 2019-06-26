@@ -20,7 +20,7 @@
                         <div class="request-link-container spacing-top">
                             <div>
                                 <div>Copy your link:</div>
-                                <div class="request-link">{{ link }}</div>
+                                <div class="request-link" @click="share">{{ link }}</div>
                             </div>
                             <div class="qr-code-container" @click="openQrCodeOverlay">
                                 <QrCode :size="qrSize" :data="link" />
@@ -43,7 +43,6 @@ import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input';
 import XQrCodeOverlay from '../elements/x-qr-code-overlay/x-qr-code-overlay';
-import share from '../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })
@@ -86,6 +85,16 @@ export default class RequestLinkModal extends Vue {
 
     private isMobile() {
         return window.innerWidth <= 420;
+    }
+
+    private async share() {
+        await import(/*webpackChunkName: "web-share-shim"*/ '@nimiq/web-share-shim');
+        // @ts-ignore: method 'share' is added by the imported web-share-shim
+        navigator.share({
+            title: 'Nimiq Transaction Request',
+            text: 'Please send me NIM using this link:',
+            url: this.link,
+        });
     }
 }
 </script>

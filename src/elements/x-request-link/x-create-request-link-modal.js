@@ -4,7 +4,6 @@ import XElement from '../../lib/x-element/x-element.js';
 export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     onCreate() {
         this._shown = false;
-        navigator.share = share;
         this._qrCode = new QrCode({
             propsData: {
                 size: this._isMobile()? this.$('.request-link-container').offsetWidth - 20 : 72
@@ -12,16 +11,6 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
         });
         this._qrCode.$mount(this.$('.qr-code'));
         super.onCreate();
-    }
-
-    listeners() {
-        return {
-            'click .x-request-link': () => navigator.share({
-                title: 'Nimiq Transaction Request',
-                text: 'Please send me Nimiq using this link:',
-                url: this._link
-            }),
-        }
     }
 
     onShow() {
