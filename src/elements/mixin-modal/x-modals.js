@@ -26,7 +26,7 @@ export default class XModals extends MixinSingleton(XElement) {
         }
 
         if (triggeredByRouter || !modal.route) {
-            XModals.instance._show(modal, ...parameters);
+            XModals.getInstance()._show(modal, ...parameters);
         } else {
             router = await XRouter.instance;
             router.showAside(modal.route, parameters);
@@ -35,7 +35,7 @@ export default class XModals extends MixinSingleton(XElement) {
         if (!visibleModal) return;
 
         if (triggeredByRouter || !visibleModal.route) {
-            XModals.instance._hide(visibleModal);
+            XModals.getInstance()._hide(visibleModal);
         } else {
             router = router || await XRouter.instance;
             router.hideAside(visibleModal.route);
@@ -93,9 +93,9 @@ export default class XModals extends MixinSingleton(XElement) {
     static async hide(triggeredByRouter, modal, force = false) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal !== visibleModal
-            || (!force && !modal.allowsHide(XModals.instance._incomingModal))) return;
+            || (!force && !modal.allowsHide(XModals.getInstance()._incomingModal))) return;
         if (triggeredByRouter || !modal.route || force) {
-            this.instance._hide(modal);
+            this.getInstance()._hide(modal);
         } else {
             // let the router trigger the hide
             const router = await XRouter.instance;
@@ -119,7 +119,7 @@ export default class XModals extends MixinSingleton(XElement) {
     }
 
     static get visibleModal() {
-        return this.instance._visibleModal;
+        return this.getInstance()._visibleModal;
     }
 }
 XModals.ANIMATION_TIME = 400;

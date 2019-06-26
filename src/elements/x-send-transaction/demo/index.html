@@ -83,7 +83,7 @@
 
     document.getElementById('open-modal-button').addEventListener('click', () => {
         XSendTransactionModal.show();
-        updateStore(XSendTransactionModal.instance.$accountsDropdown, state);
+        updateStore(XSendTransactionModal.getInstance().$accountsDropdown, state);
     });
 </script>
 </body>

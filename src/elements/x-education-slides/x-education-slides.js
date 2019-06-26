@@ -40,17 +40,17 @@ export default class XEducationSlides {
     }
 
     static get currentSlide() {
-        return XEducationSlides.slides[XEducationSlides.currentSlideIndex].instance;
+        return XEducationSlides.slides[XEducationSlides.currentSlideIndex].getInstance();
     }
 
     static get nextSlide() {
         const nextSlide = XEducationSlides.slides[XEducationSlides.currentSlideIndex + 1];
-        return nextSlide? nextSlide.instance : null;
+        return nextSlide? nextSlide.getInstance() : null;
     }
 
     static get previousSlide() {
         const previousSlide = XEducationSlides.slides[XEducationSlides.currentSlideIndex - 1];
-        return previousSlide? previousSlide.instance : null;
+        return previousSlide? previousSlide.getInstance() : null;
     }
 
     static get lastSlide() {

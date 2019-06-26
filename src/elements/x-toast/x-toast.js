@@ -18,23 +18,23 @@ export default class XToast extends MixinSingleton(XElement) {
     }
 
     static show(message, type = "normal"){
-        XToast.instance.show(message, type);
+        XToast.getInstance().show(message, type);
     }
 
     static success(message){
-        XToast.instance.show(message, 'success');
+        XToast.getInstance().show(message, 'success');
     }
 
     static warn(message){
-        XToast.instance.show(message, 'warning');
+        XToast.getInstance().show(message, 'warning');
     }
 
     static warning(message){
-        XToast.instance.show(message, 'warning');
+        XToast.getInstance().show(message, 'warning');
     }
 
     static error(message){
-        XToast.instance.show(message, 'error');
+        XToast.getInstance().show(message, 'error');
     }
 }
 

@@ -119,7 +119,7 @@
 
         document.addEventListener('x-account-selected', e => {
             const account = demoAccounts.find(acc => acc.address === e.detail);
-            XAccountModal.instance.account = account;
+            XAccountModal.getInstance().account = account;
             XAccountModal.show();
         });
     </script>

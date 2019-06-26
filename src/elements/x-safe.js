@@ -118,7 +118,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _newPayoutTransaction(data) {
         XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
-        XSendTransactionModal.instance.sender = data.vestingAccount;
+        XSendTransactionModal.getInstance().sender = data.vestingAccount;
     }
 
     _clickedPreparedTransaction() {
@@ -152,7 +152,7 @@ export default class XSafe extends MixinRedux(XElement) {
         signedTx.fee = signedTx.fee / 1e5;
 
         if (!this.properties.hasConsensus) {
-            XSendTransactionOfflineModal.instance.transaction = signedTx;
+            XSendTransactionOfflineModal.getInstance().transaction = signedTx;
             XSendTransactionOfflineModal.show();
         } else {
             this._sendTransactionNow(signedTx);
@@ -163,14 +163,14 @@ export default class XSafe extends MixinRedux(XElement) {
         if (!signedTx) return;
 
         if (Config.offline) {
-            XSendTransactionOfflineModal.instance.transaction = signedTx;
+            XSendTransactionOfflineModal.getInstance().transaction = signedTx;
             XSendTransactionOfflineModal.show();
             return;
         }
 
         // Give user feedback that something is happening
-        XSendTransactionModal.instance.loading = true;
-        XSendPreparedTransactionModal.instance.loading = true;
+        XSendTransactionModal.getInstance().loading = true;
+        XSendPreparedTransactionModal.getInstance().loading = true;
 
         const network = await networkClient.client;
         try {
@@ -192,12 +192,12 @@ export default class XSafe extends MixinRedux(XElement) {
 
             XSendTransactionModal.hide();
             // give modal time to disappear
-            window.setTimeout(XSendTransactionModal.instance.clear.bind(XSendTransactionModal.instance), 500);
+            window.setTimeout(XSendTransactionModal.getInstance().clear.bind(XSendTransactionModal.getInstance()), 500);
             XSendPreparedTransactionModal.hide();
         } catch(e) {
             XToast.error(e.message || e);
-            XSendTransactionModal.instance.loading = false;
-            XSendPreparedTransactionModal.instance.loading = false;
+            XSendTransactionModal.getInstance().loading = false;
+            XSendPreparedTransactionModal.getInstance().loading = false;
         }
     }
 

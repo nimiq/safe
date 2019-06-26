@@ -139,7 +139,7 @@
 
         document.addEventListener('x-transaction-selected', e => {
             const transaction = demoTransactions2.concat(demoTransactions1).find(tx => tx.hash === e.detail);
-            XTransactionModal.instance.transaction = transaction;
+            XTransactionModal.getInstance().transaction = transaction;
             XTransactionModal.show();
         });
     </script>

@@ -6,8 +6,13 @@ function MixinSingletonXElement(XElementBase: typeof XElement) {
     return class Singleton extends XElementBase {
         private static _instance: Singleton;
 
-        public static get instance() {
-            if (this._instance) return this._instance;
+        // To be able to access properties on the instance that come from child classes and not Singleton itself, we
+        // have to type the instance in a polymorphic way. As typescript does not support polymorphic this types
+        // (https://www.typescriptlang.org/docs/handbook/advanced-types.html#polymorphic-this-types) as return type of
+        // static methods, we emulate them (https://github.com/Microsoft/TypeScript/issues/5863#issuecomment-410887254).
+        // Note that generics are not supported on accessors / getters. Therefore defining getInstance as method.
+        public static getInstance<T extends typeof Singleton>(this: T): InstanceType<T> {
+            if (this._instance) return this._instance as InstanceType<T>;
             const element = document.querySelector(this.tagName) || document.querySelector(`.${this.tagName}`);
             if (element) {
                 this._instance = new this(element as HTMLElement);
@@ -17,7 +22,7 @@ function MixinSingletonXElement(XElementBase: typeof XElement) {
                     (MixinSingleton.appContainer || document.body).appendChild(this._instance.$el);
                 }
             }
-            return this._instance;
+            return this._instance as InstanceType<T>;
         }
 
         public destroy() {
@@ -39,13 +44,13 @@ function MixinSingletonVue(VueBase: VueConstructor) {
     class Singleton extends Vue {
         private static _instance: Singleton;
 
-        public static get instance() {
-            if (this._instance) return this._instance;
+        public static getInstance<T extends typeof Singleton>(this: T): InstanceType<T> {
+            if (this._instance) return this._instance as InstanceType<T>;
             const element = document.createElement('div');
             this._instance = new this();
             this._instance.$mount(element);
             (MixinSingleton.appContainer || document.body).appendChild(this._instance.$el);
-            return this._instance;
+            return this._instance as InstanceType<T>;
         }
 
         protected created() {
