@@ -1,5 +1,5 @@
 import MixinSingleton from '../mixin-singleton';
-import XModals from './x-modals.js';
+import XModals from './x-modals';
 import XModalContainer from './x-modal-container';
 
 const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
