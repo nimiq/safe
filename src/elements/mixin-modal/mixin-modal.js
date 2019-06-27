@@ -1,6 +1,6 @@
-import MixinSingleton from '../mixin-singleton.ts';
+import MixinSingleton from '../mixin-singleton';
 import XModals from './x-modals.js';
-import XModalContainer from './x-modal-container.js';
+import XModalContainer from './x-modal-container';
 
 const MixinModal = XElementBase => class extends MixinSingleton(XElementBase) {
     onCreate() {
