@@ -9,7 +9,7 @@ export function setMixinSingletonAppContainer(container: Element) {
 }
 
 export function MixinSingletonX(XElementBase: typeof XElement) {
-    class Singleton extends XElementBase {
+    return class Singleton extends XElementBase {
         // To be able to access properties on the instance that come from child classes and not Singleton itself, we
         // have to type the instance in a polymorphic way. As typescript does not support polymorphic this types
         // (https://www.typescriptlang.org/docs/handbook/advanced-types.html#polymorphic-this-types) as return type of
@@ -43,34 +43,40 @@ export function MixinSingletonX(XElementBase: typeof XElement) {
             Singleton._instance = this;
             super.onCreate();
         }
-    }
-    return Singleton;
+    };
 }
 
-export function MixinSingletonV(VueBase: VueConstructor) {
+// Vue components do not support inherited and mixed-in static methods and properties, therefore we're implementing
+// the singleton differently for Vue components
+const vueSingletonInstances = new Map<VueConstructor, Vue>();
+
+function MixinSingletonV(VueBase: VueConstructor) {
     class Singleton extends Vue {
-        public static getInstance<T extends typeof Singleton>(this: T): InstanceType<T> {
-            if (this._instance) return this._instance as InstanceType<T>;
-            const element = document.createElement('div');
-            this._instance = new this();
-            this._instance.$mount(element);
-            (_mixinSingletonAppContainer || document.body).appendChild(this._instance.$el);
-            return this._instance as InstanceType<T>;
-        }
-
-        private static _instance: Singleton;
-
         protected created() {
-            if (Singleton._instance) {
+            const ctor = this.constructor as VueConstructor;
+            if (vueSingletonInstances.has(ctor)) {
                 throw Error('Singleton already has an instance.');
             }
-            Singleton._instance = this;
+            vueSingletonInstances.set(ctor, this);
         }
 
         protected destroyed() {
-            delete Singleton._instance;
+            vueSingletonInstances.delete(this.constructor as VueConstructor);
         }
     }
-
     return mixins(Singleton, VueBase);
 }
+
+namespace MixinSingletonV { // tslint:disable-line:no-namespace
+    export function getInstance<T extends VueConstructor>(ctor: T): InstanceType<T> {
+        if (vueSingletonInstances.has(ctor)) return vueSingletonInstances.get(ctor)! as InstanceType<T>;
+        const element = document.createElement('div');
+        const instance = new ctor();
+        vueSingletonInstances.set(ctor, instance);
+        instance.$mount(element);
+        (_mixinSingletonAppContainer || document.body).appendChild(instance.$el);
+        return instance as InstanceType<T>;
+    }
+}
+
+export { MixinSingletonV };
