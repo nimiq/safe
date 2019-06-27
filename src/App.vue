@@ -109,7 +109,7 @@ import { WalletType } from './redux/wallet-redux.js';
 import ReduxProvider from './components/ReduxProvider.vue';
 import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 
-import MixinSingleton from './elements/mixin-singleton';
+import { setMixinSingletonAppContainer } from './elements/mixin-singleton';
 import XAccounts from './elements/x-accounts/x-accounts.js';
 import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
@@ -144,7 +144,7 @@ export default class App extends Vue {
 
     private mounted() {
         const $appContainer = this.$el;
-        MixinSingleton.appContainer = $appContainer;
+        setMixinSingletonAppContainer($appContainer);
 
         this._xElements = [
             new XTotalAmount(this.$refs['x-total-amount']),

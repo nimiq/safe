@@ -1,7 +1,7 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinSingleton from '../mixin-singleton';
+import { MixinSingletonX } from '../mixin-singleton';
 
-export default class XToast extends MixinSingleton(XElement) {
+export default class XToast extends MixinSingletonX(XElement) {
 
     html() {
         return '<div toast-content></div>';
