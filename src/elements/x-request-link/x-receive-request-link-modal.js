@@ -1,12 +1,12 @@
 import { ValidationUtils } from '@nimiq/utils';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 import XElement from '../../lib/x-element/x-element.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address';
 import { dashToSpace, spaceToDash } from '../../lib/parameter-encoding.js';
 import XRouter from '../x-router/x-router.js';
 
-export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
+export default class XReceiveRequestLinkModal extends MixinModalX(XElement) {
     html() {
         return `
             <div class="modal-header">

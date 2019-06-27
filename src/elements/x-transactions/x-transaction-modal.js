@@ -1,11 +1,11 @@
 import moment from 'moment';
 import { ValidationUtils } from '@nimiq/utils';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 import XAddress from '../x-address/x-address';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '../mixin-redux';
 
-export default class XTransactionModal extends MixinModal(XTransaction) {
+export default class XTransactionModal extends MixinModalX(XTransaction) {
     html() {
         return `
             <div class="modal-header">

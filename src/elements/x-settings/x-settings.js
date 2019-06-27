@@ -3,9 +3,9 @@ import MixinRedux from '../mixin-redux';
 import XSendPreparedTransactionModal from '../x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from '../../redux/settings-redux.js';
 import { Store } from '../../store.js';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 
-export default class XSettings extends MixinModal(MixinRedux(XElement)) {
+export default class XSettings extends MixinModalX(MixinRedux(XElement)) {
     html(){
         return `
             <div class="modal-header">

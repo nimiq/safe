@@ -1,9 +1,9 @@
 import { Utf8Tools, ValidationUtils } from '@nimiq/utils';
 import XSendTransaction from './x-send-transaction.js' ;
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
 
-export default class XSendTransactionModal extends MixinModal(XSendTransaction) {
+export default class XSendTransactionModal extends MixinModalX(XSendTransaction) {
     allowsShow(address) {
         return address === '-' || !address || ValidationUtils.isValidAddress(dashToSpace(address));
     }

@@ -1,8 +1,8 @@
 import XElement from '../../lib/x-element/x-element.js';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 import XEducationSlides from './x-education-slides.js';
 
-export default class XEducationSlide extends MixinModal(XElement) {
+export default class XEducationSlide extends MixinModalX(XElement) {
     onCreate() {
         super.onCreate();
         this.$nextButton = this.$('[next]');

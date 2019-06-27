@@ -1,7 +1,7 @@
 @import "x-modals.css";
 @import "x-modal-container.css";
 
-.x-modal {
+.modal {
     background: white;
     color: rgba(0,0,0,0.8);
     box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14),

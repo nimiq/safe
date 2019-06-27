@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { ValidationUtils } from '@nimiq/utils';
-import MixinModal from '../mixin-modal/mixin-modal.js';
+import { MixinModalX } from '../mixin-modal/mixin-modal';
 import XAccount from './x-account.js';
 import XAmount from '../x-amount/x-amount.js';
 import MixinRedux from '../mixin-redux';
@@ -9,7 +9,7 @@ import AccountType from '../../lib/account-type.js';
 import { accounts$ } from '../../selectors/account$.js';
 import XQrCodeOverlay from '../x-qr-code-overlay/x-qr-code-overlay';
 
-export default class XAccountModal extends MixinModal(XAccount) {
+export default class XAccountModal extends MixinModalX(XAccount) {
     html() {
         return `
             <div class="modal-header">

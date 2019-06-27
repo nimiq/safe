@@ -1,5 +1,5 @@
 import XElement from '../lib/x-element/x-element.js';
-import MixinModal from './mixin-modal/mixin-modal.js';
+import { MixinModalX } from './mixin-modal/mixin-modal';
 import { default as store } from '../store.js';
 import XSuccessMark from './x-success-mark/x-success-mark.js';
 import { activeAddresses$ } from '../selectors/account$.js';
@@ -45,7 +45,7 @@ Faucet.FAUCET_BACKEND = window.location.origin.indexOf('nimiq.com') !== -1
 Faucet.FAUCET_ENDPOINT_TAP = 'tapit';
 Faucet.FAUCET_ENDPOINT_INFO = 'info';
 
-export default class XFaucetModal extends MixinModal(XElement) {
+export default class XFaucetModal extends MixinModalX(XElement) {
     html() {
         return `
             <div class="modal-header">

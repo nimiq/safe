@@ -1,7 +1,7 @@
 import XElement from '../lib/x-element/x-element.js';
-import MixinModal from './mixin-modal/mixin-modal.js';
+import { MixinModalX } from './mixin-modal/mixin-modal';
 
-export default class XDisclaimerModal extends MixinModal(XElement) {
+export default class XDisclaimerModal extends MixinModalX(XElement) {
     html() {
         return `
             <div class="modal-header">

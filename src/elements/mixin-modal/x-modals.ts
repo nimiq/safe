@@ -1,9 +1,10 @@
 import XElement from '../../lib/x-element/x-element';
 import XRouter from '../x-router/x-router.js';
+import { IModal } from './mixin-modal';
 import { MixinSingletonX } from '../mixin-singleton';
 
 export default class XModals extends MixinSingletonX(XElement) {
-    public static async show(triggeredByRouter: boolean, modal: any, ...parameters: any[]) {
+    public static async show(triggeredByRouter: boolean, modal: IModal, ...parameters: any[]) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal === visibleModal /*|| modal === incomingModal*/
             || !modal.allowsShow(...parameters)
@@ -33,10 +34,10 @@ export default class XModals extends MixinSingletonX(XElement) {
         }
     }
 
-    public static async hide(triggeredByRouter: boolean, modal: any, force = false) {
+    public static async hide(triggeredByRouter: boolean, modal: IModal, force = false) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal !== visibleModal
-            || (!force && !modal.allowsHide(XModals.getInstance()._incomingModal))) return;
+            || (!force && !modal.allowsHide(XModals.getInstance()._incomingModal!))) return;
         if (triggeredByRouter || !modal.route || force) {
             this.getInstance()._hide(modal);
         } else {
@@ -52,15 +53,15 @@ export default class XModals extends MixinSingletonX(XElement) {
 
     private static ANIMATION_TIME = 400;
 
-    private _visibleModal: any = null;
-    private _incomingModal: any = null;
+    private _visibleModal: IModal | null = null;
+    private _incomingModal: IModal | null = null;
     private _isSwitchingModal: boolean = false;
     private _isSwitchingBack: boolean = false;
-    private _switchHistory: any[] = [];
+    private _switchHistory: IModal[] = [];
     private _hideTimer?: number;
     private _showTimer?: number;
 
-    private _setIncomingModal(modal: any) {
+    private _setIncomingModal(modal: IModal) {
         this._incomingModal = modal;
         // check whether we're switching modals (i.e. there is another modal to be hidden).
         // _setIncomingModal is always called before hide of the old modal, so we can be sure there is no
@@ -76,7 +77,7 @@ export default class XModals extends MixinSingletonX(XElement) {
         this._isSwitchingBack = false;
     }
 
-    private _show(modal: any, ...parameters: any[]) {
+    private _show(modal: IModal, ...parameters: any[]) {
         clearTimeout(this._hideTimer);
         clearTimeout(this._showTimer); // stop potential other incoming modal
         this._setIncomingModal(modal);
@@ -113,6 +114,8 @@ export default class XModals extends MixinSingletonX(XElement) {
     private _hide(modal = this._visibleModal) {
         // Note that the router ensures that hide always gets called after show, so to determine _isSwitchingModal
         // we don't have to wait for a potential _show call after _hide
+
+        if (!modal) return;
 
         if (!this._isSwitchingModal) {
             this._visibleModal = null;

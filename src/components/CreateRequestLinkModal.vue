@@ -1,5 +1,5 @@
 <template>
-    <div class="create-request-link-modal x-modal nimiq-dark">
+    <div class="create-request-link-modal nimiq-dark">
         <div class="modal-header">
             <i x-modal-close class="material-icons">close</i>
             <h2>Transaction Request</h2>

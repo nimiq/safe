@@ -1,7 +1,7 @@
-/*import MixinModal from '../mixin-modal/mixin-modal.js';
+/*import { MixinModalX } from '../mixin-modal/mixin-modal';
 import XElement from '../../lib/x-element/x-element.js';
 
-export default class XCreateRequestLinkModal extends MixinModal(XElement) {
+export default class XCreateRequestLinkModal extends MixinModalX(XElement) {
     onCreate() {
         this._shown = false;
         this._qrCode = new QrCode({
