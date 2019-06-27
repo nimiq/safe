@@ -2,8 +2,24 @@ import XElement from '../lib/x-element/x-element';
 import Vue, { VueConstructor } from 'vue';
 import { mixins } from 'vue-class-component';
 
+interface Constructor<T> {
+    new (...args: any[]): T;
+}
+
+// Common interface for Singleton for XElement and Vue
+// As typescript does not support declaring static methods in an interface, we use this hack:
+// https://github.com/Microsoft/TypeScript/issues/13462#issuecomment-295685298
+interface ISingletonStatic<T> extends Constructor<T> {
+    getInstance<T extends typeof XElement | VueConstructor>(this: T): InstanceType<T>;
+}
+/* class decorator */
+function staticImplements<T>() {
+    return (constructor: T) => {}
+}
+
 function MixinSingletonXElement(XElementBase: typeof XElement) {
-    return class Singleton extends XElementBase {
+    @staticImplements<ISingletonStatic<Singleton>>()
+    class Singleton extends XElementBase {
         private static _instance: Singleton;
 
         // To be able to access properties on the instance that come from child classes and not Singleton itself, we
@@ -11,18 +27,19 @@ function MixinSingletonXElement(XElementBase: typeof XElement) {
         // (https://www.typescriptlang.org/docs/handbook/advanced-types.html#polymorphic-this-types) as return type of
         // static methods, we emulate them (https://github.com/Microsoft/TypeScript/issues/5863#issuecomment-410887254).
         // Note that generics are not supported on accessors / getters. Therefore defining getInstance as method.
-        public static getInstance<T extends typeof Singleton>(this: T): InstanceType<T> {
-            if (this._instance) return this._instance as InstanceType<T>;
-            const element = document.querySelector(this.tagName) || document.querySelector(`.${this.tagName}`);
+        public static getInstance<T extends typeof XElement | VueConstructor>(this: T): InstanceType<T> {
+            const self = this as any as typeof Singleton;
+            if (self._instance) return self._instance as InstanceType<T>;
+            const element = document.querySelector(self.tagName) || document.querySelector(`.${self.tagName}`);
             if (element) {
-                this._instance = new this(element as HTMLElement);
+                self._instance = new this(element as HTMLElement) as Singleton;
             } else {
-                this._instance = this.createElement();
-                if (!this._instance.$el.parentNode) {
-                    (MixinSingleton.appContainer || document.body).appendChild(this._instance.$el);
+                self._instance = self.createElement();
+                if (!self._instance.$el.parentNode) {
+                    (MixinSingleton.appContainer || document.body).appendChild(self._instance.$el);
                 }
             }
-            return this._instance as InstanceType<T>;
+            return self._instance as InstanceType<T>;
         }
 
         public destroy() {
@@ -37,20 +54,23 @@ function MixinSingletonXElement(XElementBase: typeof XElement) {
             Singleton._instance = this;
             super.onCreate();
         }
-    };
+    }
+    return Singleton;
 }
 
 function MixinSingletonVue(VueBase: VueConstructor) {
+    @staticImplements<ISingletonStatic<Singleton>>()
     class Singleton extends Vue {
         private static _instance: Singleton;
 
-        public static getInstance<T extends typeof Singleton>(this: T): InstanceType<T> {
-            if (this._instance) return this._instance as InstanceType<T>;
+        public static getInstance<T extends typeof XElement | VueConstructor>(this: T): InstanceType<T> {
+            const self = this as any as typeof Singleton;
+            if (self._instance) return self._instance as InstanceType<T>;
             const element = document.createElement('div');
-            this._instance = new this();
-            this._instance.$mount(element);
-            (MixinSingleton.appContainer || document.body).appendChild(this._instance.$el);
-            return this._instance as InstanceType<T>;
+            self._instance = new self();
+            self._instance.$mount(element);
+            (MixinSingleton.appContainer || document.body).appendChild(self._instance.$el);
+            return self._instance as InstanceType<T>;
         }
 
         protected created() {
@@ -72,7 +92,7 @@ function isTypeOfXElement(cls: VueConstructor | typeof XElement): cls is typeof 
     return cls === XElement || cls.prototype instanceof XElement;
 }
 
-function MixinSingleton<T extends VueConstructor | typeof XElement>(BaseClass: T): T {
+function MixinSingleton<T extends VueConstructor | typeof XElement>(BaseClass: T): T & ISingletonStatic<T> {
     if (isTypeOfXElement(BaseClass)) {
         return MixinSingletonXElement(BaseClass) as any;
     } else {
