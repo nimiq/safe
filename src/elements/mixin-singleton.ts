@@ -1,6 +1,6 @@
 import XElement from '../lib/x-element/x-element';
 import Vue, { VueConstructor } from 'vue';
-import { mixins } from 'vue-class-component';
+import Component, { mixins } from 'vue-class-component';
 
 let _mixinSingletonAppContainer: Element;
 
@@ -54,6 +54,7 @@ export function MixinSingletonX(XElementBase: typeof XElement) {
 const vueSingletonInstances = new Map<VueConstructor, Vue>();
 
 function MixinSingletonV(VueBase: VueConstructor) {
+    @Component
     class Singleton extends Vue {
         protected created() {
             const ctor = this.constructor as VueConstructor;

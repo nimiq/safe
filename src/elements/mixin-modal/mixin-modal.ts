@@ -3,7 +3,7 @@ import XModals from './x-modals';
 import XModalContainer from './x-modal-container';
 import XElement from '../../lib/x-element/x-element';
 import Vue, { VueConstructor } from 'vue';
-import { mixins } from 'vue-class-component';
+import Component, { mixins } from 'vue-class-component';
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
@@ -100,8 +100,9 @@ export function MixinModalX(XElementBase: typeof XElement) {
 
 export function MixinModalV(VueBase: VueConstructor) {
     // Vue components do not support inherited and mixed-in static methods, therefore we don't provide them for vue
+    @Component
     class Modal extends MixinModalCommon(MixinSingletonV(VueBase)) {
-        protected created() {
+        protected mounted() {
             this._route = this.$el.getAttribute('x-route-aside') || '';
             this._container = XModalContainer.createFor(this);
             this._container.$el.appendChild(this.$el); // append to the container if not already the case
@@ -112,5 +113,10 @@ export function MixinModalV(VueBase: VueConstructor) {
         }
     }
 
-    return mixins(Modal, VueBase);
+    // Have to manually apply the Component decorator which transforms the class to a vue config object on the
+    // MixinModalCommon as the Component decorator only transforms ownPropertyNames and thus no properties inherited
+    // from MixinModalCommon as super class.
+    const MixinModalCommonComponent = Component(MixinModalCommon(Vue));
+
+    return mixins(VueBase, Modal, MixinModalCommonComponent);
 }
