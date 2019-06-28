@@ -166,6 +166,11 @@ export function reducer(state, action) {
                 });
             });
 
+            // Inherit cashlink accounts for still existing wallets
+            [...state.accounts.values()]
+                .filter(acc => acc.type === AccountType.CASHLINK && wallets.has(acc.walletId))
+                .forEach(acc => accounts.set(acc.address, acc));
+
             return updateState({
                 hasContent: true,
                 wallets,
@@ -242,7 +247,7 @@ export function reducer(state, action) {
 /* Action creators */
 
 export function addAccount(account) {
-    // subscribe at network
+    // subscribe at network (automatically checks balance and fires balance-changed event)
     networkClient.client.then(client => client.subscribe(account.address));
 
     return {
@@ -268,7 +273,7 @@ export function logout(walletId) {
             walletId,
             addressesToKeep, // for transaction reducer
         });
-    }
+    };
 }
 
 export function populate(listedWallets) {

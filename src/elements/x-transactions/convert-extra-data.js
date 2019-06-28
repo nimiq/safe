@@ -27,9 +27,16 @@ function _toUint8View(arrayLike) {
     }
 }
 
+export function isFundingCashlink(extraData) {
+    return _arrayEquals(extraData, TransactionTags.SendCashlink);
+}
+
+export function isClaimingCashlink(extraData) {
+    _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
+}
+
 export function isCashlink(extraData) {
-    return _arrayEquals(extraData, TransactionTags.SendCashlink)
-        || _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
+    return isFundingCashlink(extraData) || isClaimingCashlink(extraData);
 }
 
 export function convertExtradata(extraData) {

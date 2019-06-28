@@ -1,5 +1,6 @@
-import { isCashlink, convertExtradata } from './convert-extra-data.js';
-import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
+import { isFundingCashlink, isClaimingCashlink, convertExtradata } from './convert-extra-data.js';
+import { TypeKeys as WalletTypeKeys, addAccount } from '../../wallet-redux.js';
+import AccountType from '../../lib/account-type.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
@@ -29,7 +30,6 @@ export function reducer(state, action) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
-                    tx.isCashlink = isCashlink(tx.extraData);
                     tx.extraData = convertExtradata(tx.extraData);
                     entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
@@ -40,7 +40,6 @@ export function reducer(state, action) {
             }
 
             action.transactions.forEach(tx => {
-                tx.isCashlink = isCashlink(tx.extraData);
                 tx.extraData = convertExtradata(tx.extraData);
                 entries.set(tx.hash, tx);
             });
@@ -144,10 +143,51 @@ export function reducer(state, action) {
  * @param {Array<{}>} transactions
  */
 export function addTransactions(transactions) {
-    return {
-        type: TypeKeys.ADD_TXS,
-        transactions,
-    }
+    return async (dispatch, getState) => {
+        /** @type {Map<string, any>} */
+        const accounts = getState().wallets.accounts;
+
+        // Look through tx and find cashlinks, so we can add their address to our monitored addresses
+        const cashlinkAccount = {
+            label: 'Cashlink',
+            type: AccountType.CASHLINK,
+        };
+        transactions.forEach(tx => {
+            if (isFundingCashlink(tx.extraData)) {
+                if (accounts.has(tx.recipient)) return; // Cashlink account already known
+
+                const sender = accounts.get(tx.sender);
+                if (!sender) {
+                    console.error(new Error('Cannot assign cashlink account to a wallet, sender is unknown.'));
+                    return;
+                }
+
+                dispatch(addAccount(Object.assign({}, cashlinkAccount, {
+                    address: tx.recipient,
+                    walletId: sender.walletId,
+                })));
+            }
+            else if (isClaimingCashlink(tx.extraData)) {
+                if (accounts.has(tx.sender)) return; // Cashlink account already known
+
+                const recipient = accounts.get(tx.recipient);
+                if (!recipient) {
+                    console.error(new Error('Cannot assign cashlink account to a wallet, recipient is unknown.'));
+                    return;
+                }
+
+                dispatch(addAccount(Object.assign({}, cashlinkAccount, {
+                    address: tx.sender,
+                    walletId: recipient.walletId,
+                })));
+            }
+        });
+
+        dispatch({
+            type: TypeKeys.ADD_TXS,
+            transactions,
+        });
+    };
 }
 
 /**

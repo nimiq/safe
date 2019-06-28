@@ -10,6 +10,7 @@ import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
+import AccountType from '../../lib/account-type.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -78,41 +79,45 @@ export default class XTransactions extends MixinRedux(XElement) {
                 sender.label :
                 contacts[tx.sender] ?
                     contacts[tx.sender].label :
-                    AddressBook.getLabel(tx.sender);
-
-            if (!tx.senderLabel) {
-                if (tx.isCashlink) {
-                    console.log("is cashlink!");
-                    // TODO: Search for cashlink funding tx
-                    // DISCUSS: Replace tx.sender with cashlink funding address, or reference funding tx from this tx?
-                    tx.senderLabel = 'Cashlink';
-                } else {
-                    // Fall back to shortened sender address
-                    tx.senderLabel = tx.sender.slice(0, 14) + '...';
-                }
-            }
+                    AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
 
             tx.recipientLabel = recipient ?
                 recipient.label :
                 contacts[tx.recipient] ?
                     contacts[tx.recipient].label :
-                    AddressBook.getLabel(tx.recipient);
+                    AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
 
-            if (!tx.recipientLabel) {
-                if (tx.isCashlink) {
-                    console.log("is cashlink!");
-                    // TODO: Search for cashlink claiming tx
-                    // DISCUSS: Replace tx.recipient with cashlink claiming address, or reference claiming tx from this tx?
-                    tx.recipientLabel = 'Cashlink';
-                } else {
-                    // Fall back to shortened recipient address
-                    tx.recipientLabel = tx.recipient.slice(0, 14) + '...';
+            if (tx.isCashlink && sender && sender.type === AccountType.CASHLINK && !recipient) {
+                // This is the tx where the final recipient claimed our outgoing cashlink.
+                // It will be displayed as an info bar only.
+                tx.type = 'cashlink_remote_claim';
+
+                if (!tx.pairedTx) {
+                    // TODO: Search for cashlink funding tx
                 }
             }
+            else if (tx.isCashlink && sender && sender.type === AccountType.CASHLINK && recipient) {
+                // This tx is where we ourselves claimed a cashlink.
+                // This will be displayed as a special cashlink-claiming tx, matched to a
+                // 'cashlink_remote_fund' tx.
+                tx.type = 'cashlink_local_claim';
 
-            if (sender) tx.type = 'outgoing';
-            if (recipient) tx.type = 'incoming';
-            if (sender && recipient) tx.type = 'transfer';
+                if (!tx.pairedTx) {
+                    // TODO: Search for the original funding tx
+                }
+            }
+            else if (tx.isCashlink && !sender && recipient.type === AccountType.CASHLINK) {
+                // This tx is the original funding tx of a cashlink that we claimed.
+                // This tx is only relevant to provide the originalSender for the incoming cashlink tx.
+                tx.type = 'cashlink_remote_fund';
+            }
+            else if (tx.isCashlink && sender && recipient.type === AccountType.CASHLINK) {
+                // This is the funding tx for a cashlink which we sent ourselves.
+                tx.type = 'outgoing';
+            }
+            else if (sender && recipient) tx.type = 'transfer';
+            else if (sender) tx.type = 'outgoing';
+            else if (recipient) tx.type = 'incoming';
         });
 
         return txs;
