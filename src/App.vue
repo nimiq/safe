@@ -81,7 +81,7 @@
                 </div>
                 <div ref="x-transaction-modal"></div>
                 <div ref="x-receive-request-link-modal"></div>
-                <CreateRequestLinkModal v-show="showReceiveModal"/>
+                <CreateRequestLinkModal ref="CreateRequestLinkModal"/>
                 <div ref="x-disclaimer-modal"></div>
             </section>
             <footer class="nimiq-dark">
@@ -136,7 +136,6 @@ import { spaceToDash } from './lib/parameter-encoding.js';
 export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
-    private showReceiveModal = false;
 
     private created() {
         hubClient.launch();
@@ -219,7 +218,9 @@ export default class App extends Vue {
     }
 
     private receive() {
-        this.showReceiveModal = true;
+        // Have to use any here as if we cast to CreateRequestLinkModal we effectively only cast to the Vue base class
+        // due to type Vue applied to all imports from .vue files by the rule in any.d.ts. And Vue doesn't have show.
+        (this.$refs.CreateRequestLinkModal as any).show();
     }
 
     private scan() {

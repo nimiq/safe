@@ -35,7 +35,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { MixinModalV } from '../elements/mixin-modal/mixin-modal';
 import { QrCode } from '@nimiq/vue-components';
 import { createRequestLink } from '@nimiq/utils';
 import XAccountsDropdown from '../elements/x-accounts/x-accounts-dropdown';
@@ -46,7 +47,7 @@ import XQrCodeOverlay from '../elements/x-qr-code-overlay/x-qr-code-overlay';
 import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })
-export default class CreateRequestLinkModal extends Vue {
+export default class CreateRequestLinkModal extends MixinModalV(Vue) {
     private xAccountsDropdown!: XAccountsDropdown;
     private xAmountInput!: XAmountInput;
     private xAddress!: XAddress;
@@ -55,7 +56,7 @@ export default class CreateRequestLinkModal extends Vue {
     private amount: number = 0;
     private qrSize: number = 72;
 
-    private mounted() {
+    protected mounted() {
         this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
         this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$refs['x-amount-input'] as HTMLElement);
@@ -66,7 +67,7 @@ export default class CreateRequestLinkModal extends Vue {
         this._onResize();
     }
 
-    private destroyed() {
+    protected destroyed() {
         [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ].forEach((xE) => xE.destroy());
         window.removeEventListener('resize', this._onResize);
     }
@@ -113,15 +114,6 @@ export default class CreateRequestLinkModal extends Vue {
 </script>
 
 <style scoped>
-.create-request-link-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: background .4s ease-in-out;
-    z-index: 1;
-}
 .create-request-link-modal {
     width: 600px;
 }
