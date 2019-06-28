@@ -2,6 +2,8 @@ import XElement from '../../lib/x-element/x-element';
 import { ModalComponent } from './mixin-modal';
 
 export default class XModalContainer extends XElement {
+    public static readonly ANIMATION_TIME = 400;
+
     public static createFor(modal: ModalComponent) {
         const parent = modal.$el.parentNode as HTMLElement;
         let modalContainer;
@@ -14,7 +16,6 @@ export default class XModalContainer extends XElement {
         return modalContainer;
     }
 
-    private static ANIMATION_TIME = 400;
     private _modal!: ModalComponent;
     private _hideTimer?: number;
 

@@ -1,10 +1,10 @@
 <template>
     <div class="create-request-link-modal nimiq-dark">
-        <div class="modal-header">
+        <div v-if="visible" class="modal-header">
             <i x-modal-close class="material-icons">close</i>
             <h2>Transaction Request</h2>
         </div>
-        <div class="modal-body">
+        <div v-if="visible" class="modal-body">
             <div class="center">
                 <div ref="x-accounts-dropdown" @x-account-selected.stop="_setAddress($event.detail)"></div>
                 <ul>
@@ -30,7 +30,7 @@
                 </ul>
             </div>
         </div>
-        <div ref="qr-code-overlay"></div>
+        <div v-if="visible" ref="qr-code-overlay"></div>
     </div>
 </template>
 
@@ -44,36 +44,60 @@ import XAddress from '../elements/x-address/x-address';
 import '../elements/x-address/x-address.css';
 import XAmountInput from '../elements/x-amount-input/x-amount-input';
 import XQrCodeOverlay from '../elements/x-qr-code-overlay/x-qr-code-overlay';
+import XModals from '../elements/mixin-modal/x-modals';
 import Config from '../config/config.js';
 
 @Component({ components: { QrCode } })
 export default class CreateRequestLinkModal extends MixinModalV(Vue) {
-    private xAccountsDropdown!: XAccountsDropdown;
-    private xAmountInput!: XAmountInput;
-    private xAddress!: XAddress;
-    private xQrCodeOverlay!: XQrCodeOverlay;
+    private xAccountsDropdown?: XAccountsDropdown;
+    private xAmountInput?: XAmountInput;
+    private xAddress?: XAddress;
+    private xQrCodeOverlay?: XQrCodeOverlay;
     private address: string = '';
     private amount: number = 0;
     private qrSize: number = 72;
+    private visible: boolean = false;
+    private hideTimeout?: number;
 
-    protected mounted() {
+    public async onShow() {
+        if (this.visible) return;
+        if (this.hideTimeout) {
+            clearTimeout(this.hideTimeout);
+            return;
+        }
+        this.visible = true;
+        await Vue.nextTick(); // wait until vue rendered the dom
+
+        this._onResize();
+        window.addEventListener('resize', this._onResize);
         this.xAccountsDropdown = new XAccountsDropdown(this.$refs['x-accounts-dropdown'] as HTMLElement);
         this.xAddress = new XAddress(this.$refs['x-address'] as HTMLElement);
         this.xAmountInput = new XAmountInput(this.$refs['x-amount-input'] as HTMLElement);
         this.xQrCodeOverlay = new XQrCodeOverlay(this.$refs['qr-code-overlay'] as HTMLElement);
+    }
 
+    public onHide() {
+        if (!this.visible || this.hideTimeout) return;
+        this.hideTimeout = window.setTimeout(() => {
+            delete this.hideTimeout;
+            this.visible = false;
+            [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ]
+                .forEach((xElement) => xElement && xElement.destroy());
+            [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ] = new Array(4);
+            window.removeEventListener('resize', this._onResize);
+        }, XModals.ANIMATION_TIME);
+    }
+
+    protected created() {
         this._onResize = this._onResize.bind(this);
-        window.addEventListener('resize', this._onResize);
-        this._onResize();
     }
 
     protected destroyed() {
-        [ this.xAccountsDropdown, this.xAddress, this.xAmountInput, this.xQrCodeOverlay ].forEach((xE) => xE.destroy());
-        window.removeEventListener('resize', this._onResize);
+        if (this.visible) this.hide();
     }
 
     private _setAddress(address: string) {
-        this.xAddress.address = address;
+        this.xAddress!.address = address;
         this.address = address;
     }
 
@@ -85,7 +109,7 @@ export default class CreateRequestLinkModal extends MixinModalV(Vue) {
 
     private openQrCodeOverlay() {
         if (!this.link || this.isMobile()) return;
-        this.xQrCodeOverlay.show(this.link, 'Scan this QR code\nto send to this address');
+        this.xQrCodeOverlay!.show(this.link, 'Scan this QR code\nto send to this address');
     }
 
     private isMobile() {
@@ -116,6 +140,10 @@ export default class CreateRequestLinkModal extends MixinModalV(Vue) {
 <style scoped>
 .create-request-link-modal {
     width: 600px;
+}
+
+.x-accounts-dropdown >>> .x-expandable [expandable-trigger] {
+    transition: none;
 }
 
 ul {

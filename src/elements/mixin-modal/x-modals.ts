@@ -4,6 +4,8 @@ import { IModal } from './mixin-modal';
 import { MixinSingletonX } from '../mixin-singleton';
 
 export default class XModals extends MixinSingletonX(XElement) {
+    public static readonly ANIMATION_TIME = 400;
+
     public static async show(triggeredByRouter: boolean, modal: IModal, ...parameters: any[]) {
         const visibleModal = XModals.visibleModal;
         if (modal === null || modal === visibleModal /*|| modal === incomingModal*/
@@ -50,8 +52,6 @@ export default class XModals extends MixinSingletonX(XElement) {
     public static get visibleModal() {
         return this.getInstance()._visibleModal;
     }
-
-    private static ANIMATION_TIME = 400;
 
     private _visibleModal: IModal | null = null;
     private _incomingModal: IModal | null = null;
