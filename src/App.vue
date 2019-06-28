@@ -6,13 +6,13 @@
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
-            <div id="private-warning" class="header-warning display-none">
+            <div v-if="showPrivateBrowsingWarning" id="private-warning" class="header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
             <header>
                 <div class="header-top content-width">
-                    <a class="logo" href="#">
+                    <a class="logo" :href="logoUrl">
                         <div class="nq-icon nimiq-logo"></div>
                         <span class="logo-wordmark">Nimiq</span>
                     </a>
@@ -99,6 +99,7 @@
 import { Component, Watch, Vue } from 'vue-property-decorator';
 import { LoadingSpinner } from '@nimiq/vue-components';
 import { bindActionCreators } from 'redux';
+import { BrowserDetection } from '@nimiq/utils';
 
 import store from './store.js';
 import hubClient from './hub-client.js';
@@ -138,11 +139,16 @@ import { spaceToDash } from './lib/parameter-encoding.js';
 export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
+    private showPrivateBrowsingWarning = false;
+    private logoUrl = 'https://' + Config.tld;
 
-    private created() {
+    private async created() {
         const networkHandler = new NetworkHandler(store);
         networkHandler.launch();
         hubClient.launch();
+        if (await BrowserDetection.isPrivateMode()) {
+            this.showPrivateBrowsingWarning = true;
+        }
     }
 
     private mounted() {
