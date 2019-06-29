@@ -2,14 +2,18 @@
     <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
     <template v-slot="{showBackupWords, showBackupFile, activeWallet}">
     <div id="app">
-            <div v-if="isTestnet" id="testnet-warning" class="header-warning display-none">
-                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
+        <transition>
+            <div v-if="showTestnetWarning" class="header-warning">
+                <i class="close-warning material-icons" @click="showTestnetWarning = false">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
             </div>
-            <div v-if="showPrivateBrowsingWarning" id="private-warning" class="header-warning display-none">
-                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
+        </transition>
+        <transition>
+            <div v-if="showPrivateBrowsingWarning" class="header-warning">
+                <i class="close-warning material-icons" @click="showPrivateBrowsingWarning = false">close</i>
                 You are using Private Browsing Mode. Your accounts will not be saved when this window is closed. Please make sure to <strong>create a backup</strong>!
             </div>
+        </transition>
             <header>
                 <div class="header-top content-width">
                     <a class="logo" :href="logoUrl">
@@ -139,6 +143,7 @@ import { spaceToDash } from './lib/parameter-encoding.js';
 export default class App extends Vue {
     private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
+    private showTestnetWarning = Config.network === 'test';
     private showPrivateBrowsingWarning = false;
     private logoUrl = 'https://' + Config.tld;
 
@@ -182,10 +187,6 @@ export default class App extends Vue {
 
     private get root() {
         return `${window.location.host}`;
-    }
-
-    private get isTestnet() {
-        return Config.network === 'test';
     }
 
     private mapStateToProps(state: any) {
@@ -268,10 +269,18 @@ body {
     background-image: var(--nimiq-gold-bg);
     color: #3b3b3b;
     text-align: center;
-    /* font-weight: 600; */
+    overflow: hidden;
+    transition: max-height .3s;
 }
 
-.header-warning:not(.display-none) + .header-warning {
+.header-warning.v-leave {
+    max-height: 125px;
+}
+.header-warning.v-leave-to {
+    max-height: 0;
+}
+
+.header-warning + .header-warning {
     border-top: 1px solid #333;
 }
 
