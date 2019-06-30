@@ -22,9 +22,12 @@ export function MixinSingletonX(XElementBase: typeof XElement) {
                 this._instance = new this(element as HTMLElement);
             } else {
                 this._instance = this.createElement();
-                if (!this._instance.$el.parentNode) {
+                // append element with a little delay to give parent components that are initialized after this
+                // singleton the opportunity to set the _mixinSingletonContainer
+                setTimeout(() => {
+                    if (this._instance.$el.parentNode) return;
                     (_mixinSingletonAppContainer || document.body).appendChild(this._instance.$el);
-                }
+                });
             }
             return this._instance as InstanceType<T>;
         }
@@ -74,7 +77,9 @@ namespace MixinSingletonV { // tslint:disable-line:no-namespace
         const instance = new ctor();
         vueSingletonInstances.set(ctor, instance);
         instance.$mount(element);
-        (_mixinSingletonAppContainer || document.body).appendChild(instance.$el);
+        // append element with a little delay to give parent components that are initialized after this
+        // singleton the opportunity to set the _mixinSingletonContainer
+        setTimeout(() => (_mixinSingletonAppContainer || document.body).appendChild(instance.$el));
         return instance as InstanceType<T>;
     }
 }
