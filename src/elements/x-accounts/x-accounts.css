@@ -32,7 +32,7 @@
     text-align: center;
 }
 
-.x-account {
+.x-account:not(.x-account-modal) {
     display: flex;
     padding: 8px 0;
     cursor: pointer;
@@ -44,21 +44,11 @@
     text-align: center;
 }
 
-.x-account-modal .x-account {
-    cursor: auto;
-    animation: none;
-    margin-bottom: 1em;
-}
-
-.x-account:hover {
+.x-account:not(.x-account-modal):hover {
     background-color: rgba(0, 0, 0, 0.075);
 }
 
-.x-account-modal .x-account:hover {
-    background-color: transparent;
-}
-
-.x-account .x-identicon {
+.x-account:not(.x-account-modal) .x-identicon {
     /* display: block; */
     width: 80px;
     min-width: 50px;
@@ -71,14 +61,14 @@
     margin: 0 auto;
 }
 
-.x-account .x-account-info {
+.x-account:not(.x-account-modal) .x-account-info {
     text-align: left;
     width: 100%;
     padding-left: 16px;
     max-width: calc(100% - 88px);
 }
 
-.x-account .x-account-label {
+.x-account:not(.x-account-modal) .x-account-label {
     display: block;
     text-align: left;
     font-weight: bold;
@@ -88,7 +78,7 @@
     text-overflow: ellipsis;
 }
 
-.x-account .x-account-bottom {
+.x-account:not(.x-account-modal) .x-account-bottom {
     text-align: right;
     margin-top: 12px;
 }
@@ -97,20 +87,20 @@
     text-align: center;
 }
 
-.x-account .x-amount {
+.x-account:not(.x-account-modal) .x-amount {
     display: block;
     font-size: 16px;
     margin-top: -0.25em;
 }
 
 @media (max-width: 480px) {
-    .x-account .x-amount {
+    .x-account:not(.x-account-modal) .x-amount {
         font-size: 1.2em;
     }
 }
 
 @media (max-width: 350px) {
-    .x-account .x-amount {
+    .x-account:not(.x-account-modal) .x-amount {
         font-size: 1em;
     }
 }
@@ -126,7 +116,7 @@
     margin: 0.5em 0 1em;
 }
 
-.x-account .x-address {
+.x-account:not(.x-account-modal) .x-address {
     display: block;
     white-space: nowrap;
     overflow: hidden;
@@ -144,8 +134,7 @@
     margin: 0.5em 0;
 }
 
-.x-account .account-icon,
-.x-account-modal .account-icon {
+.x-account .account-icon {
     display: block;
     position: absolute;
     left: 66px;
@@ -182,8 +171,7 @@
     top: -15.5px;
 }
 
-.x-account .vesting-icon::after,
-.x-account-modal .vesting-icon::after {
+.x-account .vesting-icon::after {
     content: 'access_time';
 }
 
@@ -208,7 +196,7 @@
 
 /* Responsiveness */
 @media (min-width: 481px) {
-    .x-account {
+    .x-account:not(.x-account-modal) {
         justify-content: center;
         padding: 8px 16px;
     }

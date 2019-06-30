@@ -35,7 +35,7 @@
     text-align: center;
 }
 
-.x-transaction {
+.x-transaction:not(.x-transaction-modal) {
     display: table-row;
     padding: 8px 0;
     animation: from-right 500ms;
@@ -44,56 +44,56 @@
     border-radius: 4px;
 }
 
-.x-transaction.removed,
-.x-transaction.expired {
+.x-transaction:not(.x-transaction-modal).removed,
+.x-transaction:not(.x-transaction-modal).expired {
     background: var(--warning-color);
 }
 
-.x-transaction > * {
+.x-transaction:not(.x-transaction-modal) > * {
     display: table-cell !important;
     vertical-align: middle;
     padding-top: 20px;
     padding-bottom: 20px;
 }
 
-.x-transaction > *:first-child {
+.x-transaction:not(.x-transaction-modal) > *:first-child {
     padding-left: 16px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
 
-.x-transaction > *:last-child {
+.x-transaction:not(.x-transaction-modal) > *:last-child {
     padding-right: 16px;
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
 
-.x-transaction:nth-child(1) { animation-delay: 0.0s }
-.x-transaction:nth-child(2) { animation-delay: 0.1s }
-.x-transaction:nth-child(3) { animation-delay: 0.2s }
-.x-transaction:nth-child(4) { animation-delay: 0.3s }
-.x-transaction:nth-child(5) { animation-delay: 0.4s }
-.x-transaction:nth-child(6) { animation-delay: 0.5s }
-.x-transaction:nth-child(7) { animation-delay: 0.6s }
-.x-transaction:nth-child(8) { animation-delay: 0.7s }
-.x-transaction:nth-child(9) { animation-delay: 0.8s }
-.x-transaction:nth-child(10){ animation-delay: 0.9s }
+.x-transaction:not(.x-transaction-modal):nth-child(1) { animation-delay: 0.0s }
+.x-transaction:not(.x-transaction-modal):nth-child(2) { animation-delay: 0.1s }
+.x-transaction:not(.x-transaction-modal):nth-child(3) { animation-delay: 0.2s }
+.x-transaction:not(.x-transaction-modal):nth-child(4) { animation-delay: 0.3s }
+.x-transaction:not(.x-transaction-modal):nth-child(5) { animation-delay: 0.4s }
+.x-transaction:not(.x-transaction-modal):nth-child(6) { animation-delay: 0.5s }
+.x-transaction:not(.x-transaction-modal):nth-child(7) { animation-delay: 0.6s }
+.x-transaction:not(.x-transaction-modal):nth-child(8) { animation-delay: 0.7s }
+.x-transaction:not(.x-transaction-modal):nth-child(9) { animation-delay: 0.8s }
+.x-transaction:not(.x-transaction-modal):nth-child(10){ animation-delay: 0.9s }
 
-.x-transactions.no-animation .x-transaction {
+.x-transactions.no-animation .x-transaction:not(.x-transaction-modal) {
     animation: none !important;
     animation-delay: 0s !important;
 }
 
-.x-transaction:hover > * {
+.x-transaction:not(.x-transaction-modal):hover > * {
     background-color: rgba(0, 0, 0, 0.075);
 }
 
-.x-transaction.removed .timestamp,
-.x-transaction.expired .timestamp {
+.x-transaction:not(.x-transaction-modal).removed .timestamp,
+.x-transaction:not(.x-transaction-modal).expired .timestamp {
     font-weight: bold;
 }
 
-.x-transaction .identicon {
+.x-transaction:not(.x-transaction-modal) .identicon {
     width: 66px;
     height: 75px;
     padding: 0 8px;
@@ -101,60 +101,60 @@
 
 /* Responsiveness */
 @media (max-width: 600px) {
-    .x-transaction .label {
+    .x-transaction:not(.x-transaction-modal) .label {
         display: none !important;
     }
 }
 
-.x-transaction.incoming .label[recipient],
-.x-transaction.outgoing .label[sender],
-.x-transaction.transfer .label {
+.x-transaction:not(.x-transaction-modal).incoming .label[recipient],
+.x-transaction:not(.x-transaction-modal).outgoing .label[sender],
+.x-transaction:not(.x-transaction-modal).transfer .label {
     font-weight: bold;
 }
 
-.x-transaction .timestamp {
+.x-transaction:not(.x-transaction-modal) .timestamp {
     /* text-transform: uppercase; */
 }
 
-.x-transaction .x-amount {
+.x-transaction:not(.x-transaction-modal) .x-amount {
     text-align: right;
     font-size: 1.4em;
 }
 
-.x-transaction.removed .x-currency-nim,
-.x-transaction.expired .x-currency-nim {
+.x-transaction:not(.x-transaction-modal).removed .x-currency-nim,
+.x-transaction:not(.x-transaction-modal).expired .x-currency-nim {
     text-decoration: line-through;
 }
 
 @media (max-width: 768px) {
-    .x-transaction .x-amount {
+    .x-transaction:not(.x-transaction-modal) .x-amount {
         font-size: 1.2em;
     }
 
-    .x-transaction .x-amount .rest-decimals {
+    .x-transaction:not(.x-transaction-modal) .x-amount .rest-decimals {
         display: none;
     }
 
-    .x-transaction .x-amount .ticker {
+    .x-transaction:not(.x-transaction-modal) .x-amount .ticker {
         display: block;
     }
 }
 
 @media (max-width: 480px) {
-    .x-transaction .x-amount {
+    .x-transaction:not(.x-transaction-modal) .x-amount {
         font-size: 1.1em;
     }
 }
 
 @media (max-width: 350px) {
-    .x-transaction .x-amount {
+    .x-transaction:not(.x-transaction-modal) .x-amount {
         font-size: 1em;
     }
 }
 
 /* Responsiveness */
 @media (min-width: 480px) {
-    .x-transaction {
+    .x-transaction:not(.x-transaction-modal) {
         padding: 8px 16px;
     }
 }
