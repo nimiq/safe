@@ -15,7 +15,7 @@ export default class XAccounts extends MixinRedux(XElement) {
             <x-popup-menu x-main-action-only x-icon="add" class="hidden add">
             </x-popup-menu>
             <x-accounts-list></x-accounts-list>
-            <x-account-modal></x-account-modal>
+            <x-account-modal x-route-aside="account"></x-account-modal>
         `;
     }
 

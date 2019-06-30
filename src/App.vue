@@ -22,7 +22,6 @@
                     <a target="_blank" class="get-nim" href="https://changelly.com/exchange/eur/nim?ref_id=v06xmpbqj5lpftuj">Get NIM</a>
                     <a target="_blank" class="apps" href="https://nimiq.com/#apps">Apps</a>
                     <WalletSelectorProvider v-if="!useMobileWalletSelector" class="desktop" />
-                    <div ref="x-settings"></div>
                 </nav>
             </div>
             <WalletSelectorProvider v-if="useMobileWalletSelector" />
@@ -79,12 +78,13 @@
                     <ContactListProvider class="v-contact-list" />
                 </div>
             </div>
-            <!--<div class="v-contact-list-modal"></div>-->
-            <div ref="x-send-transaction-modal" x-route-aside="request"></div>
-            <div ref="x-transaction-modal"></div>
-            <div ref="x-receive-request-link-modal"></div>
-            <CreateRequestLinkModal ref="CreateRequestLinkModal"/>
-            <div ref="x-disclaimer-modal"></div>
+            <!--<div class="v-contact-list-modal" x-route-aside="contact-list"></div>-->
+            <div ref="x-send-transaction-modal" x-route-aside="new-transaction"></div>
+            <div ref="x-transaction-modal" x-route-aside="transaction"></div>
+            <div ref="x-receive-request-link-modal" x-route-aside="request"></div>
+            <CreateRequestLinkModal ref="CreateRequestLinkModal" x-route-aside="receive"/>
+            <div ref="x-settings" x-route-aside="settings"></div>
+            <div ref="x-disclaimer-modal" x-route-aside="disclaimer"></div>
         </section>
         <footer class="nimiq-dark">
             <div ref="x-network-indicator"></div>
