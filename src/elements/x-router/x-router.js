@@ -46,7 +46,6 @@ export default class XRouter extends XElement {
         let state = 1; // first time, there is no 'previous' element
         this.addEventListener('animationend', e => {
             if (!this.routing) return;
-            const xElement = XElement.get(e.target);
             if (e.target == this.current.element) {
                 this._toggleInOut(this.animateIn, false, false);
                 this._setClass(this.animateIn, this.CSS_SHOW, true);
@@ -313,12 +312,12 @@ export default class XRouter extends XElement {
     }
 
     _doCallback(element, name, args = []) {
-        const xElement = XElement.get(element);
+        const component = XElement.get(element) || element.__vue__;
         // element is undefined if el is a plain html node, e.g. section, main, ...
-        if (!xElement) return;
+        if (!component) return;
 
-        if (xElement[name] instanceof Function) {
-            xElement[name](...args);
+        if (component[name] instanceof Function) {
+            component[name](...args);
         } else if (Config.devMode) {
             console.warn(`XRouter: ${ element.tagName }.${ name } not found.`);
         }
