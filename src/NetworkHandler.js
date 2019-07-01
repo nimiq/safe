@@ -49,11 +49,15 @@ export default class NetworkHandler {
     }
 
     async sendTransaction(signedTx) {
+        signedTx = Object.assign({}, signedTx); // create a copy to not manipulate the original
         const network = await networkClient.client;
         const relayedTx = new Promise((resolve, reject) => {
             this._relayedTxResolvers.set(signedTx.hash, resolve);
             setTimeout(reject, 8000, new Error('Transaction could not be sent'));
         });
+
+        signedTx.value = signedTx.value / 1e5;
+        signedTx.fee = signedTx.fee / 1e5;
 
         network.relayTransaction(signedTx);
 

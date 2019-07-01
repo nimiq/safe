@@ -151,8 +151,8 @@ export default class XSendTransaction extends MixinRedux(XElement) {
 
         const tx = this._getFormData(this.$form);
         tx.recipient = this.$addressInput.value;
-        tx.value = parseFloat(tx.value);
-        tx.fee = (parseFloat(tx.fee) || 0);
+        tx.value = parseFloat(tx.value) * 1e5;
+        tx.fee = (parseFloat(tx.fee) || 0) * 1e5;
         tx.validityStartHeight = parseInt(tx.validityStartHeight) || null;
         tx.extraData = Utf8Tools.stringToUtf8ByteArray(tx.extraData);
         tx.network = Config.network;

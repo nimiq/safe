@@ -135,8 +135,8 @@ type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export interface Transaction {
     sender: string; // Userfriendly address
     recipient: string; // Userfriendly address
-    value: number; // NIM
-    fee: number; // NIM
+    value: number; // Luna
+    fee: number; // Luna
     extraData: Uint8Array;
     validityStartHeight: number | null;
     network: 'main' | 'test';
@@ -263,13 +263,7 @@ export default class App extends Vue {
         }
         tx.validityStartHeight = tx.validityStartHeight === null ? this.blockchainHeight : tx.validityStartHeight;
 
-        tx.value = tx.value * 1e5;
-        tx.fee = tx.fee * 1e5;
-
         const signedTx: SignedTransaction = await hubClient.sign(tx);
-
-        signedTx.value = signedTx.value / 1e5;
-        signedTx.fee = signedTx.fee / 1e5;
 
         if (!this.hasConsensus) {
             XSendTransactionOfflineModal.getInstance().transaction = signedTx;
