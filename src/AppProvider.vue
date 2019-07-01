@@ -1,7 +1,9 @@
 <template>
     <ReduxProvider :mapDispatchToProps="mapDispatchToProps" :mapStateToProps="mapStateToProps">
-        <template v-slot="{showBackupWords, showBackupFile, activeWallet}">
+        <template v-slot="{hasConsensus, blockchainHeight, showBackupWords, showBackupFile, activeWallet}">
             <App
+                :hasConsensus="hasConsensus"
+                :blockchainHeight="blockchainHeight"
                 :showBackupWords="showBackupWords"
                 :showBackupFile="showBackupFile"
                 :activeWallet="activeWallet"
@@ -28,7 +30,7 @@ export default class AppProvider extends Vue {
         const showBackupWords = !showBackupFile && activeWallet.type !== WalletType.LEGACY
                                 && !activeWallet.wordsExported;
         return {
-            height: state.network.height,
+            blockchainHeight: state.network.height,
             hasConsensus: state.network.consensus === 'established',
             walletsLoaded: state.wallets.hasContent,
             activeWallet,

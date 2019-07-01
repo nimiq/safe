@@ -79,7 +79,8 @@
                 </div>
             </div>
             <!--<div class="v-contact-list-modal" x-route-aside="contact-list"></div>-->
-            <div ref="x-send-transaction-modal" x-route-aside="new-transaction"></div>
+            <div ref="x-send-transaction-modal" x-route-aside="new-transaction"
+                 @x-send-transaction="_signTransaction($event.detail)"></div>
             <div ref="x-transaction-modal" x-route-aside="transaction"></div>
             <div ref="x-receive-request-link-modal" x-route-aside="request"></div>
             <CreateRequestLinkModal ref="CreateRequestLinkModal" x-route-aside="receive"/>
@@ -108,6 +109,8 @@ import WalletSelectorProvider from './components/WalletSelectorProvider.vue';
 import NetworkHandler from './NetworkHandler.js';
 
 import { setMixinSingletonAppContainer } from './elements/mixin-singleton';
+import XRouter from './elements/x-router/x-router.js';
+import XElement from './lib/x-element/x-element';
 import XAccounts from './elements/x-accounts/x-accounts.js';
 import XTransactions from './elements/x-transactions/x-transactions.js';
 import XTransactionModal from './elements/x-transactions/x-transaction-modal.js';
@@ -115,15 +118,41 @@ import XReceiveRequestLinkModal from './elements/x-request-link/x-receive-reques
 import XDisclaimerModal from './elements/x-disclaimer-modal.js';
 import XEducationSlides from './elements/x-education-slides/x-education-slides.js';
 import XSendTransactionModal from './elements/x-send-transaction/x-send-transaction-modal.js';
+import XSendTransactionOfflineModal from './elements/x-send-transaction/x-send-transaction-offline-modal.js';
+import XSendPreparedTransactionModal from './elements/x-send-transaction/x-send-prepared-transaction-modal.js';
+import XModals from './elements/mixin-modal/x-modals';
 import XTotalAmount from './elements/x-total-amount.js';
 import XSettings from './elements/x-settings/x-settings.js';
 import XNetworkIndicator from './elements/x-network-indicator/x-network-indicator.js';
-import XRouter from './elements/x-router/x-router.js';
-import XElement from './lib/x-element/x-element';
+import XToast from './elements/x-toast/x-toast';
 
 import './lib/nimiq-style/nimiq-style.css';
 import '@nimiq/vue-components/dist/NimiqVueComponents.css';
 import { spaceToDash } from './lib/parameter-encoding.js';
+
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+
+export interface Transaction {
+    sender: string; // Userfriendly address
+    recipient: string; // Userfriendly address
+    value: number; // NIM
+    fee: number; // NIM
+    extraData: Uint8Array;
+    validityStartHeight: number | null;
+    network: 'main' | 'test';
+}
+
+export interface SignedTransaction extends Omit<Transaction, 'network'> {
+    hash: string;
+    signerPublicKey: Uint8Array;
+    signature: Uint8Array;
+
+    senderType: 0 | 1 | 2;
+    recipientType: 0 | 1 | 2;
+    validityStartHeight: number;
+    flags: number;
+    networkId: number;
+}
 
 @Component({ components: {
     LoadingSpinner,
@@ -132,19 +161,22 @@ import { spaceToDash } from './lib/parameter-encoding.js';
     CreateRequestLinkModal,
 } })
 export default class App extends Vue {
+    @Prop(Boolean) public hasConsensus!: boolean;
+    @Prop(Number) public blockchainHeight!: number;
     @Prop(Boolean) public showBackupFile!: boolean;
     @Prop(Boolean) public showBackupWords!: boolean;
     @Prop(Object) public activeWallet!: any;
 
-    private useMobileWalletSelector = window.innerWidth <= 620;
     private _xElements: XElement[] = [];
+    private _networkHandler!: any; // actual type is NetworkHandler but we haven't typed that one yet
+    private useMobileWalletSelector = window.innerWidth <= 620;
     private showTestnetWarning = Config.network === 'test';
     private showPrivateBrowsingWarning = false;
     private logoUrl = 'https://' + Config.tld;
 
     private async created() {
-        const networkHandler = new NetworkHandler();
-        networkHandler.launch();
+        this._networkHandler = new NetworkHandler();
+        this._networkHandler.launch();
         hubClient.launch();
         if (await BrowserDetection.isPrivateMode()) {
             this.showPrivateBrowsingWarning = true;
@@ -214,6 +246,65 @@ export default class App extends Vue {
 
     private scan() {
         XSendTransactionModal.show(null, 'scan');
+    }
+
+    private async _signTransaction(tx: Transaction) {
+        // To allow for airgapped transaction creation, the validityStartHeight needs
+        // to be allowed to be set by the user. Thus we need to parse what the user
+        // put in and react accordingly.
+
+        if (tx.validityStartHeight === null && !this.blockchainHeight) {
+            if (Config.offline) {
+                XToast.warning('In offline mode, the validity-start-height needs to be set (advanced settings).');
+            } else {
+                XToast.warning('Consensus not yet established, please try again in a few seconds.');
+            }
+            return;
+        }
+        tx.validityStartHeight = tx.validityStartHeight === null ? this.blockchainHeight : tx.validityStartHeight;
+
+        tx.value = tx.value * 1e5;
+        tx.fee = tx.fee * 1e5;
+
+        const signedTx: SignedTransaction = await hubClient.sign(tx);
+
+        signedTx.value = signedTx.value / 1e5;
+        signedTx.fee = signedTx.fee / 1e5;
+
+        if (!this.hasConsensus) {
+            XSendTransactionOfflineModal.getInstance().transaction = signedTx;
+            XSendTransactionOfflineModal.show();
+        } else {
+            this._sendTransactionNow(signedTx);
+        }
+    }
+
+    private async _sendTransactionNow(signedTx: SignedTransaction) {
+        if (!signedTx) return;
+
+        if (Config.offline) {
+            XSendTransactionOfflineModal.getInstance().transaction = signedTx;
+            XSendTransactionOfflineModal.show();
+            return;
+        }
+
+        // Give user feedback that something is happening
+        XSendTransactionModal.getInstance().loading = true;
+        XSendPreparedTransactionModal.getInstance().loading = true;
+
+        try {
+            await this._networkHandler.sendTransaction(signedTx);
+
+            XSendTransactionModal.hide();
+            // give modal time to disappear
+            window.setTimeout(() => XSendTransactionModal.getInstance().clear(), XModals.ANIMATION_TIME);
+            XSendPreparedTransactionModal.hide();
+        } catch (e) {
+            XToast.error(e.message || e);
+        } finally {
+            XSendTransactionModal.getInstance().loading = false;
+            XSendPreparedTransactionModal.getInstance().loading = false;
+        }
     }
 
     private _showEducationSlides() {

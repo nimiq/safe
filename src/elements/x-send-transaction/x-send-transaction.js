@@ -150,6 +150,10 @@ export default class XSendTransaction extends MixinRedux(XElement) {
         if (!this._isValid()) return;
 
         const tx = this._getFormData(this.$form);
+        tx.recipient = this.$addressInput.value;
+        tx.value = parseFloat(tx.value);
+        tx.fee = (parseFloat(tx.fee) || 0);
+        tx.validityStartHeight = parseInt(tx.validityStartHeight) || null;
         tx.extraData = Utf8Tools.stringToUtf8ByteArray(tx.extraData);
         tx.network = Config.network;
         this.fire('x-send-transaction', tx);

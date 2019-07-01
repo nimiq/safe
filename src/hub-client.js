@@ -19,7 +19,6 @@ const APP_NAME = 'Accounts';
 class HubClient {
     static getInstance() {
         this._instance = this._instance || new HubClient();
-        window.accountManager = this._instance;
         return this._instance;
     }
 
