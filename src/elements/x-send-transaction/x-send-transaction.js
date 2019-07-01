@@ -11,6 +11,7 @@ import XExpandable from '../x-expandable/x-expandable.js';
 import networkClient from '../../network-client.js';
 import MixinRedux from '../mixin-redux';
 // import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
+// import XSendPreparedTransactionModal from '../x-send-transaction/x-send-prepared-transaction-modal.js';
 import Config from '../../config/config.js';
 import AccountType from '../../lib/account-type.js';
 //import VContactListModal from '../v-contact-list/v-contact-list-modal.js';
@@ -119,7 +120,7 @@ export default class XSendTransaction extends MixinRedux(XElement) {
             'input input[name="value"]': () => this._validateField('amount'),
             'input input[name="fee"]': () => this._validateField('fees'),
             'input input[name="validityStartHeight"]': () => this._validateField('validityStartHeight'),
-            // 'click button[prepared]': () => this.fire('x-send-prepared-transaction'),
+            // 'click button[prepared]': () => XSendPreparedTransactionModal.show(),
             'x-amount-input-set-max': this._onAmountSetMax,
             'x-fee-input-changed': this._onFeeChanged,
             'x-extra-data-input-changed-size': this._onExtraDataChangedSize,

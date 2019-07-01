@@ -1,8 +1,6 @@
 /*import { BrowserDetection } from '@nimiq/utils';
 import hubClient from '../hub-client.js';
 import Config from '../config/config.js';
-import { spaceToDash } from '../lib/parameter-encoding.js';
-import XRouter from '../elements/x-router/x-router.js';
 import MixinRedux from '../elements/mixin-redux';
 import XNetworkIndicator from '../elements/x-network-indicator/x-network-indicator.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
@@ -35,8 +33,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
     async onCreate() {
         super.onCreate();
-
-        XRouter.create();
 
         if (Config.network !== 'main') {
             this.$("#testnet-warning").classList.remove('display-none');
@@ -76,49 +72,5 @@ export default class XSafe extends MixinRedux(XElement) {
             this.$('.backup-reminder.file').classList.toggle('display-none', !shouldDisplayFile);
             this.$('.backup-reminder.words').classList.toggle('display-none', !shouldDisplayWords);
         }
-    }
-
-    listeners() {
-        return {
-            'x-send-prepared-transaction': this._clickedPreparedTransaction.bind(this),
-            'x-send-prepared-transaction-confirm': this._sendTransactionNow.bind(this),
-            'x-account-modal-new-tx': this._newTransactionFrom.bind(this),
-            'x-account-modal-payout': this._newPayoutTransaction.bind(this),
-            'x-account-modal-backup': this._clickedExportWords.bind(this),
-            'x-account-modal-rename': this._clickedAccountRename.bind(this),
-            'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
-            'click a[warnings]': this._showWarnings,
-        }
-    }
-
-    async _clickedAccountChangePassword(walletId) {
-        try {
-            await hubClient.changePassword(walletId);
-        } catch (e) {
-            console.error(e);
-            XToast.warning('Password not changed.');
-        }
-    }
-
-    async _clickedAccountRename(params) {
-        try {
-            await hubClient.rename(params.walletId, params.address);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    _newPayoutTransaction(data) {
-        XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
-        XSendTransactionModal.getInstance().sender = data.vestingAccount;
-    }
-
-    _clickedPreparedTransaction() {
-        XSendPreparedTransactionModal.show();
-    }
-
-    _showWarnings() {
-        XEducationSlides.onFinished = XEducationSlides.hide;
-        XEducationSlides.start();
     }
 }*/

@@ -1,5 +1,9 @@
 <template>
-    <div id="app">
+    <div id="app"
+        @x-account-modal-new-tx="_newTransactionFrom($event.detail)"
+        @x-account-modal-payout="_newPayoutTransaction($event.data)"
+        @x-send-prepared-transaction-confirm="_sendTransactionNow($event.detail)"
+    >
         <transition>
             <div v-if="showTestnetWarning" class="header-warning">
                 <i class="close-warning material-icons" @click="showTestnetWarning = false">close</i>
@@ -28,7 +32,7 @@
             <div ref="x-total-amount"></div>
             <div class="header-bottom content-width">
                 <div v-if="showBackupWords" class="backup-reminder words">
-                    <a class="action" backup-words @click="exportWords(activeWallet.id)">
+                    <a class="action" @click="exportWords(activeWallet.id)">
                         <div class="icon words">
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
                         </div>
@@ -36,7 +40,7 @@
                     </a>
                 </div>
                 <div v-if="showBackupFile" class="backup-reminder file">
-                    <a class="action" backup-file @click="exportFile(activeWallet.id)">
+                    <a class="action" @click="exportFile(activeWallet.id)">
                         <div class="icon file">
                             <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.13 33.15l-2.2 2.2c-.2.2-.52.2-.72 0l-2.2-2.2a.52.52 0 0 1-.15-.37V30.9l-1.7-.95a1.04 1.04 0 0 1 .15-1.88l1.55-.58v-1.06l-2.04-1.5a1.04 1.04 0 0 1 .15-1.76l1.89-.95v-3.38a7.77 7.77 0 1 1 5.42 0v13.95c0 .14-.05.27-.15.37zM16.47 7.52a1.55 1.55 0 1 0 2.2 2.2 1.55 1.55 0 0 0-2.2-2.2z" fill="#fff"/></svg>
                         </div>
@@ -49,7 +53,7 @@
         <section class="content nimiq-dark content-width">
             <nav class="actions floating-actions">
                 <div class="floating-btn">
-                    <button new-tx @click="newTransactionFrom()">
+                    <button new-tx @click="_newTransactionFrom()">
                         <span>Send</span>
                     </button>
                     <div class="btn-text">Send</div>
@@ -218,7 +222,7 @@ export default class App extends Vue {
         return `${window.location.host}`;
     }
 
-    private newTransactionFrom(address: string) {
+    private _newTransactionFrom(address?: string) {
         if (address) {
             XSendTransactionModal.show(`${ spaceToDash(address) }`, 'sender');
         } else {
@@ -299,6 +303,14 @@ export default class App extends Vue {
             XSendTransactionModal.getInstance().loading = false;
             XSendPreparedTransactionModal.getInstance().loading = false;
         }
+    }
+
+    private _newPayoutTransaction(data: {
+        vestingAccount: { address: string, balance: number, label: string, type: 0 | 1 | 2 },
+        owner: string,
+    }) {
+        XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
+        XSendTransactionModal.getInstance().sender = data.vestingAccount;
     }
 
     private _showEducationSlides() {
