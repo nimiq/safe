@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { updateBalances } from './redux/wallet-redux.js';
 import { addTransactions, markRemoved } from './redux/transactions-redux.js';
-import { setConsensus, setHeight, setPeerCount, setGlobalHashrate,  } from './redux/network-redux.js';
+import { setConsensus, setHeight, setPeerCount, setGlobalHashrate } from './redux/network-redux.js';
 import networkClient from './network-client.js';
 import store from './store.js';
 
@@ -18,6 +18,8 @@ export default class NetworkHandler {
             setPeerCount,
             setGlobalHashrate
         }, store.dispatch);
+
+        this._relayedTxResolvers = new Map();
     }
 
     async launch() {
@@ -28,22 +30,41 @@ export default class NetworkHandler {
             _paq && _paq.push(['trackEvent', 'Network', 'Consensus', 'initialize', Math.round(performance.now() / 100) / 10]);
         }
 
-        this.network = await networkClient.client;
+        const network = await networkClient.client;
 
         // Subscribe to network events
-        this.network.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
-        this.network.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
-        this.network.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
-        this.network.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
-        this.network.on('nimiq-balances', this._onBalanceChanged.bind(this));
-        this.network.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
-        this.network.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
-        this.network.on('nimiq-transaction-pending', this._onTransaction.bind(this));
-        this.network.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
-        this.network.on('nimiq-transaction-mined', this._onTransaction.bind(this));
-        this.network.on('nimiq-transaction-relayed', this._onTransactionRelayed.bind(this));
-        this.network.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
-        this.network.on('nimiq-head-change', this._onHeadChange.bind(this));
+        network.on('nimiq-api-ready', () => console.log('NanoNetworkApi ready'));
+        network.on('nimiq-consensus-syncing', this._onConsensusSyncing.bind(this));
+        network.on('nimiq-consensus-established', this._onConsensusEstablished.bind(this));
+        network.on('nimiq-consensus-lost', this._onConsensusLost.bind(this));
+        network.on('nimiq-balances', this._onBalanceChanged.bind(this));
+        network.on('nimiq-different-tab-error', e => alert('Nimiq is already running in a different tab.'));
+        network.on('nimiq-api-fail', e => alert('Nimiq initialization error:', e.message || e));
+        network.on('nimiq-transaction-pending', this._onTransaction.bind(this));
+        network.on('nimiq-transaction-expired', this._onTransactionExpired.bind(this));
+        network.on('nimiq-transaction-mined', this._onTransaction.bind(this));
+        network.on('nimiq-transaction-relayed', this._onTransactionRelayed.bind(this));
+        network.on('nimiq-peer-count', this._onPeerCountChanged.bind(this));
+        network.on('nimiq-head-change', this._onHeadChange.bind(this));
+    }
+
+    async sendTransaction(signedTx) {
+        const network = await networkClient.client;
+        const relayedTx = new Promise((resolve, reject) => {
+            this._relayedTxResolvers.set(signedTx.hash, resolve);
+            setTimeout(reject, 8000, new Error('Transaction could not be sent'));
+        });
+
+        network.relayTransaction(signedTx);
+
+        try {
+            await relayedTx;
+        } catch(e) {
+            try { network.removeTxFromMempool(signedTx); } catch(e) {}
+            throw e;
+        } finally {
+            this._relayedTxResolvers.delete(signedTx.hash);
+        }
     }
 
     _onConsensusSyncing() {
@@ -88,7 +109,7 @@ export default class NetworkHandler {
     _onTransactionRelayed(tx) {
         this._onTransaction(tx);
 
-        const resolver = this.relayedTxResolvers.get(tx.hash);
+        const resolver = this._relayedTxResolvers.get(tx.hash);
         if (resolver) {
             resolver();
         }

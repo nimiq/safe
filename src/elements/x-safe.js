@@ -57,8 +57,6 @@ export default class XSafe extends MixinRedux(XElement) {
 
         this.$('.logo').href = 'https://' + Config.tld;
 
-        this.relayedTxResolvers = new Map();
-
         // App finished loading
     }
 
@@ -172,23 +170,7 @@ export default class XSafe extends MixinRedux(XElement) {
         XSendTransactionModal.getInstance().loading = true;
         XSendPreparedTransactionModal.getInstance().loading = true;
 
-        const network = await networkClient.client;
         try {
-            const relayedTx = new Promise((resolve, reject) => {
-                this.relayedTxResolvers.set(signedTx.hash, resolve);
-                setTimeout(reject, 8000, new Error('Transaction could not be sent'));
-            });
-
-            network.relayTransaction(signedTx);
-
-            try {
-                await relayedTx;
-                this.relayedTxResolvers.delete(signedTx.hash);
-            } catch(e) {
-                this.relayedTxResolvers.delete(signedTx.hash);
-                try { network.removeTxFromMempool(signedTx); } catch(e) {}
-                throw e;
-            }
 
             XSendTransactionModal.hide();
             // give modal time to disappear
