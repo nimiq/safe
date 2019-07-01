@@ -88,8 +88,6 @@
             <div ref="x-transaction-modal" x-route-aside="transaction"></div>
             <div ref="x-receive-request-link-modal" x-route-aside="request"></div>
             <CreateRequestLinkModal ref="CreateRequestLinkModal" x-route-aside="receive"/>
-            <div ref="x-settings" x-route-aside="settings"></div>
-            <div ref="x-disclaimer-modal" x-route-aside="disclaimer"></div>
         </section>
         <footer class="nimiq-dark">
             <div ref="x-network-indicator"></div>
@@ -196,11 +194,9 @@ export default class App extends Vue {
             new XTransactions(this.$refs['x-transactions']),
             new XSendTransactionModal(this.$refs['x-send-transaction-modal']),
             new XAccounts(this.$refs['x-accounts']),
-            new XSettings(this.$refs['x-settings']),
             new XNetworkIndicator(this.$refs['x-network-indicator']),
             new XReceiveRequestLinkModal(this.$refs['x-receive-request-link-modal']),
             new XTransactionModal(this.$refs['x-transaction-modal']),
-            new XDisclaimerModal(this.$refs['x-disclaimer-modal']),
         ];
 
         this._onResize = this._onResize.bind(this);
