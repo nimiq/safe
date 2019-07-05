@@ -32,7 +32,7 @@ export function isFundingCashlink(extraData) {
 }
 
 export function isClaimingCashlink(extraData) {
-    _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
+    return _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
 }
 
 export function isCashlink(extraData) {
@@ -40,11 +40,8 @@ export function isCashlink(extraData) {
 }
 
 export function convertExtradata(extraData) {
-    if (_arrayEquals(extraData, TransactionTags.SendCashlink)) {
-        return 'Funding cashlink';
-    } else if (_arrayEquals(extraData, TransactionTags.ReceiveCashlink)) {
-        return 'Claiming cashlink';
-    } else {
-        return Utf8Tools.utf8ByteArrayToString(extraData);
-    }
+    console.log(extraData);
+    if (isFundingCashlink(extraData)) return 'Funding cashlink';
+    else if (isClaimingCashlink(extraData)) return 'Claiming cashlink';
+    else return Utf8Tools.utf8ByteArrayToString(extraData);
 }

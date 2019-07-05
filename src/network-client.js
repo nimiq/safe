@@ -23,6 +23,7 @@ class NetworkClient {
 
         const client = new NimiqNetworkClient(NimiqNetworkClient.DEFAULT_ENDPOINT, ConsensusType.NANO);
         await client.init();
+        // await new Promise(res => void(0));
 
         this.clientResolve(client);
     }

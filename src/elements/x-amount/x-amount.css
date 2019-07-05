@@ -10,11 +10,13 @@ x-amount {
     font-variant-numeric: tabular-nums;
 }
 
-x-amount.incoming x-currency-nim {
+x-amount.incoming x-currency-nim,
+x-amount.cashlink_local_claim x-currency-nim {
     color: var(--nimiq-green);
 }
 
-x-amount.incoming .integers::before {
+x-amount.incoming .integers::before,
+x-amount.cashlink_local_claim .integers::before {
     content: '+';
 }
 
@@ -39,16 +41,8 @@ x-amount x-currency-nim {
     display: none;
 }
 
-x-amount .integers {
-
-}
-
 x-amount .integers::before {
     font-weight: 400;
-}
-
-x-amount .main-decimals {
-
 }
 
 x-amount .rest-decimals,

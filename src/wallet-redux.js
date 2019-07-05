@@ -12,6 +12,7 @@ export const TypeKeys = {
     SWITCH: 'wallet/switch',
     RENAME: 'wallet/rename',
     UPDATE_BALANCES: 'wallet/update-balances',
+    SET_CLAIMED_FLAG: 'wallet/set-claimed-flag',
 };
 
 export const WalletType = {
@@ -136,6 +137,8 @@ export function reducer(state, action) {
                 );
 
                 wallet.addresses.forEach(address => {
+                    // if (address.address === 'NQ62 PSCG QX88 AHRS SR4V CJ49 KB4G X4JQ SMJ3') return;
+
                     const entry = {
                         address: address.address,
                         label: address.label,
@@ -225,9 +228,9 @@ export function reducer(state, action) {
                 activeWalletId: action.walletId,
             });
 
-        case TypeKeys.UPDATE_ACCOUNT_LABEL:
+        case TypeKeys.SET_CLAIMED_FLAG:
             return updateState({
-                accounts: updateMapItem(state.accounts, action.address, { label: action.label }),
+                accounts: updateMapItem(state.accounts, action.address, { cashlinkClaimed: action.value }),
             });
 
         case TypeKeys.UPDATE_BALANCES: {
@@ -288,7 +291,7 @@ export function populate(listedWallets) {
             addressesToKeep: addressInfos,
         });
 
-        const addresses = addressInfos.map(addressInfo => addressInfo.address);
+        const addresses = addressInfos.map(addressInfo => addressInfo.address)/*.filter(addr => addr !== 'NQ62 PSCG QX88 AHRS SR4V CJ49 KB4G X4JQ SMJ3')*/;
 
         const client = await networkClient.client;
         client.subscribe(addresses);
@@ -357,5 +360,13 @@ export function updateBalances(balances) {
     return {
         type: TypeKeys.UPDATE_BALANCES,
         balances
+    }
+}
+
+export function setClaimedFlag(address, value) {
+    return {
+        type: TypeKeys.SET_CLAIMED_FLAG,
+        address,
+        value
     }
 }

@@ -1,5 +1,5 @@
 import { isFundingCashlink, isClaimingCashlink, convertExtradata } from './convert-extra-data.js';
-import { TypeKeys as WalletTypeKeys, addAccount } from '../../wallet-redux.js';
+import { TypeKeys as WalletTypeKeys, addAccount, setClaimedFlag } from '../../wallet-redux.js';
 import AccountType from '../../lib/account-type.js';
 
 export const TypeKeys = {
@@ -154,6 +154,7 @@ export function addTransactions(transactions) {
         };
         transactions.forEach(tx => {
             if (isFundingCashlink(tx.extraData)) {
+                tx.isCashlink = 'funding';
                 if (accounts.has(tx.recipient)) return; // Cashlink account already known
 
                 const sender = accounts.get(tx.sender);
@@ -165,10 +166,16 @@ export function addTransactions(transactions) {
                 dispatch(addAccount(Object.assign({}, cashlinkAccount, {
                     address: tx.recipient,
                     walletId: sender.walletId,
+                    cashlinkClaimed: false,
                 })));
             }
             else if (isClaimingCashlink(tx.extraData)) {
-                if (accounts.has(tx.sender)) return; // Cashlink account already known
+                tx.isCashlink = 'claiming';
+                if (accounts.has(tx.sender)) {
+                    // Cashlink account already known
+                    dispatch(setClaimedFlag(tx.sender, true));
+                    return;
+                }
 
                 const recipient = accounts.get(tx.recipient);
                 if (!recipient) {
@@ -179,6 +186,7 @@ export function addTransactions(transactions) {
                 dispatch(addAccount(Object.assign({}, cashlinkAccount, {
                     address: tx.sender,
                     walletId: recipient.walletId,
+                    cashlinkClaimed: true,
                 })));
             }
         });

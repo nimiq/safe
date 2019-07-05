@@ -11,16 +11,17 @@ import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 import AccountType from '../../lib/account-type.js';
+import { isFundingCashlink } from './convert-extra-data.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
             <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
             </x-popup-menu>
-            <x-transactions-list>
+            <table class="x-transactions-list">
                 <x-loading-animation></x-loading-animation>
                 <h2>Loading transactions...</h2>
-            </x-transactions-list>
+            </table>
             <x-paginator store-path="transactions"></x-paginator>
             <a secondary class="view-more">View more</a>
             <a secondary class="view-less">View less</a>
@@ -31,7 +32,7 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     onCreate() {
         this._$transactions = new Map();
-        this.$transactionsList = this.$('x-transactions-list');
+        this.$transactionsList = this.$('table');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
@@ -58,7 +59,8 @@ export default class XTransactions extends MixinRedux(XElement) {
                     true
                 ),
                 state.wallets.accounts ? state.wallets.accounts : false,
-                state.contacts
+                state.contacts,
+                state.transactions.entries,
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: (activeTransactions$(state) || new Map()).size,
@@ -69,51 +71,63 @@ export default class XTransactions extends MixinRedux(XElement) {
         }
     }
 
-    static _labelTransactions(txs, accounts, contacts) {
+    /**
+     * @param {any[]} txs
+     * @param {Map<string, any>} accounts
+     * @param {{[label: string]: any}} contacts
+     * @param {Map<string, any>} txStore
+     */
+    static _labelTransactions(txs, accounts, contacts, txStore) {
         if (!accounts) return txs;
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            tx.senderLabel = sender ?
-                sender.label :
-                contacts[tx.sender] ?
-                    contacts[tx.sender].label :
-                    AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
+            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts);
+            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts);
 
-            tx.recipientLabel = recipient ?
-                recipient.label :
-                contacts[tx.recipient] ?
-                    contacts[tx.recipient].label :
-                    AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
+            if (tx.pairedTx) {
+                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts);
+            }
 
-            if (tx.isCashlink && sender && sender.type === AccountType.CASHLINK && !recipient) {
+            if (tx.isCashlink === 'claiming' && sender && sender.type === AccountType.CASHLINK && (!recipient || recipient.walletId !== sender.walletId)) {
                 // This is the tx where the final recipient claimed our outgoing cashlink.
                 // It will be displayed as an info bar only.
                 tx.type = 'cashlink_remote_claim';
 
                 if (!tx.pairedTx) {
-                    // TODO: Search for cashlink funding tx
+                    // Search for our cashlink funding tx
+                    const pairedTx = [...txStore.values()].find(
+                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
+                    if (pairedTx) {
+                        tx.pairedTx = pairedTx;
+                    }
                 }
             }
-            else if (tx.isCashlink && sender && sender.type === AccountType.CASHLINK && recipient) {
+            else if (tx.isCashlink === 'claiming' && sender && sender.type === AccountType.CASHLINK && recipient) {
                 // This tx is where we ourselves claimed a cashlink.
                 // This will be displayed as a special cashlink-claiming tx, matched to a
                 // 'cashlink_remote_fund' tx.
                 tx.type = 'cashlink_local_claim';
 
                 if (!tx.pairedTx) {
-                    // TODO: Search for the original funding tx
+                    // Search for the original (remote) funding tx
+                    const pairedTx = [...txStore.values()].find(
+                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
+                    if (pairedTx) {
+                        tx.pairedTx = pairedTx;
+                    }
                 }
             }
-            else if (tx.isCashlink && !sender && recipient.type === AccountType.CASHLINK) {
+            else if (tx.isCashlink === 'funding' && !sender && recipient.type === AccountType.CASHLINK) {
                 // This tx is the original funding tx of a cashlink that we claimed.
-                // This tx is only relevant to provide the originalSender for the incoming cashlink tx.
-                tx.type = 'cashlink_remote_fund';
+                // This tx is only relevant to provide the originalSender for a 'cashlink_local_claim' tx.
+                tx.type = 'cashlink_remote_fund'; // This type is hidden from the list
             }
-            else if (tx.isCashlink && sender && recipient.type === AccountType.CASHLINK) {
+            else if (tx.isCashlink === 'funding' && sender && recipient.type === AccountType.CASHLINK) {
                 // This is the funding tx for a cashlink which we sent ourselves.
                 tx.type = 'outgoing';
+                // INFO: recipient.cashlinkClaimed contains the status (boolean) if this cashlink is claimed or not.
             }
             else if (sender && recipient) tx.type = 'transfer';
             else if (sender) tx.type = 'outgoing';
@@ -121,6 +135,14 @@ export default class XTransactions extends MixinRedux(XElement) {
         });
 
         return txs;
+    }
+
+    static _labelAddress(address, account, contacts) {
+        return account ?
+            account.label :
+            contacts[address] ?
+                contacts[address].label :
+                AddressBook.getLabel(address) || address.slice(0, 14) + '...';
     }
 
     _onPropertiesChanged(changes) {
@@ -153,8 +175,12 @@ export default class XTransactions extends MixinRedux(XElement) {
         if (!this.properties.hasTransactions) return;
 
         if (changes.transactions) {
-            if (this.$('x-loading-animation') || this.$('x-no-transactions')) {
-                this.$transactionsList.textContent = '';
+            if (this.$('x-loading-animation')) {
+                this.$el.removeChild(this.$('x-loading-animation'));
+                this.$el.removeChild(this.$('h2'));
+            }
+            if (this.$('x-no-transactions')) {
+                this.$el.removeChild(this.$('x-no-transactions'));
             }
 
             // Transaction-internal updates are handled by the XTransaction
@@ -258,7 +284,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _createTransaction(transaction) {
-        const $transaction = XTransaction.createElement();
+        const $transaction = new XTransaction(document.createElement('tr'));
 
         $transaction.transaction = transaction;
 

@@ -5,12 +5,12 @@ import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/
 export default class XIdenticon extends XElement {
 
     html() {
-        return '<img width="100%" height="100%">';
+        return '<img width="100%" height="100%" style="display: block;">';
     }
 
     onCreate() {
         this.$img = this.$('img');
-        this.placeholderColor = 'white';
+        this.placeholderColor = '#bbb';
     }
 
     _onPropertiesChanged() {
@@ -25,9 +25,9 @@ export default class XIdenticon extends XElement {
     set address(address) {
         this._address = address;
 
-        if (address === 'cashlink') {
+        if (address === 'Cashlink') {
             // Render a special cashlink logo
-            this.$img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="-15 -15 54 54" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>';
+            this.$img.src = 'data:image/svg+xml,<svg width="50" height="46" viewBox="0 0 50 46" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M48.95 20.93L38.79 3.04A4.05 4.05 0 0 0 35.26.98H14.94c-1.45 0-2.8.79-3.52 2.06L1.25 20.94a4.2 4.2 0 0 0 0 4.12l10.17 17.9a4.05 4.05 0 0 0 3.52 2.06h20.32c1.45 0 2.8-.8 3.52-2.07l10.16-17.89a4.17 4.17 0 0 0 .01-4.13z" fill="url(%23paint0_radial)"/><path d="M25.91 29.75l-1.81 3.07a2.44 2.44 0 0 1-3.42.93l-1-.59a2.52 2.52 0 0 1-.92-3.47l3.72-6.54c.7-1.24 2.29-1.67 3.42-.93l1 .58c.44.26.97.12 1.23-.33a.9.9 0 0 0-.33-1.25l-.91-.6a4.29 4.29 0 0 0-5.96 1.61l-3.72 6.55a4.43 4.43 0 0 0 1.6 6.05l1 .59a4.29 4.29 0 0 0 5.95-1.62l1.73-3.05a.9.9 0 0 0-.32-1.25c-.47-.35-1-.2-1.26.25z" fill="white"/><path d="M32.76 12.62l-1-.59a4.29 4.29 0 0 0-5.96 1.63l-1.86 3.27a.9.9 0 0 0 .33 1.25c.45.26.97.11 1.23-.34l1.86-3.27c.7-1.24 2.28-1.67 3.42-.93l1 .58a2.52 2.52 0 0 1 .91 3.48l-3.72 6.54c-.32.57-.86 1-1.56 1.2-.62.16-1.3.06-1.94-.24a.87.87 0 0 0-1.23.33.9.9 0 0 0 .33 1.25 4.33 4.33 0 0 0 5.96-1.62l3.72-6.55a4.4 4.4 0 0 0-1.49-5.99c-.09.03-.09.03 0 0z" fill="white"/><defs><radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-48.7834 0 0 -44.0431 49.5 45.02)"><stop stop-color="%23260133"/><stop offset="1" stop-color="%231F2348"/></radialGradient></defs></svg>';
             return;
         }
 

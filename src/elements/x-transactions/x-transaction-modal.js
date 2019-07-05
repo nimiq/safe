@@ -76,19 +76,18 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     onCreate() {
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
-        this.$blockHeight = this.$('span.blockHeight');
-        this.$confirmations = this.$('span.confirmations');
-        this.$fee = this.$('div.fee');
-        this.$message = this.$('div.extra-data');
-        this.$title = this.$('h2.title');
+        this.$blockHeight = this.$('.blockHeight');
+        this.$confirmations = this.$('.confirmations');
+        this.$fee = this.$('.fee');
+        this.$message = this.$('.extra-data');
+        this.$title = this.$('.title');
         super.onCreate();
-        this.$senderIdenticon.placeholderColor = '#bbb';
-        this.$recipientIdenticon.placeholderColor = '#bbb';
     }
 
     set sender(address) {
-        if (this.properties.isCashlink && this.properties.senderLabel === 'Cashlink') {
-            this.$senderIdenticon.address = 'cashlink';
+        if (this.properties.type === 'cashlink_remote_claim'
+        || (this.properties.type === 'cashlink_local_claim' && !this.properties.pairedTx)) {
+            this.$senderIdenticon.address = 'Cashlink';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -97,10 +96,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set recipient(address) {
-        if (this.properties.isCashlink && this.properties.recipientLabel === 'Cashlink') {
-            this.$recipientIdenticon.address = 'cashlink';
+        if (this.properties.isCashlink === 'funding') {
+            this.$recipientIdenticons.forEach(e => e.address = 'Cashlink');
         } else {
-            this.$recipientIdenticon.address = address;
+            this.$recipientIdenticons.forEach(e => e.address = address);
         }
 
         this.$recipientAddress.address = address;
@@ -112,13 +111,15 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set recipientLabel(label) {
-        this.$recipientLabel.textContent = label;
-        this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
+        this.$recipientLabels.forEach(e => {
+            e.textContent = label;
+            e.classList.toggle('default-label', label.startsWith('NQ'));
+        });
     }
 
     set isCashlink(value) {
-        // TODO: Enable when we know the third party to the cashlink
-        // this.$txIcon.textContent = value ? 'link' : 'arrow_forward';
+        const isOriginalSenderKnown = this.properties.type === 'cashlink_local_claim' && this.properties.pairedTx;
+        this.$txIcon.textContent = isOriginalSenderKnown ? 'link' : 'arrow_forward';
         this.$title.textContent = value ? 'Cashlink' : 'Transaction';
     }
 
