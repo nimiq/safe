@@ -103,16 +103,21 @@ export default class XTransaction extends MixinRedux(XElement) {
             this.$timestamp.setAttribute('title', 'Transaction has expired');
         }
 
-        if (this.properties.type === 'cashlink_local_claim' && this.properties.pairedTx) {
+        if (this.properties.isCashlink === 'claiming' && this.properties.pairedTx) {
             this.sender = this.properties.pairedTx.sender;
             this.senderLabel = this.properties.pairedTx.senderLabel;
+        }
+
+        if (this.properties.isCashlink === 'funding' && this.properties.pairedTx) {
+            this.recipient = this.properties.pairedTx.recipient;
+            this.recipientLabel = this.properties.pairedTx.recipientLabel;
         }
     }
 
 
     set sender(address) {
-        if (this.properties.type === 'cashlink_local_claim' && !this.properties.pairedTx) {
-            this.$senderIdenticon.address = 'Cashlink';
+        if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
+            this.$senderIdenticon.address = 'placeholder';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -123,8 +128,8 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set recipient(address) {
-        if (this.properties.isCashlink === 'funding') {
-            this.$recipientIdenticons.forEach(e => e.address = 'Cashlink');
+        if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
+            this.$recipientIdenticons.forEach(e => e.address = 'placeholder');
         } else {
             this.$recipientIdenticons.forEach(e => e.address = address);
         }
@@ -135,8 +140,7 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set isCashlink(value) {
-        const isOriginalSenderKnown = this.properties.type === 'cashlink_local_claim' && this.properties.pairedTx;
-        this.$txIcon.textContent = isOriginalSenderKnown ? 'link' : 'arrow_forward';
+        this.$el.classList.toggle('cashlink', !!value);
     }
 
     set value(value) {
@@ -163,7 +167,6 @@ export default class XTransaction extends MixinRedux(XElement) {
             'outgoing',
             'transfer',
             'cashlink_remote_claim',
-            'cashlink_local_claim',
             'cashlink_remote_fund',
         );
         type && this.$el.classList.add(type);

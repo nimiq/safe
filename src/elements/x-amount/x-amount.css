@@ -10,13 +10,11 @@ x-amount {
     font-variant-numeric: tabular-nums;
 }
 
-x-amount.incoming x-currency-nim,
-x-amount.cashlink_local_claim x-currency-nim {
+x-amount.incoming x-currency-nim {
     color: var(--nimiq-green);
 }
 
-x-amount.incoming .integers::before,
-x-amount.cashlink_local_claim .integers::before {
+x-amount.incoming .integers::before {
     content: '+';
 }
 

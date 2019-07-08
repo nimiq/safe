@@ -137,7 +137,7 @@ export function reducer(state, action) {
                 );
 
                 wallet.addresses.forEach(address => {
-                    // if (address.address === 'NQ62 PSCG QX88 AHRS SR4V CJ49 KB4G X4JQ SMJ3') return;
+                    if (address.address === 'NQ19 1FQV E0C1 XPGG 9UJ6 PKLS T9A3 GXST 4MLG') return;
 
                     const entry = {
                         address: address.address,
@@ -291,7 +291,7 @@ export function populate(listedWallets) {
             addressesToKeep: addressInfos,
         });
 
-        const addresses = addressInfos.map(addressInfo => addressInfo.address)/*.filter(addr => addr !== 'NQ62 PSCG QX88 AHRS SR4V CJ49 KB4G X4JQ SMJ3')*/;
+        const addresses = addressInfos.map(addressInfo => addressInfo.address).filter(addr => addr !== 'NQ19 1FQV E0C1 XPGG 9UJ6 PKLS T9A3 GXST 4MLG');
 
         const client = await networkClient.client;
         client.subscribe(addresses);

@@ -83,12 +83,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts);
-            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts);
-
-            if (tx.pairedTx) {
-                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts);
-            }
+            // 1. Detect tx type
 
             if (tx.isCashlink === 'claiming' && sender && sender.type === AccountType.CASHLINK && (!recipient || recipient.walletId !== sender.walletId)) {
                 // This is the tx where the final recipient claimed our outgoing cashlink.
@@ -100,7 +95,7 @@ export default class XTransactions extends MixinRedux(XElement) {
                     const pairedTx = [...txStore.values()].find(
                         storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
                     if (pairedTx) {
-                        tx.pairedTx = pairedTx;
+                        tx.pairedTx = Object.assign({}, pairedTx);
                     }
                 }
             }
@@ -108,30 +103,49 @@ export default class XTransactions extends MixinRedux(XElement) {
                 // This tx is where we ourselves claimed a cashlink.
                 // This will be displayed as a special cashlink-claiming tx, matched to a
                 // 'cashlink_remote_fund' tx.
-                tx.type = 'cashlink_local_claim';
+                tx.type = 'incoming';
 
                 if (!tx.pairedTx) {
                     // Search for the original (remote) funding tx
                     const pairedTx = [...txStore.values()].find(
                         storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
                     if (pairedTx) {
-                        tx.pairedTx = pairedTx;
+                        tx.pairedTx = Object.assign({}, pairedTx);
                     }
                 }
             }
             else if (tx.isCashlink === 'funding' && !sender && recipient.type === AccountType.CASHLINK) {
                 // This tx is the original funding tx of a cashlink that we claimed.
-                // This tx is only relevant to provide the originalSender for a 'cashlink_local_claim' tx.
+                // This tx is only relevant to provide the originalSender for incoming cashlinks.
                 tx.type = 'cashlink_remote_fund'; // This type is hidden from the list
+                // TODO: Filter out this type even before pagination?
             }
             else if (tx.isCashlink === 'funding' && sender && recipient.type === AccountType.CASHLINK) {
                 // This is the funding tx for a cashlink which we sent ourselves.
                 tx.type = 'outgoing';
                 // INFO: recipient.cashlinkClaimed contains the status (boolean) if this cashlink is claimed or not.
+                if (recipient.cashlinkClaimed && !tx.pairedTx) {
+                    // Search for final recipient tx
+                    const pairedTx = [...txStore.values()].find(
+                        storedTx => storedTx.sender === tx.recipient && storedTx.isCashlink === 'claiming');
+                    if (pairedTx) {
+                        tx.pairedTx = Object.assign({}, pairedTx);
+                    }
+                }
             }
             else if (sender && recipient) tx.type = 'transfer';
             else if (sender) tx.type = 'outgoing';
             else if (recipient) tx.type = 'incoming';
+
+            // 2. Label tx participants
+
+            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts);
+            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts);
+
+            if (tx.pairedTx) {
+                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts);
+                tx.pairedTx.recipientLabel = XTransactions._labelAddress(tx.pairedTx.recipient, accounts.get(tx.pairedTx.recipient), contacts);
+            }
         });
 
         return txs;

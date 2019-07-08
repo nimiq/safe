@@ -85,9 +85,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set sender(address) {
-        if (this.properties.type === 'cashlink_remote_claim'
-        || (this.properties.type === 'cashlink_local_claim' && !this.properties.pairedTx)) {
-            this.$senderIdenticon.address = 'Cashlink';
+        if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
+            this.$senderIdenticon.address = 'placeholder';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -96,8 +95,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set recipient(address) {
-        if (this.properties.isCashlink === 'funding') {
-            this.$recipientIdenticons.forEach(e => e.address = 'Cashlink');
+        if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
+            this.$recipientIdenticons.forEach(e => e.address = 'placeholder');
         } else {
             this.$recipientIdenticons.forEach(e => e.address = address);
         }
@@ -118,9 +117,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set isCashlink(value) {
-        const isOriginalSenderKnown = this.properties.type === 'cashlink_local_claim' && this.properties.pairedTx;
-        this.$txIcon.textContent = isOriginalSenderKnown ? 'link' : 'arrow_forward';
-        this.$title.textContent = value ? 'Cashlink' : 'Transaction';
+        this.$title.textContent = !!value ? 'Cashlink' : 'Transaction';
+        this.$el.classList.toggle('cashlink', !!value);
     }
 
     set extraData(extraData) {
