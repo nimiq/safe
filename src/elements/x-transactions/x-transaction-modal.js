@@ -18,7 +18,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             <div class="modal-body">
                 <div class="center">
                     <x-identicon sender></x-identicon>
-                    <i class="arrow material-icons" tx-icon>arrow_forward</i>
+                    <i class="arrow material-icons">arrow_forward</i>
                     <x-identicon recipient></x-identicon>
                 </div>
 

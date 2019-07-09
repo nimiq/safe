@@ -9,7 +9,7 @@ export default class XTransaction extends MixinRedux(XElement) {
             <td class="timestamp" title="">pending...</td>
             <td class="identicon hidden-when-info"><x-identicon sender></x-identicon></td>
             <td class="label hidden-when-info" sender></td>
-            <td class="hidden-when-info"><i class="material-icons" tx-icon>arrow_forward</i></td>
+            <td class="hidden-when-info"><i class="material-icons">arrow_forward</i></td>
             <td class="identicon hidden-when-info"><x-identicon recipient></x-identicon></td>
             <td class="label hidden-when-info" recipient></td>
             <td class="info-line" colspan="5">
@@ -34,8 +34,6 @@ export default class XTransaction extends MixinRedux(XElement) {
         this.$recipientIdenticons = [this.$identicon[1]]
         if (this.$identicon[2]) this.$recipientIdenticons.push(this.$identicon[2]);
         this.$recipientLabels = this.$$('.label[recipient]');
-
-        this.$txIcon = this.$('i[tx-icon]');
 
         this.$timestamp = this.$('.timestamp');
     }

@@ -40,7 +40,6 @@ export function isCashlink(extraData) {
 }
 
 export function convertExtradata(extraData) {
-    console.log(extraData);
     if (isFundingCashlink(extraData)) return 'Funding cashlink';
     else if (isClaimingCashlink(extraData)) return 'Claiming cashlink';
     else return Utf8Tools.utf8ByteArrayToString(extraData);

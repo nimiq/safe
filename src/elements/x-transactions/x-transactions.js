@@ -11,7 +11,6 @@ import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 import AccountType from '../../lib/account-type.js';
-import { isFundingCashlink } from './convert-extra-data.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {

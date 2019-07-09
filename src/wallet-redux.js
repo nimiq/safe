@@ -137,8 +137,6 @@ export function reducer(state, action) {
                 );
 
                 wallet.addresses.forEach(address => {
-                    if (address.address === 'NQ19 1FQV E0C1 XPGG 9UJ6 PKLS T9A3 GXST 4MLG') return;
-
                     const entry = {
                         address: address.address,
                         label: address.label,
@@ -231,7 +229,7 @@ export function reducer(state, action) {
         case TypeKeys.SET_CLAIMED_FLAG:
             return updateState({
                 accounts: updateMapItem(state.accounts, action.address, {
-                    label: 'Cashlink',
+                    label: action.value ? 'Cashlink' : 'Unclaimed Cashlink',
                     cashlinkClaimed: action.value,
                 }),
             });
@@ -279,7 +277,7 @@ export function logout(walletId) {
             walletId,
             addressesToKeep, // for transaction reducer
         });
-    };
+    }
 }
 
 export function populate(listedWallets) {
@@ -294,7 +292,7 @@ export function populate(listedWallets) {
             addressesToKeep: addressInfos,
         });
 
-        const addresses = addressInfos.map(addressInfo => addressInfo.address).filter(addr => addr !== 'NQ19 1FQV E0C1 XPGG 9UJ6 PKLS T9A3 GXST 4MLG');
+        const addresses = addressInfos.map(addressInfo => addressInfo.address);
 
         const client = await networkClient.client;
         client.subscribe(addresses);
