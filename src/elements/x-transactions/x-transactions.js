@@ -18,10 +18,9 @@ export default class XTransactions extends MixinRedux(XElement) {
         return `
             <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
             </x-popup-menu>
-            <table class="x-transactions-list">
-                <x-loading-animation></x-loading-animation>
-                <h2>Loading transactions...</h2>
-            </table>
+            <x-loading-animation></x-loading-animation>
+            <h2>Loading transactions...</h2>
+            <table class="x-transactions-list"></table>
             <x-paginator store-path="transactions"></x-paginator>
             <a secondary class="view-more">View more</a>
             <a secondary class="view-less">View less</a>
@@ -188,13 +187,16 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         if (!this.properties.hasTransactions) return;
 
-        if (changes.transactions) {
+        if (changes.transactions || this.properties.transactions.size === 0) {
             if (this.$('x-loading-animation')) {
                 this.$el.removeChild(this.$('x-loading-animation'));
                 this.$el.removeChild(this.$('h2'));
             }
+        }
+
+        if (changes.transactions) {
             if (this.$('x-no-transactions')) {
-                this.$el.removeChild(this.$('x-no-transactions'));
+                this.$transactionsList.removeChild(this.$('x-no-transactions'));
             }
 
             // Transaction-internal updates are handled by the XTransaction

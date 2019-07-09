@@ -9,8 +9,10 @@ x-loading-animation {
     display: block;
     height: 72px;
     width: 80px;
+    margin: auto;
 }
 
 x-loading-animation + h2{
     padding-top: 16px;
+    text-align: center;
 }
