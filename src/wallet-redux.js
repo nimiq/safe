@@ -230,7 +230,10 @@ export function reducer(state, action) {
 
         case TypeKeys.SET_CLAIMED_FLAG:
             return updateState({
-                accounts: updateMapItem(state.accounts, action.address, { cashlinkClaimed: action.value }),
+                accounts: updateMapItem(state.accounts, action.address, {
+                    label: 'Cashlink',
+                    cashlinkClaimed: action.value,
+                }),
             });
 
         case TypeKeys.UPDATE_BALANCES: {

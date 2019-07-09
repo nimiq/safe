@@ -149,7 +149,6 @@ export function addTransactions(transactions) {
 
         // Look through tx and find cashlinks, so we can add their address to our monitored addresses
         const cashlinkAccount = {
-            label: 'Cashlink',
             type: AccountType.CASHLINK,
         };
         transactions.forEach(tx => {
@@ -164,6 +163,7 @@ export function addTransactions(transactions) {
                 }
 
                 dispatch(addAccount(Object.assign({}, cashlinkAccount, {
+                    label: 'Unclaimed Cashlink',
                     address: tx.recipient,
                     walletId: sender.walletId,
                     cashlinkClaimed: false,
@@ -184,6 +184,7 @@ export function addTransactions(transactions) {
                 }
 
                 dispatch(addAccount(Object.assign({}, cashlinkAccount, {
+                    label: 'Cashlink',
                     address: tx.sender,
                     walletId: recipient.walletId,
                     cashlinkClaimed: true,

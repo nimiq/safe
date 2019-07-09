@@ -35,7 +35,7 @@ x-transactions a[secondary] {
     text-align: center;
 }
 
-.x-transaction {
+.x-transactions-list .x-transaction {
     animation: from-right 500ms;
     animation-fill-mode: backwards; /* Apply the animation's opacity: 0 when the animation property is applied */
     cursor: pointer;
