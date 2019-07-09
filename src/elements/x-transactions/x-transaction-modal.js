@@ -9,7 +9,11 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2 class="title">Transaction</h2>
+                <h2 class="title">
+                    <span class="unclaimed">Unclaimed </span>
+                    <span class="cashlink">Cashlink</span>
+                    <span class="not-cashlink">Transaction</span>
+                </h2>
             </div>
             <div class="modal-body">
                 <div class="center">
@@ -30,7 +34,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="recipient-section row">
                     <label>To</label>
                     <div class="row-data">
                         <div class="label" recipient></div>
@@ -46,7 +50,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="row">
-                    <label>Date</label>
+                    <label class="not-outgoing-cashlink">Date</label>
+                    <label class="outgoing-cashlink">Created</label>
                     <div class="row-data">
                         <div class="timestamp" title="">pending...</div>
                     </div>
@@ -56,6 +61,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <label>Block</label>
                     <div class="row-data">
                         <span class="blockHeight"></span> <span class="confirmations"></span>
+                    </div>
+                </div>
+
+                <div class="cashlink-claimed-section display-none row">
+                    <label>Claimed</label>
+                    <div class="row-data">
+                        <div class="timestamp-claimed" title="">pending...</div>
                     </div>
                 </div>
 
@@ -114,11 +126,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             e.textContent = label;
             e.classList.toggle('default-label', label.startsWith('NQ'));
         });
+
+        this.$el.classList.toggle('unclaimed', label === 'Unclaimed Cashlink');
     }
 
     set isCashlink(value) {
-        this.$title.textContent = !!value ? 'Cashlink' : 'Transaction';
         this.$el.classList.toggle('cashlink', !!value);
+        this.$('.recipient-section').classList.toggle('display-none', !this.properties.pairedTx && value === 'funding');
     }
 
     set extraData(extraData) {
@@ -143,6 +157,20 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     set timestamp(timestamp) {
         const time = moment.unix(timestamp);
         this.$timestamp.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
+    }
+
+    set pairedTx(pairedTx) {
+        if (pairedTx && this.properties.isCashlink === 'funding') {
+            const time = moment.unix(pairedTx.timestamp);
+            const $timestampClaimed = this.$('.timestamp-claimed');
+
+            $timestampClaimed.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
+            this.$('.cashlink-claimed-section').classList.remove('display-none');
+        } else {
+            this.$('.cashlink-claimed-section').classList.add('display-none');
+        }
+
+        this.$('.recipient-section').classList.toggle('display-none', !pairedTx && this.properties.isCashlink === 'funding');
     }
 
     set currentHeight(height) {

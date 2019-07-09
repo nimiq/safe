@@ -40,11 +40,9 @@ x-transaction-modal .label {
     font-size: 1em;
 }
 
-x-transaction-modal.incoming .label[sender].default-label {
-    display: none;
-}
-
-x-transaction-modal.outgoing .label[recipient].default-label {
+x-transaction-modal.incoming .label[sender].default-label,
+x-transaction-modal.outgoing .label[recipient].default-label,
+x-transaction-modal.cashlink_remote_claim .label[recipient].default-label {
     display: none;
 }
 
@@ -86,7 +84,6 @@ x-transaction-modal .hash {
     font-family: monospace;
 }
 
-
 @media (max-width: 560px) {
     x-transaction-modal x-identicon {
         width: 90px;
@@ -112,4 +109,13 @@ x-transaction-modal .hash {
         margin-left: -4px;
         padding: 8px 4px;
     }
+}
+
+x-transaction-modal.cashlink .not-cashlink,
+x-transaction-modal:not(.cashlink) .cashlink,
+x-transaction-modal:not(.unclaimed) .unclaimed,
+x-transaction-modal.outgoing.cashlink .not-outgoing-cashlink,
+x-transaction-modal:not(.outgoing) .outgoing-cashlink,
+x-transaction-modal:not(.cashlink) .outgoing-cashlink {
+    display: none;
 }

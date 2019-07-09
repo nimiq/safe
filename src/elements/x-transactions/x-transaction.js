@@ -60,7 +60,7 @@ export default class XTransaction extends MixinRedux(XElement) {
         // delete changes.triggeredByList;
 
         for (const prop in changes) {
-            if (changes[prop] !== undefined) {
+            if (changes[prop] !== undefined || prop === 'isCashlink' || prop === 'pairedTx') {
                 // Update display
                 this[prop] = changes[prop];
 
@@ -209,6 +209,10 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     _onTransactionSelected() {
-        this.fire('x-transaction-selected', this.transaction.hash);
+        let hash = this.transaction.hash;
+        if (this.transaction.type === 'cashlink_remote_claim' && this.transaction.pairedTx) {
+            hash = this.transaction.pairedTx.hash;
+        }
+        this.fire('x-transaction-selected', hash);
     }
 }
