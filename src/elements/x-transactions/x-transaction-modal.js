@@ -86,7 +86,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set sender(address) {
         if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
-            this.$senderIdenticon.address = 'placeholder';
+            this.$senderIdenticon.address = 'cashlink';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -96,7 +96,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     set recipient(address) {
         if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
-            this.$recipientIdenticons.forEach(e => e.address = 'placeholder');
+            this.$recipientIdenticons.forEach(e => e.address = 'cashlink');
         } else {
             this.$recipientIdenticons.forEach(e => e.address = address);
         }

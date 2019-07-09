@@ -117,7 +117,7 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     set sender(address) {
         if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
-            this.$senderIdenticon.address = 'placeholder';
+            this.$senderIdenticon.address = 'cashlink';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -129,7 +129,7 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     set recipient(address) {
         if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
-            this.$recipientIdenticons.forEach(e => e.address = 'placeholder');
+            this.$recipientIdenticons.forEach(e => e.address = 'cashlink');
         } else {
             this.$recipientIdenticons.forEach(e => e.address = address);
         }
