@@ -38,7 +38,7 @@ export class Store {
                 initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
                 initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
             }
-            
+
             // support legacy version of persisted contacts
             if (persistedState.contacts) {
                 initialState.contacts = Object.assign({}, persistedState.contacts);
@@ -62,6 +62,7 @@ export class Store {
                 isRequestingHistory: undefined,
                 page: 1,
                 itemsPerPage: 4,
+                filterUnclaimedCashlinks: false,
             }
         );
 

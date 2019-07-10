@@ -9,6 +9,7 @@ export const TypeKeys = {
     SET_PAGE: 'transactions/set-page',
     SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
     SET_REQUESTING_HISTORY: 'transactions/set-requesting-history',
+    SET_FILTER_UNCLAIMED_CASHLINKS: 'transactions/set-filter-unclaimed-cashlinks',
 };
 
 export function reducer(state, action) {
@@ -19,6 +20,7 @@ export function reducer(state, action) {
             error: null,
             page: 1,
             itemsPerPage: 4,
+            filterUnclaimedCashlinks: false,
         }
     }
 
@@ -110,6 +112,11 @@ export function reducer(state, action) {
                 isRequestingHistory: action.isRequestingHistory,
             });
 
+        case TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS:
+            return Object.assign({}, state, {
+                filterUnclaimedCashlinks: action.value,
+            });
+
         case WalletTypeKeys.LOGOUT:
         case WalletTypeKeys.REMOVE_ACCOUNT:
         case WalletTypeKeys.POPULATE: {
@@ -126,12 +133,14 @@ export function reducer(state, action) {
             return Object.assign({}, state, {
                 entries,
                 page: 1,
+                filterUnclaimedCashlinks: false,
             });
         }
 
         case WalletTypeKeys.SWITCH:
             return Object.assign({}, state, {
                 page: 1,
+                filterUnclaimedCashlinks: false,
             });
 
         default:
@@ -238,6 +247,13 @@ export function setRequestingHistory(isRequestingHistory) {
     return {
         type: TypeKeys.SET_REQUESTING_HISTORY,
         isRequestingHistory,
+    }
+}
+
+export function setFilterUnclaimedCashlinks(value) {
+    return {
+        type: TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS,
+        value,
     }
 }
 
