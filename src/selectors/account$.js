@@ -53,8 +53,7 @@ export const activeAccounts$ = createSelector(
     accounts$,
     activeWalletId$,
     (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
-        const account = entry[1];
-        return account.walletId === activeWalletId;
+        return entry[1].walletId === activeWalletId;
     }))
 );
 
@@ -66,6 +65,11 @@ export const activeAccountsArray$ = createSelector(
 export const activeAddresses$ = createSelector(
     activeAccountsArray$,
     (accounts) => accounts && accounts.map(acc => acc.address)
+);
+
+export const numberUnclaimedCashlinks$ = createSelector(
+    activeAccountsArray$,
+    (activeAccountsArray) => activeAccountsArray.filter(acc => acc.type === AccountType.CASHLINK && !acc.cashlinkClaimed).length
 );
 
 export const balancesLoaded$ = createSelector(

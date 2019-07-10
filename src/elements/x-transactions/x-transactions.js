@@ -4,21 +4,29 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoTransactions from './x-no-transactions.js';
 import XPaginator from '../x-paginator/x-paginator.js';
-import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from './transactions-redux.js';
+import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage, setFilterUnclaimedCashlinks } from './transactions-redux.js';
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 import AccountType from '../../lib/account-type.js';
+import { numberUnclaimedCashlinks$ } from '../../selectors/account$.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
-            </x-popup-menu>
+            <div class="not-filtered">
+                <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh"></x-popup-menu>
+                <h2 style="display: inline-block;">Transactions</h2>
+                <button class="nq-button-s filter-unclaimed-cashlinks display-none"></button>
+            </div>
+            <div class="transactions-filtered-header nq-blue-bg filtered">
+                <h2>Unclaimed Cashlinks</h2>
+                <button class="nq-button-s inverse filter-close-button">&times;</button>
+            </div>
             <x-loading-animation></x-loading-animation>
-            <h2>Loading transactions...</h2>
+            <h2 class="loading-headline">Loading transactions...</h2>
             <table class="x-transactions-list"></table>
             <x-paginator store-path="transactions"></x-paginator>
             <a secondary class="view-more">View more</a>
@@ -32,6 +40,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         this._$transactions = new Map();
         this.$transactionsList = this.$('table');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
+        this.$filterUnclaimedCashlinks = this.$('.filter-unclaimed-cashlinks');
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
     }
@@ -42,10 +51,12 @@ export default class XTransactions extends MixinRedux(XElement) {
             'click .refresh button': () => this.requestTransactionHistory(),
             'click .view-more': this._onViewMore,
             'click .view-less': this._onViewLess,
+            'click .filter-unclaimed-cashlinks': this._toggleFilterUnclaimedCashlinks,
+            'click .filter-close-button': this._toggleFilterUnclaimedCashlinks,
         }
     }
 
-    static get actions() { return { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } }
+    static get actions() { return { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage, setFilterUnclaimedCashlinks } }
 
     static mapStateToProps(state, props) {
         return {
@@ -65,7 +76,9 @@ export default class XTransactions extends MixinRedux(XElement) {
             addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()] : [],
             hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
-            isRequestingHistory: state.transactions.isRequestingHistory
+            isRequestingHistory: state.transactions.isRequestingHistory,
+            filterUnclaimedCashlinks: state.transactions.filterUnclaimedCashlinks,
+            numberUnclaimedCashlinks: numberUnclaimedCashlinks$(state) || 0,
         }
     }
 
@@ -189,7 +202,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         if (changes.transactions || this.properties.transactions.size === 0) {
             if (this.$('x-loading-animation')) {
                 this.$el.removeChild(this.$('x-loading-animation'));
-                this.$el.removeChild(this.$('h2'));
+                this.$el.removeChild(this.$('.loading-headline'));
             }
         }
 
@@ -257,7 +270,6 @@ export default class XTransactions extends MixinRedux(XElement) {
                 //         console.log("isSorted", false);
                 // }
             }
-
         }
 
         if (this.properties.transactions.size === 0) {
@@ -271,6 +283,14 @@ export default class XTransactions extends MixinRedux(XElement) {
         } else {
             this.$el.classList.remove('few-transactions');
         }
+
+        if (typeof changes.numberUnclaimedCashlinks !== 'undefined') {
+            const number = this.properties.numberUnclaimedCashlinks;
+            this.$filterUnclaimedCashlinks.classList.toggle('display-none', number < 1);
+            this.$filterUnclaimedCashlinks.textContent = `${number} unclaimed Cashlink${number !== 1 ? 's' : ''}`;
+        }
+
+        this.$el.classList.toggle('filtered', this.properties.filterUnclaimedCashlinks);
     }
 
     /**
@@ -352,5 +372,9 @@ export default class XTransactions extends MixinRedux(XElement) {
         this.actions.setPage(1);
         this.actions.setItemsPerPage(4);
         this.$el.classList.remove('view-more');
+    }
+
+    _toggleFilterUnclaimedCashlinks() {
+        this.actions.setFilterUnclaimedCashlinks(!this.properties.filterUnclaimedCashlinks);
     }
 }

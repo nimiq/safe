@@ -23,7 +23,7 @@ x-transaction-modal .row {
 }
 
 x-transaction-modal .row + .row {
-    margin-top: 28px;
+    margin-top: 24px;
 }
 
 x-transaction-modal label {
