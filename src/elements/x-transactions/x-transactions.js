@@ -220,7 +220,7 @@ export default class XTransactions extends MixinRedux(XElement) {
         addresses = addresses || this.properties.addresses;
         const { newTransactions, removedTransactions } = await this._requestTransactionHistory(addresses);
         this.actions.addTransactions(newTransactions);
-        this.actions.markRemoved(removedTransactions, this.properties.lastKnownHeight);
+        // this.actions.markRemoved(removedTransactions, this.properties.lastKnownHeight);
         this.actions.setRequestingHistory(false);
     }
 
@@ -248,7 +248,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     async _requestTransactionHistory(addresses) {
-        const knownReceipts = this._generateKnownReceipts(addresses);
+        const knownReceipts = this._generateKnownReceipts();
 
         // TODO: only ask from knownLastHeight when this function is called at app start,
         // not when requesting txs after a new account has been added!
@@ -258,20 +258,13 @@ export default class XTransactions extends MixinRedux(XElement) {
         return (await networkClient.client).requestTransactionHistory(addresses, knownReceipts, height);
     }
 
-    _generateKnownReceipts(addresses) {
-        // Create an emtpy map of knownReceiptsbyAddress
-        const knownReceipts = new Map(addresses.map(a => [a, new Map()]));
+    _generateKnownReceipts() {
+        // Create an empty map of knownReceipts
+        const knownReceipts = new Map();
 
         for (const [hash, tx] of MixinRedux.store.getState().transactions.entries) {
             if (tx.removed || tx.expired) continue;
-
-            if (knownReceipts.has(tx.sender)) {
-                knownReceipts.get(tx.sender).set(hash, tx.blockHash);
-            }
-
-            if (knownReceipts.has(tx.recipient)) {
-                knownReceipts.get(tx.recipient).set(hash, tx.blockHash);
-            }
+            knownReceipts.set(hash, tx.blockHash);
         }
         return knownReceipts;
     }

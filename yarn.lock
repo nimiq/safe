@@ -40,10 +40,10 @@
   dependencies:
     dom-parser "^0.1.5"
 
-"@nimiq/network-client@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.2.2.tgz#3fb191e247322dfe365333065c869984b17ec12e"
-  integrity sha512-dfVyBhgR2LeO8qVvcQ+jSqtg8f9NI6u1qns4XlCnE8mNR9cMuP/IW9CeUKoavIgVOnhtSqJahqXj5tqh7RASZA==
+"@nimiq/network-client@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@nimiq/network-client/-/network-client-0.3.0.tgz#0b5a37b2a0a1fb911d77aaab1836ce73d81d4dd3"
+  integrity sha512-sWTYjOD2sQ/+hgLo87n/z58N7ar+ggJz7qpbSv+J3VVeKZjHSF95FPJgrzWpj4i+rbjkG8VtsdjgDGGl/salJA==
   dependencies:
     "@nimiq/core-web" "1.4.3"
     "@nimiq/rpc-events" "^0.0.8"
