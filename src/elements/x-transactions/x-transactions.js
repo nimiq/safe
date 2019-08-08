@@ -11,7 +11,7 @@ import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { activeTransactions$ } from '../../selectors/transaction$.js';
 import AccountType from '../../lib/account-type.js';
-import { numberUnclaimedCashlinks$ } from '../../selectors/account$.js';
+import { numberUnclaimedCashlinks$, activeAccounts$ } from '../../selectors/account$.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -60,13 +60,11 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     static mapStateToProps(state, props) {
         return {
-            transactions: XTransactions._labelTransactions(
-                XPaginator.getPagedItems(
-                    activeTransactions$(state) || new Map(),
-                    state.transactions.page,
-                    state.transactions.itemsPerPage,
-                    true
-                ),
+            transactions: XTransactions._processTransactions(
+                activeTransactions$(state) || new Map(),
+                state.transactions.page,
+                state.transactions.itemsPerPage,
+                activeAccounts$(state),
                 state.wallets.accounts ? state.wallets.accounts : false,
                 state.contacts,
                 state.transactions.entries,
@@ -84,11 +82,28 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     /**
      * @param {any[]} txs
-     * @param {Map<string, any>} accounts
-     * @param {{[label: string]: any}} contacts
+     * @param {number} page
+     * @param {number} itemsPerPage
+     * @param {Map<string, any>} activeAccounts
+     * @param {Map<string, any>} allAccounts
      * @param {Map<string, any>} txStore
      */
-    static _labelTransactions(txs, accounts, contacts, txStore) {
+    static _processTransactions(txs, page, itemsPerPage, activeAccounts, allAccounts, contacts, txStore) {
+        const typedTxs = XTransactions._typeTransactions(txs, activeAccounts, txStore);
+        const filteredTxs = new Map(
+            [...typedTxs.entries()]
+                .filter(([hash, tx]) => tx.type !== 'cashlink_remote_claim' && tx.type !== 'cashlink_remote_fund')
+        );
+        const pagedTxs = XPaginator.getPagedItems(filteredTxs, page, itemsPerPage, true);
+        return XTransactions._labelTransactions(pagedTxs, allAccounts, contacts);
+    }
+
+    /**
+     * @param {any[]} txs
+     * @param {Map<string, any>} accounts
+     * @param {Map<string, any>} txStore
+     */
+    static _typeTransactions(txs, accounts, txStore) {
         if (!accounts) return txs;
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
@@ -147,8 +162,21 @@ export default class XTransactions extends MixinRedux(XElement) {
             else if (sender && recipient) tx.type = 'transfer';
             else if (sender) tx.type = 'outgoing';
             else if (recipient) tx.type = 'incoming';
+        });
 
-            // 2. Label tx participants
+        return txs;
+    }
+
+    /**
+     * @param {any[]} txs
+     * @param {Map<string, any>} accounts
+     * @param {Map<string, any>} txStore
+     */
+    static _labelTransactions(txs, accounts, contacts) {
+        // 2. Label tx participants
+        txs.forEach(tx => {
+            const sender = accounts.get(tx.sender);
+            const recipient = accounts.get(tx.recipient);
 
             tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts);
             tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts);
