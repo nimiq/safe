@@ -1,6 +1,5 @@
 import {
     NetworkClient as NimiqNetworkClient,
-    ConsensusType,
 } from '../node_modules/@nimiq/network-client/dist/NetworkClient.standalone.es.js';
 
 class NetworkClient {
@@ -21,7 +20,7 @@ class NetworkClient {
         if (this._isLaunched) return;
         this._isLaunched = true;
 
-        const client = new NimiqNetworkClient(NimiqNetworkClient.DEFAULT_ENDPOINT, ConsensusType.NANO);
+        const client = new NimiqNetworkClient(NimiqNetworkClient.DEFAULT_ENDPOINT);
         await client.init();
 
         this.clientResolve(client);
