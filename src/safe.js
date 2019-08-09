@@ -127,6 +127,7 @@ class Safe {
     _onConsensusLost() {
         console.log('Consensus lost');
         this.actions.setConsensus('lost');
+        // this.network.connect();
     }
 
     _onBalanceChanged(balances) {

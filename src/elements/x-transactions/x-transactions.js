@@ -9,9 +9,9 @@ import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
 import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
-import { activeTransactions$ } from '../../selectors/transaction$.js';
-import AccountType from '../../lib/account-type.js';
-import { numberUnclaimedCashlinks$, activeAccounts$ } from '../../selectors/account$.js';
+import { relevantTransactions$ } from '../../selectors/transaction$.js';
+import { numberUnclaimedCashlinks$ } from '../../selectors/cashlink$.js';
+import { CashlinkStatus } from '../../cashlink-redux.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -61,17 +61,16 @@ export default class XTransactions extends MixinRedux(XElement) {
     static mapStateToProps(state, props) {
         return {
             transactions: XTransactions._processTransactions(
-                activeTransactions$(state) || new Map(),
+                relevantTransactions$(state) || new Map(),
                 state.transactions.page,
                 state.transactions.itemsPerPage,
-                activeAccounts$(state),
                 state.wallets.accounts ? state.wallets.accounts : false,
                 state.contacts,
-                state.transactions.entries,
+                state.cashlinks.cashlinks,
             ),
             hasTransactions: state.transactions.hasContent,
-            totalTransactionCount: (activeTransactions$(state) || new Map()).size,
-            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()] : [],
+            totalTransactionCount: (relevantTransactions$(state) || new Map()).size,
+            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()].concat([...state.cashlinks.cashlinks.keys()]) : [],
             hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
             isRequestingHistory: state.transactions.isRequestingHistory,
@@ -84,118 +83,45 @@ export default class XTransactions extends MixinRedux(XElement) {
      * @param {any[]} txs
      * @param {number} page
      * @param {number} itemsPerPage
-     * @param {Map<string, any>} activeAccounts
      * @param {Map<string, any>} allAccounts
-     * @param {Map<string, any>} txStore
      */
-    static _processTransactions(txs, page, itemsPerPage, activeAccounts, allAccounts, contacts, txStore) {
-        const typedTxs = XTransactions._typeTransactions(txs, activeAccounts, txStore);
-        const filteredTxs = new Map(
-            [...typedTxs.entries()]
-                .filter(([hash, tx]) => tx.type !== 'cashlink_remote_claim' && tx.type !== 'cashlink_remote_fund')
-        );
-        const pagedTxs = XPaginator.getPagedItems(filteredTxs, page, itemsPerPage, true);
-        return XTransactions._labelTransactions(pagedTxs, allAccounts, contacts);
+    static _processTransactions(txs, page, itemsPerPage, allAccounts, contacts, cashlinks) {
+        const pagedTxs = XPaginator.getPagedItems(txs, page, itemsPerPage, true);
+        return XTransactions._labelTransactions(pagedTxs, allAccounts, contacts, cashlinks);
     }
 
     /**
      * @param {any[]} txs
      * @param {Map<string, any>} accounts
      * @param {Map<string, any>} txStore
+     * @param {Map<string, any>} cashlinks
      */
-    static _typeTransactions(txs, accounts, txStore) {
-        if (!accounts) return txs;
-        txs.forEach(tx => {
-            const sender = accounts.get(tx.sender);
-            const recipient = accounts.get(tx.recipient);
-
-            // 1. Detect tx type
-
-            if (tx.isCashlink === 'claiming' && sender && sender.type === AccountType.CASHLINK && (!recipient || recipient.walletId !== sender.walletId)) {
-                // This is the tx where the final recipient claimed our outgoing cashlink.
-                // It will be displayed as an info bar only.
-                tx.type = 'cashlink_remote_claim';
-
-                if (!tx.pairedTx) {
-                    // Search for our cashlink funding tx
-                    const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
-                    if (pairedTx) {
-                        tx.pairedTx = Object.assign({}, pairedTx);
-                    }
-                }
-            }
-            else if (tx.isCashlink === 'claiming' && sender && sender.type === AccountType.CASHLINK && recipient) {
-                // This tx is where we ourselves claimed a cashlink.
-                // This will be displayed as a special cashlink-claiming tx, matched to a
-                // 'cashlink_remote_fund' tx.
-                tx.type = 'incoming';
-
-                if (!tx.pairedTx) {
-                    // Search for the original (remote) funding tx
-                    const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
-                    if (pairedTx) {
-                        tx.pairedTx = Object.assign({}, pairedTx);
-                    }
-                }
-            }
-            else if (tx.isCashlink === 'funding' && !sender && recipient.type === AccountType.CASHLINK) {
-                // This tx is the original funding tx of a cashlink that we claimed.
-                // This tx is only relevant to provide the originalSender for incoming cashlinks.
-                tx.type = 'cashlink_remote_fund'; // This type is hidden from the list
-                // TODO: Filter out this type even before pagination?
-            }
-            else if (tx.isCashlink === 'funding' && sender && recipient.type === AccountType.CASHLINK) {
-                // This is the funding tx for a cashlink which we sent ourselves.
-                tx.type = 'outgoing';
-                // INFO: recipient.cashlinkClaimed contains the status (boolean) if this cashlink is claimed or not.
-                if (recipient.cashlinkClaimed && !tx.pairedTx) {
-                    // Search for final recipient tx
-                    const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.sender === tx.recipient && storedTx.isCashlink === 'claiming');
-                    if (pairedTx) {
-                        tx.pairedTx = Object.assign({}, pairedTx);
-                    }
-                }
-            }
-            else if (sender && recipient) tx.type = 'transfer';
-            else if (sender) tx.type = 'outgoing';
-            else if (recipient) tx.type = 'incoming';
-        });
-
-        return txs;
-    }
-
-    /**
-     * @param {any[]} txs
-     * @param {Map<string, any>} accounts
-     * @param {Map<string, any>} txStore
-     */
-    static _labelTransactions(txs, accounts, contacts) {
+    static _labelTransactions(txs, accounts, contacts, cashlinks) {
         // 2. Label tx participants
         txs.forEach(tx => {
             const sender = accounts.get(tx.sender);
             const recipient = accounts.get(tx.recipient);
 
-            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts);
-            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts);
+            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts, cashlinks);
+            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts, cashlinks);
 
             if (tx.pairedTx) {
-                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts);
-                tx.pairedTx.recipientLabel = XTransactions._labelAddress(tx.pairedTx.recipient, accounts.get(tx.pairedTx.recipient), contacts);
+                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts, cashlinks);
+                tx.pairedTx.recipientLabel = XTransactions._labelAddress(tx.pairedTx.recipient, accounts.get(tx.pairedTx.recipient), contacts, cashlinks);
             }
         });
 
         return txs;
     }
 
-    static _labelAddress(address, account, contacts) {
-        return account ?
-            account.label :
-            contacts[address] ?
-                contacts[address].label :
-                AddressBook.getLabel(address) || address.slice(0, 14) + '...';
+    static _labelAddress(address, account, contacts, cashlinks) {
+        return account
+            ? account.label
+            : contacts[address]
+                ? contacts[address].label
+                : AddressBook.getLabel(address) || cashlinks.has(address)
+                    ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
+                    : address.slice(0, 14) + '...';
     }
 
     _onPropertiesChanged(changes) {
@@ -247,7 +173,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             // blockHeight, which would make sorting necessary
             let needsSorting = false;
 
-            let removedTx = [];
+            const removedTx = [];
 
             for (const [hash, transaction] of changes.transactions) {
                 if (transaction === undefined) removedTx.push(hash);
@@ -312,11 +238,9 @@ export default class XTransactions extends MixinRedux(XElement) {
             this.$el.classList.remove('few-transactions');
         }
 
-        if (typeof changes.numberUnclaimedCashlinks !== 'undefined') {
-            const number = this.properties.numberUnclaimedCashlinks;
-            this.$filterUnclaimedCashlinks.classList.toggle('display-none', number < 1);
-            this.$filterUnclaimedCashlinks.textContent = `${number} unclaimed Cashlink${number !== 1 ? 's' : ''}`;
-        }
+        const number = this.properties.numberUnclaimedCashlinks;
+        this.$filterUnclaimedCashlinks.classList.toggle('display-none', number < 1);
+        this.$filterUnclaimedCashlinks.textContent = `${number} unclaimed Cashlink${number !== 1 ? 's' : ''}`;
 
         this.$el.classList.toggle('filtered', this.properties.filterUnclaimedCashlinks);
     }

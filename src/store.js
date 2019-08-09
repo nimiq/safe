@@ -2,8 +2,9 @@ import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from './elements/x-network-indicator/network-redux.js';
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
+import { initialState as initialCashlinkState } from './cashlink-redux.js';
 
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 
 /* Redux store as singleton */
 export class Store {
@@ -34,6 +35,9 @@ export class Store {
                     wallets: new Map(persistedState.wallets ? persistedState.wallets.wallets : []),
                     accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: []),
                     hasContent: false,
+                });
+                initialState.cashlinks = Object.assign({}, initialCashlinkState, persistedState.cashlinks, {
+                    cashlinks: new Map(persistedState.cashlinks.cashlinks),
                 });
                 initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
                 initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
@@ -74,10 +78,18 @@ export class Store {
             }
         );
 
+        const cashlinks = Object.assign({},
+            state.cashlinks,
+            {
+                cashlinks: [...state.cashlinks.cashlinks.entries()],
+            }
+        );
+
         const persistentState = {
             version: CACHE_VERSION,
             transactions,
             wallets,
+            cashlinks,
             network: {
                 oldHeight: state.network.height
             },

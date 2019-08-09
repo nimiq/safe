@@ -7,6 +7,7 @@ import { reducer as networkReducer } from './elements/x-network-indicator/networ
 import { reducer as settingReducer } from './settings/settings-redux.js';
 import { reducer as contactReducer } from './elements/v-contact-list/contacts-redux.js';
 import { reducer as walletReducer } from './wallet-redux.js';
+import { reducer as cashlinkReducer } from './cashlink-redux.js';
 
 const reducers = {
     transactions: transactionReducer,
@@ -14,6 +15,7 @@ const reducers = {
     settings: settingReducer,
     contacts: contactReducer,
     wallets: walletReducer,
+    cashlinks: cashlinkReducer,
 };
 
 export default function configureStore(initialState) {

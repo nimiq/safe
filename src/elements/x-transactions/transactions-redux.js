@@ -1,6 +1,6 @@
 import { isFundingCashlink, isClaimingCashlink, convertExtradata } from './convert-extra-data.js';
-import { TypeKeys as WalletTypeKeys, addAccount, setClaimedFlag } from '../../wallet-redux.js';
-import AccountType from '../../lib/account-type.js';
+import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
+import { addCashlink, CashlinkStatus } from '../../cashlink-redux.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
@@ -115,6 +115,7 @@ export function reducer(state, action) {
         case TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS:
             return Object.assign({}, state, {
                 filterUnclaimedCashlinks: action.value,
+                page: 1,
             });
 
         case WalletTypeKeys.LOGOUT:
@@ -157,47 +158,30 @@ export function addTransactions(transactions) {
         const accounts = getState().wallets.accounts;
 
         // Look through tx and find cashlinks, so we can add their address to our monitored addresses
-        const cashlinkAccount = {
-            type: AccountType.CASHLINK,
-        };
         transactions.forEach(tx => {
             if (isFundingCashlink(tx.extraData)) {
                 tx.isCashlink = 'funding';
-                if (accounts.has(tx.recipient)) return; // Cashlink account already known
 
                 const sender = accounts.get(tx.sender);
-                if (!sender) {
-                    console.error(new Error('Cannot assign cashlink account to a wallet, sender is unknown.'));
-                    return;
-                }
 
-                dispatch(addAccount(Object.assign({}, cashlinkAccount, {
-                    label: 'Unclaimed Cashlink',
+                dispatch(addCashlink({
                     address: tx.recipient,
-                    walletId: sender.walletId,
-                    cashlinkClaimed: false,
-                })));
+                    status: tx.timestamp ? CashlinkStatus.UNCLAIMED : CashlinkStatus.CHARGING,
+                    sender: tx.sender,
+                    walletIds: sender ? [sender.walletId] : [],
+                }));
             }
             else if (isClaimingCashlink(tx.extraData)) {
                 tx.isCashlink = 'claiming';
-                if (accounts.has(tx.sender)) {
-                    // Cashlink account already known
-                    dispatch(setClaimedFlag(tx.sender, true));
-                    return;
-                }
 
                 const recipient = accounts.get(tx.recipient);
-                if (!recipient) {
-                    console.error(new Error('Cannot assign cashlink account to a wallet, recipient is unknown.'));
-                    return;
-                }
 
-                dispatch(addAccount(Object.assign({}, cashlinkAccount, {
-                    label: 'Cashlink',
+                dispatch(addCashlink({
                     address: tx.sender,
-                    walletId: recipient.walletId,
-                    cashlinkClaimed: true,
-                })));
+                    status: tx.timestamp ? CashlinkStatus.CLAIMED : CashlinkStatus.CLAIMING,
+                    recipient: tx.recipient,
+                    walletIds: recipient ? [recipient.walletId] : [],
+                }));
             }
         });
 

@@ -6,7 +6,7 @@ const simpleAccounts$ = state => state.wallets.accounts;
 
 export const hasContent$ = state => state.wallets.hasContent;
 
-const activeWalletId$ = state => state.wallets.activeWalletId;
+export const activeWalletId$ = state => state.wallets.activeWalletId;
 
 const height$ = state => state.network.height || state.network.oldHeight;
 
@@ -52,9 +52,9 @@ export const accountsArray$ = createSelector(
 export const activeAccounts$ = createSelector(
     accounts$,
     activeWalletId$,
-    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
-        return entry[1].walletId === activeWalletId;
-    }))
+    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(
+        entry => entry[1].walletId === activeWalletId
+    ))
 );
 
 export const activeAccountsArray$ = createSelector(
@@ -65,11 +65,6 @@ export const activeAccountsArray$ = createSelector(
 export const activeAddresses$ = createSelector(
     activeAccountsArray$,
     (accounts) => accounts && accounts.map(acc => acc.address)
-);
-
-export const numberUnclaimedCashlinks$ = createSelector(
-    activeAccountsArray$,
-    (activeAccountsArray) => activeAccountsArray.filter(acc => acc.type === AccountType.CASHLINK && !acc.cashlinkClaimed).length
 );
 
 export const balancesLoaded$ = createSelector(

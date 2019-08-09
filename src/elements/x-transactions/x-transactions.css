@@ -308,11 +308,6 @@ x-transaction-modal.x-transaction.cashlink.cashlink_remote_claim x-identicon[rec
     background-size: auto 24px;
 }
 
-/* Hide remote funding tx */
-.x-transaction.cashlink_remote_fund {
-    display: none;
-}
-
 /* Style remote claiming info line */
 x-transactions .x-transaction.cashlink_remote_claim {
     background: rgba(31, 35, 72, 0.06); /* Based on Nimiq Indigo */
