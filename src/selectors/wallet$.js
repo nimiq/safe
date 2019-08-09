@@ -27,6 +27,22 @@ export const walletsArray$ = createSelector(
     }).concat([])
 );
 
+export const walletsArrayWithAccountMap$ = createSelector(
+    wallets$,
+    accountsArray$,
+    (wallets, accounts) => [...wallets.values()].map(wallet => {
+        const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
+        return Object.assign({}, wallet, {
+            accounts: new Map(walletAccounts.map(account => [
+                account.address,
+                Object.assign({}, account, {userFriendlyAddress: account.address}),
+            ])),
+            balance: calculateTotalBalance(walletAccounts),
+            contracts: [],
+        });
+    }).concat([])
+);
+
 export const activeWallet$ = createSelector(
     wallets$,
     activeWalletId$,
@@ -39,4 +55,4 @@ export const activeWallet$ = createSelector(
 export const hasNewWallet$ = createSelector(
     walletsArray$,
     (wallets) => wallets.some(wallet => wallet.type !== WalletType.LEGACY)
-); 
+);

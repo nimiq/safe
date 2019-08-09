@@ -134,6 +134,15 @@ class HubClient {
         await this.export(accountId, { wordsOnly: true });
     }
 
+    async cashlink(senderAddress, senderBalance) {
+        const request = {
+            appName: APP_NAME,
+            senderAddress,
+            senderBalance,
+        };
+        const result = await this.hubApi.export(request);
+    }
+
     async changePassword(accountId) {
         await this._launched;
         await this.hubApi.changePassword({

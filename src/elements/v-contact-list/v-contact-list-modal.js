@@ -1,6 +1,6 @@
 import VContactList from '../v-contact-list/v-contact-list.js';
 import MixinModal from '../mixin-modal/mixin-modal.js'
-import XSendTransactionModal from '../x-send-transaction/x-send-transaction-modal.js'
+import VSendTransaction from '../v-send-transaction/v-send-transaction.js'
 
 export default class VContactListModal extends MixinModal(VContactList) {
     onCreate() {
@@ -47,6 +47,6 @@ export default class VContactListModal extends MixinModal(VContactList) {
     onHide() {
         if (this._wasClosedByContactSelection) return;
         // go back to send tx modal
-        XSendTransactionModal.show('-', 'contact');
+        VSendTransaction.show('-', 'contact');
     }
 }
