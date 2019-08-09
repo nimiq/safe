@@ -3,6 +3,7 @@ import XAddress from '../x-address/x-address.js';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '../mixin-redux.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
+import { CashlinkDirection } from '../../cashlink-redux.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -10,9 +11,9 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
                 <h2 class="title">
-                    <span class="unclaimed">Unclaimed </span>
-                    <span class="cashlink">Cashlink</span>
-                    <span class="not-cashlink">Transaction</span>
+                    <span class="show-if-unclaimed">Unclaimed </span>
+                    <span class="show-if-cashlink">Cashlink</span>
+                    <span class="hide-if-cashlink">Transaction</span>
                 </h2>
             </div>
             <div class="modal-body">
@@ -50,8 +51,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="row">
-                    <label class="not-outgoing-cashlink">Date</label>
-                    <label class="outgoing-cashlink">Created</label>
+                    <label class="hide-if-outgoing-cashlink">Date</label>
+                    <label class="show-if-outgoing-cashlink">Created</label>
                     <div class="row-data">
                         <div class="timestamp" title="">pending...</div>
                     </div>
@@ -92,32 +93,21 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$confirmations = this.$('.confirmations');
         this.$fee = this.$('.fee');
         this.$message = this.$('.extra-data');
-        this.$title = this.$('.title');
         super.onCreate();
     }
 
     set sender(address) {
-        if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
-            this.$senderIdenticon.address = 'cashlink';
-        } else {
-            this.$senderIdenticon.address = address;
-        }
-
+        super.sender = address;
         this.$senderAddress.address = address;
     }
 
     set recipient(address) {
-        if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
-            this.$recipientIdenticons.forEach(e => e.address = 'cashlink');
-        } else {
-            this.$recipientIdenticons.forEach(e => e.address = address);
-        }
-
+        super.recipient = address;
         this.$recipientAddress.address = address;
     }
 
     set senderLabel(label) {
-        this.$senderLabel.textContent = label;
+        super.senderLabel = label;
         this.$senderLabel.classList.toggle('default-label', label.startsWith('NQ'));
     }
 
@@ -131,8 +121,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set isCashlink(value) {
-        this.$el.classList.toggle('cashlink', !!value);
-        this.$('.recipient-section').classList.toggle('display-none', !this.properties.pairedTx && value === 'funding');
+        super.isCashlink = value;
+        this.$('.recipient-section').classList.toggle('display-none', !this.properties.pairedTx && value === CashlinkDirection.FUNDING);
     }
 
     set extraData(extraData) {
@@ -160,7 +150,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set pairedTx(pairedTx) {
-        if (pairedTx && this.properties.isCashlink === 'funding') {
+        if (pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING) {
             const time = moment.unix(pairedTx.timestamp);
             const $timestampClaimed = this.$('.timestamp-claimed');
 
@@ -170,7 +160,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             this.$('.cashlink-claimed-section').classList.add('display-none');
         }
 
-        this.$('.recipient-section').classList.toggle('display-none', !pairedTx && this.properties.isCashlink === 'funding');
+        this.$('.recipient-section').classList.toggle(
+            'display-none',
+            !pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING,
+        );
     }
 
     set currentHeight(height) {

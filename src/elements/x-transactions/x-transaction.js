@@ -2,6 +2,8 @@ import XElement from '../../lib/x-element/x-element.js';
 import MixinRedux from '../mixin-redux.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAmount from '../x-amount/x-amount.js';
+import { CashlinkDirection } from '../../cashlink-redux.js';
+import { TransactionType } from '../../selectors/transaction$.js';
 
 export default class XTransaction extends MixinRedux(XElement) {
     html() {
@@ -31,8 +33,7 @@ export default class XTransaction extends MixinRedux(XElement) {
         super.onCreate();
         this.$senderIdenticon = this.$identicon[0];
         this.$senderLabel = this.$('.label[sender]');
-        this.$recipientIdenticons = [this.$identicon[1]]
-        if (this.$identicon[2]) this.$recipientIdenticons.push(this.$identicon[2]);
+        this.$recipientIdenticons = this.$identicon.slice(1);
         this.$recipientLabels = this.$$('.label[recipient]');
 
         this.$timestamp = this.$('.timestamp');
@@ -101,21 +102,20 @@ export default class XTransaction extends MixinRedux(XElement) {
             this.$timestamp.setAttribute('title', 'Transaction has expired');
         }
 
-        if (this.properties.isCashlink === 'claiming' && this.properties.pairedTx) {
+        if (this.properties.isCashlink === CashlinkDirection.CLAIMING && this.properties.pairedTx) {
             this.sender = this.properties.pairedTx.sender;
             this.senderLabel = this.properties.pairedTx.senderLabel;
         }
 
-        if (this.properties.isCashlink === 'funding' && this.properties.pairedTx) {
+        if (this.properties.isCashlink === CashlinkDirection.FUNDING && this.properties.pairedTx) {
             this.recipient = this.properties.pairedTx.recipient;
             this.recipientLabel = this.properties.pairedTx.recipientLabel;
         }
     }
 
-
     set sender(address) {
-        if (this.properties.isCashlink === 'claiming' && !this.properties.pairedTx) {
-            this.$senderIdenticon.address = 'cashlink';
+        if (this.properties.isCashlink === CashlinkDirection.CLAIMING && !this.properties.pairedTx) {
+            this.$senderIdenticon.address = '';
         } else {
             this.$senderIdenticon.address = address;
         }
@@ -126,8 +126,8 @@ export default class XTransaction extends MixinRedux(XElement) {
     }
 
     set recipient(address) {
-        if (this.properties.isCashlink === 'funding' && !this.properties.pairedTx) {
-            this.$recipientIdenticons.forEach(e => e.address = 'cashlink');
+        if (this.properties.isCashlink === CashlinkDirection.FUNDING && !this.properties.pairedTx) {
+            this.$recipientIdenticons.forEach(e => e.address = '');
         } else {
             this.$recipientIdenticons.forEach(e => e.address = address);
         }
@@ -139,6 +139,8 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     set isCashlink(value) {
         this.$el.classList.toggle('cashlink', !!value);
+        this.$senderIdenticon.isCashlink = value === CashlinkDirection.CLAIMING;
+        this.$recipientIdenticons.forEach(e => e.isCashlink = value === CashlinkDirection.FUNDING);
     }
 
     set value(value) {
@@ -160,30 +162,23 @@ export default class XTransaction extends MixinRedux(XElement) {
     set type(type) {
         this.$amount.type = type;
 
-        this.$el.classList.remove(
-            'incoming',
-            'outgoing',
-            'transfer',
-            'cashlink_remote_claim',
-            'cashlink_remote_fund',
-        );
+        this.$el.classList.remove.apply(this.$el.classList, Object.values(TransactionType));
         type && this.$el.classList.add(type);
     }
 
     set pairedTx(pairedTx) {
-        if (pairedTx && this.properties.type === 'cashlink_remote_claim') {
+        if (pairedTx && this.properties.type === TransactionType.CASHLINK_REMOTE_CLAIM) {
             const dateTime = moment.unix(pairedTx.timestamp);
             const $fundingDate = this.$('.funding-date');
+            if (!$fundingDate) return;
 
-            if ($fundingDate) {
-                if (dateTime.isSame(moment(), 'day')) {
-                    $fundingDate.textContent = dateTime.format('HH:mm');
-                } else {
-                    $fundingDate.textContent = dateTime.format('DD MMM');
-                }
-
-                $fundingDate.setAttribute('title', dateTime.toDate().toLocaleString());
+            if (dateTime.isSame(moment(), 'day')) {
+                $fundingDate.textContent = dateTime.format('HH:mm');
+            } else {
+                $fundingDate.textContent = dateTime.format('DD MMM');
             }
+
+            $fundingDate.setAttribute('title', dateTime.toDate().toLocaleString());
         }
     }
 
@@ -208,7 +203,7 @@ export default class XTransaction extends MixinRedux(XElement) {
 
     _onTransactionSelected() {
         let hash = this.transaction.hash;
-        if (this.transaction.type === 'cashlink_remote_claim' && this.transaction.pairedTx) {
+        if (this.transaction.type === TransactionType.CASHLINK_REMOTE_CLAIM && this.transaction.pairedTx) {
             hash = this.transaction.pairedTx.hash;
         }
         this.fire('x-transaction-selected', hash);

@@ -9,6 +9,10 @@ x-transactions {
     width: 100%;
 }
 
+x-transactions .transactions-heading {
+    display: inline-block;
+}
+
 x-transactions a[secondary] {
     padding: 1em;
     margin-bottom: -1em !important;
@@ -53,7 +57,6 @@ x-transactions x-popup-menu {
 }
 
 .x-transaction > * {
-    /* display: table-cell !important; */
     vertical-align: middle;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -214,8 +217,8 @@ x-transactions.view-more .view-less {
 /* CASHLINKS */
 
 /* Filter */
-x-transactions:not(.filtered) .filtered,
-x-transactions.filtered .not-filtered {
+x-transactions:not(.filtered) .show-if-filtered,
+x-transactions.filtered .hide-if-filtered {
     display: none;
 }
 
@@ -270,78 +273,40 @@ x-transactions.filtered .not-filtered {
     }
 }
 
-/* Cashlink identicon indicators */
-.x-transaction.cashlink.incoming x-identicon[sender],
-.x-transaction.cashlink.outgoing x-identicon[recipient],
-x-transaction-modal.x-transaction.cashlink.cashlink_remote_claim x-identicon[recipient] {
-    display: block;
-    position: relative;
-}
-
-.x-transaction.cashlink.incoming x-identicon[sender]::after,
-.x-transaction.cashlink.outgoing x-identicon[recipient]::after,
-x-transaction-modal.x-transaction.cashlink.cashlink_remote_claim x-identicon[recipient]::after {
-    content: '';
-    display: block;
-    position: absolute;
-    right: 2px;
-    bottom: -6px;
-    width: 22px; /* including border */
-    height: 22px;
-    background-color: var(--nimiq-blue);
-    background-image: url('data:image/svg+xml,<svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.65 8.73v.22c0 1.08-.87 1.95-1.94 1.95H3.19a1.95 1.95 0 0 1-1.95-1.95V6.9c0-1.08.88-1.95 1.95-1.95h.76" stroke="white" stroke-width="1.08" stroke-linecap="round"/><path d="M1.24 3.33V3.1c0-1.08.88-1.95 1.95-1.95h1.52c1.07 0 1.94.87 1.94 1.95v1.84c0 1.2-.97 2.16-2.16 2.16h-.54" stroke="white" stroke-width="1.08" stroke-linecap="round"/></svg>');
-    background-size: auto 12px;
-    background-position: center;
-    background-repeat: no-repeat;
-    border-radius: 50%;
-    border: 2px solid white;
-}
-
-x-transaction-modal.x-transaction.cashlink.incoming x-identicon[sender]::after,
-x-transaction-modal.x-transaction.cashlink.outgoing x-identicon[recipient]::after,
-x-transaction-modal.x-transaction.cashlink.cashlink_remote_claim x-identicon[recipient]::after {
-    right: 4px;
-    bottom: -12px;
-    width: 46px; /* including border */
-    height: 46px;
-    border-width: 4px;
-    background-size: auto 24px;
-}
-
 /* Style remote claiming info line */
-x-transactions .x-transaction.cashlink_remote_claim {
+x-transactions .x-transaction.cashlink-remote-claim {
     background: rgba(31, 35, 72, 0.06); /* Based on Nimiq Indigo */
 }
 
-x-transactions .x-transaction.cashlink_remote_claim > * {
+x-transactions .x-transaction.cashlink-remote-claim > * {
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
 x-transactions .x-transaction .info-line,
-x-transactions .x-transaction.cashlink_remote_claim .hidden-when-info {
+x-transactions .x-transaction.cashlink-remote-claim .hidden-when-info {
     display: none !important;
 }
 
-x-transactions .x-transaction.cashlink_remote_claim .info-line {
+x-transactions .x-transaction.cashlink-remote-claim .info-line {
     display: table-cell !important;
     padding: 0 8px;
 }
 
-x-transactions .x-transaction.cashlink_remote_claim .info-line strong {
+x-transactions .x-transaction.cashlink-remote-claim .info-line strong {
     font-weight: 600;
 }
 
-x-transactions .x-transaction.cashlink_remote_claim x-amount {
+x-transactions .x-transaction.cashlink-remote-claim x-amount {
     font-size: 1em;
 }
 
-x-transactions .x-transaction.cashlink_remote_claim x-amount .ticker {
+x-transactions .x-transaction.cashlink-remote-claim x-amount .ticker {
     font-weight: 600;
     font-size: 1em;
 }
 
-x-transactions .x-transaction.cashlink_remote_claim .info-line x-identicon {
+x-transactions .x-transaction.cashlink-remote-claim .info-line x-identicon {
     display: inline-block;
     width: 28px;
     margin: -4px 8px -8px;

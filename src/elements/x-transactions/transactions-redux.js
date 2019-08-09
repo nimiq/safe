@@ -1,6 +1,6 @@
 import { isFundingCashlink, isClaimingCashlink, convertExtradata } from './convert-extra-data.js';
 import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
-import { addCashlink, CashlinkStatus } from '../../cashlink-redux.js';
+import { addCashlink, CashlinkStatus, CashlinkDirection } from '../../cashlink-redux.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
@@ -160,7 +160,7 @@ export function addTransactions(transactions) {
         // Look through tx and find cashlinks, so we can add their address to our monitored addresses
         transactions.forEach(tx => {
             if (isFundingCashlink(tx.extraData)) {
-                tx.isCashlink = 'funding';
+                tx.isCashlink = CashlinkDirection.FUNDING;
 
                 const sender = accounts.get(tx.sender);
 
@@ -172,7 +172,7 @@ export function addTransactions(transactions) {
                 }));
             }
             else if (isClaimingCashlink(tx.extraData)) {
-                tx.isCashlink = 'claiming';
+                tx.isCashlink = CashlinkDirection.CLAIMING;
 
                 const recipient = accounts.get(tx.recipient);
 

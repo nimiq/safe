@@ -5,7 +5,7 @@ export default class Config {
     static get tld() {
         const tld = window.location.origin.split('.');
         tld.shift(); // Remove subdomain
-        return tld;
+        return tld.join('.');
     }
 
     // sure we want to allow this?

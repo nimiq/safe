@@ -17,6 +17,11 @@ export const CashlinkStatus = {
     CLAIMED: 4,
 };
 
+export const CashlinkDirection = {
+    FUNDING: 'funding',
+    CLAIMING: 'claiming',
+};
+
 export const initialState = {
     cashlinks: new Map(), // Map<string, CashlinkInfo>, {string} being the cashlink address
     loading: true,

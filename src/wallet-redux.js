@@ -12,7 +12,6 @@ export const TypeKeys = {
     SWITCH: 'wallet/switch',
     RENAME: 'wallet/rename',
     UPDATE_BALANCES: 'wallet/update-balances',
-    SET_CLAIMED_FLAG: 'wallet/set-claimed-flag',
 };
 
 export const WalletType = {
@@ -221,14 +220,6 @@ export function reducer(state, action) {
         case TypeKeys.SWITCH:
             return updateState({
                 activeWalletId: action.walletId,
-            });
-
-        case TypeKeys.SET_CLAIMED_FLAG:
-            return updateState({
-                accounts: updateMapItem(state.accounts, action.address, {
-                    label: action.value ? 'Cashlink' : 'Unclaimed Cashlink',
-                    cashlinkClaimed: action.value,
-                }),
             });
 
         case TypeKeys.UPDATE_BALANCES: {

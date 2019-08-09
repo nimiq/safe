@@ -2,7 +2,15 @@ import { createSelector } from '../lib/reselect/src/index.js';
 
 import { activeAccounts$ } from './account$.js';
 import { activeCashlinks$ } from './cashlink$.js';
-import { CashlinkStatus } from '../cashlink-redux.js';
+import { CashlinkStatus, CashlinkDirection } from '../cashlink-redux.js';
+
+export const TransactionType = {
+    INCOMING: 'incoming',
+    OUTGOING: 'outgoing',
+    TRANSFER: 'transfer',
+    CASHLINK_REMOTE_FUND: 'cashlink-remote-fund',
+    CASHLINK_REMOTE_CLAIM: 'cashlink-remote-claim',
+}
 
 export const transactions$ = state => state.transactions.entries;
 
@@ -22,7 +30,7 @@ export const activeTransactions$ = createSelector(
             if (!accounts.has(tx.sender) && !accounts.has(tx.recipient) &&
                 !cashlinks.has(tx.sender) && !cashlinks.has(tx.recipient)) return false;
             if (filterUnclaimed) {
-                if (tx.isCashlink !== 'funding') return false;
+                if (tx.isCashlink !== CashlinkDirection.FUNDING) return false;
                 const cashlink = cashlinks.get(tx.recipient);
                 return cashlink && cashlink.status <= CashlinkStatus.UNCLAIMED;
             }
@@ -43,56 +51,56 @@ const typedTransactions$ = createSelector(
 
             // 1. Detect tx type
 
-            if (tx.isCashlink === 'claiming' && !recipient) {
+            if (tx.isCashlink === CashlinkDirection.CLAIMING && !recipient) {
                 // This is the tx where the final recipient claimed our outgoing cashlink.
                 // It will be displayed as an info bar only.
-                tx.type = 'cashlink_remote_claim';
+                tx.type = TransactionType.CASHLINK_REMOTE_CLAIM;
 
                 if (!tx.pairedTx) {
                     // Search for our cashlink funding tx
                     const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
+                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === CashlinkDirection.FUNDING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
                     }
                 }
             }
-            else if (tx.isCashlink === 'claiming' && recipient) {
+            else if (tx.isCashlink === CashlinkDirection.CLAIMING && recipient) {
                 // This tx is where we ourselves claimed a cashlink.
                 // This will be displayed as a special cashlink-claiming tx, matched to a
-                // 'cashlink_remote_fund' tx.
-                tx.type = 'incoming';
+                // 'cashlink-remote-fund' tx.
+                tx.type = TransactionType.INCOMING;
 
                 if (!tx.pairedTx) {
                     // Search for the original (remote) funding tx
                     const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === 'funding');
+                        storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === CashlinkDirection.FUNDING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
                     }
                 }
             }
-            else if (tx.isCashlink === 'funding' && !sender) {
+            else if (tx.isCashlink === CashlinkDirection.FUNDING && !sender) {
                 // This tx is the original funding tx of a cashlink that we claimed.
                 // This tx is only relevant to provide the originalSender for incoming cashlinks.
-                tx.type = 'cashlink_remote_fund'; // This type is hidden from the list
+                tx.type = TransactionType.CASHLINK_REMOTE_FUND; // This type is hidden from the list
             }
-            else if (tx.isCashlink === 'funding' && sender) {
+            else if (tx.isCashlink === CashlinkDirection.FUNDING && sender) {
                 // This is the funding tx for a cashlink which we sent ourselves.
-                tx.type = 'outgoing';
+                tx.type = TransactionType.OUTGOING;
 
                 if (!tx.pairedTx) {
                     // Search for final recipient tx
                     const pairedTx = [...txStore.values()].find(
-                        storedTx => storedTx.sender === tx.recipient && storedTx.isCashlink === 'claiming');
+                        storedTx => storedTx.sender === tx.recipient && storedTx.isCashlink === CashlinkDirection.CLAIMING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
                     }
                 }
             }
-            else if (sender && recipient) tx.type = 'transfer';
-            else if (sender) tx.type = 'outgoing';
-            else if (recipient) tx.type = 'incoming';
+            else if (sender && recipient) tx.type = TransactionType.TRANSFER;
+            else if (sender) tx.type = TransactionType.OUTGOING;
+            else if (recipient) tx.type = TransactionType.INCOMING;
 
             return entry;
         }));
@@ -101,5 +109,5 @@ const typedTransactions$ = createSelector(
 
 export const relevantTransactions$ = createSelector(
     typedTransactions$,
-    (txs) => txs && new Map([...txs.entries()].filter(entry => entry[1].type !== 'cashlink_remote_fund'))
+    (txs) => txs && new Map([...txs.entries()].filter(entry => entry[1].type !== TransactionType.CASHLINK_REMOTE_FUND))
 );

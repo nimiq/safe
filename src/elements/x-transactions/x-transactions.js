@@ -16,12 +16,12 @@ import { CashlinkStatus } from '../../cashlink-redux.js';
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <div class="not-filtered">
+            <div class="hide-if-filtered">
                 <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh"></x-popup-menu>
-                <h2 style="display: inline-block;">Transactions</h2>
+                <h2 class="transactions-heading">Transactions</h2>
                 <button class="nq-button-s filter-unclaimed-cashlinks display-none"></button>
             </div>
-            <div class="transactions-filtered-header nq-blue-bg filtered">
+            <div class="transactions-filtered-header nq-blue-bg show-if-filtered">
                 <h2>Unclaimed Cashlinks</h2>
                 <button class="nq-button-s inverse filter-close-button">&times;</button>
             </div>
@@ -119,9 +119,11 @@ export default class XTransactions extends MixinRedux(XElement) {
             ? account.label
             : contacts[address]
                 ? contacts[address].label
-                : AddressBook.getLabel(address) || cashlinks.has(address)
-                    ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
-                    : address.slice(0, 14) + '...';
+                : AddressBook.getLabel(address)
+                    ? AddressBook.getLabel(address)
+                    : cashlinks.has(address)
+                        ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
+                        : address.slice(0, 14) + '...';
     }
 
     _onPropertiesChanged(changes) {

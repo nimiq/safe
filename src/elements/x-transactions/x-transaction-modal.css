@@ -111,11 +111,11 @@ x-transaction-modal .hash {
     }
 }
 
-x-transaction-modal.cashlink .not-cashlink,
-x-transaction-modal:not(.cashlink) .cashlink,
-x-transaction-modal:not(.unclaimed) .unclaimed,
-x-transaction-modal.outgoing.cashlink .not-outgoing-cashlink,
-x-transaction-modal:not(.outgoing) .outgoing-cashlink,
-x-transaction-modal:not(.cashlink) .outgoing-cashlink {
+x-transaction-modal.cashlink .hide-if-cashlink,
+x-transaction-modal:not(.cashlink) .show-if-cashlink,
+x-transaction-modal:not(.unclaimed) .show-if-unclaimed,
+x-transaction-modal.outgoing.cashlink .hide-if-outgoing-cashlink,
+x-transaction-modal:not(.outgoing) .show-if-outgoing-cashlink,
+x-transaction-modal:not(.cashlink) .show-if-outgoing-cashlink {
     display: none;
 }
