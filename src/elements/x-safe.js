@@ -306,22 +306,6 @@ export default class XSafe extends MixinRedux(XElement) {
         // to be allowed to be set by the user. Thus we need to parse what the user
         // put in and react accordingly.
 
-        const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
-
-        if (isNaN(setValidityStartHeight) && !this.properties.height) {
-            if (Config.offline) {
-                XToast.warning('In offline mode, the validity-start-height needs to be set (advanced settings).');
-            } else {
-                XToast.warning('Consensus not yet established, please try again in a few seconds.');
-            }
-            return;
-        }
-
-        tx.value = Math.round(Number(tx.value) * 1e5);
-        tx.fee = Math.round((Number(tx.fee) || 0) * 1e5);
-        tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
-        tx.recipient = 'NQ' + tx.recipient;
-
         const signedTx = await hubClient.sign(tx);
 
         signedTx.value = signedTx.value / 1e5;
@@ -368,7 +352,7 @@ export default class XSafe extends MixinRedux(XElement) {
 
             VSendTransaction.hide();
             // give modal time to disappear
-            window.setTimeout(XSendTransactionModal.instance.clear.bind(XSendTransactionModal.instance), 500);
+            window.setTimeout(VSendTransaction.instance.clear.bind(VSendTransaction.instance), 500);
             XSendPreparedTransactionModal.hide();
         } catch(e) {
             XToast.error(e.message || e);

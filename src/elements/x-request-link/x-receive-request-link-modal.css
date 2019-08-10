@@ -1,3 +1,6 @@
+@import "../x-accounts/x-accounts-dropdown.css";
+@import "../x-amount-input/x-amount-input.css";
+
 x-receive-request-link-modal x-identicon {
     display: block;
     width: 160px;

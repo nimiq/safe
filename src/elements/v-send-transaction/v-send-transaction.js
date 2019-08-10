@@ -7,8 +7,10 @@ import { walletsArrayWithAccountMap$ } from '../../selectors/wallet$.js'
 import hubClient from '../../hub-client.js';
 import { accountsArray$ } from '../../selectors/account$.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
+import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
+import { parseRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
 
-export default class VSendTransaction extends MixinModal(XElement) {
+export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
     html() {
         return `<div class="body vue-send-transaction">
                     <redux-provider :map-state-to-props="mapStateToProps" :store="store">
@@ -19,10 +21,12 @@ export default class VSendTransaction extends MixinModal(XElement) {
                             :validity-start-height="validityStartHeight"
                             :sender="sender"
                             :recipient="recipient"
+                            :recipient-is-readonly="recipientIsReadonly"
                             :value="amount"
                             :value-is-readonly="amountIsReadonly"
                             :message="message"
                             :message-is-readonly="messageIsReadonly"
+                            :is-loading="isLoading"
                             @login="login"
                             @scan-qr="scanQr"
                             @send-tx="sendTx"
@@ -30,14 +34,10 @@ export default class VSendTransaction extends MixinModal(XElement) {
                             @create-cashlink="createCashlink"
                         ></send-tx>
                     </redux-provider>
-                </div>
-                <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
-                    <qr-scanner v-if="shown" @result="onQrScanned" @cancel="closeQrScanner"></qr-scanner>
-                </transition>`;
-    }
-
-    styles() {
-        return [ ...super.styles(), 'v-send-transaction' ];
+                    <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
+                        <qr-scanner v-if="qrScannerShown" @result="onQrScanned" @cancel="closeQrScanner"></qr-scanner>
+                    </transition>
+                </div>`;
     }
 
     static get actions() {
@@ -56,13 +56,14 @@ export default class VSendTransaction extends MixinModal(XElement) {
             el: this.$('.vue-send-transaction'),
             data: {
                 store: MixinRedux.store,
-                isLoading: this._isLoading,
-                sender: this.sender,
-                recipient: this.recipient,
-                amount: this.amount,
-                amountIsReadonly: this.amountIsReadonly,
-                message: this.message,
-                messageIsReadonly: this.messageIsReadonly,
+                isLoading: false,
+                sender: null,
+                recipient: null,
+                amount: 0,
+                amountIsReadonly: false,
+                message: '',
+                messageIsReadonly: false,
+                qrScannerShown: false,
             },
             methods: {
                 mapStateToProps(state) {
@@ -76,45 +77,72 @@ export default class VSendTransaction extends MixinModal(XElement) {
                     hubClient.onboard();
                 },
                 scanQr() {
-                    self._openQrScanner();
+                    this.qrScannerShown = true;
                 },
                 sendTx(tx) {
                     self.fire('x-send-transaction', tx);
                 },
                 contactAdded(contact) {
-                    VSendTransaction.actions.setContact(contact.label, contact.address);
+                    console.log(contact);
+                    self.actions.setContact(contact.label, contact.address);
                 },
                 createCashlink(account) {
                     hubClient.createCashlink(account.address, account.balance);
                 },
                 setSender(address){
                     const accounts = accountsArray$(this.store.getState());
+                    const account = accounts.find(account => account.address === address);
+                    if (!account) return;
                     this.sender = {
                         address,
-                        walletId: accounts.find(account => account.address === address).walletId,
+                        walletId: account.walletId,
                     };
                 },
+                onQrScanned: this._onQrScanned.bind(this),
+                closeQrScanner: this._closeQrScanner.bind(this),
             },
             components: {
                 'redux-provider': ReduxProvider,
                 'send-tx': NimiqVueComponents.SendTx,
+                'qr-scanner': NimiqVueComponents.QrScanner,
+                // @asset(/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
             }
-        })
+        });
+
+        window.sendTx = this;
     }
 
-    set loading(isLoading) {
-        this._isLoading = !!isLoading;
+    set loading(value) {
+        this.vue.isLoading = value;
     }
 
+    clearProps() {
+        this.vue.recipientIsReadonly = false;
+        this.vue.amountIsReadonly = false;
+        this.vue.messageIsReadonly = false;
+    }
+
+    clear() {
+        this.vue.sender = null;
+        this.vue.recipient = null;
+        this.vue.amount = 0;
+        this.vue.message = '';
+        // this.vue.fee = null;
+        this.vue.isLoading = false;
+        this.vue.$refs.sendTx.clear();
+    }
 
     /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message, freeze) {
-        if(address && mode === 'sender') {
+        if (address && mode === 'sender') {
             this.vue.setSender(dashToSpace(address));
         }
 
         if (address && (mode === 'recipient' || mode === 'vesting')) {
             this.vue.recipient = {address: dashToSpace(address)};
+            this.vue.recipientIsReadonly = true;
+        } else {
+            this.vue.recipientIsReadonly = false;
         }
 
         if (amount) {
@@ -126,58 +154,36 @@ export default class VSendTransaction extends MixinModal(XElement) {
 
         if (message) {
             this.vue.message = decodeURIComponent(message);
-
-            if (typeof this.message === 'Uint8Array') {
-                this.vue.message = Utf8Tools.utf8ByteArrayToString(message);
-            }
-
             this.vue.messageIsReadonly = true;
         } else {
             this.vue.messageIsReadonly = false;
         }
 
         if (mode === 'scan') {
-            this._openQrScanner();
             this._isQrScanMode = true;
+            this._openQrScanner();
         } else {
             this._isQrScanMode = false;
         }
     }
 
     onHide() {
-        setTimeout(() => this._closeQrScanner(true), 400);
-    }
-
-    _getQrScanner() {
-        if (this._qrScanner) return this._qrScanner;
-        this._qrScanner = new Vue({
-            el: this.$('.qr-scanner'),
-            data: () => ({
-                shown: false,
-            }),
-            methods: {
-                onQrScanned: this._onQrScanned.bind(this),
-                closeQrScanner: this._closeQrScanner.bind(this),
-            },
-            components: {
-                'qr-scanner': NimiqVueComponents.QrScanner,
-                // @asset(/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
-            }
-        });
-        return this._qrScanner;
+        setTimeout(() => {
+            this.clearProps();
+            this._closeQrScanner(true);
+        }, 400);
     }
 
     _openQrScanner() {
-        this._getQrScanner().shown = true;
+        this.vue.qrScannerShown = true;
     }
 
     _closeQrScanner(codeFound = false) {
-        if (!this._qrScanner) return;
         if (codeFound || !this._isQrScanMode) {
             this._isQrScanMode = false;
-            this._qrScanner.shown = false;
+            this.vue.qrScannerShown = false;
         }
-        else if (this.hide) this.hide();
+        else this.hide();
     }
 
     _onQrScanned(scanResult) {
@@ -190,10 +196,16 @@ export default class VSendTransaction extends MixinModal(XElement) {
         } else {
             return;
         }
-        this.recipient = recipient; // required
-        if (amount) this.amount = amount;
-        if (message) this.message = message;
+        this.vue.recipient = {address: recipient}; // required
+        this.vue.recipientIsReadonly = this._isQrScanMode;
+        if (amount) {
+            this.vue.amount = amount;
+            this.vue.amountIsReadonly = true;
+        }
+        if (message) {
+            this.vue.message = message;
+            this.vue.messageIsReadonly = true;
+        }
         this._closeQrScanner(true);
-        this.validateAllFields();
     }
 }

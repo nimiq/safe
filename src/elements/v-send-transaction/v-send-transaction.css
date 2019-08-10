@@ -1,15 +1,50 @@
-.v-send-transaction {
+v-send-transaction {
     box-sizing: content-box;
     text-align: center;
     position: relative;
     overflow: hidden;
+    max-width: 420px !important;
+    width: 100%;
 }
 
-.v-send-transaction transition.qr-scanner {
-    display: none; /* Don't render the vue template. When mounted 'transition' is not an actual element anymore. */
+v-send-transaction button {
+    text-transform: unset;
+    width: unset;
+    max-width: unset;
+    vertical-align: unset;
+    text-align: unset;
+    user-select: unset;
+    box-shadow: unset;
+    outline: unset;
+    margin-bottom: unset;
+    min-height: unset;
+    letter-spacing: unset;
 }
 
-.v-send-transaction .qr-scanner {
+v-send-transaction button[disabled] {
+    border: unset;
+    pointer-events: unset;
+}
+
+v-send-transaction input {
+    border: unset;
+    border-radius: unset;
+    outline: unset;
+    background-color: unset;
+    border-bottom: unset;
+    padding: unset;
+}
+
+v-send-transaction .small-page {
+    margin: 0 !important;
+}
+
+v-send-transaction transition {
+    /* Don't render the Vue transition pseudo-element. When mounted, 'transition' is not an actual element anymore. */
+    display: none;
+}
+
+v-send-transaction .qr-scanner {
     position: absolute !important;
     left: 0;
     top: 0;
@@ -21,11 +56,11 @@
     border-radius: 1rem;
 }
 
-.v-send-transaction .qr-scanner video {
+v-send-transaction .qr-scanner video {
     border-radius: 0.5rem;
 }
 
-.v-send-transaction .qr-scanner .cancel-button {
+v-send-transaction .qr-scanner .cancel-button {
     height: unset;
     min-height: unset;
     width: unset;
@@ -41,11 +76,11 @@
 
 @media (max-width: 480px) {
     /* make qr scanner full screen */
-    .v-send-transaction {
+    v-send-transaction {
         overflow: visible;
     }
 
-    .v-send-transaction .qr-scanner {
+    v-send-transaction .qr-scanner {
         position: fixed !important;
         border: none;
         border-radius: 0;
@@ -53,7 +88,7 @@
     }
 
     /* full screen interfering with overlay centering. Therefore, we manually center via css. */
-    .v-send-transaction .qr-scanner .overlay {
+    v-send-transaction .qr-scanner .overlay {
         width: 66vmin !important;
         height: 66vmin !important;
         left: calc(50% - 33vmin) !important;
@@ -62,7 +97,7 @@
         top: calc(50% - 33vmin - 3.25rem) !important;
     }
 
-    .v-send-transaction .qr-scanner .access-denied-instructions {
+    v-send-transaction .qr-scanner .access-denied-instructions {
         bottom: 11rem;
     }
 }
