@@ -35,10 +35,12 @@ export const walletsArrayWithAccountMap$ = createSelector(
         return Object.assign({}, wallet, {
             accounts: new Map(walletAccounts.map(account => [
                 account.address,
-                Object.assign({}, account, {userFriendlyAddress: account.address}),
+                Object.assign({}, account, {
+                    userFriendlyAddress: account.address,
+                    balance: account.balance * 1e5,
+                }),
             ])),
-            balance: calculateTotalBalance(walletAccounts),
-            contracts: [],
+            contracts: [], // TODO
         });
     }).concat([])
 );

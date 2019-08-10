@@ -8,19 +8,20 @@ import hubClient from '../../hub-client.js';
 
 export default class VSendTransaction extends MixinModal(XElement) {
     html() {
-        return `<div class="body vue-send-tx">
+        return `<div class="body vue-send-transaction">
                     <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                         <send-tx
-                            slot-scope="{contacts, wallets}"
+                            slot-scope="{contacts, wallets, validityStartHeight}"
                             :contacts="contacts"
                             :wallets="wallets"
-                            :preselectedSender="sender"
+                            :validity-start-height="validityStartHeight"
+                            :sender="sender"
                             @login="login"
-                            @scan-qr="scan-qr"
-                            @send-tx="send-tx"
+                            @scan-qr="scanQr"
+                            @send-tx="sendTx"
                             @contact-added="contactAdded"
                             @create-cashlink="createCashlink"
-                            />
+                        ></send-tx>
                     </redux-provider>
                 </div>
                 <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
@@ -39,10 +40,10 @@ export default class VSendTransaction extends MixinModal(XElement) {
         const self = this;
 
         this.vue = new Vue({
-            el: this.$('.vue-send-tx'),
+            el: this.$('.vue-send-transaction'),
             data: {
                 store: MixinRedux.store,
-                isLoading: this.isLoading,
+                isLoading: this._isLoading,
                 sender: this.sender,
             },
             methods: {
@@ -50,22 +51,23 @@ export default class VSendTransaction extends MixinModal(XElement) {
                     return {
                         contacts: Object.values(state.contacts),
                         wallets: walletsArrayWithAccountMap$(state),
+                        validityStartHeight: state.network.height,
                     };
                 },
                 login() {
                     hubClient.onboard();
                 },
-                ScanQr() {
-
+                scanQr() {
+                    self._openQrScanner();
                 },
                 sendTx(tx) {
-                    this.fire('x-send-transaction', tx);
+                    self.fire('x-send-transaction', tx);
                 },
                 contactAdded(contact) {
                     VSendTransaction.actions.setContact(contact.label, contact.address);
                 },
                 createCashlink(account) {
-                    hubClient.cashlink(account.address, account.balance);
+                    hubClient.createCashlink(account.address, account.balance);
                 },
             },
             components: {
@@ -75,20 +77,12 @@ export default class VSendTransaction extends MixinModal(XElement) {
         })
     }
 
-    set sender(sender) {
-        this.sender = sender;
-    }
-
     set loading(isLoading) {
         this._isLoading = !!isLoading;
     }
 
 
     onShow(address, mode, amount, message, freeze) {
-
-    }
-
-    hide() {
 
     }
 
