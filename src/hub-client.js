@@ -143,6 +143,7 @@ class HubClient {
         };
         const result = await this.hubApi.createCashlink(request);
         this.actions.addCashlink(result);
+        return true;
     }
 
     async manageCashlink(cashlinkAddress) {
