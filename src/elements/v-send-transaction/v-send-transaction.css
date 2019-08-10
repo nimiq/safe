@@ -1,0 +1,68 @@
+.v-send-transaction {
+    box-sizing: content-box;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.v-send-transaction transition.qr-scanner {
+    display: none; /* Don't render the vue template. When mounted 'transition' is not an actual element anymore. */
+}
+
+.v-send-transaction .qr-scanner {
+    position: absolute !important;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: white !important;
+    border: solid 0.75rem white;
+    border-radius: 1rem;
+}
+
+.v-send-transaction .qr-scanner video {
+    border-radius: 0.5rem;
+}
+
+.v-send-transaction .qr-scanner .cancel-button {
+    height: unset;
+    min-height: unset;
+    width: unset;
+    line-height: 2;
+    color: var(--nimiq-blue);
+    font-size: 14px;
+    text-transform: unset;
+    letter-spacing: unset;
+    border-radius: 500px;
+    padding: 0 2.5rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+    /* make qr scanner full screen */
+    .v-send-transaction {
+        overflow: visible;
+    }
+
+    .v-send-transaction .qr-scanner {
+        position: fixed !important;
+        border: none;
+        border-radius: 0;
+        background: black !important;
+    }
+
+    /* full screen interfering with overlay centering. Therefore, we manually center via css. */
+    .v-send-transaction .qr-scanner .overlay {
+        width: 66vmin !important;
+        height: 66vmin !important;
+        left: calc(50% - 33vmin) !important;
+        /* The -3.25rem are ~half of the distance between bottom of screen and top of cancel-button,
+           to center the overlay between top-of-screen and cancel-button */
+        top: calc(50% - 33vmin - 3.25rem) !important;
+    }
+
+    .v-send-transaction .qr-scanner .access-denied-instructions {
+        bottom: 11rem;
+    }
+}

@@ -5,6 +5,8 @@ import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
 import { setContact } from '../v-contact-list/contacts-redux.js'
 import { walletsArrayWithAccountMap$ } from '../../selectors/wallet$.js'
 import hubClient from '../../hub-client.js';
+import { accountsArray$ } from '../../selectors/account$.js';
+import { dashToSpace } from '../../lib/parameter-encoding.js';
 
 export default class VSendTransaction extends MixinModal(XElement) {
     html() {
@@ -16,6 +18,9 @@ export default class VSendTransaction extends MixinModal(XElement) {
                             :wallets="wallets"
                             :validity-start-height="validityStartHeight"
                             :sender="sender"
+                            :recipient="recipient"
+                            :value="amount"
+                            :message="message"
                             @login="login"
                             @scan-qr="scanQr"
                             @send-tx="sendTx"
@@ -29,6 +34,10 @@ export default class VSendTransaction extends MixinModal(XElement) {
                 </transition>`;
     }
 
+    styles() {
+        return [ ...super.styles(), 'v-send-transaction' ];
+    }
+
     static get actions() {
         return {
             setContact,
@@ -39,12 +48,17 @@ export default class VSendTransaction extends MixinModal(XElement) {
         super.onCreate();
         const self = this;
 
+        this._isQrScanMode = false;
+
         this.vue = new Vue({
             el: this.$('.vue-send-transaction'),
             data: {
                 store: MixinRedux.store,
                 isLoading: this._isLoading,
                 sender: this.sender,
+                recipient: this.recipient,
+                amount: this.amount,
+                message: this.message,
             },
             methods: {
                 mapStateToProps(state) {
@@ -69,6 +83,13 @@ export default class VSendTransaction extends MixinModal(XElement) {
                 createCashlink(account) {
                     hubClient.createCashlink(account.address, account.balance);
                 },
+                setSender(address){
+                    const accounts = accountsArray$(this.store.getState());
+                    this.sender = {
+                        address,
+                        walletId: accounts.find(account => account.address === address).walletId,
+                    };
+                },
             },
             components: {
                 'redux-provider': ReduxProvider,
@@ -82,8 +103,46 @@ export default class VSendTransaction extends MixinModal(XElement) {
     }
 
 
+    /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message, freeze) {
+        if(address && mode === 'sender') {
+            this.vue.setSender(dashToSpace(address));
+        }
 
+        if (address && (mode === 'recipient' || mode === 'vesting')) {
+            this.vue.recipient = {address: dashToSpace(address)};
+            console.error(this.vue);
+        }
+
+        if (amount) {
+            this.vue.amount = amount * 1e5;
+            // this.$amountInput.$input.setAttribute('readonly', true);
+        } else {
+            // this.$amountInput.$input.removeAttribute('readonly');
+        }
+
+        if (message) {
+            this.vue.message = decodeURIComponent(message);
+
+            if (typeof this.message === 'Uint8Array') {
+                this.vue.message = Utf8Tools.utf8ByteArrayToString(message);
+            }
+
+            // this.$extraDataInput.$input.setAttribute('readonly', true);
+        } else {
+            // this.$extraDataInput.$input.removeAttribute('readonly');
+        }
+
+        if (mode === 'scan') {
+            this._openQrScanner();
+            this._isQrScanMode = true;
+        } else {
+            this._isQrScanMode = false;
+        }
+    }
+
+    onHide() {
+        setTimeout(() => this._closeQrScanner(true), 400);
     }
 
     _getQrScanner() {
