@@ -85,7 +85,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                     self.actions.setContact(contact.label, contact.address);
                 },
                 createCashlink(account) {
-                    hubClient.createCashlink(account.address, account.balance);
+                    hubClient.createCashlink(account.address, account.balance).then(() => self.hide());
                 },
                 setSender(address){
                     const accounts = accountsArray$(this.store.getState());
