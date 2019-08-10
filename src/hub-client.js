@@ -12,6 +12,7 @@ import {
     rename,
     removeAccount,
 } from './wallet-redux.js';
+import { addCashlink } from './cashlink-redux.js';
 import AccountType from './lib/account-type.js';
 import VMigrationWelcome from './elements/v-migration-welcome/v-migration-welcome.js';
 
@@ -134,6 +135,17 @@ class HubClient {
         await this.export(accountId, { wordsOnly: true });
     }
 
+    async createCashlink(senderAddress, senderBalance) {
+        const request = {
+            appName: APP_NAME,
+            senderAddress,
+            senderBalance,
+        };
+        const result = await this.hubApi.createCashlink(request);
+        result.managed = true;
+        this.actions.addCashlink(result);
+    }
+
     async changePassword(accountId) {
         await this._launched;
         await this.hubApi.changePassword({
@@ -190,6 +202,7 @@ class HubClient {
             switchWallet,
             rename,
             removeAccount,
+            addCashlink,
         }, this.store.dispatch);
     }
 
