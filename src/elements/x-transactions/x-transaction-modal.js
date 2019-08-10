@@ -4,6 +4,7 @@ import XTransaction from './x-transaction.js';
 import MixinRedux from '../mixin-redux.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { CashlinkDirection } from '../../cashlink-redux.js';
+import hubClient from '../../hub-client.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -24,7 +25,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="center">
-                    <x-amount></x-amount>
+                    <div>
+                        <x-amount></x-amount>
+                        <button class="nq-button-s manage-cashlink display-none">Show Link</button>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -84,7 +88,11 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     children() { return super.children().concat([XAddress]) }
 
-    listeners() { return [] }
+    listeners() {
+        return {
+            'click .manage-cashlink': this._manageCashlink,
+        }
+    }
 
     onCreate() {
         this.$senderAddress = this.$address[0];
@@ -94,6 +102,28 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$fee = this.$('.fee');
         this.$message = this.$('.extra-data');
         super.onCreate();
+
+        this.$manageCashlink = this.$('.manage-cashlink');
+
+        this._cashlink = undefined;
+    }
+
+    _onPropertiesChanged(changes) {
+        super._onPropertiesChanged(changes);
+
+        const isUnclaimedCashlink = !this.properties.pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING;
+        this.$('.recipient-section').classList.toggle('display-none', isUnclaimedCashlink);
+        if (!isUnclaimedCashlink) {
+            this._cashlink = undefined;
+            this.$manageCashlink.classList.add('display-none');
+            return;
+        }
+
+        this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(this.properties.recipient);
+        if (!this._cashlink) return;
+
+        this.extraData = this._cashlink.message;
+        this.$manageCashlink.classList.toggle('display-none', !this._cashlink.managed);
     }
 
     set sender(address) {
@@ -120,12 +150,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$el.classList.toggle('unclaimed', label === 'Unclaimed Cashlink');
     }
 
-    set isCashlink(value) {
-        super.isCashlink = value;
-        this.$('.recipient-section').classList.toggle('display-none', !this.properties.pairedTx && value === CashlinkDirection.FUNDING);
-    }
-
     set extraData(extraData) {
+        if (this._cashlink && this._cashlink.message) {
+            extraData = this._cashlink.message;
+        }
         this.$('.extra-data-section').classList.toggle('display-none', !extraData);
         this.$message.textContent = extraData;
     }
@@ -177,6 +205,12 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
         const confirmations = this.properties.currentHeight - this.properties.blockHeight;
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
+    }
+
+    _manageCashlink() {
+        if (!this._cashlink) return;
+        const address = this._cashlink.address;
+        hubClient.manageCashlink(address);
     }
 
     allowsShow(hash) {
