@@ -134,7 +134,7 @@ class HubClient {
         await this.export(accountId, { wordsOnly: true });
     }
 
-    async cashlink(senderAddress, senderBalance) {
+    async createCashlink(senderAddress, senderBalance) {
         const request = {
             appName: APP_NAME,
             senderAddress,
