@@ -20,7 +20,9 @@ export default class VSendTransaction extends MixinModal(XElement) {
                             :sender="sender"
                             :recipient="recipient"
                             :value="amount"
+                            :value-is-readonly="amountIsReadonly"
                             :message="message"
+                            :message-is-readonly="messageIsReadonly"
                             @login="login"
                             @scan-qr="scanQr"
                             @send-tx="sendTx"
@@ -58,7 +60,9 @@ export default class VSendTransaction extends MixinModal(XElement) {
                 sender: this.sender,
                 recipient: this.recipient,
                 amount: this.amount,
+                amountIsReadonly: this.amountIsReadonly,
                 message: this.message,
+                messageIsReadonly: this.messageIsReadonly,
             },
             methods: {
                 mapStateToProps(state) {
@@ -111,14 +115,13 @@ export default class VSendTransaction extends MixinModal(XElement) {
 
         if (address && (mode === 'recipient' || mode === 'vesting')) {
             this.vue.recipient = {address: dashToSpace(address)};
-            console.error(this.vue);
         }
 
         if (amount) {
             this.vue.amount = amount * 1e5;
-            // this.$amountInput.$input.setAttribute('readonly', true);
+            this.vue.amountIsReadonly = true;
         } else {
-            // this.$amountInput.$input.removeAttribute('readonly');
+            this.vue.amountIsReadonly = false;
         }
 
         if (message) {
@@ -128,9 +131,9 @@ export default class VSendTransaction extends MixinModal(XElement) {
                 this.vue.message = Utf8Tools.utf8ByteArrayToString(message);
             }
 
-            // this.$extraDataInput.$input.setAttribute('readonly', true);
+            this.vue.messageIsReadonly = true;
         } else {
-            // this.$extraDataInput.$input.removeAttribute('readonly');
+            this.vue.messageIsReadonly = false;
         }
 
         if (mode === 'scan') {
