@@ -5,14 +5,14 @@ import {
     addAccount,
     login,
     logout,
-    populate,
+    populate as populateWallets,
     setFileFlag,
     setWordsFlag,
     switchWallet,
     rename,
     removeAccount,
 } from './wallet-redux.js';
-import { addCashlink } from './cashlink-redux.js';
+import { addCashlink, populate as populateCashlinks } from './cashlink-redux.js';
 import AccountType from './lib/account-type.js';
 import VMigrationWelcome from './elements/v-migration-welcome/v-migration-welcome.js';
 
@@ -54,8 +54,8 @@ class HubClient {
 
         this.hubApi.checkRedirectResponse();
 
-        // Kick off writing accounts to the store
-        this._populateAccounts();
+        // Kick off writing accounts and cashlinks to the store
+        this._populateAccounts().then(() => this._populateCashlinks());
 
         this._resolveLaunched();
     }
@@ -145,6 +145,14 @@ class HubClient {
         this.actions.addCashlink(result);
     }
 
+    async manageCashlink(cashlinkAddress) {
+        const request = {
+            appName: APP_NAME,
+            cashlinkAddress,
+        };
+        this.hubApi.createCashlink(request);
+    }
+
     async changePassword(accountId) {
         await this._launched;
         await this.hubApi.changePassword({
@@ -195,12 +203,13 @@ class HubClient {
             addAccount,
             login,
             logout,
-            populate,
+            populateWallets,
             setFileFlag,
             setWordsFlag,
             switchWallet,
             rename,
             removeAccount,
+            populateCashlinks,
             addCashlink,
         }, this.store.dispatch);
     }
@@ -252,7 +261,13 @@ class HubClient {
             else throw error;
         }
 
-        this.actions.populate(listedWallets);
+        this.actions.populateWallets(listedWallets);
+    }
+
+    async _populateCashlinks() {
+        await this._launched;
+        const listedCashlinks = await this.hubApi.cashlinks();
+        this.actions.populateCashlinks(listedCashlinks);
     }
 
     _onOnboardingResult(result) {
