@@ -30,6 +30,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                             @send-tx="sendTx"
                             @contact-added="contactAdded"
                             @create-cashlink="createCashlink"
+                            ref="sendTx"
                         ></send-tx>
                     </redux-provider>
                     <transition class="qr-scanner" enter-active-class="fade-in" leave-active-class="fade-out">
@@ -105,8 +106,6 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                 // @asset(/node_modules/@nimiq/vue-components/dist/qr-scanner-worker.min.js)
             }
         });
-
-        window.sendTx = this;
     }
 
     set loading(value) {
