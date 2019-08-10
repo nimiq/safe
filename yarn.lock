@@ -26,10 +26,10 @@
   resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.4.3.tgz#190d7390324623672fafbbc93841bcf215d2af01"
   integrity sha512-47JMAx8bFcr2uev+QgX4saBUvRQo/8akQdpvf0z1F5N3I8FPyIfEWRjPW2Xu28C+MOdIZ/VkHL/YmMiGBBtEMA==
 
-"@nimiq/hub-api@^0.4.2":
-  version "0.4.2"
-  resolved "https://registry.yarnpkg.com/@nimiq/hub-api/-/hub-api-0.4.2.tgz#a0ce0fcbb9ceb559eba47640caf6871bb437c1c2"
-  integrity sha512-pG5e6wMnE+dN0KAYPNsQ/zJgQbh8WxmTSIDaOlQdjYIJZH3KfzC9gkag1n6WjjeANapl+TPlu35KvqmddyTb2Q==
+"@nimiq/hub-api@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@nimiq/hub-api/-/hub-api-1.1.1.tgz#d8c56c425f5b093908fb2ab4c8f6badc47e270aa"
+  integrity sha512-OPIzYaysYN6xmUQLUsWSLMbmflpQS15t2z80E2OJjSYqzhciHzGqMkxfcfMzOcfJuMlntRnYlZPR5PHnVoaHjw==
   dependencies:
     "@nimiq/rpc" "^0.3.0"
 

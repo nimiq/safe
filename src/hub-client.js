@@ -140,7 +140,7 @@ class HubClient {
             senderAddress,
             senderBalance,
         };
-        const result = await this.hubApi.export(request);
+        const result = await this.hubApi.createCashlink(request);
     }
 
     async changePassword(accountId) {
