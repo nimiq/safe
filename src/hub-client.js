@@ -142,6 +142,7 @@ class HubClient {
             senderBalance,
         };
         const result = await this.hubApi.createCashlink(request);
+        result.managed = true;
         this.actions.addCashlink(result);
         return true;
     }
