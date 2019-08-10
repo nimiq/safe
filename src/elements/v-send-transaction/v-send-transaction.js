@@ -23,9 +23,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                             :recipient="recipient"
                             :recipient-is-readonly="recipientIsReadonly"
                             :value="amount"
-                            :value-is-readonly="amountIsReadonly"
                             :message="message"
-                            :message-is-readonly="messageIsReadonly"
                             :is-loading="isLoading"
                             @login="login"
                             @scan-qr="scanQr"
@@ -59,10 +57,9 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                 isLoading: false,
                 sender: null,
                 recipient: null,
+                recipientIsReadonly: false,
                 amount: 0,
-                amountIsReadonly: false,
                 message: '',
-                messageIsReadonly: false,
                 qrScannerShown: false,
             },
             methods: {
@@ -117,28 +114,26 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
     }
 
     clearProps() {
-        this.vue.recipientIsReadonly = false;
-        this.vue.amountIsReadonly = false;
-        this.vue.messageIsReadonly = false;
-    }
-
-    clear() {
         this.vue.sender = null;
         this.vue.recipient = null;
+        this.vue.recipientIsReadonly = false;
         this.vue.amount = 0;
         this.vue.message = '';
         // this.vue.fee = null;
         this.vue.isLoading = false;
+    }
+
+    clear() {
         this.vue.$refs.sendTx.clear();
     }
 
     /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
-    onShow(address, mode, amount, message, freeze) {
+    onShow(address, mode, amount, message) {
         if (address && mode === 'sender') {
             this.vue.setSender(dashToSpace(address));
         }
 
-        if (address && (mode === 'recipient' || mode === 'vesting')) {
+        if (address && (mode === 'recipient' || mode === 'vesting' || mode === 'contact')) {
             this.vue.recipient = {address: dashToSpace(address)};
             this.vue.recipientIsReadonly = true;
         } else {
@@ -147,16 +142,10 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
 
         if (amount) {
             this.vue.amount = amount * 1e5;
-            this.vue.amountIsReadonly = true;
-        } else {
-            this.vue.amountIsReadonly = false;
         }
 
         if (message) {
             this.vue.message = decodeURIComponent(message);
-            this.vue.messageIsReadonly = true;
-        } else {
-            this.vue.messageIsReadonly = false;
         }
 
         if (mode === 'scan') {
@@ -198,14 +187,8 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         }
         this.vue.recipient = {address: recipient}; // required
         this.vue.recipientIsReadonly = this._isQrScanMode;
-        if (amount) {
-            this.vue.amount = amount;
-            this.vue.amountIsReadonly = true;
-        }
-        if (message) {
-            this.vue.message = message;
-            this.vue.messageIsReadonly = true;
-        }
+        if (amount) this.vue.amount = amount;
+        if (message) this.vue.message = message;
         this._closeQrScanner(true);
     }
 }
