@@ -4,6 +4,7 @@ import XAmount from '../x-amount/x-amount.js';
 import XIdenticon from '../x-identicon/x-identicon.js';
 import XAddress from '../x-address/x-address.js';
 import { accounts$ } from '../../selectors/account$.js';
+import AccountType from '../../lib/account-type.js';
 
 export default class XAccount extends MixinRedux(XElement) {
     html() {
@@ -62,15 +63,16 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set type(type) {
+        this.$el.classList.toggle('display-none', type === AccountType.CASHLINK);
         this.$icon.classList.remove('ledger-icon', 'vesting-icon');
 
         switch (type) {
-            case 3: // LEDGER
+            case AccountType.LEDGER:
                 this.$icon.classList.add('ledger-icon');
                 this.$icon.classList.remove('display-none');
                 this.$icon.setAttribute('title', 'Ledger account');
                 break;
-            case 4: // VESTING
+            case AccountType.VESTING:
                 this.$icon.classList.add('vesting-icon');
                 this.$icon.classList.remove('display-none');
                 this.$icon.setAttribute('title', 'Vesting contract');

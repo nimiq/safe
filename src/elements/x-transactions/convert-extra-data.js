@@ -27,12 +27,20 @@ function _toUint8View(arrayLike) {
     }
 }
 
-export default function convertExtradata(extraData) {
-    if (_arrayEquals(extraData, TransactionTags.SendCashlink)) {
-        return 'Charging cashlink';
-    } else if (_arrayEquals(extraData, TransactionTags.ReceiveCashlink)) {
-        return 'Redeeming cashlink';
-    } else {
-        return Utf8Tools.utf8ByteArrayToString(extraData);
-    }
+export function isFundingCashlink(extraData) {
+    return _arrayEquals(extraData, TransactionTags.SendCashlink);
+}
+
+export function isClaimingCashlink(extraData) {
+    return _arrayEquals(extraData, TransactionTags.ReceiveCashlink);
+}
+
+export function isCashlink(extraData) {
+    return isFundingCashlink(extraData) || isClaimingCashlink(extraData);
+}
+
+export function convertExtradata(extraData) {
+    if (isFundingCashlink(extraData)) return 'Funding cashlink';
+    else if (isClaimingCashlink(extraData)) return 'Claiming cashlink';
+    else return Utf8Tools.utf8ByteArrayToString(extraData);
 }

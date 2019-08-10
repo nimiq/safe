@@ -9,7 +9,6 @@ export default class XNoTransactions extends XElement {
             <h1 class="material-icons">inbox</h1>
             <span>You have no transactions yet.</span>
             <div class="faucet-button-container">
-                <br>
                 <button class="nq-button light-blue" faucet>Receive free NIM!</button>
             </div>
         `

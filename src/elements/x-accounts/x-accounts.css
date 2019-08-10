@@ -68,7 +68,7 @@ x-account x-identicon {
 x-account-modal x-identicon {
     display: block;
     width: 160px;
-    margin: 0 auto;
+    margin: -8px auto 16px;
 }
 
 x-account .x-account-info {

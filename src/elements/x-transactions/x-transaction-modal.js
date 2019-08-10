@@ -3,13 +3,18 @@ import XAddress from '../x-address/x-address.js';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '../mixin-redux.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
+import { CashlinkDirection } from '../../cashlink-redux.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Transaction</h2>
+                <h2 class="title">
+                    <span class="show-if-unclaimed">Unclaimed </span>
+                    <span class="show-if-cashlink">Cashlink</span>
+                    <span class="hide-if-cashlink">Transaction</span>
+                </h2>
             </div>
             <div class="modal-body">
                 <div class="center">
@@ -30,7 +35,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="recipient-section row">
                     <label>To</label>
                     <div class="row-data">
                         <div class="label" recipient></div>
@@ -46,7 +51,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="row">
-                    <label>Date</label>
+                    <label class="hide-if-outgoing-cashlink">Date</label>
+                    <label class="show-if-outgoing-cashlink">Created</label>
                     <div class="row-data">
                         <div class="timestamp" title="">pending...</div>
                     </div>
@@ -56,6 +62,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <label>Block</label>
                     <div class="row-data">
                         <span class="blockHeight"></span> <span class="confirmations"></span>
+                    </div>
+                </div>
+
+                <div class="cashlink-claimed-section display-none row">
+                    <label>Claimed</label>
+                    <div class="row-data">
+                        <div class="timestamp-claimed" title="">pending...</div>
                     </div>
                 </div>
 
@@ -76,33 +89,40 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     onCreate() {
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
-        this.$blockHeight = this.$('span.blockHeight');
-        this.$confirmations = this.$('span.confirmations');
-        this.$fee = this.$('div.fee');
-        this.$message = this.$('div.extra-data');
+        this.$blockHeight = this.$('.blockHeight');
+        this.$confirmations = this.$('.confirmations');
+        this.$fee = this.$('.fee');
+        this.$message = this.$('.extra-data');
         super.onCreate();
-        this.$senderIdenticon.placeholderColor = '#bbb';
-        this.$recipientIdenticon.placeholderColor = '#bbb';
     }
 
     set sender(address) {
-        this.$senderIdenticon.address = address;
+        super.sender = address;
         this.$senderAddress.address = address;
     }
 
     set recipient(address) {
-        this.$recipientIdenticon.address = address;
+        super.recipient = address;
         this.$recipientAddress.address = address;
     }
 
     set senderLabel(label) {
-        this.$senderLabel.textContent = label;
+        super.senderLabel = label;
         this.$senderLabel.classList.toggle('default-label', label.startsWith('NQ'));
     }
 
     set recipientLabel(label) {
-        this.$recipientLabel.textContent = label;
-        this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
+        this.$recipientLabels.forEach(e => {
+            e.textContent = label;
+            e.classList.toggle('default-label', label.startsWith('NQ'));
+        });
+
+        this.$el.classList.toggle('unclaimed', label === 'Unclaimed Cashlink');
+    }
+
+    set isCashlink(value) {
+        super.isCashlink = value;
+        this.$('.recipient-section').classList.toggle('display-none', !this.properties.pairedTx && value === CashlinkDirection.FUNDING);
     }
 
     set extraData(extraData) {
@@ -127,6 +147,23 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     set timestamp(timestamp) {
         const time = moment.unix(timestamp);
         this.$timestamp.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
+    }
+
+    set pairedTx(pairedTx) {
+        if (pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING) {
+            const time = moment.unix(pairedTx.timestamp);
+            const $timestampClaimed = this.$('.timestamp-claimed');
+
+            $timestampClaimed.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
+            this.$('.cashlink-claimed-section').classList.remove('display-none');
+        } else {
+            this.$('.cashlink-claimed-section').classList.add('display-none');
+        }
+
+        this.$('.recipient-section').classList.toggle(
+            'display-none',
+            !pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING,
+        );
     }
 
     set currentHeight(height) {

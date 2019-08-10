@@ -2,8 +2,9 @@ import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from './elements/x-network-indicator/network-redux.js';
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
+import { initialState as initialCashlinkState } from './cashlink-redux.js';
 
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 
 /* Redux store as singleton */
 export class Store {
@@ -35,10 +36,13 @@ export class Store {
                     accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: []),
                     hasContent: false,
                 });
+                initialState.cashlinks = Object.assign({}, initialCashlinkState, persistedState.cashlinks, {
+                    cashlinks: new Map(persistedState.cashlinks.cashlinks),
+                });
                 initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
                 initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
             }
-            
+
             // support legacy version of persisted contacts
             if (persistedState.contacts) {
                 initialState.contacts = Object.assign({}, persistedState.contacts);
@@ -62,6 +66,7 @@ export class Store {
                 isRequestingHistory: undefined,
                 page: 1,
                 itemsPerPage: 4,
+                filterUnclaimedCashlinks: false,
             }
         );
 
@@ -73,10 +78,18 @@ export class Store {
             }
         );
 
+        const cashlinks = Object.assign({},
+            state.cashlinks,
+            {
+                cashlinks: [...state.cashlinks.cashlinks.entries()],
+            }
+        );
+
         const persistentState = {
             version: CACHE_VERSION,
             transactions,
             wallets,
+            cashlinks,
             network: {
                 oldHeight: state.network.height
             },

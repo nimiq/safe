@@ -1,5 +1,6 @@
-import ConvertExtraData from './convert-extra-data.js';
+import { isFundingCashlink, isClaimingCashlink, convertExtradata } from './convert-extra-data.js';
 import { TypeKeys as WalletTypeKeys } from '../../wallet-redux.js';
+import { addCashlink, CashlinkStatus, CashlinkDirection } from '../../cashlink-redux.js';
 
 export const TypeKeys = {
     ADD_TXS: 'transactions/add-transactions',
@@ -8,6 +9,7 @@ export const TypeKeys = {
     SET_PAGE: 'transactions/set-page',
     SET_ITEMS_PER_PAGE: 'transactions/set-items-per-page',
     SET_REQUESTING_HISTORY: 'transactions/set-requesting-history',
+    SET_FILTER_UNCLAIMED_CASHLINKS: 'transactions/set-filter-unclaimed-cashlinks',
 };
 
 export function reducer(state, action) {
@@ -18,6 +20,7 @@ export function reducer(state, action) {
             error: null,
             page: 1,
             itemsPerPage: 4,
+            filterUnclaimedCashlinks: false,
         }
     }
 
@@ -29,7 +32,7 @@ export function reducer(state, action) {
                 // Check if this is a pending tx
                 const tx = action.transactions[0];
                 if (!tx.blockHeight) {
-                    tx.extraData = ConvertExtraData(tx.extraData);
+                    tx.extraData = convertExtradata(tx.extraData);
                     entries.set(tx.hash, tx); // Add to end of map
                     return Object.assign({}, state, {
                         entries,
@@ -39,7 +42,7 @@ export function reducer(state, action) {
             }
 
             action.transactions.forEach(tx => {
-                tx.extraData = ConvertExtraData(tx.extraData);
+                tx.extraData = convertExtradata(tx.extraData);
                 entries.set(tx.hash, tx);
             });
 
@@ -109,6 +112,12 @@ export function reducer(state, action) {
                 isRequestingHistory: action.isRequestingHistory,
             });
 
+        case TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS:
+            return Object.assign({}, state, {
+                filterUnclaimedCashlinks: action.value,
+                page: 1,
+            });
+
         case WalletTypeKeys.LOGOUT:
         case WalletTypeKeys.REMOVE_ACCOUNT:
         case WalletTypeKeys.POPULATE: {
@@ -125,12 +134,14 @@ export function reducer(state, action) {
             return Object.assign({}, state, {
                 entries,
                 page: 1,
+                filterUnclaimedCashlinks: false,
             });
         }
 
         case WalletTypeKeys.SWITCH:
             return Object.assign({}, state, {
                 page: 1,
+                filterUnclaimedCashlinks: false,
             });
 
         default:
@@ -142,10 +153,43 @@ export function reducer(state, action) {
  * @param {Array<{}>} transactions
  */
 export function addTransactions(transactions) {
-    return {
-        type: TypeKeys.ADD_TXS,
-        transactions,
-    }
+    return async (dispatch, getState) => {
+        /** @type {Map<string, any>} */
+        const accounts = getState().wallets.accounts;
+
+        // Look through tx and find cashlinks, so we can add their address to our monitored addresses
+        transactions.forEach(tx => {
+            if (isFundingCashlink(tx.extraData)) {
+                tx.isCashlink = CashlinkDirection.FUNDING;
+
+                const sender = accounts.get(tx.sender);
+
+                dispatch(addCashlink({
+                    address: tx.recipient,
+                    status: tx.timestamp ? CashlinkStatus.UNCLAIMED : CashlinkStatus.CHARGING,
+                    sender: tx.sender,
+                    walletIds: sender ? [sender.walletId] : [],
+                }));
+            }
+            else if (isClaimingCashlink(tx.extraData)) {
+                tx.isCashlink = CashlinkDirection.CLAIMING;
+
+                const recipient = accounts.get(tx.recipient);
+
+                dispatch(addCashlink({
+                    address: tx.sender,
+                    status: tx.timestamp ? CashlinkStatus.CLAIMED : CashlinkStatus.CLAIMING,
+                    recipient: tx.recipient,
+                    walletIds: recipient ? [recipient.walletId] : [],
+                }));
+            }
+        });
+
+        dispatch({
+            type: TypeKeys.ADD_TXS,
+            transactions,
+        });
+    };
 }
 
 /**
@@ -187,6 +231,13 @@ export function setRequestingHistory(isRequestingHistory) {
     return {
         type: TypeKeys.SET_REQUESTING_HISTORY,
         isRequestingHistory,
+    }
+}
+
+export function setFilterUnclaimedCashlinks(value) {
+    return {
+        type: TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS,
+        value,
     }
 }
 
