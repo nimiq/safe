@@ -5,6 +5,7 @@ import MixinRedux from '../mixin-redux.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { CashlinkDirection } from '../../cashlink-redux.js';
 import hubClient from '../../hub-client.js';
+import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -120,10 +121,17 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
 
         this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(this.properties.recipient);
-        if (!this._cashlink) return;
 
-        this.extraData = this._cashlink.message;
-        this.$manageCashlink.classList.toggle('display-none', !this._cashlink.managed);
+        let isManaged = false;
+
+        if (this._cashlink) {
+            this.extraData = this._cashlink.message;
+            isManaged = this._cashlink.managed;
+        } else if (BrowserDetection.isIOS() || BrowserDetection.isSafari()) {
+            isManaged = true; // Expect cashlinks to be stored in the Hub
+        }
+
+        this.$manageCashlink.classList.toggle('display-none', !isManaged);
     }
 
     set sender(address) {
