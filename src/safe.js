@@ -157,6 +157,7 @@ class Safe {
     }
 
     _onHeadChange({height, globalHashrate}) {
+        if (this.store.getState().network.consensus !== 'established') return;
         this.actions.setHeight(height);
         this.actions.setGlobalHashrate(globalHashrate);
     }
