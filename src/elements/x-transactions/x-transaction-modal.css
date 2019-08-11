@@ -41,8 +41,7 @@ x-transaction-modal .label {
 }
 
 x-transaction-modal.incoming .label[sender].default-label,
-x-transaction-modal.outgoing .label[recipient].default-label,
-x-transaction-modal.cashlink_remote_claim .label[recipient].default-label {
+x-transaction-modal.outgoing .label[recipient].default-label {
     display: none;
 }
 
