@@ -30,6 +30,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                             @send-tx="sendTx"
                             @contact-added="contactAdded"
                             @create-cashlink="createCashlink"
+                            @back="back"
                             ref="sendTx"
                         ></send-tx>
                     </redux-provider>
@@ -87,7 +88,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                 createCashlink(account) {
                     hubClient.createCashlink(account.address, account.balance).then((result) => result && self.hide());
                 },
-                setSender(address){
+                setSender(address) {
                     const accounts = accountsArray$(this.store.getState());
                     const account = accounts.find(account => account.address === address);
                     if (!account) return;
@@ -98,6 +99,9 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                 },
                 onQrScanned: this._onQrScanned.bind(this),
                 closeQrScanner: this._closeQrScanner.bind(this),
+                back() {
+                    window.history.back();
+                },
             },
             components: {
                 'redux-provider': ReduxProvider,
