@@ -121,17 +121,14 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
 
         this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(this.properties.recipient);
+        if (!this._cashlink) return;
 
-        let isManaged = false;
-
-        if (this._cashlink) {
-            this.extraData = this._cashlink.message;
-            isManaged = this._cashlink.managed;
-        } else if (BrowserDetection.isIOS() || BrowserDetection.isSafari()) {
-            isManaged = true; // Expect cashlinks to be stored in the Hub
+        if (this._cashlink.message) {
+            this.extraData = this._cashlink.message; // Doesn't really matter what is set here, as long as the setter is triggered
         }
 
-        this.$manageCashlink.classList.toggle('display-none', !isManaged);
+        const showLinkButton = this._cashlink.managed || BrowserDetection.isIOS() || BrowserDetection.isSafari();
+        this.$manageCashlink.classList.toggle('display-none', !showLinkButton);
     }
 
     set sender(address) {
@@ -159,8 +156,9 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     set extraData(extraData) {
-        if (this._cashlink && this._cashlink.message) {
-            extraData = this._cashlink.message;
+        if (this._cashlink) {
+            if (this._cashlink.message) extraData = this._cashlink.message;
+            else extraData = '';
         }
         this.$('.extra-data-section').classList.toggle('display-none', !extraData);
         this.$message.textContent = extraData;
