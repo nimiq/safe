@@ -151,7 +151,7 @@ class HubClient {
             appName: APP_NAME,
             cashlinkAddress,
         };
-        this.hubApi.createCashlink(request);
+        try { this.hubApi.createCashlink(request); } catch (err) {}
     }
 
     async changePassword(accountId) {
