@@ -5,7 +5,7 @@ export default class XAmountInput extends XInput {
         return `
             <form>
                 <x-currency-nim>
-                    <input placeholder="0.00" type="number" min="0">
+                    <input class="nq-input" placeholder="0.00" type="number" min="0">
                     <span class="ticker">NIM</span>
                     <button class="small secondary set-max">Max</button>
                 </x-currency-nim>
