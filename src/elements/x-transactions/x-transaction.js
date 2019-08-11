@@ -14,12 +14,15 @@ export default class XTransaction extends MixinRedux(XElement) {
             <td class="hidden-when-info"><i class="material-icons">arrow_forward</i></td>
             <td class="identicon hidden-when-info"><x-identicon recipient></x-identicon></td>
             <td class="label hidden-when-info" recipient></td>
-            <td class="info-line" colspan="5">
+            <td class="info-line desktop" colspan="5">
                 Cashlink from
                 <strong class="funding-date"></strong>
                 claimed by
                 <x-identicon recipient></x-identicon>
                 <span class="label" recipient></span>
+            </td>
+            <td class="info-line mobile" colspan="5">
+                Cashlink claimed
             </td>
             <td><x-amount></x-amount></td>
         `

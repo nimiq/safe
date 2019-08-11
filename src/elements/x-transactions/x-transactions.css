@@ -109,10 +109,24 @@ x-transactions .x-transaction:hover > * {
     padding: 0 8px;
 }
 
+.x-transaction .info-line.mobile {
+    display: none !important;
+}
+
 /* Responsiveness */
 @media (max-width: 600px) {
-    .x-transaction .label {
+    x-transactions .x-transaction .label {
+        max-width: 0;
+        overflow: hidden;
+        padding: 0;
+    }
+
+    .x-transaction .info-line.desktop {
         display: none !important;
+    }
+
+    .x-transaction.cashlink-remote-claim .info-line.mobile {
+        display: table-cell !important;
     }
 }
 
@@ -285,11 +299,11 @@ x-transactions .x-transaction.cashlink-remote-claim > * {
 
 x-transactions .x-transaction .info-line,
 x-transactions .x-transaction.cashlink-remote-claim .hidden-when-info {
-    display: none !important;
+    display: none;
 }
 
 x-transactions .x-transaction.cashlink-remote-claim .info-line {
-    display: table-cell !important;
+    display: table-cell;
     padding: 0 8px;
 }
 
