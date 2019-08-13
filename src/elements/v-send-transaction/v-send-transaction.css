@@ -54,6 +54,7 @@ v-send-transaction .qr-scanner {
     background: white !important;
     border: solid 0.75rem white;
     border-radius: 1rem;
+    z-index: 100;
 }
 
 v-send-transaction .qr-scanner video {

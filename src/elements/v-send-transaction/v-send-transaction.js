@@ -3,7 +3,7 @@ import MixinRedux from '../mixin-redux.js'
 import MixinModal from '../mixin-modal/mixin-modal.js'
 import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
 import { setContact } from '../v-contact-list/contacts-redux.js'
-import { walletsArrayWithAccountMap$ } from '../../selectors/wallet$.js'
+import { activeWalletWithAccountMap$ } from '../../selectors/wallet$.js'
 import hubClient from '../../hub-client.js';
 import { accountsArray$ } from '../../selectors/account$.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
@@ -15,9 +15,9 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         return `<div class="body vue-send-transaction">
                     <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                         <send-tx
-                            slot-scope="{contacts, wallets, validityStartHeight}"
+                            slot-scope="{contacts, wallet, validityStartHeight}"
                             :contacts="contacts"
-                            :wallets="wallets"
+                            :wallet="wallet"
                             :validity-start-height="validityStartHeight"
                             :sender="sender"
                             :recipient="recipient"
@@ -68,7 +68,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                 mapStateToProps(state) {
                     return {
                         contacts: Object.values(state.contacts),
-                        wallets: walletsArrayWithAccountMap$(state),
+                        wallet: activeWalletWithAccountMap$(state),
                         validityStartHeight: state.network.height,
                     };
                 },
