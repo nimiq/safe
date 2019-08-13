@@ -56,12 +56,13 @@ const typedTransactions$ = createSelector(
                 // It will be displayed as an info bar only.
                 tx.type = TransactionType.CASHLINK_REMOTE_CLAIM;
 
-                if (!tx.pairedTx) {
+                if (!tx.pairedTx || !tx.pairedTx.blockHeight) {
                     // Search for our cashlink funding tx
                     const pairedTx = [...txStore.values()].find(
                         storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === CashlinkDirection.FUNDING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
+                        delete tx.pairedTx.pairedTx;
                     }
                 }
             }
@@ -71,12 +72,13 @@ const typedTransactions$ = createSelector(
                 // 'cashlink-remote-fund' tx.
                 tx.type = TransactionType.INCOMING;
 
-                if (!tx.pairedTx) {
+                if (!tx.pairedTx || !tx.pairedTx.blockHeight) {
                     // Search for the original (remote) funding tx
                     const pairedTx = [...txStore.values()].find(
                         storedTx => storedTx.recipient === tx.sender && storedTx.isCashlink === CashlinkDirection.FUNDING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
+                        delete tx.pairedTx.pairedTx;
                     }
                 }
             }
@@ -89,12 +91,13 @@ const typedTransactions$ = createSelector(
                 // This is the funding tx for a cashlink which we sent ourselves.
                 tx.type = TransactionType.OUTGOING;
 
-                if (!tx.pairedTx) {
+                if (!tx.pairedTx || !tx.pairedTx.blockHeight) {
                     // Search for final recipient tx
                     const pairedTx = [...txStore.values()].find(
                         storedTx => storedTx.sender === tx.recipient && storedTx.isCashlink === CashlinkDirection.CLAIMING);
                     if (pairedTx) {
                         tx.pairedTx = Object.assign({}, pairedTx);
+                        delete tx.pairedTx.pairedTx;
                     }
                 }
             }

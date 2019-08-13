@@ -64,7 +64,8 @@ export default class XTransaction extends MixinRedux(XElement) {
         for (const prop in changes) {
             if (changes[prop] !== undefined || prop === 'isCashlink' || prop === 'pairedTx') {
                 // Update display
-                this[prop] = changes[prop];
+                if (prop === 'pairedTx') this.pairedTx = this.properties.pairedTx;
+                else this[prop] = changes[prop];
 
                 continue;
             }
@@ -94,8 +95,8 @@ export default class XTransaction extends MixinRedux(XElement) {
             }
         }
 
-        if (!this.properties.timestamp) this.$el.classList.add('pending'); // Used for gradient animation
-        else this.$el.classList.remove('pending');
+        // if (!this.properties.timestamp) this.$el.classList.add('pending'); // Used for gradient animation
+        // else this.$el.classList.remove('pending');
 
         if (this.properties.removed) {
             this.$timestamp.textContent = 'removed';
