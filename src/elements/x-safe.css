@@ -306,9 +306,15 @@ x-card h2 {
     font-weight: bold;
 }
 
+x-card .contact-list .search-field {
+    margin: 0;
+    width: 100%;
+}
+
 x-card .contact-list .list {
-    overflow: auto;
     min-height: 150px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 footer {
