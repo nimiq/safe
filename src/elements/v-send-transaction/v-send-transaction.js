@@ -15,9 +15,10 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         return `<div class="body vue-send-transaction">
                     <redux-provider :map-state-to-props="mapStateToProps" :store="store">
                         <send-tx
-                            slot-scope="{contacts, wallet, validityStartHeight}"
+                            slot-scope="{contacts, wallet, addresses, validityStartHeight}"
                             :contacts="contacts"
                             :wallet="wallet"
+                            :addresses="addresses"
                             :validity-start-height="validityStartHeight"
                             :sender="sender"
                             :recipient="recipient"
@@ -69,6 +70,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                     return {
                         contacts: Object.values(state.contacts),
                         wallet: activeWalletWithAccountMap$(state),
+                        addresses: accountsArray$(state),
                         validityStartHeight: state.network.height,
                     };
                 },
