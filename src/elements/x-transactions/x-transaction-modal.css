@@ -121,17 +121,5 @@ x-transaction-modal:not(.cashlink) .show-if-outgoing-cashlink {
 }
 
 x-transaction-modal .manage-cashlink {
-    text-transform: unset;
-    width: unset;
-    max-width: unset;
-    text-align: unset;
-    user-select: unset;
-    box-shadow: unset;
-    outline: unset;
-    margin-bottom: unset;
-    min-height: unset;
-    letter-spacing: unset;
-
-    display: block;
     margin: 0 auto 2rem;
 }

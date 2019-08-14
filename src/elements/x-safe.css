@@ -383,6 +383,7 @@ nav.actions.floating-actions {
 .floating-btn button {
     width: 60px !important;
     height: 60px !important;
+    border: none;
     border-radius: 50%;
     background-color: white;
     background-position: center !important;
@@ -395,6 +396,7 @@ nav.actions.floating-actions {
     background-size: 45% 45% !important;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .floating-btn button span {

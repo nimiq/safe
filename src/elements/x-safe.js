@@ -78,7 +78,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 </div>
             </header>
 
-            <section class="content nimiq-dark content-width">
+            <section class="content content-width">
                 <nav class="actions floating-actions">
                     <div class="floating-btn">
                         <button new-tx>
@@ -125,7 +125,7 @@ export default class XSafe extends MixinRedux(XElement) {
                     </div>
                 </div>
             </section>
-            <footer class="nimiq-dark">
+            <footer>
                 <x-network-indicator></x-network-indicator>
                 <div>&copy; 2017-2019 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>

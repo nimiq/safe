@@ -7,34 +7,6 @@ v-send-transaction {
     width: 100%;
 }
 
-v-send-transaction button {
-    text-transform: unset;
-    width: unset;
-    max-width: unset;
-    vertical-align: unset;
-    text-align: unset;
-    user-select: unset;
-    box-shadow: unset;
-    outline: unset;
-    margin-bottom: unset;
-    min-height: unset;
-    letter-spacing: unset;
-}
-
-v-send-transaction button[disabled] {
-    border: unset;
-    pointer-events: unset;
-}
-
-v-send-transaction input {
-    border: unset;
-    border-radius: unset;
-    outline: unset;
-    background-color: unset;
-    border-bottom: unset;
-    padding: unset;
-}
-
 v-send-transaction .small-page {
     margin: 0 !important;
 }
@@ -57,17 +29,7 @@ v-send-transaction .qr-scanner {
 }
 
 v-send-transaction .qr-scanner .cancel-button {
-    height: unset;
-    min-height: unset;
-    width: unset;
-    line-height: 2;
     color: var(--nimiq-blue);
-    font-size: 14px;
-    text-transform: unset;
-    letter-spacing: unset;
-    border-radius: 500px;
-    padding: 0 2.5rem;
-    margin-bottom: 0;
 }
 
 @media (max-width: 480px) {

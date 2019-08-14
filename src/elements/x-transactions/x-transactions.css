@@ -200,10 +200,10 @@ x-transactions x-paginator {
     text-align: center;
 }
 
-x-transactions x-paginator button {
-    display: inline;
-    padding: 0 7px !important;
-    line-height: 40px !important;
+x-transactions x-paginator .nq-button-s {
+    padding: 7px;
+    height: 38px;
+    border-radius: 500px;
 }
 
 x-transactions[only-recent] x-paginator {
@@ -258,16 +258,10 @@ x-transactions.filtered .hide-if-filtered {
 
 .filter-unclaimed-cashlinks,
 .filter-close-button {
-    width: unset;
-    text-transform: unset;
-    letter-spacing: unset;
-    box-shadow: unset;
-
-    margin: -6px 0 -6px 12px;
     font-size: 16px;
     font-weight: 600;
     min-height: 32px;
-    border-radius: 500rem;
+    border-radius: 500px;
 }
 
 .filter-close-button {
@@ -276,7 +270,6 @@ x-transactions.filtered .hide-if-filtered {
     font-size: 24px;
     padding: 0;
     width: 32px;
-    padding-left: 1px;
     padding-bottom: 1px;
 }
 

@@ -43,6 +43,3 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
-
-.material-icons { color: #3b3b3b; }
-[disabled] .material-icons { color: rgba(0, 0, 0, 0.26); }
