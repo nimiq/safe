@@ -45,7 +45,7 @@ export const activeWalletWithAccountMap$ = createSelector(
                 account.address,
                 Object.assign({}, account, {
                     userFriendlyAddress: account.address,
-                    balance: account.balance * 1e5,
+                    balance: account.balance ? account.balance * 1e5 : 0,
                 }),
             ])),
             contracts: [],
