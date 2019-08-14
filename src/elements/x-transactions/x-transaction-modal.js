@@ -110,22 +110,22 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
     }
 
     _onPropertiesChanged(changes) {
+        const cashlinkAddress = this.properties.isCashlink === CashlinkDirection.FUNDING
+            ? this.properties.recipient
+            : this.properties.sender;
+        this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(cashlinkAddress);
+
         super._onPropertiesChanged(changes);
 
         const isUnclaimedCashlink = !this.properties.pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING;
         this.$('.recipient-section').classList.toggle('display-none', isUnclaimedCashlink);
-        if (!isUnclaimedCashlink) {
-            this._cashlink = undefined;
+
+        if (!this._cashlink) {
             this.$manageCashlink.classList.add('display-none');
             return;
         }
 
-        this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(this.properties.recipient);
-        if (!this._cashlink) return;
-
-        if (this._cashlink.message) {
-            this.extraData = this._cashlink.message; // Doesn't really matter what is set here, as long as the setter is triggered
-        }
+        this.extraData = 'triggered'; // Doesn't really matter what is set here, as long as the setter is triggered
 
         const showLinkButton = this._cashlink.managed || BrowserDetection.isIOS() || BrowserDetection.isSafari();
         this.$manageCashlink.classList.toggle('display-none', !showLinkButton);
