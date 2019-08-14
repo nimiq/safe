@@ -51,14 +51,9 @@ v-send-transaction .qr-scanner {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
-    background: white !important;
     border: solid 0.75rem white;
     border-radius: 1rem;
     z-index: 100;
-}
-
-v-send-transaction .qr-scanner video {
-    border-radius: 0.5rem;
 }
 
 v-send-transaction .qr-scanner .cancel-button {
@@ -85,17 +80,10 @@ v-send-transaction .qr-scanner .cancel-button {
         position: fixed !important;
         border: none;
         border-radius: 0;
-        background: black !important;
     }
 
-    /* full screen interfering with overlay centering. Therefore, we manually center via css. */
-    v-send-transaction .qr-scanner .overlay {
-        width: 66vmin !important;
-        height: 66vmin !important;
-        left: calc(50% - 33vmin) !important;
-        /* The -3.25rem are ~half of the distance between bottom of screen and top of cancel-button,
-           to center the overlay between top-of-screen and cancel-button */
-        top: calc(50% - 33vmin - 3.25rem) !important;
+    v-send-transaction .qr-scanner .overlay.inactive {
+        display: none;
     }
 
     v-send-transaction .qr-scanner .access-denied-instructions {
