@@ -95,12 +95,19 @@ export class Store {
             },
             settings: state.settings,
         };
-        const persistentContacts = state.contacts;
 
         const stringifiedState = JSON.stringify(persistentState);
-        const stringifiedContacts = JSON.stringify(persistentContacts);
-
         localStorage.setItem('persistedState', stringifiedState);
+
+        this.persistContacts();
+    }
+
+    static persistContacts() {
+        const state = Store.instance.getState();
+
+        const persistentContacts = state.contacts;
+
+        const stringifiedContacts = JSON.stringify(persistentContacts);
         localStorage.setItem('persistedContacts', stringifiedContacts);
     }
 }

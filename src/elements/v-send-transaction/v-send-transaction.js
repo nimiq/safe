@@ -9,6 +9,7 @@ import { accountsArray$ } from '../../selectors/account$.js';
 import { dashToSpace } from '../../lib/parameter-encoding.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { parseRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
+import { Store } from '../../store.js';
 
 export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
     html() {
@@ -82,8 +83,8 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                     self.fire('x-send-transaction', tx);
                 },
                 contactAdded(contact) {
-                    console.log(contact);
                     self.actions.setContact(contact.label, contact.address);
+                    Store.persistContacts();
                 },
                 createCashlink(account) {
                     hubClient.createCashlink(account.address, account.balance).then((result) => result && self.hide());
