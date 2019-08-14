@@ -1,3 +1,5 @@
+@import '../x-send-transaction/x-send-transaction-modal.css'; /* For the offline and prepared transaction modals */
+
 v-send-transaction {
     box-sizing: content-box;
     text-align: center;
