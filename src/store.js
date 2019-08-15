@@ -2,7 +2,8 @@ import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from './elements/x-network-indicator/network-redux.js';
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
-import { initialState as initialCashlinkState } from './cashlink-redux.js';
+import { initialState as initialCashlinkState, CashlinkStatus } from './cashlink-redux.js';
+import { AddressBook } from '../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 
 const CACHE_VERSION = 3;
 
@@ -109,6 +110,48 @@ export class Store {
 
         const stringifiedContacts = JSON.stringify(persistentContacts);
         localStorage.setItem('persistedContacts', stringifiedContacts);
+    }
+
+
+
+    /**
+     * @param {Map<string, any> | any[]} txs
+     */
+    static labelTransactions(txs) {
+        const state = Store.instance.getState();
+        const accounts = state.wallets.accounts;
+        const contacts = state.contacts;
+        const cashlinks = state.cashlinks.cashlinks;
+
+        txs.forEach(tx => {
+            const sender = accounts.get(tx.sender);
+            const recipient = accounts.get(tx.recipient);
+
+            tx.senderLabel = Store._labelAddress(tx.sender, sender, contacts, cashlinks);
+            tx.recipientLabel = Store._labelAddress(tx.recipient, recipient, contacts, cashlinks);
+
+            if (tx.pairedTx) {
+                const pairedSender = accounts.get(tx.sender);
+                const pairedRecipient = accounts.get(tx.recipient);
+
+                tx.pairedTx.senderLabel = Store._labelAddress(tx.pairedTx.sender, pairedSender, contacts, cashlinks);
+                tx.pairedTx.recipientLabel = Store._labelAddress(tx.pairedTx.recipient, pairedRecipient, contacts, cashlinks);
+            }
+        });
+
+        return txs;
+    }
+
+    static _labelAddress(address, account, contacts, cashlinks) {
+        return account
+            ? account.label
+            : contacts[address]
+                ? contacts[address].label
+                : AddressBook.getLabel(address)
+                    ? AddressBook.getLabel(address)
+                    : cashlinks.has(address)
+                        ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
+                        : address.slice(0, 14) + '...';
     }
 }
 

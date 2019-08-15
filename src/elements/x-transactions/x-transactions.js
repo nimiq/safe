@@ -8,10 +8,9 @@ import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPe
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
-import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 import { relevantTransactions$ } from '../../selectors/transaction$.js';
 import { numberUnclaimedCashlinks$ } from '../../selectors/cashlink$.js';
-import { CashlinkStatus } from '../../cashlink-redux.js';
+import { Store } from '../../store.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
@@ -64,9 +63,6 @@ export default class XTransactions extends MixinRedux(XElement) {
                 relevantTransactions$(state) || new Map(),
                 state.transactions.page,
                 state.transactions.itemsPerPage,
-                state.wallets.accounts ? state.wallets.accounts : false,
-                state.contacts,
-                state.cashlinks.cashlinks,
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: (relevantTransactions$(state) || new Map()).size,
@@ -80,50 +76,13 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     /**
-     * @param {any[]} txs
+     * @param {Map<string, any>} txs
      * @param {number} page
      * @param {number} itemsPerPage
-     * @param {Map<string, any>} allAccounts
      */
-    static _processTransactions(txs, page, itemsPerPage, allAccounts, contacts, cashlinks) {
+    static _processTransactions(txs, page, itemsPerPage) {
         const pagedTxs = XPaginator.getPagedItems(txs, page, itemsPerPage, true);
-        return XTransactions._labelTransactions(pagedTxs, allAccounts, contacts, cashlinks);
-    }
-
-    /**
-     * @param {any[]} txs
-     * @param {Map<string, any>} accounts
-     * @param {Map<string, any>} txStore
-     * @param {Map<string, any>} cashlinks
-     */
-    static _labelTransactions(txs, accounts, contacts, cashlinks) {
-        // 2. Label tx participants
-        txs.forEach(tx => {
-            const sender = accounts.get(tx.sender);
-            const recipient = accounts.get(tx.recipient);
-
-            tx.senderLabel = XTransactions._labelAddress(tx.sender, sender, contacts, cashlinks);
-            tx.recipientLabel = XTransactions._labelAddress(tx.recipient, recipient, contacts, cashlinks);
-
-            if (tx.pairedTx) {
-                tx.pairedTx.senderLabel = XTransactions._labelAddress(tx.pairedTx.sender, accounts.get(tx.pairedTx.sender), contacts, cashlinks);
-                tx.pairedTx.recipientLabel = XTransactions._labelAddress(tx.pairedTx.recipient, accounts.get(tx.pairedTx.recipient), contacts, cashlinks);
-            }
-        });
-
-        return txs;
-    }
-
-    static _labelAddress(address, account, contacts, cashlinks) {
-        return account
-            ? account.label
-            : contacts[address]
-                ? contacts[address].label
-                : AddressBook.getLabel(address)
-                    ? AddressBook.getLabel(address)
-                    : cashlinks.has(address)
-                        ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
-                        : address.slice(0, 14) + '...';
+        return Store.labelTransactions(pagedTxs);
     }
 
     _onPropertiesChanged(changes) {
