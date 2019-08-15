@@ -109,6 +109,11 @@ x-transactions .x-transaction:hover > * {
     padding: 0 8px;
 }
 
+.x-transaction .identicon x-identicon:not(.cashlink) img {
+    /* fix height on iOS */
+    height: 75px;
+}
+
 .x-transaction .info-line.mobile {
     display: none !important;
 }
@@ -119,6 +124,7 @@ x-transactions .x-transaction:hover > * {
         max-width: 0;
         overflow: hidden;
         padding: 0;
+        opacity: 0;
     }
 
     .x-transaction .info-line.desktop {
