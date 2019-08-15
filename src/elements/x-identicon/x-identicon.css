@@ -17,7 +17,7 @@ x-identicon.cashlink::after {
     width: 22px; /* including border */
     height: 22px;
     background-color: var(--nimiq-blue);
-    background-image: url('data:image/svg+xml,<svg width="8" height="12" viewBox="0 0 8 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.65 8.73v.22c0 1.08-.87 1.95-1.94 1.95H3.19a1.95 1.95 0 0 1-1.95-1.95V6.9c0-1.08.88-1.95 1.95-1.95h.76" stroke="white" stroke-width="1.08" stroke-linecap="round"/><path d="M1.24 3.33V3.1c0-1.08.88-1.95 1.95-1.95h1.52c1.07 0 1.94.87 1.94 1.95v1.84c0 1.2-.97 2.16-2.16 2.16h-.54" stroke="white" stroke-width="1.08" stroke-linecap="round"/></svg>');
+    background-image: url('data:image/svg+xml,<svg fill="none" viewBox="0 0 8 12" xmlns="http://www.w3.org/2000/svg"><path d="M1.2 8.7v.22c0 1.1.87 2 1.9 2h1.5a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-.76" stroke="white" stroke-linecap="round" stroke-width="1.1"/><path d="M6.6 3.3v-.23a2 2 0 0 0-2-2H3.1c-1.1 0-1.9.87-1.9 2v1.8c0 1.2.97 2.2 2.2 2.2h.54" stroke="white" stroke-linecap="round" stroke-width="1.1"/></svg>');
     background-size: auto 12px;
     background-position: center;
     background-repeat: no-repeat;
