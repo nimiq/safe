@@ -53,8 +53,11 @@ export function reducer(state, action) {
         case TypeKeys.POPULATE:
             const cashlinks = new Map(state.cashlinks);
 
+            const unkownCashlinkAddresses = new Set(action.listedCashlinks.map(cashlink => cashlink.address));
+
             for (const cashlink of action.listedCashlinks) {
                 const storedCashlink = cashlinks.get(cashlink.address);
+                if (storedCashlink) unkownCashlinkAddresses.delete(cashlink.address);
 
                 // Add additional Safe-specific properties
                 cashlink.type = AccountType.CASHLINK;
@@ -70,9 +73,15 @@ export function reducer(state, action) {
             }
 
             // Subscribe addresses of unclaimed cashlinks at network
-            const addresses = [...cashlinks.values()]
+            let addresses = [...cashlinks.values()]
                 .filter(cashlink => cashlink.status <= CashlinkStatus.CLAIMING)
                 .map(cashlink => cashlink.address);
+
+            if (action.type === TypeKeys.ADD) {
+                // Only subscribe to unknown cashlinks
+                addresses = addresses.filter(address => unkownCashlinkAddresses.has(address));
+            }
+
             networkClient.client.then(client => client.subscribe(addresses));
 
             return Object.assign({}, state, {
