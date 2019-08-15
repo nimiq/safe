@@ -25,7 +25,7 @@ x-popup-menu[left-align] {
 x-popup-menu button {
     /* border: 0; */
     background: transparent !important;
-    color: #3b3b3b !important;
+    color: inherit;
     border: 1px solid transparent !important;
     font-size: 13px;
     width: 40px;
