@@ -6,6 +6,7 @@ import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/
 import { CashlinkDirection } from '../../cashlink-redux.js';
 import hubClient from '../../hub-client.js';
 import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
+import { Store } from '../../store.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
@@ -231,8 +232,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         hash = decodeURIComponent(hash);
 
         let transaction = MixinRedux.store.getState().transactions.entries.get(hash);
-        if (!transaction)
-            transaction = { hash };
+
+        if (!transaction) transaction = { hash };
+        else transaction = Store.labelTransactions([transaction])[0];
+
         this.transaction = transaction;
     }
 }
