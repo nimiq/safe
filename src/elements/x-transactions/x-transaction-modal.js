@@ -128,7 +128,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
         this.extraData = 'triggered'; // Doesn't really matter what is set here, as long as the setter is triggered
 
-        const showLinkButton = this._cashlink.managed || BrowserDetection.isIOS() || BrowserDetection.isSafari();
+        const showLinkButton = isUnclaimedCashlink && (this._cashlink.managed || BrowserDetection.isIOS() || BrowserDetection.isSafari());
         this.$manageCashlink.classList.toggle('display-none', !showLinkButton);
     }
 
