@@ -124,8 +124,8 @@ export class Store {
             tx.recipientLabel = Store._labelAddress(tx.recipient, recipient, contacts, cashlinks);
 
             if (tx.pairedTx) {
-                const pairedSender = accounts.get(tx.sender);
-                const pairedRecipient = accounts.get(tx.recipient);
+                const pairedSender = accounts.get(tx.pairedTx.sender);
+                const pairedRecipient = accounts.get(tx.pairedTx.recipient);
 
                 tx.pairedTx.senderLabel = Store._labelAddress(tx.pairedTx.sender, pairedSender, contacts, cashlinks);
                 tx.pairedTx.recipientLabel = Store._labelAddress(tx.pairedTx.recipient, pairedRecipient, contacts, cashlinks);

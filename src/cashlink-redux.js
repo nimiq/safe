@@ -42,6 +42,8 @@ export function reducer(state, action) {
                 .concat(newEntry.walletIds)
                 .filter((v, i, a) => a.indexOf(v) === i),
             status: Math.max(oldEntry.status, newEntry.status),
+            sender: newEntry.sender || oldEntry.sender,
+            recipient: newEntry.recipient || oldEntry.recipient,
         });
     }
 
