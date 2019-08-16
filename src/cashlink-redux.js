@@ -49,6 +49,7 @@ export function reducer(state, action) {
         case TypeKeys.ADD:
             action.cashlink.managed = action.cashlink.managed || false;
             action.listedCashlinks = [action.cashlink];
+            action.onlySubscribeNew = true;
             // Fall through to POPULATE
         case TypeKeys.POPULATE:
             const cashlinks = new Map(state.cashlinks);
@@ -77,7 +78,7 @@ export function reducer(state, action) {
                 .filter(cashlink => cashlink.status <= CashlinkStatus.CLAIMING)
                 .map(cashlink => cashlink.address);
 
-            if (action.type === TypeKeys.ADD) {
+            if (action.onlySubscribeNew) {
                 // Only subscribe to unknown cashlinks
                 addresses = addresses.filter(address => unkownCashlinkAddresses.has(address));
             }
@@ -136,10 +137,11 @@ export function addCashlink(cashlink) {
     };
 }
 
-export function populate(listedCashlinks) {
+export function populate(listedCashlinks, onlySubscribeNew = false) {
     return {
         type: TypeKeys.POPULATE,
         listedCashlinks,
+        onlySubscribeNew,
     };
 }
 

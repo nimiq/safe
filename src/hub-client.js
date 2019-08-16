@@ -141,10 +141,13 @@ class HubClient {
             senderAddress,
             senderBalance,
         };
-        const result = await this.hubApi.createCashlink(request);
-        result.managed = true;
-        this.actions.addCashlink(result);
-        return true;
+        try {
+            const result = await this.hubApi.createCashlink(request);
+            result.managed = true;
+            this.actions.addCashlink(result);
+        } catch (err) {
+            this._populateCashlinks(true);
+        }
     }
 
     async manageCashlink(cashlinkAddress) {
@@ -266,10 +269,10 @@ class HubClient {
         this.actions.populateWallets(listedWallets);
     }
 
-    async _populateCashlinks() {
+    async _populateCashlinks(onlySubscribeNew) {
         await this._launched;
         const listedCashlinks = await this.hubApi.cashlinks();
-        this.actions.populateCashlinks(listedCashlinks);
+        this.actions.populateCashlinks(listedCashlinks, onlySubscribeNew);
     }
 
     _onOnboardingResult(result) {
