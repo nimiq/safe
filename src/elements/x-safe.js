@@ -7,7 +7,7 @@ import XRouter from '../elements/x-router/x-router.js';
 import XToast from '../elements/x-toast/x-toast.js';
 import MixinRedux from '../elements/mixin-redux.js';
 import XNetworkIndicator from '../elements/x-network-indicator/x-network-indicator.js';
-import XSendTransactionModal from '../elements/x-send-transaction/x-send-transaction-modal.js';
+import VSendTransaction from '../elements/v-send-transaction/v-send-transaction.js';
 import XAccounts from '../elements/x-accounts/x-accounts.js';
 import XTransactions from '../elements/x-transactions/x-transactions.js';
 import XTransactionModal from '../elements/x-transactions/x-transaction-modal.js';
@@ -96,7 +96,7 @@ export default class XSafe extends MixinRedux(XElement) {
                         <button icon-qr-scan><span>Scan</span></button>
                         <div class="btn-text">Scan</div>
                     </div>
-                    <x-send-transaction-modal x-route-aside="new-transaction"></x-send-transaction-modal>
+                    <v-send-transaction x-route-aside="new-transaction"></v-send-transaction>
                     <v-contact-list-modal x-route-aside="contact-list"></v-contact-list-modal>
                 </nav>
                 <x-view-dashboard x-route="" class="content-width">
@@ -139,7 +139,6 @@ export default class XSafe extends MixinRedux(XElement) {
     children() {
         return [
             XTotalAmount,
-            XSendTransactionModal,
             XAccounts,
             XTransactions,
             XSettings,
@@ -150,6 +149,7 @@ export default class XSafe extends MixinRedux(XElement) {
             XDisclaimerModal,
             VContactListModal,
             VContactList,
+            VSendTransaction,
             VWalletSelector,
         ];
     }
@@ -278,15 +278,15 @@ export default class XSafe extends MixinRedux(XElement) {
 
     _newTransactionFrom(address) {
         if (address) {
-            XSendTransactionModal.show(`${ spaceToDash(address) }`, 'sender');
+            VSendTransaction.show(`${ spaceToDash(address) }`, 'sender');
         } else {
-            XSendTransactionModal.show();
+            VSendTransaction.show();
         }
     }
 
     _newPayoutTransaction(data) {
-        XSendTransactionModal.show(`${ spaceToDash(data.owner) }`, 'vesting');
-        XSendTransactionModal.instance.sender = data.vestingAccount;
+        VSendTransaction.show(`${ spaceToDash(data.owner) }`, 'vesting');
+        VSendTransaction.instance.sender = data.vestingAccount;
     }
 
     _clickedPreparedTransaction() {
@@ -298,29 +298,13 @@ export default class XSafe extends MixinRedux(XElement) {
     }
 
     _clickedScan() {
-        XSendTransactionModal.show(/* address */ null, 'scan');
+        VSendTransaction.show(/* address */ null, 'scan');
     }
 
     async _signTransaction(tx) {
         // To allow for airgapped transaction creation, the validityStartHeight needs
         // to be allowed to be set by the user. Thus we need to parse what the user
         // put in and react accordingly.
-
-        const setValidityStartHeight = parseInt(tx.validityStartHeight.trim());
-
-        if (isNaN(setValidityStartHeight) && !this.properties.height) {
-            if (Config.offline) {
-                XToast.warning('In offline mode, the validity-start-height needs to be set (advanced settings).');
-            } else {
-                XToast.warning('Consensus not yet established, please try again in a few seconds.');
-            }
-            return;
-        }
-
-        tx.value = Math.round(Number(tx.value) * 1e5);
-        tx.fee = Math.round((Number(tx.fee) || 0) * 1e5);
-        tx.validityStartHeight = isNaN(setValidityStartHeight) ? this.properties.height : setValidityStartHeight;
-        tx.recipient = 'NQ' + tx.recipient;
 
         const signedTx = await hubClient.sign(tx);
 
@@ -345,7 +329,7 @@ export default class XSafe extends MixinRedux(XElement) {
         }
 
         // Give user feedback that something is happening
-        XSendTransactionModal.instance.loading = true;
+        VSendTransaction.instance.loading = true;
         XSendPreparedTransactionModal.instance.loading = true;
 
         const network = await networkClient.client;
@@ -366,13 +350,13 @@ export default class XSafe extends MixinRedux(XElement) {
                 throw e;
             }
 
-            XSendTransactionModal.hide();
+            VSendTransaction.hide();
             // give modal time to disappear
-            window.setTimeout(XSendTransactionModal.instance.clear.bind(XSendTransactionModal.instance), 500);
+            window.setTimeout(VSendTransaction.instance.clear.bind(VSendTransaction.instance), 500);
             XSendPreparedTransactionModal.hide();
         } catch(e) {
             XToast.error(e.message || e);
-            XSendTransactionModal.instance.loading = false;
+            VSendTransaction.instance.loading = false;
             XSendPreparedTransactionModal.instance.loading = false;
         }
     }

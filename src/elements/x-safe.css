@@ -4,7 +4,7 @@
 @import './x-toast/x-toast.css';
 @import './x-amount/x-amount.css';
 @import './x-network-indicator/x-network-indicator.css';
-@import './x-send-transaction/x-send-transaction-modal.css';
+@import './v-send-transaction/v-send-transaction.css';
 @import './x-request-link/x-receive-request-link-modal.css';
 @import './x-request-link/x-create-request-link-modal.css';
 @import './v-contact-list/v-contact-list.css';

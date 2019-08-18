@@ -1,6 +1,6 @@
 import { createSelector } from '../lib/reselect/src/index.js';
 import { WalletType } from '../wallet-redux.js';
-import { accountsArray$ } from './account$.js';
+import { accountsArray$, activeAccountsArray$ } from './account$.js';
 
 export const wallets$ = state => state.wallets.wallets;
 
@@ -36,7 +36,24 @@ export const activeWallet$ = createSelector(
     }
 );
 
+export const activeWalletWithAccountMap$ = createSelector(
+    activeWallet$,
+    activeAccountsArray$,
+    (wallet, accounts) => {
+        return Object.assign({}, wallet, {
+            accounts: new Map(accounts.map(account => [
+                account.address,
+                Object.assign({}, account, {
+                    userFriendlyAddress: account.address,
+                    balance: account.balance ? account.balance * 1e5 : 0,
+                }),
+            ])),
+            contracts: [],
+        });
+    }
+);
+
 export const hasNewWallet$ = createSelector(
     walletsArray$,
     (wallets) => wallets.some(wallet => wallet.type !== WalletType.LEGACY)
-); 
+);
