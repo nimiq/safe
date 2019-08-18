@@ -35,8 +35,8 @@ export default class XAccountModal extends MixinModal(XAccount) {
                 </div>
 
                 <div class="action-button">
-                    <button send class="small">Send from this address</button>
-                    <button payout class="small display-none">Pay out</button>
+                    <button send class="nq-button-s">Send from this address</button>
+                    <button payout class="nq-button-s display-none">Pay out</button>
                 </div>
             </div>
             <v-qr-code-overlay></v-qr-code-overlay>

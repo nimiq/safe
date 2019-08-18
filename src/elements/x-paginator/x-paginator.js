@@ -7,11 +7,11 @@ export default class XPaginator extends MixinRedux(XElement) {
     html() {
         return `
             <br>
-            <button toStart class="small secondary"><i class="material-icons">skip_previous</i></button>
-            <button prev class="small secondary"><i class="material-icons">keyboard_arrow_left</i></button>
+            <button toStart class="nq-button-s"><i class="material-icons">skip_previous</i></button>
+            <button prev class="nq-button-s"><i class="material-icons">keyboard_arrow_left</i></button>
             &nbsp;&nbsp;&nbsp;&nbsp;<span page></span>&nbsp;&nbsp;&nbsp;&nbsp;
-            <button next class="small secondary"><i class="material-icons">keyboard_arrow_right</i></button>
-            <button toEnd class="small secondary"><i class="material-icons">skip_next</i></button>
+            <button next class="nq-button-s"><i class="material-icons">keyboard_arrow_right</i></button>
+            <button toEnd class="nq-button-s"><i class="material-icons">skip_next</i></button>
         `
     }
 
