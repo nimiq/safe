@@ -63,7 +63,6 @@ export default class XAccount extends MixinRedux(XElement) {
     }
 
     set type(type) {
-        this.$el.classList.toggle('display-none', type === AccountType.CASHLINK);
         this.$icon.classList.remove('ledger-icon', 'vesting-icon');
 
         switch (type) {

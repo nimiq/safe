@@ -4,7 +4,6 @@ const AccountType = {
     LEDGER: 3,
     VESTING: 4,
     HTLC: 5,
-    CASHLINK: 6,
 };
 
 export default AccountType;

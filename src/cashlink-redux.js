@@ -1,5 +1,4 @@
 import networkClient from './network-client.js';
-import AccountType from './lib/account-type.js';
 
 export const TypeKeys = {
     POPULATE: 'cashlink/populate',
@@ -63,7 +62,6 @@ export function reducer(state, action) {
                 if (storedCashlink) unkownCashlinkAddresses.delete(cashlink.address);
 
                 // Add additional Safe-specific properties
-                cashlink.type = AccountType.CASHLINK;
                 cashlink.managed = 'managed' in cashlink ? cashlink.managed : true;
                 cashlink.walletIds = cashlink.walletIds || [];
 

@@ -1,7 +1,6 @@
 import { createSelector } from '../lib/reselect/src/index.js';
 import { WalletType } from '../wallet-redux.js';
 import { accountsArray$ } from './account$.js';
-import AccountType from '../lib/account-type.js';
 
 export const wallets$ = state => state.wallets.wallets;
 
@@ -20,7 +19,7 @@ export const walletsArray$ = createSelector(
     wallets$,
     accountsArray$,
     (wallets, accounts) => [...wallets.values()].map(wallet => {
-        const walletAccounts = accounts.filter(account => account.walletId === wallet.id && account.type !== AccountType.CASHLINK);
+        const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
         return Object.assign({}, wallet, {
             accounts: walletAccounts,
             balance: calculateTotalBalance(walletAccounts),
