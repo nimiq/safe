@@ -77,7 +77,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#sebastian/build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#b0836ef3b9599f3657c82605e4257b63ae9f2dab"
+  resolved "https://github.com/nimiq/vue-components#b8f5dbd8e2f66f196545c676b268bbe6adc10afe"
   dependencies:
     "@nimiq/style" "^0.7.5"
     input-format "^0.2.4"
