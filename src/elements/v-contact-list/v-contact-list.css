@@ -9,7 +9,7 @@
 .v-contact-list .header x-popup-menu {
     position: absolute;
     left: -14px;
-    top: -14px;
+    top: -11px;
     width: 100%; /* to render the list correctly */
 }
 
