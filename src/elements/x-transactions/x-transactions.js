@@ -66,7 +66,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: (relevantTransactions$(state) || new Map()).size,
-            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()].concat([...state.cashlinks.cashlinks.keys()]) : [],
+            addresses: [...state.wallets.accounts.keys()].concat([...state.cashlinks.cashlinks.keys()]),
             hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
             isRequestingHistory: state.transactions.isRequestingHistory,
