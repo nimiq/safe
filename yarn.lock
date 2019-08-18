@@ -65,10 +65,10 @@
   resolved "https://registry.yarnpkg.com/@nimiq/rpc/-/rpc-0.3.0.tgz#654c05acccc193b7d79fb09b2faf2114945ff872"
   integrity sha512-je7fv+wP4nLEgTcZwu3FaGre22qkZ9AYGbStglVaJAxOH+3CvDnnOIa9IjGFaCEhtRQKRaQEvFqa5vN4IVnH+Q==
 
-"@nimiq/style@^0.7.3":
-  version "0.7.3"
-  resolved "https://registry.yarnpkg.com/@nimiq/style/-/style-0.7.3.tgz#4d867fa338242680c4ba9ffbe7ca0c4960bde7c3"
-  integrity sha512-uwVVO1OepSb4GV/mbDvV06/zsMKiB3/+YWvKkgOHpHb+SvVvt4rTFBszoNTVN/rbdhDN25nI5sMSidsXZ9izPw==
+"@nimiq/style@^0.7.5":
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/@nimiq/style/-/style-0.7.5.tgz#a31904b515ee5ae17a50d1d191e8a971c63ad716"
+  integrity sha512-jfY/vkl8BlMQo9kUDsDh4LL/0nnzQaLVehoD3DGVuKJXD7EJaeoVi4EMrkJ9ofdjMTMWX9zzt4kWgKyvzy5lGQ==
 
 "@nimiq/utils@^0.3.3":
   version "0.3.3"
@@ -77,9 +77,9 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#sebastian/build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#5589d83cd399cdd6fe1361069012f10ab099d5e3"
+  resolved "https://github.com/nimiq/vue-components#b1203107f15b4023b8898f19b5d1c9cb3f695b06"
   dependencies:
-    "@nimiq/style" "^0.7.3"
+    "@nimiq/style" "^0.7.5"
     input-format "^0.2.4"
     qr-code "github:nimiq/qr-encoder"
     qr-scanner "^1.1.1"

@@ -1,6 +1,6 @@
 import { createSelector } from '../lib/reselect/src/index.js';
 import { WalletType } from '../wallet-redux.js';
-import { accountsArray$ } from './account$.js';
+import { accountsArray$, activeAccountsArray$ } from './account$.js';
 
 export const wallets$ = state => state.wallets.wallets;
 
@@ -27,30 +27,29 @@ export const walletsArray$ = createSelector(
     }).concat([])
 );
 
-export const walletsArrayWithAccountMap$ = createSelector(
-    wallets$,
-    accountsArray$,
-    (wallets, accounts) => [...wallets.values()].map(wallet => {
-        const walletAccounts = accounts.filter(account => account.walletId === wallet.id);
-        return Object.assign({}, wallet, {
-            accounts: new Map(walletAccounts.map(account => [
-                account.address,
-                Object.assign({}, account, {
-                    userFriendlyAddress: account.address,
-                    balance: account.balance * 1e5,
-                }),
-            ])),
-            contracts: [], // TODO
-        });
-    }).concat([])
-);
-
 export const activeWallet$ = createSelector(
     wallets$,
     activeWalletId$,
     (wallets, activeWalletId) => {
         if (wallets.size === 0) return null;
         return wallets.get(activeWalletId);
+    }
+);
+
+export const activeWalletWithAccountMap$ = createSelector(
+    activeWallet$,
+    activeAccountsArray$,
+    (wallet, accounts) => {
+        return Object.assign({}, wallet, {
+            accounts: new Map(accounts.map(account => [
+                account.address,
+                Object.assign({}, account, {
+                    userFriendlyAddress: account.address,
+                    balance: account.balance * 1e5,
+                }),
+            ])),
+            contracts: [],
+        });
     }
 );
 
