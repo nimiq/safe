@@ -159,6 +159,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
             this._openQrScanner();
         } else {
             this._isQrScanMode = false;
+            this.vue.$refs.sendTx.focus(true);
         }
     }
 
