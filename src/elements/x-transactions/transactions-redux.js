@@ -26,28 +26,26 @@ export function reducer(state, action) {
 
     switch (action.type) {
         case TypeKeys.ADD_TXS: {
+            if (!action.transactions.length) return state;
+
             let entries = new Map(state.entries);
 
-            if (action.transactions && action.transactions.length === 1) {
-                // Check if this is a pending tx
-                const tx = action.transactions[0];
-                if (!tx.blockHeight) {
-                    tx.extraData = convertExtradata(tx.extraData);
-                    entries.set(tx.hash, tx); // Add to end of map
-                    return Object.assign({}, state, {
-                        entries,
-                        hasContent: true,
-                    });
-                }
-            }
-
             action.transactions.forEach(tx => {
+                if (isFundingCashlink(tx.extraData)) tx.isCashlink = CashlinkDirection.FUNDING;
+                else if (isClaimingCashlink(tx.extraData)) tx.isCashlink = CashlinkDirection.CLAIMING;
+
                 tx.extraData = convertExtradata(tx.extraData);
                 entries.set(tx.hash, tx);
             });
 
-            // Sort as array
-            entries = new Map([...entries].sort(_transactionSort));
+            if (action.transactions.length > 1 || action.transactions[0].blockHeight) {
+                // Sorting is only required when more than one tx has been added or a single added tx
+                // is not a pending tx (otherwise the list is sorted already, because the new pending
+                // tx has been added to the end of the Map with Map.set()).
+
+                // Sort transaction list
+                entries = new Map([...entries].sort(_transactionSort));
+            }
 
             return Object.assign({}, state, {
                 entries,
@@ -160,27 +158,21 @@ export function addTransactions(transactions) {
         // Look through tx and find cashlinks, so we can add their address to our monitored addresses
         transactions.forEach(tx => {
             if (isFundingCashlink(tx.extraData)) {
-                tx.isCashlink = CashlinkDirection.FUNDING;
-
-                const sender = accounts.get(tx.sender);
-
+                const knownSender = accounts.get(tx.sender);
                 dispatch(addCashlink({
                     address: tx.recipient,
                     status: tx.timestamp ? CashlinkStatus.UNCLAIMED : CashlinkStatus.CHARGING,
                     sender: tx.sender,
-                    walletIds: sender ? [sender.walletId] : [],
+                    walletIds: knownSender ? [knownSender.walletId] : [],
                 }));
             }
             else if (isClaimingCashlink(tx.extraData)) {
-                tx.isCashlink = CashlinkDirection.CLAIMING;
-
-                const recipient = accounts.get(tx.recipient);
-
+                const knownRecipient = accounts.get(tx.recipient);
                 dispatch(addCashlink({
                     address: tx.sender,
                     status: tx.timestamp ? CashlinkStatus.CLAIMED : CashlinkStatus.CLAIMING,
                     recipient: tx.recipient,
-                    walletIds: recipient ? [recipient.walletId] : [],
+                    walletIds: knownRecipient ? [knownRecipient.walletId] : [],
                 }));
             }
         });
