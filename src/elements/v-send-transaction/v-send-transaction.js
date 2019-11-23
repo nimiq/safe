@@ -118,22 +118,20 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         this.vue.isLoading = value;
     }
 
-    clearProps() {
+    clear() {
         this.vue.sender = null;
         this.vue.recipient = null;
         this.vue.recipientIsReadonly = false;
         this.vue.amount = 0;
         this.vue.message = '';
-        // this.vue.fee = null;
         this.vue.isLoading = false;
-    }
-
-    clear() {
         this.vue.$refs.sendTx.clear();
     }
 
     /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message) {
+        this.clear();
+
         if (address && mode === 'sender') {
             this.vue.setSender(dashToSpace(address));
         }
@@ -163,7 +161,6 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
 
     onHide() {
         setTimeout(() => {
-            this.clearProps();
             this._closeQrScanner(true);
         }, 400);
     }

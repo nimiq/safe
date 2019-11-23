@@ -351,8 +351,6 @@ export default class XSafe extends MixinRedux(XElement) {
             }
 
             VSendTransaction.hide();
-            // give modal time to disappear
-            window.setTimeout(VSendTransaction.instance.clear.bind(VSendTransaction.instance), 500);
             XSendPreparedTransactionModal.hide();
         } catch(e) {
             XToast.error(e.message || e);
