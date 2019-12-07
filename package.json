@@ -1,4 +1,4 @@
-{
+  {
   "name": "my-nimiq",
   "version": "1.0.0",
   "description": "My Nimiq",
@@ -15,7 +15,7 @@
   "author": "Nimiq Foundation",
   "license": "MIT",
   "devDependencies": {
-    "@nimiq/hub-api": "^1.1.1",
+    "@nimiq/hub-api": "^1.2.0-beta.4",
     "@nimiq/iqons": "^1.5.1",
     "@nimiq/network-client": "^0.3.0",
     "@nimiq/style": "^0.7.5",
