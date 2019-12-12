@@ -49,11 +49,9 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
     }
 
     _onClickRemovePersistence() {
-        Store.persist(); // Persist potential changes in contacts
-
         // Remove regular persistence
-        localStorage.removeItem('persistedState');
         // Contacts are not removed on purpose
+        localStorage.removeItem('persistedState');
 
         window.skipPersistingState = true;
         location.reload();

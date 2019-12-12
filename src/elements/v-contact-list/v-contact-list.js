@@ -7,6 +7,7 @@ import XPopupMenu from '../x-popup-menu/x-popup-menu.js'
 import XToast from '../x-toast/x-toast.js';
 import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
 import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
+import { Store } from '../../store.js';
 
 export default class VContactList extends MixinRedux(XElement) {
     html() {
@@ -84,9 +85,11 @@ export default class VContactList extends MixinRedux(XElement) {
                 },
                 setContact(label, address) {
                     self.actions.setContact(label, address)
+                    Store.persistContacts()
                 },
                 removeContact(address) {
                     self.actions.removeContact(address)
+                    Store.persistContacts()
                 },
                 notification(msg, type) {
                     XToast[type || 'show'](msg)

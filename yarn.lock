@@ -77,7 +77,7 @@
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#build/safe":
   version "0.1.0"
-  resolved "https://github.com/nimiq/vue-components#997e460b37644625c5f9a01186ebbb9a0a9df1b3"
+  resolved "https://github.com/nimiq/vue-components#77dd6c63dfc5ac9560edc5764fd71a9d5afa996c"
   dependencies:
     "@nimiq/style" "^0.7.3"
     qr-code "github:nimiq/qr-encoder"
