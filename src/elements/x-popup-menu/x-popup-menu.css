@@ -25,7 +25,7 @@ x-popup-menu[left-align] {
 x-popup-menu button {
     /* border: 0; */
     background: transparent !important;
-    color: #3b3b3b !important;
+    color: inherit;
     border: 1px solid transparent !important;
     font-size: 13px;
     width: 40px;
@@ -35,10 +35,15 @@ x-popup-menu button {
     min-height: 40px;
     box-shadow: none;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 x-popup-menu button:hover {
     background: rgba(0, 0, 0, 0.075) !important;
+}
+
+x-popup-menu > button {
+    border-radius: 50%;
 }
 
 x-popup-menu > button > .material-icons {
@@ -84,6 +89,10 @@ x-popup-menu > div > button {
     border-radius: 0;
     padding: 4px 15px;
     height: 48px;
+    font-family: inherit;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.16em;
 }
 
 x-popup-menu > div > button .material-icons {

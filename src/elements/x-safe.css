@@ -376,6 +376,7 @@ nav.actions.floating-actions {
 .floating-btn button {
     width: 60px !important;
     height: 60px !important;
+    border: none;
     border-radius: 50%;
     background-color: white;
     background-position: center !important;
@@ -388,6 +389,7 @@ nav.actions.floating-actions {
     background-size: 45% 45% !important;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .floating-btn button span {
@@ -534,15 +536,16 @@ v-wallet-selector.mobile .wallet-menu {
     }
 
     .floating-btn button {
-        width: 120px !important;
+        width: 115px !important;
         height: 40px !important;
         border-radius: 20px;
         min-height: 40px;
         box-shadow: 0 2px 10px 0px rgba(0, 0, 0, 0.2);
         background-position: 12px center !important;
-        line-height: 38px;
         padding-left: 40px;
         text-align: left;
+        font-family: inherit;
+        color: inherit;
     }
 
     .floating-btn button[icon-qr-scan] {
@@ -553,12 +556,8 @@ v-wallet-selector.mobile .wallet-menu {
 
     .floating-btn button span {
         display: inline;
-        color: #3b3b3b;
-        /* font-size: 13px; */
-        font-weight: normal;
-        text-transform: none;
-        letter-spacing: 0;
-        font-family: inherit;
+        font-size: 16px;
+        line-height: 40px;
     }
 
     .floating-btn .btn-text {

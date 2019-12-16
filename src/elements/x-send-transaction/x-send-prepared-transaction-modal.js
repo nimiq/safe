@@ -13,7 +13,7 @@ export default class XSendPreparedTransactionModal extends MixinModal(XElement) 
                 <small>Note: a transaction is only valid for 120 blocks (~2 hours) after its validity-start-height.</small>
                 <br><br>
                 <textarea></textarea>
-                <button>Send now</button>
+                <button class="nq-button light-blue">Send now</button>
             </div>
         `
     }

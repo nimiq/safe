@@ -1,34 +1,30 @@
 @import '../x-input/x-input.css';
 @import '../x-numpad/x-numpad.css';
 
+x-amount-input {
+    font-size: 3em;
+}
+
 x-amount-input input {
-    font-size: 3em !important;
-    line-height: 54px;
-    font-weight: 300;
-    padding-bottom: 0;
-    width: 100% !important;
+    width: 100%;
 }
 
 @media (max-width: 620px) {
-    x-amount-input input {
+    x-amount-input {
         font-size: 2.5em !important;
     }
 }
 
 @media (max-width: 515px) {
-    x-amount-input input {
+    x-amount-input {
         font-size: 2em !important;
     }
 }
 
 @media (max-width: 410px) {
-    x-amount-input input {
+    x-amount-input {
         font-size: 1.5em !important;
     }
-}
-
-x-amount-input input::placeholder {
-    font-size: 1em !important;
 }
 
 x-amount-input button.set-max {
@@ -61,14 +57,16 @@ x-amount-input button.set-max:focus*/ {
 x-amount-input input + .ticker {
     display: block;
     position: absolute;
-    right: 22px;
-    bottom: 0.65em;
+    right: 1.75em;
+    bottom: 1.1em;
     margin: 0;
     padding: 0;
-    font-size: 1.5em;
+    font-size: 0.5em;
+    font-weight: 600;
     letter-spacing: 0.08em;
     opacity: 0.4;
     transition: opacity 0.2s ease-out;
+    color: var(--nimiq-light-blue);
 }
 
 x-amount-input input:focus + .ticker {
