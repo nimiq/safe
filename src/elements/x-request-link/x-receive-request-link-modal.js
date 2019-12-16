@@ -21,7 +21,7 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
                     <div class="x-message">Someone sent you a link to request a transaction. Please proceed to see
                     further details.</div>
 
-                    <button class="confirm">Ok</button>
+                    <button class="confirm nq-button">Ok</button>
                     <a class="cancel" secondary>Cancel</a>
                 </div>
             </div>
