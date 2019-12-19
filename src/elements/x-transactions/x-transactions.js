@@ -188,7 +188,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             }
         }
 
-        if (this.properties.transactions.size === 0) {
+        if (this.properties.transactions.size === 0 && !this.properties.isRequestingHistory) {
             this.$transactionsList.textContent = '';
             const $noContent = XNoTransactions.createElement();
             this.$transactionsList.appendChild($noContent.$el);
