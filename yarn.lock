@@ -26,12 +26,19 @@
   resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.4.3.tgz#190d7390324623672fafbbc93841bcf215d2af01"
   integrity sha512-47JMAx8bFcr2uev+QgX4saBUvRQo/8akQdpvf0z1F5N3I8FPyIfEWRjPW2Xu28C+MOdIZ/VkHL/YmMiGBBtEMA==
 
-"@nimiq/hub-api@^1.2.0-beta.4":
-  version "1.2.0-beta.4"
-  resolved "https://registry.yarnpkg.com/@nimiq/hub-api/-/hub-api-1.2.0-beta.4.tgz#e58933b81e9ccea999a22e9f37032327b25c628b"
-  integrity sha512-k5F9w1gVoLnchd78MSpl8Awb78KMgJIcoQzswFnVJRx/mLtr0cVzdHfjuWFVf0/LNj8DX6DfMDXhAkxIoEno/Q==
+"@nimiq/core-web@^1.5.3":
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/@nimiq/core-web/-/core-web-1.5.3.tgz#f0a4de59394f210f2c2d9cda8ee35c716847d40e"
+  integrity sha512-W66SS9n3ygYgD52r1GJr1WtYYOkcZsqdtMmDCEwDvkrmeARnHs2sAvj77Wt4PQG8JA7GwK5svIJr6rGccCaekw==
+
+"@nimiq/hub-api@^1.2.0-beta.7":
+  version "1.2.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@nimiq/hub-api/-/hub-api-1.2.0-beta.7.tgz#14d8e5951e7aeccea026418e86f690ed6e468caf"
+  integrity sha512-WiwIuHbFObEONNPHHbVBGHWiKzFgfjuDjs14TywQPV6gSZTbFF7RtBGcl/Ov6qaWMoQZ0xwJxbW1E9ys5LYosA==
   dependencies:
+    "@nimiq/core-web" "^1.5.3"
     "@nimiq/rpc" "^0.4.0"
+    big-integer "^1.6.48"
 
 "@nimiq/iqons@^1.5.1":
   version "1.5.1"
@@ -681,6 +688,11 @@ beeper@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/beeper/-/beeper-1.1.1.tgz#e6d5ea8c5dad001304a70b22638447f69cb2f809"
   integrity sha1-5tXqjF2tABMEpwsiY4RH9pyy+Ak=
+
+big-integer@^1.6.48:
+  version "1.6.48"
+  resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.48.tgz#8fd88bd1632cba4a1c8c3e3d7159f08bb95b4b9e"
+  integrity sha512-j51egjPa7/i+RdiRuJbPdJ2FIUYYPhvYLjzoYbcMMm62ooO6F94fETG4MTs46zPAF9Brs04OajboA/qTGuz78w==
 
 binary-extensions@^1.0.0:
   version "1.13.1"
