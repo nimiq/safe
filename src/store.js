@@ -2,8 +2,10 @@ import configureStore from './configure-store.js';
 import { initialState as initialNetworkState } from './elements/x-network-indicator/network-redux.js';
 import { initialState as initialSettingsState } from './settings/settings-redux.js';
 import { initialState as initialWalletState } from './wallet-redux.js';
+import { initialState as initialCashlinkState, CashlinkStatus } from './cashlink-redux.js';
+import { AddressBook } from '../node_modules/@nimiq/utils/dist/module/AddressBook.js';
 
-const CACHE_VERSION = 2;
+const CACHE_VERSION = 3;
 
 /* Redux store as singleton */
 export class Store {
@@ -35,10 +37,13 @@ export class Store {
                     accounts: new Map(persistedState.wallets ? persistedState.wallets.accounts: []),
                     hasContent: false,
                 });
+                initialState.cashlinks = Object.assign({}, initialCashlinkState, persistedState.cashlinks, {
+                    cashlinks: new Map(persistedState.cashlinks.cashlinks),
+                });
                 initialState.network = Object.assign({}, initialNetworkState, persistedState.network);
                 initialState.settings = Object.assign({}, initialSettingsState, persistedState.settings);
             }
-            
+
             // support legacy version of persisted contacts
             if (persistedState.contacts) {
                 initialState.contacts = Object.assign({}, persistedState.contacts);
@@ -62,6 +67,7 @@ export class Store {
                 isRequestingHistory: undefined,
                 page: 1,
                 itemsPerPage: 4,
+                filterUnclaimedCashlinks: false,
             }
         );
 
@@ -73,10 +79,18 @@ export class Store {
             }
         );
 
+        const cashlinks = Object.assign({},
+            state.cashlinks,
+            {
+                cashlinks: [...state.cashlinks.cashlinks.entries()],
+            }
+        );
+
         const persistentState = {
             version: CACHE_VERSION,
             transactions,
             wallets,
+            cashlinks,
             network: {
                 oldHeight: state.network.height
             },
@@ -89,6 +103,48 @@ export class Store {
 
         localStorage.setItem('persistedState', stringifiedState);
         localStorage.setItem('persistedContacts', stringifiedContacts);
+    }
+
+
+
+    /**
+     * @param {Map<string, any> | any[]} txs
+     */
+    static labelTransactions(txs) {
+        const state = Store.instance.getState();
+        const accounts = state.wallets.accounts;
+        const contacts = state.contacts;
+        const cashlinks = state.cashlinks.cashlinks;
+
+        txs.forEach(tx => {
+            const sender = accounts.get(tx.sender);
+            const recipient = accounts.get(tx.recipient);
+
+            tx.senderLabel = Store._labelAddress(tx.sender, sender, contacts, cashlinks);
+            tx.recipientLabel = Store._labelAddress(tx.recipient, recipient, contacts, cashlinks);
+
+            if (tx.pairedTx) {
+                const pairedSender = accounts.get(tx.pairedTx.sender);
+                const pairedRecipient = accounts.get(tx.pairedTx.recipient);
+
+                tx.pairedTx.senderLabel = Store._labelAddress(tx.pairedTx.sender, pairedSender, contacts, cashlinks);
+                tx.pairedTx.recipientLabel = Store._labelAddress(tx.pairedTx.recipient, pairedRecipient, contacts, cashlinks);
+            }
+        });
+
+        return txs;
+    }
+
+    static _labelAddress(address, account, contacts, cashlinks) {
+        return account
+            ? account.label
+            : contacts[address]
+                ? contacts[address].label
+                : AddressBook.getLabel(address)
+                    ? AddressBook.getLabel(address)
+                    : cashlinks.has(address)
+                        ? cashlinks.get(address).status <= CashlinkStatus.UNCLAIMED ? 'Unclaimed Cashlink' : 'Cashlink'
+                        : address.slice(0, 14) + '...';
     }
 }
 

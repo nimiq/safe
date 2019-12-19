@@ -10,6 +10,7 @@ export default createSelector(
 
         if (accounts.length === 0) return 0;
 
-        return accounts.reduce((sum, account) => sum + account.balance, 0);
+        return accounts
+            .reduce((sum, account) => sum + account.balance, 0);
     }
 );

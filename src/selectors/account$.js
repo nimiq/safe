@@ -6,7 +6,7 @@ const simpleAccounts$ = state => state.wallets.accounts;
 
 export const hasContent$ = state => state.wallets.hasContent;
 
-const activeWalletId$ = state => state.wallets.activeWalletId;
+export const activeWalletId$ = state => state.wallets.activeWalletId;
 
 const height$ = state => state.network.height || state.network.oldHeight;
 
@@ -52,10 +52,9 @@ export const accountsArray$ = createSelector(
 export const activeAccounts$ = createSelector(
     accounts$,
     activeWalletId$,
-    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(entry => {
-        const account = entry[1];
-        return account.walletId === activeWalletId;
-    }))
+    (accounts, activeWalletId) => new Map([...accounts.entries()].filter(
+        entry => entry[1].walletId === activeWalletId
+    ))
 );
 
 export const activeAccountsArray$ = createSelector(

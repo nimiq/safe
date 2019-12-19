@@ -5,13 +5,14 @@ import {
     addAccount,
     login,
     logout,
-    populate,
+    populate as populateWallets,
     setFileFlag,
     setWordsFlag,
     switchWallet,
     rename,
     removeAccount,
 } from './wallet-redux.js';
+import { addCashlink, populate as populateCashlinks } from './cashlink-redux.js';
 import AccountType from './lib/account-type.js';
 import VMigrationWelcome from './elements/v-migration-welcome/v-migration-welcome.js';
 
@@ -53,8 +54,8 @@ class HubClient {
 
         this.hubApi.checkRedirectResponse();
 
-        // Kick off writing accounts to the store
-        this._populateAccounts();
+        // Kick off writing accounts and cashlinks to the store
+        this._populateAccounts().then(() => this._populateCashlinks());
 
         this._resolveLaunched();
     }
@@ -134,6 +135,29 @@ class HubClient {
         await this.export(accountId, { wordsOnly: true });
     }
 
+    async createCashlink(senderAddress, senderBalance) {
+        const request = {
+            appName: APP_NAME,
+            senderAddress,
+            senderBalance,
+        };
+        try {
+            const result = await this.hubApi.createCashlink(request);
+            result.managed = true;
+            this.actions.addCashlink(result);
+        } catch (err) {
+            this._populateCashlinks(true);
+        }
+    }
+
+    async manageCashlink(cashlinkAddress) {
+        const request = {
+            appName: APP_NAME,
+            cashlinkAddress,
+        };
+        try { await this.hubApi.manageCashlink(request); } catch (err) {}
+    }
+
     async changePassword(accountId) {
         await this._launched;
         await this.hubApi.changePassword({
@@ -184,12 +208,14 @@ class HubClient {
             addAccount,
             login,
             logout,
-            populate,
+            populateWallets,
             setFileFlag,
             setWordsFlag,
             switchWallet,
             rename,
             removeAccount,
+            populateCashlinks,
+            addCashlink,
         }, this.store.dispatch);
     }
 
@@ -240,7 +266,13 @@ class HubClient {
             else throw error;
         }
 
-        this.actions.populate(listedWallets);
+        this.actions.populateWallets(listedWallets);
+    }
+
+    async _populateCashlinks(onlySubscribeNew) {
+        await this._launched;
+        const listedCashlinks = await this.hubApi.cashlinks();
+        this.actions.populateCashlinks(listedCashlinks, onlySubscribeNew);
     }
 
     _onOnboardingResult(result) {

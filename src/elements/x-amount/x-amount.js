@@ -1,5 +1,6 @@
 import XElement from '../../lib/x-element/x-element.js';
 import Config from '../../lib/config.js';
+import { TransactionType } from '../../selectors/transaction$.js';
 
 export default class XAmount extends XElement {
     html(){
@@ -32,7 +33,7 @@ export default class XAmount extends XElement {
     }
 
     set type(type) {
-        this.$el.classList.remove('incoming', 'outgoing', 'transfer');
+        this.$el.classList.remove.apply(this.$el.classList, Object.values(TransactionType));
         type && this.$el.classList.add(type);
     }
 

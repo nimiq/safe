@@ -3,13 +3,21 @@ import XAddress from '../x-address/x-address.js';
 import XTransaction from './x-transaction.js';
 import MixinRedux from '../mixin-redux.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
+import { CashlinkDirection } from '../../cashlink-redux.js';
+import hubClient from '../../hub-client.js';
+import BrowserDetection from '../../../node_modules/@nimiq/utils/dist/module/BrowserDetection.js';
+import { Store } from '../../store.js';
 
 export default class XTransactionModal extends MixinModal(XTransaction) {
     html() {
         return `
             <div class="modal-header">
                 <i x-modal-close class="material-icons">close</i>
-                <h2>Transaction</h2>
+                <h2 class="title">
+                    <span class="show-if-unclaimed">Unclaimed </span>
+                    <span class="show-if-cashlink">Cashlink</span>
+                    <span class="hide-if-cashlink">Transaction</span>
+                </h2>
             </div>
             <div class="modal-body">
                 <div class="center">
@@ -19,7 +27,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="center">
-                    <x-amount></x-amount>
+                    <div>
+                        <x-amount></x-amount>
+                        <button class="nq-button-s manage-cashlink display-none">Show Link</button>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -30,7 +41,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="recipient-section row">
                     <label>To</label>
                     <div class="row-data">
                         <div class="label" recipient></div>
@@ -46,7 +57,8 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                 </div>
 
                 <div class="row">
-                    <label>Date</label>
+                    <label class="hide-if-outgoing-cashlink">Date</label>
+                    <label class="show-if-outgoing-cashlink">Created</label>
                     <div class="row-data">
                         <div class="timestamp" title="">pending...</div>
                     </div>
@@ -56,6 +68,13 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
                     <label>Block</label>
                     <div class="row-data">
                         <span class="blockHeight"></span> <span class="confirmations"></span>
+                    </div>
+                </div>
+
+                <div class="cashlink-claimed-section display-none row">
+                    <label>Claimed</label>
+                    <div class="row-data">
+                        <div class="timestamp-claimed" title="">pending...</div>
                     </div>
                 </div>
 
@@ -71,41 +90,77 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
 
     children() { return super.children().concat([XAddress]) }
 
-    listeners() { return [] }
+    listeners() {
+        return {
+            'click .manage-cashlink': this._manageCashlink,
+        }
+    }
 
     onCreate() {
         this.$senderAddress = this.$address[0];
         this.$recipientAddress = this.$address[1];
-        this.$blockHeight = this.$('span.blockHeight');
-        this.$confirmations = this.$('span.confirmations');
-        this.$fee = this.$('div.fee');
-        this.$message = this.$('div.extra-data');
+        this.$blockHeight = this.$('.blockHeight');
+        this.$confirmations = this.$('.confirmations');
+        this.$fee = this.$('.fee');
+        this.$message = this.$('.extra-data');
         super.onCreate();
-        this.$senderIdenticon.placeholderColor = '#bbb';
-        this.$recipientIdenticon.placeholderColor = '#bbb';
+
+        this.$manageCashlink = this.$('.manage-cashlink');
+
+        this._cashlink = undefined;
+    }
+
+    _onPropertiesChanged(changes) {
+        const cashlinkAddress = this.properties.isCashlink === CashlinkDirection.FUNDING
+            ? this.properties.recipient
+            : this.properties.sender;
+        this._cashlink = MixinRedux.store.getState().cashlinks.cashlinks.get(cashlinkAddress);
+
+        super._onPropertiesChanged(changes);
+
+        const isUnclaimedCashlink = !this.properties.pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING;
+        this.$('.recipient-section').classList.toggle('display-none', isUnclaimedCashlink);
+
+        if (!this._cashlink) {
+            this.$manageCashlink.classList.add('display-none');
+            return;
+        }
+
+        this.extraData = 'triggered'; // Doesn't really matter what is set here, as long as the setter is triggered
+
+        const showLinkButton = isUnclaimedCashlink && (this._cashlink.managed || BrowserDetection.isIOS() || BrowserDetection.isSafari());
+        this.$manageCashlink.classList.toggle('display-none', !showLinkButton);
     }
 
     set sender(address) {
-        this.$senderIdenticon.address = address;
+        super.sender = address;
         this.$senderAddress.address = address;
     }
 
     set recipient(address) {
-        this.$recipientIdenticon.address = address;
+        super.recipient = address;
         this.$recipientAddress.address = address;
     }
 
     set senderLabel(label) {
-        this.$senderLabel.textContent = label;
+        super.senderLabel = label;
         this.$senderLabel.classList.toggle('default-label', label.startsWith('NQ'));
     }
 
     set recipientLabel(label) {
-        this.$recipientLabel.textContent = label;
-        this.$recipientLabel.classList.toggle('default-label', label.startsWith('NQ'));
+        this.$recipientLabels.forEach(e => {
+            e.textContent = label;
+            e.classList.toggle('default-label', label.startsWith('NQ'));
+        });
+
+        this.$el.classList.toggle('unclaimed', label === 'Unclaimed Cashlink');
     }
 
     set extraData(extraData) {
+        if (this._cashlink) {
+            if (this._cashlink.message) extraData = this._cashlink.message;
+            else extraData = '';
+        }
         this.$('.extra-data-section').classList.toggle('display-none', !extraData);
         this.$message.textContent = extraData;
     }
@@ -129,6 +184,23 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         this.$timestamp.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
     }
 
+    set pairedTx(pairedTx) {
+        if (pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING) {
+            const time = moment.unix(pairedTx.timestamp);
+            const $timestampClaimed = this.$('.timestamp-claimed');
+
+            $timestampClaimed.textContent = `${time.toDate().toLocaleString()} (${time.fromNow()})`;
+            this.$('.cashlink-claimed-section').classList.remove('display-none');
+        } else {
+            this.$('.cashlink-claimed-section').classList.add('display-none');
+        }
+
+        this.$('.recipient-section').classList.toggle(
+            'display-none',
+            !pairedTx && this.properties.isCashlink === CashlinkDirection.FUNDING,
+        );
+    }
+
     set currentHeight(height) {
         this._calcConfirmations();
     }
@@ -140,6 +212,12 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         }
         const confirmations = this.properties.currentHeight - this.properties.blockHeight;
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
+    }
+
+    _manageCashlink() {
+        if (!this._cashlink) return;
+        const address = this._cashlink.address;
+        hubClient.manageCashlink(address);
     }
 
     allowsShow(hash) {
@@ -154,8 +232,10 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
         hash = decodeURIComponent(hash);
 
         let transaction = MixinRedux.store.getState().transactions.entries.get(hash);
-        if (!transaction)
-            transaction = { hash };
+
+        if (!transaction) transaction = { hash };
+        else transaction = Store.labelTransactions([transaction])[0];
+
         this.transaction = transaction;
     }
 }

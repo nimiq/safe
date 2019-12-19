@@ -196,8 +196,10 @@ export function reducer(state, action) {
         case TypeKeys.REMOVE_ACCOUNT: {
             const accounts = new Map(state.accounts);
 
+            const userfriendlyAddressesToKeep = action.addressesToKeep.map(a => a.address);
+
             for (const address of [...accounts.keys()]) {
-                if (!action.addressesToKeep.includes(address)) {
+                if (!userfriendlyAddressesToKeep.includes(address)) {
                     accounts.delete(address);
                 }
             }
@@ -220,15 +222,12 @@ export function reducer(state, action) {
                 activeWalletId: action.walletId,
             });
 
-        case TypeKeys.UPDATE_ACCOUNT_LABEL:
-            return updateState({
-                accounts: updateMapItem(state.accounts, action.address, { label: action.label }),
-            });
-
         case TypeKeys.UPDATE_BALANCES: {
             const accounts = new Map(state.accounts);
             for (const [address, balance] of action.balances) {
-                accounts.set(address, Object.assign({}, accounts.get(address), { balance }));
+                const storedAccount = accounts.get(address)
+                if (!storedAccount) continue;
+                accounts.set(address, Object.assign({}, storedAccount, { balance }));
             }
 
             return updateState({ accounts });
@@ -242,7 +241,7 @@ export function reducer(state, action) {
 /* Action creators */
 
 export function addAccount(account) {
-    // subscribe at network
+    // subscribe at network (automatically checks balance and fires balance-changed event)
     networkClient.client.then(client => client.subscribe(account.address));
 
     return {
@@ -262,11 +261,12 @@ export function logout(walletId) {
     return async (dispatch, getState) => {
         const state = getState();
         const addressesToKeep = [...state.wallets.accounts.values()].filter(account => account.walletId !== walletId);
+        const cashlinksToKeep = [...getState().cashlinks.cashlinks.values()];
 
         dispatch({
             type: TypeKeys.LOGOUT,
             walletId,
-            addressesToKeep, // for transaction reducer
+            addressesToKeep: addressesToKeep.concat(cashlinksToKeep), // for transaction reducer
         });
     }
 }
@@ -276,11 +276,13 @@ export function populate(listedWallets) {
     const addressInfos = listedWallets.map(wallet => wallet.addresses.concat(wallet.contracts))
         .reduce((acc, addresses) => acc.concat(addresses), []);
 
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
+        const cashlinksToKeep = [...getState().cashlinks.cashlinks.values()];
+
         dispatch({
             type: TypeKeys.POPULATE,
             listedWallets,
-            addressesToKeep: addressInfos,
+            addressesToKeep: addressInfos.concat(cashlinksToKeep),
         });
 
         const addresses = addressInfos.map(addressInfo => addressInfo.address);
@@ -304,6 +306,7 @@ export function removeAccount(address) {
     return async (dispatch, getState) => {
         const state = getState();
         const accountArray = [...state.wallets.accounts.values()];
+        const cashlinksToKeep = [...getState().cashlinks.cashlinks.values()];
 
         // For transactions store: Keep transactions with all addresses...
         const addressesToKeep = accountArray.filter(account => {
@@ -315,12 +318,12 @@ export function removeAccount(address) {
                 if ((!sender || sender.address === address) && (!recipient || recipient.address === address)) return false;
             }
             return true;
-        }).map(account => account.address);
+        });
 
         dispatch({
             type: TypeKeys.REMOVE_ACCOUNT,
             address,
-            addressesToKeep,
+            addressesToKeep: addressesToKeep.concat(cashlinksToKeep),
         });
     }
 }

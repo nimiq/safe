@@ -23,7 +23,7 @@ x-transaction-modal .row {
 }
 
 x-transaction-modal .row + .row {
-    margin-top: 28px;
+    margin-top: 24px;
 }
 
 x-transaction-modal label {
@@ -40,10 +40,7 @@ x-transaction-modal .label {
     font-size: 1em;
 }
 
-x-transaction-modal.incoming .label[sender].default-label {
-    display: none;
-}
-
+x-transaction-modal.incoming .label[sender].default-label,
 x-transaction-modal.outgoing .label[recipient].default-label {
     display: none;
 }
@@ -73,6 +70,7 @@ x-transaction-modal .confirmations {
 }
 
 x-transaction-modal x-amount {
+    display: block;
     margin: 18px 0;
     font-size: 26px;
 }
@@ -85,7 +83,6 @@ x-transaction-modal.expired x-currency-nim {
 x-transaction-modal .hash {
     font-family: monospace;
 }
-
 
 @media (max-width: 560px) {
     x-transaction-modal x-identicon {
@@ -112,4 +109,29 @@ x-transaction-modal .hash {
         margin-left: -4px;
         padding: 8px 4px;
     }
+}
+
+x-transaction-modal.cashlink .hide-if-cashlink,
+x-transaction-modal:not(.cashlink) .show-if-cashlink,
+x-transaction-modal:not(.unclaimed) .show-if-unclaimed,
+x-transaction-modal.outgoing.cashlink .hide-if-outgoing-cashlink,
+x-transaction-modal:not(.outgoing) .show-if-outgoing-cashlink,
+x-transaction-modal:not(.cashlink) .show-if-outgoing-cashlink {
+    display: none;
+}
+
+x-transaction-modal .manage-cashlink {
+    text-transform: unset;
+    width: unset;
+    max-width: unset;
+    text-align: unset;
+    user-select: unset;
+    box-shadow: unset;
+    outline: unset;
+    margin-bottom: unset;
+    min-height: unset;
+    letter-spacing: unset;
+
+    display: block;
+    margin: 0 auto 2rem;
 }

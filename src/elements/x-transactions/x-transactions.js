@@ -4,22 +4,29 @@ import XTransaction from './x-transaction.js';
 import XTransactionModal from './x-transaction-modal.js';
 import XNoTransactions from './x-no-transactions.js';
 import XPaginator from '../x-paginator/x-paginator.js';
-import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } from './transactions-redux.js';
+import { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage, setFilterUnclaimedCashlinks } from './transactions-redux.js';
 import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
-import { AddressBook } from '../../../node_modules/@nimiq/utils/dist/module/AddressBook.js';
-import { activeTransactions$ } from '../../selectors/transaction$.js';
+import { relevantTransactions$ } from '../../selectors/transaction$.js';
+import { numberUnclaimedCashlinks$ } from '../../selectors/cashlink$.js';
+import { Store } from '../../store.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
     html() {
         return `
-            <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh">
-            </x-popup-menu>
-            <x-transactions-list>
-                <x-loading-animation></x-loading-animation>
-                <h2>Loading transactions...</h2>
-            </x-transactions-list>
+            <div class="hide-if-filtered">
+                <x-popup-menu x-main-action-only x-loading-tooltip="Refreshing transaction history" x-icon="refresh" class="refresh"></x-popup-menu>
+                <h2 class="transactions-heading">Transactions</h2>
+                <button class="nq-button-s filter-unclaimed-cashlinks display-none"></button>
+            </div>
+            <div class="transactions-filtered-header nq-blue-bg show-if-filtered">
+                <h2>Unclaimed Cashlinks</h2>
+                <button class="nq-button-s inverse filter-close-button">&times;</button>
+            </div>
+            <x-loading-animation></x-loading-animation>
+            <h2 class="loading-headline">Loading transactions...</h2>
+            <table class="x-transactions-list"></table>
             <x-paginator store-path="transactions"></x-paginator>
             <a secondary class="view-more">View more</a>
             <a secondary class="view-less">View less</a>
@@ -30,8 +37,9 @@ export default class XTransactions extends MixinRedux(XElement) {
 
     onCreate() {
         this._$transactions = new Map();
-        this.$transactionsList = this.$('x-transactions-list');
+        this.$transactionsList = this.$('table');
         this.properties.onlyRecent = !!this.attributes.onlyRecent;
+        this.$filterUnclaimedCashlinks = this.$('.filter-unclaimed-cashlinks');
         this.$popupMenu.noMenu = this.attributes.noMenu;
         super.onCreate();
     }
@@ -42,56 +50,39 @@ export default class XTransactions extends MixinRedux(XElement) {
             'click .refresh button': () => this.requestTransactionHistory(),
             'click .view-more': this._onViewMore,
             'click .view-less': this._onViewLess,
+            'click .filter-unclaimed-cashlinks': this._toggleFilterUnclaimedCashlinks,
+            'click .filter-close-button': this._toggleFilterUnclaimedCashlinks,
         }
     }
 
-    static get actions() { return { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage } }
+    static get actions() { return { addTransactions, markRemoved, setRequestingHistory, setPage, setItemsPerPage, setFilterUnclaimedCashlinks } }
 
     static mapStateToProps(state, props) {
         return {
-            transactions: XTransactions._labelTransactions(
-                XPaginator.getPagedItems(
-                    activeTransactions$(state) || new Map(),
-                    state.transactions.page,
-                    state.transactions.itemsPerPage,
-                    true
-                ),
-                state.wallets.accounts ? state.wallets.accounts : false,
-                state.contacts
+            transactions: XTransactions._processTransactions(
+                relevantTransactions$(state) || new Map(),
+                state.transactions.page,
+                state.transactions.itemsPerPage,
             ),
             hasTransactions: state.transactions.hasContent,
-            totalTransactionCount: (activeTransactions$(state) || new Map()).size,
-            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()] : [],
+            totalTransactionCount: (relevantTransactions$(state) || new Map()).size,
+            addresses: [...state.wallets.accounts.keys()].concat([...state.cashlinks.cashlinks.keys()]),
             hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
-            isRequestingHistory: state.transactions.isRequestingHistory
+            isRequestingHistory: state.transactions.isRequestingHistory,
+            filterUnclaimedCashlinks: state.transactions.filterUnclaimedCashlinks,
+            numberUnclaimedCashlinks: numberUnclaimedCashlinks$(state) || 0,
         }
     }
 
-    static _labelTransactions(txs, accounts, contacts) {
-        if (!accounts) return txs;
-        txs.forEach(tx => {
-            const sender = accounts.get(tx.sender);
-            const recipient = accounts.get(tx.recipient);
-
-            tx.senderLabel = sender ?
-                sender.label :
-                contacts[tx.sender] ?
-                    contacts[tx.sender].label :
-                    AddressBook.getLabel(tx.sender) || tx.sender.slice(0, 14) + '...';
-
-            tx.recipientLabel = recipient ?
-                recipient.label :
-                contacts[tx.recipient] ?
-                    contacts[tx.recipient].label :
-                    AddressBook.getLabel(tx.recipient) || tx.recipient.slice(0, 14) + '...';
-
-            if (sender) tx.type = 'outgoing';
-            if (recipient) tx.type = 'incoming';
-            if (sender && recipient) tx.type = 'transfer';
-        });
-
-        return txs;
+    /**
+     * @param {Map<string, any>} txs
+     * @param {number} page
+     * @param {number} itemsPerPage
+     */
+    static _processTransactions(txs, page, itemsPerPage) {
+        const pagedTxs = XPaginator.getPagedItems(txs, page, itemsPerPage, true);
+        return Store.labelTransactions(pagedTxs);
     }
 
     _onPropertiesChanged(changes) {
@@ -123,9 +114,16 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         if (!this.properties.hasTransactions) return;
 
+        if (changes.transactions || this.properties.transactions.size === 0) {
+            if (this.$('x-loading-animation')) {
+                this.$el.removeChild(this.$('x-loading-animation'));
+                this.$el.removeChild(this.$('.loading-headline'));
+            }
+        }
+
         if (changes.transactions) {
-            if (this.$('x-loading-animation') || this.$('x-no-transactions')) {
-                this.$transactionsList.textContent = '';
+            if (this.$('x-no-transactions')) {
+                this.$transactionsList.removeChild(this.$('x-no-transactions'));
             }
 
             // Transaction-internal updates are handled by the XTransaction
@@ -136,7 +134,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             // blockHeight, which would make sorting necessary
             let needsSorting = false;
 
-            let removedTx = [];
+            const removedTx = [];
 
             for (const [hash, transaction] of changes.transactions) {
                 if (transaction === undefined) removedTx.push(hash);
@@ -187,7 +185,6 @@ export default class XTransactions extends MixinRedux(XElement) {
                 //         console.log("isSorted", false);
                 // }
             }
-
         }
 
         if (this.properties.transactions.size === 0) {
@@ -201,6 +198,12 @@ export default class XTransactions extends MixinRedux(XElement) {
         } else {
             this.$el.classList.remove('few-transactions');
         }
+
+        const number = this.properties.numberUnclaimedCashlinks;
+        this.$filterUnclaimedCashlinks.classList.toggle('display-none', number < 1);
+        this.$filterUnclaimedCashlinks.textContent = `${number} unclaimed Cashlink${number !== 1 ? 's' : ''}`;
+
+        this.$el.classList.toggle('filtered', this.properties.filterUnclaimedCashlinks);
     }
 
     /**
@@ -229,7 +232,7 @@ export default class XTransactions extends MixinRedux(XElement) {
     }
 
     _createTransaction(transaction) {
-        const $transaction = XTransaction.createElement();
+        const $transaction = new XTransaction(document.createElement('tr'));
 
         $transaction.transaction = transaction;
 
@@ -275,5 +278,9 @@ export default class XTransactions extends MixinRedux(XElement) {
         this.actions.setPage(1);
         this.actions.setItemsPerPage(4);
         this.$el.classList.remove('view-more');
+    }
+
+    _toggleFilterUnclaimedCashlinks() {
+        this.actions.setFilterUnclaimedCashlinks(!this.properties.filterUnclaimedCashlinks);
     }
 }

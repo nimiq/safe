@@ -127,6 +127,7 @@ class Safe {
     _onConsensusLost() {
         console.log('Consensus lost');
         this.actions.setConsensus('lost');
+        // this.network.connect();
     }
 
     _onBalanceChanged(balances) {
@@ -136,7 +137,9 @@ class Safe {
     _onTransaction(tx) {
         // Check if we know the sender or recipient of the tx
         const accounts = this.store.getState().wallets.accounts;
-        if (!accounts.has(tx.sender) && !accounts.has(tx.recipient)) {
+        const cashlinks = this.store.getState().cashlinks.cashlinks;
+        if (!accounts.has(tx.sender) && !accounts.has(tx.recipient)
+            && !cashlinks.has(tx.sender) && !cashlinks.has(tx.recipient)) {
             console.warn('Not displaying transaction because sender and recipient are unknown:', tx);
             return;
         }

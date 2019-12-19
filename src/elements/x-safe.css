@@ -14,6 +14,7 @@
 @import './x-loader/x-loader.css';
 @import './v-migration-welcome/v-migration-welcome.css';
 @import './v-wallet-selector/v-wallet-selector.css';
+@import './x-identicon/x-identicon.css';
 
 html,
 body {

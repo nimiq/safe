@@ -39,4 +39,4 @@ export const activeWallet$ = createSelector(
 export const hasNewWallet$ = createSelector(
     walletsArray$,
     (wallets) => wallets.some(wallet => wallet.type !== WalletType.LEGACY)
-); 
+);

@@ -1,7 +1,7 @@
 import XElement from '../../lib/x-element/x-element.js';
 import MixinRedux from '../mixin-redux.js';
 import { setPage } from '../x-transactions/transactions-redux.js';
-import { activeTransactions$ } from '../../selectors/transaction$.js';
+import { relevantTransactions$ } from '../../selectors/transaction$.js';
 
 export default class XPaginator extends MixinRedux(XElement) {
     html() {
@@ -41,7 +41,7 @@ export default class XPaginator extends MixinRedux(XElement) {
         return {
             page: state[props.storePath].page,
             itemsPerPage: state[props.storePath].itemsPerPage,
-            totalPages: Math.ceil((activeTransactions$(state) || new Map()).size / state[props.storePath].itemsPerPage)
+            totalPages: Math.ceil((relevantTransactions$(state) || new Map()).size / state[props.storePath].itemsPerPage)
         }
     }
 
