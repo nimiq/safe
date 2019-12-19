@@ -13,9 +13,19 @@ export const activeCashlinks$ = createSelector(
     ))
 )
 
-export const numberUnclaimedCashlinks$ = createSelector(
+export const activeUnclaimedCashlinksArray$ = createSelector(
     activeCashlinks$,
     (activeCashlinks) => [...activeCashlinks.values()]
         .filter(cashlink => cashlink.status <= CashlinkStatus.UNCLAIMED)
-        .length
+)
+
+export const activeUnclaimedCashlinkAddresses$ = createSelector(
+    activeUnclaimedCashlinksArray$,
+    (activeUnclaimedCashlinksArray) => activeUnclaimedCashlinksArray
+        .map(cashlink => cashlink.address)
+)
+
+export const numberUnclaimedCashlinks$ = createSelector(
+    activeUnclaimedCashlinksArray$,
+    (activeUnclaimedCashlinksArray) => activeUnclaimedCashlinksArray.length
 );
