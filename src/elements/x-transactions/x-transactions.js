@@ -105,10 +105,10 @@ export default class XTransactions extends MixinRedux(XElement) {
             }
         }
 
-        if (changes.isRequestingHistory) {
+        if (this.properties.isRequestingHistory > 0) {
             this.$popupMenu.loading = true;
         }
-        else if (changes.isRequestingHistory !== undefined) {
+        else if (this.properties.isRequestingHistory === 0) {
             this.$popupMenu.loading = false;
         }
 

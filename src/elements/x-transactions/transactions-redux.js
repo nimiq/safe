@@ -21,6 +21,7 @@ export function reducer(state, action) {
             page: 1,
             itemsPerPage: 4,
             filterUnclaimedCashlinks: false,
+            isRequestingHistory: 0,
         }
     }
 
@@ -109,7 +110,7 @@ export function reducer(state, action) {
 
         case TypeKeys.SET_REQUESTING_HISTORY:
             return Object.assign({}, state, {
-                isRequestingHistory: action.isRequestingHistory,
+                isRequestingHistory: Math.max(0, state.isRequestingHistory + (action.isRequestingHistory ? 1 : -1)),
             });
 
         case TypeKeys.SET_FILTER_UNCLAIMED_CASHLINKS:

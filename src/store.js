@@ -30,7 +30,11 @@ export class Store {
             // ignore outdated cache
             if (persistedState.version === CACHE_VERSION) {
                 initialState.transactions = Object.assign({}, persistedState.transactions, {
-                    entries: new Map(persistedState.transactions.entries)
+                    entries: new Map(persistedState.transactions.entries),
+                    isRequestingHistory: 0,
+                    page: 1,
+                    itemsPerPage: 4,
+                    filterUnclaimedCashlinks: false,
                 });
                 initialState.wallets = Object.assign({}, initialWalletState, persistedState.wallets, {
                     wallets: new Map(persistedState.wallets ? persistedState.wallets.wallets : []),
@@ -64,10 +68,6 @@ export class Store {
             state.transactions,
             {
                 entries: [...state.transactions.entries.entries()],
-                isRequestingHistory: undefined,
-                page: 1,
-                itemsPerPage: 4,
-                filterUnclaimedCashlinks: false,
             }
         );
 
