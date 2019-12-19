@@ -9,7 +9,8 @@ import networkClient from '../../network-client.js';
 import XPopupMenu from '../x-popup-menu/x-popup-menu.js';
 import Config from '../../lib/config.js';
 import { relevantTransactions$ } from '../../selectors/transaction$.js';
-import { numberUnclaimedCashlinks$ } from '../../selectors/cashlink$.js';
+import { numberUnclaimedCashlinks$, activeUnclaimedCashlinkAddresses$ } from '../../selectors/cashlink$.js';
+import { activeAddresses$ } from '../../selectors/account$.js';
 import { Store } from '../../store.js';
 
 export default class XTransactions extends MixinRedux(XElement) {
@@ -66,7 +67,7 @@ export default class XTransactions extends MixinRedux(XElement) {
             ),
             hasTransactions: state.transactions.hasContent,
             totalTransactionCount: (relevantTransactions$(state) || new Map()).size,
-            addresses: state.wallets.accounts ? [...state.wallets.accounts.keys()].concat([...state.cashlinks.cashlinks.keys()]) : [],
+            addresses: activeAddresses$(state).concat(activeUnclaimedCashlinkAddresses$(state)),
             hasAccounts: state.wallets.hasContent,
             lastKnownHeight: state.network.height || state.network.oldHeight,
             isRequestingHistory: state.transactions.isRequestingHistory,
@@ -218,7 +219,11 @@ export default class XTransactions extends MixinRedux(XElement) {
 
         this.actions.setRequestingHistory(true);
         addresses = addresses || this.properties.addresses;
-        const { newTransactions, removedTransactions } = await this._requestTransactionHistory(addresses);
+        const {
+            newTransactions,
+            // removedTransactions,
+            wasRateLimited
+        } = await this._requestTransactionHistory(addresses);
         this.actions.addTransactions(newTransactions);
         // this.actions.markRemoved(removedTransactions, this.properties.lastKnownHeight);
         this.actions.setRequestingHistory(false);
