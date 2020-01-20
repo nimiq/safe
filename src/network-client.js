@@ -20,7 +20,7 @@ class NetworkClient {
         if (this._isLaunched) return;
         this._isLaunched = true;
 
-        const client = new NimiqNetworkClient(NimiqNetworkClient.DEFAULT_ENDPOINT);
+        const client = new NimiqNetworkClient();
         await client.init();
 
         this.clientResolve(client);

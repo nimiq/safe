@@ -182,14 +182,27 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         else this.hide();
     }
 
+    _isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
     _onQrScanned(scanResult) {
         let recipient, amount, message;
-        const parsedRequestLink = parseRequestLink(scanResult);
+        const parsedRequestLink = parseRequestLink(scanResult, /* requiredBasePath */ undefined, true);
         if (parsedRequestLink) {
             ({ recipient, amount, message } = parsedRequestLink);
         } else if (ValidationUtils.isValidAddress(scanResult)) {
             recipient = scanResult;
+        } else if (this._isValidUrl(scanResult)) {
+            window.location.href = scanResult;
+            return;
         } else {
+            // TODO: Show notice, that QR code content is not supported, to the user.
             return;
         }
         this.vue.recipient = {address: recipient}; // required

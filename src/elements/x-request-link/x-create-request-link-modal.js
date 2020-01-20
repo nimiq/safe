@@ -4,7 +4,7 @@ import XAddress from '../x-address/x-address.js';
 import XAccountsDropdown from '../x-accounts/x-accounts-dropdown.js';
 import XAmountInput from '../x-amount-input/x-amount-input.js';
 import VQrCodeOverlay from '../v-qr-code-overlay/v-qr-code-overlay.js';
-import { createRequestLink } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
+import { createRequestLink, Currency, NimiqRequestLinkType } from '../../../node_modules/@nimiq/utils/dist/module/RequestLinkEncoding.js';
 import share from '../../lib/web-share-shim/web-share-shim.nimiq.min.js';
 import Config from '../../lib/config.js';
 
@@ -48,6 +48,8 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
     }
 
     onCreate() {
+        this._link = '';
+        this._uri = '';
         this._shown = false;
         navigator.share = share;
         this.$requestLink = this.$('.x-request-link');
@@ -98,13 +100,18 @@ export default class XCreateRequestLinkModal extends MixinModal(XElement) {
             ? 'https://safe.nimiq.com'
             : this.attributes.dataXRoot;
         this._link = createRequestLink(this._address, this.$amountInput.value, null, baseUrl);
+        this._uri = createRequestLink(this._address, {
+            currency: Currency.NIM,
+            amount: this.$amountInput.value * 1e5 || undefined,
+            type: NimiqRequestLinkType.URI,
+        });
         this.$requestLink.textContent = this._link;
-        this._qrCode.data = this._link;
+        this._qrCode.data = this._uri;
     }
 
     _openQrOverlay() {
         if (this._isMobile()) return;
-        this.$vQrCodeOverlay.show(this._link, 'Scan this QR code\nto send to this address');
+        this.$vQrCodeOverlay.show(this._uri, 'Scan this QR code\nto send to this address');
     }
 
     _isMobile() {

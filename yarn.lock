@@ -77,10 +77,12 @@
   resolved "https://registry.yarnpkg.com/@nimiq/style/-/style-0.7.5.tgz#a31904b515ee5ae17a50d1d191e8a971c63ad716"
   integrity sha512-jfY/vkl8BlMQo9kUDsDh4LL/0nnzQaLVehoD3DGVuKJXD7EJaeoVi4EMrkJ9ofdjMTMWX9zzt4kWgKyvzy5lGQ==
 
-"@nimiq/utils@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@nimiq/utils/-/utils-0.3.3.tgz#883e50b466887748bd7bfc0b12eca16a084e9f70"
-  integrity sha512-vqdkgvnT3Bq4GxcELuUdTONO/zRW4LK3MBbGxevgm/Y5IAVuVKJX6BPUFxowKmk43SNuMGPNi5SipdvdC6/6aw==
+"@nimiq/utils@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@nimiq/utils/-/utils-0.4.4.tgz#f58e054115467999e05eaa6cc896d25f656f2a03"
+  integrity sha512-4jXa+rkmqSW9wQdi5ZPmhWjdNJU+RmdIkpbUY44Qz/b/JFpY5ZYObaxyRJGorIQbJo2qf0zhmlH2f2NYBCXoHw==
+  dependencies:
+    big-integer "^1.6.44"
 
 "@nimiq/vue-components@https://github.com/nimiq/vue-components#sebastian/build/safe":
   version "0.1.0"
@@ -689,7 +691,7 @@ beeper@^1.0.0:
   resolved "https://registry.yarnpkg.com/beeper/-/beeper-1.1.1.tgz#e6d5ea8c5dad001304a70b22638447f69cb2f809"
   integrity sha1-5tXqjF2tABMEpwsiY4RH9pyy+Ak=
 
-big-integer@^1.6.48:
+big-integer@^1.6.44, big-integer@^1.6.48:
   version "1.6.48"
   resolved "https://registry.yarnpkg.com/big-integer/-/big-integer-1.6.48.tgz#8fd88bd1632cba4a1c8c3e3d7159f08bb95b4b9e"
   integrity sha512-j51egjPa7/i+RdiRuJbPdJ2FIUYYPhvYLjzoYbcMMm62ooO6F94fETG4MTs46zPAF9Brs04OajboA/qTGuz78w==
