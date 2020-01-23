@@ -210,7 +210,7 @@ export default class XTransactionModal extends MixinModal(XTransaction) {
             if (this.$confirmations) this.$confirmations.textContent = '';
             return;
         }
-        const confirmations = this.properties.currentHeight - this.properties.blockHeight;
+        const confirmations = this.properties.currentHeight - this.properties.blockHeight + 1;
         this.$confirmations.textContent = `(${confirmations} confirmation${confirmations === 1 ? '' : 's'})`;
     }
 
