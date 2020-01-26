@@ -11,6 +11,7 @@ import {
     switchWallet,
     rename,
     removeAccount,
+    WalletType,
 } from './wallet-redux.js';
 import { addCashlink, populate as populateCashlinks } from './cashlink-redux.js';
 import AccountType from './lib/account-type.js';
@@ -185,14 +186,14 @@ class HubClient {
         }
     }
 
-    async addAccount(accountId) {
+    async addAccount(account) {
         await this._launched;
         const newAddress = await this.hubApi.addAddress({
             appName: APP_NAME,
-            accountId,
+            accountId: account.id,
         });
-        newAddress.type = AccountType.KEYGUARD_HIGH;
-        newAddress.walletId = accountId;
+        newAddress.type = account.type === WalletType.LEDGER ? AccountType.LEDGER : AccountType.KEYGUARD_HIGH;
+        newAddress.walletId = account.id;
         newAddress.isLegacy = false;
         this.actions.addAccount(newAddress);
     }
@@ -277,7 +278,7 @@ class HubClient {
 
     _onOnboardingResult(result) {
         result.addresses.forEach(newAddress => {
-            newAddress.type = AccountType.KEYGUARD_HIGH;
+            newAddress.type = result.type === WalletType.LEDGER ? AccountType.LEDGER : AccountType.KEYGUARD_HIGH;
             newAddress.walletId = result.accountId;
             this.actions.addAccount(newAddress);
         });

@@ -3,7 +3,7 @@ import MixinRedux from '../mixin-redux.js';
 import XAccountModal from './x-account-modal.js';
 import XAccountsList from './x-accounts-list.js';
 import { spaceToDash } from '../../lib/parameter-encoding.js';
-import { activeWallet$, activeWalletId$ } from '../../selectors/wallet$.js';
+import { activeWallet$ } from '../../selectors/wallet$.js';
 import { WalletType }  from '../../wallet-redux.js';
 
 export default class XAccounts extends MixinRedux(XElement) {
@@ -26,7 +26,6 @@ export default class XAccounts extends MixinRedux(XElement) {
     static mapStateToProps(state) {
         return {
             activeWallet: activeWallet$(state),
-            activeWalletId: activeWalletId$(state),
         }
     }
 
@@ -44,7 +43,7 @@ export default class XAccounts extends MixinRedux(XElement) {
     }
 
     _onAddAccount() {
-        this.fire('x-accounts-add', this.properties.activeWalletId);
+        this.fire('x-accounts-add', this.properties.activeWallet);
     }
 
     _onAccountSelected(address) {

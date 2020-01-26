@@ -222,9 +222,9 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    async _clickedAddAccount(walletId) {
+    async _clickedAddAccount(wallet) {
         try {
-            await hubClient.addAccount(walletId);
+            await hubClient.addAccount(wallet);
         } catch (e) {
             console.error(e);
             if (e.code === 'K3' || e.code === 'K4') {
