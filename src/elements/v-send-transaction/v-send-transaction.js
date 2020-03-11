@@ -89,7 +89,10 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
                     Store.persistContacts();
                 },
                 createCashlink(account) {
-                    hubClient.createCashlink(account.address, account.balance).then((result) => result && self.hide());
+                    // Due to JS floating point precision, the balance sometimes is a float,
+                    // which makes the Hub error with "Invalid senderBalance".
+                    const balance = Math.round(account.balance);
+                    hubClient.createCashlink(account.address, balance).then((result) => result && self.hide());
                 },
                 setSender(address) {
                     const accounts = accountsArray$(this.store.getState());
