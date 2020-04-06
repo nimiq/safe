@@ -2,6 +2,7 @@ import XElement from '../../lib/x-element/x-element.js'
 import MixinRedux from '../mixin-redux.js'
 import MixinModal from '../mixin-modal/mixin-modal.js'
 import ReduxProvider from '../../../node_modules/vuejs-redux/bundle.es.js';
+import XToast from '../x-toast/x-toast.js';
 import { setContact } from '../v-contact-list/contacts-redux.js'
 import { activeWalletWithAccountMap$ } from '../../selectors/wallet$.js'
 import hubClient from '../../hub-client.js';
@@ -136,6 +137,17 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         this.vue.$refs.sendTx.clear();
     }
 
+    allowsShow(address, mode, amount, message) {
+        address = address.replace(/[ +-]+/g, '');
+        if (address && !ValidationUtils.isValidAddress(address)) {
+            XToast.error('Invalid address');
+            console.error('Invalid address:', address);
+            history.replaceState(history.data, document.title, location.origin + location.pathname + '#/');
+            return false;
+        }
+        return true;
+    }
+
     /* mode: 'sender'|'recipient'|'contact'|'vesting'|'scan' */
     onShow(address, mode, amount, message) {
         if (address && mode === 'sender') {
@@ -154,7 +166,8 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         }
 
         if (message) {
-            this.vue.message = decodeURIComponent(message);
+            // Max length for a message is 64 bytes = 64 ASCII characters. Less, if using multibyte characters.
+            this.vue.message = decodeURIComponent(message).substr(0, 64);
         }
 
         if (mode === 'scan') {
