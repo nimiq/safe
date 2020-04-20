@@ -5,6 +5,7 @@ import XAddress from '../x-address/x-address.js';
 import { ValidationUtils } from '../../../node_modules/@nimiq/utils/dist/module/ValidationUtils.js';
 import { dashToSpace, spaceToDash } from '../../lib/parameter-encoding.js';
 import XRouter from '../x-router/x-router.js';
+import XToast from '../x-toast/x-toast.js';
 
 export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
     html() {
@@ -35,7 +36,13 @@ export default class XReceiveRequestLinkModal extends MixinModal(XElement) {
 
     allowsShow(address) {
         address = dashToSpace(address);
-        return ValidationUtils.isValidAddress(address);
+        if (address && !ValidationUtils.isValidAddress(address)) {
+            XToast.error('Invalid address');
+            console.error('Invalid address:', address);
+            history.replaceState(history.data, '', location.origin + location.pathname + '#/');
+            return false;
+        }
+        return true;
     }
 
     onShow(address, amount, message) {

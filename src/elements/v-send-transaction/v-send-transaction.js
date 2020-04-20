@@ -142,7 +142,7 @@ export default class VSendTransaction extends MixinRedux(MixinModal(XElement)) {
         if (address && !ValidationUtils.isValidAddress(address)) {
             XToast.error('Invalid address');
             console.error('Invalid address:', address);
-            history.replaceState(history.data, document.title, location.origin + location.pathname + '#/');
+            history.replaceState(history.data, '', location.origin + location.pathname + '#/');
             return false;
         }
         return true;
