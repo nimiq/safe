@@ -9,6 +9,7 @@ import MixinRedux from '../elements/mixin-redux.js';
 import XNetworkIndicator from '../elements/x-network-indicator/x-network-indicator.js';
 import VSendTransaction from '../elements/v-send-transaction/v-send-transaction.js';
 import XAccounts from '../elements/x-accounts/x-accounts.js';
+import { addTransactions } from './x-transactions/transactions-redux.js';
 import XTransactions from '../elements/x-transactions/x-transactions.js';
 import XTransactionModal from '../elements/x-transactions/x-transaction-modal.js';
 import XReceiveRequestLinkModal from '../elements/x-request-link/x-receive-request-link-modal.js';
@@ -151,6 +152,12 @@ export default class XSafe extends MixinRedux(XElement) {
             VSendTransaction,
             VWalletSelector,
         ];
+    }
+
+    static get actions() {
+        return {
+            addTransactions,
+        };
     }
 
     async onCreate() {
@@ -333,21 +340,18 @@ export default class XSafe extends MixinRedux(XElement) {
 
         const network = await networkClient.client;
         try {
-            const relayedTx = new Promise((resolve, reject) => {
-                this.relayedTxResolvers.set(signedTx.hash, resolve);
-                setTimeout(reject, 8000, new Error('Transaction could not be sent'));
-            });
+            // Core Client sendTransaction() timeout is 10s.
+            const plainTx = await network.relayTransaction(signedTx);
 
-            network.relayTransaction(signedTx);
-
-            try {
-                await relayedTx;
-                this.relayedTxResolvers.delete(signedTx.hash);
-            } catch(e) {
-                this.relayedTxResolvers.delete(signedTx.hash);
-                try { network.removeTxFromMempool(signedTx); } catch(e) {}
-                throw e;
+            if (plainTx.state === 'expired') {
+                throw new Error('Transaction is expired');
             }
+
+            if (plainTx.state === 'new') {
+                throw new Error('Transaction could not be relayed');
+            }
+
+            this.actions.addTransactions([signedTx]);
 
             VSendTransaction.hide();
             // give modal time to disappear
