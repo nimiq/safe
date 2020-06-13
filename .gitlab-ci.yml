@@ -23,18 +23,7 @@ build:
     - yarn install
     - yarn build
     # Make sure the dist directory exists, so that _this_ job fails and not the next one
-    - test -d dist || (echo "No dist directory\!" && exit 1)
-    - test -f dist/index.html || (echo "No files in dist\!" && exit 1)
+    - test -d deployment-safe/dist || (echo "No dist directory\!" && exit 1)
+    - test -f deployment-safe/dist/index.html || (echo "No files in dist\!" && exit 1)
+    - mv deployment-safe/dist dist
   allow_failure: false
-
-test:
-  stage: test
-  image: node:lts
-  cache:
-    key: node-cache
-    paths:
-      - node_modules/
-  script:
-    - yarn lint
-  allow_failure: true
-
