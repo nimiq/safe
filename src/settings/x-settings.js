@@ -2,8 +2,9 @@ import XElement from '../lib/x-element/x-element.js';
 import MixinRedux from '../elements/mixin-redux.js';
 import XSendPreparedTransactionModal from '../elements/x-send-transaction/x-send-prepared-transaction-modal.js';
 import { showAllDecimals } from './settings-redux.js';
-import { Store } from '../store.js';
 import MixinModal from '../elements/mixin-modal/mixin-modal.js';
+import hubClient from '../hub-client.js';
+import { activeWallet$ } from '../selectors/wallet$.js';
 
 export default class XSettings extends MixinModal(MixinRedux(XElement)) {
     html(){
@@ -19,6 +20,10 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
                     <small>Show all five decimals when displaying balances.</small>
                 </span>
                 <h2 class="advanced">Advanced</h2>
+                <span class="setting" backup-as-redirect>
+                    Backup (Compatibility Mode)
+                    <small>Backup your Account in browsers that don't support popups.</small>
+                </span>
                 <span class="setting" prepared-tx>
                     Send prepared transaction
                     <small>Send a transaction that was prepared offline.</small>
@@ -35,6 +40,7 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
         return {
             'click [show-all-decimals]': this._onClickShowAllDecimals,
             'change [show-all-decimals]>input': this._onClickShowAllDecimals,
+            'click [backup-as-redirect]': () => hubClient.exportAsRedirect(this.properties.activeWallet.id),
             'click [prepared-tx]': () => XSendPreparedTransactionModal.show(),
             'click [remove-persistence]': this._onClickRemovePersistence,
         }
@@ -58,11 +64,13 @@ export default class XSettings extends MixinModal(MixinRedux(XElement)) {
     }
 
     static mapStateToProps(state) {
-        return state.settings;
+        return {
+            ...state.settings,
+            activeWallet: activeWallet$(state),
+        };
     }
 
     _onPropertiesChanged(changes) {
-
         if (changes.showAllDecimals !== undefined) {
             document.body.classList.toggle('setting-show-all-decimals', this.settings.showAllDecimals);
             this.$('[show-all-decimals] input').checked = this.settings.showAllDecimals;

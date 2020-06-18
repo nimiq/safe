@@ -136,6 +136,10 @@ class HubClient {
         await this.export(accountId, { wordsOnly: true });
     }
 
+    async exportAsRedirect(accountId) {
+        this.hubApi.export({ appName: APP_NAME, accountId }, new HubApi.RedirectRequestBehavior());
+    }
+
     async createCashlink(senderAddress, senderBalance) {
         const request = {
             appName: APP_NAME,
