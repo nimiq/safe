@@ -22,9 +22,9 @@ import networkClient from '../network-client.js';
 import XDisclaimerModal from './x-disclaimer-modal.js';
 import XFaucetModal from './x-faucet-modal.js';
 import XEducationSlides from '../elements/x-education-slides/x-education-slides.js';
+import XWalletPreviewModal from '../elements/x-wallet-preview/x-wallet-preview-modal.js';
 import VContactList from '../elements/v-contact-list/v-contact-list.js';
 import VContactListModal from '../elements/v-contact-list/v-contact-list-modal.js';
-import VMigrationWelcome from '../elements/v-migration-welcome/v-migration-welcome.js';
 import VWalletSelector from '../elements/v-wallet-selector/v-wallet-selector.js';
 import { activeWallet$ } from '../selectors/wallet$.js';
 import { WalletType } from '../wallet-redux.js';
@@ -131,7 +131,7 @@ export default class XSafe extends MixinRedux(XElement) {
                 <div>&copy; 2017-2020 Nimiq Foundation</div>
                 <a disclaimer>Disclaimer</a>
                 <a warnings>Safety Primer</a>
-                <a migration-welcome>Update Notes</a>
+                <a update-notes>Update Notes</a>
             </footer>
             `
     }
@@ -179,6 +179,10 @@ export default class XSafe extends MixinRedux(XElement) {
             this.$("#private-warning").classList.remove('display-none');
         }
 
+        if (!XWalletPreviewModal.hasBeenSeen()) {
+            XWalletPreviewModal.show();
+        }
+
         this.$('.logo').href = 'https://' + Config.tld;
 
         this.relayedTxResolvers = new Map();
@@ -220,7 +224,7 @@ export default class XSafe extends MixinRedux(XElement) {
             'x-account-modal-change-passphrase': this._clickedAccountChangePassword.bind(this),
             'click a[disclaimer]': () => XDisclaimerModal.show(),
             'click a[warnings]': this._showWarnings,
-            'click a[migration-welcome]': this._showMigrationWelcome,
+            'click a[update-notes]': this._showUpdateNotes,
             'click [backup-words]': () => this._clickedExportWords(),
             'click [backup-file]': () => this._clickedExportFile(),
             'click [tracking-yes]': () => TrackingConsensus.update({ allowsBrowserData: true, allowsUsageData: true }),
@@ -364,8 +368,8 @@ export default class XSafe extends MixinRedux(XElement) {
         }
     }
 
-    _showMigrationWelcome() {
-        VMigrationWelcome.show();
+    _showUpdateNotes() {
+        XWalletPreviewModal.show();
     }
 
     _showWarnings() {

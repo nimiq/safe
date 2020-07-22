@@ -29,5 +29,10 @@ export default class VMigrationWelcome extends MixinModal(XElement) {
     onShow() {
         this.vue.reset()
     }
+
+    allowsHide(incomingModal) {
+        // let this modal have precedence over other modals
+        return !incomingModal;
+    }
 }
 
