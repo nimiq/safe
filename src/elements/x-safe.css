@@ -41,6 +41,15 @@ body {
     cursor: pointer;
 }
 
+#wallet-banner,
+#wallet-banner .close-warning {
+    color: white;
+}
+
+#wallet-banner a {
+    text-decoration: underline;
+}
+
 #tracking-consensus {
     padding: 1.5rem 1.25rem 1.5rem 2.5rem;
     display: flex;

@@ -34,6 +34,11 @@ export default class XSafe extends MixinRedux(XElement) {
 
     html() {
         return `
+            <div id="wallet-banner" class="nq-green-bg header-warning display-none">
+                <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
+                Upgrade now to the new Nimiq Wallet! No transition required &ndash; just open
+                <a href="https://wallet.nimiq.com/" target="_blank">wallet.nimiq.com</a>
+            </div>
             <div id="testnet-warning" class="nq-gold-bg header-warning display-none">
                 <i class="close-warning material-icons" onclick="this.parentNode.remove(this);">close</i>
                 You are connecting to the Nimiq Testnet. Please <strong>do not</strong> use your Mainnet accounts in the Testnet!
@@ -181,6 +186,8 @@ export default class XSafe extends MixinRedux(XElement) {
 
         if (!XWalletPreviewModal.hasBeenSeen()) {
             XWalletPreviewModal.show();
+        } else {
+            this.$('#wallet-banner').classList.remove('display-none');
         }
 
         this.$('.logo').href = 'https://' + Config.tld;
