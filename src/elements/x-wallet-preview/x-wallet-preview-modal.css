@@ -78,6 +78,17 @@ x-wallet-preview-modal .preview-image {
     align-self: flex-end;
     /* @asset(/src/elements/x-wallet-preview/wallet-preview.png) */
     background-image: url('/src/elements/x-wallet-preview/wallet-preview.png');
+    background-size: cover;
+}
+
+/* For high-res screens, see https://css-tricks.com/snippets/css/retina-display-media-query/ */
+@media
+(-webkit-min-device-pixel-ratio: 1.5),
+(min-resolution: 144dpi) {
+    x-wallet-preview-modal .preview-image {
+        /* @asset(/src/elements/x-wallet-preview/wallet-preview-2x.png) */
+        background-image: url('/src/elements/x-wallet-preview/wallet-preview-2x.png');
+    }
 }
 
 @media (max-width: 750px) {
