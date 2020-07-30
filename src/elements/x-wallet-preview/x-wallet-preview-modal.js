@@ -17,7 +17,7 @@ export default class XWalletPreviewModal extends MixinModal(XElement) {
                 </h1>
 
                 <p>
-                    Profit from advanced features, improved<br>
+                    Benefit from advanced features, improved<br>
                     UI and massive upgrades soon to come.
                 </p>
 
